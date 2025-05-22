@@ -18,6 +18,8 @@
 	<img alt="💪 TypeScript: Strict" src="https://img.shields.io/badge/%F0%9F%92%AA_typescript-strict-21bb42.svg" />
 </p>
 
+<img align="right" alt="Cartoon campfire. Caption: (experimental)" src="docs/flint.png">
+
 **Flint** is an experimental new linter.
 It's a proof-of-concept to explore the concepts in the following blog posts:
 
