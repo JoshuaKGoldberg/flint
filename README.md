@@ -18,22 +18,30 @@
 	<img alt="💪 TypeScript: Strict" src="https://img.shields.io/badge/%F0%9F%92%AA_typescript-strict-21bb42.svg" />
 </p>
 
+**Flint** is an experimental new linter.
+It's a proof-of-concept to explore the concepts in the following blog posts:
+
+- [Hybrid Linters: The Best of Both Worlds](https://www.joshuakgoldberg.com/blog/hybrid-linters-the-best-of-both-worlds)
+- [If I Wrote a Linter, Part 1: Architecture](https://www.joshuakgoldberg.com/blog/if-i-wrote-a-linter-part-1-architecture)
+- [If I Wrote a Linter, Part 2: Developer Experience](https://www.joshuakgoldberg.com/blog/if-i-wrote-a-linter-part-2-developer-experience)
+- [If I Wrote a Linter, Part 3: Ecosystem](https://www.joshuakgoldberg.com/blog/if-i-wrote-a-linter-part-3-ecosystem)
+
+This project might go nowhere.
+It might show some of those ideas to be wrong.
+It might become a real linter.
+Only time will tell.
+
 ## Usage
 
 ```shell
-npm i flint
-```
-
-```ts
-import { greet } from "flint";
-
-greet("Hello, world! 💖");
+npm i -D flint
+npx flint .
 ```
 
 ## Development
 
 See [`.github/CONTRIBUTING.md`](./.github/CONTRIBUTING.md), then [`.github/DEVELOPMENT.md`](./.github/DEVELOPMENT.md).
-Thanks! 💖
+Thanks! ❤️‍🔥
 
 ## Contributors
 

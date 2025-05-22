@@ -1,4 +1,4 @@
-<!-- 👋 Hi, thanks for sending a PR to flint! 💖
+<!-- 👋 Hi, thanks for sending a PR to flint! ❤️‍🔥
 Please fill out all fields below and make sure each item is true and [x] checked.
 Otherwise we may not be able to review your PR. -->
 
