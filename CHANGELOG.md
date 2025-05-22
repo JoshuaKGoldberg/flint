@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.3.0](https://github.com/JoshuaKGoldberg/flint/compare/0.2.0...0.3.0) (2025-05-22)
+
+### Features
+
+- rules with options or type checking, with passing unit tests ([e6aa4f5](https://github.com/JoshuaKGoldberg/flint/commit/e6aa4f5dadb27dccbd89499049a54fd8d5915f51))
+
 # 0.2.0 (2025-05-22)
 
 ### Bug Fixes
