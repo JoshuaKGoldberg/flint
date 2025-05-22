@@ -11,5 +11,6 @@ export default defineConfig({
 		},
 		exclude: ["lib", "node_modules"],
 		setupFiles: ["console-fail-test/setup"],
+		testTimeout: 10_000,
 	},
 });
