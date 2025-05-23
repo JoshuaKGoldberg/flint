@@ -1,8 +1,8 @@
 import * as ts from "typescript";
 
-import { RuleConfiguration } from "../types/configurations.js";
 import { ReportRangeObject, RuleReport } from "../types/reports.js";
-import { AnyOptionalSchema } from "../types/shapes.js";
+import { AnyRuleDefinition } from "../types/rules.js";
+import { AnyOptionalSchema, InferredObject } from "../types/shapes.js";
 import { createProgramSourceFile } from "./createProgramSourceFile.js";
 import { normalizeRange } from "./normalizeRange.js";
 
@@ -16,10 +16,17 @@ export interface NormalizedTestCase {
 	fileName?: string;
 }
 
+export interface TestCaseRuleConfiguration<
+	OptionsSchema extends AnyOptionalSchema | undefined,
+> {
+	options?: InferredObject<OptionsSchema>;
+	rule: AnyRuleDefinition<OptionsSchema>;
+}
+
 export function runTestCaseRule<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 >(
-	{ options, rule }: Required<RuleConfiguration<OptionsSchema>>,
+	{ options, rule }: Required<TestCaseRuleConfiguration<OptionsSchema>>,
 	{ code, fileName = "file.ts" }: NormalizedTestCase,
 ) {
 	const { sourceFile, typeChecker } = createProgramSourceFile(fileName, code);
