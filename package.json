@@ -47,7 +47,7 @@
 		"@eslint/js": "9.22.0",
 		"@release-it/conventional-changelog": "10.0.0",
 		"@types/eslint-plugin-markdown": "2.0.2",
-		"@types/node": "22.13.10",
+		"@types/node": "22.15.18",
 		"@vitest/coverage-v8": "3.0.9",
 		"@vitest/eslint-plugin": "1.1.38",
 		"console-fail-test": "0.5.0",
