@@ -1,2 +1,11 @@
 #!/usr/bin/env node
-console.log("Hello, world!");
+import { runCli } from "../lib/cli/runCli.js";
+
+const { code, message } = await runCli();
+
+if (code) {
+	process.exitCode = code;
+	console.error(message);
+} else {
+	console.log("✅");
+}
