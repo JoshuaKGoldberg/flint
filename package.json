@@ -1,7 +1,7 @@
 {
 	"name": "flint",
 	"version": "0.3.0",
-	"description": "A fast, friendly linter. ❤️‍🔥",
+	"description": "[Experimental] A fast, friendly linter. ❤️‍🔥",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/JoshuaKGoldberg/flint.git"
