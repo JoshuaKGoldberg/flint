@@ -1,7 +1,7 @@
 <h1 align="center">Flint</h1>
 
 <p align="center">
-	A fast, friendly linter.
+	[Experimental] A fast, friendly linter.
 	❤️‍🔥
 </p>
 
@@ -27,11 +27,14 @@ It's a proof-of-concept to explore the concepts in the following blog posts:
 - [If I Wrote a Linter, Part 1: Architecture](https://www.joshuakgoldberg.com/blog/if-i-wrote-a-linter-part-1-architecture)
 - [If I Wrote a Linter, Part 2: Developer Experience](https://www.joshuakgoldberg.com/blog/if-i-wrote-a-linter-part-2-developer-experience)
 - [If I Wrote a Linter, Part 3: Ecosystem](https://www.joshuakgoldberg.com/blog/if-i-wrote-a-linter-part-3-ecosystem)
+- [If I Wrote a Linter, Part 4: Summary](https://www.joshuakgoldberg.com/blog/if-i-wrote-a-linter-part-4-summary)
 
 This project might go nowhere.
 It might show some of those ideas to be wrong.
 It might become a real linter.
 Only time will tell.
+
+In the meantime, come talk about it on the [Flint Discord](https://discord.gg/rdC2XPCmn5).
 
 ## Usage
 
