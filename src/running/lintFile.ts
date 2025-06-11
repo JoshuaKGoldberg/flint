@@ -2,7 +2,7 @@ import { debugForFile } from "debug-for-file";
 import * as ts from "typescript";
 
 import { ConfigRuleDefinition } from "../types/configs.js";
-import { FileRuleReport, NormalizedRuleReport } from "../types/reports.js";
+import { FileRuleReport } from "../types/reports.js";
 import { computeRulesWithOptions } from "./computeRulesWithOptions.js";
 import { runLintRule } from "./runLintRule.js";
 

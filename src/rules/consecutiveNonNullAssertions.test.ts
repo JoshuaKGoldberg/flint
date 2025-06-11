@@ -23,7 +23,7 @@ outer!.inner;
 declare const outer: { inner: number } | null;
 outer!!.inner;
      ~~
-     Unnecessary consecutive non-null assertion operator.
+     Consecutive non-null assertion operators are unnecessary.
 `,
 		},
 	],

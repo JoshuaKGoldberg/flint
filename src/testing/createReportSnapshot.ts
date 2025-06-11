@@ -20,16 +20,16 @@ function createReportSnapshotAt(
 	const range = report.range;
 
 	const lineEndIndex = ifNegative(
-		sourceText.indexOf("\n", range.begin),
+		sourceText.indexOf("\n", range.begin.raw),
 		sourceText.length,
 	);
 	const lineStartIndex = ifNegative(
-		sourceText.lastIndexOf("\n", range.begin),
+		sourceText.lastIndexOf("\n", range.begin.raw),
 		0,
 	);
 
-	const column = ifNegative(range.begin - lineStartIndex - 2, 0);
-	const width = range.end - range.begin;
+	const column = ifNegative(range.begin.raw - lineStartIndex - 2, 0);
+	const width = range.end.raw - range.begin.raw;
 
 	const injectionPrefix = " ".repeat(column);
 	const injectedLines = [

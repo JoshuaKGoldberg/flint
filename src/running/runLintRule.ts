@@ -19,7 +19,7 @@ export function runLintRule<
 		report(report: RuleReport) {
 			reports.push({
 				message: rule.messages[report.message],
-				range: normalizeRange(report.range),
+				range: normalizeRange(report.range, sourceFile),
 			});
 		},
 		sourceFile,

@@ -21,11 +21,20 @@ export function* plainReporter(filesRuleReports: FilesRuleReports) {
 		yield styleText("underline", makeAbsolute(filePath));
 
 		yield textTable(
-			ruleReports.map((report) => [
-				styleText("gray", `  ${report.range.begin}:${report.range.end}`),
-				report.message,
-				styleText("yellow", report.ruleId),
-			]),
+			ruleReports
+				.sort((a, b) =>
+					a.range.begin.line === b.range.begin.line
+						? a.range.begin.column - b.range.begin.column
+						: a.range.begin.line - b.range.begin.line,
+				)
+				.map((report) => [
+					styleText(
+						"gray",
+						`  ${report.range.begin.line}:${report.range.begin.column}`,
+					),
+					report.message,
+					styleText("yellow", report.ruleId),
+				]),
 		);
 
 		yield "";
@@ -35,14 +44,14 @@ export function* plainReporter(filesRuleReports: FilesRuleReports) {
 		"red",
 		[
 			"✖ Found ",
-			pluralize(totalReports, styleText("bold", `report`)),
+			styleText("bold", pluralize(totalReports, "report")),
 			" across ",
-			pluralize(totalFiles, styleText("bold", `file`)),
+			styleText("bold", pluralize(totalFiles, "file")),
 			".",
 		].join(""),
 	);
 }
 
 function pluralize(count: number, label: string) {
-	return `${styleText("bold", count.toString())} ${label}${count !== 1 ? "s" : ""}`;
+	return `${count} ${label}${count !== 1 ? "s" : ""}`;
 }

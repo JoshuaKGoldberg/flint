@@ -7,7 +7,7 @@ import {
 	ConfigRuleDefinition,
 	ConfigUseDefinition,
 } from "../types/configs.js";
-import { FileRuleReport, NormalizedRuleReport } from "../types/reports.js";
+import { FileRuleReport } from "../types/reports.js";
 import { makeAbsolute } from "../utils/makeAbsolute.js";
 import { lintFile } from "./lintFile.js";
 import { readGitignore } from "./readGitignore.js";
