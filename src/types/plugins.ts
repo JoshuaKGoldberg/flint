@@ -1,4 +1,4 @@
-import { RuleAbout, RuleDefinition } from "./rules.js";
+import { AnyRuleDefinition, RuleAbout, RuleDefinition } from "./rules.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 export interface Plugin<
@@ -8,12 +8,15 @@ export interface Plugin<
 > {
 	globs: Globs;
 	name: string;
-	presets: PluginPresets<About>;
+	presets: PluginPresets<About, Rules[number]["about"]["preset"]>;
 	rules: PluginRulesFactory<Rules>;
 }
 
-export type PluginPresets<About extends RuleAbout> = Record<
-	About["preset"] extends string ? About["preset"] : never,
+export type PluginPresets<
+	About extends RuleAbout,
+	Presets extends string | undefined,
+> = Record<
+	Presets extends string ? Presets : never,
 	RuleDefinition<About, string, AnyOptionalSchema | undefined>[]
 >;
 
@@ -23,7 +26,7 @@ export type PluginRulesFactory<
 		string,
 		AnyOptionalSchema | undefined
 	>[],
-> = (rulesOptions: PluginRulesOptions<Rules>) => Rules;
+> = (rulesOptions: PluginRulesOptions<Rules>) => AnyRuleDefinition[];
 
 export type PluginRulesOptions<
 	Rules extends RuleDefinition<

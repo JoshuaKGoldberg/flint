@@ -1,5 +1,10 @@
+import { debugForFile } from "debug-for-file";
+
 import { isConfig } from "../configs/isConfig.js";
+import { runConfig } from "../running/lintConfig.js";
 import { findConfigFileName } from "./findConfigFileName.js";
+
+const log = debugForFile(import.meta.filename);
 
 export async function runCli() {
 	const configFileName = await findConfigFileName(process.cwd());
@@ -21,8 +26,8 @@ export async function runCli() {
 		};
 	}
 
-	console.log("I will lint with:");
-	console.log(config.definition);
+	log("Running with Flint config: %s", configFileName);
+	await runConfig(config.definition);
 
 	return {
 		code: 0,

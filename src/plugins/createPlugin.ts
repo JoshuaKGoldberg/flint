@@ -28,13 +28,14 @@ export function createPlugin<
 		// TODO: Figure out inferred type predicate...
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		(rule) => rule.about.preset!,
-	) as PluginPresets<About>;
+	) as PluginPresets<About, string>;
 
 	const rulesById = new Map(rules.map((rule) => [rule.about.id, rule]));
 
 	return {
 		globs,
 		name,
+		// @ts-expect-error -- TODO: Figure this out...?
 		presets,
 		// @ts-expect-error -- TODO: Figure out what to assert...?
 		rules: (configuration) => {

@@ -14,6 +14,9 @@ importers:
       cached-factory:
         specifier: ^0.1.0
         version: 0.1.0
+      debug-for-file:
+        specifier: ^0.2.0
+        version: 0.2.0
       ts-api-utils:
         specifier: ^2.1.0
         version: 2.1.0(typescript@5.8.2)
@@ -1590,6 +1593,10 @@ packages:
   data-uri-to-buffer@6.0.2:
     resolution: {integrity: sha512-7hvf7/GW8e86rW0ptuwS3OcBGDjIi6SZva7hCyWC0yYry2cOPmLIjXAUHI6DK2HsnwJd9ifmt57i8eV2n4YNpw==}
     engines: {node: '>= 14'}
+
+  debug-for-file@0.2.0:
+    resolution: {integrity: sha512-2w8an7kqhP8LXvU+riM7azVfAV3uEzE1lOsQFhrLI1K+kQZEbCK+nigYHK5GrgUvwvVNbWnlMkUM3kLbeJ0bPA==}
+    engines: {node: '>=18.3.0'}
 
   debug@4.4.1:
     resolution: {integrity: sha512-KcKCqiftBJcZr++7ykoDIEwSa3XWowTfNPo92BYxjXiyYEVrUQh2aLyhxBCwww+heortUFxEJYcRzosstTEBYQ==}
@@ -4886,6 +4893,13 @@ snapshots:
       tinyglobby: 0.2.14
 
   data-uri-to-buffer@6.0.2: {}
+
+  debug-for-file@0.2.0:
+    dependencies:
+      debug: 4.4.1
+      read-package-up: 11.0.0
+    transitivePeerDependencies:
+      - supports-color
 
   debug@4.4.1:
     dependencies:

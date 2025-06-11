@@ -1,6 +1,6 @@
 import { AnyRuleDefinition } from "./rules.js";
 
-export type AnyLevelArray<T> = AnyLevelArray<T>[] | T | T[];
+export type AnyLevelArray<T> = AnyLevelArray<T>[] | T[];
 
 export interface Config {
 	definition: ConfigDefinition;
@@ -14,8 +14,22 @@ export interface ConfigDefinition {
 	workspaces?: string[];
 }
 
+export type ConfigRuleDefinition =
+	| AnyRuleDefinition
+	| ConfigRuleDefinitionObject;
+
+export interface ConfigRuleDefinitionObject {
+	options: unknown;
+	rule: AnyRuleDefinition;
+}
+
 export interface ConfigUseDefinition {
 	exclude?: string;
-	glob?: string;
-	rules: AnyLevelArray<AnyRuleDefinition>;
+	glob: AnyLevelArray<string> | string;
+	rules: AnyLevelArray<ConfigRuleDefinition>;
+}
+
+export interface NormalizedConfigUseDefinition extends ConfigUseDefinition {
+	glob: string[];
+	rules: ConfigRuleDefinition[];
 }
