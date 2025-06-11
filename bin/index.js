@@ -5,7 +5,10 @@ const { code, message } = await runCli();
 
 if (code) {
 	process.exitCode = code;
-	console.error(message);
+
+	if (message) {
+		console.error(message);
+	}
 } else {
 	console.log("✅");
 }

@@ -1,4 +1,4 @@
-import { NormalizedRuleReport } from "./runTestCaseRule.js";
+import { NormalizedRuleReport } from "../types/reports.js";
 
 export function createReportSnapshot(
 	sourceText: string,

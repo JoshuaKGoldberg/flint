@@ -4,13 +4,7 @@ export default defineConfig({
 	use: [
 		{
 			glob: ts.globs.all,
-			rules: [
-				ts.presets.logical,
-				ts.rules({
-					// (just to test out the CLI)
-					forInArrays: false,
-				}),
-			],
+			rules: [ts.presets.logical],
 		},
 	],
 });

@@ -1,6 +1,7 @@
 import { debugForFile } from "debug-for-file";
 
 import { isConfig } from "../configs/isConfig.js";
+import { plainReporter } from "../reporters/plain.js";
 import { runConfig } from "../running/lintConfig.js";
 import { findConfigFileName } from "./findConfigFileName.js";
 
@@ -27,9 +28,13 @@ export async function runCli() {
 	}
 
 	log("Running with Flint config: %s", configFileName);
-	await runConfig(config.definition);
+	const allRuleReports = await runConfig(config.definition);
+
+	for (const line of plainReporter(allRuleReports)) {
+		console.log(line);
+	}
 
 	return {
-		code: 0,
+		code: allRuleReports.size ? 1 : 0,
 	};
 }

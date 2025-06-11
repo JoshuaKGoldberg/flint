@@ -42,6 +42,10 @@ export default tseslint.config(
 			},
 		},
 		rules: {
+			"@typescript-eslint/restrict-template-expressions": [
+				"error",
+				{ allowNumber: true },
+			],
 			"n/no-unsupported-features/node-builtins": [
 				"error",
 				{ allowExperimental: true },
