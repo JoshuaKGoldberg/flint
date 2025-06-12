@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.5.0](https://github.com/JoshuaKGoldberg/flint/compare/0.4.0...0.5.0) (2025-06-12)
+
+### Features
+
+- expanded rule report data ([#70](https://github.com/JoshuaKGoldberg/flint/issues/70)) ([b1e0b9a](https://github.com/JoshuaKGoldberg/flint/commit/b1e0b9a212036bef2823489cde6dcb70a249a011)), closes [#60](https://github.com/JoshuaKGoldberg/flint/issues/60)
+
 # [0.4.0](https://github.com/JoshuaKGoldberg/flint/compare/0.3.0...0.4.0) (2025-06-12)
 
 ### Features
