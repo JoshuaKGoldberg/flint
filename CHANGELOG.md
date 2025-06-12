@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.4.0](https://github.com/JoshuaKGoldberg/flint/compare/0.3.0...0.4.0) (2025-06-12)
+
+### Features
+
+- added initial CLI ([#24](https://github.com/JoshuaKGoldberg/flint/issues/24)) ([5647009](https://github.com/JoshuaKGoldberg/flint/commit/5647009b48c96617eb3231cb1c894a6ae3d00a32)), closes [#38](https://github.com/JoshuaKGoldberg/flint/issues/38)
+
 # [0.3.0](https://github.com/JoshuaKGoldberg/flint/compare/0.2.0...0.3.0) (2025-05-22)
 
 ### Features
