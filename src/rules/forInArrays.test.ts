@@ -19,7 +19,7 @@ for (const i in array) {}
 declare const array: string[];
 for (const i in array) {}
 ~~~~~~~~~~~~~~~~~~~~~~
-Avoid using for-in loops over arrays, as they have surprising behavior that often leads to bugs.
+For-in loops over arrays have surprising behavior that often leads to bugs.
 `,
 		},
 	],

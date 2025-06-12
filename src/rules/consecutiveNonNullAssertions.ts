@@ -9,7 +9,7 @@ export default createRule({
 	},
 	messages: {
 		consecutiveNonNullAssertion:
-			"Unnecessary consecutive non-null assertion operator.",
+			"Consecutive non-null assertion operators are unnecessary.",
 	},
 	setup(context) {
 		return {

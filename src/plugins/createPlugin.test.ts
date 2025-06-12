@@ -27,6 +27,7 @@ const ruleWithOptionalOption = createRule({
 
 describe(createPlugin, () => {
 	const plugin = createPlugin({
+		globs: {},
 		name: "test",
 		rules: [ruleStandalone, ruleWithOptionalOption],
 	});

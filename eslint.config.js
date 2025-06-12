@@ -42,6 +42,15 @@ export default tseslint.config(
 			},
 		},
 		rules: {
+			"@typescript-eslint/restrict-template-expressions": [
+				"error",
+				{ allowNumber: true },
+			],
+			"n/no-unsupported-features/node-builtins": [
+				"error",
+				{ allowExperimental: true },
+			],
+
 			// Stylistic concerns that don't interfere with Prettier
 			"logical-assignment-operators": [
 				"error",

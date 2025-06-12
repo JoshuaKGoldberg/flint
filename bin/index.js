@@ -1,2 +1,4 @@
 #!/usr/bin/env node
-console.log("Hello, world!");
+import { runCli } from "../lib/cli/runCli.js";
+
+process.exitCode = await runCli();

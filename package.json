@@ -37,8 +37,11 @@
 		"*": "prettier --ignore-unknown --write"
 	},
 	"dependencies": {
+		"@typescript-eslint/project-service": "^8.34.0",
 		"@typescript/vfs": "^1.6.1",
 		"cached-factory": "^0.1.0",
+		"debug-for-file": "^0.2.0",
+		"text-table-fast": "^0.1.0",
 		"ts-api-utils": "^2.1.0",
 		"zod": "^3.25.20"
 	},

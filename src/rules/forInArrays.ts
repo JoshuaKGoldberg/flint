@@ -12,7 +12,7 @@ export default createRule({
 	},
 	messages: {
 		preferModules:
-			"Avoid using for-in loops over arrays, as they have surprising behavior that often leads to bugs.",
+			"For-in loops over arrays have surprising behavior that often leads to bugs.",
 	},
 	setup(context) {
 		function hasNumberLikeLength(type: ts.Type): boolean {
