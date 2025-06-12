@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.6.0](https://github.com/JoshuaKGoldberg/flint/compare/0.5.0...0.6.0) (2025-06-12)
+
+### Features
+
+- add --help and --version to CLI ([#71](https://github.com/JoshuaKGoldberg/flint/issues/71)) ([2943004](https://github.com/JoshuaKGoldberg/flint/commit/2943004f694d980ec3ed2211c5e60d5af1bc5736)), closes [#58](https://github.com/JoshuaKGoldberg/flint/issues/58)
+
 # [0.5.0](https://github.com/JoshuaKGoldberg/flint/compare/0.4.0...0.5.0) (2025-06-12)
 
 ### Features
