@@ -40,6 +40,8 @@ In the meantime, come talk about it on the [Flint Discord](https://discord.gg/rd
 
 Coming soon.
 
+![Terminal screenshot of a colored linter output. joshgoldberg ~/repos/flint $ node bin/index.js      /Users/josh/repos/flint/src/example-lint-failures.ts   1:25  Consecutive non-null assertion operators are unnecessary.                    consecutiveNonNullAssertions   4:0   For-in loops over arrays have surprising behavior that often leads to bugs.  forInArrays  ✖ Found 2 reports across 1 file. joshgoldberg ~/repos/flint $ ](https://github.com/user-attachments/assets/f703224e-916f-442e-aa7b-bc2a16b6ad72)
+
 ## Development
 
 See [`.github/CONTRIBUTING.md`](./.github/CONTRIBUTING.md), then [`.github/DEVELOPMENT.md`](./.github/DEVELOPMENT.md).
