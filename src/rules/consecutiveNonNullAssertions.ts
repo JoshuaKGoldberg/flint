@@ -8,8 +8,14 @@ export default createRule({
 		preset: "logical",
 	},
 	messages: {
-		consecutiveNonNullAssertion:
-			"Consecutive non-null assertion operators are unnecessary.",
+		consecutiveNonNullAssertion: {
+			primary: "Consecutive non-null assertion operators are unnecessary.",
+			secondary: [
+				"The non-null assertion operator (`!`) is used to assert that a value is not null or undefined.",
+				"Using it multiple times in a row does not do anything, and just takes up space unnecessarily.",
+			],
+			suggestions: ["Remove the redundant non-null assertion operator."],
+		},
 	},
 	setup(context) {
 		return {

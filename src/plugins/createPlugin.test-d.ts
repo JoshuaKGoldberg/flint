@@ -4,11 +4,13 @@ import z from "zod";
 import { createRule } from "../createRule.js";
 import { createPlugin } from "./createPlugin.js";
 
+const stubMessages = { "": { primary: "", secondary: [], suggestions: [] } };
+
 const ruleStandalone = createRule({
 	about: {
 		id: "standalone",
 	},
-	messages: { "": "" },
+	messages: stubMessages,
 	setup: vi.fn(),
 });
 
@@ -16,7 +18,7 @@ const ruleWithOptionalOption = createRule({
 	about: {
 		id: "withOptionalOption",
 	},
-	messages: { "": "" },
+	messages: stubMessages,
 	options: {
 		value: z.string().optional(),
 	},

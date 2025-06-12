@@ -1,5 +1,6 @@
 import { RuleContext } from "./context.js";
 import { TSNode, TSNodeName, TSNodesByName } from "./nodes.js";
+import { ReportMessageData } from "./reports.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 export type AnyRuleDefinition<
@@ -15,13 +16,13 @@ export interface RuleAbout {
 
 export interface RuleDefinition<
 	About extends RuleAbout,
-	Message extends string,
+	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
 	about: About;
-	messages: Record<Message, string>;
+	messages: Record<MessageId, ReportMessageData>;
 	options?: OptionsSchema;
-	setup: RuleSetup<Message, InferredObject<OptionsSchema>>;
+	setup: RuleSetup<MessageId, InferredObject<OptionsSchema>>;
 }
 
 export type RuleSetup<Message extends string, Options> = (
