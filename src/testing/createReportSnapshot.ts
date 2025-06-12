@@ -34,7 +34,7 @@ function createReportSnapshotAt(
 	const injectionPrefix = " ".repeat(column);
 	const injectedLines = [
 		injectionPrefix + "~".repeat(width),
-		injectionPrefix + report.message,
+		injectionPrefix + report.message.primary,
 	];
 
 	return [

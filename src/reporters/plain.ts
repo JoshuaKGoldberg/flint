@@ -32,7 +32,7 @@ export function* plainReporter(filesRuleReports: FilesRuleReports) {
 						"gray",
 						`  ${report.range.begin.line}:${report.range.begin.column}`,
 					),
-					report.message,
+					report.message.primary,
 					styleText("yellow", report.ruleId),
 				]),
 		);

@@ -10,8 +10,16 @@ export default createRule({
 		preset: "logical",
 	},
 	messages: {
-		preferModules:
-			"Prefer using ECMAScript modules over legacy TypeScript namespaces.",
+		preferModules: {
+			primary:
+				"Prefer using ECMAScript modules over legacy TypeScript namespaces.",
+			secondary: [
+				"Namespaces are a legacy feature of TypeScript that can lead to confusion and are not compatible with ECMAScript modules.",
+			],
+			suggestions: [
+				"Modern codebases generally use `export` and `import` statements to define and use ECMAScript modules instead.",
+			],
+		},
 	},
 	options: {
 		allowDeclarations: z.boolean().default(false),
