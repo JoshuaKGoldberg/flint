@@ -10,10 +10,8 @@ const log = debugForFile(import.meta.filename);
 export async function runCli() {
 	const configFileName = await findConfigFileName(process.cwd());
 	if (!configFileName) {
-		return {
-			code: 2,
-			message: "No flint.config.* file found",
-		};
+		console.error("No flint.config.* file found");
+		return 2;
 	}
 
 	const { default: config } = (await import(configFileName)) as {
@@ -21,10 +19,10 @@ export async function runCli() {
 	};
 
 	if (!isConfig(config)) {
-		return {
-			code: 2,
-			message: `${configFileName} does not default export a Flint defineConfig value.`,
-		};
+		console.error(
+			`${configFileName} does not default export a Flint defineConfig value.`,
+		);
+		return 2;
 	}
 
 	log("Running with Flint config: %s", configFileName);
@@ -34,7 +32,5 @@ export async function runCli() {
 		console.log(line);
 	}
 
-	return {
-		code: allRuleReports.size ? 1 : 0,
-	};
+	return allRuleReports.size ? 1 : 0;
 }
