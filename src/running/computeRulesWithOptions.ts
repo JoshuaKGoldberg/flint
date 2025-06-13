@@ -1,5 +1,5 @@
 import { ConfigRuleDefinition } from "../types/configs.js";
-import { AnyRuleDefinition } from "../types/rules.js";
+import { AnyRule } from "../types/rules.js";
 
 // TODO: This is very slow and the whole thing should be refactored 🙌.
 // The separate lintFile function recomputes rule options repeatedly.
@@ -7,7 +7,7 @@ import { AnyRuleDefinition } from "../types/rules.js";
 export function computeRulesWithOptions(
 	ruleDefinitions: ConfigRuleDefinition[],
 ) {
-	const rulesWithOptions = new Map<AnyRuleDefinition, unknown>();
+	const rulesWithOptions = new Map<AnyRule, unknown>();
 
 	for (const definition of ruleDefinitions) {
 		const [options, rule] =

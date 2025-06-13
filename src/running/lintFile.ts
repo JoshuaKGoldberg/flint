@@ -1,45 +1,34 @@
+import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
-import * as ts from "typescript";
 
 import { ConfigRuleDefinition } from "../types/configs.js";
+import { AnyLanguage, LanguageFileFactory } from "../types/languages.js";
 import { FileRuleReport } from "../types/reports.js";
 import { computeRulesWithOptions } from "./computeRulesWithOptions.js";
-import { runLintRule } from "./runLintRule.js";
 
 const log = debugForFile(import.meta.filename);
 
 export function lintFile(
+	fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
 	filePathAbsolute: string,
 	ruleDefinitions: ConfigRuleDefinition[],
-	service: ts.server.ProjectService,
 ) {
-	log("Linting: %s", filePathAbsolute);
-	service.openClientFile(filePathAbsolute);
-
-	// TODO: These should be abstracted into a language concept...
-	/* eslint-disable @typescript-eslint/no-non-null-assertion */
-	const scriptInfo = service.getScriptInfo(filePathAbsolute)!;
-	const program = service
-		.getDefaultProjectForFile(scriptInfo.fileName, true)!
-		.getLanguageService(true)
-		.getProgram()!;
-	const sourceFile = program.getSourceFile(filePathAbsolute)!;
-	const typeChecker = program.getTypeChecker();
-	/* eslint-enable @typescript-eslint/no-non-null-assertion */
-
-	log("Retrieved type source file and type checker.");
+	log("Linting: %s:", filePathAbsolute);
 
 	const allReports: FileRuleReport[] = [];
 	const rulesWithOptions = computeRulesWithOptions(ruleDefinitions);
 
 	for (const [rule, options] of rulesWithOptions) {
+		// TODO: It would probably be good to group rules by language...
+		using file = fileFactories
+			// TODO: How to make types more permissive around assignability?
+			// See AnyRule's any
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			.get(rule.language)
+			.prepareFileOnDisk(filePathAbsolute);
+
 		log("Running rule %s with options: %o", rule.about.id, options);
-		const ruleReports = runLintRule(
-			rule,
-			options as object | undefined,
-			sourceFile,
-			typeChecker,
-		);
+		const ruleReports = file.runRule(rule, options as object | undefined);
 		log("Found %d reports from rule %s", ruleReports.length, rule.about.id);
 
 		allReports.push(
@@ -48,7 +37,6 @@ export function lintFile(
 	}
 
 	log("Found %d reports for %s", allReports.length, filePathAbsolute);
-	service.closeClientFile(filePathAbsolute);
 
 	return allReports;
 }

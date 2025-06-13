@@ -2,9 +2,10 @@ import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 import { z } from "zod";
 
-import { createRule } from "../createRule.js";
+import { getNodeRange } from "../typescript/getNodeRange.js";
+import { typescript } from "../typescript/language.js";
 
-export default createRule({
+export default typescript.createRule({
 	about: {
 		id: "namespaceDeclarations",
 		preset: "logical",
@@ -49,7 +50,7 @@ export default createRule({
 
 				context.report({
 					message: "preferModules",
-					range: node.getChildAt(0),
+					range: getNodeRange(node.getChildAt(0)),
 				});
 			},
 		};

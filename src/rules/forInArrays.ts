@@ -1,11 +1,11 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { createRule } from "../createRule.js";
+import { typescript } from "../typescript/language.js";
 import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.js";
 import { isTypeRecursive } from "./utils/isTypeRecursive.js";
 
-export default createRule({
+export default typescript.createRule({
 	about: {
 		id: "forInArrays",
 		preset: "logical",

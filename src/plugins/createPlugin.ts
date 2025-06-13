@@ -1,23 +1,31 @@
 import { Plugin, PluginPresets } from "../types/plugins.js";
-import { RuleAbout, RuleDefinition } from "../types/rules.js";
-import { AnyOptionalSchema } from "../types/shapes.js";
+import { Rule, RuleAbout } from "../types/rules.js";
 
 export interface CreatePluginOptions<
 	About extends RuleAbout,
 	Globs extends Record<string, string[]>,
-	Rules extends RuleDefinition<About, string, AnyOptionalSchema | undefined>[],
+	Rules extends UnsafeAnyRule<About>[],
 > {
+	// TODO: Make this optional if Globs is {}
 	globs: Globs;
 	name: string;
 	rules: Rules;
 }
 
+export type UnsafeAnyRule<About extends RuleAbout = RuleAbout> = Rule<
+	About,
+	// TODO: How to make these types work with createPlugin.test.ts & co.?
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+	any,
+	any,
+	any
+	/* eslint-enable @typescript-eslint/no-explicit-any */
+>;
+
 export function createPlugin<
-	const About extends RuleAbout,
+	About extends RuleAbout,
 	Globs extends Record<string, string[]>,
-	// TODO: How to properly constrain this type parameter?
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const Rules extends RuleDefinition<About, any, any>[],
+	Rules extends UnsafeAnyRule<About>[],
 >({
 	globs,
 	name,

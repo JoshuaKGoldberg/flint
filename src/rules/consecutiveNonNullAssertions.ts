@@ -1,8 +1,8 @@
 import * as ts from "typescript";
 
-import { createRule } from "../createRule.js";
+import { typescript } from "../typescript/language.js";
 
-export default createRule({
+export default typescript.createRule({
 	about: {
 		id: "consecutiveNonNullAssertions",
 		preset: "logical",

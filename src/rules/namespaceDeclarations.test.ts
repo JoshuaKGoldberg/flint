@@ -1,12 +1,6 @@
-import { describe, it } from "vitest";
-
-import { RuleTester } from "../testing/RuleTester.js";
 import rule from "./namespaceDeclarations.js";
 
-const ruleTester = new RuleTester({
-	describe,
-	it,
-});
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [
