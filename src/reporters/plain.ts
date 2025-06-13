@@ -1,27 +1,28 @@
 import { styleText } from "node:util";
 import { textTable } from "text-table-fast";
 
-import { FilesRuleReports } from "../types/reports.js";
+import { RunConfigResultsMaybeWithFixes } from "../types/results.js";
 import { makeAbsolute } from "../utils/makeAbsolute.js";
+import { hasFix } from "../utils/predicates.js";
 
-export function* plainReporter(filesRuleReports: FilesRuleReports) {
-	if (filesRuleReports.size === 0) {
+export function* plainReporter(results: RunConfigResultsMaybeWithFixes) {
+	if (results.filesResults.size === 0) {
 		yield styleText("green", "No issues found.");
 		return;
 	}
 
-	const totalFiles = filesRuleReports.size;
-	let totalReports = 0;
+	const reportTotals = { all: 0, fixable: 0 };
 
 	yield "";
 
-	for (const [filePath, ruleReports] of filesRuleReports) {
-		totalReports += ruleReports.length;
+	for (const [filePath, fileResult] of results.filesResults) {
+		reportTotals.all += fileResult.allReports.length;
+		reportTotals.fixable += fileResult.allReports.filter(hasFix).length;
 
 		yield styleText("underline", makeAbsolute(filePath));
 
 		yield textTable(
-			ruleReports
+			fileResult.allReports
 				.sort((a, b) =>
 					a.range.begin.line === b.range.begin.line
 						? a.range.begin.column - b.range.begin.column
@@ -40,13 +41,34 @@ export function* plainReporter(filesRuleReports: FilesRuleReports) {
 		yield "";
 	}
 
+	if (results.fixed) {
+		yield styleText(
+			"green",
+			[
+				"✔ Fixed ",
+				styleText("bold", pluralize(results.fixed.size, "file")),
+				" automatically with --fix.",
+			].join(""),
+		);
+	}
+
 	yield styleText(
 		"red",
 		[
 			"✖ Found ",
-			styleText("bold", pluralize(totalReports, "report")),
+			styleText("bold", pluralize(reportTotals.all, "report")),
 			" across ",
-			styleText("bold", pluralize(totalFiles, "file")),
+			styleText("bold", pluralize(results.filesResults.size, "file")),
+			...(reportTotals.fixable
+				? [
+						" (",
+						styleText(
+							"bold",
+							pluralize(reportTotals.fixable, "fixable with --fix"),
+						),
+						")",
+					]
+				: []),
 			".",
 		].join(""),
 	);

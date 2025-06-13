@@ -20,15 +20,23 @@ export default typescript.createRule({
 	setup(context) {
 		return {
 			NonNullExpression(node) {
-				if (node.parent.kind === ts.SyntaxKind.NonNullExpression) {
-					context.report({
-						message: "consecutiveNonNullAssertion",
-						range: {
-							begin: node.end,
-							end: node.parent.end + 1,
-						},
-					});
+				if (node.parent.kind !== ts.SyntaxKind.NonNullExpression) {
+					return;
 				}
+
+				const range = {
+					begin: node.end,
+					end: node.parent.end + 1,
+				};
+
+				context.report({
+					fix: {
+						range,
+						text: "",
+					},
+					message: "consecutiveNonNullAssertion",
+					range,
+				});
 			},
 		};
 	},

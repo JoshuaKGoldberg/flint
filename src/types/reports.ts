@@ -1,26 +1,12 @@
-/**
- * A range of characters in a source file, as reported by a rule.
- */
-export interface CharacterReportRange {
-	begin: number;
-	end: number;
-}
-
-/**
- * The column and line of a character in a source file, as visualized to users.
- */
-export interface ColumnAndLine {
-	column: number;
-	line: number;
-
-	/**
-	 * The original raw character position in the source file.
-	 */
-	raw: number;
-}
+import { Fix } from "./fixes.js";
+import { CharacterReportRange, ColumnAndLine } from "./ranges.js";
 
 export interface FileRuleReport extends NormalizedRuleReport {
 	ruleId: string;
+}
+
+export interface FileRuleReportWithFix extends FileRuleReport {
+	fix: Fix;
 }
 
 export type FilesRuleReports = Map<string, FileRuleReport[]>;
@@ -34,18 +20,25 @@ export interface NormalizedReportRangeObject {
  * A full rule report that can be used to display to users via a reporter.
  */
 export interface NormalizedRuleReport {
+	fix?: Fix;
 	message: ReportMessageData;
 	range: NormalizedReportRangeObject;
+}
+
+export interface NormalizedRuleReportWithFix extends NormalizedRuleReport {
+	fix: Fix;
 }
 
 /**
  * The internal raw rule report format used by rules themselves.
  */
 export interface RuleReport<Message extends string = string> {
+	fix?: Fix;
+
 	message: Message;
 
 	/**
-	 * Which specific
+	 * Which specific characters in the source file are affected by this report.
 	 */
 	range: CharacterReportRange;
 }

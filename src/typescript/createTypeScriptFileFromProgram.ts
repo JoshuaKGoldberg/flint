@@ -15,6 +15,7 @@ export function createTypeScriptFileFromProgram(
 			const context = {
 				report: (report: RuleReport) => {
 					reports.push({
+						...report,
 						message: rule.messages[report.message],
 						range: normalizeRange(report.range, sourceFile),
 					});

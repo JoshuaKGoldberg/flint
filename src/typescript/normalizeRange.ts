@@ -1,9 +1,7 @@
 import type * as ts from "typescript";
 
-import {
-	CharacterReportRange,
-	NormalizedReportRangeObject,
-} from "../types/reports.js";
+import { NormalizedReportRangeObject } from "../types/reports.js";
+import { CharacterReportRange } from "../types/ranges.js";
 
 export function normalizeRange(
 	original: CharacterReportRange,

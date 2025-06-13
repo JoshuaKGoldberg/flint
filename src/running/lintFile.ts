@@ -18,14 +18,16 @@ export function lintFile(
 	const allReports: FileRuleReport[] = [];
 	const rulesWithOptions = computeRulesWithOptions(ruleDefinitions);
 
+	const languageFiles = new CachedFactory((language: AnyLanguage) =>
+		fileFactories.get(language).prepareFileOnDisk(filePathAbsolute),
+	);
+
+	// TODO: It would probably be good to group rules by language...
 	for (const [rule, options] of rulesWithOptions) {
-		// TODO: It would probably be good to group rules by language...
-		using file = fileFactories
-			// TODO: How to make types more permissive around assignability?
-			// See AnyRule's any
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			.get(rule.language)
-			.prepareFileOnDisk(filePathAbsolute);
+		// TODO: How to make types more permissive around assignability?
+		// See AnyRule's any
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		const file = languageFiles.get(rule.language);
 
 		log("Running rule %s with options: %o", rule.about.id, options);
 		const ruleReports = file.runRule(rule, options as object | undefined);
@@ -34,6 +36,12 @@ export function lintFile(
 		allReports.push(
 			...ruleReports.map((report) => ({ ruleId: rule.about.id, ...report })),
 		);
+	}
+
+	for (const [language, file] of languageFiles.entries()) {
+		log("Disposing language %s file %s", language.about.name, filePathAbsolute);
+		file[Symbol.dispose]();
+		log("Disposed language %s file %s", language.about.name, filePathAbsolute);
 	}
 
 	log("Found %d reports for %s", allReports.length, filePathAbsolute);
