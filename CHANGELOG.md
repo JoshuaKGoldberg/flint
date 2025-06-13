@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.8.0](https://github.com/JoshuaKGoldberg/flint/compare/0.7.0...0.8.0) (2025-06-13)
+
+### Features
+
+- implemented initial --fix mode ([#74](https://github.com/JoshuaKGoldberg/flint/issues/74)) ([30891a9](https://github.com/JoshuaKGoldberg/flint/commit/30891a95718e83b3aab66471f5955b5110df881c)), closes [#69](https://github.com/JoshuaKGoldberg/flint/issues/69)
+
 # [0.7.0](https://github.com/JoshuaKGoldberg/flint/compare/0.6.0...0.7.0) (2025-06-13)
 
 ### Features
