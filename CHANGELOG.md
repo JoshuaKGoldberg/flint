@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.7.0](https://github.com/JoshuaKGoldberg/flint/compare/0.6.0...0.7.0) (2025-06-13)
+
+### Features
+
+- extract languages concept with TypeScript ([#72](https://github.com/JoshuaKGoldberg/flint/issues/72)) ([4596862](https://github.com/JoshuaKGoldberg/flint/commit/45968626000f36a1bb09b3fb6b7a0b61fe9234d6)), closes [#42](https://github.com/JoshuaKGoldberg/flint/issues/42)
+
 # [0.6.0](https://github.com/JoshuaKGoldberg/flint/compare/0.5.0...0.6.0) (2025-06-12)
 
 ### Features
