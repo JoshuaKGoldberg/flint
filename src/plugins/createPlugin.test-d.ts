@@ -1,12 +1,12 @@
 import { describe, it, vi } from "vitest";
 import z from "zod";
 
-import { createRule } from "../createRule.js";
+import { typescript } from "../typescript/language.js";
 import { createPlugin } from "./createPlugin.js";
 
 const stubMessages = { "": { primary: "", secondary: [], suggestions: [] } };
 
-const ruleStandalone = createRule({
+const ruleStandalone = typescript.createRule({
 	about: {
 		id: "standalone",
 	},
@@ -14,7 +14,7 @@ const ruleStandalone = createRule({
 	setup: vi.fn(),
 });
 
-const ruleWithOptionalOption = createRule({
+const ruleWithOptionalOption = typescript.createRule({
 	about: {
 		id: "withOptionalOption",
 	},

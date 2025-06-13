@@ -1,6 +1,8 @@
+import { CachedFactory } from "cached-factory";
 import assert from "node:assert";
 
-import { AnyRuleDefinition } from "../types/rules.js";
+import { AnyLanguage, LanguageFileFactory } from "../types/languages.js";
+import { AnyRule, RuleAbout } from "../types/rules.js";
 import { AnyOptionalSchema, InferredObject } from "../types/shapes.js";
 import { InvalidTestCase, ValidTestCase } from "../types/testing.js";
 import { createReportSnapshot } from "./createReportSnapshot.js";
@@ -20,26 +22,32 @@ export interface TestCases<Options extends object | undefined> {
 export type TesterSetup = (description: string, setup: () => void) => void;
 
 export class RuleTester {
-	#describe: TesterSetup;
-	#it: TesterSetup;
+	#fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>;
+	#testerOptions: Required<RuleTesterOptions>;
 
 	constructor({ describe, it, scope = globalThis }: RuleTesterOptions = {}) {
-		this.#describe = defaultTo(describe, scope, "describe");
-		this.#it = defaultTo(it, scope, "it");
+		this.#fileFactories = new CachedFactory((language: AnyLanguage) =>
+			language.prepare(),
+		);
+		this.#testerOptions = {
+			describe: defaultTo(describe, scope, "describe"),
+			it: defaultTo(it, scope, "it"),
+			scope,
+		};
 	}
 
 	describe<OptionsSchema extends AnyOptionalSchema | undefined>(
-		rule: AnyRuleDefinition<OptionsSchema>,
+		rule: AnyRule<RuleAbout, OptionsSchema>,
 		{ invalid, valid }: TestCases<InferredObject<OptionsSchema>>,
 	) {
-		this.#describe(rule.about.id, () => {
-			this.#describe("invalid", () => {
+		this.#testerOptions.describe(rule.about.id, () => {
+			this.#testerOptions.describe("invalid", () => {
 				for (const testCase of invalid) {
 					this.#itInvalidCase(rule, testCase);
 				}
 			});
 
-			this.#describe("valid", () => {
+			this.#testerOptions.describe("valid", () => {
 				for (const testCase of valid) {
 					this.#itValidCase(rule, testCase);
 				}
@@ -48,11 +56,12 @@ export class RuleTester {
 	}
 
 	#itInvalidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
-		rule: AnyRuleDefinition<OptionsSchema>,
+		rule: AnyRule<RuleAbout, OptionsSchema>,
 		testCase: InvalidTestCase<InferredObject<OptionsSchema>>,
 	) {
-		this.#it(testCase.code, () => {
+		this.#testerOptions.it(testCase.code, () => {
 			const reports = runTestCaseRule(
+				this.#fileFactories,
 				{
 					// TODO: Figure out a way around the type assertion...
 					options: (testCase.options ?? {}) as InferredObject<OptionsSchema>,
@@ -67,14 +76,15 @@ export class RuleTester {
 	}
 
 	#itValidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
-		rule: AnyRuleDefinition<OptionsSchema>,
+		rule: AnyRule<RuleAbout, OptionsSchema>,
 		testCaseRaw: ValidTestCase<InferredObject<OptionsSchema>>,
 	) {
 		const testCase =
 			typeof testCaseRaw === "string" ? { code: testCaseRaw } : testCaseRaw;
 
-		this.#it(testCase.code, () => {
+		this.#testerOptions.it(testCase.code, () => {
 			const reports = runTestCaseRule(
+				this.#fileFactories,
 				{
 					// TODO: Figure out a way around the type assertion...
 					options: (testCase.options ?? {}) as InferredObject<OptionsSchema>,

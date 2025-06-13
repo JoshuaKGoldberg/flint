@@ -1,4 +1,4 @@
-import { AnyRuleDefinition } from "./rules.js";
+import { AnyRule } from "./rules.js";
 
 export type AnyLevelArray<T> = AnyLevelArray<T>[] | T[];
 
@@ -14,13 +14,11 @@ export interface ConfigDefinition {
 	workspaces?: string[];
 }
 
-export type ConfigRuleDefinition =
-	| AnyRuleDefinition
-	| ConfigRuleDefinitionObject;
+export type ConfigRuleDefinition = AnyRule | ConfigRuleDefinitionObject;
 
 export interface ConfigRuleDefinitionObject {
 	options: unknown;
-	rule: AnyRuleDefinition;
+	rule: AnyRule;
 }
 
 export interface ConfigUseDefinition {
