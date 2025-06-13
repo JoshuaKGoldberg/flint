@@ -1,5 +1,4 @@
 import rule from "./consecutiveNonNullAssertions.js";
-
 import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
