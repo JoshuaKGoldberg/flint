@@ -9,7 +9,7 @@ import {
 	ConfigUseDefinition,
 } from "../types/configs.js";
 import { AnyLanguage } from "../types/languages.js";
-import { FileResults, RunConfigResults } from "../types/results.js";
+import { RunConfigResults, FileResults } from "../types/results.js";
 import { makeAbsolute } from "../utils/makeAbsolute.js";
 import { lintFile } from "./lintFile.js";
 import { readGitignore } from "./readGitignore.js";
@@ -46,7 +46,19 @@ export async function runConfig(
 	const allFilePaths = new Set(
 		useDefinitions.flatMap((use) => Array.from(use.files)),
 	);
-
+	// TODO: This duplicates the reading of files in languages themselves.
+	// It should eventually be merged into the language file factories,
+	// likely providing the result of reading the file to the factories.
+	// See investigation work around unifying TypeScript's file systems:
+	// https://github.com/JoshuaKGoldberg/flint/issues/73
+	const allFileContents = new Map(
+		await Promise.all(
+			Array.from(allFilePaths).map(
+				async (filePath) =>
+					[filePath, await fs.readFile(filePath, "utf-8")] as const,
+			),
+		),
+	);
 	const filesResults = new Map<string, FileResults>();
 	const totalReports = 0;
 
@@ -57,14 +69,7 @@ export async function runConfig(
 	// TODO: This is very slow and the whole thing should be refactored 🙌.
 	// The separate lintFile function recomputes rule options repeatedly.
 	// It'd be better to group files together in some way.
-	for (const filePath of allFilePaths) {
-		// TODO: This duplicates the reading of files in languages themselves.
-		// It should eventually be merged into the language file factories,
-		// likely providing the result of reading the file to the factories.
-		// See investigation work around unifying TypeScript's file systems:
-		// https://github.com/JoshuaKGoldberg/flint/issues/73
-		const originalContent = fsSync.readFileSync(filePath, "utf-8");
-
+	for (const [filePath, originalContent] of allFileContents) {
 		const reports = lintFile(
 			fileFactories,
 			makeAbsolute(filePath),
@@ -85,5 +90,5 @@ export async function runConfig(
 
 	log("Found %d report(s)", totalReports);
 
-	return { filesResults };
+	return { allFileContents, filesResults };
 }

@@ -7,6 +7,7 @@ import { orderFixesLastToFirstWithoutOverlaps } from "./ordering.js";
 const log = debugForFile(import.meta.filename);
 
 export async function applyFileFixes(
+	allFileContents: Map<string, string>,
 	absoluteFilePath: string,
 	results: FileResultsWithFixes,
 ) {
@@ -29,6 +30,7 @@ export async function applyFileFixes(
 	// https://github.com/JoshuaKGoldberg/flint/issues/69
 	// https://github.com/JoshuaKGoldberg/flint/issues/73
 	await fs.writeFile(absoluteFilePath, updatedFileContent);
+	allFileContents.set(absoluteFilePath, updatedFileContent);
 
 	log(
 		"Writing %d of %d fixes to file: %s",

@@ -10,6 +10,7 @@ export interface FileResultsWithFixes extends FileResults {
 }
 
 export interface RunConfigResults {
+	allFileContents: Map<string, string>;
 	filesResults: Map<string, FileResults>;
 }
 

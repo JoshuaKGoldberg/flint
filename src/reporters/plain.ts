@@ -5,8 +5,11 @@ import { RunConfigResultsMaybeWithFixes } from "../types/results.js";
 import { makeAbsolute } from "../utils/makeAbsolute.js";
 import { hasFix } from "../utils/predicates.js";
 
-export function* plainReporter(results: RunConfigResultsMaybeWithFixes) {
-	if (results.filesResults.size === 0) {
+export function* plainReporter(
+	configResults: RunConfigResultsMaybeWithFixes,
+	formattedCount: number,
+) {
+	if (configResults.filesResults.size === 0) {
 		yield styleText("green", "No issues found.");
 		return;
 	}
@@ -15,7 +18,7 @@ export function* plainReporter(results: RunConfigResultsMaybeWithFixes) {
 
 	yield "";
 
-	for (const [filePath, fileResult] of results.filesResults) {
+	for (const [filePath, fileResult] of configResults.filesResults) {
 		reportTotals.all += fileResult.allReports.length;
 		reportTotals.fixable += fileResult.allReports.filter(hasFix).length;
 
@@ -41,12 +44,24 @@ export function* plainReporter(results: RunConfigResultsMaybeWithFixes) {
 		yield "";
 	}
 
-	if (results.fixed) {
+	formattedCount += 1;
+	if (formattedCount) {
+		yield styleText(
+			"blue",
+			[
+				"✳ Updated ",
+				styleText("bold", pluralize(formattedCount, "file")),
+				"'s formatting with Prettier.",
+			].join(""),
+		);
+	}
+
+	if (configResults.fixed) {
 		yield styleText(
 			"green",
 			[
 				"✔ Fixed ",
-				styleText("bold", pluralize(results.fixed.size, "file")),
+				styleText("bold", pluralize(configResults.fixed.size, "file")),
 				" automatically with --fix.",
 			].join(""),
 		);
@@ -58,7 +73,7 @@ export function* plainReporter(results: RunConfigResultsMaybeWithFixes) {
 			"✖ Found ",
 			styleText("bold", pluralize(reportTotals.all, "report")),
 			" across ",
-			styleText("bold", pluralize(results.filesResults.size, "file")),
+			styleText("bold", pluralize(configResults.filesResults.size, "file")),
 			...(reportTotals.fixable
 				? [
 						" (",
