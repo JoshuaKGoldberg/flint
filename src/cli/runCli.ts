@@ -3,7 +3,8 @@ import { parseArgs } from "node:util";
 
 import { isConfig } from "../configs/isConfig.js";
 import { plainReporter } from "../reporters/plain.js";
-import { runConfig } from "../running/lintConfig.js";
+import { runConfig } from "../running/runConfig.js";
+import { runConfigFixing } from "../running/runConfigFixing.js";
 import { findConfigFileName } from "./findConfigFileName.js";
 import { packageData } from "./packageData.js";
 
@@ -12,6 +13,9 @@ const log = debugForFile(import.meta.filename);
 export async function runCli() {
 	const { values } = parseArgs({
 		options: {
+			fix: {
+				type: "boolean",
+			},
 			help: {
 				type: "boolean",
 			},
@@ -54,11 +58,14 @@ export async function runCli() {
 	}
 
 	log("Running with Flint config: %s", configFileName);
-	const allRuleReports = await runConfig(config.definition);
 
-	for (const line of plainReporter(allRuleReports)) {
+	const filesResults = await (values.fix
+		? runConfigFixing(config.definition)
+		: runConfig(config.definition));
+
+	for (const line of plainReporter(filesResults)) {
 		console.log(line);
 	}
 
-	return allRuleReports.size ? 1 : 0;
+	return filesResults.filesResults.size ? 1 : 0;
 }

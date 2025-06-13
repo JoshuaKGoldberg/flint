@@ -42,6 +42,10 @@ export default tseslint.config(
 			},
 		},
 		rules: {
+			"@typescript-eslint/no-unnecessary-condition": [
+				"error",
+				{ allowConstantLoopConditions: true },
+			],
 			"@typescript-eslint/restrict-template-expressions": [
 				"error",
 				{ allowNumber: true },

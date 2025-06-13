@@ -1,5 +1,6 @@
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
+import * as fsSync from "node:fs";
 import * as fs from "node:fs/promises";
 
 import {
@@ -8,14 +9,16 @@ import {
 	ConfigUseDefinition,
 } from "../types/configs.js";
 import { AnyLanguage } from "../types/languages.js";
-import { FileRuleReport } from "../types/reports.js";
+import { FileResults, RunConfigResults } from "../types/results.js";
 import { makeAbsolute } from "../utils/makeAbsolute.js";
 import { lintFile } from "./lintFile.js";
 import { readGitignore } from "./readGitignore.js";
 
 const log = debugForFile(import.meta.filename);
 
-export async function runConfig(config: ConfigDefinition) {
+export async function runConfig(
+	config: ConfigDefinition,
+): Promise<RunConfigResults> {
 	interface ConfigUseDefinitionWithFiles extends ConfigUseDefinition {
 		files: Set<string>;
 		rules: ConfigRuleDefinition[];
@@ -44,7 +47,9 @@ export async function runConfig(config: ConfigDefinition) {
 		useDefinitions.flatMap((use) => Array.from(use.files)),
 	);
 
-	const allFileReports = new Map<string, FileRuleReport[]>();
+	const filesResults = new Map<string, FileResults>();
+	const totalReports = 0;
+
 	const fileFactories = new CachedFactory((language: AnyLanguage) =>
 		language.prepare(),
 	);
@@ -53,7 +58,14 @@ export async function runConfig(config: ConfigDefinition) {
 	// The separate lintFile function recomputes rule options repeatedly.
 	// It'd be better to group files together in some way.
 	for (const filePath of allFilePaths) {
-		const fileReports = lintFile(
+		// TODO: This duplicates the reading of files in languages themselves.
+		// It should eventually be merged into the language file factories,
+		// likely providing the result of reading the file to the factories.
+		// See investigation work around unifying TypeScript's file systems:
+		// https://github.com/JoshuaKGoldberg/flint/issues/73
+		const originalContent = fsSync.readFileSync(filePath, "utf-8");
+
+		const reports = lintFile(
 			fileFactories,
 			makeAbsolute(filePath),
 			useDefinitions
@@ -61,11 +73,17 @@ export async function runConfig(config: ConfigDefinition) {
 				.flatMap((use) => use.rules),
 		);
 
-		if (fileReports.length) {
-			allFileReports.set(filePath, fileReports);
+		if (!reports.length) {
+			continue;
 		}
+
+		filesResults.set(filePath, {
+			allReports: reports,
+			originalContent,
+		});
 	}
 
-	log("Found %d reports for all files", allFileReports.size);
-	return allFileReports;
+	log("Found %d report(s)", totalReports);
+
+	return { filesResults };
 }
