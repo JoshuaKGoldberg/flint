@@ -62,7 +62,7 @@
 		"eslint-plugin-n": "17.19.0",
 		"eslint-plugin-package-json": "0.33.0",
 		"eslint-plugin-perfectionist": "4.14.0",
-		"eslint-plugin-regexp": "2.8.0",
+		"eslint-plugin-regexp": "2.9.0",
 		"eslint-plugin-yml": "1.18.0",
 		"husky": "9.1.7",
 		"knip": "5.60.0",
@@ -77,13 +77,13 @@
 		"sentences-per-line": "0.3.0",
 		"tsup": "8.5.0",
 		"typescript": "5.8.2",
-		"typescript-eslint": "8.33.0",
+		"typescript-eslint": "8.34.0",
 		"vitest": "3.2.0"
 	},
 	"peerDependencies": {
 		"typescript": ">=5.8.0"
 	},
-	"packageManager": "pnpm@10.11.0",
+	"packageManager": "pnpm@10.12.1",
 	"engines": {
 		"node": ">=24.0.0"
 	},
