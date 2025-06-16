@@ -10,9 +10,7 @@ export async function runPrettier(allFileContents: Map<string, string>) {
 	await Promise.all(
 		Array.from(allFileContents).map(async ([filePath, originalFileContent]) => {
 			const updatedFileContent = await prettier.format(originalFileContent, {
-				// TODO: Quit hardcoding TypeScript!
-				// The resolved language for each file should be piped through.
-				// https://prettier.io/docs/options#parser
+				filepath: filePath,
 				parser: "typescript",
 				...(await prettier.resolveConfig(filePath)),
 			});
