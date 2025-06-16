@@ -1,6 +1,5 @@
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
-import * as fsSync from "node:fs";
 import * as fs from "node:fs/promises";
 
 import {
@@ -9,7 +8,7 @@ import {
 	ConfigUseDefinition,
 } from "../types/configs.js";
 import { AnyLanguage } from "../types/languages.js";
-import { RunConfigResults, FileResults } from "../types/results.js";
+import { FileResults, RunConfigResults } from "../types/results.js";
 import { makeAbsolute } from "../utils/makeAbsolute.js";
 import { lintFile } from "./lintFile.js";
 import { readGitignore } from "./readGitignore.js";
