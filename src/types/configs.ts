@@ -1,3 +1,4 @@
+import { PluginGlob } from "./plugins.js";
 import { AnyRule } from "./rules.js";
 
 export type AnyLevelArray<T> = AnyLevelArray<T>[] | T[];
@@ -23,11 +24,10 @@ export interface ConfigRuleDefinitionObject {
 
 export interface ConfigUseDefinition {
 	exclude?: string;
-	glob: AnyLevelArray<string> | string;
+	glob: AnyLevelArray<PluginGlob> | PluginGlob;
 	rules: AnyLevelArray<ConfigRuleDefinition>;
 }
 
 export interface NormalizedConfigUseDefinition extends ConfigUseDefinition {
-	glob: string[];
 	rules: ConfigRuleDefinition[];
 }

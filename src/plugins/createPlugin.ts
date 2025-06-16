@@ -1,9 +1,9 @@
-import { Plugin, PluginPresets } from "../types/plugins.js";
+import { Plugin, PluginGlob, PluginPresets } from "../types/plugins.js";
 import { Rule, RuleAbout } from "../types/rules.js";
 
 export interface CreatePluginOptions<
 	About extends RuleAbout,
-	Globs extends Record<string, string[]>,
+	Globs extends Record<string, PluginGlob[]>,
 	Rules extends UnsafeAnyRule<About>[],
 > {
 	// TODO: Make this optional if Globs is {}
@@ -24,7 +24,7 @@ export type UnsafeAnyRule<About extends RuleAbout = RuleAbout> = Rule<
 
 export function createPlugin<
 	About extends RuleAbout,
-	Globs extends Record<string, string[]>,
+	Globs extends Record<string, PluginGlob[]>,
 	Rules extends UnsafeAnyRule<About>[],
 >({
 	globs,

@@ -1,16 +1,15 @@
 import { debugForFile } from "debug-for-file";
-import * as fs from "node:fs/promises";
 
-import { FileResultsWithFixes } from "../types/results.js";
+import { FileResults } from "../types/results.js";
 import { orderFixesLastToFirstWithoutOverlaps } from "./ordering.js";
 
 const log = debugForFile(import.meta.filename);
 
 export async function applyFileFixes(
-	absoluteFilePath: string,
-	results: FileResultsWithFixes,
+	filePathAbsolute: string,
+	results: FileResults,
 ) {
-	log("Applying fixes to file: %s", absoluteFilePath);
+	log("Applying fixes to file: %s", filePathAbsolute);
 
 	const fixes = orderFixesLastToFirstWithoutOverlaps(
 		results.fixableReports.map((report) => report.fix),
@@ -28,13 +27,13 @@ export async function applyFileFixes(
 	// Direct fs write calls don't make sense in e.g. virtual file systems
 	// https://github.com/JoshuaKGoldberg/flint/issues/69
 	// https://github.com/JoshuaKGoldberg/flint/issues/73
-	await fs.writeFile(absoluteFilePath, updatedFileContent);
+	await results.virtualFile.updateText(updatedFileContent);
 
 	log(
-		"Writing %d of %d fixes to file: %s",
+		"Wrote %d of %d fixes to file: %s",
 		fixes.length,
 		results.fixableReports.length,
-		absoluteFilePath,
+		filePathAbsolute,
 	);
 
 	return updatedFileContent;

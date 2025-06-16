@@ -2,11 +2,7 @@ import { debugForFile } from "debug-for-file";
 
 import { applyFixes } from "../fixing/applyFixes.js";
 import { ConfigDefinition } from "../types/configs.js";
-import {
-	FileResultsWithFixes,
-	RunConfigResultsWithFixes,
-} from "../types/results.js";
-import { hasFix } from "../utils/predicates.js";
+import { RunConfigResultsWithFixes } from "../types/results.js";
 import { runConfig } from "./runConfig.js";
 
 const log = debugForFile(import.meta.filename);
@@ -29,23 +25,11 @@ export async function runConfigFixing(
 
 		const { filesResults } = await runConfig(config);
 
-		// TODO: All these Map and Object creations are probably inefficient...
+		// TODO: All these Map creations are probably inefficient...
 		const fixableResults = new Map(
 			filesResults
 				.entries()
-				.map(
-					([absoluteFilePath, filesResults]): [
-						string,
-						FileResultsWithFixes,
-					] => [
-						absoluteFilePath,
-						{
-							...filesResults,
-							fixableReports: filesResults.allReports.filter(hasFix),
-						},
-					],
-				)
-				.filter(([, filesResults]) => filesResults.fixableReports.length > 0),
+				.filter(([, fileResults]) => fileResults.fixableReports.length > 0),
 		);
 
 		if (fixableResults.size === 0) {

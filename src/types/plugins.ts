@@ -1,15 +1,21 @@
+import { AnyLanguage } from "./languages.js";
 import { AnyRule, RuleAbout, RuleDefinition } from "./rules.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 export interface Plugin<
 	About extends RuleAbout,
-	Globs extends Record<string, string[]>,
+	Globs extends Record<string, PluginGlob[]>,
 	Rules extends AnyRule<About>[],
 > {
 	globs: Globs;
 	name: string;
 	presets: PluginPresets<About, Rules[number]["about"]["preset"]>;
 	rules: PluginRulesFactory<Rules>;
+}
+
+export interface PluginGlob {
+	files: string | string[];
+	language: AnyLanguage;
 }
 
 export type PluginPresets<

@@ -1,12 +1,11 @@
+import { VirtualFile } from "../files/VirtualFile.js";
 import { FileRuleReport, FileRuleReportWithFix } from "./reports.js";
 
 export interface FileResults {
 	allReports: FileRuleReport[];
-	originalContent: string;
-}
-
-export interface FileResultsWithFixes extends FileResults {
 	fixableReports: FileRuleReportWithFix[];
+	originalContent: string;
+	virtualFile: VirtualFile;
 }
 
 export interface RunConfigResults {
