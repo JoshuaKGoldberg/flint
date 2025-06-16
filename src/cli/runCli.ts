@@ -2,6 +2,7 @@ import { debugForFile } from "debug-for-file";
 import { parseArgs } from "node:util";
 
 import { isConfig } from "../configs/isConfig.js";
+import { runPrettier } from "../formatting/runPrettier.js";
 import { plainReporter } from "../reporters/plain.js";
 import { runConfig } from "../running/runConfig.js";
 import { runConfigFixing } from "../running/runConfigFixing.js";
@@ -59,13 +60,18 @@ export async function runCli() {
 
 	log("Running with Flint config: %s", configFileName);
 
-	const filesResults = await (values.fix
+	const configResults = await (values.fix
 		? runConfigFixing(config.definition)
 		: runConfig(config.definition));
 
-	for (const line of plainReporter(filesResults)) {
+	// TODO: Eventually, it'd be nice to move everything fully in-memory.
+	// This would be better for performance to avoid excess file system I/O.
+	// https://github.com/JoshuaKGoldberg/flint/issues/73
+	const formattedCount = await runPrettier(configResults.allFilePaths);
+
+	for (const line of plainReporter(configResults, formattedCount)) {
 		console.log(line);
 	}
 
-	return filesResults.filesResults.size ? 1 : 0;
+	return configResults.filesResults.size ? 1 : 0;
 }

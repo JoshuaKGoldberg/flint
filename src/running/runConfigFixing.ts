@@ -27,7 +27,11 @@ export async function runConfigFixing(
 			maximumIterations,
 		);
 
-		const { filesResults } = await runConfig(config);
+		// TODO: Investigate reusing file contents from previous iterations.
+		// Why read file many time when few do trick?
+		// Or, at least it should all be virtual...
+		// https://github.com/JoshuaKGoldberg/flint/issues/73
+		const { allFilePaths, filesResults } = await runConfig(config);
 
 		// TODO: All these Map and Object creations are probably inefficient...
 		const fixableResults = new Map(
@@ -50,7 +54,7 @@ export async function runConfigFixing(
 
 		if (fixableResults.size === 0) {
 			log("No fixable reports found, stopping.");
-			return { filesResults, fixed };
+			return { allFilePaths, filesResults, fixed };
 		}
 
 		fixed = fixed.union(new Set(fixableResults.keys()));
@@ -59,7 +63,7 @@ export async function runConfigFixing(
 
 		if (iteration >= maximumIterations) {
 			log("Passed maximum iterations of %d, halting.", maximumIterations);
-			return { filesResults, fixed };
+			return { allFilePaths, filesResults, fixed };
 		}
 	}
 }

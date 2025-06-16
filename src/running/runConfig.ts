@@ -1,6 +1,5 @@
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
-import * as fsSync from "node:fs";
 import * as fs from "node:fs/promises";
 
 import {
@@ -46,9 +45,8 @@ export async function runConfig(
 	const allFilePaths = new Set(
 		useDefinitions.flatMap((use) => Array.from(use.files)),
 	);
-
 	const filesResults = new Map<string, FileResults>();
-	const totalReports = 0;
+	let totalReports = 0;
 
 	const fileFactories = new CachedFactory((language: AnyLanguage) =>
 		language.prepare(),
@@ -58,13 +56,6 @@ export async function runConfig(
 	// The separate lintFile function recomputes rule options repeatedly.
 	// It'd be better to group files together in some way.
 	for (const filePath of allFilePaths) {
-		// TODO: This duplicates the reading of files in languages themselves.
-		// It should eventually be merged into the language file factories,
-		// likely providing the result of reading the file to the factories.
-		// See investigation work around unifying TypeScript's file systems:
-		// https://github.com/JoshuaKGoldberg/flint/issues/73
-		const originalContent = fsSync.readFileSync(filePath, "utf-8");
-
 		const reports = lintFile(
 			fileFactories,
 			makeAbsolute(filePath),
@@ -79,11 +70,11 @@ export async function runConfig(
 
 		filesResults.set(filePath, {
 			allReports: reports,
-			originalContent,
 		});
+		totalReports += reports.length;
 	}
 
 	log("Found %d report(s)", totalReports);
 
-	return { filesResults };
+	return { allFilePaths, filesResults };
 }

@@ -2,7 +2,6 @@ import { FileRuleReport, FileRuleReportWithFix } from "./reports.js";
 
 export interface FileResults {
 	allReports: FileRuleReport[];
-	originalContent: string;
 }
 
 export interface FileResultsWithFixes extends FileResults {
@@ -10,6 +9,7 @@ export interface FileResultsWithFixes extends FileResults {
 }
 
 export interface RunConfigResults {
+	allFilePaths: Set<string>;
 	filesResults: Map<string, FileResults>;
 }
 

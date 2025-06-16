@@ -1,0 +1,46 @@
+import { debugForFile } from "debug-for-file";
+import * as fs from "node:fs/promises";
+import * as prettier from "prettier";
+
+const log = debugForFile(import.meta.filename);
+
+export async function runPrettier(allFilePaths: Set<string>) {
+	log("Running Prettier on %d file(s)", allFilePaths.size);
+	let formattedCount = 0;
+
+	// This is probably very slow for having lots of lookups and async calls.
+	// Eventually we should investigate faster APIs.
+	// https://github.com/prettier/prettier/issues/17422
+	await Promise.all(
+		Array.from(allFilePaths).map(async (filePath) => {
+			// TODO: This duplicates the reading of files in languages themselves.
+			// It should eventually be merged into the language file factories,
+			// likely providing the result of reading the file to the factories.
+			// See investigation work around unifying TypeScript's file systems:
+			// https://github.com/JoshuaKGoldberg/flint/issues/73
+			const originalFileContent = await fs.readFile(filePath, "utf8");
+
+			const updatedFileContent = await prettier.format(originalFileContent, {
+				filepath: filePath,
+				parser: "typescript",
+				...(await prettier.resolveConfig(filePath)),
+			});
+
+			if (originalFileContent === updatedFileContent) {
+				log("No formatting changes for file: %s", filePath);
+				return;
+			}
+
+			// TODO: Eventually, the file system should be abstracted
+			// Direct fs write calls don't make sense in e.g. virtual file systems
+			// https://github.com/JoshuaKGoldberg/flint/issues/73
+			await fs.writeFile(filePath, updatedFileContent);
+
+			formattedCount += 1;
+			log("Formatted file: %s", filePath);
+		}),
+	);
+
+	log("Formatted %d file(s)", formattedCount);
+	return formattedCount;
+}
