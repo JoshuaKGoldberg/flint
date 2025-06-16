@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.9.0](https://github.com/JoshuaKGoldberg/flint/compare/0.8.0...0.9.0) (2025-06-16)
+
+### Features
+
+- format files with Prettier after linting ([#75](https://github.com/JoshuaKGoldberg/flint/issues/75)) ([aecb650](https://github.com/JoshuaKGoldberg/flint/commit/aecb650ca5c02d75b3c47fe6268eca1afc73d8cd)), closes [#49](https://github.com/JoshuaKGoldberg/flint/issues/49)
+
 # [0.8.0](https://github.com/JoshuaKGoldberg/flint/compare/0.7.0...0.8.0) (2025-06-13)
 
 ### Features
