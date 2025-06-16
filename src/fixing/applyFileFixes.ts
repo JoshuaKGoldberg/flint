@@ -1,4 +1,5 @@
 import { debugForFile } from "debug-for-file";
+import * as fs from "node:fs/promises";
 
 import { FileResults } from "../types/results.js";
 import { orderFixesLastToFirstWithoutOverlaps } from "./ordering.js";
@@ -20,14 +21,14 @@ export async function applyFileFixes(
 			updatedFileContent.slice(0, fix.range.begin) +
 			fix.text +
 			updatedFileContent.slice(fix.range.end),
-		results.originalContent,
+		await fs.readFile(results.virtualFile.filePathAbsolute, "utf8"),
 	);
 
 	// TODO: Eventually, the file system should be abstracted
 	// Direct fs write calls don't make sense in e.g. virtual file systems
 	// https://github.com/JoshuaKGoldberg/flint/issues/69
 	// https://github.com/JoshuaKGoldberg/flint/issues/73
-	await results.virtualFile.updateText(updatedFileContent);
+	await fs.writeFile(results.virtualFile.filePathAbsolute, updatedFileContent);
 
 	log(
 		"Wrote %d of %d fixes to file: %s",

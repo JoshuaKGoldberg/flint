@@ -28,16 +28,7 @@ export async function collectVirtualFiles(
 				}
 
 				const filePathAbsolute = makeAbsolute(filePath);
-				const virtualFile = new VirtualFile(
-					filePathAbsolute,
-					use.languages,
-					// TODO: This duplicates the reading of files in languages themselves.
-					// It should eventually be merged into the language file factories,
-					// likely providing the result of reading the file to the factories.
-					// See investigation work around unifying TypeScript's file systems:
-					// https://github.com/JoshuaKGoldberg/flint/issues/73
-					await fs.readFile(filePathAbsolute, "utf-8"),
-				);
+				const virtualFile = new VirtualFile(filePathAbsolute, use.languages);
 
 				virtualFiles.set(filePath, virtualFile);
 			}

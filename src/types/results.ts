@@ -4,7 +4,6 @@ import { FileRuleReport, FileRuleReportWithFix } from "./reports.js";
 export interface FileResults {
 	allReports: FileRuleReport[];
 	fixableReports: FileRuleReportWithFix[];
-	originalContent: string;
 	virtualFile: VirtualFile;
 }
 

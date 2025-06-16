@@ -43,7 +43,6 @@ export async function runConfig(
 		filesResults.set(filePath, {
 			allReports: reports,
 			fixableReports: reports.filter(hasFix),
-			originalContent: virtualFile.getText(),
 			virtualFile,
 		});
 		totalReports += reports.length;
