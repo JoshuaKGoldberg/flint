@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.10.3](https://github.com/JoshuaKGoldberg/flint/compare/0.10.2...0.10.3) (2025-06-17)
+
+### Bug Fixes
+
+- stop hardcoding 'typescript' parser ([#90](https://github.com/JoshuaKGoldberg/flint/issues/90)) ([fa7c862](https://github.com/JoshuaKGoldberg/flint/commit/fa7c86229755d712a1c8409da58e7493e6cdcf6c)), closes [#84](https://github.com/JoshuaKGoldberg/flint/issues/84)
+
 ## [0.10.2](https://github.com/JoshuaKGoldberg/flint/compare/0.10.1...0.10.2) (2025-06-17)
 
 ### Bug Fixes
