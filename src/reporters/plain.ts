@@ -12,8 +12,6 @@ export function* plainReporter(
 ) {
 	const reportTotals = { all: 0, fixable: 0 };
 
-	yield "";
-
 	for (const [filePath, fileResult] of configResults.filesResults) {
 		reportTotals.all += fileResult.allReports.length;
 		reportTotals.fixable += fileResult.allReports.filter(hasFix).length;
@@ -53,7 +51,6 @@ export function* plainReporter(
 
 	if (configResults.filesResults.size === 0) {
 		yield styleText("green", "No linting issues found.");
-		return;
 	} else {
 		yield styleText(
 			"red",
