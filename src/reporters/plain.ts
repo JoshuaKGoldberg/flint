@@ -1,19 +1,15 @@
 import { styleText } from "node:util";
 import { textTable } from "text-table-fast";
 
-import { RunConfigResultsMaybeWithFixes } from "../types/results.js";
+import { FormattingResults } from "../types/formatting.js";
+import { RunConfigResultsMaybeWithFixes } from "../types/linting.js";
 import { makeAbsolute } from "../utils/makeAbsolute.js";
 import { hasFix } from "../utils/predicates.js";
 
 export function* plainReporter(
 	configResults: RunConfigResultsMaybeWithFixes,
-	formattedCount: number,
+	formattingResults: FormattingResults,
 ) {
-	if (configResults.filesResults.size === 0) {
-		yield styleText("green", "No issues found.");
-		return;
-	}
-
 	const reportTotals = { all: 0, fixable: 0 };
 
 	yield "";
@@ -44,49 +40,72 @@ export function* plainReporter(
 		yield "";
 	}
 
-	formattedCount += 1;
-	if (formattedCount) {
-		yield styleText(
-			"blue",
-			[
-				"✳ Updated ",
-				styleText("bold", pluralize(formattedCount, "file")),
-				"'s formatting with Prettier.",
-			].join(""),
-		);
-	}
-
-	if (configResults.fixed) {
+	if (configResults.fixed?.size) {
 		yield styleText(
 			"green",
 			[
 				"✔ Fixed ",
 				styleText("bold", pluralize(configResults.fixed.size, "file")),
-				" automatically with --fix.",
+				" automatically (--fix).",
 			].join(""),
 		);
 	}
 
-	yield styleText(
-		"red",
-		[
-			"✖ Found ",
-			styleText("bold", pluralize(reportTotals.all, "report")),
-			" across ",
-			styleText("bold", pluralize(configResults.filesResults.size, "file")),
-			...(reportTotals.fixable
-				? [
-						" (",
-						styleText(
-							"bold",
-							pluralize(reportTotals.fixable, "fixable with --fix"),
-						),
-						")",
-					]
-				: []),
-			".",
-		].join(""),
-	);
+	if (configResults.filesResults.size === 0) {
+		yield styleText("green", "No linting issues found.");
+		return;
+	} else {
+		yield styleText(
+			"red",
+			[
+				"\u2716 Found ",
+				styleText("bold", pluralize(reportTotals.all, "report")),
+				" across ",
+				styleText("bold", pluralize(configResults.filesResults.size, "file")),
+				...(reportTotals.fixable
+					? [
+							" (",
+							styleText(
+								"bold",
+								pluralize(reportTotals.fixable, "fixable with --fix"),
+							),
+							")",
+						]
+					: []),
+				".",
+			].join(""),
+		);
+	}
+
+	if (formattingResults.dirty.size) {
+		yield "";
+
+		if (formattingResults.written) {
+			yield styleText(
+				"blue",
+				[
+					"✳ Cleaned ",
+					styleText("bold", pluralize(formattingResults.dirty.size, "file")),
+					"'s formatting with Prettier (--fix):",
+				].join(""),
+			);
+		} else {
+			yield styleText(
+				"blue",
+				[
+					"✳ Found ",
+					styleText("bold", pluralize(formattingResults.dirty.size, "file")),
+					" with Prettier formatting differences (add ",
+					styleText("bold", "--fix"),
+					" to rewrite):",
+				].join(""),
+			);
+		}
+
+		for (const dirtyFile of formattingResults.dirty) {
+			yield `  ${styleText("gray", dirtyFile)}`;
+		}
+	}
 }
 
 function pluralize(count: number, label: string) {

@@ -5,7 +5,7 @@ import { ConfigDefinition } from "../types/configs.js";
 import {
 	FileResultsWithFixes,
 	RunConfigResultsWithFixes,
-} from "../types/results.js";
+} from "../types/linting.js";
 import { hasFix } from "../utils/predicates.js";
 import { runConfig } from "./runConfig.js";
 
