@@ -2,11 +2,21 @@ import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 import * as prettier from "prettier";
 
+import { FormattingResults } from "../types/formatting.js";
+
 const log = debugForFile(import.meta.filename);
 
-export async function runPrettier(allFilePaths: Set<string>) {
+export async function runPrettier(
+	allFilePaths: Set<string>,
+	fix: boolean | undefined,
+) {
 	log("Running Prettier on %d file(s)", allFilePaths.size);
-	let formattedCount = 0;
+
+	const formattingResults: FormattingResults = {
+		clean: new Set<string>(),
+		dirty: new Set<string>(),
+		written: !!fix,
+	};
 
 	// This is probably very slow for having lots of lookups and async calls.
 	// Eventually we should investigate faster APIs.
@@ -27,20 +37,29 @@ export async function runPrettier(allFilePaths: Set<string>) {
 			});
 
 			if (originalFileContent === updatedFileContent) {
+				formattingResults.clean.add(filePath);
 				log("No formatting changes for file: %s", filePath);
 				return;
 			}
 
-			// TODO: Eventually, the file system should be abstracted
-			// Direct fs write calls don't make sense in e.g. virtual file systems
-			// https://github.com/JoshuaKGoldberg/flint/issues/73
-			await fs.writeFile(filePath, updatedFileContent);
+			formattingResults.dirty.add(filePath);
 
-			formattedCount += 1;
+			if (fix) {
+				// TODO: Eventually, the file system should be abstracted
+				// Direct fs write calls don't make sense in e.g. virtual file systems
+				// https://github.com/JoshuaKGoldberg/flint/issues/73
+				await fs.writeFile(filePath, updatedFileContent);
+			}
+
 			log("Formatted file: %s", filePath);
 		}),
 	);
 
-	log("Formatted %d file(s)", formattedCount);
-	return formattedCount;
+	log(
+		"Found %d correctly formatted file(s) and %d incorrectly formatted %d files",
+		formattingResults.clean.size,
+		formattingResults.dirty.size,
+	);
+
+	return formattingResults;
 }

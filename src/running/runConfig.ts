@@ -8,7 +8,7 @@ import {
 	ConfigUseDefinition,
 } from "../types/configs.js";
 import { AnyLanguage } from "../types/languages.js";
-import { FileResults, RunConfigResults } from "../types/results.js";
+import { FileResults, RunConfigResults } from "../types/linting.js";
 import { makeAbsolute } from "../utils/makeAbsolute.js";
 import { lintFile } from "./lintFile.js";
 import { readGitignore } from "./readGitignore.js";

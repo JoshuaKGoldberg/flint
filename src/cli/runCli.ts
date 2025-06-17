@@ -67,11 +67,22 @@ export async function runCli() {
 	// TODO: Eventually, it'd be nice to move everything fully in-memory.
 	// This would be better for performance to avoid excess file system I/O.
 	// https://github.com/JoshuaKGoldberg/flint/issues/73
-	const formattedCount = await runPrettier(configResults.allFilePaths);
+	const formattingResults = await runPrettier(
+		configResults.allFilePaths,
+		values.fix,
+	);
 
-	for (const line of plainReporter(configResults, formattedCount)) {
+	for (const line of plainReporter(configResults, formattingResults)) {
 		console.log(line);
 	}
 
-	return configResults.filesResults.size ? 1 : 0;
+	if (configResults.filesResults.size) {
+		return 1;
+	}
+
+	if (formattingResults.dirty.size && !formattingResults.written) {
+		return 1;
+	}
+
+	return 0;
 }

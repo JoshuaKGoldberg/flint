@@ -1,7 +1,7 @@
 import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 
-import { FileResultsWithFixes } from "../types/results.js";
+import { FileResultsWithFixes } from "../types/linting.js";
 import { orderFixesLastToFirstWithoutOverlaps } from "./ordering.js";
 
 const log = debugForFile(import.meta.filename);
