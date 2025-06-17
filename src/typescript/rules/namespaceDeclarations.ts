@@ -2,8 +2,8 @@ import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 import { z } from "zod";
 
-import { getNodeRange } from "../typescript/getNodeRange.js";
-import { typescript } from "../typescript/language.js";
+import { getNodeRange } from "../getNodeRange.js";
+import { typescript } from "../language.js";
 
 export default typescript.createRule({
 	about: {
@@ -50,7 +50,7 @@ export default typescript.createRule({
 
 				context.report({
 					message: "preferModules",
-					range: getNodeRange(node.getChildAt(0)),
+					range: getNodeRange(node.getChildAt(0), context.sourceFile),
 				});
 			},
 		};

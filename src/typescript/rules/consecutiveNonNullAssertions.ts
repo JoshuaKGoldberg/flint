@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 
-import { typescript } from "../typescript/language.js";
+import { typescript } from "../language.js";
 
 export default typescript.createRule({
 	about: {

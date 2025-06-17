@@ -1,7 +1,7 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { typescript } from "../typescript/language.js";
+import { typescript } from "../language.js";
 import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.js";
 import { isTypeRecursive } from "./utils/isTypeRecursive.js";
 
