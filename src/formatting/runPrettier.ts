@@ -32,7 +32,6 @@ export async function runPrettier(
 
 			const updatedFileContent = await prettier.format(originalFileContent, {
 				filepath: filePath,
-				parser: "typescript",
 				...(await prettier.resolveConfig(filePath)),
 			});
 
