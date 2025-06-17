@@ -1,6 +1,5 @@
 import * as ts from "typescript";
 
-import { getNodeRange } from "../../typescript/getNodeRange.js";
 import { json } from "../language.js";
 
 export default json.createRule({
