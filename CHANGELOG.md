@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.11.0](https://github.com/JoshuaKGoldberg/flint/compare/0.10.3...0.11.0) (2025-06-17)
+
+### Features
+
+- created initial core JSON language plugin ([#91](https://github.com/JoshuaKGoldberg/flint/issues/91)) ([fea720c](https://github.com/JoshuaKGoldberg/flint/commit/fea720c369f55c14678752aee9b8dd0b5436adde)), closes [#46](https://github.com/JoshuaKGoldberg/flint/issues/46)
+
 ## [0.10.3](https://github.com/JoshuaKGoldberg/flint/compare/0.10.2...0.10.3) (2025-06-17)
 
 ### Bug Fixes
