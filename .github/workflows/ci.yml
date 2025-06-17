@@ -7,6 +7,14 @@ jobs:
       - uses: ./.github/actions/prepare
       - run: pnpm build
       - run: node lib/index.js
+  flint:
+    name: Flint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: ./.github/actions/prepare
+      - run: pnpm build --no-dts
+      - run: pnpm flint
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -43,13 +51,6 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - uses: ./.github/actions/prepare
       - run: pnpm lint:spelling
-  prettier:
-    name: Prettier
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/prepare
-      - run: pnpm format --list-different
   test:
     name: Test
     runs-on: ubuntu-latest
