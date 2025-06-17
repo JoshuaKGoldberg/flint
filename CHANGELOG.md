@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.10.2](https://github.com/JoshuaKGoldberg/flint/compare/0.10.1...0.10.2) (2025-06-17)
+
+### Bug Fixes
+
+- always log formatting result in plain reporter ([#88](https://github.com/JoshuaKGoldberg/flint/issues/88)) ([a20f10f](https://github.com/JoshuaKGoldberg/flint/commit/a20f10f3b696bf97100e7ddcc087e94fc1dda86e)), closes [#85](https://github.com/JoshuaKGoldberg/flint/issues/85)
+
+## [0.10.1](https://github.com/JoshuaKGoldberg/flint/compare/0.10.0...0.10.1) (2025-06-17)
+
+### Bug Fixes
+
+- allow config 'use' objects without 'rules' ([#87](https://github.com/JoshuaKGoldberg/flint/issues/87)) ([df6beee](https://github.com/JoshuaKGoldberg/flint/commit/df6beee3d24012b820fb2452ca5f3fd735ad9385)), closes [#86](https://github.com/JoshuaKGoldberg/flint/issues/86)
+
 # [0.10.0](https://github.com/JoshuaKGoldberg/flint/compare/0.9.0...0.10.0) (2025-06-17)
 
 ### Features
