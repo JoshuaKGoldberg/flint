@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.10.2](https://github.com/JoshuaKGoldberg/flint/compare/0.10.1...0.10.2) (2025-06-17)
+
+### Bug Fixes
+
+- always log formatting result in plain reporter ([#88](https://github.com/JoshuaKGoldberg/flint/issues/88)) ([a20f10f](https://github.com/JoshuaKGoldberg/flint/commit/a20f10f3b696bf97100e7ddcc087e94fc1dda86e)), closes [#85](https://github.com/JoshuaKGoldberg/flint/issues/85)
+
 ## [0.10.1](https://github.com/JoshuaKGoldberg/flint/compare/0.10.0...0.10.1) (2025-06-17)
 
 ### Bug Fixes
