@@ -38,7 +38,7 @@ export async function runConfig(
 					}),
 				),
 			),
-			rules: use.rules.flat() as ConfigRuleDefinition[],
+			rules: (use.rules?.flat() ?? []) as ConfigRuleDefinition[],
 		})),
 	);
 

@@ -24,7 +24,7 @@ export interface ConfigRuleDefinitionObject {
 export interface ConfigUseDefinition {
 	exclude?: string;
 	glob: AnyLevelArray<string> | string;
-	rules: AnyLevelArray<ConfigRuleDefinition>;
+	rules?: AnyLevelArray<ConfigRuleDefinition>;
 }
 
 export interface NormalizedConfigUseDefinition extends ConfigUseDefinition {
