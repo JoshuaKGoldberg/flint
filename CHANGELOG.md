@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.10.0](https://github.com/JoshuaKGoldberg/flint/compare/0.9.0...0.10.0) (2025-06-17)
+
+### Features
+
+- also fix formatting with --fix ([#82](https://github.com/JoshuaKGoldberg/flint/issues/82)) ([82d2ff3](https://github.com/JoshuaKGoldberg/flint/commit/82d2ff3176142179ffd745338cf4a472e0bd7ed3)), closes [#81](https://github.com/JoshuaKGoldberg/flint/issues/81)
+
 # [0.9.0](https://github.com/JoshuaKGoldberg/flint/compare/0.8.0...0.9.0) (2025-06-16)
 
 ### Features
