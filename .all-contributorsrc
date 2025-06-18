@@ -12,7 +12,8 @@
         "infra",
         "maintenance",
         "projectManagement",
-        "tool"
+        "tool",
+        "bug"
       ],
       "login": "JoshuaKGoldberg",
       "name": "Josh Goldberg ✨",
