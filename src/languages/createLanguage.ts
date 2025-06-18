@@ -10,10 +10,10 @@ import { makeDisposable, makeDisposableCurried } from "./makeDisposable.js";
 
 const log = debugForFile(import.meta.filename);
 
-export function createLanguage<ContextServices extends object>(
+export function createLanguage<AstNodesByName, ContextServices extends object>(
 	languageDefinition: LanguageDefinition,
 ) {
-	const language: Language<ContextServices> = {
+	const language: Language<AstNodesByName, ContextServices> = {
 		...languageDefinition,
 
 		createRule: ((ruleDefinition: AnyRuleDefinition) => {
@@ -21,7 +21,7 @@ export function createLanguage<ContextServices extends object>(
 				...ruleDefinition,
 				language,
 			};
-		}) as CreateRule<ContextServices>,
+		}) as CreateRule<AstNodesByName, ContextServices>,
 
 		prepare() {
 			log(

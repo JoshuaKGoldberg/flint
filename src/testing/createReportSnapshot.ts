@@ -1,3 +1,4 @@
+import { formatReportPrimary } from "../reporting/formatReportPrimary.js";
 import { NormalizedRuleReport } from "../types/reports.js";
 
 export function createReportSnapshot(
@@ -34,7 +35,7 @@ function createReportSnapshotAt(
 	const injectionPrefix = " ".repeat(column);
 	const injectedLines = [
 		injectionPrefix + "~".repeat(width),
-		injectionPrefix + report.message.primary,
+		injectionPrefix + formatReportPrimary(report),
 	];
 
 	return [

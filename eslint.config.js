@@ -50,6 +50,7 @@ export default tseslint.config(
 				"error",
 				{ allowNumber: true },
 			],
+			"n/no-missing-import": "off",
 			"n/no-unsupported-features/node-builtins": [
 				"error",
 				{ allowExperimental: true },

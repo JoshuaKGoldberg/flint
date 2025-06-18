@@ -3,10 +3,6 @@ import type * as ts from "typescript";
 // TODO: Surely there's a better way to do this...
 // ...but I haven't checked how to do it without slow type operations.
 
-export type TSNode = TSNodesByName[keyof TSNodesByName];
-
-export type TSNodeName = keyof TSNodesByName;
-
 export interface TSNodesByName {
 	ArrayBindingPattern: ts.ArrayBindingPattern;
 	ArrayLiteralExpression: ts.ArrayLiteralExpression;

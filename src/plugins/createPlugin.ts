@@ -18,6 +18,7 @@ export type UnsafeAnyRule<About extends RuleAbout = RuleAbout> = Rule<
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	any,
 	any,
+	any,
 	any
 	/* eslint-enable @typescript-eslint/no-explicit-any */
 >;
