@@ -17,7 +17,7 @@ export type PluginPresets<
 	Presets extends string | undefined,
 > = Record<
 	Presets extends string ? Presets : never,
-	RuleDefinition<About, object, string, AnyOptionalSchema | undefined>[]
+	RuleDefinition<About, object, object, string, AnyOptionalSchema | undefined>[]
 >;
 
 export type PluginRulesFactory<Rules extends AnyRule[]> = (
