@@ -4,7 +4,7 @@ import omitEmpty from "omit-empty";
 
 import { CacheStorage } from "../types/cache.js";
 import { RunConfigResults } from "../types/linting.js";
-import { cacheFilePath } from "./constants.js";
+import { cacheFileDirectory, cacheFilePath } from "./constants.js";
 
 export async function writeToCache(results: RunConfigResults) {
 	const fileDependents = new CachedFactory(() => new Set<string>());
@@ -34,5 +34,6 @@ export async function writeToCache(results: RunConfigResults) {
 		},
 	};
 
+	await fs.mkdir(cacheFileDirectory, { recursive: true });
 	await fs.writeFile(cacheFilePath, JSON.stringify(storage, null, "\t"));
 }

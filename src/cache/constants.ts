@@ -1,1 +1,2 @@
-export const cacheFilePath = "node_modules/.cache/flint.json";
+export const cacheFileDirectory = "node_modules/.cache";
+export const cacheFilePath = `${cacheFileDirectory}/flint.json`;
