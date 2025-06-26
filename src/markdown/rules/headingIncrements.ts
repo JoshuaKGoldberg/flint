@@ -6,8 +6,6 @@ export default markdown.createRule({
 		preset: "logical",
 	},
 	messages: {
-		// TODO: File issue for data?
-		// also for scope manager while I'm at it
 		levelSkip: {
 			primary:
 				"This heading level {{ level }} skips more than one level from the previous heading level of {{ previous }}.",
