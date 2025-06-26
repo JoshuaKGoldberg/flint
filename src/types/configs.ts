@@ -31,3 +31,13 @@ export interface NormalizedConfigUseDefinition extends ConfigUseDefinition {
 	glob: string[];
 	rules: ConfigRuleDefinition[];
 }
+
+/**
+ * Representation of a config that's been loaded from disk.
+ */
+export interface ProcessedConfigDefinition extends ConfigDefinition {
+	/**
+	 * Original file path of the loaded config file.
+	 */
+	filePath: string;
+}

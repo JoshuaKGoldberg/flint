@@ -14,13 +14,17 @@ export function* plainReporter(
 	const reportTotals = { all: 0, fixable: 0 };
 
 	for (const [filePath, fileResult] of configResults.filesResults) {
-		reportTotals.all += fileResult.allReports.length;
-		reportTotals.fixable += fileResult.allReports.filter(hasFix).length;
+		if (fileResult.reports.length === 0) {
+			continue;
+		}
+
+		reportTotals.all += fileResult.reports.length;
+		reportTotals.fixable += fileResult.reports.filter(hasFix).length;
 
 		yield styleText("underline", makeAbsolute(filePath));
 
 		yield textTable(
-			fileResult.allReports
+			fileResult.reports
 				.sort((a, b) =>
 					a.range.begin.line === b.range.begin.line
 						? a.range.begin.column - b.range.begin.column
@@ -50,7 +54,7 @@ export function* plainReporter(
 		);
 	}
 
-	if (configResults.filesResults.size === 0) {
+	if (reportTotals.all === 0) {
 		yield styleText("green", "No linting issues found.");
 	} else {
 		yield styleText(
@@ -104,6 +108,8 @@ export function* plainReporter(
 			yield `  ${styleText("gray", dirtyFile)}`;
 		}
 	}
+
+	return reportTotals;
 }
 
 function pluralize(count: number, label: string) {

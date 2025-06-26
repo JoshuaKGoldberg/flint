@@ -1,7 +1,7 @@
 import { debugForFile } from "debug-for-file";
 
 import { applyFixes } from "../fixing/applyFixes.js";
-import { ConfigDefinition } from "../types/configs.js";
+import { ProcessedConfigDefinition } from "../types/configs.js";
 import {
 	FileResultsWithFixes,
 	RunConfigResultsWithFixes,
@@ -14,7 +14,7 @@ const log = debugForFile(import.meta.filename);
 const maximumIterations = 10;
 
 export async function runConfigFixing(
-	config: ConfigDefinition,
+	configDefinition: ProcessedConfigDefinition,
 ): Promise<RunConfigResultsWithFixes> {
 	let fixed = new Set<string>();
 	let iteration = 0;
@@ -31,7 +31,7 @@ export async function runConfigFixing(
 		// Why read file many time when few do trick?
 		// Or, at least it should all be virtual...
 		// https://github.com/JoshuaKGoldberg/flint/issues/73
-		const { allFilePaths, filesResults } = await runConfig(config);
+		const { allFilePaths, filesResults } = await runConfig(configDefinition);
 
 		// TODO: All these Map and Object creations are probably inefficient...
 		const fixableResults = new Map(
@@ -45,7 +45,7 @@ export async function runConfigFixing(
 						absoluteFilePath,
 						{
 							...filesResults,
-							fixableReports: filesResults.allReports.filter(hasFix),
+							fixableReports: filesResults.reports.filter(hasFix),
 						},
 					],
 				)

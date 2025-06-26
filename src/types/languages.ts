@@ -57,10 +57,15 @@ export interface LanguageDefinition {
 	prepare(): LanguageFileFactoryDefinition;
 }
 
+export interface LanguageFileCacheImpacts {
+	dependencies: string[];
+}
+
 /**
  * Wraps a file to be linted by any number of rules.
  */
 export interface LanguageFile extends Disposable {
+	cache?: LanguageFileCacheImpacts;
 	runRule<
 		OptionsSchema extends AnyOptionalSchema | undefined =
 			| AnyOptionalSchema
@@ -75,6 +80,7 @@ export interface LanguageFile extends Disposable {
  * Internal definition of how to wrap a file to be linted by any number of rules.
  */
 export interface LanguageFileDefinition extends Partial<Disposable> {
+	cache?: LanguageFileCacheImpacts;
 	runRule<
 		OptionsSchema extends AnyOptionalSchema | undefined =
 			| AnyOptionalSchema

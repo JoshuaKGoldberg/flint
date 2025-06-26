@@ -23,6 +23,9 @@ importers:
       debug-for-file:
         specifier: ^0.2.0
         version: 0.2.0
+      omit-empty:
+        specifier: ^1.0.0
+        version: 1.0.0
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
@@ -66,6 +69,9 @@ importers:
       '@types/node':
         specifier: 24.0.4
         version: 24.0.4
+      '@types/omit-empty':
+        specifier: ^1.0.4
+        version: 1.0.4
       '@vitest/coverage-v8':
         specifier: 3.2.4
         version: 3.2.4(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.0.4)(jiti@2.4.2)(yaml@2.8.0))
@@ -1190,6 +1196,9 @@ packages:
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
+
+  '@types/omit-empty@1.0.4':
+    resolution: {integrity: sha512-MyclmBmRRCfEuawCDfg4YeN6T7/guBZqbkGSJiy7xXkIDDZLJRCfLdptkXMFEfAC+2lxzVRCgjWCe46s0D7ZkQ==}
 
   '@types/parse-path@7.1.0':
     resolution: {integrity: sha512-EULJ8LApcVEPbrfND0cRQqutIOdiIgJ1Mgrhpy755r14xMohPTEpkV/k28SJvuOs9bHRFW8x+KeDAEPiGQPB9Q==}
@@ -2429,6 +2438,10 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
+  kind-of@6.0.3:
+    resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
+    engines: {node: '>=0.10.0'}
+
   knip@5.61.2:
     resolution: {integrity: sha512-ZBv37zDvZj0/Xwk0e93xSjM3+5bjxgqJ0PH2GlB5tnWV0ktXtmatWLm+dLRUCT/vpO3SdGz2nNAfvVhuItUNcQ==}
     engines: {node: '>=18.18.0'}
@@ -2736,6 +2749,10 @@ packages:
 
   ohash@2.0.11:
     resolution: {integrity: sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ==}
+
+  omit-empty@1.0.0:
+    resolution: {integrity: sha512-eaWd8kwqDyChgf7IYVyfZf2b9b9JOIhpAow4cegg8CVx29U2mZKgCvpfvOSeJctmRTqjGWTZeO2Us58ebDtQ4A==}
+    engines: {node: '>=4'}
 
   onetime@6.0.0:
     resolution: {integrity: sha512-1FlR+gjXK7X+AsAHso35MnyN5KqGwJRi/31ft6x0M194ht7S+rWAvd7PHss9xSKMzE0asv1pyIHaJYq+BbacAQ==}
@@ -4440,6 +4457,8 @@ snapshots:
 
   '@types/normalize-package-data@2.4.4': {}
 
+  '@types/omit-empty@1.0.4': {}
+
   '@types/parse-path@7.1.0':
     dependencies:
       parse-path: 7.1.0
@@ -5791,6 +5810,8 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
+  kind-of@6.0.3: {}
+
   knip@5.61.2(@types/node@24.0.4)(typescript@5.8.3):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
@@ -6240,6 +6261,10 @@ snapshots:
       tinyexec: 0.3.2
 
   ohash@2.0.11: {}
+
+  omit-empty@1.0.0:
+    dependencies:
+      kind-of: 6.0.3
 
   onetime@6.0.0:
     dependencies:

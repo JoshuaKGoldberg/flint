@@ -39,11 +39,9 @@ export function createTypeScriptFileFromProjectService(
 		throw new Error(`Could not retrieve source file for: ${filePathAbsolute}`);
 	}
 
-	const typeChecker = program.getTypeChecker();
-
 	log("Retrieved source file and type checker for file %s:", filePathAbsolute);
 
-	const file = createTypeScriptFileFromProgram(sourceFile, typeChecker);
+	const file = createTypeScriptFileFromProgram(program, sourceFile);
 
 	return {
 		...file,
