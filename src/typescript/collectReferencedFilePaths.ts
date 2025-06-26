@@ -1,11 +1,11 @@
 import * as path from "node:path";
 import * as ts from "typescript";
 
-export function retrievedReferencedFilePaths(
+export function collectReferencedFilePaths(
 	program: ts.Program,
 	sourceFile: ts.SourceFile,
 ) {
-	// TODO: Also handle await import()s
+	// TODO: Also handle inline import()s
 	return sourceFile.statements
 		.filter(isImportDeclarationWithStringLiteral)
 		.map((statement) => {

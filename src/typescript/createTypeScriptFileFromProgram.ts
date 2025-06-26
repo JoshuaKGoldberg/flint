@@ -2,8 +2,8 @@ import * as ts from "typescript";
 
 import { LanguageFileDefinition } from "../types/languages.js";
 import { NormalizedRuleReport, RuleReport } from "../types/reports.js";
+import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
 import { normalizeRange } from "./normalizeRange.js";
-import { retrievedReferencedFilePaths } from "./retrievedReferencedFilePaths.js";
 
 export function createTypeScriptFileFromProgram(
 	program: ts.Program,
@@ -16,7 +16,7 @@ export function createTypeScriptFileFromProgram(
 				// https://github.com/JoshuaKGoldberg/flint/issues/64 & more.
 				"tsconfig.json",
 
-				...retrievedReferencedFilePaths(program, sourceFile),
+				...collectReferencedFilePaths(program, sourceFile),
 			],
 		},
 		runRule(rule, options) {

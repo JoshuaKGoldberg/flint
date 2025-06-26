@@ -38,7 +38,12 @@ export async function writeToCache(
 					},
 				]),
 			),
-			...(results.cached && Object.fromEntries(results.cached)),
+			...(results.cached &&
+				Object.fromEntries(
+					Array.from(results.cached).filter(([filePath]) =>
+						results.allFilePaths.has(filePath),
+					),
+				)),
 		},
 	};
 
