@@ -34,13 +34,11 @@ export function createTypeScriptJsonFile(
 				return reports;
 			}
 
-			function visit(node: ts.Node) {
-				// @ts-expect-error - TODO: Figure this out later...
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+			const visit = (node: ts.Node) => {
 				visitors[ts.SyntaxKind[node.kind]]?.(node);
 
 				node.forEachChild(visit);
-			}
+			};
 
 			sourceFile.forEachChild(visit);
 
