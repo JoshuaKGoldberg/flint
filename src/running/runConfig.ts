@@ -2,6 +2,7 @@ import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 
+import { readFromCache } from "../cache/readFromCache.js";
 import {
 	ConfigDefinition,
 	ConfigRuleDefinition,
@@ -52,29 +53,33 @@ export async function runConfig(
 		language.prepare(),
 	);
 
+	const cached = await readFromCache(allFilePaths);
+
 	// TODO: This is very slow and the whole thing should be refactored 🙌.
 	// The separate lintFile function recomputes rule options repeatedly.
 	// It'd be better to group files together in some way.
 	for (const filePath of allFilePaths) {
-		const reports = lintFile(
-			fileFactories,
-			makeAbsolute(filePath),
-			useDefinitions
-				.filter((use) => use.files.has(filePath))
-				.flatMap((use) => use.rules),
-		);
-
-		if (!reports.length) {
-			continue;
-		}
+		const { dependencies, reports } =
+			cached?.get(filePath) ??
+			lintFile(
+				fileFactories,
+				makeAbsolute(filePath),
+				useDefinitions
+					.filter((use) => use.files.has(filePath))
+					.flatMap((use) => use.rules),
+			);
 
 		filesResults.set(filePath, {
-			allReports: reports,
+			dependencies: new Set(dependencies),
+			reports: reports ?? [],
 		});
-		totalReports += reports.length;
+
+		if (reports?.length) {
+			totalReports += reports.length;
+		}
 	}
 
 	log("Found %d report(s)", totalReports);
 
-	return { allFilePaths, filesResults };
+	return { allFilePaths, cached, filesResults };
 }

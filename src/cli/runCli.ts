@@ -1,6 +1,7 @@
 import { debugForFile } from "debug-for-file";
 import { parseArgs } from "node:util";
 
+import { writeToCache } from "../cache/writeToCache.js";
 import { isConfig } from "../configs/isConfig.js";
 import { runPrettier } from "../formatting/runPrettier.js";
 import { plainReporter } from "../reporters/plain.js";
@@ -67,10 +68,10 @@ export async function runCli() {
 	// TODO: Eventually, it'd be nice to move everything fully in-memory.
 	// This would be better for performance to avoid excess file system I/O.
 	// https://github.com/JoshuaKGoldberg/flint/issues/73
-	const formattingResults = await runPrettier(
-		configResults.allFilePaths,
-		values.fix,
-	);
+	const [formattingResults] = await Promise.all([
+		runPrettier(configResults.allFilePaths, values.fix),
+		writeToCache(configResults),
+	]);
 
 	for (const line of plainReporter(configResults, formattingResults)) {
 		console.log(line);

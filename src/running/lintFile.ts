@@ -15,12 +15,13 @@ export function lintFile(
 ) {
 	log("Linting: %s:", filePathAbsolute);
 
-	const allReports: FileRuleReport[] = [];
-	const rulesWithOptions = computeRulesWithOptions(ruleDefinitions);
+	const dependencies = new Set<string>();
+	const reports: FileRuleReport[] = [];
 
 	const languageFiles = new CachedFactory((language: AnyLanguage) =>
 		fileFactories.get(language).prepareFileOnDisk(filePathAbsolute),
 	);
+	const rulesWithOptions = computeRulesWithOptions(ruleDefinitions);
 
 	// TODO: It would probably be good to group rules by language...
 	for (const [rule, options] of rulesWithOptions) {
@@ -29,11 +30,20 @@ export function lintFile(
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		const file = languageFiles.get(rule.language);
 
+		if (file.cache?.dependencies) {
+			for (const dependency of file.cache.dependencies) {
+				if (!dependencies.has(dependency)) {
+					log("Adding file dependency %s:", dependency);
+					dependencies.add(dependency);
+				}
+			}
+		}
+
 		log("Running rule %s with options: %o", rule.about.id, options);
 		const ruleReports = file.runRule(rule, options as object | undefined);
 		log("Found %d reports from rule %s", ruleReports.length, rule.about.id);
 
-		allReports.push(
+		reports.push(
 			...ruleReports.map((report) => ({ ruleId: rule.about.id, ...report })),
 		);
 	}
@@ -44,7 +54,7 @@ export function lintFile(
 		log("Disposed language %s file %s", language.about.name, filePathAbsolute);
 	}
 
-	log("Found %d reports for %s", allReports.length, filePathAbsolute);
+	log("Found %d reports for %s", reports.length, filePathAbsolute);
 
-	return allReports;
+	return { dependencies, reports };
 }

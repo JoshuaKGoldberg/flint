@@ -1,7 +1,9 @@
+import { FileCacheStorage } from "./cache.js";
 import { FileRuleReport, FileRuleReportWithFix } from "./reports.js";
 
 export interface FileResults {
-	allReports: FileRuleReport[];
+	dependencies: Set<string>;
+	reports: FileRuleReport[];
 }
 
 export interface FileResultsWithFixes extends FileResults {
@@ -10,6 +12,7 @@ export interface FileResultsWithFixes extends FileResults {
 
 export interface RunConfigResults {
 	allFilePaths: Set<string>;
+	cached?: Map<string, FileCacheStorage>;
 	filesResults: Map<string, FileResults>;
 }
 

@@ -45,7 +45,7 @@ export async function runConfigFixing(
 						absoluteFilePath,
 						{
 							...filesResults,
-							fixableReports: filesResults.allReports.filter(hasFix),
+							fixableReports: filesResults.reports.filter(hasFix),
 						},
 					],
 				)

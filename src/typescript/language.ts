@@ -50,12 +50,10 @@ export const typescript = createLanguage<TSNodesByName, TypeScriptServices>({
 				environment.updateFile(filePathAbsolute, sourceText);
 				/* eslint-disable @typescript-eslint/no-non-null-assertion */
 				const sourceFile = environment.getSourceFile(filePathAbsolute)!;
-				const typeChecker = environment.languageService
-					.getProgram()!
-					.getTypeChecker();
+				const program = environment.languageService.getProgram()!;
 				/* eslint-enable @typescript-eslint/no-non-null-assertion */
 
-				return createTypeScriptFileFromProgram(sourceFile, typeChecker);
+				return createTypeScriptFileFromProgram(program, sourceFile);
 			},
 		};
 	},
