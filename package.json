@@ -37,13 +37,13 @@
 		"*": "prettier --ignore-unknown --write"
 	},
 	"dependencies": {
-		"@typescript-eslint/project-service": "^8.34.0",
+		"@typescript-eslint/project-service": "^8.35.0",
 		"@typescript/vfs": "^1.6.1",
 		"cached-factory": "^0.1.0",
 		"debug-for-file": "^0.2.0",
 		"text-table-fast": "^0.1.0",
 		"ts-api-utils": "^2.1.0",
-		"zod": "^3.25.20"
+		"zod": "^3.25.67"
 	},
 	"devDependencies": {
 		"@eslint-community/eslint-plugin-eslint-comments": "4.5.0",
@@ -75,7 +75,7 @@
 		"prettier-plugin-sh": "0.17.4",
 		"release-it": "19.0.3",
 		"sentences-per-line": "0.3.0",
-		"tsdown": "0.12.7",
+		"tsdown": "0.12.9",
 		"tsup": "8.5.0",
 		"typescript": "5.8.3",
 		"typescript-eslint": "8.35.0",
@@ -84,7 +84,7 @@
 	"peerDependencies": {
 		"typescript": ">=5.8.0"
 	},
-	"packageManager": "pnpm@10.12.1",
+	"packageManager": "pnpm@10.12.3",
 	"engines": {
 		"node": ">=24.0.0"
 	},

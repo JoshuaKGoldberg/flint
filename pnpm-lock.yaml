@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@typescript-eslint/project-service':
-        specifier: ^8.34.0
+        specifier: ^8.35.0
         version: 8.35.0(typescript@5.8.3)
       '@typescript/vfs':
         specifier: ^1.6.1
@@ -27,8 +27,8 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0(typescript@5.8.3)
       zod:
-        specifier: ^3.25.20
-        version: 3.25.20
+        specifier: ^3.25.67
+        version: 3.25.67
     devDependencies:
       '@eslint-community/eslint-plugin-eslint-comments':
         specifier: 4.5.0
@@ -118,8 +118,8 @@ importers:
         specifier: 0.3.0
         version: 0.3.0
       tsdown:
-        specifier: 0.12.7
-        version: 0.12.7(oxc-resolver@11.2.0)(typescript@5.8.3)
+        specifier: 0.12.9
+        version: 0.12.9(oxc-resolver@11.2.0)(typescript@5.8.3)
       tsup:
         specifier: 8.5.0
         version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(typescript@5.8.3)(yaml@2.8.0)
@@ -1786,8 +1786,8 @@ packages:
   emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
 
-  empathic@1.1.0:
-    resolution: {integrity: sha512-rsPft6CK3eHtrlp9Y5ALBb+hfK+DWnA4WFebbazxjWyx8vSm3rZeoM3z9irsjcqO3PYRzlfv27XIB4tz2DV7RA==}
+  empathic@2.0.0:
+    resolution: {integrity: sha512-i6UzDscO/XfAcNYD75CfICkmfLedpyPDdozrLMmQc5ORaQcdMoc21OnlEylMIqI7U8eniKrPMxxtj8k0vhmJhA==}
     engines: {node: '>=14'}
 
   enhanced-resolve@5.18.1:
@@ -3303,8 +3303,8 @@ packages:
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
-  tsdown@0.12.7:
-    resolution: {integrity: sha512-VJjVaqJfIQuQwtOoeuEJMOJUf3MPDrfX0X7OUNx3nq5pQeuIl3h58tmdbM1IZcu8Dn2j8NQjLh+5TXa0yPb9zg==}
+  tsdown@0.12.9:
+    resolution: {integrity: sha512-MfrXm9PIlT3saovtWKf/gCJJ/NQCdE0SiREkdNC+9Qy6UHhdeDPxnkFaBD7xttVUmgp0yUHtGirpoLB+OVLuLA==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     peerDependencies:
@@ -3598,8 +3598,8 @@ packages:
     peerDependencies:
       zod: ^3.24.4
 
-  zod@3.25.20:
-    resolution: {integrity: sha512-z03fqpTMDF1G02VLKUMt6vyACE7rNWkh3gpXVHgPTw28NPtDFRGvcpTtPwn2kMKtQ0idtYJUTxchytmnqYswcw==}
+  zod@3.25.67:
+    resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
 
 snapshots:
 
@@ -5160,7 +5160,7 @@ snapshots:
 
   emoji-regex@9.2.2: {}
 
-  empathic@1.1.0: {}
+  empathic@2.0.0: {}
 
   enhanced-resolve@5.18.1:
     dependencies:
@@ -5873,8 +5873,8 @@ snapshots:
       smol-toml: 1.3.4
       strip-json-comments: 5.0.2
       typescript: 5.8.3
-      zod: 3.25.20
-      zod-validation-error: 3.4.1(zod@3.25.20)
+      zod: 3.25.67
+      zod-validation-error: 3.4.1(zod@3.25.67)
 
   levn@0.4.1:
     dependencies:
@@ -6941,14 +6941,14 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  tsdown@0.12.7(oxc-resolver@11.2.0)(typescript@5.8.3):
+  tsdown@0.12.9(oxc-resolver@11.2.0)(typescript@5.8.3):
     dependencies:
       ansis: 4.1.0
       cac: 6.7.14
       chokidar: 4.0.3
       debug: 4.4.1
       diff: 8.0.2
-      empathic: 1.1.0
+      empathic: 2.0.0
       hookable: 5.5.3
       rolldown: 1.0.0-beta.11-commit.f051675
       rolldown-plugin-dts: 0.13.12(oxc-resolver@11.2.0)(rolldown@1.0.0-beta.11-commit.f051675)(typescript@5.8.3)
@@ -7221,8 +7221,8 @@ snapshots:
 
   yoctocolors-cjs@2.1.2: {}
 
-  zod-validation-error@3.4.1(zod@3.25.20):
+  zod-validation-error@3.4.1(zod@3.25.67):
     dependencies:
-      zod: 3.25.20
+      zod: 3.25.67
 
-  zod@3.25.20: {}
+  zod@3.25.67: {}
