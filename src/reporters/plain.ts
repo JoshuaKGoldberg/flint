@@ -1,6 +1,7 @@
 import { styleText } from "node:util";
 import { textTable } from "text-table-fast";
 
+import { formatReportPrimary } from "../reporting/formatReportPrimary.js";
 import { FormattingResults } from "../types/formatting.js";
 import { RunConfigResultsMaybeWithFixes } from "../types/linting.js";
 import { makeAbsolute } from "../utils/makeAbsolute.js";
@@ -30,7 +31,7 @@ export function* plainReporter(
 						"gray",
 						`  ${report.range.begin.line}:${report.range.begin.column}`,
 					),
-					report.message.primary,
+					formatReportPrimary(report),
 					styleText("yellow", report.ruleId),
 				]),
 		);
