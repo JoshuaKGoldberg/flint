@@ -6,6 +6,7 @@ export function collectReferencedFilePaths(
 	sourceFile: ts.SourceFile,
 ) {
 	// TODO: Also handle inline import()s
+	// https://github.com/JoshuaKGoldberg/flint/issues/115
 	return sourceFile.statements
 		.filter(isImportDeclarationWithStringLiteral)
 		.map((statement) => {
