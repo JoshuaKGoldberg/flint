@@ -30,7 +30,6 @@ export interface NormalizedRuleReportWithFix extends NormalizedRuleReport {
 	fix: Fix;
 }
 
-// TODO: Make this type safe in some way? Generic? Can it be done well?
 export type ReportInterpolationData = Record<string, boolean | number | string>;
 
 /**
