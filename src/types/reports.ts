@@ -20,6 +20,7 @@ export interface NormalizedReportRangeObject {
  * A full rule report that can be used to display to users via a reporter.
  */
 export interface NormalizedRuleReport {
+	data?: ReportInterpolationData;
 	fix?: Fix;
 	message: ReportMessageData;
 	range: NormalizedReportRangeObject;
@@ -29,10 +30,13 @@ export interface NormalizedRuleReportWithFix extends NormalizedRuleReport {
 	fix: Fix;
 }
 
+export type ReportInterpolationData = Record<string, boolean | number | string>;
+
 /**
  * The internal raw rule report format used by rules themselves.
  */
 export interface RuleReport<Message extends string = string> {
+	data?: ReportInterpolationData;
 	fix?: Fix;
 
 	message: Message;
