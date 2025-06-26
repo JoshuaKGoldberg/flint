@@ -8,12 +8,18 @@ import {
 } from "./rules.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
-export type AnyLanguage = Language<object>;
+export type AnyLanguage = Language<object, object>;
 
-export interface CreateRule<ContextServices extends object> {
+export interface CreateRule<AstNodesByName, ContextServices extends object> {
 	<const About extends RuleAbout, const MessageId extends string>(
-		definition: RuleDefinition<About, ContextServices, MessageId, undefined>,
-	): Rule<About, ContextServices, MessageId, undefined>;
+		definition: RuleDefinition<
+			About,
+			AstNodesByName,
+			ContextServices,
+			MessageId,
+			undefined
+		>,
+	): Rule<About, AstNodesByName, ContextServices, MessageId, undefined>;
 
 	<
 		const About extends RuleAbout,
@@ -22,19 +28,20 @@ export interface CreateRule<ContextServices extends object> {
 	>(
 		definition: RuleDefinition<
 			About,
+			AstNodesByName,
 			ContextServices,
 			MessageId,
 			OptionsSchema
 		>,
-	): Rule<About, ContextServices, MessageId, OptionsSchema>;
+	): Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
 }
 
 /**
  * A single lint rule, as used by users in configs and to create rules.
  */
-export interface Language<ContextServices extends object>
+export interface Language<AstNodesByName, ContextServices extends object>
 	extends LanguageDefinition {
-	createRule: CreateRule<ContextServices>;
+	createRule: CreateRule<AstNodesByName, ContextServices>;
 	prepare(): LanguageFileFactory;
 }
 

@@ -10,6 +10,7 @@ import * as ts from "typescript";
 import { createLanguage } from "../languages/createLanguage.js";
 import { createTypeScriptFileFromProgram } from "./createTypeScriptFileFromProgram.js";
 import { createTypeScriptFileFromProjectService } from "./createTypeScriptFileFromProjectService.js";
+import { TSNodesByName } from "./nodes.js";
 
 const projectRoot = path.join(import.meta.dirname, "../..");
 
@@ -18,7 +19,7 @@ export interface TypeScriptServices {
 	typeChecker: ts.TypeChecker;
 }
 
-export const typescript = createLanguage<TypeScriptServices>({
+export const typescript = createLanguage<TSNodesByName, TypeScriptServices>({
 	about: {
 		name: "TypeScript",
 	},
