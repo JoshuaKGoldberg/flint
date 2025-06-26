@@ -1,5 +1,4 @@
 import fs from "node:fs/promises";
-import path from "node:path";
 
 const candidatesOrdered = [
 	"flint.config.ts",
@@ -17,5 +16,5 @@ export async function findConfigFileName(directory: string) {
 		children.has(candidate),
 	);
 
-	return fileName ? path.join(directory, fileName) : undefined;
+	return fileName;
 }

@@ -1,14 +1,10 @@
 import { FileRuleReport } from "./reports.js";
 
 export interface CacheStorage {
+	configs: Record<string, number>;
 	files: Record<string, FileCacheStorage>;
 }
 
-// NOTE: these will need to be filled out by the runner
-// Rules may report only a small number of these
-// but getFilePathsToLint will need to know all actual dependencies
-// So, writing the cache to disk needs to include these
-// It can be shallow (1 level). A<-B<-C means A has ["B"], not ["B", "C"]
 export interface FileCacheImpacts {
 	// TODO: also include dependents. (i.e. global type augmentations)
 	dependencies?: string[];

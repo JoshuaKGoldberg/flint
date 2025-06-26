@@ -1,4 +1,5 @@
 import { debugForFile } from "debug-for-file";
+import path from "node:path";
 import { parseArgs } from "node:util";
 
 import { writeToCache } from "../cache/writeToCache.js";
@@ -48,7 +49,9 @@ export async function runCli() {
 		return 2;
 	}
 
-	const { default: config } = (await import(configFileName)) as {
+	const { default: config } = (await import(
+		path.join(process.cwd(), configFileName)
+	)) as {
 		default: unknown;
 	};
 
@@ -61,16 +64,21 @@ export async function runCli() {
 
 	log("Running with Flint config: %s", configFileName);
 
+	const configDefinition = {
+		...config.definition,
+		filePath: configFileName,
+	};
+
 	const configResults = await (values.fix
-		? runConfigFixing(config.definition)
-		: runConfig(config.definition));
+		? runConfigFixing(configDefinition)
+		: runConfig(configDefinition));
 
 	// TODO: Eventually, it'd be nice to move everything fully in-memory.
 	// This would be better for performance to avoid excess file system I/O.
 	// https://github.com/JoshuaKGoldberg/flint/issues/73
 	const [formattingResults] = await Promise.all([
 		runPrettier(configResults.allFilePaths, values.fix),
-		writeToCache(configResults),
+		writeToCache(configFileName, configResults),
 	]);
 
 	for (const line of plainReporter(configResults, formattingResults)) {

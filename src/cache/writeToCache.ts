@@ -5,8 +5,12 @@ import omitEmpty from "omit-empty";
 import { CacheStorage } from "../types/cache.js";
 import { RunConfigResults } from "../types/linting.js";
 import { cacheFileDirectory, cacheFilePath } from "./constants.js";
+import { getFileTouchTime } from "./getFileTouchTime.js";
 
-export async function writeToCache(results: RunConfigResults) {
+export async function writeToCache(
+	configFileName: string,
+	results: RunConfigResults,
+) {
 	const fileDependents = new CachedFactory(() => new Set<string>());
 	const timestamp = Date.now();
 
@@ -17,6 +21,10 @@ export async function writeToCache(results: RunConfigResults) {
 	}
 
 	const storage: CacheStorage = {
+		configs: {
+			[configFileName]: getFileTouchTime(configFileName),
+			"package.json": getFileTouchTime("package.json"),
+		},
 		files: {
 			...Object.fromEntries(
 				Array.from(results.filesResults).map(([filePath, fileResults]) => [

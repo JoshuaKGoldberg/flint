@@ -4,9 +4,9 @@ import * as fs from "node:fs/promises";
 
 import { readFromCache } from "../cache/readFromCache.js";
 import {
-	ConfigDefinition,
 	ConfigRuleDefinition,
 	ConfigUseDefinition,
+	ProcessedConfigDefinition,
 } from "../types/configs.js";
 import { AnyLanguage } from "../types/languages.js";
 import { FileResults, RunConfigResults } from "../types/linting.js";
@@ -17,7 +17,7 @@ import { readGitignore } from "./readGitignore.js";
 const log = debugForFile(import.meta.filename);
 
 export async function runConfig(
-	config: ConfigDefinition,
+	configDefinition: ProcessedConfigDefinition,
 ): Promise<RunConfigResults> {
 	interface ConfigUseDefinitionWithFiles extends ConfigUseDefinition {
 		files: Set<string>;
@@ -26,16 +26,16 @@ export async function runConfig(
 
 	const gitignore = await readGitignore();
 
-	log("Collecting files from %d use pattern(s)", config.use.length);
+	log("Collecting files from %d use pattern(s)", configDefinition.use.length);
 	log("Excluding based on .gitignore: %s", gitignore);
 
 	const useDefinitions: ConfigUseDefinitionWithFiles[] = await Promise.all(
-		config.use.map(async (use) => ({
+		configDefinition.use.map(async (use) => ({
 			...use,
 			files: new Set(
 				await Array.fromAsync(
 					fs.glob([use.glob].flat() as string[], {
-						exclude: [gitignore, ...(config.ignore ?? [])].flat(),
+						exclude: [gitignore, ...(configDefinition.ignore ?? [])].flat(),
 					}),
 				),
 			),
@@ -53,7 +53,7 @@ export async function runConfig(
 		language.prepare(),
 	);
 
-	const cached = await readFromCache(allFilePaths);
+	const cached = await readFromCache(allFilePaths, configDefinition.filePath);
 
 	// TODO: This is very slow and the whole thing should be refactored 🙌.
 	// The separate lintFile function recomputes rule options repeatedly.

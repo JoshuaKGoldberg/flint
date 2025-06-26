@@ -8,7 +8,10 @@ import { getFileTouchTime } from "./getFileTouchTime.js";
 
 const log = debugForFile(import.meta.filename);
 
-export async function readFromCache(allFilePaths: Set<string>) {
+export async function readFromCache(
+	allFilePaths: Set<string>,
+	configFilePath: string,
+) {
 	// TODO: Add some kind of validation to cache data
 	const cache = (await readFileSafeAsJson(cacheFilePath)) as
 		| CacheStorage
@@ -19,27 +22,49 @@ export async function readFromCache(allFilePaths: Set<string>) {
 		return undefined;
 	}
 
-	// TODO: Also re-lint if config has changed (include config in cache)
+	for (const filePath of [configFilePath, "package.json"]) {
+		if (!Object.hasOwn(cache.configs, filePath)) {
+			log(
+				"Linting all %d file path(s) due to no cache of %s",
+				allFilePaths.size,
+				filePath,
+			);
+			return undefined;
+		}
+
+		const timestampCached = cache.configs[filePath];
+		const timestampTouched = getFileTouchTime(filePath);
+		if (timestampTouched > timestampCached) {
+			log(
+				"Linting all %d file path(s) due to %s touch timestamp %d after cache timestamp %d",
+				allFilePaths.size,
+				filePath,
+				timestampTouched,
+				timestampCached,
+			);
+			return undefined;
+		}
+	}
 
 	const cached = new Map(Object.entries(cache.files));
 	const filePathsToLint = new Set<string>();
 
 	// Any files touched since last cache write will need to be re-linted
 	for (const filePath of allFilePaths) {
-		const cacheTimestamp = cached.get(filePath)?.timestamp;
-		if (cacheTimestamp === undefined) {
+		const timestampCached = cached.get(filePath)?.timestamp;
+		if (timestampCached === undefined) {
 			log("No cache available for: %s", filePath);
 			markAsUncached(filePath);
 			continue;
 		}
 
-		const touchTimeActual = getFileTouchTime(filePath);
-		if (touchTimeActual > cacheTimestamp) {
+		const timestampTouched = getFileTouchTime(filePath);
+		if (timestampTouched > timestampCached) {
 			log(
 				"Directly invalidating cache for: %s due to touch timestamp %d after cache timestamp %d",
 				filePath,
-				touchTimeActual,
-				cacheTimestamp,
+				timestampTouched,
+				timestampCached,
 			);
 			markAsUncached(filePath);
 		}
@@ -47,7 +72,6 @@ export async function readFromCache(allFilePaths: Set<string>) {
 
 	// We also invalidate the cache for any dependents of changed files.
 	// But the cache stores dependencies, so we have to reverse that map now.
-	// TODO: Investigate whether writing, not reading, should take this on?
 	const fileDependents = new CachedFactory(() => new Set<string>());
 
 	for (const [filePath, stored] of cached) {
