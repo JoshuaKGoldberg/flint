@@ -77,12 +77,14 @@ export async function runCli() {
 		console.log(line);
 	}
 
-	if (configResults.filesResults.size) {
+	if (formattingResults.dirty.size && !formattingResults.written) {
 		return 1;
 	}
 
-	if (formattingResults.dirty.size && !formattingResults.written) {
-		return 1;
+	for (const fileResults of configResults.filesResults.values()) {
+		if (fileResults.reports.length) {
+			return 1;
+		}
 	}
 
 	return 0;

@@ -108,6 +108,8 @@ export function* plainReporter(
 			yield `  ${styleText("gray", dirtyFile)}`;
 		}
 	}
+
+	return reportTotals;
 }
 
 function pluralize(count: number, label: string) {
