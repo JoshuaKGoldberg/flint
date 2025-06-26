@@ -42,7 +42,6 @@
 		"@typescript/vfs": "^1.6.1",
 		"cached-factory": "^0.1.0",
 		"debug-for-file": "^0.2.0",
-		"remark": "^15.0.1",
 		"remark-parse": "^11.0.0",
 		"text-table-fast": "^0.1.0",
 		"ts-api-utils": "^2.1.0",
