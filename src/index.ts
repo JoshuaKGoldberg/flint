@@ -5,3 +5,4 @@ export { md } from "./markdown/plugin.js";
 export { createPlugin } from "./plugins/createPlugin.js";
 export { RuleTester } from "./testing/RuleTester.js";
 export { ts } from "./typescript/plugin.js";
+export { yaml } from "./yaml/plugin.js";

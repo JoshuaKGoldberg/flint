@@ -1,4 +1,4 @@
-import { defineConfig, json, md, ts } from "./lib/index.js";
+import { defineConfig, json, md, ts, yaml } from "./lib/index.js";
 
 export default defineConfig({
 	use: [
@@ -14,12 +14,10 @@ export default defineConfig({
 			glob: ts.globs.all,
 			rules: [ts.presets.logical],
 		},
-		// Catch-all globs until we have dedicated plugins...
 		{
-			glob: [
-				// https://github.com/JoshuaKGoldberg/flint/issues/48
-				"**/*.yml",
-			],
+			exclude: ["pnpm-lock.yaml"],
+			glob: yaml.globs.all,
+			rules: [yaml.presets.logical],
 		},
 	],
 });

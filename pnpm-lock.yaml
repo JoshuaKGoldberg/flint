@@ -47,6 +47,9 @@ importers:
       vfile-location:
         specifier: ^5.0.3
         version: 5.0.3
+      yaml-unist-parser:
+        specifier: ^2.0.5
+        version: 2.0.5
       zod:
         specifier: ^3.25.67
         version: 3.25.67
@@ -3527,6 +3530,14 @@ packages:
   yaml-eslint-parser@1.3.0:
     resolution: {integrity: sha512-E/+VitOorXSLiAqtTd7Yqax0/pAS3xaYMP+AUUJGOK1OZG3rhcj9fcJOM5HJ2VrP1FrStVCWr1muTfQCdj4tAA==}
     engines: {node: ^14.17.0 || >=16.0.0}
+
+  yaml-unist-parser@2.0.5:
+    resolution: {integrity: sha512-CirHjIkYcQxbG9wgYmzjJlMaBFuj788zLOgT0A2FAzdsw2dD4vnq4cx+kij/fXImG09ARnlODtS38JM1EottOw==}
+    engines: {node: '>= 14'}
+
+  yaml@1.10.2:
+    resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
+    engines: {node: '>= 6'}
 
   yaml@2.8.0:
     resolution: {integrity: sha512-4lLa/EcQCB0cJkyts+FpIRx5G/llPxfP6VQU5KByHEhLxY3IJCH0f0Hy1MHI8sClTvsIb8qwRJ6R/ZdlDJ/leQ==}
@@ -7137,6 +7148,12 @@ snapshots:
     dependencies:
       eslint-visitor-keys: 3.4.3
       yaml: 2.8.0
+
+  yaml-unist-parser@2.0.5:
+    dependencies:
+      yaml: 1.10.2
+
+  yaml@1.10.2: {}
 
   yaml@2.8.0: {}
 
