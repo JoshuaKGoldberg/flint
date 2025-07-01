@@ -39,7 +39,7 @@ a:
 		},
 	],
 	valid: [
-		// TODO: File issue :)
+		// https://github.com/prettier/yaml-unist-parser/issues/296
 		// ``,
 
 		`a: b`,
