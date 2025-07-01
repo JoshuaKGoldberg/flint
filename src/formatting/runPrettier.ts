@@ -55,7 +55,7 @@ export async function runPrettier(
 	);
 
 	log(
-		"Found %d correctly formatted file(s) and %d incorrectly formatted %d files",
+		"Found %d correctly formatted file(s) and %d incorrectly formatted files",
 		formattingResults.clean.size,
 		formattingResults.dirty.size,
 	);
