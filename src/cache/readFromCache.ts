@@ -64,7 +64,7 @@ export async function readFromCache(
 			for (const dependency of fileCached.dependencies) {
 				if (!allFilePaths.has(dependency)) {
 					log(
-						"Directly invalidating cache for: %s due to dependency %s not being in linted files",
+						"Directly invalidating cache for: %s due to dependency %s not being in linted files cache",
 						filePath,
 						dependency,
 					);
@@ -74,7 +74,7 @@ export async function readFromCache(
 			}
 		}
 
-		const timestampCached = fileCached?.timestamp;
+		const timestampCached = fileCached.timestamp;
 		const timestampTouched = getFileTouchTime(filePath);
 		if (timestampTouched > timestampCached) {
 			log(
