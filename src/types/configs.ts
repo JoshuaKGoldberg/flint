@@ -22,7 +22,7 @@ export interface ConfigRuleDefinitionObject {
 }
 
 export interface ConfigUseDefinition {
-	exclude?: string;
+	exclude?: string[];
 	glob: AnyLevelArray<string> | string;
 	rules?: AnyLevelArray<ConfigRuleDefinition>;
 }

@@ -35,7 +35,11 @@ export async function runConfig(
 			files: new Set(
 				await Array.fromAsync(
 					fs.glob([use.glob].flat() as string[], {
-						exclude: [gitignore, ...(configDefinition.ignore ?? [])].flat(),
+						exclude: [
+							gitignore,
+							...(configDefinition.ignore ?? []),
+							...(use.exclude ?? []),
+						].flat(),
 					}),
 				),
 			),
