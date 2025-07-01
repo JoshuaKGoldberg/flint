@@ -6,11 +6,11 @@ import { createLanguage } from "../languages/createLanguage.js";
 import { createYamlFile } from "./createYamlFile.js";
 import { YamlNodesByName } from "./nodes.js";
 
-export interface MarkdownServices {
+export interface YamlServices {
 	root: yamlParser.Root;
 }
 
-export const yaml = createLanguage<YamlNodesByName, MarkdownServices>({
+export const yaml = createLanguage<YamlNodesByName, YamlServices>({
 	about: {
 		name: "YAML",
 	},
