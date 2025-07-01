@@ -6,8 +6,8 @@ import * as yamlParser from "yaml-unist-parser";
 import { LanguageFileDefinition } from "../types/languages.js";
 import { NormalizedRuleReport, RuleReport } from "../types/reports.js";
 
-// Eventually, it might make sense to use a native speed Markdown parser...
-// However, the remark ecosystem is quite extensive and well-supported.
+// Eventually, it might make sense to use a native speed Yaml parser...
+// However, the unist ecosystem is quite extensive and well-supported.
 // It'll be a while before we can replace it with a native parser.
 export function createYamlFile(
 	filePathAbsolute: string,
