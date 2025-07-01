@@ -23,6 +23,7 @@ export async function readFromCache(
 		return undefined;
 	}
 
+	// The config file and package.json are hardcoded to always be dependencies of all files
 	for (const filePath of [configFilePath, "package.json"]) {
 		if (!Object.hasOwn(cache.configs, filePath)) {
 			log(
@@ -52,13 +53,28 @@ export async function readFromCache(
 
 	// Any files touched since last cache write will need to be re-linted
 	for (const filePath of allFilePaths) {
-		const timestampCached = cached.get(filePath)?.timestamp;
-		if (timestampCached === undefined) {
+		const fileCached = cached.get(filePath);
+		if (!fileCached) {
 			log("No cache available for: %s", filePath);
 			markAsUncached(filePath);
 			continue;
 		}
 
+		if (fileCached.dependencies) {
+			for (const dependency of fileCached.dependencies) {
+				if (!allFilePaths.has(dependency)) {
+					log(
+						"Directly invalidating cache for: %s due to dependency %s not being in linted files cache",
+						filePath,
+						dependency,
+					);
+					markAsUncached(filePath);
+					continue;
+				}
+			}
+		}
+
+		const timestampCached = fileCached.timestamp;
 		const timestampTouched = getFileTouchTime(filePath);
 		if (timestampTouched > timestampCached) {
 			log(
