@@ -41,6 +41,7 @@
 		"@typescript-eslint/project-service": "^8.35.0",
 		"@typescript/vfs": "^1.6.1",
 		"cached-factory": "^0.1.0",
+		"debounce": "^2.2.0",
 		"debug-for-file": "^0.2.0",
 		"omit-empty": "^1.0.0",
 		"remark-parse": "^11.0.0",
