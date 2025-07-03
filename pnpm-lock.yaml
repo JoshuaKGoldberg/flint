@@ -20,6 +20,9 @@ importers:
       cached-factory:
         specifier: ^0.1.0
         version: 0.1.0
+      debounce:
+        specifier: ^2.2.0
+        version: 2.2.0
       debug-for-file:
         specifier: ^0.2.0
         version: 0.2.0
@@ -1708,6 +1711,10 @@ packages:
   data-uri-to-buffer@6.0.2:
     resolution: {integrity: sha512-7hvf7/GW8e86rW0ptuwS3OcBGDjIi6SZva7hCyWC0yYry2cOPmLIjXAUHI6DK2HsnwJd9ifmt57i8eV2n4YNpw==}
     engines: {node: '>= 14'}
+
+  debounce@2.2.0:
+    resolution: {integrity: sha512-Xks6RUDLZFdz8LIdR6q0MTH44k7FikOmnh5xkSjMig6ch45afc8sjTjRQf3P6ax8dMgcQrYO/AR2RGWURrruqw==}
+    engines: {node: '>=18'}
 
   debug-for-file@0.2.0:
     resolution: {integrity: sha512-2w8an7kqhP8LXvU+riM7azVfAV3uEzE1lOsQFhrLI1K+kQZEbCK+nigYHK5GrgUvwvVNbWnlMkUM3kLbeJ0bPA==}
@@ -5058,6 +5065,8 @@ snapshots:
       tinyglobby: 0.2.14
 
   data-uri-to-buffer@6.0.2: {}
+
+  debounce@2.2.0: {}
 
   debug-for-file@0.2.0:
     dependencies:
