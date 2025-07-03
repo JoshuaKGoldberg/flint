@@ -2,7 +2,7 @@ import debounce from "debounce";
 import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 
-import { createWatchPresenter, watchPresenter } from "../presenters/watch.js";
+import { createWatchPresenter } from "../presenters/watch.js";
 import { OptionsValues } from "./options.js";
 import { runCliSingleRun } from "./runCliSingleRun.js";
 
