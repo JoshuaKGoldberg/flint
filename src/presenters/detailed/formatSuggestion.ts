@@ -2,7 +2,7 @@ import chalk from "chalk";
 
 export function formatSuggestion(suggestion: string) {
 	return [
-		chalk.hex("bbccdd")(
+		chalk.hex("#bbccdd")(
 			suggestion
 				.split("`")
 				.map((text, index) =>
