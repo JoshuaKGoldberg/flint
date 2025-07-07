@@ -44,7 +44,7 @@ export function lintFile(
 		log("Found %d reports from rule %s", ruleReports.length, rule.about.id);
 
 		reports.push(
-			...ruleReports.map((report) => ({ ruleId: rule.about.id, ...report })),
+			...ruleReports.map((report) => ({ about: rule.about, ...report })),
 		);
 	}
 

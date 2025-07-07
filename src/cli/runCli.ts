@@ -1,9 +1,9 @@
 import { parseArgs } from "node:util";
 
-import { plainPresenter } from "../presenters/plain.js";
+import { getPresenterFactory } from "../presenters/getPresenterFactory.js";
 import { options } from "./options.js";
 import { packageData } from "./packageData.js";
-import { runCliSingleRun } from "./runCliSingleRun.js";
+import { runCliOnce } from "./runCliOnce.js";
 import { runCliWatch } from "./runCliWatch.js";
 
 export async function runCli() {
@@ -26,7 +26,11 @@ export async function runCli() {
 		return 0;
 	}
 
-	return await (values.watch
-		? runCliWatch(values)
-		: runCliSingleRun(values, plainPresenter));
+	const [runner, runMode] = values.watch
+		? ([runCliWatch, "watch"] as const)
+		: ([runCliOnce, "single-run"] as const);
+
+	const presenterFactory = getPresenterFactory(values.presenter);
+
+	return await runner(presenterFactory, runMode, values);
 }
