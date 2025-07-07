@@ -2,14 +2,14 @@ import debounce from "debounce";
 import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 
-import { PresenterFactory } from "../types/presenters.js";
+import { Presenter } from "../types/presenters.js";
 import { OptionsValues } from "./options.js";
 import { runCliOnce } from "./runCliOnce.js";
 
 const log = debugForFile(import.meta.filename);
 
 export async function runCliWatch(
-	presenterFactory: PresenterFactory,
+	presenterFactory: Presenter,
 	values: OptionsValues,
 ) {
 	const cwd = process.cwd();
@@ -18,6 +18,7 @@ export async function runCliWatch(
 	});
 
 	log("Running single-run CLI once before watching");
+	console.clear();
 	await runCliOnce(presenterFactory, "watch", values);
 
 	const rerun = debounce(async (fileName: string) => {
@@ -27,6 +28,7 @@ export async function runCliWatch(
 		}
 
 		log("Change detected from: %s", fileName);
+		console.clear();
 		await runCliOnce(presenterFactory, "watch", values);
 	}, 100);
 

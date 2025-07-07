@@ -3,13 +3,15 @@ import { RunConfigResultsMaybeWithFixes } from "./linting.js";
 import { RunMode } from "./modes.js";
 import { FileRuleReport } from "./reports.js";
 
-export interface PresenterAbout {
-	name: string;
-}
+export type CorePresenterName = "brief" | "detailed" | (string & {});
 
-export interface PresenterFactory {
+export interface Presenter {
 	about: PresenterAbout;
 	initialize(context: PresenterInitializeContext): PresenterInitialized;
+}
+
+export interface PresenterAbout {
+	name: string;
 }
 
 export interface PresenterInitializeContext {

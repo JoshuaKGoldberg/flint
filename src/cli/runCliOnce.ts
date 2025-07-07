@@ -7,7 +7,7 @@ import { runPrettier } from "../formatting/runPrettier.js";
 import { runConfig } from "../running/runConfig.js";
 import { runConfigFixing } from "../running/runConfigFixing.js";
 import { RunMode } from "../types/modes.js";
-import { PresenterFactory } from "../types/presenters.js";
+import { Presenter } from "../types/presenters.js";
 import { findConfigFileName } from "./findConfigFileName.js";
 import { OptionsValues } from "./options.js";
 import { renderReports } from "./renderReports.js";
@@ -15,7 +15,7 @@ import { renderReports } from "./renderReports.js";
 const log = debugForFile(import.meta.filename);
 
 export async function runCliOnce(
-	presenterFactory: PresenterFactory,
+	presenterFactory: Presenter,
 	runMode: RunMode,
 	values: OptionsValues,
 ) {
@@ -43,7 +43,10 @@ export async function runCliOnce(
 		configFileName,
 		runMode,
 	});
-	console.log(header);
+
+	if (header) {
+		console.log(header);
+	}
 
 	const configDefinition = {
 		...config.definition,
@@ -62,12 +65,7 @@ export async function runCliOnce(
 		writeToCache(configFileName, configResults),
 	]);
 
-	await renderReports(
-		presenter,
-		configFileName,
-		configResults,
-		formattingResults,
-	);
+	await renderReports(presenter, configResults, formattingResults);
 
 	if (formattingResults.dirty.size && !formattingResults.written) {
 		return 1;

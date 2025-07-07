@@ -6,7 +6,6 @@ import { PresenterRuntime } from "../types/presenters.js";
 
 export async function renderReports(
 	presenter: PresenterRuntime,
-	configFileName: string,
 	configResults: RunConfigResults,
 	formattingResults: FormattingResults,
 ) {
@@ -17,7 +16,7 @@ export async function renderReports(
 
 		const sourceFileText = await fs.readFile(filePath, "utf-8");
 
-		const generator = presenter.renderFile({
+		const body = presenter.renderFile({
 			file: {
 				filePath,
 				text: sourceFileText,
@@ -25,8 +24,17 @@ export async function renderReports(
 			reports: fileResults.reports,
 		});
 
-		for (const line of await Array.fromAsync(generator)) {
-			console.log("line:", typeof line);
+		for (const line of await Array.fromAsync(body)) {
+			process.stdout.write(line);
 		}
+	}
+
+	const summary = presenter.summarize({
+		configResults,
+		formattingResults,
+	});
+
+	for (const line of await Array.fromAsync(summary)) {
+		process.stdout.write(line);
 	}
 }
