@@ -11,6 +11,7 @@ export default defineConfig({
 			rules: [md.presets.logical],
 		},
 		{
+			exclude: ["src/fixtures"],
 			glob: ts.globs.all,
 			rules: [ts.presets.logical],
 		},

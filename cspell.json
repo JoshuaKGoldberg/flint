@@ -9,5 +9,5 @@
 		"node_modules",
 		"pnpm-lock.yaml"
 	],
-	"words": ["mdast"]
+	"words": ["mdast", "nord", "shiki", "shikijs"]
 }

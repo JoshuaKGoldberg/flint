@@ -38,11 +38,11 @@ export const detailedPresenter: Presenter = {
 								report.message.primary,
 								...report.message.suggestions,
 								...report.message.secondary,
-							].map((suggestion) => suggestion.length + 2),
+							].map((suggestion) => suggestion.length + 3),
 						);
 					}
 
-					yield "\n";
+					yield `\n${indenter}\n`;
 					yield chalk.gray(
 						`╰${"─".repeat(Math.min(widest, process.stdout.columns - 2))}`,
 					);

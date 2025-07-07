@@ -6,7 +6,7 @@ export function formatSuggestion(suggestion: string) {
 			suggestion
 				.split("`")
 				.map((text, index) =>
-					chalk.hex(index % 2 === 0 ? "bbccdd" : "bbeeff")(text),
+					chalk.hex(index % 2 === 0 ? "#bbccdd" : "#bbeeff")(text),
 				)
 				.join("`"),
 		),
