@@ -25,7 +25,15 @@ export async function* createDetailedReport(
 	yield await formatCode(report, sourceFileText);
 	yield `\n${indenter}\n`;
 
+	yield indenter;
+	yield " ";
+	yield chalk
+		.hex("#ccbbaa")
+		.italic(report.message.secondary.join(`\n${indenter} `));
+	yield `\n${indenter}\n`;
+
 	if (report.message.suggestions.length > 1) {
+		yield indenter;
 		yield chalk.hex("#bbeeff")(" Suggestions:");
 		yield "\n";
 		yield* report.message.suggestions.map((suggestion) =>
@@ -35,24 +43,13 @@ export async function* createDetailedReport(
 				formatSuggestion(suggestion),
 			].join(""),
 		);
-		yield "\n";
 	} else {
 		yield indenter;
 		yield chalk.hex("#bbeeff")(" Suggestion: ");
 		yield* report.message.suggestions.map(formatSuggestion);
-		yield indenter;
-		yield "\n";
 	}
 
-	yield indenter;
-	yield " ";
-	yield chalk
-		.hex("#ccbbaa")
-		.italic(report.message.secondary.join(`\n${indenter} `));
-	yield "\n";
-
-	yield indenter;
-	yield " ";
+	yield `${indenter} `;
 	yield chalk
 		.hex("#aaccaa")
 		.italic(`→ \u001b]8;;${url}\u0007${urlFriendly}\u001b]8;;\u0007`);
