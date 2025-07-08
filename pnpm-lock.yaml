@@ -56,6 +56,9 @@ importers:
       vfile-location:
         specifier: ^5.0.3
         version: 5.0.3
+      wrap-ansi:
+        specifier: ^9.0.0
+        version: 9.0.0
       yaml-unist-parser:
         specifier: ^2.0.5
         version: 2.0.5

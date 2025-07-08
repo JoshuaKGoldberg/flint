@@ -10,6 +10,5 @@ export function formatSuggestion(suggestion: string) {
 				)
 				.join("`"),
 		),
-		"\n",
 	].join("");
 }

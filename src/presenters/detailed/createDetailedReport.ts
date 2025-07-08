@@ -4,22 +4,30 @@ import { FileRuleReport } from "../../types/reports.js";
 import { indenter } from "./constants.js";
 import { formatCode } from "./formatCode.js";
 import { formatSuggestion } from "./formatSuggestion.js";
+import { wrapIfNeeded } from "./wrapIfNeeded.js";
 
 export async function* createDetailedReport(
 	report: FileRuleReport,
 	sourceFileText: string,
+	width: number,
 ) {
 	const urlFriendly = `flint.fyi/rules/${report.about.id}`;
 	const url = `https://${urlFriendly}`;
 
 	yield indenter;
-	yield chalk.hex("#ccaaaa")("[");
-	yield chalk
-		.hex("#ff9999")
-		.bold(`\u001b]8;;${url}\u0007${report.about.id}\u001b]8;;\u0007`);
-	yield chalk.hex("#ccaaaa")("]");
-	yield " ";
-	yield chalk.hex("#eeaa77")(report.message.primary);
+	yield wrapIfNeeded(
+		chalk.hex("#eeaa77"),
+		[
+			chalk.hex("#ccaaaa")("["),
+			chalk
+				.hex("#ff9999")
+				.bold(`\u001b]8;;${url}\u0007${report.about.id}\u001b]8;;\u0007`),
+			chalk.hex("#ccaaaa")("]"),
+			" ",
+			report.message.primary,
+		].join(""),
+		width,
+	);
 	yield `\n${indenter}\n`;
 
 	yield await formatCode(report, sourceFileText);
@@ -27,9 +35,11 @@ export async function* createDetailedReport(
 
 	yield indenter;
 	yield " ";
-	yield chalk
-		.hex("#ccbbaa")
-		.italic(report.message.secondary.join(`\n${indenter} `));
+	yield wrapIfNeeded(
+		chalk.hex("#ccbbaa").italic,
+		report.message.secondary.join(`\n`),
+		width,
+	);
 	yield `\n${indenter}\n`;
 
 	if (report.message.suggestions.length > 1) {
@@ -41,12 +51,16 @@ export async function* createDetailedReport(
 				indenter,
 				chalk.hex("#99aacc")("  • "),
 				formatSuggestion(suggestion),
-			].join(""),
+			].join("\n"),
 		);
 	} else {
-		yield indenter;
-		yield chalk.hex("#bbeeff")(" Suggestion: ");
-		yield* report.message.suggestions.map(formatSuggestion);
+		yield `${indenter} `;
+		yield wrapIfNeeded(
+			chalk.hex("#bbeeff"),
+			`  Suggestion: ${formatSuggestion(report.message.suggestions[0])}`,
+			width,
+		);
+		yield "\n";
 	}
 
 	yield `${indenter} `;

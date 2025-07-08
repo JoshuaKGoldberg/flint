@@ -6,6 +6,7 @@ import { presentHeader } from "../shared/header.js";
 import { presentSummary } from "../shared/summary.js";
 import { indenter } from "./constants.js";
 import { createDetailedReport } from "./createDetailedReport.js";
+import { wrapIfNeeded } from "./wrapIfNeeded.js";
 
 export const detailedPresenter: Presenter = {
 	about: {
@@ -22,15 +23,17 @@ export const detailedPresenter: Presenter = {
 					counts.files += 1;
 					counts.fixable += reports.filter(hasFix).length;
 
+					const width = process.stdout.columns - indenter.length;
+
 					yield chalk.gray("\n╭");
 					yield chalk.hex("ff7777")("./");
-					yield chalk.bold.hex("ff4949")(file.filePath);
+					yield* wrapIfNeeded(chalk.bold.hex("ff4949"), file.filePath, width);
 
 					let widest = 16;
 
 					for (const report of reports) {
 						yield `\n${indenter}\n`;
-						yield* createDetailedReport(report, file.text);
+						yield* createDetailedReport(report, file.text, width);
 
 						widest = Math.max(
 							widest,
@@ -43,9 +46,7 @@ export const detailedPresenter: Presenter = {
 					}
 
 					yield `\n${indenter}\n`;
-					yield chalk.gray(
-						`╰${"─".repeat(Math.min(widest, process.stdout.columns - 2))}`,
-					);
+					yield chalk.gray(`╰${"─".repeat(Math.min(widest, width))}`);
 					yield "\n";
 				},
 				*summarize(summaryContext) {
