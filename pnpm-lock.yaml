@@ -38,6 +38,12 @@ importers:
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
+      slice-ansi:
+        specifier: ^7.1.0
+        version: 7.1.0
+      string-width:
+        specifier: ^7.2.0
+        version: 7.2.0
       text-table-fast:
         specifier: ^0.1.0
         version: 0.1.0
@@ -56,6 +62,9 @@ importers:
       vfile-location:
         specifier: ^5.0.3
         version: 5.0.3
+      wrap-ansi:
+        specifier: ^9.0.0
+        version: 9.0.0
       yaml-unist-parser:
         specifier: ^2.0.5
         version: 2.0.5
