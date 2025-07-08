@@ -6,15 +6,18 @@ import { isConfig } from "../configs/isConfig.js";
 import { runPrettier } from "../formatting/runPrettier.js";
 import { runConfig } from "../running/runConfig.js";
 import { runConfigFixing } from "../running/runConfigFixing.js";
+import { RunMode } from "../types/modes.js";
 import { Presenter } from "../types/presenters.js";
 import { findConfigFileName } from "./findConfigFileName.js";
 import { OptionsValues } from "./options.js";
+import { renderReports } from "./renderReports.js";
 
 const log = debugForFile(import.meta.filename);
 
-export async function runCliSingleRun(
+export async function runCliOnce(
+	presenterFactory: Presenter,
+	runMode: RunMode,
 	values: OptionsValues,
-	presenter: Presenter,
 ) {
 	const configFileName = await findConfigFileName(process.cwd());
 	if (!configFileName) {
@@ -36,7 +39,14 @@ export async function runCliSingleRun(
 	}
 
 	log("Running with Flint in single-run mode with config: %s", configFileName);
-	presenter.begin(configFileName);
+	const { header, runtime: presenter } = presenterFactory.initialize({
+		configFileName,
+		runMode,
+	});
+
+	if (header) {
+		console.log(header);
+	}
 
 	const configDefinition = {
 		...config.definition,
@@ -55,7 +65,7 @@ export async function runCliSingleRun(
 		writeToCache(configFileName, configResults),
 	]);
 
-	presenter.end(configResults, formattingResults);
+	await renderReports(presenter, configResults, formattingResults);
 
 	if (formattingResults.dirty.size && !formattingResults.written) {
 		return 1;

@@ -1,8 +1,9 @@
 import { Fix } from "./fixes.js";
 import { CharacterReportRange, ColumnAndLine } from "./ranges.js";
+import { RuleAbout } from "./rules.js";
 
 export interface FileRuleReport extends NormalizedRuleReport {
-	ruleId: string;
+	about: RuleAbout;
 }
 
 export interface FileRuleReportWithFix extends FileRuleReport {

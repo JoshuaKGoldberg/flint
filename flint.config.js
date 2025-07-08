@@ -11,6 +11,7 @@ export default defineConfig({
 			rules: [md.presets.logical],
 		},
 		{
+			exclude: process.env.LINT_FIXTURES ? [] : ["src/fixtures"],
 			glob: ts.globs.all,
 			rules: [ts.presets.logical],
 		},

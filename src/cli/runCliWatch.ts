@@ -2,22 +2,24 @@ import debounce from "debounce";
 import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 
-import { createWatchPresenter } from "../presenters/watch.js";
+import { Presenter } from "../types/presenters.js";
 import { OptionsValues } from "./options.js";
-import { runCliSingleRun } from "./runCliSingleRun.js";
+import { runCliOnce } from "./runCliOnce.js";
 
 const log = debugForFile(import.meta.filename);
 
-export async function runCliWatch(values: OptionsValues) {
+export async function runCliWatch(
+	presenterFactory: Presenter,
+	values: OptionsValues,
+) {
 	const cwd = process.cwd();
 	const watcher = fs.watch(cwd, {
 		recursive: true,
 	});
 
-	const watchPresenter = createWatchPresenter();
-
 	log("Running single-run CLI once before watching");
-	await runCliSingleRun(values, watchPresenter);
+	console.clear();
+	await runCliOnce(presenterFactory, "watch", values);
 
 	const rerun = debounce(async (fileName: string) => {
 		if (fileName.startsWith("node_modules/.cache")) {
@@ -26,7 +28,8 @@ export async function runCliWatch(values: OptionsValues) {
 		}
 
 		log("Change detected from: %s", fileName);
-		await runCliSingleRun(values, watchPresenter);
+		console.clear();
+		await runCliOnce(presenterFactory, "watch", values);
 	}, 100);
 
 	log("Watching cwd:", cwd);
