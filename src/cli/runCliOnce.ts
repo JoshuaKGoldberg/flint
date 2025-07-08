@@ -6,25 +6,16 @@ import { isConfig } from "../configs/isConfig.js";
 import { runPrettier } from "../formatting/runPrettier.js";
 import { runConfig } from "../running/runConfig.js";
 import { runConfigFixing } from "../running/runConfigFixing.js";
-import { RunMode } from "../types/modes.js";
-import { Presenter } from "../types/presenters.js";
-import { findConfigFileName } from "./findConfigFileName.js";
+import { Renderer } from "../types/renderers.js";
 import { OptionsValues } from "./options.js";
-import { renderReports } from "./renderReports.js";
 
 const log = debugForFile(import.meta.filename);
 
 export async function runCliOnce(
-	presenterFactory: Presenter,
-	runMode: RunMode,
+	configFileName: string,
+	renderer: Renderer,
 	values: OptionsValues,
 ) {
-	const configFileName = await findConfigFileName(process.cwd());
-	if (!configFileName) {
-		console.error("No flint.config.* file found");
-		return 2;
-	}
-
 	const { default: config } = (await import(
 		path.join(process.cwd(), configFileName)
 	)) as {
@@ -39,14 +30,7 @@ export async function runCliOnce(
 	}
 
 	log("Running with Flint in single-run mode with config: %s", configFileName);
-	const { header, runtime: presenter } = presenterFactory.initialize({
-		configFileName,
-		runMode,
-	});
-
-	if (header) {
-		console.log(header);
-	}
+	renderer.announce();
 
 	const configDefinition = {
 		...config.definition,
@@ -65,7 +49,7 @@ export async function runCliOnce(
 		writeToCache(configFileName, configResults),
 	]);
 
-	await renderReports(presenter, configResults, formattingResults);
+	await renderer.render({ configResults, formattingResults });
 
 	if (formattingResults.dirty.size && !formattingResults.written) {
 		return 1;

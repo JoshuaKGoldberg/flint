@@ -6,12 +6,23 @@ import { FileRuleReport } from "./reports.js";
 export type CorePresenterName = "brief" | "detailed" | (string & {});
 
 export interface Presenter {
-	about: PresenterAbout;
-	initialize(context: PresenterInitializeContext): PresenterInitialized;
+	header: string;
+	renderFile(context: PresenterFileContext): RenderGenerator;
+	summarize(context: PresenterSummarizeContext): RenderGenerator;
 }
 
 export interface PresenterAbout {
 	name: string;
+}
+
+export interface PresenterFactory {
+	about: PresenterAbout;
+	initialize(context: PresenterInitializeContext): Presenter;
+}
+
+export interface PresenterFileContext {
+	file: PresenterVirtualFile;
+	reports: FileRuleReport[];
 }
 
 export interface PresenterInitializeContext {
@@ -19,22 +30,7 @@ export interface PresenterInitializeContext {
 	runMode: RunMode;
 }
 
-export interface PresenterInitialized {
-	header: string;
-	runtime: PresenterRuntime;
-}
-
-export interface PresenterRuntime {
-	renderFile(context: PresenterRuntimeFileContext): RenderGenerator;
-	summarize(context: PresenterRuntimeSummarizeContext): RenderGenerator;
-}
-
-export interface PresenterRuntimeFileContext {
-	file: PresenterVirtualFile;
-	reports: FileRuleReport[];
-}
-
-export interface PresenterRuntimeSummarizeContext {
+export interface PresenterSummarizeContext {
 	configResults: RunConfigResultsMaybeWithFixes;
 	formattingResults: FormattingResults;
 }
