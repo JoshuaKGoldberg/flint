@@ -7,6 +7,9 @@ export const options = {
 	help: {
 		type: "boolean",
 	},
+	interactive: {
+		type: "boolean",
+	},
 	presenter: {
 		type: "string",
 	},

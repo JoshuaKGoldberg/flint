@@ -1,6 +1,6 @@
 import { styleText } from "node:util";
 
-import { PresenterRuntimeSummarizeContext } from "../../types/presenters.js";
+import { PresenterSummarizeContext } from "../../types/presenters.js";
 import { pluralize } from "../pluralize.js";
 
 export interface SummaryCounts {
@@ -11,7 +11,7 @@ export interface SummaryCounts {
 
 export function* presentSummary(
 	counts: SummaryCounts,
-	{ configResults, formattingResults }: PresenterRuntimeSummarizeContext,
+	{ configResults, formattingResults }: PresenterSummarizeContext,
 ) {
 	if (configResults.fixed?.size) {
 		yield styleText(

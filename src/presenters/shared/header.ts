@@ -9,6 +9,6 @@ export function presentHeader({
 	return chalk.gray(
 		runMode === "single-run"
 			? `Linting with ${configFileName}...`
-			: `Running with ${configFileName} in watch mode (start time: ${Date.now()})...`,
+			: `Running with ${configFileName} in --watch mode (start time: ${Date.now()})...`,
 	);
 }

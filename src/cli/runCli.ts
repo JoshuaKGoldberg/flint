@@ -1,6 +1,9 @@
 import { parseArgs } from "node:util";
 
-import { getPresenter } from "../presenters/getPresenter.js";
+import { getPresenterFactory } from "../presenters/getPresenterFactory.js";
+import { interactiveRendererFactory } from "../renderers/interactive/interactiveRendererFactory.js";
+import { singleRendererFactory } from "../renderers/singleRendererFactory.js";
+import { findConfigFileName } from "./findConfigFileName.js";
 import { options } from "./options.js";
 import { packageData } from "./packageData.js";
 import { runCliOnce } from "./runCliOnce.js";
@@ -26,11 +29,35 @@ export async function runCli() {
 		return 0;
 	}
 
-	const [runner, runMode] = values.watch
-		? ([runCliWatch, "watch"] as const)
-		: ([runCliOnce, "single-run"] as const);
+	const configFileName = await findConfigFileName(process.cwd());
+	if (!configFileName) {
+		console.error("No flint.config.* file found");
+		return 2;
+	}
 
-	const presenter = getPresenter(values.presenter);
+	const presenterFactory = getPresenterFactory(values);
+	const rendererFactory = values.interactive
+		? interactiveRendererFactory
+		: singleRendererFactory;
 
-	return await runner(presenter, runMode, values);
+	const getRenderer = () =>
+		rendererFactory.initialize(
+			presenterFactory.initialize({
+				configFileName,
+				runMode: values.watch ? "watch" : "single-run",
+			}),
+		);
+
+	if (values.watch) {
+		await runCliWatch(configFileName, getRenderer, values);
+		console.log("👋 Thanks for using Flint!");
+		return 0;
+	}
+
+	const renderer = getRenderer();
+	const exitCode = await runCliOnce(configFileName, renderer, values);
+
+	renderer.dispose?.();
+
+	return exitCode;
 }

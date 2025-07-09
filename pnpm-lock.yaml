@@ -26,6 +26,9 @@ importers:
       chalk:
         specifier: ^5.4.1
         version: 5.4.1
+      cli-cursor:
+        specifier: ^5.0.0
+        version: 5.0.0
       debounce:
         specifier: ^2.2.0
         version: 2.2.0
