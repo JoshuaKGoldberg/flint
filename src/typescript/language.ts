@@ -11,7 +11,6 @@ import * as ts from "typescript";
 import { createLanguage } from "../languages/createLanguage.js";
 import { createTypeScriptFileFromProgram } from "./createTypeScriptFileFromProgram.js";
 import { createTypeScriptFileFromProjectService } from "./createTypeScriptFileFromProjectService.js";
-import { formatDiagnostic } from "./formatDiagnostic.js";
 import { TSNodesByName } from "./nodes.js";
 
 const log = debugForFile(import.meta.filename);
@@ -82,25 +81,6 @@ export const typescript = createLanguage<TSNodesByName, TypeScriptServices>({
 		});
 
 		return {
-			getDiagnostics: () => {
-				return Array.from(seenPrograms)
-					.flatMap((program) => ts.getPreEmitDiagnostics(program))
-					.map((diagnostic) => ({
-						code: `TS${diagnostic.code}`,
-						text: formatDiagnostic({
-							...diagnostic,
-							// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-							length: diagnostic.length!,
-							message: ts.flattenDiagnosticMessageText(
-								diagnostic.messageText,
-								"\n",
-							),
-							name: `TS${diagnostic.code}`,
-							// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-							start: diagnostic.start!,
-						}),
-					}));
-			},
 			prepareFileOnDisk: (filePathAbsolute) => {
 				const program = servicePrograms.get(filePathAbsolute);
 

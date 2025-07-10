@@ -2,7 +2,11 @@ import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 
 import { ConfigRuleDefinition } from "../types/configs.js";
-import { AnyLanguage, LanguageFileFactory } from "../types/languages.js";
+import {
+	AnyLanguage,
+	LanguageFileDiagnostic,
+	LanguageFileFactory,
+} from "../types/languages.js";
 import { FileRuleReport } from "../types/reports.js";
 import { computeRulesWithOptions } from "./computeRulesWithOptions.js";
 
@@ -16,6 +20,7 @@ export function lintFile(
 	log("Linting: %s:", filePathAbsolute);
 
 	const dependencies = new Set<string>();
+	const diagnostics: LanguageFileDiagnostic[] = [];
 	const reports: FileRuleReport[] = [];
 
 	const languageFiles = new CachedFactory((language: AnyLanguage) =>
@@ -44,8 +49,27 @@ export function lintFile(
 		log("Found %d reports from rule %s", ruleReports.length, rule.about.id);
 
 		reports.push(
-			...ruleReports.map((report) => ({ about: rule.about, ...report })),
+			...ruleReports.map((report) => ({
+				about: rule.about,
+				...report,
+			})),
 		);
+	}
+
+	for (const [language, file] of languageFiles.entries()) {
+		if (file.getDiagnostics) {
+			log(
+				"Retrieving language %s diagnostics for file file %s",
+				language.about.name,
+				filePathAbsolute,
+			);
+			diagnostics.push(...file.getDiagnostics());
+			log(
+				"Retrieved language %s diagnostics for file file %s",
+				language.about.name,
+				filePathAbsolute,
+			);
+		}
 	}
 
 	for (const [language, file] of languageFiles.entries()) {
@@ -56,5 +80,5 @@ export function lintFile(
 
 	log("Found %d reports for %s", reports.length, filePathAbsolute);
 
-	return { dependencies, reports };
+	return { dependencies, diagnostics, reports };
 }

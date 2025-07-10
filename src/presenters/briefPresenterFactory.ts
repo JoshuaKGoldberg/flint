@@ -49,9 +49,7 @@ export const briefPresenterFactory: PresenterFactory = {
 			},
 			*summarize(summaryContext) {
 				yield* presentSummary(counts, summaryContext);
-				yield* presentDiagnostics(
-					summaryContext.configResults.languageDiagnostics,
-				);
+				yield* presentDiagnostics(summaryContext.configResults.filesResults);
 			},
 		};
 	},

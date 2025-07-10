@@ -8,7 +8,7 @@ import {
 	ConfigUseDefinition,
 	ProcessedConfigDefinition,
 } from "../types/configs.js";
-import { AnyLanguage, LanguageFileDiagnostic } from "../types/languages.js";
+import { AnyLanguage } from "../types/languages.js";
 import { FileResults, RunConfigResults } from "../types/linting.js";
 import { makeAbsolute } from "../utils/makeAbsolute.js";
 import { lintFile } from "./lintFile.js";
@@ -63,7 +63,7 @@ export async function runConfig(
 	// The separate lintFile function recomputes rule options repeatedly.
 	// It'd be better to group files together in some way.
 	for (const filePath of allFilePaths) {
-		const { dependencies, reports } =
+		const { dependencies, diagnostics, reports } =
 			cached?.get(filePath) ??
 			lintFile(
 				makeAbsolute(filePath),
@@ -75,6 +75,7 @@ export async function runConfig(
 
 		filesResults.set(filePath, {
 			dependencies: new Set(dependencies),
+			diagnostics: diagnostics ?? [],
 			reports: reports ?? [],
 		});
 
@@ -85,15 +86,5 @@ export async function runConfig(
 
 	log("Found %d report(s)", totalReports);
 
-	const languageDiagnostics: LanguageFileDiagnostic[] = [];
-
-	for (const [language, languageFileFactory] of languageFactories.entries()) {
-		if (languageFileFactory.getDiagnostics) {
-			log("Retrieving language diagnostics for: %s", language.about.name);
-			languageDiagnostics.push(...languageFileFactory.getDiagnostics());
-			log("Retrieved language diagnostics for: %s", language.about.name);
-		}
-	}
-
-	return { allFilePaths, cached, filesResults, languageDiagnostics };
+	return { allFilePaths, cached, filesResults };
 }

@@ -1,9 +1,12 @@
 import { styleText } from "node:util";
 
-import { LanguageFileDiagnostic } from "../../types/languages.js";
+import { FileResults } from "../../types/linting.js";
 import { pluralize } from "../pluralize.js";
 
-export function* presentDiagnostics(diagnostics: LanguageFileDiagnostic[]) {
+export function* presentDiagnostics(filesResults: Map<string, FileResults>) {
+	const diagnostics = Array.from(filesResults.values()).flatMap(
+		(fileResults) => fileResults.diagnostics,
+	);
 	if (!diagnostics.length) {
 		return;
 	}

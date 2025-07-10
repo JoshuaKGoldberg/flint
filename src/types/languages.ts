@@ -70,6 +70,7 @@ export interface LanguageFileCacheImpacts {
  */
 export interface LanguageFile extends Disposable {
 	cache?: LanguageFileCacheImpacts;
+	getDiagnostics?(): LanguageDiagnostics;
 	runRule<
 		OptionsSchema extends AnyOptionalSchema | undefined =
 			| AnyOptionalSchema
@@ -85,6 +86,7 @@ export interface LanguageFile extends Disposable {
  */
 export interface LanguageFileDefinition extends Partial<Disposable> {
 	cache?: LanguageFileCacheImpacts;
+	getDiagnostics?(): LanguageDiagnostics;
 	runRule<
 		OptionsSchema extends AnyOptionalSchema | undefined =
 			| AnyOptionalSchema
@@ -99,7 +101,6 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
  * Creates wrappers around files to be linted.
  */
 export interface LanguageFileFactory extends Disposable {
-	getDiagnostics?(): LanguageDiagnostics;
 	prepareFileOnDisk(filePathAbsolute: string): LanguageFile;
 	prepareFileVirtually(
 		filePathAbsolute: string,
@@ -111,7 +112,6 @@ export interface LanguageFileFactory extends Disposable {
  * Internal definition of how to create wrappers around files to be linted.
  */
 export interface LanguageFileFactoryDefinition extends Partial<Disposable> {
-	getDiagnostics?(): LanguageDiagnostics;
 	prepareFileOnDisk(filePathAbsolute: string): LanguageFileDefinition;
 	prepareFileVirtually(
 		filePathAbsolute: string,

@@ -3,6 +3,7 @@ import * as ts from "typescript";
 import { LanguageFileDefinition } from "../types/languages.js";
 import { NormalizedRuleReport, RuleReport } from "../types/reports.js";
 import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
+import { formatDiagnostic } from "./formatDiagnostic.js";
 import { normalizeRange } from "./normalizeRange.js";
 
 export function createTypeScriptFileFromProgram(
@@ -18,6 +19,25 @@ export function createTypeScriptFileFromProgram(
 
 				...collectReferencedFilePaths(program, sourceFile),
 			],
+		},
+		getDiagnostics() {
+			return ts
+				.getPreEmitDiagnostics(program, sourceFile)
+				.map((diagnostic) => ({
+					code: `TS${diagnostic.code}`,
+					text: formatDiagnostic({
+						...diagnostic,
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						length: diagnostic.length!,
+						message: ts.flattenDiagnosticMessageText(
+							diagnostic.messageText,
+							"\n",
+						),
+						name: `TS${diagnostic.code}`,
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						start: diagnostic.start!,
+					}),
+				}));
 		},
 		runRule(rule, options) {
 			const reports: NormalizedRuleReport[] = [];

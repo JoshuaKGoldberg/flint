@@ -1,3 +1,4 @@
+import { LanguageFileDiagnostic } from "./languages.js";
 import { FileRuleReport } from "./reports.js";
 
 export interface CacheStorage {
@@ -12,6 +13,8 @@ export interface FileCacheImpacts {
 }
 
 export interface FileCacheStorage extends FileCacheImpacts {
+	diagnostics?: LanguageFileDiagnostic[];
+
 	/**
 	 * Reports from the last time the file was linted.
 	 */

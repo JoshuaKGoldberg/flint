@@ -55,12 +55,8 @@ export async function runCliOnce(
 		return 1;
 	}
 
-	if (configResults.languageDiagnostics.length) {
-		return 1;
-	}
-
 	for (const fileResults of configResults.filesResults.values()) {
-		if (fileResults.reports.length) {
+		if (fileResults.diagnostics.length || fileResults.reports.length) {
 			return 1;
 		}
 	}

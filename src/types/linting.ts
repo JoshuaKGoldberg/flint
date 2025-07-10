@@ -4,6 +4,7 @@ import { FileRuleReport, FileRuleReportWithFix } from "./reports.js";
 
 export interface FileResults {
 	dependencies: Set<string>;
+	diagnostics: LanguageFileDiagnostic[];
 	reports: FileRuleReport[];
 }
 
@@ -15,7 +16,6 @@ export interface RunConfigResults {
 	allFilePaths: Set<string>;
 	cached?: Map<string, FileCacheStorage>;
 	filesResults: Map<string, FileResults>;
-	languageDiagnostics: LanguageFileDiagnostic[];
 }
 
 export interface RunConfigResultsMaybeWithFixes extends RunConfigResults {
