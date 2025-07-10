@@ -8,7 +8,7 @@ import {
 	ConfigUseDefinition,
 	ProcessedConfigDefinition,
 } from "../types/configs.js";
-import { AnyLanguage } from "../types/languages.js";
+import { AnyLanguage, LanguageFileDiagnostic } from "../types/languages.js";
 import { FileResults, RunConfigResults } from "../types/linting.js";
 import { makeAbsolute } from "../utils/makeAbsolute.js";
 import { lintFile } from "./lintFile.js";
@@ -53,9 +53,9 @@ export async function runConfig(
 	const filesResults = new Map<string, FileResults>();
 	let totalReports = 0;
 
-	const fileFactories = new CachedFactory((language: AnyLanguage) =>
-		language.prepare(),
-	);
+	const languageFactories = new CachedFactory((language: AnyLanguage) => {
+		return language.prepare();
+	});
 
 	const cached = await readFromCache(allFilePaths, configDefinition.filePath);
 
@@ -66,8 +66,8 @@ export async function runConfig(
 		const { dependencies, reports } =
 			cached?.get(filePath) ??
 			lintFile(
-				fileFactories,
 				makeAbsolute(filePath),
+				languageFactories,
 				useDefinitions
 					.filter((use) => use.files.has(filePath))
 					.flatMap((use) => use.rules),
@@ -85,5 +85,15 @@ export async function runConfig(
 
 	log("Found %d report(s)", totalReports);
 
-	return { allFilePaths, cached, filesResults };
+	const languageDiagnostics: LanguageFileDiagnostic[] = [];
+
+	for (const [language, languageFileFactory] of languageFactories.entries()) {
+		if (languageFileFactory.getDiagnostics) {
+			log("Retrieving language diagnostics for: %s", language.about.name);
+			languageDiagnostics.push(...languageFileFactory.getDiagnostics());
+			log("Retrieved language diagnostics for: %s", language.about.name);
+		}
+	}
+
+	return { allFilePaths, cached, filesResults, languageDiagnostics };
 }

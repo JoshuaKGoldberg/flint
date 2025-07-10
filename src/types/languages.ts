@@ -36,9 +36,6 @@ export interface CreateRule<AstNodesByName, ContextServices extends object> {
 	): Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
 }
 
-/**
- * A single lint rule, as used by users in configs and to create rules.
- */
 export interface Language<AstNodesByName, ContextServices extends object>
 	extends LanguageDefinition {
 	createRule: CreateRule<AstNodesByName, ContextServices>;
@@ -47,6 +44,13 @@ export interface Language<AstNodesByName, ContextServices extends object>
 
 export interface LanguageAbout {
 	name: string;
+}
+
+export type LanguageDiagnostics = LanguageFileDiagnostic[];
+
+export interface LanguageFileDiagnostic {
+	code: string;
+	text: string;
 }
 
 /**
@@ -95,6 +99,7 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
  * Creates wrappers around files to be linted.
  */
 export interface LanguageFileFactory extends Disposable {
+	getDiagnostics?(): LanguageDiagnostics;
 	prepareFileOnDisk(filePathAbsolute: string): LanguageFile;
 	prepareFileVirtually(
 		filePathAbsolute: string,
@@ -106,6 +111,7 @@ export interface LanguageFileFactory extends Disposable {
  * Internal definition of how to create wrappers around files to be linted.
  */
 export interface LanguageFileFactoryDefinition extends Partial<Disposable> {
+	getDiagnostics?(): LanguageDiagnostics;
 	prepareFileOnDisk(filePathAbsolute: string): LanguageFileDefinition;
 	prepareFileVirtually(
 		filePathAbsolute: string,

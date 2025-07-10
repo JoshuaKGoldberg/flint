@@ -9,8 +9,8 @@ import { computeRulesWithOptions } from "./computeRulesWithOptions.js";
 const log = debugForFile(import.meta.filename);
 
 export function lintFile(
-	fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
 	filePathAbsolute: string,
+	languageFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
 	ruleDefinitions: ConfigRuleDefinition[],
 ) {
 	log("Linting: %s:", filePathAbsolute);
@@ -19,7 +19,7 @@ export function lintFile(
 	const reports: FileRuleReport[] = [];
 
 	const languageFiles = new CachedFactory((language: AnyLanguage) =>
-		fileFactories.get(language).prepareFileOnDisk(filePathAbsolute),
+		languageFactories.get(language).prepareFileOnDisk(filePathAbsolute),
 	);
 	const rulesWithOptions = computeRulesWithOptions(ruleDefinitions);
 

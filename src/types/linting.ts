@@ -1,4 +1,5 @@
 import { FileCacheStorage } from "./cache.js";
+import { LanguageFileDiagnostic } from "./languages.js";
 import { FileRuleReport, FileRuleReportWithFix } from "./reports.js";
 
 export interface FileResults {
@@ -14,6 +15,7 @@ export interface RunConfigResults {
 	allFilePaths: Set<string>;
 	cached?: Map<string, FileCacheStorage>;
 	filesResults: Map<string, FileResults>;
+	languageDiagnostics: LanguageFileDiagnostic[];
 }
 
 export interface RunConfigResultsMaybeWithFixes extends RunConfigResults {

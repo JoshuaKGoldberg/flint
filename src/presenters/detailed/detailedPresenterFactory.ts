@@ -3,6 +3,7 @@ import chalk from "chalk";
 import { PresenterFactory } from "../../types/presenters.js";
 import { hasFix } from "../../utils/predicates.js";
 import { presentHeader } from "../shared/header.js";
+import { presentDiagnostics } from "../shared/presentDiagnostics.js";
 import { presentSummary } from "../shared/summary.js";
 import { indenter } from "./constants.js";
 import { createDetailedReport } from "./createDetailedReport.js";
@@ -50,6 +51,9 @@ export const detailedPresenterFactory: PresenterFactory = {
 			},
 			*summarize(summaryContext) {
 				yield* presentSummary(counts, summaryContext);
+				yield* presentDiagnostics(
+					summaryContext.configResults.languageDiagnostics,
+				);
 			},
 		};
 	},
