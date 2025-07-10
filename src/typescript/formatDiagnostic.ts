@@ -5,6 +5,8 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
+export const exampleTypeError: string = 123;
+
 import ts, {
 	flattenDiagnosticMessageText,
 	getLineAndCharacterOfPosition,
