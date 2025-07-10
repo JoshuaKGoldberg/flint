@@ -53,9 +53,9 @@ export async function runConfig(
 	const filesResults = new Map<string, FileResults>();
 	let totalReports = 0;
 
-	const fileFactories = new CachedFactory((language: AnyLanguage) =>
-		language.prepare(),
-	);
+	const languageFactories = new CachedFactory((language: AnyLanguage) => {
+		return language.prepare();
+	});
 
 	const cached = await readFromCache(allFilePaths, configDefinition.filePath);
 
@@ -63,11 +63,11 @@ export async function runConfig(
 	// The separate lintFile function recomputes rule options repeatedly.
 	// It'd be better to group files together in some way.
 	for (const filePath of allFilePaths) {
-		const { dependencies, reports } =
+		const { dependencies, diagnostics, reports } =
 			cached?.get(filePath) ??
 			lintFile(
-				fileFactories,
 				makeAbsolute(filePath),
+				languageFactories,
 				useDefinitions
 					.filter((use) => use.files.has(filePath))
 					.flatMap((use) => use.rules),
@@ -75,6 +75,7 @@ export async function runConfig(
 
 		filesResults.set(filePath, {
 			dependencies: new Set(dependencies),
+			diagnostics: diagnostics ?? [],
 			reports: reports ?? [],
 		});
 

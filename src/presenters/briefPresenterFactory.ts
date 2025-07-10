@@ -6,6 +6,7 @@ import { PresenterFactory } from "../types/presenters.js";
 import { makeAbsolute } from "../utils/makeAbsolute.js";
 import { hasFix } from "../utils/predicates.js";
 import { presentHeader } from "./shared/header.js";
+import { presentDiagnostics } from "./shared/presentDiagnostics.js";
 import { presentSummary } from "./shared/summary.js";
 
 export const briefPresenterFactory: PresenterFactory = {
@@ -48,6 +49,7 @@ export const briefPresenterFactory: PresenterFactory = {
 			},
 			*summarize(summaryContext) {
 				yield* presentSummary(counts, summaryContext);
+				yield* presentDiagnostics(summaryContext.configResults.filesResults);
 			},
 		};
 	},

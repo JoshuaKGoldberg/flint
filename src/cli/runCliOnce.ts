@@ -56,7 +56,7 @@ export async function runCliOnce(
 	}
 
 	for (const fileResults of configResults.filesResults.values()) {
-		if (fileResults.reports.length) {
+		if (fileResults.diagnostics.length || fileResults.reports.length) {
 			return 1;
 		}
 	}

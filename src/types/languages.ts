@@ -36,9 +36,6 @@ export interface CreateRule<AstNodesByName, ContextServices extends object> {
 	): Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
 }
 
-/**
- * A single lint rule, as used by users in configs and to create rules.
- */
 export interface Language<AstNodesByName, ContextServices extends object>
 	extends LanguageDefinition {
 	createRule: CreateRule<AstNodesByName, ContextServices>;
@@ -47,6 +44,13 @@ export interface Language<AstNodesByName, ContextServices extends object>
 
 export interface LanguageAbout {
 	name: string;
+}
+
+export type LanguageDiagnostics = LanguageFileDiagnostic[];
+
+export interface LanguageFileDiagnostic {
+	code: string;
+	text: string;
 }
 
 /**
@@ -66,6 +70,7 @@ export interface LanguageFileCacheImpacts {
  */
 export interface LanguageFile extends Disposable {
 	cache?: LanguageFileCacheImpacts;
+	getDiagnostics?(): LanguageDiagnostics;
 	runRule<
 		OptionsSchema extends AnyOptionalSchema | undefined =
 			| AnyOptionalSchema
@@ -81,6 +86,7 @@ export interface LanguageFile extends Disposable {
  */
 export interface LanguageFileDefinition extends Partial<Disposable> {
 	cache?: LanguageFileCacheImpacts;
+	getDiagnostics?(): LanguageDiagnostics;
 	runRule<
 		OptionsSchema extends AnyOptionalSchema | undefined =
 			| AnyOptionalSchema
