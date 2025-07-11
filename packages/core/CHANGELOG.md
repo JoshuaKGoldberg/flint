@@ -1,5 +1,13 @@
 # @flint/core
 
+## 0.13.1
+
+### Patch Changes
+
+- 9909b48: add README.md
+- Updated dependencies [9909b48]
+  - @flint.fyi/utils@0.13.1
+
 ## 0.13.0
 
 ### Minor Changes
