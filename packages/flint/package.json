@@ -14,6 +14,7 @@
 	},
 	"type": "module",
 	"main": "./lib/index.js",
+	"bin": "bin/index.js",
 	"dependencies": {
 		"@flint/cli": "workspace:",
 		"@flint/core": "workspace:",

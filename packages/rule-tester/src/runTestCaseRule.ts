@@ -1,14 +1,12 @@
-import { CachedFactory } from "cached-factory";
-
 import {
 	AnyLanguage,
-	LanguageFileFactory,
-} from "../../core/src/types/languages.js";
-import { AnyRule, RuleAbout } from "../../core/src/types/rules.js";
-import {
 	AnyOptionalSchema,
+	AnyRule,
 	InferredObject,
-} from "../../core/src/types/shapes.js";
+	LanguageFileFactory,
+	RuleAbout,
+} from "@flint/core";
+import { CachedFactory } from "cached-factory";
 
 export interface NormalizedTestCase {
 	code: string;
@@ -32,7 +30,7 @@ export function runTestCaseRule<
 	using file = fileFactories
 		// TODO: How to make types more permissive around assignability?
 		// See AnyRule's any
-
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		.get(rule.language)
 		.prepareFileVirtually(fileName, code);
 
