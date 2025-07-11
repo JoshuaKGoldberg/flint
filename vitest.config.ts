@@ -12,14 +12,14 @@ export default defineConfig({
 			],
 			include: ["packages/*/src/"],
 		},
-		testTimeout: 10_000,
-		workspace: readdirSync("./packages").map((name) => ({
+		projects: readdirSync("./packages").map((name) => ({
 			test: {
 				clearMocks: true,
 				include: ["**/src/**/*.test.ts"],
 				name,
 				root: `./packages/${name}`,
 				setupFiles: ["console-fail-test/setup"],
+				testTimeout: 10_000,
 			},
 		})),
 	},
