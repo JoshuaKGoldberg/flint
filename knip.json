@@ -1,7 +1,5 @@
 {
 	"$schema": "https://unpkg.com/knip@5.61.2/schema.json",
-	"entry": ["src/**/*.test.*"],
-	"ignore": ["src/fixtures/*"],
-	"ignoreExportsUsedInFile": { "interface": true, "type": true },
-	"project": ["src/**/*.ts"]
+	"ignore": ["flint.config.*", "packages/fixtures/*"],
+	"ignoreExportsUsedInFile": { "interface": true, "type": true }
 }

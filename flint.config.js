@@ -1,4 +1,4 @@
-import { defineConfig, json, md, ts, yaml } from "./lib/index.js";
+import { defineConfig, json, md, ts, yml } from "./packages/flint/lib/index.js";
 
 export default defineConfig({
 	use: [
@@ -11,14 +11,14 @@ export default defineConfig({
 			rules: [md.presets.logical],
 		},
 		{
-			exclude: process.env.LINT_FIXTURES ? [] : ["src/fixtures"],
+			exclude: process.env.LINT_FIXTURES ? [] : ["packages/fixtures"],
 			glob: ts.globs.all,
 			rules: [ts.presets.logical],
 		},
 		{
 			exclude: ["pnpm-lock.yaml"],
-			glob: yaml.globs.all,
-			rules: [yaml.presets.logical],
+			glob: yml.globs.all,
+			rules: [yml.presets.logical],
 		},
 	],
 });

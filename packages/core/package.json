@@ -1,0 +1,30 @@
+{
+	"name": "@flint/core",
+	"version": "0.11.0",
+	"description": "[Experimental] Core building blocks for Flint.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"directory": "packages/core"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"type": "module",
+	"main": "./lib/index.js",
+	"dependencies": {
+		"@flint/utils": "workspace:",
+		"cached-factory": "^0.1.0",
+		"debug-for-file": "^0.2.0",
+		"prettier": "3.6.1",
+		"zod": "^3.25.67"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"provenance": true
+	}
+}

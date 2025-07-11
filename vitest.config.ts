@@ -1,16 +1,26 @@
-import { defaultExclude, defineConfig } from "vitest/config";
+import { readdirSync } from "node:fs";
+import { coverageConfigDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig({
 	test: {
-		clearMocks: true,
 		coverage: {
 			all: true,
-			exclude: [...defaultExclude, "src/index.ts", "**/*.test-d.ts"],
-			include: ["src"],
-			reporter: ["html", "lcov"],
+			exclude: [
+				...coverageConfigDefaults.exclude,
+				"**/config.ts",
+				"packages/*/src/index.ts",
+			],
+			include: ["packages/*/src/"],
 		},
-		exclude: ["lib", "node_modules"],
-		setupFiles: ["console-fail-test/setup"],
 		testTimeout: 10_000,
+		workspace: readdirSync("./packages").map((name) => ({
+			test: {
+				clearMocks: true,
+				include: ["**/src/**/*.test.ts"],
+				name,
+				root: `./packages/${name}`,
+				setupFiles: ["console-fail-test/setup"],
+			},
+		})),
 	},
 });

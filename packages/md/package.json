@@ -1,0 +1,35 @@
+{
+	"name": "@flint/md",
+	"version": "0.11.0",
+	"description": "[Experimental] Markdown language plugin for Flint.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"directory": "packages/md"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"type": "module",
+	"main": "./lib/index.js",
+	"dependencies": {
+		"@flint/core": "workspace:",
+		"@flint/rule-tester": "workspace:",
+		"remark-parse": "^11.0.0",
+		"unified": "^11.0.5",
+		"unist-util-visit": "^5.0.0",
+		"vfile": "^6.0.3",
+		"vfile-location": "^5.0.3"
+	},
+	"devDependencies": {
+		"@types/unist": "^3.0.3"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"provenance": true
+	}
+}

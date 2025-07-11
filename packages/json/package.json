@@ -1,0 +1,28 @@
+{
+	"name": "@flint/json",
+	"version": "0.11.0",
+	"description": "[Experimental] JSON language plugin for Flint.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"directory": "packages/json"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"type": "module",
+	"main": "./lib/index.js",
+	"dependencies": {
+		"@flint/core": "workspace:",
+		"@flint/rule-tester": "workspace:",
+		"typescript": ">=5.8.0"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"provenance": true
+	}
+}
