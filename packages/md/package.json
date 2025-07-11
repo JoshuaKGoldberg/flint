@@ -24,7 +24,7 @@
 		"vfile-location": "^5.0.3"
 	},
 	"devDependencies": {
-		"@types/unist": "^3.0.3"
+		"@types/unist": "3.0.3"
 	},
 	"engines": {
 		"node": ">=24.0.0"
