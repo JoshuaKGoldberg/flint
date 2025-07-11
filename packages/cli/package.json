@@ -1,6 +1,6 @@
 {
 	"name": "@flint/cli",
-	"version": "0.12.0",
+	"version": "0.13.0",
 	"description": "[Experimental] Command-line interface for Flint.",
 	"repository": {
 		"type": "git",
