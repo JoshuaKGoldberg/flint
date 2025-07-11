@@ -16,8 +16,7 @@
 	"main": "./lib/index.js",
 	"dependencies": {
 		"@flint/core": "workspace:",
-		"cached-factory": "^0.1.0",
-		"debug-for-file": "^0.2.0"
+		"cached-factory": "^0.1.0"
 	},
 	"engines": {
 		"node": ">=24.0.0"

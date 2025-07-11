@@ -27,11 +27,6 @@ export interface ConfigUseDefinition {
 	rules?: AnyLevelArray<ConfigRuleDefinition>;
 }
 
-export interface NormalizedConfigUseDefinition extends ConfigUseDefinition {
-	glob: string[];
-	rules: ConfigRuleDefinition[];
-}
-
 /**
  * Representation of a config that's been loaded from disk.
  */

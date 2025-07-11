@@ -17,14 +17,10 @@
 	"dependencies": {
 		"@flint/core": "workspace:",
 		"@flint/rule-tester": "workspace:",
-		"debug-for-file": "^0.2.0",
 		"unist-util-visit": "^5.0.0",
 		"vfile": "^6.0.3",
 		"vfile-location": "^5.0.3",
 		"yaml-unist-parser": "^2.0.5"
-	},
-	"devDependencies": {
-		"@types/unist": "^3.0.3"
 	},
 	"engines": {
 		"node": ">=24.0.0"

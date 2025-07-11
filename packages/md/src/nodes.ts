@@ -2,12 +2,6 @@ import type * as mdast from "mdast";
 
 import { Point, Position } from "unist";
 
-export type FootnoteDefinitionWithPosition =
-	WithPosition<mdast.FootnoteDefinition>;
-
-export type FootnoteReferenceWithPosition =
-	WithPosition<mdast.FootnoteReference>;
-
 export interface MarkdownNodesByName extends RootContentMapWithChildren {
 	root: WithPosition<mdast.Root>;
 }

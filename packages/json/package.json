@@ -17,7 +17,6 @@
 	"dependencies": {
 		"@flint/core": "workspace:",
 		"@flint/rule-tester": "workspace:",
-		"debug-for-file": "^0.2.0",
 		"typescript": ">=5.8.0"
 	},
 	"engines": {

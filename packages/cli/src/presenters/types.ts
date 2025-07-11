@@ -5,8 +5,6 @@ import type {
 	RunMode,
 } from "@flint/core";
 
-export type CorePresenterName = "brief" | "detailed" | (string & {});
-
 export interface Presenter {
 	header: string;
 	renderFile(context: PresenterFileContext): RenderGenerator;

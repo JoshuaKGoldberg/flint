@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      debug-for-file:
-        specifier: ^0.2.0
-        version: 0.2.0
       omit-empty:
         specifier: ^1.0.0
         version: 1.0.0
@@ -183,9 +180,6 @@ importers:
       '@flint/yml':
         specifier: 'workspace:'
         version: link:../yml
-      debug-for-file:
-        specifier: ^0.2.0
-        version: 0.2.0
 
   packages/json:
     dependencies:
@@ -195,9 +189,6 @@ importers:
       '@flint/rule-tester':
         specifier: 'workspace:'
         version: link:../rule-tester
-      debug-for-file:
-        specifier: ^0.2.0
-        version: 0.2.0
       typescript:
         specifier: '>=5.8.0'
         version: 5.8.3
@@ -210,9 +201,6 @@ importers:
       '@flint/rule-tester':
         specifier: 'workspace:'
         version: link:../rule-tester
-      debug-for-file:
-        specifier: ^0.2.0
-        version: 0.2.0
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
@@ -241,9 +229,6 @@ importers:
       cached-factory:
         specifier: ^0.1.0
         version: 0.1.0
-      debug-for-file:
-        specifier: ^0.2.0
-        version: 0.2.0
 
   packages/ts:
     dependencies:
@@ -282,9 +267,6 @@ importers:
       '@flint/rule-tester':
         specifier: 'workspace:'
         version: link:../rule-tester
-      debug-for-file:
-        specifier: ^0.2.0
-        version: 0.2.0
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
@@ -297,10 +279,6 @@ importers:
       yaml-unist-parser:
         specifier: ^2.0.5
         version: 2.0.5
-    devDependencies:
-      '@types/unist':
-        specifier: ^3.0.3
-        version: 3.0.3
 
 packages:
 

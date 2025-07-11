@@ -20,8 +20,7 @@
 		"@flint/json": "workspace:",
 		"@flint/md": "workspace:",
 		"@flint/ts": "workspace:",
-		"@flint/yml": "workspace:",
-		"debug-for-file": "^0.2.0"
+		"@flint/yml": "workspace:"
 	},
 	"engines": {
 		"node": ">=24.0.0"

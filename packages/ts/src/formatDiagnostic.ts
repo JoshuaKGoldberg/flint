@@ -63,43 +63,6 @@ export function formatDiagnostic(diagnostic: RawDiagnostic) {
 	return output;
 }
 
-export function formatDiagnosticsSummary(diagnostics: RawDiagnostic[]) {
-	let output = "";
-	const filesMap = new Map<
-		ts.SourceFile,
-		{ count: number; firstLine: number }
-	>();
-	for (const d of diagnostics) {
-		if (d.file !== undefined) {
-			const file = filesMap.get(d.file);
-			if (file === undefined) {
-				const { line: firstLine } = d.file.getLineAndCharacterOfPosition(
-					d.start,
-				);
-				filesMap.set(d.file, { count: 1, firstLine });
-			} else {
-				file.count++;
-			}
-		}
-	}
-
-	if (filesMap.size > 0) {
-		const pluralize = (count: number, name: string) =>
-			count === 1 ? `${count} ${name}` : `${count} ${name}s`;
-		output += `\nFound ${pluralize(diagnostics.length, "error")} in ${pluralize(
-			filesMap.size,
-			"file",
-		)}`;
-	}
-	if (filesMap.size > 1) {
-		output += "\n\nErrors  Files";
-		for (const [file, { count, firstLine }] of filesMap) {
-			output += `\n${count.toString().padStart(6)}  ${displayFilename(file.fileName)}:${color(firstLine.toString(), COLOR.Grey)}`;
-		}
-	}
-	return output;
-}
-
 function color(text: string, formatStyle: string) {
 	return formatStyle + text + resetEscapeSequence;
 }
@@ -116,23 +79,11 @@ const COLOR = {
 	Yellow: "\u001b[93m",
 };
 
-export function displayFilename(name: string) {
+function displayFilename(name: string) {
 	if (name.startsWith("./")) {
 		return name.slice(2);
 	}
 	return name.slice(process.cwd().length + 1);
-}
-
-export function formatLocation(file: SourceFile, start: number): string {
-	const { character, line } = getLineAndCharacterOfPosition(file, start);
-	const relativeFileName = displayFilename(file.fileName);
-	let output = "";
-	output += color(relativeFileName, COLOR.Cyan);
-	output += ":";
-	output += color(`${line + 1}`, COLOR.Yellow);
-	output += ":";
-	output += color(`${character + 1}`, COLOR.Yellow);
-	return output;
 }
 
 function formatCodeSpan(
@@ -200,4 +151,16 @@ function formatCodeSpan(
 		context += resetEscapeSequence;
 	}
 	return context;
+}
+
+function formatLocation(file: SourceFile, start: number): string {
+	const { character, line } = getLineAndCharacterOfPosition(file, start);
+	const relativeFileName = displayFilename(file.fileName);
+	let output = "";
+	output += color(relativeFileName, COLOR.Cyan);
+	output += ":";
+	output += color(`${line + 1}`, COLOR.Yellow);
+	output += ":";
+	output += color(`${character + 1}`, COLOR.Yellow);
+	return output;
 }
