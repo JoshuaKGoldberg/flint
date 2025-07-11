@@ -2,7 +2,7 @@ import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 import { z } from "zod";
 
-import { getNodeRange } from "../getNodeRange.js";
+import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
 
 export default typescriptLanguage.createRule({
@@ -50,7 +50,7 @@ export default typescriptLanguage.createRule({
 
 				context.report({
 					message: "preferModules",
-					range: getNodeRange(node.getChildAt(0), context.sourceFile),
+					range: getTSNodeRange(node.getChildAt(0), context.sourceFile),
 				});
 			},
 		};

@@ -1,13 +1,15 @@
-export interface CommonTestCase<Options extends object | undefined> {
+export interface InvalidTestCase<Options extends object | undefined>
+	extends TestCase<Options> {
+	output?: string;
+	snapshot: string;
+}
+
+export interface TestCase<
+	Options extends object | undefined = object | undefined,
+> {
 	code: string;
 	fileName?: string;
 	options?: Options;
-}
-
-export interface InvalidTestCase<Options extends object | undefined>
-	extends CommonTestCase<Options> {
-	output?: string;
-	snapshot: string;
 }
 
 export type ValidTestCase<Options extends object | undefined> =
@@ -15,4 +17,4 @@ export type ValidTestCase<Options extends object | undefined> =
 	| ValidTestCaseObject<Options>;
 
 export type ValidTestCaseObject<Options extends object | undefined> =
-	CommonTestCase<Options>;
+	TestCase<Options>;
