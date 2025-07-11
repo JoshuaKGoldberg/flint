@@ -1,5 +1,11 @@
 # @flint/core
 
+## 0.13.2
+
+### Patch Changes
+
+- 4904678: allow omitting globs for createPlugin
+
 ## 0.13.1
 
 ### Patch Changes
