@@ -17,5 +17,4 @@ export * from "./types/ranges.js";
 export * from "./types/reports.js";
 export * from "./types/rules.js";
 export * from "./types/shapes.js";
-export * from "./types/testing.js";
 export * from "./utils/predicates.js";

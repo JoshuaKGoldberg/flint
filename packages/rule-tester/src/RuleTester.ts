@@ -3,16 +3,15 @@ import {
 	AnyOptionalSchema,
 	AnyRule,
 	InferredObject,
-	InvalidTestCase,
 	LanguageFileFactory,
 	RuleAbout,
-	ValidTestCase,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
 import assert from "node:assert";
 
 import { createReportSnapshot } from "./createReportSnapshot.js";
 import { runTestCaseRule } from "./runTestCaseRule.js";
+import { InvalidTestCase, ValidTestCase } from "./types.js";
 
 export interface RuleTesterOptions {
 	describe?: TesterSetup;
