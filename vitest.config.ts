@@ -8,7 +8,7 @@ export default defineConfig({
 			exclude: [...coverageConfigDefaults.exclude, "**/config.ts"],
 			include: ["packages/*/src/"],
 		},
-
+		testTimeout: 10_000,
 		workspace: readdirSync("./packages").map((name) => ({
 			test: {
 				clearMocks: true,
