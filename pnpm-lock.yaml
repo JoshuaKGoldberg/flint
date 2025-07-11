@@ -218,7 +218,7 @@ importers:
         version: 5.0.3
     devDependencies:
       '@types/unist':
-        specifier: ^3.0.3
+        specifier: 3.0.3
         version: 3.0.3
 
   packages/rule-tester:
