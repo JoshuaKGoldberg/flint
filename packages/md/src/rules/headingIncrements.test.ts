@@ -20,7 +20,6 @@ This heading level 3 skips more than one level from the previous heading level o
 	],
 	valid: [
 		`# Heading 1`,
-		`# Heading 1`,
 		`
 # Heading 1
 
