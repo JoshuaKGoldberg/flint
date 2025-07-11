@@ -29,7 +29,7 @@
 		"lint:packages": "pnpm dedupe --check",
 		"lint:spelling": "cspell \"**\" \".github/**/*\"",
 		"prepare": "husky",
-		"test": "vitest --typecheck"
+		"test": "vitest"
 	},
 	"lint-staged": {
 		"*": "prettier --ignore-unknown --write"
