@@ -40,6 +40,7 @@
 		"zod": "^3.25.67"
 	},
 	"devDependencies": {
+		"@changesets/cli": "^2.29.5",
 		"@eslint-community/eslint-plugin-eslint-comments": "4.5.0",
 		"@eslint/js": "9.30.0",
 		"@types/eslint-plugin-markdown": "2.0.2",
