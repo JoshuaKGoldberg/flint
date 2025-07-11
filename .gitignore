@@ -1,5 +1,5 @@
 node_modules
-packages/*/coverage
+coverage
 packages/*/lib
 tsconfig.tsbuildinfo
 tsconfig.vitest-temp.json

@@ -5,7 +5,11 @@ export default defineConfig({
 	test: {
 		coverage: {
 			all: true,
-			exclude: [...coverageConfigDefaults.exclude, "**/config.ts"],
+			exclude: [
+				...coverageConfigDefaults.exclude,
+				"**/config.ts",
+				"packages/*/src/index.ts",
+			],
 			include: ["packages/*/src/"],
 		},
 		testTimeout: 10_000,
