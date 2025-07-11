@@ -1,4 +1,4 @@
-import { FileRuleReport } from "@flint/core";
+import { FileRuleReport } from "@flint.fyi/core";
 import chalk from "chalk";
 
 import { indenter } from "./constants.js";

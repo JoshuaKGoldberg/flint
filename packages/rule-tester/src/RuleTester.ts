@@ -7,7 +7,7 @@ import {
 	LanguageFileFactory,
 	RuleAbout,
 	ValidTestCase,
-} from "@flint/core";
+} from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
 import assert from "node:assert";
 

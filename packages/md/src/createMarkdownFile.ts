@@ -2,7 +2,7 @@ import {
 	LanguageFileDefinition,
 	NormalizedRuleReport,
 	RuleReport,
-} from "@flint/core";
+} from "@flint.fyi/core";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";

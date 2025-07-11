@@ -1,4 +1,4 @@
-import { createLanguage } from "@flint/core";
+import { createLanguage } from "@flint.fyi/core";
 import fsSync from "node:fs";
 import * as ts from "typescript";
 

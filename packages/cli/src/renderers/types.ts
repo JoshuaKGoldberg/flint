@@ -1,4 +1,4 @@
-import { FormattingResults, RunConfigResults } from "@flint/core";
+import { FormattingResults, RunConfigResults } from "@flint.fyi/core";
 
 import { Presenter } from "../presenters/types.js";
 

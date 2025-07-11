@@ -120,10 +120,10 @@ importers:
 
   packages/cli:
     dependencies:
-      '@flint/core':
+      '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint/utils':
+      '@flint.fyi/utils':
         specifier: 'workspace:'
         version: link:../utils
       '@shikijs/cli':
@@ -147,7 +147,7 @@ importers:
 
   packages/core:
     dependencies:
-      '@flint/utils':
+      '@flint.fyi/utils':
         specifier: 'workspace:'
         version: link:../utils
       cached-factory:
@@ -165,31 +165,31 @@ importers:
 
   packages/flint:
     dependencies:
-      '@flint/cli':
+      '@flint.fyi/cli':
         specifier: 'workspace:'
         version: link:../cli
-      '@flint/core':
+      '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint/json':
+      '@flint.fyi/json':
         specifier: 'workspace:'
         version: link:../json
-      '@flint/md':
+      '@flint.fyi/md':
         specifier: 'workspace:'
         version: link:../md
-      '@flint/ts':
+      '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
-      '@flint/yml':
+      '@flint.fyi/yml':
         specifier: 'workspace:'
         version: link:../yml
 
   packages/json:
     dependencies:
-      '@flint/core':
+      '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint/rule-tester':
+      '@flint.fyi/rule-tester':
         specifier: 'workspace:'
         version: link:../rule-tester
       typescript:
@@ -198,10 +198,10 @@ importers:
 
   packages/md:
     dependencies:
-      '@flint/core':
+      '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint/rule-tester':
+      '@flint.fyi/rule-tester':
         specifier: 'workspace:'
         version: link:../rule-tester
       remark-parse:
@@ -226,7 +226,7 @@ importers:
 
   packages/rule-tester:
     dependencies:
-      '@flint/core':
+      '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
       cached-factory:
@@ -235,10 +235,10 @@ importers:
 
   packages/ts:
     dependencies:
-      '@flint/core':
+      '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint/rule-tester':
+      '@flint.fyi/rule-tester':
         specifier: 'workspace:'
         version: link:../rule-tester
       '@typescript-eslint/project-service':
@@ -264,10 +264,10 @@ importers:
 
   packages/yml:
     dependencies:
-      '@flint/core':
+      '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint/rule-tester':
+      '@flint.fyi/rule-tester':
         specifier: 'workspace:'
         version: link:../rule-tester
       unist-util-visit:

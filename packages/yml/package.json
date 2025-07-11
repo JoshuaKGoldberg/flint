@@ -1,5 +1,5 @@
 {
-	"name": "@flint/yml",
+	"name": "@flint.fyi/yml",
 	"version": "0.13.0",
 	"description": "[Experimental] Y(A)ML language plugin for Flint.",
 	"repository": {
@@ -15,8 +15,8 @@
 	"type": "module",
 	"main": "./lib/index.js",
 	"dependencies": {
-		"@flint/core": "workspace:",
-		"@flint/rule-tester": "workspace:",
+		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/rule-tester": "workspace:",
 		"unist-util-visit": "^5.0.0",
 		"vfile": "^6.0.3",
 		"vfile-location": "^5.0.3",

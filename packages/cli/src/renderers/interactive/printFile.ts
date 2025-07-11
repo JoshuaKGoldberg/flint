@@ -1,4 +1,4 @@
-import { FileRuleReport } from "@flint/core";
+import { FileRuleReport } from "@flint.fyi/core";
 import * as fs from "node:fs";
 
 import { Presenter } from "../../presenters/types.js";

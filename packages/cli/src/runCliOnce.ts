@@ -4,7 +4,7 @@ import {
 	runConfigFixing,
 	runPrettier,
 	writeToCache,
-} from "@flint/core";
+} from "@flint.fyi/core";
 import { debugForFile } from "debug-for-file";
 import path from "node:path";
 

@@ -1,4 +1,4 @@
-import { hasFix } from "@flint/core";
+import { hasFix } from "@flint.fyi/core";
 import chalk from "chalk";
 
 import { presentHeader } from "../shared/header.js";

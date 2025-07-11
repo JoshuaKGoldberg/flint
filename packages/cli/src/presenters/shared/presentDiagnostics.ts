@@ -1,4 +1,4 @@
-import { FileResults } from "@flint/core";
+import { FileResults } from "@flint.fyi/core";
 import { styleText } from "node:util";
 
 import { pluralize } from "../pluralize.js";

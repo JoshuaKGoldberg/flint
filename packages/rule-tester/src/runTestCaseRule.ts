@@ -5,7 +5,7 @@ import {
 	InferredObject,
 	LanguageFileFactory,
 	RuleAbout,
-} from "@flint/core";
+} from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
 
 export interface NormalizedTestCase {

@@ -1,5 +1,5 @@
 {
-	"name": "@flint/ts",
+	"name": "@flint.fyi/ts",
 	"version": "0.13.0",
 	"description": "[Experimental] TypeScript language plugin for Flint.",
 	"repository": {
@@ -15,8 +15,8 @@
 	"type": "module",
 	"main": "./lib/index.js",
 	"dependencies": {
-		"@flint/core": "workspace:",
-		"@flint/rule-tester": "workspace:",
+		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/rule-tester": "workspace:",
 		"@typescript-eslint/project-service": "^8.35.0",
 		"@typescript/vfs": "^1.6.1",
 		"cached-factory": "^0.1.0",

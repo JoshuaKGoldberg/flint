@@ -1,6 +1,6 @@
 import type * as mdast from "mdast";
 
-import { createLanguage } from "@flint/core";
+import { createLanguage } from "@flint.fyi/core";
 import fsSync from "node:fs";
 
 import { createMarkdownFile } from "./createMarkdownFile.js";

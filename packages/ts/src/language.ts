@@ -1,4 +1,4 @@
-import { createLanguage } from "@flint/core";
+import { createLanguage } from "@flint.fyi/core";
 import { createProjectService } from "@typescript-eslint/project-service";
 import {
 	createFSBackedSystem,

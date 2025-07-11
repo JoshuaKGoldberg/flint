@@ -1,5 +1,5 @@
-import { formatReportPrimary, hasFix } from "@flint/core";
-import { makeAbsolute } from "@flint/utils";
+import { formatReportPrimary, hasFix } from "@flint.fyi/core";
+import { makeAbsolute } from "@flint.fyi/utils";
 import { styleText } from "node:util";
 import { textTable } from "text-table-fast";
 

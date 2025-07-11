@@ -1,6 +1,9 @@
 import type * as ts from "typescript";
 
-import { CharacterReportRange, NormalizedReportRangeObject } from "@flint/core";
+import {
+	CharacterReportRange,
+	NormalizedReportRangeObject,
+} from "@flint.fyi/core";
 
 export function normalizeRange(
 	original: CharacterReportRange,

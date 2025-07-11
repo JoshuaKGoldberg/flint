@@ -1,4 +1,4 @@
-import { LanguageFileDefinition } from "@flint/core";
+import { LanguageFileDefinition } from "@flint.fyi/core";
 import { debugForFile } from "debug-for-file";
 import * as ts from "typescript";
 

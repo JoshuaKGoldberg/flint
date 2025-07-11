@@ -1,5 +1,5 @@
 {
-	"name": "@flint/utils",
+	"name": "@flint.fyi/utils",
 	"version": "0.13.0",
 	"description": "[Experimental] Shared utilities used by @flint/core and at least one other package.",
 	"repository": {

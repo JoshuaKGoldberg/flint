@@ -1,5 +1,5 @@
 {
-	"name": "@flint/md",
+	"name": "@flint.fyi/md",
 	"version": "0.13.0",
 	"description": "[Experimental] Markdown language plugin for Flint.",
 	"repository": {
@@ -15,8 +15,8 @@
 	"type": "module",
 	"main": "./lib/index.js",
 	"dependencies": {
-		"@flint/core": "workspace:",
-		"@flint/rule-tester": "workspace:",
+		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/rule-tester": "workspace:",
 		"remark-parse": "^11.0.0",
 		"unified": "^11.0.5",
 		"unist-util-visit": "^5.0.0",

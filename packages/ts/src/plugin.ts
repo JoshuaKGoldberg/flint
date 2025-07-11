@@ -1,4 +1,4 @@
-import { createPlugin } from "@flint/core";
+import { createPlugin } from "@flint.fyi/core";
 
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.js";
 import forInArrays from "./rules/forInArrays.js";

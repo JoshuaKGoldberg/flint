@@ -1,4 +1,4 @@
-import { makeAbsolute } from "@flint/utils";
+import { makeAbsolute } from "@flint.fyi/utils";
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";

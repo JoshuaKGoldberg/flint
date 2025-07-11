@@ -2,7 +2,7 @@ import {
 	LanguageFileDefinition,
 	NormalizedRuleReport,
 	RuleReport,
-} from "@flint/core";
+} from "@flint.fyi/core";
 import { visit } from "unist-util-visit";
 import { VFile } from "vfile";
 import { location } from "vfile-location";

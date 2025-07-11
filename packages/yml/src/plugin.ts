@@ -1,4 +1,4 @@
-import { createPlugin } from "@flint/core";
+import { createPlugin } from "@flint.fyi/core";
 
 import emptyMappingKeys from "./rules/emptyMappingKeys.js";
 

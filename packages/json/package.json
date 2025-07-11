@@ -1,5 +1,5 @@
 {
-	"name": "@flint/json",
+	"name": "@flint.fyi/json",
 	"version": "0.13.0",
 	"description": "[Experimental] JSON language plugin for Flint.",
 	"repository": {
@@ -15,8 +15,8 @@
 	"type": "module",
 	"main": "./lib/index.js",
 	"dependencies": {
-		"@flint/core": "workspace:",
-		"@flint/rule-tester": "workspace:",
+		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/rule-tester": "workspace:",
 		"typescript": ">=5.8.0"
 	},
 	"engines": {

@@ -3,7 +3,7 @@ import type {
 	FormattingResults,
 	RunConfigResultsMaybeWithFixes,
 	RunMode,
-} from "@flint/core";
+} from "@flint.fyi/core";
 
 export interface Presenter {
 	header: string;

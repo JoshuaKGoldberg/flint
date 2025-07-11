@@ -1,5 +1,5 @@
 {
-	"name": "@flint/core",
+	"name": "@flint.fyi/core",
 	"version": "0.13.0",
 	"description": "[Experimental] Core building blocks for Flint.",
 	"repository": {
@@ -15,7 +15,7 @@
 	"type": "module",
 	"main": "./lib/index.js",
 	"dependencies": {
-		"@flint/utils": "workspace:",
+		"@flint.fyi/utils": "workspace:",
 		"cached-factory": "^0.1.0",
 		"debug-for-file": "^0.2.0",
 		"prettier": "3.6.1",

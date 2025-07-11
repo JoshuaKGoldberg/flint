@@ -2,7 +2,7 @@ import {
 	LanguageFileDefinition,
 	NormalizedRuleReport,
 	RuleReport,
-} from "@flint/core";
+} from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { normalizeRange } from "./normalizeRange.js";

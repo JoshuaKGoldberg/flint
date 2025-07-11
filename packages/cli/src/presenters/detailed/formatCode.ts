@@ -1,4 +1,4 @@
-import { FileRuleReport } from "@flint/core";
+import { FileRuleReport } from "@flint.fyi/core";
 import * as shikiCli from "@shikijs/cli";
 import chalk from "chalk";
 import { styleText } from "node:util";

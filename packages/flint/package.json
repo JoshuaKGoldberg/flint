@@ -16,12 +16,12 @@
 	"main": "./lib/index.js",
 	"bin": "bin/index.js",
 	"dependencies": {
-		"@flint/cli": "workspace:",
-		"@flint/core": "workspace:",
-		"@flint/json": "workspace:",
-		"@flint/md": "workspace:",
-		"@flint/ts": "workspace:",
-		"@flint/yml": "workspace:"
+		"@flint.fyi/cli": "workspace:",
+		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/json": "workspace:",
+		"@flint.fyi/md": "workspace:",
+		"@flint.fyi/ts": "workspace:",
+		"@flint.fyi/yml": "workspace:"
 	},
 	"engines": {
 		"node": ">=24.0.0"
