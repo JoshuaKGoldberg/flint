@@ -34,7 +34,6 @@ const ruleWithOptionalOption = stubLanguage.createRule({
 
 describe(createPlugin, () => {
 	const plugin = createPlugin({
-		globs: {},
 		name: "test",
 		rules: [ruleStandalone, ruleWithOptionalOption],
 	});
