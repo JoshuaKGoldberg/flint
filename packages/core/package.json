@@ -1,6 +1,6 @@
 {
 	"name": "@flint/core",
-	"version": "0.12.0",
+	"version": "0.13.0",
 	"description": "[Experimental] Core building blocks for Flint.",
 	"repository": {
 		"type": "git",
