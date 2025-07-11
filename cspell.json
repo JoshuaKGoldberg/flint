@@ -5,9 +5,11 @@
 		".github",
 		"CHANGELOG.md",
 		"coverage",
+		"dist",
 		"lib",
 		"node_modules",
-		"pnpm-lock.yaml"
+		"pnpm-lock.yaml",
+		"tsconfig.tsbuildinfo"
 	],
 	"words": ["mdast", "nord", "shiki", "shikijs"]
 }

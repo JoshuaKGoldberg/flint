@@ -13,13 +13,13 @@ pnpm install
 
 ## Building
 
-Run [**tsdown**](https://tsdown.dev) locally to build source files from `src/` into output files in `lib/`:
+Run TypeScript's builder mode locally to build source files from `src/` into output files in `lib/`:
 
 ```shell
-pnpm build
+pnpm tsc
 ```
 
-Add `--watch` to run the builder in a watch mode that continuously cleans and recreates `lib/` as you save files:
+Add `--watch` to run the builder in a watch mode that continuously recreates `lib/` as you save files:
 
 ```shell
 pnpm build --watch

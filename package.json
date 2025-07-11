@@ -1,7 +1,8 @@
 {
 	"name": "flint",
 	"version": "0.11.0",
-	"description": "[Experimental] A fast, friendly linter. ❤️‍🔥",
+	"private": true,
+	"description": "[Experimental] Monorepo for Flint: a fast, friendly linter. ❤️‍🔥",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/JoshuaKGoldberg/flint.git"
@@ -22,8 +23,7 @@
 		"package.json"
 	],
 	"scripts": {
-		"build": "tsdown",
-		"flint": "node bin/index.js",
+		"flint": "node packages/flint/bin/index.js",
 		"lint": "eslint . --max-warnings 0",
 		"lint:knip": "knip",
 		"lint:md": "markdownlint \"**/*.md\" \".github/**/*.md\" --rules sentences-per-line",
@@ -31,37 +31,20 @@
 		"lint:spelling": "cspell \"**\" \".github/**/*\"",
 		"prepare": "husky",
 		"test": "vitest --typecheck",
-		"tsc": "tsc"
+		"tsc": "tsc -b"
 	},
 	"lint-staged": {
 		"*": "prettier --ignore-unknown --write"
 	},
 	"dependencies": {
-		"@shikijs/cli": "^3.7.0",
-		"@types/unist": "^3.0.3",
-		"@typescript-eslint/project-service": "^8.35.0",
-		"@typescript/vfs": "^1.6.1",
-		"cached-factory": "^0.1.0",
-		"chalk": "^5.4.1",
-		"cli-cursor": "^5.0.0",
-		"debounce": "^2.2.0",
 		"debug-for-file": "^0.2.0",
 		"omit-empty": "^1.0.0",
-		"remark-parse": "^11.0.0",
-		"text-table-fast": "^0.1.0",
-		"ts-api-utils": "^2.1.0",
-		"unified": "^11.0.5",
-		"unist-util-visit": "^5.0.0",
-		"vfile": "^6.0.3",
-		"vfile-location": "^5.0.3",
 		"wrap-ansi": "^9.0.0",
-		"yaml-unist-parser": "^2.0.5",
 		"zod": "^3.25.67"
 	},
 	"devDependencies": {
 		"@eslint-community/eslint-plugin-eslint-comments": "4.5.0",
 		"@eslint/js": "9.30.0",
-		"@release-it/conventional-changelog": "10.0.1",
 		"@types/eslint-plugin-markdown": "2.0.2",
 		"@types/mdast": "4.0.4",
 		"@types/node": "24.0.4",
@@ -88,15 +71,10 @@
 		"prettier-plugin-curly": "0.3.2",
 		"prettier-plugin-packagejson": "2.5.15",
 		"prettier-plugin-sh": "0.18.0",
-		"release-it": "19.0.3",
 		"sentences-per-line": "0.3.0",
-		"tsdown": "0.12.9",
 		"typescript": "5.8.3",
 		"typescript-eslint": "8.35.0",
 		"vitest": "3.2.4"
-	},
-	"peerDependencies": {
-		"typescript": ">=5.8.0"
 	},
 	"packageManager": "pnpm@10.12.3",
 	"engines": {

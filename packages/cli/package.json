@@ -1,0 +1,33 @@
+{
+	"name": "@flint/cli",
+	"version": "0.11.0",
+	"description": "[Experimental] Command-line interface for Flint.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"directory": "packages/cli"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"type": "module",
+	"main": "./lib/index.js",
+	"dependencies": {
+		"@flint/core": "workspace:",
+		"@flint/utils": "workspace:",
+		"@shikijs/cli": "^3.7.0",
+		"chalk": "^5.4.1",
+		"cli-cursor": "^5.0.0",
+		"debounce": "^2.2.0",
+		"debug-for-file": "^0.2.0",
+		"text-table-fast": "^0.1.0"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"provenance": true
+	}
+}

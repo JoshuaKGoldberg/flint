@@ -1,16 +1,13 @@
 {
-	"compilerOptions": {
-		"declaration": true,
-		"declarationMap": true,
-		"esModuleInterop": true,
-		"lib": ["ESNext"],
-		"module": "NodeNext",
-		"moduleResolution": "NodeNext",
-		"noEmit": true,
-		"resolveJsonModule": true,
-		"skipLibCheck": true,
-		"strict": true,
-		"target": "ESNext"
-	},
-	"include": ["src"]
+	"extends": "./tsconfig.base.json",
+	"files": [],
+	"references": [
+		{ "path": "./packages/core" },
+		{ "path": "./packages/cli" },
+		{ "path": "./packages/flint" },
+		{ "path": "./packages/json" },
+		{ "path": "./packages/md" },
+		{ "path": "./packages/ts" },
+		{ "path": "./packages/yml" }
+	]
 }

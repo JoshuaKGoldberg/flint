@@ -1,0 +1,23 @@
+{
+	"name": "@flint/utils",
+	"version": "0.11.0",
+	"description": "[Experimental] Shared utilities used by @flint/core and at least one other package.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"directory": "packages/utils"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"type": "module",
+	"main": "./lib/index.js",
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"provenance": true
+	}
+}

@@ -15,11 +15,11 @@ export default tseslint.config(
 	{
 		ignores: [
 			"**/*.snap",
-			"coverage",
-			"lib",
-			"node_modules",
-			"pnpm-lock.yaml",
-			"src/fixtures",
+			"packages/*/coverage",
+			"packages/*/lib",
+			"**/node_modules",
+			"packages/fixtures",
+			"pnpm-*.yaml",
 		],
 	},
 	{ linterOptions: { reportUnusedDisableDirectives: "error" } },
@@ -57,6 +57,7 @@ export default tseslint.config(
 				"error",
 				{ allowNumber: true },
 			],
+			"n/no-extraneous-import": "off",
 			"n/no-missing-import": "off",
 			"n/no-unsupported-features/node-builtins": [
 				"error",

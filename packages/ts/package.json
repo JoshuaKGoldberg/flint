@@ -1,0 +1,33 @@
+{
+	"name": "@flint/ts",
+	"version": "0.11.0",
+	"description": "[Experimental] TypeScript language plugin for Flint.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"directory": "packages/ts"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"type": "module",
+	"main": "./lib/index.js",
+	"dependencies": {
+		"@flint/core": "workspace:",
+		"@flint/rule-tester": "workspace:",
+		"@typescript-eslint/project-service": "^8.35.0",
+		"@typescript/vfs": "^1.6.1",
+		"cached-factory": "^0.1.0",
+		"debug-for-file": "^0.2.0",
+		"ts-api-utils": "^2.1.0",
+		"typescript": ">=5.8.0"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"provenance": true
+	}
+}

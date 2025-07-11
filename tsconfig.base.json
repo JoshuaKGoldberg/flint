@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"composite": true,
+		"declaration": true,
+		"esModuleInterop": true,
+		"lib": ["ESNext"],
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"target": "ESNext"
+	}
+}
