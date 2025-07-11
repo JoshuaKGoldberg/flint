@@ -1,5 +1,6 @@
 import { flint } from "@flint.fyi/plugin-flint";
 import { defineConfig, json, md, ts, yml } from "flint";
+
 export default defineConfig({
 	use: [
 		{
