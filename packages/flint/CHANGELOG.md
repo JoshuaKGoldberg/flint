@@ -1,5 +1,18 @@
 # flint
 
+## 0.13.1
+
+### Patch Changes
+
+- 9909b48: add README.md
+- Updated dependencies [9909b48]
+  - @flint.fyi/cli@0.13.1
+  - @flint.fyi/core@0.13.1
+  - @flint.fyi/json@0.13.1
+  - @flint.fyi/md@0.13.1
+  - @flint.fyi/ts@0.13.1
+  - @flint.fyi/yml@0.13.1
+
 ## 0.13.0
 
 ### Minor Changes
