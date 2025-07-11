@@ -19,7 +19,7 @@ importers:
         version: 3.25.67
     devDependencies:
       '@changesets/cli':
-        specifier: ^2.29.5
+        specifier: 2.29.5
         version: 2.29.5
       '@eslint-community/eslint-plugin-eslint-comments':
         specifier: 4.5.0
