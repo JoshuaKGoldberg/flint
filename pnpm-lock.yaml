@@ -224,6 +224,21 @@ importers:
         specifier: 3.0.3
         version: 3.0.3
 
+  packages/plugin-flint:
+    dependencies:
+      '@flint.fyi/core':
+        specifier: 'workspace:'
+        version: link:../core
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
+      '@flint.fyi/ts':
+        specifier: 'workspace:'
+        version: link:../ts
+      '@flint.fyi/utils':
+        specifier: 'workspace:'
+        version: link:../utils
+
   packages/rule-tester:
     dependencies:
       '@flint.fyi/core':

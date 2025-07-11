@@ -1,13 +1,29 @@
 import { Plugin, PluginPresets } from "../types/plugins.js";
 import { Rule, RuleAbout } from "../types/rules.js";
 
-export interface CreatePluginOptions<
+export type CreatePluginOptions<
+	About extends RuleAbout,
+	Globs extends Record<string, string[]> | undefined,
+	Rules extends UnsafeAnyRule<About>[],
+> = undefined extends Globs
+	? CreatePluginOptionsWithoutGlob<About, Rules>
+	: CreatePluginOptionsWithGlob<About, NonNullable<Globs>, Rules>;
+
+export interface CreatePluginOptionsWithGlob<
 	About extends RuleAbout,
 	Globs extends Record<string, string[]>,
 	Rules extends UnsafeAnyRule<About>[],
 > {
-	// TODO: Make this optional if Globs is {}
 	globs: Globs;
+	name: string;
+	rules: Rules;
+}
+
+export interface CreatePluginOptionsWithoutGlob<
+	About extends RuleAbout,
+	Rules extends UnsafeAnyRule<About>[],
+> {
+	globs?: undefined;
 	name: string;
 	rules: Rules;
 }
@@ -25,7 +41,7 @@ export type UnsafeAnyRule<About extends RuleAbout = RuleAbout> = Rule<
 
 export function createPlugin<
 	About extends RuleAbout,
-	Globs extends Record<string, string[]>,
+	Globs extends Record<string, string[]> | undefined,
 	Rules extends UnsafeAnyRule<About>[],
 >({
 	globs,
@@ -42,7 +58,8 @@ export function createPlugin<
 	const rulesById = new Map(rules.map((rule) => [rule.about.id, rule]));
 
 	return {
-		globs,
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		globs: globs!,
 		name,
 		// @ts-expect-error -- TODO: Figure this out...?
 		presets,
