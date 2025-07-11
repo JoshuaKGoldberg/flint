@@ -3,7 +3,7 @@ import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 export interface Plugin<
 	About extends RuleAbout,
-	Globs extends Record<string, string[]>,
+	Globs extends Record<string, string[]> | undefined,
 	Rules extends AnyRule<About>[],
 > {
 	globs: Globs;
