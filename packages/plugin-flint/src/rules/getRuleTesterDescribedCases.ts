@@ -8,11 +8,6 @@ export interface ParsedTestCase extends TestCase {
 	node: ts.Node;
 }
 
-export interface ParsedTestCases {
-	invalid: ParsedTestCase[];
-	valid: ParsedTestCase[];
-}
-
 export function getRuleTesterDescribedCases(node: ts.CallExpression) {
 	if (
 		!ts.isPropertyAccessExpression(node.expression) ||
