@@ -1,6 +1,9 @@
 {
+	"compilerOptions": {
+		"noEmit": true
+	},
 	"extends": "./tsconfig.base.json",
-	"files": [],
+	"include": ["./*.ts"],
 	"references": [
 		{ "path": "./packages/core" },
 		{ "path": "./packages/cli" },

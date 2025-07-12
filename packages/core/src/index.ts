@@ -8,6 +8,7 @@ export { formatReportPrimary } from "./reporting/formatReportPrimary.js";
 export { runConfig } from "./running/runConfig.js";
 export { runConfigFixing } from "./running/runConfigFixing.js";
 export * from "./types/cache.js";
+export * from "./types/configs.js";
 export * from "./types/formatting.js";
 export * from "./types/languages.js";
 export * from "./types/linting.js";
