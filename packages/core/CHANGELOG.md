@@ -1,5 +1,11 @@
 # @flint/core
 
+## 0.13.3
+
+### Patch Changes
+
+- 3ef4331: fix type errors passing rules to defineConfig
+
 ## 0.13.2
 
 ### Patch Changes
