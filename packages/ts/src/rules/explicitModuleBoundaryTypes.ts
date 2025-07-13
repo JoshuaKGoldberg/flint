@@ -1,8 +1,5 @@
-import type {
-	CharacterReportRange,
-	ReportMessageData,
-	RuleReport,
-} from "@flint.fyi/core";
+// eslint-disable perfectionist/sort-switch-case -- cases are ordered by importance, not alphabetically
+import type { ReportMessageData } from "@flint.fyi/core";
 import type { RuleContext } from "@flint.fyi/core/src/types/context.js";
 
 import * as ts from "typescript";
@@ -21,7 +18,6 @@ const messages = {
 		primary: "Public facing functions should have an explicit return type.",
 		secondary: [],
 		suggestions: [],
-		// suggestions: ["Remove the redundant non-null assertion operator."],
 	},
 	fnReturnWithSuggestion: {
 		primary: "Public facing functions should have an explicit return type.",
@@ -44,24 +40,75 @@ export default typescriptLanguage.createRule({
 		if (!exports) {
 			return;
 		}
-		for (const [_alias, symbol] of exports) {
-			const decls = symbol.getDeclarations();
-			if (!decls) {
-				continue;
-			}
-			for (const decl of decls) {
-				switch (decl.kind) {
-					case ts.SyntaxKind.FunctionDeclaration:
-						checkFunction(ctx, decl as ts.FunctionDeclaration);
-						break;
-					default:
-						break;
-				}
-			}
-		}
-		return;
+		checkExports(ctx, exports);
 	},
 });
+
+function checkExports(
+	ctx: RuleContext<keyof typeof messages>,
+	exports: ts.SymbolTable,
+) {
+	for (const [, symbol] of exports) {
+		const decls = symbol.getDeclarations();
+		if (!decls) {
+			continue;
+		}
+
+		for (const decl of decls) {
+			switch (decl.kind) {
+				// `export function foo() {}`
+				case ts.SyntaxKind.FunctionDeclaration:
+					checkFunction(ctx, decl as ts.FunctionDeclaration);
+					break;
+
+				/*
+                look for namespace exports that need explicit types, e.g.
+
+                export namespace Foo {
+                  export function foo(a: number) {
+                                  ^^^ missing return type
+                    return a;
+                  }
+                }
+                */
+				case ts.SyntaxKind.ModuleDeclaration: {
+					const ns = decl as ts.ModuleDeclaration;
+					const nsSymbol = ctx.typeChecker.getSymbolAtLocation(ns.name);
+					if (!nsSymbol?.exports) {
+						continue;
+					}
+					checkExports(ctx, nsSymbol.exports);
+					break;
+				}
+
+				// `const arrow = () => {}
+				// `const fn = function fn() {}`
+				case ts.SyntaxKind.VariableDeclaration: {
+					const varDecl = decl as ts.VariableDeclaration;
+					if (varDecl.type || !varDecl.initializer) {
+						continue;
+					}
+					switch (varDecl.initializer.kind) {
+						case ts.SyntaxKind.ArrowFunction:
+						case ts.SyntaxKind.FunctionExpression:
+							checkFunction(
+								ctx,
+								varDecl.initializer as ts.ArrowFunction | ts.FunctionExpression,
+								varDecl.name,
+							);
+							break;
+						default:
+							break;
+					}
+					break;
+				}
+
+				default:
+					break;
+			}
+		}
+	}
+}
 
 function checkFunction(
 	{
@@ -69,14 +116,15 @@ function checkFunction(
 		sourceFile,
 		typeChecker: checker,
 	}: RuleContext<keyof typeof messages>,
-	fn: ts.FunctionDeclaration,
+	fn: ts.ArrowFunction | ts.FunctionDeclaration | ts.FunctionExpression,
+	identifier?: ts.BindingName,
 ): void {
 	const { name, parameters, type } = fn;
 
 	// check for parameters without type annotations
 	for (const param of parameters) {
 		const { name, type } = param;
-		const range = { begin: name.pos + 1, end: name.end + 1 };
+		const range = { begin: name.pos, end: name.end };
 		if (type === undefined) {
 			report({
 				data: { parameterName: name.getText(sourceFile) },
@@ -86,23 +134,12 @@ function checkFunction(
 		}
 	}
 
-	// check for return type
+	// Check for declarations without return type annotations
 	if (type) {
 		return;
 	}
 
-	// const range: ts.ReadonlyTextRange = fn.name ?? fn;
-	// const reportRange: CharacterReportRange = { begin: range.pos, end: range.end }
-	// const range: CharacterReportRange = fn.name
-	// ? { begin: fn.name.getStar}
-	let range: CharacterReportRange;
-	if (name) {
-		range = getTSNodeRange(name, sourceFile);
-		range.begin += 1;
-		range.end += 1;
-	} else {
-		range = getTSNodeRange(fn, sourceFile);
-	}
+	const range = getTSNodeRange(identifier ?? name ?? fn, sourceFile);
 	const fnType = checker.getTypeAtLocation(fn);
 
 	const signatures = fnType.getCallSignatures();
@@ -113,13 +150,6 @@ function checkFunction(
 		return;
 	}
 	const returnType = checker.getReturnTypeOfSignature(signatures[0]);
-	// turn type into string
-	// note: this doesn't work
-	// const printer = ts.createPrinter()
-	// const text = printer.printNode(ts.EmitHint.Unspecified, returnType, sourceFile)
-	// nor this
-	// const text = returnType.getText(sourceFile);
-	// so we'll do this:
 	const text = checker.typeToString(returnType, sourceFile);
 	report({
 		data: { returnType: text },
