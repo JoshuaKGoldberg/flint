@@ -35,7 +35,12 @@ export default typescriptLanguage.createRule({
 	},
 	messages,
 	setup(ctx) {
-		const src = ctx.typeChecker.getSymbolAtLocation(ctx.sourceFile);
+		const sourceFile = ctx.sourceFile;
+		// ignore .d.ts and .js files
+		if (sourceFile.isDeclarationFile || isJavaScriptFile(sourceFile)) {
+			return;
+		}
+		const src = ctx.typeChecker.getSymbolAtLocation(sourceFile);
 		const exports = src?.exports;
 		if (!exports) {
 			return;
@@ -43,6 +48,9 @@ export default typescriptLanguage.createRule({
 		checkExports(ctx, exports);
 	},
 });
+
+const isJavaScriptFile = (sourceFile: ts.SourceFile) =>
+	/\.[cm]?jsx?$/.test(sourceFile.fileName);
 
 function checkExports(
 	ctx: RuleContext<keyof typeof messages>,

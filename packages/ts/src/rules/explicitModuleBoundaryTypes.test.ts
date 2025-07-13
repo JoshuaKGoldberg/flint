@@ -1,3 +1,5 @@
+import { ValidTestCase } from "@flint.fyi/rule-tester";
+
 import rule from "./explicitModuleBoundaryTypes.js";
 import { ruleTester } from "./ruleTester.js";
 
@@ -53,7 +55,33 @@ const valid = [
             return a;
         }
     }`,
-];
+	// FIXME: set "allowJs" in createVirtualTypeScriptEnvironment
+	// // js-like files are ignored
+	// {
+	//     code: `export function foo(a) { return a; }`,
+	//     fileName: "foo.js"
+	// },
+	// {
+	//     code: `export function Component(props) { return <div /> }`,
+	//     fileName: "foo.jsx"
+	// },
+	// {
+	//     code: `export function foo(a) { return a; }`,
+	//     fileName: "foo.mjs"
+	// },
+	// {
+	//     code: `export function foo(a) { return a; }`,
+	//     fileName: "foo.cjs"
+	// },
+	// ts declaration files are ignored
+	{
+		code: `export function foo(a: number);`,
+		fileName: "foo.d.ts",
+	},
+	// files/namespaces with no exports
+	`function foo(a: number) { return a; }`,
+	`export namespace Foo {}`,
+] satisfies ValidTestCase<undefined>[];
 
 const invalid = [
 	{
