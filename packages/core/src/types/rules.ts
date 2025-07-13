@@ -89,7 +89,9 @@ export type RuleSetup<
 > = (
 	context: ContextServices & RuleContext<MessageId>,
 	options: Options,
-) => RuleVisitors<AstNodesByName> | undefined;
+	// without this, we get Type 'void' is not assignable to type 'RuleVisitors<TSNodesByName> | undefined'.
+	// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+) => RuleVisitors<AstNodesByName> | undefined | void;
 
 export type RuleVisitor<ASTNode> = (node: ASTNode) => void;
 
