@@ -65,13 +65,13 @@ export async function runConfig(
 	for (const filePath of allFilePaths) {
 		const { dependencies, diagnostics, reports } =
 			cached?.get(filePath) ??
-			lintFile(
+			(await lintFile(
 				makeAbsolute(filePath),
 				languageFactories,
 				useDefinitions
 					.filter((use) => use.files.has(filePath))
 					.flatMap((use) => use.rules),
-			);
+			));
 
 		filesResults.set(filePath, {
 			dependencies: new Set(dependencies),

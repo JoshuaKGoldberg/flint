@@ -1,8 +1,13 @@
+import { cspell } from "@flint.fyi/plugin-cspell";
 import { flint } from "@flint.fyi/plugin-flint";
 import { defineConfig, json, md, ts, yml } from "flint";
 
 export default defineConfig({
 	use: [
+		{
+			glob: "**/*",
+			rules: [cspell.presets.logical],
+		},
 		{
 			glob: json.globs.all,
 			rules: [json.presets.logical],

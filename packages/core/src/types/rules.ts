@@ -63,6 +63,8 @@ export interface RuleAbout {
 /**
  * The definition of a rule, as provided to rule creators internally.
  */
+export type PromiseOrSync<T> = Promise<T> | T;
+
 export interface RuleDefinition<
 	About extends RuleAbout,
 	AstNodesByName,
@@ -89,7 +91,7 @@ export type RuleSetup<
 > = (
 	context: ContextServices & RuleContext<MessageId>,
 	options: Options,
-) => RuleVisitors<AstNodesByName> | undefined;
+) => PromiseOrSync<RuleVisitors<AstNodesByName> | undefined>;
 
 export type RuleVisitor<ASTNode> = (node: ASTNode) => void;
 

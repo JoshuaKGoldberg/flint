@@ -24,7 +24,10 @@ export interface TestCases<Options extends object | undefined> {
 	valid: ValidTestCase<Options>[];
 }
 
-export type TesterSetup = (description: string, setup: () => void) => void;
+export type TesterSetup = (
+	description: string,
+	setup: () => Promise<void> | void,
+) => void;
 
 export class RuleTester {
 	#fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>;
@@ -64,8 +67,8 @@ export class RuleTester {
 		rule: AnyRule<RuleAbout, OptionsSchema>,
 		testCase: InvalidTestCase<InferredObject<OptionsSchema>>,
 	) {
-		this.#testerOptions.it(testCase.code, () => {
-			const reports = runTestCaseRule(
+		this.#testerOptions.it(testCase.code, async () => {
+			const reports = await runTestCaseRule(
 				this.#fileFactories,
 				{
 					// TODO: Figure out a way around the type assertion...
@@ -87,8 +90,8 @@ export class RuleTester {
 		const testCase =
 			typeof testCaseRaw === "string" ? { code: testCaseRaw } : testCaseRaw;
 
-		this.#testerOptions.it(testCase.code, () => {
-			const reports = runTestCaseRule(
+		this.#testerOptions.it(testCase.code, async () => {
+			const reports = await runTestCaseRule(
 				this.#fileFactories,
 				{
 					// TODO: Figure out a way around the type assertion...

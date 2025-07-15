@@ -78,7 +78,7 @@ export interface LanguageFile extends Disposable {
 	>(
 		rule: AnyRule<RuleAbout, OptionsSchema>,
 		options: InferredObject<OptionsSchema>,
-	): NormalizedRuleReport[];
+	): Promise<NormalizedRuleReport[]>;
 }
 
 /**
@@ -94,7 +94,7 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
 	>(
 		rule: AnyRuleDefinition<OptionsSchema>,
 		options: InferredObject<OptionsSchema>,
-	): NormalizedRuleReport[];
+	): Promise<NormalizedRuleReport[]>;
 }
 
 /**
