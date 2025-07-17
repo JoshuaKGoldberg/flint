@@ -36,6 +36,19 @@ Only time will tell.
 
 In the meantime, come talk about it on the [Flint Discord](https://discord.gg/rdC2XPCmn5).
 
+## Why?
+
+Flint is an attempt at a "hybrid" linter: one that combines...
+
+- **Ergonomics**: the ease of writing rules in JavaScript or TypeScript
+- **Performance**: some of the speed of native linters by parsing and type checking with typescript-go
+
+It also brings in several improvements over traditional linter paradigms:
+
+- **Streamlined configuration**: flexible configuration files that still preserve readability
+- **Type-aware caching**: significantly improving performance when linting changes to large repositories
+- **Unified core**: promoting popular rules to the core project for easier, more reliable inclusion
+
 ## Usage
 
 Coming soon.
