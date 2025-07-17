@@ -1,29 +1,30 @@
+import { FilesValues } from "../types/files.js";
 import { Plugin, PluginPresets } from "../types/plugins.js";
 import { Rule, RuleAbout } from "../types/rules.js";
 
 export type CreatePluginOptions<
 	About extends RuleAbout,
-	Globs extends Record<string, string[]> | undefined,
+	FilesKey extends string | undefined,
 	Rules extends UnsafeAnyRule<About>[],
-> = undefined extends Globs
-	? CreatePluginOptionsWithoutGlob<About, Rules>
-	: CreatePluginOptionsWithGlob<About, NonNullable<Globs>, Rules>;
+> = FilesKey extends string
+	? CreatePluginOptionsWithFiles<About, FilesKey, Rules>
+	: CreatePluginOptionsWithoutFiles<About, Rules>;
 
-export interface CreatePluginOptionsWithGlob<
+export interface CreatePluginOptionsWithFiles<
 	About extends RuleAbout,
-	Globs extends Record<string, string[]>,
+	FilesKey extends string,
 	Rules extends UnsafeAnyRule<About>[],
 > {
-	globs: Globs;
+	files: Record<FilesKey, FilesValues>;
 	name: string;
 	rules: Rules;
 }
 
-export interface CreatePluginOptionsWithoutGlob<
+export interface CreatePluginOptionsWithoutFiles<
 	About extends RuleAbout,
 	Rules extends UnsafeAnyRule<About>[],
 > {
-	globs?: undefined;
+	files?: never;
 	name: string;
 	rules: Rules;
 }
@@ -40,14 +41,18 @@ export type UnsafeAnyRule<About extends RuleAbout = RuleAbout> = Rule<
 >;
 
 export function createPlugin<
-	About extends RuleAbout,
-	Globs extends Record<string, string[]> | undefined,
-	Rules extends UnsafeAnyRule<About>[],
+	const About extends RuleAbout,
+	const FilesKey extends string | undefined,
+	const Rules extends UnsafeAnyRule<About>[],
 >({
-	globs,
+	files,
 	name,
 	rules,
-}: CreatePluginOptions<About, Globs, Rules>): Plugin<About, Globs, Rules> {
+}: CreatePluginOptions<About, FilesKey, Rules>): Plugin<
+	About,
+	FilesKey,
+	Rules
+> {
 	const presets = Object.groupBy(
 		rules.filter((rule) => typeof rule.about.preset === "string"),
 		// TODO: Figure out inferred type predicate...
@@ -58,8 +63,8 @@ export function createPlugin<
 	const rulesById = new Map(rules.map((rule) => [rule.about.id, rule]));
 
 	return {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		globs: globs!,
+		// @ts-expect-error -- TODO: Figure this out...?
+		files,
 		name,
 		// @ts-expect-error -- TODO: Figure this out...?
 		presets,

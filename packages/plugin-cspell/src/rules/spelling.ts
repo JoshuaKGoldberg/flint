@@ -1,6 +1,6 @@
 import { textLanguage } from "@flint.fyi/text";
 
-import { getDocumentValidator } from "./getDocumentValidator.js";
+import { createDocumentValidator } from "./createDocumentValidator.js";
 
 export default textLanguage.createRule({
 	about: {
@@ -15,10 +15,13 @@ export default textLanguage.createRule({
 		},
 	},
 	async setup(context) {
-		const documentValidator = await getDocumentValidator(
+		const documentValidator = await createDocumentValidator(
 			context.filePathAbsolute,
 			context.sourceText,
 		);
+		if (!documentValidator) {
+			return undefined;
+		}
 
 		return {
 			file(text) {

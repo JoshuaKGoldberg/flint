@@ -2,6 +2,7 @@ export { writeToCache } from "./cache/writeToCache.js";
 export { defineConfig } from "./configs/defineConfig.js";
 export { isConfig } from "./configs/isConfig.js";
 export { runPrettier } from "./formatting/runPrettier.js";
+export { globs } from "./globs/index.js";
 export { createLanguage } from "./languages/createLanguage.js";
 export { createPlugin } from "./plugins/createPlugin.js";
 export { formatReportPrimary } from "./reporting/formatReportPrimary.js";

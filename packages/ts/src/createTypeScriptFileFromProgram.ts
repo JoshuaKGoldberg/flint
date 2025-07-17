@@ -3,6 +3,7 @@ import {
 	NormalizedRuleReport,
 	RuleReport,
 } from "@flint.fyi/core";
+import path from "node:path";
 import * as ts from "typescript";
 
 import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
@@ -21,7 +22,7 @@ export function createTypeScriptFileFromProgram(
 				"tsconfig.json",
 
 				...collectReferencedFilePaths(program, sourceFile),
-			],
+			].map((filePath) => path.relative(process.cwd(), filePath)),
 		},
 		getDiagnostics() {
 			return ts

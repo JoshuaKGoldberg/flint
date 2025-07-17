@@ -1,12 +1,13 @@
+import { FilesValue } from "./files.js";
 import { AnyRule, Rule, RuleAbout } from "./rules.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 export interface Plugin<
 	About extends RuleAbout,
-	Globs extends Record<string, string[]> | undefined,
+	FilesKey extends string | undefined,
 	Rules extends AnyRule<About>[],
 > {
-	globs: Globs;
+	files: FilesKey extends string ? Record<FilesKey, FilesValue> : undefined;
 	name: string;
 	presets: PluginPresets<About, Rules[number]["about"]["preset"]>;
 	rules: PluginRulesFactory<Rules>;
