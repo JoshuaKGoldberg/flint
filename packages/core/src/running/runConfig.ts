@@ -77,6 +77,7 @@ export async function runConfig(
 	// TODO: This is very slow and the whole thing should be refactored 🙌.
 	// The separate lintFile function recomputes rule options repeatedly.
 	// It'd be better to group found files together in some way.
+	// Plus, this does an await in a for loop - should it use a queue?
 	for (const filePath of allFoundPaths) {
 		const { dependencies, diagnostics, reports } =
 			cached?.get(filePath) ??
