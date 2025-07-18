@@ -24,7 +24,7 @@ export function createMarkdownFile(
 	const root = unified().use(remarkParse).parse(virtualFile);
 
 	return {
-		runRule(rule, options) {
+		async runRule(rule, options) {
 			const reports: NormalizedRuleReport[] = [];
 
 			const context = {
@@ -55,7 +55,7 @@ export function createMarkdownFile(
 				root,
 			};
 
-			const visitors = rule.setup(context, options);
+			const visitors = await rule.setup(context, options);
 
 			if (!visitors) {
 				return reports;

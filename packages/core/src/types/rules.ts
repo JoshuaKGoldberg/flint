@@ -1,5 +1,6 @@
 import { RuleContext } from "./context.js";
 import { Language } from "./languages.js";
+import { PromiseOrSync } from "./promises.js";
 import { ReportMessageData } from "./reports.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
@@ -89,7 +90,7 @@ export type RuleSetup<
 > = (
 	context: ContextServices & RuleContext<MessageId>,
 	options: Options,
-) => RuleVisitors<AstNodesByName> | undefined;
+) => PromiseOrSync<RuleVisitors<AstNodesByName> | undefined>;
 
 export type RuleVisitor<ASTNode> = (node: ASTNode) => void;
 

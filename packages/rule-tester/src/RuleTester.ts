@@ -14,8 +14,8 @@ import { runTestCaseRule } from "./runTestCaseRule.js";
 import { InvalidTestCase, ValidTestCase } from "./types.js";
 
 export interface RuleTesterOptions {
-	describe?: TesterSetup;
-	it?: TesterSetup;
+	describe?: TesterSetupDescribe;
+	it?: TesterSetupIt;
 	scope?: Record<string, unknown>;
 }
 
@@ -24,7 +24,15 @@ export interface TestCases<Options extends object | undefined> {
 	valid: ValidTestCase<Options>[];
 }
 
-export type TesterSetup = (description: string, setup: () => void) => void;
+export type TesterSetupDescribe = (
+	description: string,
+	setup: () => void,
+) => void;
+
+export type TesterSetupIt = (
+	description: string,
+	setup: () => Promise<void>,
+) => void;
 
 export class RuleTester {
 	#fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>;
@@ -64,8 +72,8 @@ export class RuleTester {
 		rule: AnyRule<RuleAbout, OptionsSchema>,
 		testCase: InvalidTestCase<InferredObject<OptionsSchema>>,
 	) {
-		this.#testerOptions.it(testCase.code, () => {
-			const reports = runTestCaseRule(
+		this.#testerOptions.it(testCase.code, async () => {
+			const reports = await runTestCaseRule(
 				this.#fileFactories,
 				{
 					// TODO: Figure out a way around the type assertion...
@@ -87,8 +95,8 @@ export class RuleTester {
 		const testCase =
 			typeof testCaseRaw === "string" ? { code: testCaseRaw } : testCaseRaw;
 
-		this.#testerOptions.it(testCase.code, () => {
-			const reports = runTestCaseRule(
+		this.#testerOptions.it(testCase.code, async () => {
+			const reports = await runTestCaseRule(
 				this.#fileFactories,
 				{
 					// TODO: Figure out a way around the type assertion...
@@ -108,7 +116,7 @@ export class RuleTester {
 	}
 }
 
-function defaultTo(
+function defaultTo<TesterSetup extends TesterSetupDescribe | TesterSetupIt>(
 	provided: TesterSetup | undefined,
 	scope: Record<string, unknown>,
 	scopeKey: string,

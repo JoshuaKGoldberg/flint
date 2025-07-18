@@ -17,7 +17,7 @@ export function createTypeScriptJsonFile(
 	const sourceFile = ts.parseJsonText(filePathAbsolute, sourceText);
 
 	return {
-		runRule(rule, options) {
+		async runRule(rule, options) {
 			const reports: NormalizedRuleReport[] = [];
 
 			const context = {
@@ -31,7 +31,7 @@ export function createTypeScriptJsonFile(
 				sourceFile,
 			};
 
-			const visitors = rule.setup(context, options);
+			const visitors = await rule.setup(context, options);
 
 			if (!visitors) {
 				return reports;
