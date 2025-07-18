@@ -42,7 +42,7 @@ export function createTypeScriptFileFromProgram(
 					}),
 				}));
 		},
-		runRule(rule, options) {
+		async runRule(rule, options) {
 			const reports: NormalizedRuleReport[] = [];
 
 			const context = {
@@ -57,7 +57,7 @@ export function createTypeScriptFileFromProgram(
 				typeChecker: program.getTypeChecker(),
 			};
 
-			const visitors = rule.setup(context, options);
+			const visitors = await rule.setup(context, options);
 
 			if (!visitors) {
 				return reports;

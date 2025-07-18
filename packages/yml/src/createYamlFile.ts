@@ -23,7 +23,7 @@ export function createYamlFile(
 	const root = yamlParser.parse(sourceText);
 
 	return {
-		runRule(rule, options) {
+		async runRule(rule, options) {
 			const reports: NormalizedRuleReport[] = [];
 
 			const context = {
@@ -54,7 +54,7 @@ export function createYamlFile(
 				root,
 			};
 
-			const visitors = rule.setup(context, options);
+			const visitors = await rule.setup(context, options);
 
 			if (!visitors) {
 				return reports;
