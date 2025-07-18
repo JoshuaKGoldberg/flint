@@ -1,3 +1,4 @@
+import { PromiseOrSync } from "./promises.js";
 import { NormalizedRuleReport } from "./reports.js";
 import {
 	AnyRule,
@@ -78,7 +79,7 @@ export interface LanguageFile extends Disposable {
 	>(
 		rule: AnyRule<RuleAbout, OptionsSchema>,
 		options: InferredObject<OptionsSchema>,
-	): Promise<NormalizedRuleReport[]>;
+	): PromiseOrSync<NormalizedRuleReport[]>;
 }
 
 /**
@@ -94,7 +95,7 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
 	>(
 		rule: AnyRuleDefinition<OptionsSchema>,
 		options: InferredObject<OptionsSchema>,
-	): Promise<NormalizedRuleReport[]>;
+	): PromiseOrSync<NormalizedRuleReport[]>;
 }
 
 /**

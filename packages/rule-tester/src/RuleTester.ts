@@ -14,8 +14,8 @@ import { runTestCaseRule } from "./runTestCaseRule.js";
 import { InvalidTestCase, ValidTestCase } from "./types.js";
 
 export interface RuleTesterOptions {
-	describe?: TesterSetup;
-	it?: TesterSetup;
+	describe?: TesterSetupDescribe;
+	it?: TesterSetupIt;
 	scope?: Record<string, unknown>;
 }
 
@@ -24,9 +24,14 @@ export interface TestCases<Options extends object | undefined> {
 	valid: ValidTestCase<Options>[];
 }
 
-export type TesterSetup = (
+export type TesterSetupDescribe = (
 	description: string,
-	setup: () => Promise<void> | void,
+	setup: () => void,
+) => void;
+
+export type TesterSetupIt = (
+	description: string,
+	setup: () => Promise<void>,
 ) => void;
 
 export class RuleTester {
@@ -111,7 +116,7 @@ export class RuleTester {
 	}
 }
 
-function defaultTo(
+function defaultTo<TesterSetup extends TesterSetupDescribe | TesterSetupIt>(
 	provided: TesterSetup | undefined,
 	scope: Record<string, unknown>,
 	scopeKey: string,

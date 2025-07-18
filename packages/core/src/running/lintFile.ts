@@ -44,6 +44,7 @@ export async function lintFile(
 			}
 		}
 
+		// TODO: These should probably be put in some kind of queue?
 		log("Running rule %s with options: %o", rule.about.id, options);
 		const ruleReports = await file.runRule(rule, options as object | undefined);
 		log("Found %d reports from rule %s", ruleReports.length, rule.about.id);

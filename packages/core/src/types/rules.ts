@@ -1,5 +1,6 @@
 import { RuleContext } from "./context.js";
 import { Language } from "./languages.js";
+import { PromiseOrSync } from "./promises.js";
 import { ReportMessageData } from "./reports.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
@@ -63,8 +64,6 @@ export interface RuleAbout {
 /**
  * The definition of a rule, as provided to rule creators internally.
  */
-export type PromiseOrSync<T> = Promise<T> | T;
-
 export interface RuleDefinition<
 	About extends RuleAbout,
 	AstNodesByName,
