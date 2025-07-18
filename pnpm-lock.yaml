@@ -251,6 +251,30 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0
 
+  packages/text:
+    dependencies:
+      '@flint.fyi/core':
+        specifier: 'workspace:'
+        version: link:../core
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
+      index-to-position:
+        specifier: ^1.1.0
+        version: 1.1.0
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
+      vfile:
+        specifier: ^6.0.3
+        version: 6.0.3
+      vfile-location:
+        specifier: ^5.0.3
+        version: 5.0.3
+      yaml-unist-parser:
+        specifier: ^2.0.5
+        version: 2.0.5
+
   packages/ts:
     dependencies:
       '@flint.fyi/core':
