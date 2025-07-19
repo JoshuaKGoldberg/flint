@@ -1,6 +1,5 @@
 // eslint-disable perfectionist/sort-switch-case -- cases are ordered by importance, not alphabetically
-import type { ReportMessageData } from "@flint.fyi/core";
-import type { RuleContext } from "@flint.fyi/core/src/types/context.js";
+import type { ReportMessageData, RuleContextForLang } from "@flint.fyi/core";
 
 import * as ts from "typescript";
 
@@ -28,6 +27,8 @@ const messages = {
 	},
 } satisfies Record<string, ReportMessageData>;
 
+type Ctx = RuleContextForLang<typeof typescriptLanguage, keyof typeof messages>;
+
 export default typescriptLanguage.createRule({
 	about: {
 		id: "explicitModuleBoundaryTypes",
@@ -49,13 +50,10 @@ export default typescriptLanguage.createRule({
 	},
 });
 
-const isJavaScriptFile = (sourceFile: ts.SourceFile) =>
+const isJavaScriptFile = (sourceFile: ts.SourceFile): boolean =>
 	/\.[cm]?jsx?$/.test(sourceFile.fileName);
 
-function checkExports(
-	ctx: RuleContext<keyof typeof messages>,
-	exports: ts.SymbolTable,
-) {
+function checkExports(ctx: Ctx, exports: ts.SymbolTable): void {
 	for (const [, symbol] of exports) {
 		const decls = symbol.getDeclarations();
 		if (!decls) {
@@ -70,15 +68,15 @@ function checkExports(
 					break;
 
 				/*
-                look for namespace exports that need explicit types, e.g.
+				look for namespace exports that need explicit types, e.g.
 
-                export namespace Foo {
-                  export function foo(a: number) {
-                                  ^^^ missing return type
-                    return a;
-                  }
-                }
-                */
+				export namespace Foo {
+				  export function foo(a: number) {
+								  ^^^ missing return type
+					return a;
+				  }
+				}
+				*/
 				case ts.SyntaxKind.ModuleDeclaration: {
 					const ns = decl as ts.ModuleDeclaration;
 					const nsSymbol = ctx.typeChecker.getSymbolAtLocation(ns.name);
@@ -119,11 +117,7 @@ function checkExports(
 }
 
 function checkFunction(
-	{
-		report,
-		sourceFile,
-		typeChecker: checker,
-	}: RuleContext<keyof typeof messages>,
+	{ report, sourceFile, typeChecker: checker }: Ctx,
 	fn: ts.ArrowFunction | ts.FunctionDeclaration | ts.FunctionExpression,
 	identifier?: ts.BindingName,
 ): void {

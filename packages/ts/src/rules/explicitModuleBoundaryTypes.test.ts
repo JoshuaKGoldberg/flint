@@ -105,6 +105,28 @@ const invalid = [
 	},
 	{
 		code: `
+            function foo(bar: string) {
+                return bar;
+            }
+			export { foo };
+            `,
+		output: `
+            function foo(bar: string): string {
+                return bar;
+            }
+			export { foo };
+            `,
+		snapshot: `
+            function foo(bar: string) {
+                           ~~~
+                           Public facing functions should have an explicit return type.
+                return bar;
+            }
+			export { foo };
+            `,
+	},
+	{
+		code: `
             export function foo(bar): string {
                 return bar;
             }
