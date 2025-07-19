@@ -1,6 +1,6 @@
+import { AnyLevelDeep } from "./arrays.js";
+import { FilesValue } from "./files.js";
 import { AnyRule } from "./rules.js";
-
-export type AnyLevelArray<T> = AnyLevelArray<T>[] | T[];
 
 export interface Config {
 	definition: ConfigDefinition;
@@ -22,9 +22,8 @@ export interface ConfigRuleDefinitionObject {
 }
 
 export interface ConfigUseDefinition {
-	exclude?: string[];
-	glob: AnyLevelArray<string> | string;
-	rules?: AnyLevelArray<ConfigRuleDefinition>;
+	files?: AnyLevelDeep<FilesValue>;
+	rules?: AnyLevelDeep<ConfigRuleDefinition>;
 }
 
 /**
