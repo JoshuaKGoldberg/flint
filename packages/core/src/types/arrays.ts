@@ -1,2 +1,3 @@
 // TODO: How to get this allowing infinite depth?
-export type AnyLevelDeep<T> = T | T[] | T[][] | T[][][] | T[][][][];
+// https://github.com/JoshuaKGoldberg/flint/issues/182
+export type AnyLevelDeep<T> = AnyLevelDeep<T>[] | T;
