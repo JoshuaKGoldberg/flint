@@ -1,5 +1,13 @@
 # @flint/core
 
+## 0.13.4
+
+### Patch Changes
+
+- a4b07b1: remove TypeScript properties from RuleContext
+- 3c3bcae: combine config exclude and globs into files
+- ec4a4ff: allow rules to be async
+
 ## 0.13.3
 
 ### Patch Changes
