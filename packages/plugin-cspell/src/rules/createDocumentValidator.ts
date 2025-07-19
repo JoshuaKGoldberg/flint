@@ -25,7 +25,6 @@ export async function createDocumentValidator(fileName: string, text: string) {
 
 	await validator.prepare();
 
-	// GET THE FINALIZED SETTINGS TO ACCESS ignorePaths
 	const finalSettings = validator.getFinalizedDocSettings();
 
 	if (
