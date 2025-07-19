@@ -27,6 +27,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "donisaac",
+      "name": "Don Isaac",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22823424?v=4",
+      "profile": "https://donisaac.dev",
+      "contributions": [
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,

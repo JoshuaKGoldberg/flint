@@ -1,11 +1,11 @@
 {
-	"name": "@flint.fyi/core",
-	"version": "0.13.3",
-	"description": "[Experimental] Core building blocks for Flint.",
+	"name": "@flint.fyi/text",
+	"version": "0.13.1",
+	"description": "[Experimental] Plain text language for Flint.",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/JoshuaKGoldberg/flint",
-		"directory": "packages/core"
+		"directory": "packages/text"
 	},
 	"license": "MIT",
 	"author": {
@@ -15,11 +15,9 @@
 	"type": "module",
 	"main": "./lib/index.js",
 	"dependencies": {
-		"@flint.fyi/utils": "workspace:",
-		"cached-factory": "^0.1.0",
-		"debug-for-file": "^0.2.0",
-		"prettier": "3.6.1",
-		"zod": "^4.0.0"
+		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/rule-tester": "workspace:",
+		"index-to-position": "^1.1.0"
 	},
 	"engines": {
 		"node": ">=24.0.0"

@@ -11,6 +11,7 @@
 		{ "path": "./packages/json" },
 		{ "path": "./packages/md" },
 		{ "path": "./packages/plugin-flint" },
+		{ "path": "./packages/text" },
 		{ "path": "./packages/ts" },
 		{ "path": "./packages/yml" }
 	]

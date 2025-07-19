@@ -3,7 +3,7 @@ import { createPlugin } from "@flint.fyi/core";
 import headingIncrements from "./rules/headingIncrements.js";
 
 export const md = createPlugin({
-	globs: {
+	files: {
 		all: ["**/*.md"],
 	},
 	name: "md",
