@@ -1,4 +1,3 @@
-// import { checkFilenameMatchesExcludeGlob } from "@cspell/cspell-lib";
 import { toFileDirURL, toFileURL } from "@cspell/url";
 import {
 	checkFilenameMatchesGlob,
