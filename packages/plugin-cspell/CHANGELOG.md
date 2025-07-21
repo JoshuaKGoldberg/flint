@@ -1,0 +1,16 @@
+# @flint.fyi/plugin-cspell
+
+## 0.1.0
+
+### Minor Changes
+
+- 71161dd: added cspell plugin
+
+### Patch Changes
+
+- Updated dependencies [a4b07b1]
+- Updated dependencies [3c3bcae]
+- Updated dependencies [ec4a4ff]
+- Updated dependencies [9e1d751]
+  - @flint.fyi/core@0.13.4
+  - @flint.fyi/text@0.13.2
