@@ -489,9 +489,6 @@ packages:
   '@cspell/dict-al@1.1.0':
     resolution: {integrity: sha512-PtNI1KLmYkELYltbzuoztBxfi11jcE9HXBHCpID2lou/J4VMYKJPNqe4ZjVzSI9NYbMnMnyG3gkbhIdx66VSXg==}
 
-  '@cspell/dict-aws@4.0.10':
-    resolution: {integrity: sha512-0qW4sI0GX8haELdhfakQNuw7a2pnWXz3VYQA2MpydH2xT2e6EN9DWFpKAi8DfcChm8MgDAogKkoHtIo075iYng==}
-
   '@cspell/dict-aws@4.0.12':
     resolution: {integrity: sha512-k1F48eYlX+LsCK2QjqpfHBrjNwNwRyut/XsGumyhUXZsm+j9NVuxQaFCjiEwXi81KE0YE3GBVdwSjqhuUOkpnQ==}
 
@@ -531,20 +528,11 @@ packages:
   '@cspell/dict-elixir@4.0.7':
     resolution: {integrity: sha512-MAUqlMw73mgtSdxvbAvyRlvc3bYnrDqXQrx5K9SwW8F7fRYf9V4vWYFULh+UWwwkqkhX9w03ZqFYRTdkFku6uA==}
 
-  '@cspell/dict-en-common-misspellings@2.1.1':
-    resolution: {integrity: sha512-6m2EEm4WUgsNzFzz/2boeOVrZenYQRaDXFtDNcaQK5Ly4A37HTRPm8uVvE8cAlACVk+HBHhH/4e7ebxdXwId9w==}
-
   '@cspell/dict-en-common-misspellings@2.1.3':
     resolution: {integrity: sha512-v1I97Hr1OrK+mwHsVzbY4vsPxx6mA5quhxzanF6XuRofz00wH4HPz8Q3llzRHxka5Wl/59gyan04UkUrvP4gdA==}
 
-  '@cspell/dict-en-gb-mit@3.1.1':
-    resolution: {integrity: sha512-sZbuOPlAGDwudoquXjaSA+TbJEzfG0MkUeF4Iz3tdL9xOYDb6lgueNVnDJfBrw6jrKKDdOI68MJqiLjW4uth8A==}
-
   '@cspell/dict-en-gb-mit@3.1.4':
     resolution: {integrity: sha512-uFMrMEyT/cq3JwDjkarqlX2CPpYQjaHJtmZmKAcrltkXIQdnQF1o6McAXXdUO1xsNJKs7+LsykNsn28rvIxc5Q==}
-
-  '@cspell/dict-en_us@4.4.11':
-    resolution: {integrity: sha512-ls3ASwIL0uuAEXsxB7NsIe6GRBQ+NZfqI5k1qtNgOZ1eh1MFYjCiF+YcqArH5SFHNzOwCHRKzlLeX0ZFIok7GQ==}
 
   '@cspell/dict-en_us@4.4.14':
     resolution: {integrity: sha512-3JYC4XTc1I88ZC1SlZE9MssWljgJ1SmEVSfA8JiQDY5Mv7X9zo7Jvwjjq795oIJTkmdIW9yNX8ikKRt+cV7CIQ==}
@@ -626,9 +614,6 @@ packages:
   '@cspell/dict-npm@5.2.11':
     resolution: {integrity: sha512-ImgO82P2rQlE7gjOZSmBT/ZHuR1qGklkt7WINwT73qaKepgz14k/xq1qYzQScl15Vuc3cUXi5OZNqYlTiquIHQ==}
 
-  '@cspell/dict-npm@5.2.7':
-    resolution: {integrity: sha512-YtJ4UBq+42oJGyJWo13XZ+SCNbiT2QCarkljKyURZgYc45XMBl6cbTNwIoYtyPijxSOWuIx0bQm7M/826isVig==}
-
   '@cspell/dict-php@4.0.14':
     resolution: {integrity: sha512-7zur8pyncYZglxNmqsRycOZ6inpDoVd4yFfz1pQRe5xaRWMiK3Km4n0/X/1YMWhh3e3Sl/fQg5Axb2hlN68t1g==}
 
@@ -656,9 +641,6 @@ packages:
   '@cspell/dict-shell@1.1.0':
     resolution: {integrity: sha512-D/xHXX7T37BJxNRf5JJHsvziFDvh23IF/KvkZXNSh8VqcRdod3BAz9VGHZf6VDqcZXr1VRqIYR3mQ8DSvs3AVQ==}
 
-  '@cspell/dict-software-terms@5.1.1':
-    resolution: {integrity: sha512-POivtvsmbmkYWw7RAQQPwu3gw72SDCeZXA+2IPoGXLlgkYk17taTDTLDA0gV5N8HpdC8SeOBX4cUY4rc2Y1ksA==}
-
   '@cspell/dict-software-terms@5.1.4':
     resolution: {integrity: sha512-zeinnVFfha+Snh8hMk4hRJTYWNLcRNaHRSvMMVe1DU8oljb1agfq6ouBt/uypIzwgGgAopPz9ArGyc/gVn9y8w==}
 
@@ -670,9 +652,6 @@ packages:
 
   '@cspell/dict-swift@2.0.5':
     resolution: {integrity: sha512-3lGzDCwUmnrfckv3Q4eVSW3sK3cHqqHlPprFJZD4nAqt23ot7fic5ALR7J4joHpvDz36nHX34TgcbZNNZOC/JA==}
-
-  '@cspell/dict-terraform@1.1.1':
-    resolution: {integrity: sha512-07KFDwCU7EnKl4hOZLsLKlj6Zceq/IsQ3LRWUyIjvGFfZHdoGtFdCp3ZPVgnFaAcd/DKv+WVkrOzUBSYqHopQQ==}
 
   '@cspell/dict-terraform@1.1.3':
     resolution: {integrity: sha512-gr6wxCydwSFyyBKhBA2xkENXtVFToheqYYGFvlMZXWjviynXmh+NK/JTvTCk/VHk3+lzbO9EEQKee6VjrAUSbA==}
@@ -3435,7 +3414,7 @@ snapshots:
     dependencies:
       '@cspell/dict-ada': 4.1.0
       '@cspell/dict-al': 1.1.0
-      '@cspell/dict-aws': 4.0.10
+      '@cspell/dict-aws': 4.0.12
       '@cspell/dict-bash': 4.2.0
       '@cspell/dict-companies': 3.2.1
       '@cspell/dict-cpp': 6.0.8
@@ -3448,9 +3427,9 @@ snapshots:
       '@cspell/dict-docker': 1.1.14
       '@cspell/dict-dotnet': 5.0.9
       '@cspell/dict-elixir': 4.0.7
-      '@cspell/dict-en-common-misspellings': 2.1.1
-      '@cspell/dict-en-gb-mit': 3.1.1
-      '@cspell/dict-en_us': 4.4.11
+      '@cspell/dict-en-common-misspellings': 2.1.3
+      '@cspell/dict-en-gb-mit': 3.1.4
+      '@cspell/dict-en_us': 4.4.14
       '@cspell/dict-filetypes': 3.0.12
       '@cspell/dict-flutter': 1.1.0
       '@cspell/dict-fonts': 4.0.4
@@ -3474,7 +3453,7 @@ snapshots:
       '@cspell/dict-markdown': 2.0.11(@cspell/dict-css@4.0.17)(@cspell/dict-html-symbol-entities@4.0.3)(@cspell/dict-html@4.0.11)(@cspell/dict-typescript@3.2.2)
       '@cspell/dict-monkeyc': 1.0.10
       '@cspell/dict-node': 5.0.7
-      '@cspell/dict-npm': 5.2.7
+      '@cspell/dict-npm': 5.2.11
       '@cspell/dict-php': 4.0.14
       '@cspell/dict-powershell': 5.0.14
       '@cspell/dict-public-licenses': 2.0.13
@@ -3484,11 +3463,11 @@ snapshots:
       '@cspell/dict-rust': 4.0.11
       '@cspell/dict-scala': 5.0.7
       '@cspell/dict-shell': 1.1.0
-      '@cspell/dict-software-terms': 5.1.1
+      '@cspell/dict-software-terms': 5.1.4
       '@cspell/dict-sql': 2.2.0
       '@cspell/dict-svelte': 1.0.6
       '@cspell/dict-swift': 2.0.5
-      '@cspell/dict-terraform': 1.1.1
+      '@cspell/dict-terraform': 1.1.3
       '@cspell/dict-typescript': 3.2.2
       '@cspell/dict-vue': 3.0.4
 
@@ -3581,8 +3560,6 @@ snapshots:
 
   '@cspell/dict-al@1.1.0': {}
 
-  '@cspell/dict-aws@4.0.10': {}
-
   '@cspell/dict-aws@4.0.12': {}
 
   '@cspell/dict-bash@4.2.0':
@@ -3611,15 +3588,9 @@ snapshots:
 
   '@cspell/dict-elixir@4.0.7': {}
 
-  '@cspell/dict-en-common-misspellings@2.1.1': {}
-
   '@cspell/dict-en-common-misspellings@2.1.3': {}
 
-  '@cspell/dict-en-gb-mit@3.1.1': {}
-
   '@cspell/dict-en-gb-mit@3.1.4': {}
-
-  '@cspell/dict-en_us@4.4.11': {}
 
   '@cspell/dict-en_us@4.4.14': {}
 
@@ -3676,8 +3647,6 @@ snapshots:
 
   '@cspell/dict-npm@5.2.11': {}
 
-  '@cspell/dict-npm@5.2.7': {}
-
   '@cspell/dict-php@4.0.14': {}
 
   '@cspell/dict-powershell@5.0.14': {}
@@ -3698,8 +3667,6 @@ snapshots:
 
   '@cspell/dict-shell@1.1.0': {}
 
-  '@cspell/dict-software-terms@5.1.1': {}
-
   '@cspell/dict-software-terms@5.1.4': {}
 
   '@cspell/dict-sql@2.2.0': {}
@@ -3707,8 +3674,6 @@ snapshots:
   '@cspell/dict-svelte@1.0.6': {}
 
   '@cspell/dict-swift@2.0.5': {}
-
-  '@cspell/dict-terraform@1.1.1': {}
 
   '@cspell/dict-terraform@1.1.3': {}
 
@@ -5346,7 +5311,7 @@ snapshots:
       oxc-resolver: 11.2.0
       picocolors: 1.1.1
       picomatch: 4.0.2
-      smol-toml: 1.3.4
+      smol-toml: 1.4.1
       strip-json-comments: 5.0.2
       typescript: 5.8.3
       zod: 3.25.67
