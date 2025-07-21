@@ -1,5 +1,6 @@
+import { cspell } from "@flint.fyi/plugin-cspell";
 import { flint } from "@flint.fyi/plugin-flint";
-import { defineConfig, json, md, ts, yml } from "flint";
+import { defineConfig, globs, json, md, ts, yml } from "flint";
 
 // TODO: How to get the globs types piped through?
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
@@ -27,6 +28,10 @@ export default defineConfig({
 				include: yml.files!.all,
 			},
 			rules: [yml.presets.logical],
+		},
+		{
+			files: globs.all,
+			rules: [cspell.presets.logical],
 		},
 	],
 });
