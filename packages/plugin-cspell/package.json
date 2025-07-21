@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/plugin-cspell",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"description": "[Experimental] A CSpell plugin for Flint.",
 	"repository": {
 		"type": "git",
