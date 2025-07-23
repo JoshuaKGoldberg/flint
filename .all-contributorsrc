@@ -36,6 +36,16 @@
       "contributions": [
         "maintenance"
       ]
+    },
+    {
+      "login": "bmclear",
+      "name": "bmclear",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7715393?v=4",
+      "profile": "https://github.com/bmclear",
+      "contributions": [
+        "maintenance",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
