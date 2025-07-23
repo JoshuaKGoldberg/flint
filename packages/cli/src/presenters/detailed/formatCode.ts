@@ -3,7 +3,7 @@ import * as shikiCli from "@shikijs/cli";
 import chalk from "chalk";
 import { styleText } from "node:util";
 
-import { colorCodes, indenter } from "./constants.js";
+import { ColorCodes, indenter } from "./constants.js";
 
 // TODO: make reactive
 const leftWidth = 7;
@@ -26,14 +26,14 @@ export async function formatCode(
 
 	return [
 		indenter,
-		chalk.hex(colorCodes.codeLineNumbers)(`${start} `.padStart(leftWidth - 2)),
+		chalk.hex(ColorCodes.codeLineNumbers)(`${start} `.padStart(leftWidth - 2)),
 		chalk.gray("│ "),
 		highlightedLines.join(styleText("gray", "     │ ")),
 		"\n",
 		indenter,
 		chalk.gray("│ ".padStart(leftWidth)),
 		" ".repeat(report.range.begin.column),
-		chalk.hex(colorCodes.codeWarningUnderline)(
+		chalk.hex(ColorCodes.codeWarningUnderline)(
 			"~".repeat(report.range.end.column - report.range.begin.column),
 		),
 	].join("");

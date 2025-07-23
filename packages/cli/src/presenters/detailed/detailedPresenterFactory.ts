@@ -5,7 +5,7 @@ import { presentHeader } from "../shared/header.js";
 import { presentDiagnostics } from "../shared/presentDiagnostics.js";
 import { presentSummary } from "../shared/summary.js";
 import { PresenterFactory } from "../types.js";
-import { colorCodes, indenter } from "./constants.js";
+import { ColorCodes, indenter } from "./constants.js";
 import { createDetailedReport } from "./createDetailedReport.js";
 import { wrapIfNeeded } from "./wrapIfNeeded.js";
 
@@ -26,9 +26,9 @@ export const detailedPresenterFactory: PresenterFactory = {
 				const width = process.stdout.columns - indenter.length;
 
 				yield chalk.gray("╭");
-				yield chalk.hex(colorCodes.filePathPrefix)("./");
+				yield chalk.hex(ColorCodes.filePathPrefix)("./");
 				yield* wrapIfNeeded(
-					chalk.bold.hex(colorCodes.filePath),
+					chalk.bold.hex(ColorCodes.filePath),
 					file.filePath,
 					width,
 				);

@@ -2,7 +2,7 @@ import chalk from "chalk";
 
 export const indenter = chalk.gray("│ ");
 
-export enum colorCodes {
+export enum ColorCodes {
 	codeLineNumbers = "#bbb",
 	codeWarningUnderline = "#fcc",
 	defaultSuggestionColor = "#bbccdd",

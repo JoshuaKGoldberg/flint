@@ -1,7 +1,7 @@
 import { FileRuleReport } from "@flint.fyi/core";
 import chalk from "chalk";
 
-import { colorCodes, indenter } from "./constants.js";
+import { ColorCodes, indenter } from "./constants.js";
 import { formatCode } from "./formatCode.js";
 import { formatSuggestion } from "./formatSuggestion.js";
 import { wrapIfNeeded } from "./wrapIfNeeded.js";
@@ -16,13 +16,13 @@ export async function* createDetailedReport(
 
 	yield indenter;
 	yield wrapIfNeeded(
-		chalk.hex(colorCodes.primaryMessage),
+		chalk.hex(ColorCodes.primaryMessage),
 		[
-			chalk.hex(colorCodes.ruleBracket)("["),
+			chalk.hex(ColorCodes.ruleBracket)("["),
 			chalk
-				.hex(colorCodes.reportAboutId)
+				.hex(ColorCodes.reportAboutId)
 				.bold(`\u001b]8;;${url}\u0007${report.about.id}\u001b]8;;\u0007`),
-			chalk.hex(colorCodes.ruleBracket)("]"),
+			chalk.hex(ColorCodes.ruleBracket)("]"),
 			" ",
 			report.message.primary,
 		].join(""),
@@ -36,7 +36,7 @@ export async function* createDetailedReport(
 	yield indenter;
 	yield " ";
 	yield wrapIfNeeded(
-		chalk.hex(colorCodes.secondaryMessage).italic,
+		chalk.hex(ColorCodes.secondaryMessage).italic,
 		report.message.secondary.join(`\n`),
 		width,
 	);
@@ -44,19 +44,19 @@ export async function* createDetailedReport(
 
 	if (report.message.suggestions.length > 1) {
 		yield indenter;
-		yield chalk.hex(colorCodes.suggestionTextHighlight)(" Suggestions:");
+		yield chalk.hex(ColorCodes.suggestionTextHighlight)(" Suggestions:");
 		yield "\n";
 		yield* report.message.suggestions.map((suggestion) =>
 			[
 				indenter,
-				chalk.hex(colorCodes.suggestionMessage)("  • "),
+				chalk.hex(ColorCodes.suggestionMessage)("  • "),
 				formatSuggestion(suggestion),
 			].join("\n"),
 		);
 	} else {
 		yield `${indenter} `;
 		yield wrapIfNeeded(
-			chalk.hex(colorCodes.suggestionTextHighlight),
+			chalk.hex(ColorCodes.suggestionTextHighlight),
 			`  Suggestion: ${formatSuggestion(report.message.suggestions[0])}`,
 			width,
 		);
@@ -65,6 +65,6 @@ export async function* createDetailedReport(
 
 	yield `${indenter} `;
 	yield chalk
-		.hex(colorCodes.ruleUrl)
+		.hex(ColorCodes.ruleUrl)
 		.italic(`→ \u001b]8;;${url}\u0007${urlFriendly}\u001b]8;;\u0007`);
 }
