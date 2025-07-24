@@ -1,9 +1,9 @@
 import { CharacterReportRange } from "./ranges.js";
 
 /**
- * A "fix" (safe text change) to be made to a file.
+ * A "suggestion" (potentially unsafe text change) to be made to a file.
  */
-export interface Fix {
+export interface Suggestion {
 	/**
 	 * Range of text in the file to be updated.
 	 */

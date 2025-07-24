@@ -1,6 +1,7 @@
 import { Fix } from "./fixes.js";
 import { CharacterReportRange, ColumnAndLine } from "./ranges.js";
 import { RuleAbout } from "./rules.js";
+import { Suggestion } from "./suggestions.js";
 
 export interface FileRuleReport extends NormalizedRuleReport {
 	about: RuleAbout;
@@ -39,8 +40,8 @@ export type ReportInterpolationData = Record<string, boolean | number | string>;
 export interface RuleReport<Message extends string = string> {
 	data?: ReportInterpolationData;
 	fix?: Fix;
-
 	message: Message;
+	suggestions?: Suggestion[];
 
 	/**
 	 * Which specific characters in the source file are affected by this report.
