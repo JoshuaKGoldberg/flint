@@ -1,5 +1,5 @@
 import { RuleContext } from "./context.js";
-import { Language } from "./languages.js";
+import { AnyLanguage, Language } from "./languages.js";
 import { PromiseOrSync } from "./promises.js";
 import { ReportMessageData } from "./reports.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
@@ -90,10 +90,24 @@ export type RuleSetup<
 > = (
 	context: ContextServices & RuleContext<MessageId>,
 	options: Options,
-) => PromiseOrSync<RuleVisitors<AstNodesByName> | undefined>;
+	// without this, we get `Type 'void' is not assignable to type 'RuleVisitors<TSNodesByName> | undefined'.`
+	// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+) => PromiseOrSync<RuleVisitors<AstNodesByName> | undefined | void>;
 
 export type RuleVisitor<ASTNode> = (node: ASTNode) => void;
 
 export type RuleVisitors<AstNodesByName> = {
 	[Kind in keyof AstNodesByName]?: RuleVisitor<AstNodesByName[Kind]>;
 };
+
+// utilities
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type RuleContextForLang<
+	L extends Language<any, any>,
+	MessageId extends string = string,
+> =
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	L extends Language<any, infer ContextServices>
+		? ContextServices & RuleContext<MessageId>
+		: never;

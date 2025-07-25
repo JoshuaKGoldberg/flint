@@ -1,4 +1,4 @@
-import { createLanguage } from "@flint.fyi/core";
+import { createLanguage, RuleContextForLang } from "@flint.fyi/core";
 import { createProjectService } from "@typescript-eslint/project-service";
 import {
 	createFSBackedSystem,
@@ -16,6 +16,10 @@ import { TSNodesByName } from "./nodes.js";
 const log = debugForFile(import.meta.filename);
 
 const projectRoot = path.join(import.meta.dirname, "../..");
+
+export type TypeScriptRuleContext = RuleContextForLang<
+	typeof typescriptLanguage
+>;
 
 export interface TypeScriptServices {
 	sourceFile: ts.SourceFile;
