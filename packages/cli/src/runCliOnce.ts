@@ -40,7 +40,7 @@ export async function runCliOnce(
 	};
 
 	const configResults = await (values.fix
-		? runConfigFixing(configDefinition)
+		? runConfigFixing(configDefinition, new Set(values.suggestions))
 		: runConfig(configDefinition));
 
 	// TODO: Eventually, it'd be nice to move everything fully in-memory.

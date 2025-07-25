@@ -1,18 +1,20 @@
-import { Fix } from "../types/fixes.js";
+import { Change } from "../types/changes.js";
 
-export const orderFixesLastToFirstWithoutOverlaps = (fixes: Fix[]): Fix[] => {
-	const ordered = fixes.toSorted((a, b) => a.range.end - b.range.end);
-	const orderedWithoutOverlaps: Fix[] = [];
+export const orderChangesLastToFirstWithoutOverlaps = (
+	changes: Change[],
+): Change[] => {
+	const ordered = changes.toSorted((a, b) => a.range.end - b.range.end);
+	const orderedWithoutOverlaps: Change[] = [];
 	let lastStart = Infinity;
 
 	for (let i = ordered.length - 1; i >= 0; i -= 1) {
-		const fix = ordered[i];
-		if (fix.range.end > lastStart) {
+		const change = ordered[i];
+		if (change.range.end > lastStart) {
 			continue;
 		}
 
-		lastStart = fix.range.begin;
-		orderedWithoutOverlaps.push(fix);
+		lastStart = change.range.begin;
+		orderedWithoutOverlaps.push(change);
 	}
 
 	return orderedWithoutOverlaps;
