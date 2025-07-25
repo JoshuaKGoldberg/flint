@@ -2,6 +2,10 @@ import { textLanguage } from "@flint.fyi/text";
 
 import { createDocumentValidator } from "./createDocumentValidator.js";
 
+interface CSpellConfigLike {
+	words?: string[];
+}
+
 export default textLanguage.createRule({
 	about: {
 		id: "duplicateTestCases",
@@ -41,6 +45,34 @@ export default textLanguage.createRule({
 							begin: issue.offset,
 							end: issue.offset + (issue.length ?? issue.text.length),
 						},
+						suggestions: [
+							{
+								generators: {
+									"cspell.json": (text) => {
+										const original = JSON.parse(
+											text,
+										) as CSpellConfigLike | null;
+										const words = original?.words ?? [];
+
+										return words.includes(issue.text)
+											? []
+											: [
+													{
+														range: {
+															begin: 0,
+															end: 0,
+														},
+														text: JSON.stringify({
+															...original,
+															words: [...words, issue.text],
+														}),
+													},
+												];
+									},
+								},
+								id: "addWordToWords",
+							},
+						],
 					});
 				}
 			},

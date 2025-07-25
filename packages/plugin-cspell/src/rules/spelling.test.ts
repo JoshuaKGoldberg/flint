@@ -13,6 +13,31 @@ ruleTester.describe(rule, {
                ~~~~~~~~
                Forbidden or unknown word: "incorect".
             `,
+			suggestions: [
+				{
+					files: {
+						"cpell.json": [
+							{
+								original: ``,
+								updated: '{"words":["incorect"]}',
+							},
+							{
+								original: `{}`,
+								updated: '{"words":["incorect"]}',
+							},
+							{
+								original: `{"words":[]}`,
+								updated: '{"words":["incorect"]}',
+							},
+							{
+								original: `{"words":["existing"]}`,
+								updated: '{"words":["existing","incorect"]}',
+							},
+						],
+					},
+					id: "addWordToWords",
+				},
+			],
 		},
 	],
 	valid: ["", "known", "known-word", "knownWord"],
