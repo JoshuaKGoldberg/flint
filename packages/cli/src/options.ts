@@ -13,6 +13,10 @@ export const options = {
 	presenter: {
 		type: "string",
 	},
+	suggestions: {
+		multiple: true,
+		type: "string",
+	},
 	version: {
 		type: "boolean",
 	},

@@ -1,7 +1,7 @@
 import { TestCase } from "@flint.fyi/rule-tester";
+import { isTruthy } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
-import { isTruthy } from "./isTruthy.js";
 import { tsAstToLiteral } from "./tsAstToLiteral.js";
 
 export interface ParsedTestCase extends TestCase {

@@ -15,6 +15,7 @@ const maximumIterations = 10;
 
 export async function runConfigFixing(
 	configDefinition: ProcessedConfigDefinition,
+	requestedSuggestions: Set<string>,
 ): Promise<RunConfigResultsWithFixes> {
 	let fixed = new Set<string>();
 	let iteration = 0;
@@ -59,7 +60,7 @@ export async function runConfigFixing(
 
 		fixed = fixed.union(new Set(fixableResults.keys()));
 
-		await applyFixes(fixableResults);
+		await applyFixes(fixableResults, requestedSuggestions);
 
 		if (iteration >= maximumIterations) {
 			log("Passed maximum iterations of %d, halting.", maximumIterations);

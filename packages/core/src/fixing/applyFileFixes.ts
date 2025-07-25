@@ -1,22 +1,31 @@
+import { isTruthy } from "@flint.fyi/utils";
 import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 
 import { FileResultsWithFixes } from "../types/linting.js";
-import { orderFixesLastToFirstWithoutOverlaps } from "./ordering.js";
+import { orderChangesLastToFirstWithoutOverlaps } from "./ordering.js";
 
 const log = debugForFile(import.meta.filename);
 
 export async function applyFileFixes(
 	absoluteFilePath: string,
+	requestedSuggestions: Set<string>,
 	results: FileResultsWithFixes,
 ) {
 	log("Applying fixes to file: %s", absoluteFilePath);
 
-	const fixes = orderFixesLastToFirstWithoutOverlaps(
-		results.fixableReports.map((report) => report.fix),
+	const changes = orderChangesLastToFirstWithoutOverlaps(
+		results.fixableReports
+			.flatMap((report) => [
+				report.fix,
+				...(report.suggestions?.filter((suggestion) =>
+					requestedSuggestions.has(`${report.about.id}-${suggestion.id}`),
+				) ?? []),
+			])
+			.filter(isTruthy),
 	);
 
-	const updatedFileContent = fixes.reduce(
+	const updatedFileContent = changes.reduce(
 		(updatedFileContent, fix) =>
 			updatedFileContent.slice(0, fix.range.begin) +
 			fix.text +
@@ -34,7 +43,7 @@ export async function applyFileFixes(
 
 	log(
 		"Writing %d of %d fixes to file: %s",
-		fixes.length,
+		changes.length,
 		results.fixableReports.length,
 		absoluteFilePath,
 	);

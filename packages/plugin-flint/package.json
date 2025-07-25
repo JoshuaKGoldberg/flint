@@ -17,7 +17,8 @@
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/rule-tester": "workspace:",
-		"@flint.fyi/ts": "workspace:"
+		"@flint.fyi/ts": "workspace:",
+		"@flint.fyi/utils": "workspace:"
 	},
 	"engines": {
 		"node": ">=24.0.0"

@@ -1,7 +1,7 @@
-import { Fix } from "./fixes.js";
+import { Fix } from "./changes.js";
+import { Suggestion } from "./changes.js";
 import { CharacterReportRange, ColumnAndLine } from "./ranges.js";
 import { RuleAbout } from "./rules.js";
-import { Suggestion } from "./suggestions.js";
 
 export interface FileRuleReport extends NormalizedRuleReport {
 	about: RuleAbout;
@@ -26,6 +26,7 @@ export interface NormalizedRuleReport {
 	fix?: Fix;
 	message: ReportMessageData;
 	range: NormalizedReportRangeObject;
+	suggestions?: Suggestion[];
 }
 
 export interface NormalizedRuleReportWithFix extends NormalizedRuleReport {
