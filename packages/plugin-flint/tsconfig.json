@@ -6,9 +6,9 @@
 	"extends": "../../tsconfig.base.json",
 	"include": ["src"],
 	"references": [
-		[{ "path": "../core" }],
-		[{ "path": "../rule-tester" }],
-		[{ "path": "../ts" }],
-		[{ "path": "../utils" }]
+		{ "path": "../core" },
+		{ "path": "../rule-tester" },
+		{ "path": "../ts" },
+		{ "path": "../utils" }
 	]
 }
