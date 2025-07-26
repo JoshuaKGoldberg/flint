@@ -1,11 +1,7 @@
+import { parseJsonSafe } from "@flint.fyi/utils";
+
 import { readFileSafe } from "./readFileSafe.js";
 
 export async function readFileSafeAsJson(filePath: string) {
-	try {
-		const text = await readFileSafe(filePath);
-
-		return text && (JSON.parse(text) as unknown);
-	} catch {
-		return undefined;
-	}
+	return parseJsonSafe(await readFileSafe(filePath));
 }

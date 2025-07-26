@@ -1,6 +1,6 @@
 import { debugForFile } from "debug-for-file";
 
-import { applyFixes } from "../fixing/applyFixes.js";
+import { applyChanges } from "../changing/applyChanges.js";
 import { ProcessedConfigDefinition } from "../types/configs.js";
 import {
 	FileResultsWithFixes,
@@ -60,7 +60,7 @@ export async function runConfigFixing(
 
 		fixed = fixed.union(new Set(fixableResults.keys()));
 
-		await applyFixes(fixableResults, requestedSuggestions);
+		await applyChanges(fixableResults, requestedSuggestions);
 
 		if (iteration >= maximumIterations) {
 			log("Passed maximum iterations of %d, halting.", maximumIterations);

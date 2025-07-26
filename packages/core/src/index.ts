@@ -1,4 +1,5 @@
 export { writeToCache } from "./cache/writeToCache.js";
+export { applyChangesToText } from "./changing/applyChangesToText.js";
 export { defineConfig } from "./configs/defineConfig.js";
 export { isConfig } from "./configs/isConfig.js";
 export { runPrettier } from "./formatting/runPrettier.js";
@@ -9,6 +10,7 @@ export { formatReportPrimary } from "./reporting/formatReportPrimary.js";
 export { runConfig } from "./running/runConfig.js";
 export { runConfigFixing } from "./running/runConfigFixing.js";
 export * from "./types/cache.js";
+export * from "./types/changes.js";
 export * from "./types/configs.js";
 export * from "./types/formatting.js";
 export * from "./types/languages.js";

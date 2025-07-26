@@ -8,10 +8,7 @@ import {
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
 
-export interface NormalizedTestCase {
-	code: string;
-	fileName?: string;
-}
+import { TestCaseNormalized } from "./normalizeTestCase.js";
 
 export interface TestCaseRuleConfiguration<
 	OptionsSchema extends AnyOptionalSchema | undefined,
@@ -25,7 +22,7 @@ export function runTestCaseRule<
 >(
 	fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
 	{ options, rule }: Required<TestCaseRuleConfiguration<OptionsSchema>>,
-	{ code, fileName = "file.ts" }: NormalizedTestCase,
+	{ code, fileName }: TestCaseNormalized,
 ) {
 	using file = fileFactories
 		// TODO: How to make types more permissive around assignability?

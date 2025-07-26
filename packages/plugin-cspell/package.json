@@ -19,6 +19,7 @@
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/rule-tester": "workspace:",
 		"@flint.fyi/text": "workspace:",
+		"@flint.fyi/utils": "workspace:",
 		"cspell-lib": "^9.1.3"
 	},
 	"engines": {
