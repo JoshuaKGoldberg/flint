@@ -1,5 +1,13 @@
 # @flint/core
 
+## 0.13.5
+
+### Patch Changes
+
+- 63b61e5: add --suggestions to CLI
+- Updated dependencies [63b61e5]
+  - @flint.fyi/utils@0.13.2
+
 ## 0.13.4
 
 ### Patch Changes
