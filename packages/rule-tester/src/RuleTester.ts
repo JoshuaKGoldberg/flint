@@ -10,6 +10,8 @@ import { CachedFactory } from "cached-factory";
 import assert from "node:assert";
 
 import { createReportSnapshot } from "./createReportSnapshot.js";
+import { normalizeTestCase } from "./normalizeTestCase.js";
+import { resolveReportedSuggestions } from "./resolveReportedSuggestions.js";
 import { runTestCaseRule } from "./runTestCaseRule.js";
 import { InvalidTestCase, ValidTestCase } from "./types.js";
 
@@ -72,6 +74,8 @@ export class RuleTester {
 		rule: AnyRule<RuleAbout, OptionsSchema>,
 		testCase: InvalidTestCase<InferredObject<OptionsSchema>>,
 	) {
+		const testCaseNormalized = normalizeTestCase(testCase);
+
 		this.#testerOptions.it(testCase.code, async () => {
 			const reports = await runTestCaseRule(
 				this.#fileFactories,
@@ -80,11 +84,17 @@ export class RuleTester {
 					options: (testCase.options ?? {}) as InferredObject<OptionsSchema>,
 					rule,
 				},
-				testCase,
+				testCaseNormalized,
 			);
-			const actual = createReportSnapshot(testCase.code, reports);
+			const actualSnapshot = createReportSnapshot(testCase.code, reports);
 
-			assert.equal(actual, testCase.snapshot);
+			assert.equal(actualSnapshot, testCase.snapshot);
+
+			const actualSuggestions = resolveReportedSuggestions(
+				reports,
+				testCaseNormalized,
+			);
+			assert.deepStrictEqual(actualSuggestions, testCase.suggestions);
 		});
 	}
 
@@ -94,6 +104,7 @@ export class RuleTester {
 	) {
 		const testCase =
 			typeof testCaseRaw === "string" ? { code: testCaseRaw } : testCaseRaw;
+		const testCaseNormalized = normalizeTestCase(testCase);
 
 		this.#testerOptions.it(testCase.code, async () => {
 			const reports = await runTestCaseRule(
@@ -103,13 +114,13 @@ export class RuleTester {
 					options: (testCase.options ?? {}) as InferredObject<OptionsSchema>,
 					rule,
 				},
-				testCase,
+				testCaseNormalized,
 			);
 
 			if (reports.length) {
 				assert.deepStrictEqual(
-					createReportSnapshot(testCase.code, reports),
-					testCase.code,
+					createReportSnapshot(testCaseNormalized.code, reports),
+					testCaseNormalized.code,
 				);
 			}
 		});

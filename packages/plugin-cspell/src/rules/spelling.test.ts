@@ -16,7 +16,7 @@ ruleTester.describe(rule, {
 			suggestions: [
 				{
 					files: {
-						"cpell.json": [
+						"cspell.json": [
 							{
 								original: ``,
 								updated: '{"words":["incorect"]}',

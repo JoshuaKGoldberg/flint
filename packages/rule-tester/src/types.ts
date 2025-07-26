@@ -1,5 +1,6 @@
-export interface InvalidTestCase<Options extends object | undefined>
-	extends TestCase<Options> {
+export interface InvalidTestCase<
+	Options extends object | undefined = object | undefined,
+> extends TestCase<Options> {
 	output?: string;
 	snapshot: string;
 	suggestions?: TestSuggestion[];

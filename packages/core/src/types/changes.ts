@@ -49,7 +49,7 @@ export type SuggestionForFileGenerator = (text: string) => FileChange[];
  * A suggestion that applies to one or more separate files.
  */
 export interface SuggestionForFiles extends ChangeBase {
-	generators: Record<string, SuggestionForFileGenerator>;
+	generators: Partial<Record<string, SuggestionForFileGenerator>>;
 }
 
 /**

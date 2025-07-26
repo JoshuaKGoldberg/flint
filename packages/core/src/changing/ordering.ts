@@ -1,10 +1,10 @@
-import { ResolvedChange } from "../types/changes.js";
+import { FileChange } from "../types/changes.js";
 
 export const orderChangesLastToFirstWithoutOverlaps = (
-	changes: ResolvedChange[],
-): ResolvedChange[] => {
+	changes: FileChange[],
+): FileChange[] => {
 	const ordered = changes.toSorted((a, b) => a.range.end - b.range.end);
-	const orderedWithoutOverlaps: ResolvedChange[] = [];
+	const orderedWithoutOverlaps: FileChange[] = [];
 	let lastStart = Infinity;
 
 	for (let i = ordered.length - 1; i >= 0; i -= 1) {

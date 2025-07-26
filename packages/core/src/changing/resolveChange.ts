@@ -1,10 +1,7 @@
 import * as fs from "node:fs/promises";
 
-import {
-	Change,
-	ResolvedChange,
-	SuggestionForFiles,
-} from "../types/changes.js";
+import { Change, ResolvedChange } from "../types/changes.js";
+import { isSuggestionForFiles } from "../utils/predicates.js";
 
 export async function resolveChange(
 	change: Change,
@@ -22,9 +19,10 @@ export async function resolveChange(
 			Object.entries(change.generators).flatMap(
 				async ([filePath, generator]) => {
 					// TODO: Eventually, the file system should be abstracted
-					// Direct fs write calls don't make sense in e.g. virtual file systems
+					// Direct fs read calls don't make sense in e.g. virtual file systems
 					// https://github.com/JoshuaKGoldberg/flint/issues/73
-					const fileChanges = generator(await fs.readFile(filePath, "utf8"));
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const fileChanges = generator!(await fs.readFile(filePath, "utf8"));
 
 					return fileChanges.map((fileChange) => ({
 						filePath,
@@ -34,8 +32,4 @@ export async function resolveChange(
 			),
 		)
 	).flat();
-}
-
-function isSuggestionForFiles(change: Change): change is SuggestionForFiles {
-	return "generators" in change;
 }

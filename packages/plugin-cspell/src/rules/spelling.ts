@@ -1,4 +1,5 @@
 import { textLanguage } from "@flint.fyi/text";
+import { parseJsonSafe } from "@flint.fyi/utils";
 
 import { createDocumentValidator } from "./createDocumentValidator.js";
 
@@ -49,7 +50,7 @@ export default textLanguage.createRule({
 							{
 								generators: {
 									"cspell.json": (text) => {
-										const original = JSON.parse(
+										const original = parseJsonSafe(
 											text,
 										) as CSpellConfigLike | null;
 										const words = original?.words ?? [];
@@ -60,7 +61,7 @@ export default textLanguage.createRule({
 													{
 														range: {
 															begin: 0,
-															end: 0,
+															end: text.length,
 														},
 														text: JSON.stringify({
 															...original,
