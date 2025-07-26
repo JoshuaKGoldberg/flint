@@ -271,6 +271,9 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
+      '@flint.fyi/utils':
+        specifier: 'workspace:'
+        version: link:../utils
       cached-factory:
         specifier: ^0.1.0
         version: 0.1.0

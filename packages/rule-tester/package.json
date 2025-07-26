@@ -16,6 +16,7 @@
 	"main": "./lib/index.js",
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/utils": "workspace:",
 		"cached-factory": "^0.1.0"
 	},
 	"engines": {

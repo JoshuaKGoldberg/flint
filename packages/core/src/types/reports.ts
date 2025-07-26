@@ -1,5 +1,4 @@
-import { Fix } from "./changes.js";
-import { Suggestion } from "./changes.js";
+import { Fix, Suggestion } from "./changes.js";
 import { CharacterReportRange, ColumnAndLine } from "./ranges.js";
 import { RuleAbout } from "./rules.js";
 
