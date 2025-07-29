@@ -17,8 +17,6 @@ export async function applyFilesChanges(
 		requestedSuggestions,
 	);
 
-	console.log("in applyFilesChanges", changesByFile);
-
 	log("Resolved %d changes from results.");
 
 	await Promise.all(
@@ -29,6 +27,5 @@ export async function applyFilesChanges(
 
 	log("Finished applying changes.");
 
-	console.log("changesByFile", changesByFile);
 	return changesByFile.map(([key]) => key);
 }

@@ -46,10 +46,5 @@ export async function resolveChangesByFile(
 		),
 	);
 
-	console.log(
-		"end of resolveChangesByFile",
-		Array.from(changesByFile.entries()),
-	);
-
 	return Array.from(changesByFile.entries());
 }

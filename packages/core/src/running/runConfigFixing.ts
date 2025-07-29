@@ -35,8 +35,6 @@ export async function runConfigFixing(
 			requestedSuggestions,
 		);
 
-		console.log({ appliedChanges });
-
 		if (!appliedChanges.length) {
 			log("No file changes found, stopping.");
 			return { allFilePaths, changed, filesResults };
@@ -45,8 +43,6 @@ export async function runConfigFixing(
 		log("Applied changes to %d files.", appliedChanges.length);
 
 		changed = changed.union(new Set(appliedChanges));
-
-		console.log({ changed });
 
 		if (iteration >= maximumIterations) {
 			log("Passed maximum iterations of %d, halting.", maximumIterations);

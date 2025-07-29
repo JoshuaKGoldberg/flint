@@ -10,5 +10,5 @@
 		"pnpm-lock.yaml",
 		"tsconfig.tsbuildinfo"
 	],
-	"words": ["mdast", "nord", "shiki", "shikijs", "qwerrrty"]
+	"words": ["mdast", "nord", "shiki", "shikijs"]
 }
