@@ -13,13 +13,13 @@ export function* presentSummary(
 	counts: SummaryCounts,
 	{ configResults, formattingResults }: PresenterSummarizeContext,
 ) {
-	if (configResults.fixed?.size) {
+	if (configResults.changed?.size) {
 		yield styleText(
 			"green",
 			[
-				"✔ Fixed ",
-				styleText("bold", pluralize(configResults.fixed.size, "file")),
-				" automatically (--fix).\n\n",
+				"\n✔ Changed ",
+				styleText("bold", pluralize(configResults.changed.size, "file")),
+				" automatically (--fix).\n",
 			].join(""),
 		);
 	}

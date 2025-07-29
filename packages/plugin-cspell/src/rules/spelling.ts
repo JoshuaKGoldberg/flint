@@ -9,13 +9,13 @@ interface CSpellConfigLike {
 
 export default textLanguage.createRule({
 	about: {
-		id: "duplicateTestCases",
+		id: "spelling",
 		preset: "logical",
 	},
 	messages: {
 		issue: {
 			primary: 'Forbidden or unknown word: "{{ word }}".',
-			secondary: ["TODO"],
+			secondary: ["qwerrrty"],
 			suggestions: ["TODO"],
 		},
 	},
@@ -41,6 +41,7 @@ export default textLanguage.createRule({
 						data: {
 							word: issue.text,
 						},
+						dependencies: ["cspell.json"],
 						message: "issue",
 						range: {
 							begin: issue.offset,

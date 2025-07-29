@@ -4,6 +4,10 @@ export const options = {
 	fix: {
 		type: "boolean",
 	},
+	"fix-suggestions": {
+		multiple: true,
+		type: "string",
+	},
 	help: {
 		type: "boolean",
 	},
@@ -11,10 +15,6 @@ export const options = {
 		type: "boolean",
 	},
 	presenter: {
-		type: "string",
-	},
-	suggestions: {
-		multiple: true,
 		type: "string",
 	},
 	version: {

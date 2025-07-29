@@ -22,6 +22,12 @@ export interface NormalizedReportRangeObject {
  */
 export interface NormalizedRuleReport {
 	data?: ReportInterpolationData;
+
+	/**
+	 * Any files that should be factored into caching this report.
+	 */
+	dependencies?: string[];
+
 	fix?: Fix;
 	message: ReportMessageData;
 	range: NormalizedReportRangeObject;
@@ -39,6 +45,12 @@ export type ReportInterpolationData = Record<string, boolean | number | string>;
  */
 export interface RuleReport<Message extends string = string> {
 	data?: ReportInterpolationData;
+
+	/**
+	 * Any files that should be factored into caching this report.
+	 */
+	dependencies?: string[];
+
 	fix?: Fix;
 	message: Message;
 	suggestions?: Suggestion[];
