@@ -13,7 +13,7 @@ export const singleRendererFactory: RendererFactory = {
 					console.log(presenter.header);
 				}
 			},
-			async render({ configResults, formattingResults }) {
+			async render({ runConfigResults: configResults, formattingResults }) {
 				for (const [filePath, fileResults] of configResults.filesResults) {
 					if (!fileResults.reports.length) {
 						continue;
@@ -35,7 +35,7 @@ export const singleRendererFactory: RendererFactory = {
 				}
 
 				const summary = presenter.summarize({
-					configResults,
+					runConfigResults: configResults,
 					formattingResults,
 				});
 

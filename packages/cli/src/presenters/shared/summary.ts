@@ -11,7 +11,10 @@ export interface SummaryCounts {
 
 export function* presentSummary(
 	counts: SummaryCounts,
-	{ configResults, formattingResults }: PresenterSummarizeContext,
+	{
+		runConfigResults: configResults,
+		formattingResults,
+	}: PresenterSummarizeContext,
 ) {
 	if (configResults.changed?.size) {
 		yield styleText(

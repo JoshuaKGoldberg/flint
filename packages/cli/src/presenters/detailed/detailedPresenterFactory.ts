@@ -55,7 +55,7 @@ export const detailedPresenterFactory: PresenterFactory = {
 			},
 			*summarize(summaryContext) {
 				yield* presentSummary(counts, summaryContext);
-				yield* presentDiagnostics(summaryContext.configResults.filesResults);
+				yield* presentDiagnostics(summaryContext.runConfigResults.filesResults);
 			},
 		};
 	},

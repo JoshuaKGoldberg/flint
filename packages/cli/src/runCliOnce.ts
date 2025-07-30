@@ -47,7 +47,7 @@ export async function runCliOnce(
 	// https://github.com/JoshuaKGoldberg/flint/issues/73
 	const formattingResults = await runPrettier(configResults, values.fix);
 
-	await renderer.render({ configResults, formattingResults });
+	await renderer.render({ runConfigResults: configResults, formattingResults });
 
 	if (formattingResults.dirty.size && !formattingResults.written) {
 		return 1;
