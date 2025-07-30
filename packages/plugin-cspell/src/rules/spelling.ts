@@ -1,10 +1,15 @@
 import { textLanguage } from "@flint.fyi/text";
+import { parseJsonSafe } from "@flint.fyi/utils";
 
 import { createDocumentValidator } from "./createDocumentValidator.js";
 
+interface CSpellConfigLike {
+	words?: string[];
+}
+
 export default textLanguage.createRule({
 	about: {
-		id: "duplicateTestCases",
+		id: "spelling",
 		preset: "logical",
 	},
 	messages: {
@@ -43,6 +48,34 @@ export default textLanguage.createRule({
 								begin: issue.offset,
 								end: issue.offset + (issue.length ?? issue.text.length),
 							},
+							suggestions: [
+								{
+									files: {
+										"cspell.json": (text) => {
+											const original = parseJsonSafe(
+												text,
+											) as CSpellConfigLike | null;
+											const words = original?.words ?? [];
+
+											return words.includes(issue.text)
+												? []
+												: [
+														{
+															range: {
+																begin: 0,
+																end: text.length,
+															},
+															text: JSON.stringify({
+																...original,
+																words: [...words, issue.text],
+															}),
+														},
+													];
+										},
+									},
+									id: "addWordToWords",
+								},
+							],
 						});
 					}
 				},
