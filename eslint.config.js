@@ -16,7 +16,6 @@ export default tseslint.config(
 		ignores: [
 			"**/*.snap",
 			"**/node_modules",
-			"coverage",
 			"packages/*/lib",
 			"packages/fixtures",
 			"pnpm-*.yaml",
