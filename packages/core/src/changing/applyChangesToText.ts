@@ -1,5 +1,5 @@
 import { FileChange } from "../types/changes.js";
-import { applyFileChangeToText } from "./applyFileChangeToText.js";
+import { applyFileChangeToText } from "./applyChangeToText.js";
 import { orderChangesLastToFirstWithoutOverlaps } from "./ordering.js";
 
 export function applyChangesToText(changes: FileChange[], text: string) {
