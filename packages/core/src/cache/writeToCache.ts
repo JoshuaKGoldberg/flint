@@ -26,45 +26,33 @@ export async function writeToCache(
 			[configFileName]: getFileTouchTime(configFileName),
 			"package.json": getFileTouchTime("package.json"),
 		},
-		files: withoutKeys(
-			{
-				...Object.fromEntries(
-					Array.from(runConfigResults.filesResults).map(
-						([filePath, fileResults]) => [
-							filePath,
-							{
-								...omitEmpty({
-									dependencies: Array.from(fileResults.dependencies).sort(),
-									diagnostics: fileResults.diagnostics,
-									reports: fileResults.reports,
-								}),
-								timestamp,
-							},
-						],
-					),
+		files: {
+			...Object.fromEntries(
+				Array.from(runConfigResults.filesResults).map(
+					([filePath, fileResults]) => [
+						filePath,
+						{
+							...omitEmpty({
+								dependencies: Array.from(fileResults.dependencies).sort(),
+								diagnostics: fileResults.diagnostics,
+								reports: fileResults.reports,
+							}),
+							timestamp,
+						},
+					],
 				),
-				...(runConfigResults.cached &&
-					Object.fromEntries(
-						Array.from(runConfigResults.cached).filter(([filePath]) =>
-							runConfigResults.allFilePaths.has(filePath),
-						),
-					)),
-			},
-			withoutFilePaths,
-		),
+			),
+			...(runConfigResults.cached &&
+				Object.fromEntries(
+					Array.from(runConfigResults.cached).filter(([filePath]) =>
+						runConfigResults.allFilePaths.has(filePath),
+					),
+				)),
+		},
 	};
 
 	await fs.mkdir(cacheFileDirectory, { recursive: true });
 	await fs.writeFile(cacheFilePath, JSON.stringify(storage, null, "\t"));
 
 	return storage;
-}
-
-function withoutKeys<T extends object, K extends keyof T>(
-	object: T,
-	keys: K[],
-): Omit<T, K> {
-	return Object.fromEntries(
-		Object.entries(object).filter(([key]) => !keys.includes(key as K)),
-	) as Omit<T, K>;
 }

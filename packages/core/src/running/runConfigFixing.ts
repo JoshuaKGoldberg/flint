@@ -40,11 +40,7 @@ export async function runConfigFixing(
 
 		log("Fixed %d files.", fixedFilePaths.length);
 
-		await writeToCache(
-			configDefinition.filePath,
-			runConfigResults,
-			fixedFilePaths,
-		);
+		await writeToCache(configDefinition.filePath, runConfigResults);
 
 		if (!fixedFilePaths.length) {
 			log("No file changes found, stopping.");
