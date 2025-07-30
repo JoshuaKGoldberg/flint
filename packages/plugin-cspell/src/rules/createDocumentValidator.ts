@@ -20,8 +20,8 @@ export async function createDocumentValidator(fileName: string, text: string) {
 	);
 
 	// It would be nice to use the DocumentValidator's `import` setting.
-	// However, even with the random+time timestamp, cspell seemed to cache the import.
-	const configFilePath = `cspell.json?timestamp=${Date.now()}${Math.random()}`;
+	// However, even with unique timestamps, cspell seemed to cache the import.
+	const configFilePath = `cspell.json?timestamp=${performance.now()}`;
 	const configFile = (await import(path.join(cwd, configFilePath), {
 		with: { type: "json" },
 	})) as { default: CSpellSettings };
