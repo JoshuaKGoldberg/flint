@@ -1,10 +1,9 @@
 import { debugForFile } from "debug-for-file";
 
-import { writeToCache } from "../cache/writeToCache.js";
 import { applyFilesChanges } from "../changing/applyFilesChanges.js";
 import { ProcessedConfigDefinition } from "../types/configs.js";
 import { RunConfigResultsWithChanges } from "../types/linting.js";
-import { runConfig } from "./runConfig.js";
+import { runConfigOnce } from "./runConfigOnce.js";
 
 const log = debugForFile(import.meta.filename);
 
@@ -29,7 +28,7 @@ export async function runConfigFixing(
 		// Why read file many time when few do trick?
 		// Or, at least it should all be virtual...
 		// https://github.com/JoshuaKGoldberg/flint/issues/73
-		const runConfigResults = await runConfig(configDefinition);
+		const runConfigResults = await runConfigOnce(configDefinition);
 
 		log("Applying fixes from file results.");
 
@@ -39,8 +38,6 @@ export async function runConfigFixing(
 		);
 
 		log("Fixed %d files.", fixedFilePaths.length);
-
-		await writeToCache(configDefinition.filePath, runConfigResults);
 
 		if (!fixedFilePaths.length) {
 			log("No file changes found, stopping.");

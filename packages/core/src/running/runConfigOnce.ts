@@ -5,6 +5,7 @@ import * as fs from "node:fs/promises";
 import path from "node:path";
 
 import { readFromCache } from "../cache/readFromCache.js";
+import { writeToCache } from "../cache/writeToCache.js";
 import { collectFilesValues } from "../globs/collectFilesValues.js";
 import { AnyLevelDeep } from "../types/arrays.js";
 import {
@@ -21,7 +22,7 @@ import { readGitignore } from "./readGitignore.js";
 
 const log = debugForFile(import.meta.filename);
 
-export async function runConfig(
+export async function runConfigOnce(
 	configDefinition: ProcessedConfigDefinition,
 ): Promise<RunConfigResults> {
 	interface ConfigUseDefinitionWithFiles extends ConfigUseDefinition {
@@ -102,7 +103,15 @@ export async function runConfig(
 
 	log("Found %d report(s)", totalReports);
 
-	return { allFilePaths: allFoundPaths, cached, filesResults };
+	const runConfigResults = {
+		allFilePaths: allFoundPaths,
+		cached,
+		filesResults,
+	};
+
+	await writeToCache(configDefinition.filePath, runConfigResults);
+
+	return runConfigResults;
 }
 
 function collectUseFilesGlobsObject(
