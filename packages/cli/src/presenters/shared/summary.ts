@@ -17,9 +17,9 @@ export function* presentSummary(
 		yield styleText(
 			"green",
 			[
-				"\n✔ Changed ",
+				"✔ Fixed ",
 				styleText("bold", pluralize(configResults.changed.size, "file")),
-				" automatically (--fix).\n",
+				" automatically (--fix).\n\n",
 			].join(""),
 		);
 	}

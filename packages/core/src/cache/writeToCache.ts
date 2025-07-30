@@ -10,7 +10,7 @@ import { getFileTouchTime } from "./getFileTouchTime.js";
 export async function writeToCache(
 	configFileName: string,
 	runConfigResults: RunConfigResults,
-	fixedFilePaths?: string[],
+	fixedFilePaths: string[] = [],
 ) {
 	const fileDependents = new CachedFactory(() => new Set<string>());
 	const timestamp = Date.now();
@@ -26,7 +26,7 @@ export async function writeToCache(
 			[configFileName]: getFileTouchTime(configFileName),
 			"package.json": getFileTouchTime("package.json"),
 		},
-		files: removeKeys(
+		files: withoutKeys(
 			{
 				...Object.fromEntries(
 					Array.from(runConfigResults.filesResults).map(
@@ -50,7 +50,7 @@ export async function writeToCache(
 						),
 					)),
 			},
-			fixedFilePaths ?? [],
+			fixedFilePaths,
 		),
 	};
 
@@ -60,7 +60,7 @@ export async function writeToCache(
 	return storage;
 }
 
-function removeKeys<T extends object, K extends keyof T>(
+function withoutKeys<T extends object, K extends keyof T>(
 	object: T,
 	keys: K[],
 ): Omit<T, K> {
