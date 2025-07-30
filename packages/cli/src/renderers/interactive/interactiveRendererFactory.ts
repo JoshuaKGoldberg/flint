@@ -44,11 +44,9 @@ export const interactiveRendererFactory: RendererFactory = {
 			onQuitListeners.call();
 		}
 
-		async function render({
-			runConfigResults: configResults,
-		}: RendererContext) {
+		async function render({ runConfigResults }: RendererContext) {
 			const filesWithReportResults = Array.from(
-				configResults.filesResults,
+				runConfigResults.filesResults,
 			).filter(([, results]) => results.reports.length);
 
 			const events: Record<string, (() => boolean) | undefined> = {
