@@ -24,33 +24,35 @@ export default jsonLanguage.createRule({
 	},
 	setup(context) {
 		return {
-			ObjectLiteralExpression(node) {
-				const seenKeys = new Map<string, ts.StringLiteral>();
+			visitors: {
+				ObjectLiteralExpression(node) {
+					const seenKeys = new Map<string, ts.StringLiteral>();
 
-				for (const property of node.properties.toReversed()) {
-					if (
-						!ts.isPropertyAssignment(property) ||
-						!ts.isStringLiteral(property.name)
-					) {
-						continue;
+					for (const property of node.properties.toReversed()) {
+						if (
+							!ts.isPropertyAssignment(property) ||
+							!ts.isStringLiteral(property.name)
+						) {
+							continue;
+						}
+
+						const key = property.name.text;
+						const existingNode = seenKeys.get(key);
+
+						if (!existingNode) {
+							seenKeys.set(key, property.name);
+							continue;
+						}
+
+						context.report({
+							message: "duplicateKey",
+							range: {
+								begin: property.name.getStart(context.sourceFile) + 1,
+								end: property.name.end + 1,
+							},
+						});
 					}
-
-					const key = property.name.text;
-					const existingNode = seenKeys.get(key);
-
-					if (!existingNode) {
-						seenKeys.set(key, property.name);
-						continue;
-					}
-
-					context.report({
-						message: "duplicateKey",
-						range: {
-							begin: property.name.getStart(context.sourceFile) + 1,
-							end: property.name.end + 1,
-						},
-					});
-				}
+				},
 			},
 		};
 	},

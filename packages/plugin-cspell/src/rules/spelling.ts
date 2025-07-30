@@ -24,25 +24,28 @@ export default textLanguage.createRule({
 		}
 
 		return {
-			file(text) {
-				const issues = documentValidator.checkText(
-					[0, text.length],
-					undefined,
-					undefined,
-				);
+			dependencies: ["cspell.json"],
+			visitors: {
+				file: (text) => {
+					const issues = documentValidator.checkText(
+						[0, text.length],
+						undefined,
+						undefined,
+					);
 
-				for (const issue of issues) {
-					context.report({
-						data: {
-							word: issue.text,
-						},
-						message: "issue",
-						range: {
-							begin: issue.offset,
-							end: issue.offset + (issue.length ?? issue.text.length),
-						},
-					});
-				}
+					for (const issue of issues) {
+						context.report({
+							data: {
+								word: issue.text,
+							},
+							message: "issue",
+							range: {
+								begin: issue.offset,
+								end: issue.offset + (issue.length ?? issue.text.length),
+							},
+						});
+					}
+				},
 			},
 		};
 	},
