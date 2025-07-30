@@ -50,7 +50,7 @@ export default textLanguage.createRule({
 							},
 							suggestions: [
 								{
-									generators: {
+									files: {
 										"cspell.json": (text) => {
 											const original = parseJsonSafe(
 												text,
