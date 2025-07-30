@@ -53,6 +53,4 @@ export async function writeToCache(
 
 	await fs.mkdir(cacheFileDirectory, { recursive: true });
 	await fs.writeFile(cacheFilePath, JSON.stringify(storage, null, "\t"));
-
-	return storage;
 }
