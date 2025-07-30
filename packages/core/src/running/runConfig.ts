@@ -62,7 +62,7 @@ export async function runConfig(
 		}),
 	);
 
-	const allFoundPaths = new Set(
+	const allFilePaths = new Set(
 		useDefinitions.flatMap((use) => Array.from(use.found)),
 	);
 	const filesResults = new Map<string, FileResults>();
@@ -72,13 +72,13 @@ export async function runConfig(
 		return language.prepare();
 	});
 
-	const cached = await readFromCache(allFoundPaths, configDefinition.filePath);
+	const cached = await readFromCache(allFilePaths, configDefinition.filePath);
 
 	// TODO: This is very slow and the whole thing should be refactored 🙌.
 	// The separate lintFile function recomputes rule options repeatedly.
 	// It'd be better to group found files together in some way.
 	// Plus, this does an await in a for loop - should it use a queue?
-	for (const filePath of allFoundPaths) {
+	for (const filePath of allFilePaths) {
 		const { dependencies, diagnostics, reports } =
 			cached?.get(filePath) ??
 			(await lintFile(
@@ -102,7 +102,7 @@ export async function runConfig(
 
 	log("Found %d report(s)", totalReports);
 
-	return { allFilePaths: allFoundPaths, cached, filesResults };
+	return { allFilePaths, cached, filesResults };
 }
 
 function collectUseFilesGlobsObject(

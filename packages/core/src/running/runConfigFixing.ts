@@ -1,5 +1,6 @@
 import { debugForFile } from "debug-for-file";
 
+import { writeToCache } from "../cache/writeToCache.js";
 import { applyFilesChanges } from "../changing/applyFilesChanges.js";
 import { ProcessedConfigDefinition } from "../types/configs.js";
 import { RunConfigResultsWithChanges } from "../types/linting.js";
@@ -28,25 +29,35 @@ export async function runConfigFixing(
 		// Why read file many time when few do trick?
 		// Or, at least it should all be virtual...
 		// https://github.com/JoshuaKGoldberg/flint/issues/73
-		const { allFilePaths, filesResults } = await runConfig(configDefinition);
+		const runConfigResults = await runConfig(configDefinition);
 
-		const appliedChanges = await applyFilesChanges(
-			filesResults,
+		log("Applying fixes from file results.");
+
+		const fixedFilePaths = await applyFilesChanges(
+			runConfigResults.filesResults,
 			requestedSuggestions,
 		);
 
-		if (!appliedChanges.length) {
+		log("Fixed %d files.", fixedFilePaths.length);
+
+		await writeToCache(
+			configDefinition.filePath,
+			runConfigResults,
+			fixedFilePaths,
+		);
+
+		if (!fixedFilePaths.length) {
 			log("No file changes found, stopping.");
-			return { allFilePaths, changed, filesResults };
+			return { ...runConfigResults, changed };
 		}
 
-		log("Applied changes to %d files.", appliedChanges.length);
+		log("Applied changes to %d files.", fixedFilePaths.length);
 
-		changed = changed.union(new Set(appliedChanges));
+		changed = changed.union(new Set(fixedFilePaths));
 
 		if (iteration >= maximumIterations) {
 			log("Passed maximum iterations of %d, halting.", maximumIterations);
-			return { allFilePaths, changed, filesResults };
+			return { ...runConfigResults, changed };
 		}
 	}
 }

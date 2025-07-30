@@ -9,12 +9,13 @@ import { getFileTouchTime } from "./getFileTouchTime.js";
 
 export async function writeToCache(
 	configFileName: string,
-	results: RunConfigResults,
+	runConfigResults: RunConfigResults,
+	fixedFilePaths?: string[],
 ) {
 	const fileDependents = new CachedFactory(() => new Set<string>());
 	const timestamp = Date.now();
 
-	for (const [filePath, fileResult] of results.filesResults) {
+	for (const [filePath, fileResult] of runConfigResults.filesResults) {
 		for (const dependency of fileResult.dependencies) {
 			fileDependents.get(dependency).add(filePath);
 		}
@@ -25,29 +26,45 @@ export async function writeToCache(
 			[configFileName]: getFileTouchTime(configFileName),
 			"package.json": getFileTouchTime("package.json"),
 		},
-		files: {
-			...Object.fromEntries(
-				Array.from(results.filesResults).map(([filePath, fileResults]) => [
-					filePath,
-					{
-						...omitEmpty({
-							dependencies: Array.from(fileResults.dependencies).sort(),
-							diagnostics: fileResults.diagnostics,
-							reports: fileResults.reports,
-						}),
-						timestamp,
-					},
-				]),
-			),
-			...(results.cached &&
-				Object.fromEntries(
-					Array.from(results.cached).filter(([filePath]) =>
-						results.allFilePaths.has(filePath),
+		files: removeKeys(
+			{
+				...Object.fromEntries(
+					Array.from(runConfigResults.filesResults).map(
+						([filePath, fileResults]) => [
+							filePath,
+							{
+								...omitEmpty({
+									dependencies: Array.from(fileResults.dependencies).sort(),
+									diagnostics: fileResults.diagnostics,
+									reports: fileResults.reports,
+								}),
+								timestamp,
+							},
+						],
 					),
-				)),
-		},
+				),
+				...(runConfigResults.cached &&
+					Object.fromEntries(
+						Array.from(runConfigResults.cached).filter(([filePath]) =>
+							runConfigResults.allFilePaths.has(filePath),
+						),
+					)),
+			},
+			fixedFilePaths ?? [],
+		),
 	};
 
 	await fs.mkdir(cacheFileDirectory, { recursive: true });
 	await fs.writeFile(cacheFilePath, JSON.stringify(storage, null, "\t"));
+
+	return storage;
+}
+
+function removeKeys<T extends object, K extends keyof T>(
+	object: T,
+	keys: K[],
+): Omit<T, K> {
+	return Object.fromEntries(
+		Object.entries(object).filter(([key]) => !keys.includes(key as K)),
+	) as Omit<T, K>;
 }
