@@ -10,7 +10,7 @@ import { getFileTouchTime } from "./getFileTouchTime.js";
 export async function writeToCache(
 	configFileName: string,
 	runConfigResults: RunConfigResults,
-	fixedFilePaths: string[] = [],
+	withoutFilePaths: string[] = [],
 ) {
 	const fileDependents = new CachedFactory(() => new Set<string>());
 	const timestamp = Date.now();
@@ -50,7 +50,7 @@ export async function writeToCache(
 						),
 					)),
 			},
-			fixedFilePaths,
+			withoutFilePaths,
 		),
 	};
 

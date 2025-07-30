@@ -1,6 +1,6 @@
 import {
 	isConfig,
-	runConfig,
+	runConfigAndCache,
 	runConfigFixing,
 	runPrettier,
 } from "@flint.fyi/core";
@@ -40,7 +40,7 @@ export async function runCliOnce(
 
 	const configResults = await (values.fix
 		? runConfigFixing(configDefinition, new Set(values["fix-suggestions"]))
-		: runConfig(configDefinition));
+		: runConfigAndCache(configDefinition));
 
 	// TODO: Eventually, it'd be nice to move everything fully in-memory.
 	// This would be better for performance to avoid excess file system I/O.

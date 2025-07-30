@@ -7,7 +7,7 @@ export { globs } from "./globs/index.js";
 export { createLanguage } from "./languages/createLanguage.js";
 export { createPlugin } from "./plugins/createPlugin.js";
 export { formatReportPrimary } from "./reporting/formatReportPrimary.js";
-export { runConfigAndCache as runConfig } from "./running/runConfigAndCache.js";
+export { runConfigAndCache } from "./running/runConfigAndCache.js";
 export { runConfigFixing } from "./running/runConfigFixing.js";
 export * from "./types/cache.js";
 export * from "./types/changes.js";
