@@ -29,54 +29,56 @@ export default textLanguage.createRule({
 		}
 
 		return {
-			file(text) {
-				const issues = documentValidator.checkText(
-					[0, text.length],
-					undefined,
-					undefined,
-				);
+			dependencies: ["cspell.json"],
+			visitors: {
+				file: (text) => {
+					const issues = documentValidator.checkText(
+						[0, text.length],
+						undefined,
+						undefined,
+					);
 
-				for (const issue of issues) {
-					context.report({
-						data: {
-							word: issue.text,
-						},
-						dependencies: ["cspell.json"],
-						message: "issue",
-						range: {
-							begin: issue.offset,
-							end: issue.offset + (issue.length ?? issue.text.length),
-						},
-						suggestions: [
-							{
-								generators: {
-									"cspell.json": (text) => {
-										const original = parseJsonSafe(
-											text,
-										) as CSpellConfigLike | null;
-										const words = original?.words ?? [];
-
-										return words.includes(issue.text)
-											? []
-											: [
-													{
-														range: {
-															begin: 0,
-															end: text.length,
-														},
-														text: JSON.stringify({
-															...original,
-															words: [...words, issue.text],
-														}),
-													},
-												];
-									},
-								},
-								id: "addWordToWords",
+					for (const issue of issues) {
+						context.report({
+							data: {
+								word: issue.text,
 							},
-						],
-					});
-				}
+							message: "issue",
+							range: {
+								begin: issue.offset,
+								end: issue.offset + (issue.length ?? issue.text.length),
+							},
+							suggestions: [
+								{
+									generators: {
+										"cspell.json": (text) => {
+											const original = parseJsonSafe(
+												text,
+											) as CSpellConfigLike | null;
+											const words = original?.words ?? [];
+
+											return words.includes(issue.text)
+												? []
+												: [
+														{
+															range: {
+																begin: 0,
+																end: text.length,
+															},
+															text: JSON.stringify({
+																...original,
+																words: [...words, issue.text],
+															}),
+														},
+													];
+										},
+									},
+									id: "addWordToWords",
+								},
+							],
+						});
+					}
+				},
 			},
 		};
 	},

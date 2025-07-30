@@ -82,6 +82,11 @@ export interface RuleDefinition<
 	>;
 }
 
+export interface RuleRuntime<AstNodesByName> {
+	dependencies?: string[];
+	visitors?: RuleVisitors<AstNodesByName>;
+}
+
 export type RuleSetup<
 	AstNodesByName,
 	ContextServices extends object,
@@ -90,7 +95,7 @@ export type RuleSetup<
 > = (
 	context: ContextServices & RuleContext<MessageId>,
 	options: Options,
-) => PromiseOrSync<RuleVisitors<AstNodesByName> | undefined>;
+) => PromiseOrSync<RuleRuntime<AstNodesByName> | undefined>;
 
 export type RuleVisitor<ASTNode> = (node: ASTNode) => void;
 

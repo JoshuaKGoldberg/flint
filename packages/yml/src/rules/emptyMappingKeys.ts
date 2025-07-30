@@ -14,16 +14,18 @@ export default ymlLanguage.createRule({
 	},
 	setup(context) {
 		return {
-			mappingKey(node) {
-				if (node.children.length === 0) {
-					context.report({
-						message: "emptyKey",
-						range: {
-							begin: node.position.start.offset,
-							end: node.position.end.offset + 1,
-						},
-					});
-				}
+			visitors: {
+				mappingKey: (node) => {
+					if (node.children.length === 0) {
+						context.report({
+							message: "emptyKey",
+							range: {
+								begin: node.position.start.offset,
+								end: node.position.end.offset + 1,
+							},
+						});
+					}
+				},
 			},
 		};
 	},

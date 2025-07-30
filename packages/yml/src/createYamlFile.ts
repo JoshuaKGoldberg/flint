@@ -54,11 +54,13 @@ export function createYamlFile(
 				root,
 			};
 
-			const visitors = await rule.setup(context, options);
+			const runtime = await rule.setup(context, options);
 
-			if (!visitors) {
+			if (!runtime?.visitors) {
 				return reports;
 			}
+
+			const { visitors } = runtime;
 
 			visit(root, (node) => {
 				visitors[node.type]?.(node);

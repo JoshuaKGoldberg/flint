@@ -19,24 +19,26 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		return {
-			NonNullExpression(node) {
-				if (node.parent.kind !== ts.SyntaxKind.NonNullExpression) {
-					return;
-				}
+			visitors: {
+				NonNullExpression: (node) => {
+					if (node.parent.kind !== ts.SyntaxKind.NonNullExpression) {
+						return;
+					}
 
-				const range = {
-					begin: node.end,
-					end: node.parent.end + 1,
-				};
+					const range = {
+						begin: node.end,
+						end: node.parent.end + 1,
+					};
 
-				context.report({
-					fix: {
+					context.report({
+						fix: {
+							range,
+							text: "",
+						},
+						message: "consecutiveNonNullAssertion",
 						range,
-						text: "",
-					},
-					message: "consecutiveNonNullAssertion",
-					range,
-				});
+					});
+				},
 			},
 		};
 	},
