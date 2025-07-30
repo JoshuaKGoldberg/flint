@@ -52,7 +52,7 @@ function resolveReportedSuggestionForFiles(
 						return [
 							filePath,
 							suggestionCasesExpected.map((suggestionCaseExpected) => {
-								const changes = suggestionReported.generators[filePath]?.(
+								const changes = suggestionReported.files[filePath]?.(
 									suggestionCaseExpected.original,
 								);
 								return {
