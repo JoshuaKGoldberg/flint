@@ -1,5 +1,11 @@
 # @flint/utils
 
+## 0.13.2
+
+### Patch Changes
+
+- 63b61e5: add --suggestions to CLI
+
 ## 0.13.1
 
 ### Patch Changes

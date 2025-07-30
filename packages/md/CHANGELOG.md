@@ -1,5 +1,14 @@
 # @flint/md
 
+## 0.13.2
+
+### Patch Changes
+
+- 0b80834: allow rules to indicate dependencies
+- Updated dependencies [0b80834]
+- Updated dependencies [63b61e5]
+  - @flint.fyi/core@0.13.5
+
 ## 0.13.1
 
 ### Patch Changes
