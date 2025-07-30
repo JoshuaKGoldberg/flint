@@ -10,5 +10,5 @@ export function hasFix(
 export function isSuggestionForFiles(
 	change: Change,
 ): change is SuggestionForFiles {
-	return "generators" in change;
+	return "files" in change;
 }
