@@ -15,7 +15,7 @@ export default textLanguage.createRule({
 	messages: {
 		issue: {
 			primary: 'Forbidden or unknown word: "{{ word }}".',
-			secondary: ["qwerrrty"],
+			secondary: ["TODO"],
 			suggestions: ["TODO"],
 		},
 	},
