@@ -38,7 +38,6 @@ export default textLanguage.createRule({
 							data: {
 								word: issue.text,
 							},
-							// dependencies: ["cspell.json"],
 							message: "issue",
 							range: {
 								begin: issue.offset,
