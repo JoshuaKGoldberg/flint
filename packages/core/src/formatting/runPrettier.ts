@@ -8,12 +8,12 @@ import { RunConfigResultsMaybeWithChanges } from "../types/linting.js";
 const log = debugForFile(import.meta.filename);
 
 export async function runPrettier(
-	configResults: RunConfigResultsMaybeWithChanges,
+	runConfigResults: RunConfigResultsMaybeWithChanges,
 	fix: boolean | undefined,
 ) {
 	const allFilePaths = new Set([
-		...(configResults.changed ?? []),
-		...configResults.allFilePaths,
+		...(runConfigResults.changed ?? []),
+		...runConfigResults.allFilePaths,
 	]);
 	log("Running Prettier on %d file(s)", allFilePaths.size);
 
