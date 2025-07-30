@@ -9,12 +9,12 @@ import { getFileTouchTime } from "./getFileTouchTime.js";
 
 export async function writeToCache(
 	configFileName: string,
-	results: RunConfigResults,
+	runConfigResults: RunConfigResults,
 ) {
 	const fileDependents = new CachedFactory(() => new Set<string>());
 	const timestamp = Date.now();
 
-	for (const [filePath, fileResult] of results.filesResults) {
+	for (const [filePath, fileResult] of runConfigResults.filesResults) {
 		for (const dependency of fileResult.dependencies) {
 			fileDependents.get(dependency).add(filePath);
 		}
@@ -27,22 +27,24 @@ export async function writeToCache(
 		},
 		files: {
 			...Object.fromEntries(
-				Array.from(results.filesResults).map(([filePath, fileResults]) => [
-					filePath,
-					{
-						...omitEmpty({
-							dependencies: Array.from(fileResults.dependencies).sort(),
-							diagnostics: fileResults.diagnostics,
-							reports: fileResults.reports,
-						}),
-						timestamp,
-					},
-				]),
+				Array.from(runConfigResults.filesResults).map(
+					([filePath, fileResults]) => [
+						filePath,
+						{
+							...omitEmpty({
+								dependencies: Array.from(fileResults.dependencies).sort(),
+								diagnostics: fileResults.diagnostics,
+								reports: fileResults.reports,
+							}),
+							timestamp,
+						},
+					],
+				),
 			),
-			...(results.cached &&
+			...(runConfigResults.cached &&
 				Object.fromEntries(
-					Array.from(results.cached).filter(([filePath]) =>
-						results.allFilePaths.has(filePath),
+					Array.from(runConfigResults.cached).filter(([filePath]) =>
+						runConfigResults.allFilePaths.has(filePath),
 					),
 				)),
 		},

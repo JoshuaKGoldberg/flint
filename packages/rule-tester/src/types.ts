@@ -1,7 +1,9 @@
-export interface InvalidTestCase<Options extends object | undefined>
-	extends TestCase<Options> {
+export interface InvalidTestCase<
+	Options extends object | undefined = object | undefined,
+> extends TestCase<Options> {
 	output?: string;
 	snapshot: string;
+	suggestions?: TestSuggestion[];
 }
 
 export interface TestCase<
@@ -10,6 +12,16 @@ export interface TestCase<
 	code: string;
 	fileName?: string;
 	options?: Options;
+}
+
+export interface TestSuggestion {
+	files: Record<string, TestSuggestionFileCase[]>;
+	id: string;
+}
+
+export interface TestSuggestionFileCase {
+	original: string;
+	updated: string;
 }
 
 export type ValidTestCase<Options extends object | undefined> =

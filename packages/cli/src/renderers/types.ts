@@ -14,8 +14,8 @@ export interface RendererAbout {
 }
 
 export interface RendererContext {
-	configResults: RunConfigResults;
 	formattingResults: FormattingResults;
+	runConfigResults: RunConfigResults;
 }
 
 export interface RendererFactory {

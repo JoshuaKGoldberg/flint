@@ -1,13 +1,9 @@
 import { debugForFile } from "debug-for-file";
 
-import { applyFixes } from "../fixing/applyFixes.js";
+import { applyChangesToFiles } from "../changing/applyChangesToFiles.js";
 import { ProcessedConfigDefinition } from "../types/configs.js";
-import {
-	FileResultsWithFixes,
-	RunConfigResultsWithFixes,
-} from "../types/linting.js";
-import { hasFix } from "../utils/predicates.js";
-import { runConfig } from "./runConfig.js";
+import { RunConfigResultsWithChanges } from "../types/linting.js";
+import { runConfigOnce } from "./runConfigOnce.js";
 
 const log = debugForFile(import.meta.filename);
 
@@ -16,8 +12,8 @@ const maximumIterations = 10;
 export async function runConfigFixing(
 	configDefinition: ProcessedConfigDefinition,
 	requestedSuggestions: Set<string>,
-): Promise<RunConfigResultsWithFixes> {
-	let fixed = new Set<string>();
+): Promise<RunConfigResultsWithChanges> {
+	let changed = new Set<string>();
 	let iteration = 0;
 
 	while (true) {
@@ -32,39 +28,29 @@ export async function runConfigFixing(
 		// Why read file many time when few do trick?
 		// Or, at least it should all be virtual...
 		// https://github.com/JoshuaKGoldberg/flint/issues/73
-		const { allFilePaths, filesResults } = await runConfig(configDefinition);
+		const runConfigResults = await runConfigOnce(configDefinition);
 
-		// TODO: All these Map and Object creations are probably inefficient...
-		const fixableResults = new Map(
-			filesResults
-				.entries()
-				.map(
-					([absoluteFilePath, filesResults]): [
-						string,
-						FileResultsWithFixes,
-					] => [
-						absoluteFilePath,
-						{
-							...filesResults,
-							fixableReports: filesResults.reports.filter(hasFix),
-						},
-					],
-				)
-				.filter(([, filesResults]) => filesResults.fixableReports.length > 0),
+		log("Applying fixes from file results.");
+
+		const fixedFilePaths = await applyChangesToFiles(
+			runConfigResults.filesResults,
+			requestedSuggestions,
 		);
 
-		if (fixableResults.size === 0) {
-			log("No fixable reports found, stopping.");
-			return { allFilePaths, filesResults, fixed };
+		log("Fixed %d files.", fixedFilePaths.length);
+
+		if (!fixedFilePaths.length) {
+			log("No file changes found, stopping.");
+			return { ...runConfigResults, changed };
 		}
 
-		fixed = fixed.union(new Set(fixableResults.keys()));
+		log("Applied changes to %d files.", fixedFilePaths.length);
 
-		await applyFixes(fixableResults, requestedSuggestions);
+		changed = changed.union(new Set(fixedFilePaths));
 
 		if (iteration >= maximumIterations) {
 			log("Passed maximum iterations of %d, halting.", maximumIterations);
-			return { allFilePaths, filesResults, fixed };
+			return { ...runConfigResults, changed };
 		}
 	}
 }
