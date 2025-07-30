@@ -1,7 +1,7 @@
 import type {
 	FileRuleReport,
 	FormattingResults,
-	RunConfigResultsMaybeWithFixes,
+	RunConfigResultsMaybeWithChanges,
 	RunMode,
 } from "@flint.fyi/core";
 
@@ -31,7 +31,7 @@ export interface PresenterInitializeContext {
 }
 
 export interface PresenterSummarizeContext {
-	configResults: RunConfigResultsMaybeWithFixes;
+	configResults: RunConfigResultsMaybeWithChanges;
 	formattingResults: FormattingResults;
 }
 

@@ -3,7 +3,6 @@ import {
 	runConfig,
 	runConfigFixing,
 	runPrettier,
-	writeToCache,
 } from "@flint.fyi/core";
 import { debugForFile } from "debug-for-file";
 import path from "node:path";
@@ -40,16 +39,13 @@ export async function runCliOnce(
 	};
 
 	const configResults = await (values.fix
-		? runConfigFixing(configDefinition, new Set(values.suggestions))
+		? runConfigFixing(configDefinition, new Set(values["fix-suggestions"]))
 		: runConfig(configDefinition));
 
 	// TODO: Eventually, it'd be nice to move everything fully in-memory.
 	// This would be better for performance to avoid excess file system I/O.
 	// https://github.com/JoshuaKGoldberg/flint/issues/73
-	const [formattingResults] = await Promise.all([
-		runPrettier(configResults.allFilePaths, values.fix),
-		writeToCache(configFileName, configResults),
-	]);
+	const formattingResults = await runPrettier(configResults, values.fix);
 
 	await renderer.render({ configResults, formattingResults });
 

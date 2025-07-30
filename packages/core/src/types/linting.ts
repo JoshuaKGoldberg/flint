@@ -18,10 +18,10 @@ export interface RunConfigResults {
 	filesResults: Map<string, FileResults>;
 }
 
-export interface RunConfigResultsMaybeWithFixes extends RunConfigResults {
-	fixed?: Set<string>;
+export interface RunConfigResultsMaybeWithChanges extends RunConfigResults {
+	changed?: Set<string>;
 }
 
-export interface RunConfigResultsWithFixes extends RunConfigResults {
-	fixed: Set<string>;
+export interface RunConfigResultsWithChanges extends RunConfigResults {
+	changed: Set<string>;
 }
