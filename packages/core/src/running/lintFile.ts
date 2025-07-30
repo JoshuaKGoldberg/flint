@@ -49,12 +49,18 @@ export async function lintFile(
 		const ruleReports = await file.runRule(rule, options as object | undefined);
 		log("Found %d reports from rule %s", ruleReports.length, rule.about.id);
 
-		reports.push(
-			...ruleReports.map((report) => ({
+		for (const ruleReport of ruleReports) {
+			reports.push({
 				about: rule.about,
-				...report,
-			})),
-		);
+				...ruleReport,
+			});
+
+			if (ruleReport.dependencies) {
+				for (const dependency of ruleReport.dependencies) {
+					dependencies.add(dependency);
+				}
+			}
+		}
 	}
 
 	for (const [language, file] of languageFiles.entries()) {

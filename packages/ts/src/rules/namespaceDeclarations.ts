@@ -32,26 +32,31 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
-			ModuleDeclaration(node) {
-				if (
-					node.parent.kind !== ts.SyntaxKind.SourceFile ||
-					node.name.kind !== ts.SyntaxKind.Identifier ||
-					node.name.text === "global"
-				) {
-					return;
-				}
+			visitors: {
+				ModuleDeclaration: (node) => {
+					if (
+						node.parent.kind !== ts.SyntaxKind.SourceFile ||
+						node.name.kind !== ts.SyntaxKind.Identifier ||
+						node.name.text === "global"
+					) {
+						return;
+					}
 
-				if (
-					allowDeclarations &&
-					tsutils.includesModifier(node.modifiers, ts.SyntaxKind.DeclareKeyword)
-				) {
-					return;
-				}
+					if (
+						allowDeclarations &&
+						tsutils.includesModifier(
+							node.modifiers,
+							ts.SyntaxKind.DeclareKeyword,
+						)
+					) {
+						return;
+					}
 
-				context.report({
-					message: "preferModules",
-					range: getTSNodeRange(node.getChildAt(0), context.sourceFile),
-				});
+					context.report({
+						message: "preferModules",
+						range: getTSNodeRange(node.getChildAt(0), context.sourceFile),
+					});
+				},
 			},
 		};
 	},

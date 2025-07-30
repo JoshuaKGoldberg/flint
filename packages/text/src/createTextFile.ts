@@ -34,15 +34,15 @@ export function createTextFile(
 				sourceText,
 			};
 
-			const visitors = await rule.setup(context, options);
+			const runtime = await rule.setup(context, options);
 
-			if (visitors) {
-				visitors.file?.(sourceText);
+			if (runtime?.visitors) {
+				runtime.visitors.file?.(sourceText);
 
-				if (visitors.line) {
+				if (runtime.visitors.line) {
 					const lines = sourceText.split(/\r\n|\n|\r/);
 					for (const line of lines) {
-						visitors.line(line);
+						runtime.visitors.line(line);
 					}
 				}
 			}

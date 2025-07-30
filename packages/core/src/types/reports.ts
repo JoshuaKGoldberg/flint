@@ -1,5 +1,4 @@
-import { Fix } from "./changes.js";
-import { Suggestion } from "./changes.js";
+import { Fix, Suggestion } from "./changes.js";
 import { CharacterReportRange, ColumnAndLine } from "./ranges.js";
 import { RuleAbout } from "./rules.js";
 
@@ -23,6 +22,12 @@ export interface NormalizedReportRangeObject {
  */
 export interface NormalizedRuleReport {
 	data?: ReportInterpolationData;
+
+	/**
+	 * Any files that should be factored into caching this report.
+	 */
+	dependencies?: string[];
+
 	fix?: Fix;
 	message: ReportMessageData;
 	range: NormalizedReportRangeObject;
@@ -40,6 +45,12 @@ export type ReportInterpolationData = Record<string, boolean | number | string>;
  */
 export interface RuleReport<Message extends string = string> {
 	data?: ReportInterpolationData;
+
+	/**
+	 * Any files that should be factored into caching this report.
+	 */
+	dependencies?: string[];
+
 	fix?: Fix;
 	message: Message;
 	suggestions?: Suggestion[];
