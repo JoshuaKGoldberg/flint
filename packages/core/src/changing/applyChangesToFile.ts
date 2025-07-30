@@ -6,25 +6,25 @@ import { applyChangesToText } from "./applyChangesToText.js";
 
 const log = debugForFile(import.meta.filename);
 
-export async function applyFileChanges(
+export async function applyChangesToFile(
 	absoluteFilePath: string,
-	fileChanges: FileChange[],
+	changes: FileChange[],
 ) {
 	log(
 		"Collecting %d changes to apply to file: %s",
-		fileChanges.length,
+		changes.length,
 		absoluteFilePath,
 	);
 
 	const updatedFileContent = applyChangesToText(
-		fileChanges,
+		changes,
 		// TODO: Eventually, the file system should be abstracted
 		// Direct fs read calls don't make sense in e.g. virtual file systems
 		// https://github.com/JoshuaKGoldberg/flint/issues/73
 		await fs.readFile(absoluteFilePath, "utf8"),
 	);
 
-	log("Writing %d changes to file: %s", fileChanges.length, absoluteFilePath);
+	log("Writing %d changes to file: %s", changes.length, absoluteFilePath);
 
 	// TODO: Eventually, the file system should be abstracted
 	// Direct fs write calls don't make sense in e.g. virtual file systems

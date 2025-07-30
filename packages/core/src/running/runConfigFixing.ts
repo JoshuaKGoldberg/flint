@@ -1,6 +1,6 @@
 import { debugForFile } from "debug-for-file";
 
-import { applyFilesChanges } from "../changing/applyFilesChanges.js";
+import { applyChangesToFiles } from "../changing/applyChangesToFiles.js";
 import { ProcessedConfigDefinition } from "../types/configs.js";
 import { RunConfigResultsWithChanges } from "../types/linting.js";
 import { runConfigOnce } from "./runConfigOnce.js";
@@ -32,7 +32,7 @@ export async function runConfigFixing(
 
 		log("Applying fixes from file results.");
 
-		const fixedFilePaths = await applyFilesChanges(
+		const fixedFilePaths = await applyChangesToFiles(
 			runConfigResults.filesResults,
 			requestedSuggestions,
 		);

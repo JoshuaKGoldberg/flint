@@ -1,12 +1,12 @@
 import { debugForFile } from "debug-for-file";
 
 import { FileResults } from "../types/linting.js";
-import { applyFileChanges } from "./applyFileChanges.js";
+import { applyChangesToFile } from "./applyChangesToFile.js";
 import { resolveChangesByFile } from "./resolveChangesByFile.js";
 
 const log = debugForFile(import.meta.filename);
 
-export async function applyFilesChanges(
+export async function applyChangesToFiles(
 	filesResults: Map<string, FileResults>,
 	requestedSuggestions: Set<string>,
 ) {
@@ -21,7 +21,7 @@ export async function applyFilesChanges(
 
 	await Promise.all(
 		changesByFile.map(async ([absoluteFilePath, fileChanges]) => {
-			await applyFileChanges(absoluteFilePath, fileChanges);
+			await applyChangesToFile(absoluteFilePath, fileChanges);
 		}),
 	);
 
