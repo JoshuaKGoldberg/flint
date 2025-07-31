@@ -3,18 +3,18 @@ import * as fs from "node:fs/promises";
 import omitEmpty from "omit-empty";
 
 import { CacheStorage } from "../types/cache.js";
-import { RunConfigResults } from "../types/linting.js";
+import { LintResults } from "../types/linting.js";
 import { cacheFileDirectory, cacheFilePath } from "./constants.js";
 import { getFileTouchTime } from "./getFileTouchTime.js";
 
 export async function writeToCache(
 	configFileName: string,
-	runConfigResults: RunConfigResults,
+	lintResults: LintResults,
 ) {
 	const fileDependents = new CachedFactory(() => new Set<string>());
 	const timestamp = Date.now();
 
-	for (const [filePath, fileResult] of runConfigResults.filesResults) {
+	for (const [filePath, fileResult] of lintResults.filesResults) {
 		for (const dependency of fileResult.dependencies) {
 			fileDependents.get(dependency).add(filePath);
 		}
@@ -27,24 +27,22 @@ export async function writeToCache(
 		},
 		files: {
 			...Object.fromEntries(
-				Array.from(runConfigResults.filesResults).map(
-					([filePath, fileResults]) => [
-						filePath,
-						{
-							...omitEmpty({
-								dependencies: Array.from(fileResults.dependencies).sort(),
-								diagnostics: fileResults.diagnostics,
-								reports: fileResults.reports,
-							}),
-							timestamp,
-						},
-					],
-				),
+				Array.from(lintResults.filesResults).map(([filePath, fileResults]) => [
+					filePath,
+					{
+						...omitEmpty({
+							dependencies: Array.from(fileResults.dependencies).sort(),
+							diagnostics: fileResults.diagnostics,
+							reports: fileResults.reports,
+						}),
+						timestamp,
+					},
+				]),
 			),
-			...(runConfigResults.cached &&
+			...(lintResults.cached &&
 				Object.fromEntries(
-					Array.from(runConfigResults.cached).filter(([filePath]) =>
-						runConfigResults.allFilePaths.has(filePath),
+					Array.from(lintResults.cached).filter(([filePath]) =>
+						lintResults.allFilePaths.has(filePath),
 					),
 				)),
 		},

@@ -1,9 +1,4 @@
-import {
-	isConfig,
-	runConfigFixing,
-	runConfigOnce,
-	runPrettier,
-} from "@flint.fyi/core";
+import { isConfig, lintFixing, lintOnce, runPrettier } from "@flint.fyi/core";
 import { debugForFile } from "debug-for-file";
 import path from "node:path";
 
@@ -38,22 +33,22 @@ export async function runCliOnce(
 		filePath: configFileName,
 	};
 
-	const runConfigResults = await (values.fix
-		? runConfigFixing(configDefinition, new Set(values["fix-suggestions"]))
-		: runConfigOnce(configDefinition));
+	const lintResults = await (values.fix
+		? lintFixing(configDefinition, new Set(values["fix-suggestions"]))
+		: lintOnce(configDefinition));
 
 	// TODO: Eventually, it'd be nice to move everything fully in-memory.
 	// This would be better for performance to avoid excess file system I/O.
 	// https://github.com/JoshuaKGoldberg/flint/issues/73
-	const formattingResults = await runPrettier(runConfigResults, values.fix);
+	const formattingResults = await runPrettier(lintResults, values.fix);
 
-	await renderer.render({ formattingResults, runConfigResults });
+	await renderer.render({ formattingResults, lintResults });
 
 	if (formattingResults.dirty.size && !formattingResults.written) {
 		return 1;
 	}
 
-	for (const fileResults of runConfigResults.filesResults.values()) {
+	for (const fileResults of lintResults.filesResults.values()) {
 		if (fileResults.diagnostics.length || fileResults.reports.length) {
 			return 1;
 		}

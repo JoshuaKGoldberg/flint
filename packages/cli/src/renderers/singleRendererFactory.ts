@@ -13,8 +13,8 @@ export const singleRendererFactory: RendererFactory = {
 					console.log(presenter.header);
 				}
 			},
-			async render({ formattingResults, runConfigResults }) {
-				for (const [filePath, fileResults] of runConfigResults.filesResults) {
+			async render({ formattingResults, lintResults }) {
+				for (const [filePath, fileResults] of lintResults.filesResults) {
 					if (!fileResults.reports.length) {
 						continue;
 					}
@@ -36,7 +36,7 @@ export const singleRendererFactory: RendererFactory = {
 
 				const summary = presenter.summarize({
 					formattingResults,
-					runConfigResults,
+					lintResults,
 				});
 
 				for (const line of await Array.fromAsync(summary)) {

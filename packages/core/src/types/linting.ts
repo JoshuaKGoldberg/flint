@@ -8,16 +8,16 @@ export interface FileResults {
 	reports: FileRuleReport[];
 }
 
-export interface RunConfigResults {
+export interface LintResults {
 	allFilePaths: Set<string>;
 	cached?: Map<string, FileCacheStorage>;
 	filesResults: Map<string, FileResults>;
 }
 
-export interface RunConfigResultsMaybeWithChanges extends RunConfigResults {
+export interface LintResultsMaybeWithChanges extends LintResults {
 	changed?: Set<string>;
 }
 
-export interface RunConfigResultsWithChanges extends RunConfigResults {
+export interface LintResultsWithChanges extends LintResults {
 	changed: Set<string>;
 }

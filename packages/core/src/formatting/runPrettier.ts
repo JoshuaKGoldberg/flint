@@ -3,17 +3,17 @@ import * as fs from "node:fs/promises";
 import * as prettier from "prettier";
 
 import { FormattingResults } from "../types/formatting.js";
-import { RunConfigResultsMaybeWithChanges } from "../types/linting.js";
+import { LintResultsMaybeWithChanges } from "../types/linting.js";
 
 const log = debugForFile(import.meta.filename);
 
 export async function runPrettier(
-	runConfigResults: RunConfigResultsMaybeWithChanges,
+	lintResults: LintResultsMaybeWithChanges,
 	fix: boolean | undefined,
 ) {
 	const allFilePaths = new Set([
-		...(runConfigResults.changed ?? []),
-		...runConfigResults.allFilePaths,
+		...(lintResults.changed ?? []),
+		...lintResults.allFilePaths,
 	]);
 	log("Running Prettier on %d file(s)", allFilePaths.size);
 

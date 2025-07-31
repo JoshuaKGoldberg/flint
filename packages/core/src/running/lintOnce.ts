@@ -15,16 +15,16 @@ import {
 } from "../types/configs.js";
 import { FilesGlobObjectProcessed, FilesValue } from "../types/files.js";
 import { AnyLanguage } from "../types/languages.js";
-import { FileResults, RunConfigResults } from "../types/linting.js";
+import { FileResults, LintResults } from "../types/linting.js";
 import { flatten } from "../utils/arrays.js";
 import { lintFile } from "./lintFile.js";
 import { readGitignore } from "./readGitignore.js";
 
 const log = debugForFile(import.meta.filename);
 
-export async function runConfigOnce(
+export async function lintOnce(
 	configDefinition: ProcessedConfigDefinition,
-): Promise<RunConfigResults> {
+): Promise<LintResults> {
 	interface ConfigUseDefinitionWithFiles extends ConfigUseDefinition {
 		found: Set<string>;
 		rules: ConfigRuleDefinition[];
@@ -103,15 +103,11 @@ export async function runConfigOnce(
 
 	log("Found %d report(s)", totalReports);
 
-	const runConfigResults = {
-		allFilePaths,
-		cached,
-		filesResults,
-	};
+	const lintResults = { allFilePaths, cached, filesResults };
 
-	await writeToCache(configDefinition.filePath, runConfigResults);
+	await writeToCache(configDefinition.filePath, lintResults);
 
-	return runConfigResults;
+	return lintResults;
 }
 
 function collectUseFilesGlobsObject(

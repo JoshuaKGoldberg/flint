@@ -2,17 +2,17 @@ import { debugForFile } from "debug-for-file";
 
 import { applyChangesToFiles } from "../changing/applyChangesToFiles.js";
 import { ProcessedConfigDefinition } from "../types/configs.js";
-import { RunConfigResultsWithChanges } from "../types/linting.js";
-import { runConfigOnce } from "./runConfigOnce.js";
+import { LintResultsWithChanges } from "../types/linting.js";
+import { lintOnce } from "./lintOnce.js";
 
 const log = debugForFile(import.meta.filename);
 
 const maximumIterations = 10;
 
-export async function runConfigFixing(
+export async function lintFixing(
 	configDefinition: ProcessedConfigDefinition,
 	requestedSuggestions: Set<string>,
-): Promise<RunConfigResultsWithChanges> {
+): Promise<LintResultsWithChanges> {
 	let changed = new Set<string>();
 	let iteration = 0;
 
@@ -28,12 +28,12 @@ export async function runConfigFixing(
 		// Why read file many time when few do trick?
 		// Or, at least it should all be virtual...
 		// https://github.com/JoshuaKGoldberg/flint/issues/73
-		const runConfigResults = await runConfigOnce(configDefinition);
+		const lintResults = await lintOnce(configDefinition);
 
 		log("Applying fixes from file results.");
 
 		const fixedFilePaths = await applyChangesToFiles(
-			runConfigResults.filesResults,
+			lintResults.filesResults,
 			requestedSuggestions,
 		);
 
@@ -41,7 +41,7 @@ export async function runConfigFixing(
 
 		if (!fixedFilePaths.length) {
 			log("No file changes found, stopping.");
-			return { ...runConfigResults, changed };
+			return { ...lintResults, changed };
 		}
 
 		log("Applied changes to %d files.", fixedFilePaths.length);
@@ -50,7 +50,7 @@ export async function runConfigFixing(
 
 		if (iteration >= maximumIterations) {
 			log("Passed maximum iterations of %d, halting.", maximumIterations);
-			return { ...runConfigResults, changed };
+			return { ...lintResults, changed };
 		}
 	}
 }

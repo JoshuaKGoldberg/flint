@@ -1,7 +1,7 @@
 import type {
 	FileRuleReport,
 	FormattingResults,
-	RunConfigResultsMaybeWithChanges,
+	LintResultsMaybeWithChanges,
 	RunMode,
 } from "@flint.fyi/core";
 
@@ -32,7 +32,7 @@ export interface PresenterInitializeContext {
 
 export interface PresenterSummarizeContext {
 	formattingResults: FormattingResults;
-	runConfigResults: RunConfigResultsMaybeWithChanges;
+	lintResults: LintResultsMaybeWithChanges;
 }
 
 // TODO: Eventually, the file system should be abstracted
