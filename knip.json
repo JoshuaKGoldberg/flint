@@ -1,6 +1,6 @@
 {
 	"$schema": "https://unpkg.com/knip@5.61.2/schema.json",
 	"ignore": ["flint.config.*", "packages/fixtures/*"],
-	"ignoreDependencies": ["console-fail-test", "flint", "^@flint\\.fyi\\/.*"],
+	"ignoreDependencies": ["flint", "^@flint\\.fyi\\/.*"],
 	"ignoreExportsUsedInFile": { "interface": true, "type": true }
 }
