@@ -5,6 +5,7 @@ import fsSync from "node:fs";
 
 import { createMarkdownFile } from "./createMarkdownFile.js";
 import { MarkdownNodesByName, WithPosition } from "./nodes.js";
+import { prepareMarkdownFile } from "./prepareMarkdownFile.js";
 
 export interface MarkdownServices {
 	root: WithPosition<mdast.Root>;
@@ -19,14 +20,22 @@ export const markdownLanguage = createLanguage<
 	},
 	prepare: () => {
 		return {
-			prepareFileOnDisk: (filePathAbsolute) => {
-				return createMarkdownFile(
+			prepareFromDisk: (filePathAbsolute) => {
+				const sourceText = fsSync.readFileSync(filePathAbsolute, "utf8");
+				const { languageFile, root } = createMarkdownFile(
 					filePathAbsolute,
-					fsSync.readFileSync(filePathAbsolute, "utf8"),
+					sourceText,
 				);
+
+				return prepareMarkdownFile(languageFile, root, sourceText);
 			},
-			prepareFileVirtually: (filePathAbsolute, sourceText) => {
-				return createMarkdownFile(filePathAbsolute, sourceText);
+			prepareFromVirtual: (filePathAbsolute, sourceText) => {
+				const { languageFile, root } = createMarkdownFile(
+					filePathAbsolute,
+					sourceText,
+				);
+
+				return prepareMarkdownFile(languageFile, root, sourceText);
 			},
 		};
 	},

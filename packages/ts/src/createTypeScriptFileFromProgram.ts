@@ -1,6 +1,6 @@
 import {
 	LanguageFileDefinition,
-	NormalizedRuleReport,
+	NormalizedReport,
 	RuleReport,
 } from "@flint.fyi/core";
 import * as ts from "typescript";
@@ -43,7 +43,7 @@ export function createTypeScriptFileFromProgram(
 				}));
 		},
 		async runRule(rule, options) {
-			const reports: NormalizedRuleReport[] = [];
+			const reports: NormalizedReport[] = [];
 
 			const context = {
 				report: (report: RuleReport) => {

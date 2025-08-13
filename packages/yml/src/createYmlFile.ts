@@ -1,6 +1,6 @@
 import {
 	LanguageFileDefinition,
-	NormalizedRuleReport,
+	NormalizedReport,
 	RuleReport,
 } from "@flint.fyi/core";
 import { visit } from "unist-util-visit";
@@ -11,10 +11,7 @@ import * as yamlParser from "yaml-unist-parser";
 // Eventually, it might make sense to use a native speed Yaml parser...
 // However, the unist ecosystem is quite extensive and well-supported.
 // It'll be a while before we can replace it with a native parser.
-export function createYamlFile(
-	filePathAbsolute: string,
-	sourceText: string,
-): LanguageFileDefinition {
+export function createYmlFile(filePathAbsolute: string, sourceText: string) {
 	const virtualFile = new VFile({
 		path: filePathAbsolute,
 		value: sourceText,
@@ -22,9 +19,9 @@ export function createYamlFile(
 	const fileLocation = location(virtualFile);
 	const root = yamlParser.parse(sourceText);
 
-	return {
+	const languageFile: LanguageFileDefinition = {
 		async runRule(rule, options) {
-			const reports: NormalizedRuleReport[] = [];
+			const reports: NormalizedReport[] = [];
 
 			const context = {
 				report: (report: RuleReport) => {
@@ -69,4 +66,6 @@ export function createYamlFile(
 			return reports;
 		},
 	};
+
+	return { languageFile, root };
 }

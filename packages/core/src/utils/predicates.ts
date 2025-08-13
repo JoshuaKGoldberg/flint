@@ -1,9 +1,7 @@
 import { Change, SuggestionForFiles } from "../types/changes.js";
-import { FileRuleReport, FileRuleReportWithFix } from "../types/reports.js";
+import { FileReport, FileReportWithFix } from "../types/reports.js";
 
-export function hasFix(
-	report: FileRuleReport,
-): report is FileRuleReportWithFix {
+export function hasFix(report: FileReport): report is FileReportWithFix {
 	return !!("fix" in report);
 }
 

@@ -2,9 +2,9 @@ import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
+	BaseAbout,
 	InferredObject,
 	LanguageFileFactory,
-	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
 
@@ -14,7 +14,7 @@ export interface TestCaseRuleConfiguration<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
 	options?: InferredObject<OptionsSchema>;
-	rule: AnyRule<RuleAbout, OptionsSchema>;
+	rule: AnyRule<BaseAbout, OptionsSchema>;
 }
 
 export function runTestCaseRule<
@@ -29,7 +29,7 @@ export function runTestCaseRule<
 		// See AnyRule's any
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		.get(rule.language)
-		.prepareFileVirtually(fileName, code);
+		.prepareFromVirtual(fileName, code).file;
 
 	return file.runRule(rule, options as InferredObject<OptionsSchema>);
 }

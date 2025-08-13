@@ -1,5 +1,5 @@
 import type {
-	FileRuleReport,
+	FileReport,
 	FormattingResults,
 	LintResultsMaybeWithChanges,
 	RunMode,
@@ -22,7 +22,7 @@ export interface PresenterFactory {
 
 export interface PresenterFileContext {
 	file: PresenterVirtualFile;
-	reports: FileRuleReport[];
+	reports: FileReport[];
 }
 
 export interface PresenterInitializeContext {

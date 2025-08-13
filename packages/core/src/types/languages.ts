@@ -1,10 +1,11 @@
+import { CommentDirective } from "./directives.js";
 import { PromiseOrSync } from "./promises.js";
-import { NormalizedRuleReport } from "./reports.js";
+import { FileReport, NormalizedReport } from "./reports.js";
 import {
 	AnyRule,
 	AnyRuleDefinition,
+	BaseAbout,
 	Rule,
-	RuleAbout,
 	RuleDefinition,
 } from "./rules.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
@@ -12,7 +13,7 @@ import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 export type AnyLanguage = Language<object, object>;
 
 export interface CreateRule<AstNodesByName, ContextServices extends object> {
-	<const About extends RuleAbout, const MessageId extends string>(
+	<const About extends BaseAbout, const MessageId extends string>(
 		definition: RuleDefinition<
 			About,
 			AstNodesByName,
@@ -23,7 +24,7 @@ export interface CreateRule<AstNodesByName, ContextServices extends object> {
 	): Rule<About, AstNodesByName, ContextServices, MessageId, undefined>;
 
 	<
-		const About extends RuleAbout,
+		const About extends BaseAbout,
 		const MessageId extends string,
 		const OptionsSchema extends AnyOptionalSchema,
 	>(
@@ -50,7 +51,7 @@ export interface LanguageAbout {
 export type LanguageDiagnostics = LanguageFileDiagnostic[];
 
 export interface LanguageFileDiagnostic {
-	code: string;
+	code?: string;
 	text: string;
 }
 
@@ -77,9 +78,9 @@ export interface LanguageFile extends Disposable {
 			| AnyOptionalSchema
 			| undefined,
 	>(
-		rule: AnyRule<RuleAbout, OptionsSchema>,
+		rule: AnyRule<BaseAbout, OptionsSchema>,
 		options: InferredObject<OptionsSchema>,
-	): PromiseOrSync<NormalizedRuleReport[]>;
+	): PromiseOrSync<NormalizedReport[]>;
 }
 
 /**
@@ -95,27 +96,45 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
 	>(
 		rule: AnyRuleDefinition<OptionsSchema>,
 		options: InferredObject<OptionsSchema>,
-	): PromiseOrSync<NormalizedRuleReport[]>;
+	): PromiseOrSync<NormalizedReport[]>;
 }
 
 /**
  * Creates wrappers around files to be linted.
  */
 export interface LanguageFileFactory extends Disposable {
-	prepareFileOnDisk(filePathAbsolute: string): LanguageFile;
-	prepareFileVirtually(
+	prepareFromDisk(filePathAbsolute: string): LanguagePrepared;
+	prepareFromVirtual(
 		filePathAbsolute: string,
 		sourceText: string,
-	): LanguageFile;
+	): LanguagePrepared;
+}
+
+/**
+ * Prepared information about a file to be linted.
+ */
+export interface LanguagePrepared {
+	directives?: CommentDirective[];
+	file: LanguageFile;
+	reports?: FileReport[];
 }
 
 /**
  * Internal definition of how to create wrappers around files to be linted.
  */
 export interface LanguageFileFactoryDefinition extends Partial<Disposable> {
-	prepareFileOnDisk(filePathAbsolute: string): LanguageFileDefinition;
-	prepareFileVirtually(
+	prepareFromDisk(filePathAbsolute: string): LanguagePreparedDefinition;
+	prepareFromVirtual(
 		filePathAbsolute: string,
 		sourceText: string,
-	): LanguageFileDefinition;
+	): LanguagePreparedDefinition;
+}
+
+/**
+ * Internal definition of prepared information about a file to be linted.
+ */
+export interface LanguagePreparedDefinition {
+	directives?: CommentDirective[];
+	file: LanguageFileDefinition;
+	reports?: FileReport[];
 }

@@ -1,4 +1,4 @@
-import { FileRuleReport } from "@flint.fyi/core";
+import { FileReport } from "@flint.fyi/core";
 import chalk from "chalk";
 
 import { ColorCodes, indenter } from "./constants.js";
@@ -7,7 +7,7 @@ import { formatSuggestion } from "./formatSuggestion.js";
 import { wrapIfNeeded } from "./wrapIfNeeded.js";
 
 export async function* createDetailedReport(
-	report: FileRuleReport,
+	report: FileReport,
 	sourceFileText: string,
 	width: number,
 ) {

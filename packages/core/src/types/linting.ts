@@ -1,11 +1,11 @@
 import { FileCacheStorage } from "./cache.js";
 import { LanguageFileDiagnostic } from "./languages.js";
-import { FileRuleReport } from "./reports.js";
+import { FileReport } from "./reports.js";
 
 export interface FileResults {
 	dependencies: Set<string>;
 	diagnostics: LanguageFileDiagnostic[];
-	reports: FileRuleReport[];
+	reports: FileReport[];
 }
 
 export interface LintResults {
