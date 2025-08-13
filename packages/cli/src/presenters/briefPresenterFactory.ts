@@ -16,7 +16,7 @@ export const briefPresenterFactory: PresenterFactory = {
 		const counts = { all: 0, files: 0, fixable: 0 };
 
 		return {
-			header: presentHeader(initializeContext),
+			header: Array.from(presentHeader(initializeContext)),
 			*renderFile({ file, reports }) {
 				counts.all += reports.length;
 				counts.files += 1;

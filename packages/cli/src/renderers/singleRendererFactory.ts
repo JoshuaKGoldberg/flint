@@ -9,8 +9,8 @@ export const singleRendererFactory: RendererFactory = {
 	initialize(presenter) {
 		return {
 			announce() {
-				if (presenter.header) {
-					console.log(presenter.header);
+				for (const line of presenter.header) {
+					console.log(line);
 				}
 			},
 			async render({ formattingResults, lintResults }) {

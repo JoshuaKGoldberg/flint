@@ -27,8 +27,8 @@ export const interactiveRendererFactory: RendererFactory = {
 		function announce() {
 			console.clear();
 
-			if (presenter.header) {
-				console.log(presenter.header);
+			for (const line of presenter.header) {
+				console.log(line);
 			}
 		}
 
