@@ -15,6 +15,7 @@ export interface RendererAbout {
 
 export interface RendererContext {
 	formattingResults: FormattingResults;
+	ignoreCache: boolean;
 	lintResults: LintResults;
 }
 

@@ -32,17 +32,21 @@ export async function runCliOnce(
 		...config.definition,
 		filePath: configFileName,
 	};
+	const ignoreCache = !!values["cache-ignore"];
 
 	const lintResults = await (values.fix
-		? lintFixing(configDefinition, new Set(values["fix-suggestions"]))
-		: lintOnce(configDefinition));
+		? lintFixing(configDefinition, {
+				ignoreCache,
+				requestedSuggestions: new Set(values["fix-suggestions"]),
+			})
+		: lintOnce(configDefinition, ignoreCache));
 
 	// TODO: Eventually, it'd be nice to move everything fully in-memory.
 	// This would be better for performance to avoid excess file system I/O.
 	// https://github.com/JoshuaKGoldberg/flint/issues/73
 	const formattingResults = await runPrettier(lintResults, values.fix);
 
-	await renderer.render({ formattingResults, lintResults });
+	await renderer.render({ formattingResults, ignoreCache, lintResults });
 
 	if (formattingResults.dirty.size && !formattingResults.written) {
 		return 1;

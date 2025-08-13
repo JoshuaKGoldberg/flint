@@ -3,9 +3,7 @@ import { parseArgs } from "node:util";
 import { findConfigFileName } from "./findConfigFileName.js";
 import { options } from "./options.js";
 import { packageData } from "./packageData.js";
-import { getPresenterFactory } from "./presenters/getPresenterFactory.js";
-import { interactiveRendererFactory } from "./renderers/interactive/interactiveRendererFactory.js";
-import { singleRendererFactory } from "./renderers/singleRendererFactory.js";
+import { createRendererFactory } from "./renderers/createRendererFactory.js";
 import { runCliOnce } from "./runCliOnce.js";
 import { runCliWatch } from "./runCliWatch.js";
 
@@ -35,18 +33,7 @@ export async function runCli() {
 		return 2;
 	}
 
-	const presenterFactory = getPresenterFactory(values);
-	const rendererFactory = values.interactive
-		? interactiveRendererFactory
-		: singleRendererFactory;
-
-	const getRenderer = () =>
-		rendererFactory.initialize(
-			presenterFactory.initialize({
-				configFileName,
-				runMode: values.watch ? "watch" : "single-run",
-			}),
-		);
+	const getRenderer = createRendererFactory(configFileName, values);
 
 	if (values.watch) {
 		await runCliWatch(configFileName, getRenderer, values);

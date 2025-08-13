@@ -24,6 +24,7 @@ const log = debugForFile(import.meta.filename);
 
 export async function lintOnce(
 	configDefinition: ProcessedConfigDefinition,
+	ignoreCache: boolean,
 ): Promise<LintResults> {
 	interface ConfigUseDefinitionWithFiles extends ConfigUseDefinition {
 		found: Set<string>;
@@ -73,7 +74,9 @@ export async function lintOnce(
 		return language.prepare();
 	});
 
-	const cached = await readFromCache(allFilePaths, configDefinition.filePath);
+	const cached = ignoreCache
+		? undefined
+		: await readFromCache(allFilePaths, configDefinition.filePath);
 
 	// TODO: This is very slow and the whole thing should be refactored 🙌.
 	// The separate lintFile function recomputes rule options repeatedly.

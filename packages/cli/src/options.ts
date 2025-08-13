@@ -1,6 +1,9 @@
 import { parseArgs, ParseArgsOptionsConfig } from "node:util";
 
 export const options = {
+	"cache-ignore": {
+		type: "boolean",
+	},
 	fix: {
 		type: "boolean",
 	},

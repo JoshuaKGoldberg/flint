@@ -1,3 +1,4 @@
+export * from "./cache/constants.js";
 export { writeToCache } from "./cache/writeToCache.js";
 export { applyChangesToText } from "./changing/applyChangesToText.js";
 export { defineConfig } from "./configs/defineConfig.js";
