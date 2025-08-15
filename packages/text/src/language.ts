@@ -10,14 +10,18 @@ export const textLanguage = createLanguage<TextNodes, TextServices>({
 	},
 	prepare: () => {
 		return {
-			prepareFileOnDisk: (filePathAbsolute) => {
-				return createTextFile(
-					filePathAbsolute,
-					fsSync.readFileSync(filePathAbsolute, "utf8"),
-				);
+			prepareFromDisk: (filePathAbsolute) => {
+				return {
+					file: createTextFile(
+						filePathAbsolute,
+						fsSync.readFileSync(filePathAbsolute, "utf8"),
+					),
+				};
 			},
-			prepareFileVirtually: (filePathAbsolute, sourceText) => {
-				return createTextFile(filePathAbsolute, sourceText);
+			prepareFromVirtual: (filePathAbsolute, sourceText) => {
+				return {
+					file: createTextFile(filePathAbsolute, sourceText),
+				};
 			},
 		};
 	},

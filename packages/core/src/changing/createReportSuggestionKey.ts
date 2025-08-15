@@ -1,8 +1,8 @@
 import { Suggestion } from "../types/changes.js";
-import { FileRuleReport } from "../types/reports.js";
+import { FileReport } from "../types/reports.js";
 
 export function createReportSuggestionKey(
-	report: FileRuleReport,
+	report: FileReport,
 	suggestion: Suggestion,
 ) {
 	return [report.about.id, suggestion.id].join(":");

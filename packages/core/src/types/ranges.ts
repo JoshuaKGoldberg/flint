@@ -12,7 +12,7 @@ export interface ColumnAndLine {
 }
 
 /**
- * A range of characters in a source file, as reported by a rule.
+ * A range of characters in a source file, as included in a report.
  */
 export interface CharacterReportRange {
 	begin: number;

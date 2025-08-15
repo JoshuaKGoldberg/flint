@@ -1,5 +1,5 @@
 import { LanguageFileDiagnostic } from "./languages.js";
-import { FileRuleReport } from "./reports.js";
+import { FileReport } from "./reports.js";
 
 export interface CacheStorage {
 	configs: Record<string, number>;
@@ -18,7 +18,7 @@ export interface FileCacheStorage extends FileCacheImpacts {
 	/**
 	 * Reports from the last time the file was linted.
 	 */
-	reports?: FileRuleReport[];
+	reports?: FileReport[];
 
 	/**
 	 * Unix milliseconds (`Date.now()`) of the last time the file was linted.

@@ -1,8 +1,8 @@
-import { formatReportPrimary, NormalizedRuleReport } from "@flint.fyi/core";
+import { formatReportPrimary, NormalizedReport } from "@flint.fyi/core";
 
 export function createReportSnapshot(
 	sourceText: string,
-	reports: NormalizedRuleReport[],
+	reports: NormalizedReport[],
 ) {
 	let result = sourceText;
 
@@ -13,10 +13,7 @@ export function createReportSnapshot(
 	return result;
 }
 
-function createReportSnapshotAt(
-	sourceText: string,
-	report: NormalizedRuleReport,
-) {
+function createReportSnapshotAt(sourceText: string, report: NormalizedReport) {
 	const range = report.range;
 
 	const lineEndIndex = ifNegative(

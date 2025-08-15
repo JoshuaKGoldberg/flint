@@ -1,9 +1,9 @@
-import { NormalizedRuleReport } from "../types/reports.js";
+import { NormalizedReport } from "../types/reports.js";
 
 /**
  * Interpolates any report data into its primary message.
  */
-export function formatReportPrimary(report: NormalizedRuleReport) {
+export function formatReportPrimary(report: NormalizedReport) {
 	let result = report.message.primary;
 
 	if (report.data) {

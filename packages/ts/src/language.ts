@@ -12,6 +12,7 @@ import * as ts from "typescript";
 import { createTypeScriptFileFromProgram } from "./createTypeScriptFileFromProgram.js";
 import { createTypeScriptFileFromProjectService } from "./createTypeScriptFileFromProjectService.js";
 import { TSNodesByName } from "./nodes.js";
+import { prepareTypeScriptFile } from "./prepareTypeScriptFile.js";
 
 const log = debugForFile(import.meta.filename);
 
@@ -84,18 +85,21 @@ export const typescriptLanguage = createLanguage<
 		});
 
 		return {
-			prepareFileOnDisk: (filePathAbsolute) => {
+			prepareFromDisk: (filePathAbsolute) => {
 				const program = servicePrograms.get(filePathAbsolute);
 
 				seenPrograms.add(program);
 
-				return createTypeScriptFileFromProjectService(
-					filePathAbsolute,
-					program,
-					service,
-				);
+				const { languageFile, sourceFile } =
+					createTypeScriptFileFromProjectService(
+						filePathAbsolute,
+						program,
+						service,
+					);
+
+				return prepareTypeScriptFile(languageFile, sourceFile);
 			},
-			prepareFileVirtually: (filePathAbsolute, sourceText) => {
+			prepareFromVirtual: (filePathAbsolute, sourceText) => {
 				const environment = environments.get(filePathAbsolute);
 				environment.updateFile(filePathAbsolute, sourceText);
 				/* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -105,7 +109,12 @@ export const typescriptLanguage = createLanguage<
 
 				seenPrograms.add(program);
 
-				return createTypeScriptFileFromProgram(program, sourceFile);
+				const languageFile = createTypeScriptFileFromProgram(
+					program,
+					sourceFile,
+				);
+
+				return prepareTypeScriptFile(languageFile, sourceFile);
 			},
 		};
 	},

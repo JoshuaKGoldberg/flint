@@ -14,7 +14,7 @@ export function* presentDiagnostics(filesResults: Map<string, FileResults>) {
 	yield "\n";
 	yield styleText(
 		"yellow",
-		`⚠️  Additionally found ${pluralize(diagnostics.length, "diagnostic")} from tsc:`,
+		`⚠️  Additionally found ${pluralize(diagnostics.length, "diagnostic")}:`,
 	);
 	yield "\n\n";
 

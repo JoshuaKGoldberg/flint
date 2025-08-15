@@ -2,9 +2,9 @@ import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
+	BaseAbout,
 	InferredObject,
 	LanguageFileFactory,
-	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
 import assert from "node:assert";
@@ -52,7 +52,7 @@ export class RuleTester {
 	}
 
 	describe<OptionsSchema extends AnyOptionalSchema | undefined>(
-		rule: AnyRule<RuleAbout, OptionsSchema>,
+		rule: AnyRule<BaseAbout, OptionsSchema>,
 		{ invalid, valid }: TestCases<InferredObject<OptionsSchema>>,
 	) {
 		this.#testerOptions.describe(rule.about.id, () => {
@@ -71,7 +71,7 @@ export class RuleTester {
 	}
 
 	#itInvalidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
-		rule: AnyRule<RuleAbout, OptionsSchema>,
+		rule: AnyRule<BaseAbout, OptionsSchema>,
 		testCase: InvalidTestCase<InferredObject<OptionsSchema>>,
 	) {
 		const testCaseNormalized = normalizeTestCase(testCase);
@@ -99,7 +99,7 @@ export class RuleTester {
 	}
 
 	#itValidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
-		rule: AnyRule<RuleAbout, OptionsSchema>,
+		rule: AnyRule<BaseAbout, OptionsSchema>,
 		testCaseRaw: ValidTestCase<InferredObject<OptionsSchema>>,
 	) {
 		const testCase =

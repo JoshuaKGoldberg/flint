@@ -1,7 +1,7 @@
 import {
 	applyChangesToText,
 	isSuggestionForFiles,
-	NormalizedRuleReport,
+	NormalizedReport,
 } from "@flint.fyi/core";
 import { SuggestionForFiles } from "@flint.fyi/core/src/types/changes.js";
 import { isTruthy } from "@flint.fyi/utils";
@@ -10,7 +10,7 @@ import { TestCaseNormalized } from "./normalizeTestCase.js";
 import { InvalidTestCase, TestSuggestionFileCase } from "./types.js";
 
 export function resolveReportedSuggestions(
-	reports: NormalizedRuleReport[],
+	reports: NormalizedReport[],
 	testCaseNormalized: InvalidTestCase & TestCaseNormalized,
 ) {
 	const suggestionsReported = reports

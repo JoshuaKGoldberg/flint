@@ -2,7 +2,7 @@ import { CachedFactory } from "cached-factory";
 
 import { FileChange } from "../types/changes.js";
 import { FileResults } from "../types/linting.js";
-import { FileRuleReport } from "../types/reports.js";
+import { FileReport } from "../types/reports.js";
 import { flatten } from "../utils/arrays.js";
 import { createReportSuggestionKey } from "./createReportSuggestionKey.js";
 import { resolveChange } from "./resolveChange.js";
@@ -13,7 +13,7 @@ export async function resolveChangesByFile(
 ) {
 	const changesByFile = new CachedFactory<string, FileChange[]>(() => []);
 
-	function collectReportFix(absoluteFilePath: string, report: FileRuleReport) {
+	function collectReportFix(absoluteFilePath: string, report: FileReport) {
 		if (report.fix) {
 			changesByFile.get(absoluteFilePath).push(report.fix);
 		}
@@ -21,7 +21,7 @@ export async function resolveChangesByFile(
 
 	async function collectReportSuggestions(
 		absoluteFilePath: string,
-		report: FileRuleReport,
+		report: FileReport,
 	) {
 		for (const suggestion of report.suggestions ?? []) {
 			const key = createReportSuggestionKey(report, suggestion);
