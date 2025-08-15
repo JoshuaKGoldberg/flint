@@ -1,5 +1,11 @@
 # flint
 
+## 0.14.0
+
+### Minor Changes
+
+- c7280e9: use Node's enableCompileCache
+
 ## 0.13.1
 
 ### Patch Changes

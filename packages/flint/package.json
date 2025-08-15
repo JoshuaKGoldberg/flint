@@ -1,6 +1,6 @@
 {
 	"name": "flint",
-	"version": "0.13.1",
+	"version": "0.14.0",
 	"description": "[Experimental] A fast, friendly linter. ❤️‍🔥",
 	"repository": {
 		"type": "git",
