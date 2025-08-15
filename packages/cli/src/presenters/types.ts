@@ -6,7 +6,7 @@ import type {
 } from "@flint.fyi/core";
 
 export interface Presenter {
-	header: string;
+	header: string[];
 	renderFile(context: PresenterFileContext): RenderGenerator;
 	summarize(context: PresenterSummarizeContext): RenderGenerator;
 }
@@ -27,6 +27,7 @@ export interface PresenterFileContext {
 
 export interface PresenterInitializeContext {
 	configFileName: string;
+	ignoreCache: boolean;
 	runMode: RunMode;
 }
 

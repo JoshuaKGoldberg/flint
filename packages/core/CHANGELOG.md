@@ -1,5 +1,15 @@
 # @flint/core
 
+## 0.14.0
+
+### Minor Changes
+
+- aa0bdcb: add --cache-ignore
+
+### Patch Changes
+
+- 0473d6c: move omit-empty dependency from root to core
+
 ## 0.13.5
 
 ### Patch Changes

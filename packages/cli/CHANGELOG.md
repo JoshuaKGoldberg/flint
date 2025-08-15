@@ -1,5 +1,17 @@
 # @flint/cli
 
+## 0.14.0
+
+### Minor Changes
+
+- aa0bdcb: add --cache-ignore
+
+### Patch Changes
+
+- Updated dependencies [aa0bdcb]
+- Updated dependencies [0473d6c]
+  - @flint.fyi/core@0.14.0
+
 ## 0.13.2
 
 ### Patch Changes
