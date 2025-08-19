@@ -22,9 +22,14 @@ import { readGitignore } from "./readGitignore.js";
 
 const log = debugForFile(import.meta.filename);
 
+export interface LintOnceSettings {
+	ignoreCache: boolean;
+	skipDiagnostics: boolean;
+}
+
 export async function lintOnce(
 	configDefinition: ProcessedConfigDefinition,
-	ignoreCache: boolean,
+	{ ignoreCache, skipDiagnostics }: LintOnceSettings,
 ): Promise<LintResults> {
 	interface ConfigUseDefinitionWithFiles extends ConfigUseDefinition {
 		found: Set<string>;
@@ -91,6 +96,7 @@ export async function lintOnce(
 				useDefinitions
 					.filter((use) => use.found.has(filePath))
 					.flatMap((use) => use.rules),
+				skipDiagnostics,
 			));
 
 		filesResults.set(filePath, {

@@ -34,12 +34,14 @@ export async function runCliOnce(
 	};
 	const ignoreCache = !!values["cache-ignore"];
 
+	const skipDiagnostics = !!values["skip-diagnostics"];
 	const lintResults = await (values.fix
 		? lintFixing(configDefinition, {
 				ignoreCache,
 				requestedSuggestions: new Set(values["fix-suggestions"]),
+				skipDiagnostics,
 			})
-		: lintOnce(configDefinition, ignoreCache));
+		: lintOnce(configDefinition, { ignoreCache, skipDiagnostics }));
 
 	// TODO: Eventually, it'd be nice to move everything fully in-memory.
 	// This would be better for performance to avoid excess file system I/O.
