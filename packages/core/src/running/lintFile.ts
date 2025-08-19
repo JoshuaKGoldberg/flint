@@ -101,10 +101,6 @@ export async function lintFile(
 		}
 	}
 
-	// TODO: Now that I have the directives and reports,
-	// I'll have to filter out the reports based on the directives.
-	// I think I'll need to accumulate some kind of directives tracker?
-
 	log("Found %d total reports for %s", reports.length, filePathAbsolute);
 
 	const filteredReports = directivesFilterer.filter(reports);
