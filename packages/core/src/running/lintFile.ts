@@ -17,6 +17,7 @@ export async function lintFile(
 	filePathAbsolute: string,
 	languageFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
 	ruleDefinitions: ConfigRuleDefinition[],
+	skipDiagnostics: boolean,
 ) {
 	log("Linting: %s:", filePathAbsolute);
 
@@ -76,18 +77,20 @@ export async function lintFile(
 			directivesFilterer.add(prepared.directives);
 		}
 
-		if (prepared.file.getDiagnostics) {
-			log(
-				"Retrieving language %s diagnostics for file %s",
-				language.about.name,
-				filePathAbsolute,
-			);
-			diagnostics.push(...prepared.file.getDiagnostics());
-			log(
-				"Retrieved language %s diagnostics for file %s",
-				language.about.name,
-				filePathAbsolute,
-			);
+		if (!skipDiagnostics) {
+			if (prepared.file.getDiagnostics) {
+				log(
+					"Retrieving language %s diagnostics for file %s",
+					language.about.name,
+					filePathAbsolute,
+				);
+				diagnostics.push(...prepared.file.getDiagnostics());
+				log(
+					"Retrieved language %s diagnostics for file %s",
+					language.about.name,
+					filePathAbsolute,
+				);
+			}
 		}
 
 		if (prepared.reports) {

@@ -20,6 +20,10 @@ export const options = {
 	presenter: {
 		type: "string",
 	},
+	"skip-diagnostics": {
+		multiple: true,
+		type: "string",
+	},
 	version: {
 		type: "boolean",
 	},
