@@ -11,6 +11,7 @@ import assert from "node:assert";
 
 import { createReportSnapshot } from "./createReportSnapshot.js";
 import { normalizeTestCase } from "./normalizeTestCase.js";
+import { resolveReportedSuggestions } from "./resolveReportedSuggestions.js";
 import { runTestCaseRule } from "./runTestCaseRule.js";
 import { InvalidTestCase, ValidTestCase } from "./types.js";
 
@@ -125,9 +126,12 @@ export class RuleTester {
 				testCaseNormalized,
 			);
 			assert(reports.length > 0, "Expected test case to fail, but it passed.");
-			const actual = createReportSnapshot(testCase.code, reports);
 
-			assert.equal(actual, testCaseNormalized.snapshot);
+			const actualSuggestions = resolveReportedSuggestions(
+				reports,
+				testCaseNormalized,
+			);
+			assert.deepStrictEqual(actualSuggestions, testCaseNormalized.suggestions);
 		});
 	}
 
@@ -135,9 +139,9 @@ export class RuleTester {
 		rule: AnyRule<BaseAbout, OptionsSchema>,
 		testCaseRaw: ValidTestCase<InferredObject<OptionsSchema>>,
 	): void {
-		const testCase = normalizeTestCase(
-			typeof testCaseRaw === "string" ? { code: testCaseRaw } : testCaseRaw,
-		);
+		const testCase =
+			typeof testCaseRaw === "string" ? { code: testCaseRaw } : testCaseRaw;
+		const testCaseNormalized = normalizeTestCase(testCase);
 
 		this.#testerOptions.it(testCase.code, async () => {
 			const reports = await runTestCaseRule(
@@ -147,13 +151,13 @@ export class RuleTester {
 					options: (testCase.options ?? {}) as InferredObject<OptionsSchema>,
 					rule,
 				},
-				testCase,
+				testCaseNormalized,
 			);
 
 			if (reports.length) {
 				assert.deepStrictEqual(
-					createReportSnapshot(testCase.code, reports),
-					testCase.code,
+					createReportSnapshot(testCaseNormalized.code, reports),
+					testCaseNormalized.code,
 				);
 			}
 		});
