@@ -125,13 +125,15 @@ export class RuleTester {
 				},
 				testCaseNormalized,
 			);
-			assert(reports.length > 0, "Expected test case to fail, but it passed.");
+			const actualSnapshot = createReportSnapshot(testCase.code, reports);
+
+			assert.equal(actualSnapshot, testCase.snapshot);
 
 			const actualSuggestions = resolveReportedSuggestions(
 				reports,
 				testCaseNormalized,
 			);
-			assert.deepStrictEqual(actualSuggestions, testCaseNormalized.suggestions);
+			assert.deepStrictEqual(actualSuggestions, testCase.suggestions);
 		});
 	}
 
