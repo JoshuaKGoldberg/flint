@@ -57,6 +57,7 @@ export class DirectivesCollector {
 	// TODO: These selection validators only check for this.#selections.has.
 	// However, that doesn't match on asterisks/wildcard selectors.
 	// Eventually they should more accurately check for wildcard overlaps.
+	// https://github.com/JoshuaKGoldberg/flint/issues/245
 
 	#validateDisableFileDirective(directive: CommentDirective) {
 		if (directive.range.begin.raw > this.#statementsStartIndex) {
