@@ -5,7 +5,7 @@ import { presentHeader } from "../shared/header.js";
 import { presentDiagnostics } from "../shared/presentDiagnostics.js";
 import { presentSummary } from "../shared/summary.js";
 import { PresenterFactory } from "../types.js";
-import { indenter } from "./constants.js";
+import { ColorCodes, indenter } from "./constants.js";
 import { createDetailedReport } from "./createDetailedReport.js";
 import { wrapIfNeeded } from "./wrapIfNeeded.js";
 
@@ -17,7 +17,7 @@ export const detailedPresenterFactory: PresenterFactory = {
 		const counts = { all: 0, files: 0, fixable: 0 };
 
 		return {
-			header: presentHeader(context),
+			header: Array.from(presentHeader(context)),
 			async *renderFile({ file, reports }) {
 				counts.all += reports.length;
 				counts.files += 1;
@@ -26,8 +26,12 @@ export const detailedPresenterFactory: PresenterFactory = {
 				const width = process.stdout.columns - indenter.length;
 
 				yield chalk.gray("╭");
-				yield chalk.hex("ff7777")("./");
-				yield* wrapIfNeeded(chalk.bold.hex("ff4949"), file.filePath, width);
+				yield chalk.hex(ColorCodes.filePathPrefix)("./");
+				yield* wrapIfNeeded(
+					chalk.bold.hex(ColorCodes.filePath),
+					file.filePath,
+					width,
+				);
 
 				let widest = 16;
 
@@ -51,7 +55,7 @@ export const detailedPresenterFactory: PresenterFactory = {
 			},
 			*summarize(summaryContext) {
 				yield* presentSummary(counts, summaryContext);
-				yield* presentDiagnostics(summaryContext.configResults.filesResults);
+				yield* presentDiagnostics(summaryContext.lintResults.filesResults);
 			},
 		};
 	},

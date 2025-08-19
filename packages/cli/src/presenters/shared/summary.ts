@@ -11,14 +11,14 @@ export interface SummaryCounts {
 
 export function* presentSummary(
 	counts: SummaryCounts,
-	{ configResults, formattingResults }: PresenterSummarizeContext,
+	{ formattingResults, lintResults }: PresenterSummarizeContext,
 ) {
-	if (configResults.fixed?.size) {
+	if (lintResults.changed?.size) {
 		yield styleText(
 			"green",
 			[
 				"✔ Fixed ",
-				styleText("bold", pluralize(configResults.fixed.size, "file")),
+				styleText("bold", pluralize(lintResults.changed.size, "file")),
 				" automatically (--fix).\n\n",
 			].join(""),
 		);

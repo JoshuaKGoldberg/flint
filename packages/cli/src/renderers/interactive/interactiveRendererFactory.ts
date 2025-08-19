@@ -27,8 +27,8 @@ export const interactiveRendererFactory: RendererFactory = {
 		function announce() {
 			console.clear();
 
-			if (presenter.header) {
-				console.log(presenter.header);
+			for (const line of presenter.header) {
+				console.log(line);
 			}
 		}
 
@@ -44,9 +44,9 @@ export const interactiveRendererFactory: RendererFactory = {
 			onQuitListeners.call();
 		}
 
-		async function render({ configResults }: RendererContext) {
+		async function render({ lintResults }: RendererContext) {
 			const filesWithReportResults = Array.from(
-				configResults.filesResults,
+				lintResults.filesResults,
 			).filter(([, results]) => results.reports.length);
 
 			const events: Record<string, (() => boolean) | undefined> = {

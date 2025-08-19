@@ -1,6 +1,6 @@
 import {
 	LanguageFileDefinition,
-	NormalizedRuleReport,
+	NormalizedReport,
 	RuleReport,
 } from "@flint.fyi/core";
 import remarkParse from "remark-parse";
@@ -15,7 +15,7 @@ import { location } from "vfile-location";
 export function createMarkdownFile(
 	filePathAbsolute: string,
 	sourceText: string,
-): LanguageFileDefinition {
+) {
 	const virtualFile = new VFile({
 		path: filePathAbsolute,
 		value: sourceText,
@@ -23,9 +23,9 @@ export function createMarkdownFile(
 	const fileLocation = location(virtualFile);
 	const root = unified().use(remarkParse).parse(virtualFile);
 
-	return {
+	const languageFile: LanguageFileDefinition = {
 		async runRule(rule, options) {
-			const reports: NormalizedRuleReport[] = [];
+			const reports: NormalizedReport[] = [];
 
 			const context = {
 				report: (report: RuleReport) => {
@@ -55,12 +55,13 @@ export function createMarkdownFile(
 				root,
 			};
 
-			const visitors = await rule.setup(context, options);
+			const runtime = await rule.setup(context, options);
 
-			if (!visitors) {
+			if (!runtime?.visitors) {
 				return reports;
 			}
 
+			const { visitors } = runtime;
 			visit(root, (node) => {
 				visitors[node.type]?.(node);
 			});
@@ -68,4 +69,6 @@ export function createMarkdownFile(
 			return reports;
 		},
 	};
+
+	return { languageFile, root };
 }

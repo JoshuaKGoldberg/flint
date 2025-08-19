@@ -1,6 +1,6 @@
 import {
 	LanguageFileDefinition,
-	NormalizedRuleReport,
+	NormalizedReport,
 	RuleReport,
 } from "@flint.fyi/core";
 import * as ts from "typescript";
@@ -18,7 +18,7 @@ export function createTypeScriptJsonFile(
 
 	return {
 		async runRule(rule, options) {
-			const reports: NormalizedRuleReport[] = [];
+			const reports: NormalizedReport[] = [];
 
 			const context = {
 				report: (report: RuleReport) => {
@@ -31,11 +31,13 @@ export function createTypeScriptJsonFile(
 				sourceFile,
 			};
 
-			const visitors = await rule.setup(context, options);
+			const runtime = await rule.setup(context, options);
 
-			if (!visitors) {
+			if (!runtime?.visitors) {
 				return reports;
 			}
+
+			const { visitors } = runtime;
 
 			const visit = (node: ts.Node) => {
 				visitors[ts.SyntaxKind[node.kind]]?.(node);

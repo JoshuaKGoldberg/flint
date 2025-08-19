@@ -1,6 +1,6 @@
 import {
 	LanguageFileDefinition,
-	NormalizedRuleReport,
+	NormalizedReport,
 	RuleReport,
 } from "@flint.fyi/core";
 import indexToPosition from "index-to-position";
@@ -11,7 +11,7 @@ export function createTextFile(
 ): LanguageFileDefinition {
 	return {
 		async runRule(rule, options) {
-			const reports: NormalizedRuleReport[] = [];
+			const reports: NormalizedReport[] = [];
 
 			const context = {
 				filePathAbsolute,
@@ -34,15 +34,15 @@ export function createTextFile(
 				sourceText,
 			};
 
-			const visitors = await rule.setup(context, options);
+			const runtime = await rule.setup(context, options);
 
-			if (visitors) {
-				visitors.file?.(sourceText);
+			if (runtime?.visitors) {
+				runtime.visitors.file?.(sourceText);
 
-				if (visitors.line) {
+				if (runtime.visitors.line) {
 					const lines = sourceText.split(/\r\n|\n|\r/);
 					for (const line of lines) {
-						visitors.line(line);
+						runtime.visitors.line(line);
 					}
 				}
 			}

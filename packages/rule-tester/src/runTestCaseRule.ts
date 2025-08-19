@@ -2,22 +2,19 @@ import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
+	BaseAbout,
 	InferredObject,
 	LanguageFileFactory,
-	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
 
-export interface NormalizedTestCase {
-	code: string;
-	fileName?: string;
-}
+import { TestCaseNormalized } from "./normalizeTestCase.js";
 
 export interface TestCaseRuleConfiguration<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
 	options?: InferredObject<OptionsSchema>;
-	rule: AnyRule<RuleAbout, OptionsSchema>;
+	rule: AnyRule<BaseAbout, OptionsSchema>;
 }
 
 export function runTestCaseRule<
@@ -25,14 +22,14 @@ export function runTestCaseRule<
 >(
 	fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
 	{ options, rule }: Required<TestCaseRuleConfiguration<OptionsSchema>>,
-	{ code, fileName = "file.ts" }: NormalizedTestCase,
+	{ code, fileName }: TestCaseNormalized,
 ) {
 	using file = fileFactories
 		// TODO: How to make types more permissive around assignability?
 		// See AnyRule's any
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		.get(rule.language)
-		.prepareFileVirtually(fileName, code);
+		.prepareFromVirtual(fileName, code).file;
 
 	return file.runRule(rule, options as InferredObject<OptionsSchema>);
 }

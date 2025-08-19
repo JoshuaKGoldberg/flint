@@ -6,7 +6,7 @@ import {
 	LanguageDefinition,
 } from "../types/languages.js";
 import { AnyRuleDefinition } from "../types/rules.js";
-import { makeDisposable, makeDisposableCurried } from "./makeDisposable.js";
+import { makeDisposable } from "./makeDisposable.js";
 
 const log = debugForFile(import.meta.filename);
 
@@ -35,14 +35,26 @@ export function createLanguage<AstNodesByName, ContextServices extends object>(
 
 			const fileFactory = makeDisposable({
 				...fileFactoryDefinition,
-				prepareFileOnDisk: makeDisposableCurried(
-					fileFactoryDefinition.prepareFileOnDisk.bind(fileFactoryDefinition),
-				),
-				prepareFileVirtually: makeDisposableCurried(
-					fileFactoryDefinition.prepareFileVirtually.bind(
-						fileFactoryDefinition,
-					),
-				),
+				prepareFromDisk: (filePathAbsolute: string) => {
+					const { file, ...rest } =
+						fileFactoryDefinition.prepareFromDisk(filePathAbsolute);
+
+					return {
+						file: makeDisposable(file),
+						...rest,
+					};
+				},
+				prepareFromVirtual: (filePathAbsolute: string, sourceText: string) => {
+					const { file, ...rest } = fileFactoryDefinition.prepareFromVirtual(
+						filePathAbsolute,
+						sourceText,
+					);
+
+					return {
+						file: makeDisposable(file),
+						...rest,
+					};
+				},
 			});
 
 			return fileFactory;

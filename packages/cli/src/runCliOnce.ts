@@ -1,10 +1,4 @@
-import {
-	isConfig,
-	runConfig,
-	runConfigFixing,
-	runPrettier,
-	writeToCache,
-} from "@flint.fyi/core";
+import { isConfig, lintFixing, lintOnce, runPrettier } from "@flint.fyi/core";
 import { debugForFile } from "debug-for-file";
 import path from "node:path";
 
@@ -38,26 +32,29 @@ export async function runCliOnce(
 		...config.definition,
 		filePath: configFileName,
 	};
+	const ignoreCache = !!values["cache-ignore"];
 
-	const configResults = await (values.fix
-		? runConfigFixing(configDefinition)
-		: runConfig(configDefinition));
+	const skipDiagnostics = !!values["skip-diagnostics"];
+	const lintResults = await (values.fix
+		? lintFixing(configDefinition, {
+				ignoreCache,
+				requestedSuggestions: new Set(values["fix-suggestions"]),
+				skipDiagnostics,
+			})
+		: lintOnce(configDefinition, { ignoreCache, skipDiagnostics }));
 
 	// TODO: Eventually, it'd be nice to move everything fully in-memory.
 	// This would be better for performance to avoid excess file system I/O.
 	// https://github.com/JoshuaKGoldberg/flint/issues/73
-	const [formattingResults] = await Promise.all([
-		runPrettier(configResults.allFilePaths, values.fix),
-		writeToCache(configFileName, configResults),
-	]);
+	const formattingResults = await runPrettier(lintResults, values.fix);
 
-	await renderer.render({ configResults, formattingResults });
+	await renderer.render({ formattingResults, ignoreCache, lintResults });
 
 	if (formattingResults.dirty.size && !formattingResults.written) {
 		return 1;
 	}
 
-	for (const fileResults of configResults.filesResults.values()) {
+	for (const fileResults of lintResults.filesResults.values()) {
 		if (fileResults.diagnostics.length || fileResults.reports.length) {
 			return 1;
 		}

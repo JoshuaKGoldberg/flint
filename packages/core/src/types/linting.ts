@@ -1,27 +1,23 @@
 import { FileCacheStorage } from "./cache.js";
 import { LanguageFileDiagnostic } from "./languages.js";
-import { FileRuleReport, FileRuleReportWithFix } from "./reports.js";
+import { FileReport } from "./reports.js";
 
 export interface FileResults {
 	dependencies: Set<string>;
 	diagnostics: LanguageFileDiagnostic[];
-	reports: FileRuleReport[];
+	reports: FileReport[];
 }
 
-export interface FileResultsWithFixes extends FileResults {
-	fixableReports: FileRuleReportWithFix[];
-}
-
-export interface RunConfigResults {
+export interface LintResults {
 	allFilePaths: Set<string>;
 	cached?: Map<string, FileCacheStorage>;
 	filesResults: Map<string, FileResults>;
 }
 
-export interface RunConfigResultsMaybeWithFixes extends RunConfigResults {
-	fixed?: Set<string>;
+export interface LintResultsMaybeWithChanges extends LintResults {
+	changed?: Set<string>;
 }
 
-export interface RunConfigResultsWithFixes extends RunConfigResults {
-	fixed: Set<string>;
+export interface LintResultsWithChanges extends LintResults {
+	changed: Set<string>;
 }

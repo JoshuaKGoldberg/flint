@@ -1,4 +1,4 @@
-import { FormattingResults, RunConfigResults } from "@flint.fyi/core";
+import { FormattingResults, LintResults } from "@flint.fyi/core";
 
 import { Presenter } from "../presenters/types.js";
 
@@ -14,8 +14,9 @@ export interface RendererAbout {
 }
 
 export interface RendererContext {
-	configResults: RunConfigResults;
 	formattingResults: FormattingResults;
+	ignoreCache: boolean;
+	lintResults: LintResults;
 }
 
 export interface RendererFactory {

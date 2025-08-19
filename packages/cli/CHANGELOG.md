@@ -1,5 +1,41 @@
 # @flint/cli
 
+## 0.15.0
+
+### Minor Changes
+
+- 7d0d873: add // flint-\* comment directives
+- 79f15da: add --skip-diagnostics CLI flag
+
+### Patch Changes
+
+- Updated dependencies [b48f4a9]
+- Updated dependencies [7d0d873]
+- Updated dependencies [79f15da]
+  - @flint.fyi/core@0.15.0
+
+## 0.14.0
+
+### Minor Changes
+
+- aa0bdcb: add --cache-ignore
+
+### Patch Changes
+
+- Updated dependencies [aa0bdcb]
+- Updated dependencies [0473d6c]
+  - @flint.fyi/core@0.14.0
+
+## 0.13.2
+
+### Patch Changes
+
+- 63b61e5: add --suggestions to CLI
+- Updated dependencies [0b80834]
+- Updated dependencies [63b61e5]
+  - @flint.fyi/core@0.13.5
+  - @flint.fyi/utils@0.13.2
+
 ## 0.13.1
 
 ### Patch Changes

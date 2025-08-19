@@ -1,17 +1,14 @@
-import { FileRuleReport } from "@flint.fyi/core";
+import { FileReport } from "@flint.fyi/core";
 import * as shikiCli from "@shikijs/cli";
 import chalk from "chalk";
 import { styleText } from "node:util";
 
-import { indenter } from "./constants.js";
+import { ColorCodes, indenter } from "./constants.js";
 
 // TODO: make reactive
 const leftWidth = 7;
 
-export async function formatCode(
-	report: FileRuleReport,
-	sourceFileText: string,
-) {
+export async function formatCode(report: FileReport, sourceFileText: string) {
 	const start = `${report.range.begin.line}:${report.range.begin.column}`;
 	const sourceFileLines = sourceFileText.split("\n");
 	const source = sourceFileLines
@@ -26,14 +23,14 @@ export async function formatCode(
 
 	return [
 		indenter,
-		chalk.hex("bbb")(`${start} `.padStart(leftWidth - 2)),
+		chalk.hex(ColorCodes.codeLineNumbers)(`${start} `.padStart(leftWidth - 2)),
 		chalk.gray("│ "),
 		highlightedLines.join(styleText("gray", "     │ ")),
 		"\n",
 		indenter,
 		chalk.gray("│ ".padStart(leftWidth)),
 		" ".repeat(report.range.begin.column),
-		chalk.hex("#fcc")(
+		chalk.hex(ColorCodes.codeWarningUnderline)(
 			"~".repeat(report.range.end.column - report.range.begin.column),
 		),
 	].join("");

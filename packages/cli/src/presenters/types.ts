@@ -1,12 +1,12 @@
 import type {
-	FileRuleReport,
+	FileReport,
 	FormattingResults,
-	RunConfigResultsMaybeWithFixes,
+	LintResultsMaybeWithChanges,
 	RunMode,
 } from "@flint.fyi/core";
 
 export interface Presenter {
-	header: string;
+	header: string[];
 	renderFile(context: PresenterFileContext): RenderGenerator;
 	summarize(context: PresenterSummarizeContext): RenderGenerator;
 }
@@ -22,17 +22,18 @@ export interface PresenterFactory {
 
 export interface PresenterFileContext {
 	file: PresenterVirtualFile;
-	reports: FileRuleReport[];
+	reports: FileReport[];
 }
 
 export interface PresenterInitializeContext {
 	configFileName: string;
+	ignoreCache: boolean;
 	runMode: RunMode;
 }
 
 export interface PresenterSummarizeContext {
-	configResults: RunConfigResultsMaybeWithFixes;
 	formattingResults: FormattingResults;
+	lintResults: LintResultsMaybeWithChanges;
 }
 
 // TODO: Eventually, the file system should be abstracted

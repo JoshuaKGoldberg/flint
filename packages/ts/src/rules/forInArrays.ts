@@ -46,21 +46,23 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
-			ForInStatement(node) {
-				const type = getConstrainedTypeAtLocation(
-					node.expression,
-					context.typeChecker,
-				);
+			visitors: {
+				ForInStatement: (node) => {
+					const type = getConstrainedTypeAtLocation(
+						node.expression,
+						context.typeChecker,
+					);
 
-				if (isArrayLike(type)) {
-					context.report({
-						message: "forIn",
-						range: {
-							begin: node.getStart(),
-							end: node.statement.getStart() - 1,
-						},
-					});
-				}
+					if (isArrayLike(type)) {
+						context.report({
+							message: "forIn",
+							range: {
+								begin: node.getStart(),
+								end: node.statement.getStart() - 1,
+							},
+						});
+					}
+				},
 			},
 		};
 	},

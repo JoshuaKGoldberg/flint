@@ -2,14 +2,15 @@ import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
+	BaseAbout,
 	InferredObject,
 	LanguageFileFactory,
-	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
 import assert from "node:assert";
 
 import { createReportSnapshot } from "./createReportSnapshot.js";
+import { normalizeTestCase } from "./normalizeTestCase.js";
 import { runTestCaseRule } from "./runTestCaseRule.js";
 import { InvalidTestCase, ValidTestCase } from "./types.js";
 
@@ -76,7 +77,7 @@ export class RuleTester {
 	}
 
 	describe<OptionsSchema extends AnyOptionalSchema | undefined>(
-		rule: AnyRule<RuleAbout, OptionsSchema>,
+		rule: AnyRule<BaseAbout, OptionsSchema>,
 		{ invalid, valid }: TestCases<InferredObject<OptionsSchema>>,
 	) {
 		this.#testerOptions.describe(rule.about.id, () => {
@@ -95,9 +96,11 @@ export class RuleTester {
 	}
 
 	#itInvalidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
-		rule: AnyRule<RuleAbout, OptionsSchema>,
+		rule: AnyRule<BaseAbout, OptionsSchema>,
 		testCase: InvalidTestCase<InferredObject<OptionsSchema>>,
 	): void {
+		const testCaseNormalized = normalizeTestCase(testCase);
+
 		let test = testCase.only
 			? this.#testerOptions.only
 			: this.#testerOptions.it;
@@ -119,21 +122,22 @@ export class RuleTester {
 					options: testCase.options ?? ({} as InferredObject<OptionsSchema>),
 					rule,
 				},
-				testCase,
+				testCaseNormalized,
 			);
 			assert(reports.length > 0, "Expected test case to fail, but it passed.");
 			const actual = createReportSnapshot(testCase.code, reports);
 
-			assert.equal(actual, testCase.snapshot);
+			assert.equal(actual, testCaseNormalized.snapshot);
 		});
 	}
 
 	#itValidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
-		rule: AnyRule<RuleAbout, OptionsSchema>,
+		rule: AnyRule<BaseAbout, OptionsSchema>,
 		testCaseRaw: ValidTestCase<InferredObject<OptionsSchema>>,
 	): void {
-		const testCase =
-			typeof testCaseRaw === "string" ? { code: testCaseRaw } : testCaseRaw;
+		const testCase = normalizeTestCase(
+			typeof testCaseRaw === "string" ? { code: testCaseRaw } : testCaseRaw,
+		);
 
 		this.#testerOptions.it(testCase.code, async () => {
 			const reports = await runTestCaseRule(

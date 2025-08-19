@@ -1,16 +1,17 @@
-import { Fix } from "./fixes.js";
+import { Fix, Suggestion } from "./changes.js";
 import { CharacterReportRange, ColumnAndLine } from "./ranges.js";
-import { RuleAbout } from "./rules.js";
+import { BaseAbout } from "./rules.js";
 
-export interface FileRuleReport extends NormalizedRuleReport {
-	about: RuleAbout;
+export interface FileReport extends NormalizedReport {
+	/**
+	 * Metadata on the rule or other system that created this report.
+	 */
+	about: BaseAbout;
 }
 
-export interface FileRuleReportWithFix extends FileRuleReport {
+export interface FileReportWithFix extends FileReport {
 	fix: Fix;
 }
-
-export type FilesRuleReports = Map<string, FileRuleReport[]>;
 
 export interface NormalizedReportRangeObject {
 	begin: ColumnAndLine;
@@ -20,14 +21,21 @@ export interface NormalizedReportRangeObject {
 /**
  * A full rule report that can be used to display to users via a reporter.
  */
-export interface NormalizedRuleReport {
+export interface NormalizedReport {
 	data?: ReportInterpolationData;
+
+	/**
+	 * Any files that should be factored into caching this report.
+	 */
+	dependencies?: string[];
+
 	fix?: Fix;
 	message: ReportMessageData;
 	range: NormalizedReportRangeObject;
+	suggestions?: Suggestion[];
 }
 
-export interface NormalizedRuleReportWithFix extends NormalizedRuleReport {
+export interface NormalizedRuleReportWithFix extends NormalizedReport {
 	fix: Fix;
 }
 
@@ -38,9 +46,15 @@ export type ReportInterpolationData = Record<string, boolean | number | string>;
  */
 export interface RuleReport<Message extends string = string> {
 	data?: ReportInterpolationData;
-	fix?: Fix;
 
+	/**
+	 * Any files that should be factored into caching this report.
+	 */
+	dependencies?: string[];
+
+	fix?: Fix;
 	message: Message;
+	suggestions?: Suggestion[];
 
 	/**
 	 * Which specific characters in the source file are affected by this report.

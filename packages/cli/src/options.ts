@@ -1,8 +1,15 @@
 import { parseArgs, ParseArgsOptionsConfig } from "node:util";
 
 export const options = {
+	"cache-ignore": {
+		type: "boolean",
+	},
 	fix: {
 		type: "boolean",
+	},
+	"fix-suggestions": {
+		multiple: true,
+		type: "string",
 	},
 	help: {
 		type: "boolean",
@@ -11,6 +18,10 @@ export const options = {
 		type: "boolean",
 	},
 	presenter: {
+		type: "string",
+	},
+	"skip-diagnostics": {
+		multiple: true,
 		type: "string",
 	},
 	version: {

@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/plugin-flint",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "[Experimental] A Flint plugin for linting Flint plugins.",
 	"repository": {
 		"type": "git",
@@ -17,7 +17,8 @@
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/rule-tester": "workspace:",
-		"@flint.fyi/ts": "workspace:"
+		"@flint.fyi/ts": "workspace:",
+		"@flint.fyi/utils": "workspace:"
 	},
 	"engines": {
 		"node": ">=24.0.0"

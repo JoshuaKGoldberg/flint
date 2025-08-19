@@ -3,18 +3,18 @@ import * as fs from "node:fs/promises";
 import omitEmpty from "omit-empty";
 
 import { CacheStorage } from "../types/cache.js";
-import { RunConfigResults } from "../types/linting.js";
+import { LintResults } from "../types/linting.js";
 import { cacheFileDirectory, cacheFilePath } from "./constants.js";
 import { getFileTouchTime } from "./getFileTouchTime.js";
 
 export async function writeToCache(
 	configFileName: string,
-	results: RunConfigResults,
+	lintResults: LintResults,
 ) {
 	const fileDependents = new CachedFactory(() => new Set<string>());
 	const timestamp = Date.now();
 
-	for (const [filePath, fileResult] of results.filesResults) {
+	for (const [filePath, fileResult] of lintResults.filesResults) {
 		for (const dependency of fileResult.dependencies) {
 			fileDependents.get(dependency).add(filePath);
 		}
@@ -27,7 +27,7 @@ export async function writeToCache(
 		},
 		files: {
 			...Object.fromEntries(
-				Array.from(results.filesResults).map(([filePath, fileResults]) => [
+				Array.from(lintResults.filesResults).map(([filePath, fileResults]) => [
 					filePath,
 					{
 						...omitEmpty({
@@ -39,10 +39,10 @@ export async function writeToCache(
 					},
 				]),
 			),
-			...(results.cached &&
+			...(lintResults.cached &&
 				Object.fromEntries(
-					Array.from(results.cached).filter(([filePath]) =>
-						results.allFilePaths.has(filePath),
+					Array.from(lintResults.cached).filter(([filePath]) =>
+						lintResults.allFilePaths.has(filePath),
 					),
 				)),
 		},

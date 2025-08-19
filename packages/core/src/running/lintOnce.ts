@@ -5,6 +5,7 @@ import * as fs from "node:fs/promises";
 import path from "node:path";
 
 import { readFromCache } from "../cache/readFromCache.js";
+import { writeToCache } from "../cache/writeToCache.js";
 import { collectFilesValues } from "../globs/collectFilesValues.js";
 import { AnyLevelDeep } from "../types/arrays.js";
 import {
@@ -14,16 +15,22 @@ import {
 } from "../types/configs.js";
 import { FilesGlobObjectProcessed, FilesValue } from "../types/files.js";
 import { AnyLanguage } from "../types/languages.js";
-import { FileResults, RunConfigResults } from "../types/linting.js";
+import { FileResults, LintResults } from "../types/linting.js";
 import { flatten } from "../utils/arrays.js";
 import { lintFile } from "./lintFile.js";
 import { readGitignore } from "./readGitignore.js";
 
 const log = debugForFile(import.meta.filename);
 
-export async function runConfig(
+export interface LintOnceSettings {
+	ignoreCache: boolean;
+	skipDiagnostics: boolean;
+}
+
+export async function lintOnce(
 	configDefinition: ProcessedConfigDefinition,
-): Promise<RunConfigResults> {
+	{ ignoreCache, skipDiagnostics }: LintOnceSettings,
+): Promise<LintResults> {
 	interface ConfigUseDefinitionWithFiles extends ConfigUseDefinition {
 		found: Set<string>;
 		rules: ConfigRuleDefinition[];
@@ -62,7 +69,7 @@ export async function runConfig(
 		}),
 	);
 
-	const allFoundPaths = new Set(
+	const allFilePaths = new Set(
 		useDefinitions.flatMap((use) => Array.from(use.found)),
 	);
 	const filesResults = new Map<string, FileResults>();
@@ -72,13 +79,15 @@ export async function runConfig(
 		return language.prepare();
 	});
 
-	const cached = await readFromCache(allFoundPaths, configDefinition.filePath);
+	const cached = ignoreCache
+		? undefined
+		: await readFromCache(allFilePaths, configDefinition.filePath);
 
 	// TODO: This is very slow and the whole thing should be refactored 🙌.
 	// The separate lintFile function recomputes rule options repeatedly.
 	// It'd be better to group found files together in some way.
 	// Plus, this does an await in a for loop - should it use a queue?
-	for (const filePath of allFoundPaths) {
+	for (const filePath of allFilePaths) {
 		const { dependencies, diagnostics, reports } =
 			cached?.get(filePath) ??
 			(await lintFile(
@@ -87,6 +96,7 @@ export async function runConfig(
 				useDefinitions
 					.filter((use) => use.found.has(filePath))
 					.flatMap((use) => use.rules),
+				skipDiagnostics,
 			));
 
 		filesResults.set(filePath, {
@@ -102,7 +112,11 @@ export async function runConfig(
 
 	log("Found %d report(s)", totalReports);
 
-	return { allFilePaths: allFoundPaths, cached, filesResults };
+	const lintResults = { allFilePaths, cached, filesResults };
+
+	await writeToCache(configDefinition.filePath, lintResults);
+
+	return lintResults;
 }
 
 function collectUseFilesGlobsObject(

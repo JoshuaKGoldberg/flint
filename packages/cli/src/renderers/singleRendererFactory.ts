@@ -9,12 +9,12 @@ export const singleRendererFactory: RendererFactory = {
 	initialize(presenter) {
 		return {
 			announce() {
-				if (presenter.header) {
-					console.log(presenter.header);
+				for (const line of presenter.header) {
+					console.log(line);
 				}
 			},
-			async render({ configResults, formattingResults }) {
-				for (const [filePath, fileResults] of configResults.filesResults) {
+			async render({ formattingResults, lintResults }) {
+				for (const [filePath, fileResults] of lintResults.filesResults) {
 					if (!fileResults.reports.length) {
 						continue;
 					}
@@ -35,8 +35,8 @@ export const singleRendererFactory: RendererFactory = {
 				}
 
 				const summary = presenter.summarize({
-					configResults,
 					formattingResults,
+					lintResults,
 				});
 
 				for (const line of await Array.fromAsync(summary)) {

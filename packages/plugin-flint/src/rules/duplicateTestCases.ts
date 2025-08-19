@@ -43,14 +43,16 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
-			CallExpression(node) {
-				const describedCases = getRuleTesterDescribedCases(node);
-				if (!describedCases) {
-					return;
-				}
+			visitors: {
+				CallExpression(node) {
+					const describedCases = getRuleTesterDescribedCases(node);
+					if (!describedCases) {
+						return;
+					}
 
-				checkTestCases(describedCases.invalid);
-				checkTestCases(describedCases.valid);
+					checkTestCases(describedCases.invalid);
+					checkTestCases(describedCases.valid);
+				},
 			},
 		};
 	},
