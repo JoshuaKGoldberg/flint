@@ -40,10 +40,6 @@ export class DirectivesFilterer {
 		);
 
 		// TODO: Also keep track of which directives/selections did nothing
-
-		// FAQ to document: if this is not doable because disabling * doesn't
-		// do anything, either:
-		// * it's code you control: so stop disabling
-		// * it's code you don't control: so stop linting, or reconfigure
+		// https://github.com/JoshuaKGoldberg/flint/issues/246
 	}
 }
