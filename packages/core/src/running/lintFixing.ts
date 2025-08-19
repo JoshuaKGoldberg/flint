@@ -12,11 +12,12 @@ const maximumIterations = 10;
 export interface LintFixingOptions {
 	ignoreCache: boolean;
 	requestedSuggestions: Set<string>;
+	skipDiagnostics: boolean;
 }
 
 export async function lintFixing(
 	configDefinition: ProcessedConfigDefinition,
-	{ ignoreCache, requestedSuggestions }: LintFixingOptions,
+	{ ignoreCache, requestedSuggestions, skipDiagnostics }: LintFixingOptions,
 ): Promise<LintResultsWithChanges> {
 	let changed = new Set<string>();
 	let iteration = 0;
@@ -33,7 +34,10 @@ export async function lintFixing(
 		// Why read file many time when few do trick?
 		// Or, at least it should all be virtual...
 		// https://github.com/JoshuaKGoldberg/flint/issues/73
-		const lintResults = await lintOnce(configDefinition, ignoreCache);
+		const lintResults = await lintOnce(configDefinition, {
+			ignoreCache,
+			skipDiagnostics,
+		});
 
 		log("Applying fixes from file results.");
 
