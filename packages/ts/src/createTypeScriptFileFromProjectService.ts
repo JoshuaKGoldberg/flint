@@ -1,4 +1,3 @@
-import { LanguageFileDefinition } from "@flint.fyi/core";
 import { debugForFile } from "debug-for-file";
 import * as ts from "typescript";
 
@@ -10,7 +9,7 @@ export function createTypeScriptFileFromProjectService(
 	filePathAbsolute: string,
 	program: ts.Program,
 	service: ts.server.ProjectService,
-): LanguageFileDefinition {
+) {
 	const sourceFile = program.getSourceFile(filePathAbsolute);
 	if (!sourceFile) {
 		throw new Error(`Could not retrieve source file for: ${filePathAbsolute}`);
@@ -21,9 +20,12 @@ export function createTypeScriptFileFromProjectService(
 	const file = createTypeScriptFileFromProgram(program, sourceFile);
 
 	return {
-		...file,
-		[Symbol.dispose]() {
-			service.closeClientFile(filePathAbsolute);
+		languageFile: {
+			...file,
+			[Symbol.dispose]() {
+				service.closeClientFile(filePathAbsolute);
+			},
 		},
+		sourceFile,
 	};
 }

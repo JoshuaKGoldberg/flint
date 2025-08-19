@@ -5,7 +5,7 @@ import { ReportMessageData } from "./reports.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 export type AnyRule<
-	About extends RuleAbout = RuleAbout,
+	About extends BaseAbout = BaseAbout,
 	OptionsSchema extends AnyOptionalSchema | undefined =
 		| AnyOptionalSchema
 		| undefined,
@@ -26,7 +26,7 @@ export type AnyRuleDefinition<
 		| AnyOptionalSchema
 		| undefined,
 > = RuleDefinition<
-	RuleAbout,
+	BaseAbout,
 	// TODO: How to make types more permissive around assignability?
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	any,
@@ -40,8 +40,13 @@ export type AnyRuleDefinition<
 /**
  * A single lint rule, as used by users in configs.
  */
+export interface BaseAbout {
+	id: string;
+	preset?: string;
+}
+
 export interface Rule<
-	About extends RuleAbout,
+	About extends BaseAbout,
 	AstNodesByName,
 	ContextServices extends object,
 	MessageId extends string,
@@ -56,16 +61,11 @@ export interface Rule<
 	language: Language<AstNodesByName, ContextServices>;
 }
 
-export interface RuleAbout {
-	id: string;
-	preset?: string;
-}
-
 /**
  * The definition of a rule, as provided to rule creators internally.
  */
 export interface RuleDefinition<
-	About extends RuleAbout,
+	About extends BaseAbout,
 	AstNodesByName,
 	ContextServices extends object,
 	MessageId extends string,
