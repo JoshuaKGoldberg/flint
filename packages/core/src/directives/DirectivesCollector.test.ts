@@ -19,8 +19,7 @@ function createRange(forPosition: number) {
 	} satisfies NormalizedReportRangeObject;
 }
 
-// TODO: file lint rule to remove the .name
-describe(DirectivesCollector.name, () => {
+describe(DirectivesCollector, () => {
 	it("generates a report when an invalid comment directive type is added", () => {
 		const collector = new DirectivesCollector(0);
 		const range = createRange(0);
