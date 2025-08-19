@@ -6,6 +6,7 @@ export interface RangedSelection {
 
 	// TODO: There's got to be a better way.
 	// Maybe an existing common one like minimatch?
+	// https://github.com/JoshuaKGoldberg/flint/issues/245
 	selections: RegExp[];
 }
 
