@@ -23,6 +23,8 @@ export interface TestCase<
 
 	/**
 	 * Skip running this test case. Useful for work-in-progress tests.
+	 *
+	 * Do not commit code with this flag set.
 	 */
 	skip?: boolean;
 }
