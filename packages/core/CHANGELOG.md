@@ -1,5 +1,16 @@
 # @flint/core
 
+## 0.15.0
+
+### Minor Changes
+
+- 7d0d873: add // flint-\* comment directives
+- 79f15da: add --skip-diagnostics CLI flag
+
+### Patch Changes
+
+- b48f4a9: ignore empty gitignore lines
+
 ## 0.14.0
 
 ### Minor Changes
