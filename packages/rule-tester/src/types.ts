@@ -11,7 +11,22 @@ export interface TestCase<
 > {
 	code: string;
 	fileName?: string;
+
+	/**
+	 * Run only this test case. Useful for debugging.
+	 *
+	 * Do not commit code with this flag set.
+	 */
+	only?: boolean;
+
 	options?: Options;
+
+	/**
+	 * Skip running this test case. Useful for work-in-progress tests.
+	 *
+	 * Do not commit code with this flag set.
+	 */
+	skip?: boolean;
 }
 
 export interface TestSuggestion {

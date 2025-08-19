@@ -18,7 +18,9 @@ import { InvalidTestCase, ValidTestCase } from "./types.js";
 export interface RuleTesterOptions {
 	describe?: TesterSetupDescribe;
 	it?: TesterSetupIt;
+	only?: TesterSetupIt;
 	scope?: Record<string, unknown>;
+	skip?: TesterSetupIt;
 }
 
 export interface TestCases<Options extends object | undefined> {
@@ -40,14 +42,38 @@ export class RuleTester {
 	#fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>;
 	#testerOptions: Required<RuleTesterOptions>;
 
-	constructor({ describe, it, scope = globalThis }: RuleTesterOptions = {}) {
+	constructor({
+		describe,
+		it,
+		only,
+		scope = globalThis,
+		skip,
+	}: RuleTesterOptions = {}) {
 		this.#fileFactories = new CachedFactory((language: AnyLanguage) =>
 			language.prepare(),
 		);
+
+		it = defaultTo(it, scope, "it");
+
+		if (!skip && "skip" in it && typeof it.skip === "function") {
+			skip = it.skip as TesterSetupIt;
+		}
+		if (!only && "only" in it && typeof it.only === "function") {
+			only = it.only as TesterSetupIt;
+		}
+		if (!skip) {
+			throw new TypeError("RuleTester needs a `skip` function");
+		}
+		if (!only) {
+			throw new TypeError("RuleTester needs a `only` function");
+		}
+
 		this.#testerOptions = {
 			describe: defaultTo(describe, scope, "describe"),
-			it: defaultTo(it, scope, "it"),
+			it,
+			only,
 			scope,
+			skip,
 		};
 	}
 
@@ -76,12 +102,24 @@ export class RuleTester {
 	) {
 		const testCaseNormalized = normalizeTestCase(testCase);
 
-		this.#testerOptions.it(testCase.code, async () => {
+		let test = testCase.only
+			? this.#testerOptions.only
+			: this.#testerOptions.it;
+
+		if (testCase.skip) {
+			if ("skip" in test && typeof test.skip === "function") {
+				test = test.skip as TesterSetupIt;
+			} else {
+				test = this.#testerOptions.skip;
+			}
+		}
+
+		test(testCase.code, async () => {
 			const reports = await runTestCaseRule(
 				this.#fileFactories,
 				{
 					// TODO: Figure out a way around the type assertion...
-					options: (testCase.options ?? {}) as InferredObject<OptionsSchema>,
+					options: testCase.options ?? ({} as InferredObject<OptionsSchema>),
 					rule,
 				},
 				testCaseNormalized,
