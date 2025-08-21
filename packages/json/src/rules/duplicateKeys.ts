@@ -47,8 +47,8 @@ export default jsonLanguage.createRule({
 						context.report({
 							message: "duplicateKey",
 							range: {
-								begin: property.name.getStart(context.sourceFile) + 1,
-								end: property.name.end + 1,
+								begin: property.name.getStart(context.sourceFile),
+								end: property.name.end,
 							},
 						});
 					}

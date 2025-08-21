@@ -26,8 +26,8 @@ export default typescriptLanguage.createRule({
 					}
 
 					const range = {
-						begin: node.end,
-						end: node.parent.end + 1,
+						begin: node.end - 1,
+						end: node.parent.end,
 					};
 
 					context.report({

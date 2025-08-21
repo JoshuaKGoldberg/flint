@@ -13,8 +13,8 @@ ruleTester.describe(rule, {
 			snapshot: `
                 ruleTester.describe(rule, {
                     valid: ['a', 'a'],
-                                ~~~
-                                This test code already appeared in a previous test.
+                                 ~~~
+                                 This test code already appeared in a previous test.
                     invalid: []
                 });
             `,
@@ -34,8 +34,8 @@ ruleTester.describe(rule, {
                     valid: [
                         'a',
                         "a",
-                       ~~~
-                       This test code already appeared in a previous test.
+                        ~~~
+                        This test code already appeared in a previous test.
                     ],
                     invalid: []
                 });
@@ -56,8 +56,8 @@ ruleTester.describe(rule, {
                     valid: [
                         \`a\`,
                         \`a\`,
-                       ~~~
-                       This test code already appeared in a previous test.
+                        ~~~
+                        This test code already appeared in a previous test.
                     ],
                     invalid: []
                 });
@@ -78,8 +78,8 @@ ruleTester.describe(rule, {
                     valid: [
                         { code: "a" },
                         { code: "a" },
-                       ~~~~~~~~~~~~~
-                       This test code already appeared in a previous test.
+                        ~~~~~~~~~~~~~
+                        This test code already appeared in a previous test.
                     ],
                     invalid: []
                 });
@@ -100,8 +100,8 @@ ruleTester.describe(rule, {
                     valid: [
                         { code: "a", fileName: "b.ts" },
                         { code: "a", fileName: "b.ts" },
-                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                       This test code already appeared in a previous test.
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                        This test code already appeared in a previous test.
                     ],
                     invalid: []
                 });
@@ -122,8 +122,8 @@ ruleTester.describe(rule, {
                     valid: [
                         { code: "a", fileName: "b.ts", options: { c: "d" } },
                         { code: "a", fileName: "b.ts", options: { c: "d" } },
-                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                       This test code already appeared in a previous test.
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                        This test code already appeared in a previous test.
                     ],
                     invalid: []
                 });
