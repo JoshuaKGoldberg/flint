@@ -10,8 +10,8 @@ ruleTester.describe(rule, {
             `,
 			snapshot: `
                 incorect
-               ~~~~~~~~
-               Forbidden or unknown word: "incorect".
+                ~~~~~~~~
+                Forbidden or unknown word: "incorect".
             `,
 			suggestions: [
 				{
