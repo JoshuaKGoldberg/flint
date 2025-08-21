@@ -1,0 +1,6 @@
+.astro
+astro.config.js
+astro.config.d.ts
+dist
+src/content/config.js
+src/content/config.d.ts

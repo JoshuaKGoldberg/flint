@@ -1,0 +1,30 @@
+---
+description: "Frequently Asked Questions for linting with Flint."
+title: FAQs
+---
+
+:::danger
+Flint is still very early stage and experimental.
+Not all features have been implemented.
+:::
+
+## Common Questions
+
+### How fast is Flint?
+
+Flint is fast.
+
+Flint isn't _blazing_ fast the way native speed linters such as [Biome's linter](https://biomejs.dev) and [Oxlint](https://oxc.rs/docs/guide/usage/linter) are.
+Native speed linters will always be faster than hybrid-speed linters such as Flint.
+
+However, Flint is still very fast compared to traditional TypeScript linters such as ESLint with typescript-eslint:
+
+- It utilizes an intelligent cross-file cache that significantly reduces redundant linting work.
+- Its architecture is optimized for cross-file linting, enabling performance optimizations.
+
+Expect performance comparisons to be posted Soon ™️.
+
+## More information
+
+If you have questions not answered by this page, please join the [Flint Discord](https://discord.gg/cFK3RAUDhy) and ask there.
+We'd love to learn how these docs can be improved!

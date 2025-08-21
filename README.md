@@ -33,7 +33,7 @@ It might show some of those ideas to be wrong.
 It might become a real linter.
 Only time will tell.
 
-In the meantime, come talk about it on the [Flint Discord](https://discord.gg/rdC2XPCmn5).
+In the meantime, come talk about it on the [Flint Discord](https://discord.gg/cFK3RAUDhy).
 
 ## Why?
 
@@ -82,4 +82,4 @@ Thanks! ❤️‍🔥
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 <!-- spellchecker: enable -->
 
-> 💝 This package was templated with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app) using the [Bingo framework](https://create.bingo).
+> ❤️‍🔥 This package was templated with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app) using the [Bingo framework](https://create.bingo).
