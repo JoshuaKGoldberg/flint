@@ -2,5 +2,11 @@
 	"$schema": "https://unpkg.com/knip@5.61.2/schema.json",
 	"ignore": ["flint.config.*", "packages/fixtures/*"],
 	"ignoreDependencies": ["flint", "^@flint\\.fyi\\/.*"],
-	"ignoreExportsUsedInFile": { "interface": true, "type": true }
+	"ignoreExportsUsedInFile": { "interface": true, "type": true },
+	"workspaces": {
+		"packages/site": {
+			"entry": ["src/components/*.astro"],
+			"ignoreDependencies": ["sharp"]
+		}
+	}
 }
