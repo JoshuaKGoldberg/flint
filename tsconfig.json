@@ -12,6 +12,7 @@
 		{ "path": "./packages/md" },
 		{ "path": "./packages/plugin-cspell" },
 		{ "path": "./packages/plugin-flint" },
+		{ "path": "./packages/site" },
 		{ "path": "./packages/text" },
 		{ "path": "./packages/ts" },
 		{ "path": "./packages/yml" }
