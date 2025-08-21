@@ -1,4 +1,6 @@
 node_modules
+packages/*/.astro
+packages/*/dist
 packages/*/lib
 tsconfig.tsbuildinfo
 tsconfig.vitest-temp.json
