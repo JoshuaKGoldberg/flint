@@ -21,8 +21,8 @@ a:
 			snapshot: `
 a:
     : b
-   ~
-   This mapping has an empty key, which is often a mistake.
+    ~
+    This mapping has an empty key, which is often a mistake.
 `,
 		},
 		{
@@ -33,8 +33,8 @@ a:
 			snapshot: `
 a:
   : b
- ~
- This mapping has an empty key, which is often a mistake.
+  ~
+  This mapping has an empty key, which is often a mistake.
 `,
 		},
 	],

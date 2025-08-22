@@ -47,6 +47,16 @@
         "maintenance",
         "code"
       ]
+    },
+    {
+      "login": "christopher-buss",
+      "name": "Christopher Buss",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32301681?v=4",
+      "profile": "https://christopher-buss.gitbook.io/portfolio",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,

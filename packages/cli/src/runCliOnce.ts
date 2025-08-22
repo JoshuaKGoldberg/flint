@@ -1,6 +1,7 @@
 import { isConfig, lintFixing, lintOnce, runPrettier } from "@flint.fyi/core";
 import { debugForFile } from "debug-for-file";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 import { OptionsValues } from "./options.js";
 import { Renderer } from "./renderers/types.js";
@@ -13,7 +14,7 @@ export async function runCliOnce(
 	values: OptionsValues,
 ) {
 	const { default: config } = (await import(
-		path.join(process.cwd(), configFileName)
+		pathToFileURL(path.join(process.cwd(), configFileName)).href
 	)) as {
 		default: unknown;
 	};

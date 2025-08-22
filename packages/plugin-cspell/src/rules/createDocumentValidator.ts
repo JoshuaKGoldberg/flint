@@ -6,6 +6,7 @@ import {
 	DocumentValidator,
 } from "cspell-lib";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 export async function createDocumentValidator(fileName: string, text: string) {
 	const cwd = process.cwd();
@@ -22,8 +23,10 @@ export async function createDocumentValidator(fileName: string, text: string) {
 	// It would be nice to use the DocumentValidator's `import` setting.
 	// However, even with unique timestamps, cspell seemed to cache the import.
 	// See: https://github.com/JoshuaKGoldberg/flint/issues/203
-	const configFilePath = `cspell.json?timestamp=${performance.now()}`;
-	const configFile = (await import(path.join(cwd, configFilePath), {
+	const configFilePath = path.join(cwd, "cspell.json");
+	const configFileUrlBase = pathToFileURL(configFilePath).href;
+	const configFileUrl = `${configFileUrlBase}?timestamp=${performance.now()}`;
+	const configFile = (await import(configFileUrl, {
 		with: { type: "json" },
 	})) as { default: CSpellSettings };
 

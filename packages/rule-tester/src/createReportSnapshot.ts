@@ -25,7 +25,7 @@ function createReportSnapshotAt(sourceText: string, report: NormalizedReport) {
 		0,
 	);
 
-	const column = ifNegative(range.begin.raw - lineStartIndex - 2, 0);
+	const column = ifNegative(range.begin.raw - lineStartIndex - 1, 0);
 	const width = range.end.raw - range.begin.raw;
 
 	const injectionPrefix = " ".repeat(column);
