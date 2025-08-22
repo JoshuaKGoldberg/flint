@@ -1,0 +1,43 @@
+---
+import { LinkButton } from "@astrojs/starlight/components";
+import { PackageManagers } from "starlight-package-managers";
+---
+
+<div class="try-it-out">
+	<h2>Try out Flint on any web project:</h2>
+
+	<PackageManagers type="dlx" pkg="flint" />
+
+	<p>
+		Frustrated with slow linting that doesn't catch what you actually care
+		about?
+		<br />
+		Or maybe your linter is fast, but doesn't include powerful lint rules?
+		<br />
+		<br />
+		Let Flint help you out.
+		<br />
+		<br />
+		<LinkButton href="/about">Get started</LinkButton>
+	</p>
+</div>
+
+<style>
+	.try-it-out {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		margin: auto;
+		max-width: 49rem;
+		padding-top: 4rem;
+	}
+
+	h2,
+	p {
+		text-align: center;
+	}
+
+	p {
+		font-size: var(--sl-text-xl);
+	}
+</style>

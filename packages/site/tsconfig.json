@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"allowImportingTsExtensions": false,
+		"baseUrl": ".",
+		"composite": true,
+		"noEmit": false,
+		"paths": {
+			"~/*": ["src/*"]
+		},
+		"target": "esnext"
+	},
+	"extends": "astro/tsconfigs/strict",
+	"include": [".astro/types.d.ts", "*.config.*", "src"]
+}

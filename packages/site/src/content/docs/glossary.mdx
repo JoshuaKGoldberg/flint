@@ -1,0 +1,149 @@
+---
+description: "Glossary of terms for linting with Flint."
+title: Glossary
+---
+
+:::danger
+This glossary is very incomplete.
+Many more terms will be added soon.
+:::
+
+This glossary defines the common linting terms as used by Flint.
+
+:::note
+Other linters refer to some definitions using different terms.
+See [Terminology Comparison](#terminology-comparison) for a comparison of how Flint's terms compare to those used by other linters.
+:::
+
+## Linting Terms
+
+### Change
+
+A modification to code, as suggested by the [linter](#linter) or a [rule](#rule).
+Changes can either be:
+
+- [Fixes](#fix): can be automatically applied, such as with a `--fix` command-line
+- [Suggestions](#suggestion): may not be safe to apply, and are typically surfaced as editor suggestions
+
+### Comment Directive
+
+An inline comment that changes how a [linter](#linter) should behave for a file.
+
+Comment directives are most often used to disable some or all of a linter's rules.
+For example, a directive might disable a particular rule for a specific file or block of code.
+
+### Configuration
+
+The set of options that control the behavior of a [linter](#linter).
+
+Each project that adds a linter typically will include customizations in its configuration file specific to the project and its maintainers.
+Those customizations are generally stored in a configuration file in the root of a repository.
+
+### Fix
+
+A [change](#change) that is safe to apply automatically.
+
+Fixes are generally created by [rules](#rule) as a part of a [report](#report) when there is a single known best way to resolve a detected code defect.
+Running a linter with `--fix` enabled will apply all reported fixes to code.
+
+### Formatter
+
+A tool that applies standard formatting to source code.
+
+Common formatters include:
+
+- [Biome's formatter](https://biomejs.dev/formatter)
+- [dprint](http://dprint.dev)
+- [Prettier](https://prettier.io)
+
+Formatters are generally very fast, as they only have to parse code and apply changes in a single pass.
+
+### Linter
+
+A tool that runs a set of [rules](#rule) on code in order to detect potential issues.
+
+### Preset
+
+A set of predefined [rules](#rule) and configuration options that may be used in a [configuration](#configuration).
+
+### Report
+
+A description of a potential issue in code.
+
+Reports are generally created by [rules](#rule) when they detect a problem in a file.
+They may also be created by the running [linter](#linter), such as when an invalid [comment directive](#comment-directive) is detected.
+
+### Rule
+
+A check for a specific pattern in code that may indicate a problem.
+
+When a rule finds that problem in code, it will issue a [report](#report).
+
+### Presenter
+
+Logic that takes in the results of linting and outputs it to the user.
+
+:::note
+This is typically called a _"formatter"_ by other linters, such as ESLint.
+Flint refers to it as a _"presenter"_ to disambiguate from standalone [formatters](#formatter).
+:::
+
+### Stylistic
+
+An overloaded term generally used to describe lint rules that don't directly deal with logical bugs.
+These rules are generally split into two categories:
+
+- Formatting: rules that only change whitespace or other non-semantic aspects of code, such as indentation or line length
+- Non-formatting: rules around consistency, such as naming conventions or whether to use one syntax over another equivalent one
+
+Linters such as ESLint used to provide stylistic rules alongside logical ones.
+Most linters now generally only include logical rules instead.
+See:
+
+- [ESLint: Changes to Rules Policies (May 2020)](https://eslint.org/blog/2020/05/changes-to-rules-policies)
+- [ESLint: Deprecation of formatting rules (October 2023)](https://eslint.org/blog/2023/10/deprecating-formatting-rules)
+
+#### ESLint Stylistic
+
+[ESLint Stylistic](https://eslint.style) is an ESLint plugin that provides stylistic rules.
+It mostly contains _formatting_ rules, as well as a small number of _non-formatting_ stylistic rules that are not eligible for inclusion in ESLint core.
+See: [ESLint Stylistic > Why?](https://eslint.style/guide/why).
+
+#### typescript-eslint Stylistic Config
+
+The typescript-eslint project includes several preset configs under the label _"stylistic"_.
+Those configs contain only _non-formatting_ stylistic rules that are recommended for most TypeScript projects.
+See: [typescript-eslint > Shared Configs > `stylistic`](https://typescript-eslint.io/users/configs#stylistic).
+
+### Suggestion
+
+A [change](#change) that is not safe to apply automatically.
+
+Suggestions are generally created by [rules](#rule) as a part of a [report](#report) when resolving the suggestion would change the meaning of code, and/or there are multiple potential changes that could be applied.
+Users typically apply suggestions manually through an interface in their editor.
+
+### Type-Aware Linting
+
+The ability for [rules](#rule) to use information provided by a [type checker](#type-checker).
+
+Type-aware linting allows rules to make more informed decisions about code.
+For example, a lint rule that prevents looping over arrays with `for...in` statements can use type information to determine whether a variable is actually an array or some other type.
+
+### Type Checker
+
+A program that determines the possible types of values in source code, then makes sure the ways those values are used are consistent with their types.
+
+The most common type checker in the web ecosystem is [TypeScript](https://typescriptlang.org).
+TypeScript provides APIs that are used to inform [type-aware linting](#type-aware-linting).
+
+## Terminology Comparison
+
+Most concepts are referred to by the same terms by most linters.
+However, some linters use different terms for other concepts.
+This table shows how each plugin refers to concepts whose terminology is not standardized.
+
+| Flint Term        | Biome                | Deno Lint | ESLint                        | Oxlint                        |
+| ----------------- | -------------------- | --------- | ----------------------------- | ----------------------------- |
+| Comment Directive | Suppression Comments | _n/a_     | Inline Configuration Comments | Inline Configuration Comments |
+| Preset            | _n/a_                | _n/a_     | Config                        | _n/a_                         |
+| Presenter         | Formatter            | Formatter | Formatter                     | Formatter                     |

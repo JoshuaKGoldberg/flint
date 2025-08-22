@@ -1,0 +1,18 @@
+---
+import type { StarlightRouteData } from "@astrojs/starlight/route-data";
+import Default from "@astrojs/starlight/components/Head.astro";
+
+export type Props = StarlightRouteData;
+
+const data = Astro.props.entry?.data ?? {
+	description: "[Experimental] A fast, friendly linter. ❤️‍🔥",
+	title: "Flint",
+};
+---
+
+<Default {...Astro.props}><slot /></Default>
+
+<meta property="twitter:domain" content={Astro.site} />
+<meta property="twitter:url" content={Astro.site} />
+<meta name="twitter:description" content={data.description} />
+<meta name="twitter:title" content={data.title} />
