@@ -7,14 +7,18 @@ import {
 
 export default typescriptLanguage.createRule({
 	about: {
-		description: "TODO",
+		description:
+			"Disallows test cases that are identical to previous test cases.",
 		id: "duplicateTestCases",
 		preset: "logical",
 	},
 	messages: {
 		duplicateTest: {
 			primary: "This test code already appeared in a previous test.",
-			secondary: ["TODO"],
+			secondary: [
+				"When writing tests for lint rules, it's possible to accidentally create deeply identical test cases.",
+				"Doing so provides no added benefit for testing and is unnecessary.",
+			],
 			suggestions: [
 				"Delete this redundant test case.",
 				"Change a property to make the test case unique.",

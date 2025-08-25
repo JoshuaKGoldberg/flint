@@ -8,10 +8,12 @@ interface Props {
 	rule: string;
 }
 
+import { cspell } from "@flint.fyi/plugin-cspell";
+import { flint } from "@flint.fyi/plugin-flint";
 import { json, md, ts, yml } from "flint";
 
 const { plugin: pluginId, rule: ruleId } = Astro.props;
-const plugins = { json, md, ts, yml };
+const plugins = { cspell, json, flint, md, ts, yml };
 
 if (!(pluginId in plugins)) {
 	throw new Error(`Unknown RuleCards plugin: ${pluginId}.`);

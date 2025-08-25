@@ -7,7 +7,7 @@ import { typescriptLanguage } from "../language.js";
 
 export default typescriptLanguage.createRule({
 	about: {
-		description: "Disallows using legacy `namespace` declarations.",
+		description: "Reports on using legacy `namespace` declarations.",
 		id: "namespaceDeclarations",
 		preset: "logical",
 	},
