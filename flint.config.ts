@@ -9,11 +9,11 @@ export default defineConfig({
 	use: [
 		{
 			files: json.files!.all,
-			rules: [json.presets.logical],
+			rules: json.presets.logical,
 		},
 		{
 			files: md.files!.all,
-			rules: [md.presets.logical],
+			rules: md.presets.logical,
 		},
 		{
 			files: {
@@ -27,11 +27,11 @@ export default defineConfig({
 				exclude: ["pnpm-lock.yaml"],
 				include: yml.files!.all,
 			},
-			rules: [yml.presets.logical],
+			rules: yml.presets.logical,
 		},
 		{
 			files: globs.all,
-			rules: [cspell.presets.logical],
+			rules: cspell.presets.logical,
 		},
 	],
 });
