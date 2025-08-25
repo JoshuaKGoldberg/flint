@@ -2,7 +2,7 @@ import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
-	BaseAbout,
+	RuleAbout,
 	InferredObject,
 	LanguageFileFactory,
 } from "@flint.fyi/core";
@@ -14,7 +14,7 @@ export interface TestCaseRuleConfiguration<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
 	options?: InferredObject<OptionsSchema>;
-	rule: AnyRule<BaseAbout, OptionsSchema>;
+	rule: AnyRule<RuleAbout, OptionsSchema>;
 }
 
 export function runTestCaseRule<

@@ -7,6 +7,7 @@ import { isTypeRecursive } from "./utils/isTypeRecursive.js";
 
 export default typescriptLanguage.createRule({
 	about: {
+		description: "Disallows iterating over an array with a for-in loop.",
 		id: "forInArrays",
 		preset: "logical",
 	},

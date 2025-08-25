@@ -9,6 +9,7 @@ interface CSpellConfigLike {
 
 export default textLanguage.createRule({
 	about: {
+		description: "TODO",
 		id: "spelling",
 		preset: "logical",
 	},

@@ -4,6 +4,7 @@ import { defineConfig } from "astro/config";
 import { remarkHeadingId } from "remark-custom-heading-id";
 import starlightLinksValidator from "starlight-links-validator";
 import starlightSidebarTopics from "starlight-sidebar-topics";
+import { id } from "zod/locales";
 
 export default defineConfig({
 	integrations: [
@@ -36,11 +37,15 @@ export default defineConfig({
 					{
 						icon: "list-format",
 						items: [
-							{ label: "JSON", link: "rules/json" },
-							{ label: "Markdown", link: "rules/md" },
-							{ label: "TypeScript", link: "rules/ts" },
-							{ label: "YML", link: "rules/yml" },
-						],
+							["json", "JSON"],
+							["md", "Markdown"],
+							["ts", "TypeScript"],
+							["yml", "YML"],
+						].map(([id, label]) => ({
+							autogenerate: { directory: `rules/${id}` },
+							collapsed: true,
+							label,
+						})),
 						label: "Rules",
 						link: "/rules",
 					},

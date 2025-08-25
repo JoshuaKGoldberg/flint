@@ -7,6 +7,7 @@ import {
 
 export default typescriptLanguage.createRule({
 	about: {
+		description: "TODO",
 		id: "duplicateTestCases",
 		preset: "logical",
 	},

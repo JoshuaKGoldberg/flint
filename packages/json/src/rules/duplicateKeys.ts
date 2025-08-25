@@ -1,9 +1,12 @@
 import * as ts from "typescript";
+import z from "zod";
 
 import { jsonLanguage } from "../language.js";
 
 export default jsonLanguage.createRule({
 	about: {
+		description:
+			"Disallows unnecessary duplicate keys that override previous values.",
 		id: "duplicateKeys",
 		preset: "logical",
 	},
@@ -22,11 +25,17 @@ export default jsonLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	options: {
+		allowKeys: z
+			.array(z.string())
+			.default([])
+			.describe("Keys to allow duplicates under."),
+	},
+	setup(context, { allowKeys }) {
 		return {
 			visitors: {
 				ObjectLiteralExpression(node) {
-					const seenKeys = new Map<string, ts.StringLiteral>();
+					const seenKeys = new Set<string>(allowKeys);
 
 					for (const property of node.properties.toReversed()) {
 						if (
@@ -37,10 +46,10 @@ export default jsonLanguage.createRule({
 						}
 
 						const key = property.name.text;
-						const existingNode = seenKeys.get(key);
+						const existingNode = seenKeys.has(key);
 
 						if (!existingNode) {
-							seenKeys.set(key, property.name);
+							seenKeys.add(key);
 							continue;
 						}
 

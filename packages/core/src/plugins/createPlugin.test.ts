@@ -13,6 +13,7 @@ const stubMessages = { "": { primary: "", secondary: [], suggestions: [] } };
 
 const ruleStandalone = stubLanguage.createRule({
 	about: {
+		description: "",
 		id: "standalone",
 		preset: "first",
 	},
@@ -22,6 +23,7 @@ const ruleStandalone = stubLanguage.createRule({
 
 const ruleWithOptionalOption = stubLanguage.createRule({
 	about: {
+		description: "",
 		id: "withOptionalOption",
 		preset: "second",
 	},

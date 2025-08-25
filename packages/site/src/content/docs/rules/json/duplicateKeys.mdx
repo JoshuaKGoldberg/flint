@@ -1,0 +1,83 @@
+---
+description: "Consecutive non-null assertion operators are unnecessary."
+title: "duplicateKeys"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="json" rule="duplicateKeys" />
+
+Although JSON technically allows duplicate keys, using them is at best confusing.
+Most JSON parsers will ignore all but the last value for a given key.
+It's generally best to ensure that each key in a JSON object is unique.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```json
+{
+	"value": 123,
+	"value": 456
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```json
+{
+	"value": 456
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+### `allowKeys`
+
+> Type: `string[]`
+
+Keys to allow duplicates under.
+
+This can be useful for projects that store extra information as comments in JSON files.
+
+```ts
+json.rules({
+	duplicateKeys: {
+		allowKeys: ["//"],
+	},
+});
+```
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```json
+{
+	"comment": "First comment.",
+	"comment": "Second comment."
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```json
+{
+	"//": "First comment.",
+	"//": "Second comment."
+}
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If your project is a rare one that intentionally goes against standard conventions for JSON, you can turn off this rule.
+You might consider using [Flint disable comments](/) and/ [configuration file disables](/) for those specific situations instead of completely disabling this rule.
