@@ -2,7 +2,7 @@ import { ymlLanguage } from "../language.js";
 
 export default ymlLanguage.createRule({
 	about: {
-		description: "TODO",
+		description: "Disallows empty mapping keys.",
 		id: "emptyMappingKeys",
 		preset: "logical",
 	},
