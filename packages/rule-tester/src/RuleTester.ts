@@ -2,7 +2,6 @@ import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
-	BaseAbout,
 	InferredObject,
 	LanguageFileFactory,
 	RuleAbout,

@@ -2,9 +2,9 @@ import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
-	RuleAbout,
 	InferredObject,
 	LanguageFileFactory,
+	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
 

@@ -4,7 +4,6 @@ import { defineConfig } from "astro/config";
 import { remarkHeadingId } from "remark-custom-heading-id";
 import starlightLinksValidator from "starlight-links-validator";
 import starlightSidebarTopics from "starlight-sidebar-topics";
-import { id } from "zod/locales";
 
 export default defineConfig({
 	integrations: [

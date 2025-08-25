@@ -65,7 +65,7 @@ export interface RuleAbout extends BaseAbout {
  * The definition of a rule, as provided to rule creators internally.
  */
 export interface RuleDefinition<
-	About extends BaseAbout,
+	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
 	MessageId extends string,
