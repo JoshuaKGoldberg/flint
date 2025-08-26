@@ -8,7 +8,7 @@ import {
 export default typescriptLanguage.createRule({
 	about: {
 		description:
-			"Disallows test cases that are identical to previous test cases.",
+			"Reports test cases that are identical to previous test cases.",
 		id: "duplicateTestCases",
 		preset: "logical",
 	},

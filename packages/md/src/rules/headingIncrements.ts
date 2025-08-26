@@ -2,7 +2,7 @@ import { markdownLanguage } from "../language.js";
 
 export default markdownLanguage.createRule({
 	about: {
-		description: "Reports on heading levels incrementing by more than one.",
+		description: "Reports heading levels incrementing by more than one.",
 		id: "headingIncrements",
 		preset: "logical",
 	},
