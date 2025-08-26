@@ -9,7 +9,7 @@ interface CSpellConfigLike {
 
 export default textLanguage.createRule({
 	about: {
-		description: "TODO",
+		description: "Runs the CSpell spell checker on any source code file.",
 		id: "spelling",
 		preset: "logical",
 	},
