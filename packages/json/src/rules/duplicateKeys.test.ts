@@ -19,6 +19,25 @@ ruleTester.describe(rule, {
 }
 `,
 		},
+		{
+			code: `
+{
+  "a": "first",
+  "a": "second",
+}
+`,
+			options: {
+				allowKeys: ["//"],
+			},
+			snapshot: `
+{
+  "a": "first",
+  ~~~
+  This key is made redundant by an identical key later in the object.
+  "a": "second",
+}
+`,
+		},
 	],
 	valid: [
 		`{}`,
@@ -29,5 +48,15 @@ ruleTester.describe(rule, {
   "b": "second",
 }
 `,
+		{
+			code: `
+{
+  "//": "first",
+  "//": "second",
+}`,
+			options: {
+				allowKeys: ["//"],
+			},
+		},
 	],
 });

@@ -32,10 +32,12 @@ export default jsonLanguage.createRule({
 			.describe("Keys to allow duplicates under."),
 	},
 	setup(context, { allowKeys }) {
+		const allowKeysUnique = new Set(allowKeys);
+
 		return {
 			visitors: {
 				ObjectLiteralExpression(node) {
-					const seenKeys = new Set<string>(allowKeys);
+					const seenKeys = new Set<string>();
 
 					for (const property of node.properties.toReversed()) {
 						if (
@@ -46,6 +48,10 @@ export default jsonLanguage.createRule({
 						}
 
 						const key = property.name.text;
+						if (allowKeysUnique.has(key)) {
+							continue;
+						}
+
 						const existingNode = seenKeys.has(key);
 
 						if (!existingNode) {
