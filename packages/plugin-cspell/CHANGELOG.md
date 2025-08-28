@@ -1,5 +1,11 @@
 # @flint.fyi/plugin-cspell
 
+## 0.1.2
+
+### Patch Changes
+
+- bee0a51: fix: resolve esm url scheme error on windows
+
 ## 0.1.1
 
 ### Patch Changes
