@@ -1,9 +1,9 @@
 import { FilesValue } from "./files.js";
-import { AnyRule, BaseAbout, Rule } from "./rules.js";
+import { AnyRule, Rule, RuleAbout } from "./rules.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 export interface Plugin<
-	About extends BaseAbout,
+	About extends RuleAbout,
 	FilesKey extends string | undefined,
 	Rules extends AnyRule<About>[],
 > {
@@ -11,10 +11,11 @@ export interface Plugin<
 	name: string;
 	presets: PluginPresets<About, Rules[number]["about"]["preset"]>;
 	rules: PluginRulesFactory<Rules>;
+	rulesById: Map<string, Rules[number]>;
 }
 
 export type PluginPresets<
-	About extends BaseAbout,
+	About extends RuleAbout,
 	Presets extends string | undefined,
 > = Record<
 	Presets extends string ? Presets : never,

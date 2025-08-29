@@ -1,0 +1,132 @@
+---
+description: "Consecutive non-null assertion operators are unnecessary."
+title: "namespaceDeclarations"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="namespaceDeclarations" />
+
+Namespaces are a legacy feature of TypeScript that can lead to confusion and are not compatible with ECMAScript modules.
+Modern codebases generally use `export` and `import` statements to define and use ECMAScript modules instead.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+namespace Values {
+	export const value = 123;
+}
+```
+
+```ts
+namespace Fruits {
+	export const apple = "🍎";
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+export const value = 123;
+```
+
+```ts
+export const Fruits = {
+	apple: "🍎",
+};
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+### `allowDeclarations`
+
+Whether to allow namespaces declared with the `declare` keyword.
+
+```ts
+ts.rules({
+	namespaceDeclarations: {
+		allowDeclarations: true,
+	},
+});
+```
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+namespace Values {
+	export const value = 123;
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+declare namespace Values {
+	const value: number;
+}
+```
+
+</TabItem>
+</Tabs>
+
+### `allowDefinitionFiles`
+
+```ts
+ts.rules({
+	namespaceDeclarations: {
+		allowDefinitionFiles: true,
+	},
+});
+```
+
+Whether to allow namespaces in `.d.ts` and other definition files.
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts title="index.ts"
+declare namespace Values {
+	const value: number;
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts title="index.d.ts"
+declare namespace Values {
+	const value: number;
+}
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If your project uses TypeScript's CommonJS export syntax (`export = ...`), you may need to use namespaces in order to export types from your module.
+You can learn more about this at:
+
+- [TypeScript#52203](https://github.com/microsoft/TypeScript/pull/52203), the pull request introducing [`verbatimModuleSyntax`](https://www.typescriptlang.org/tsconfig/#verbatimModuleSyntax)
+- [TypeScript#60852](https://github.com/microsoft/TypeScript/issues/60852), an issue requesting syntax to export types from a CommonJS module.
+
+If your project uses this syntax, either because it was architected before modern modules and namespaces, or because a module option such as `verbatimModuleSyntax` requires it, it may be difficult to migrate off of namespaces.
+In that case you may not be able to use this rule for parts of your project.
+
+You might consider using [Flint disable comments](/) and/ [configuration file disables](/) for those specific situations instead of completely disabling this rule.
+
+## Further Reading
+
+- [TypeScript handbook entry on Modules](https://www.typescriptlang.org/docs/handbook/modules.html)
+- [TypeScript handbook entry on Namespaces](https://www.typescriptlang.org/docs/handbook/namespaces.html)
+- [TypeScript handbook entry on Namespaces and Modules](https://www.typescriptlang.org/docs/handbook/namespaces-and-modules.html)

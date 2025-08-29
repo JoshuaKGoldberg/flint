@@ -1,0 +1,32 @@
+---
+description: "CSpell linting rules provided by Flint."
+sidebar:
+  order: 0
+title: "About"
+---
+
+import { PackageManagers } from "starlight-package-managers";
+
+Flint provides a lint plugin for developing Flint plugins and rules.
+It generally runs on JavaScript and TypeScript files alongside rules from the [TypeScript plugin](/rules/ts/about).
+
+<PackageManagers type="install" pkg="@flint.fyi/plugin-flint" />
+
+## Presets
+
+### `logical`
+
+Rules that find bugs and enforce good practices for Flint plugins and rules.
+
+```ts title="flint.config.ts"
+import { defineConfig, flint, ts } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: ts.files.all,
+			rules: flint.presets.logical,
+		},
+	],
+});
+```

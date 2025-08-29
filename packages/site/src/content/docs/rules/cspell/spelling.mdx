@@ -1,0 +1,36 @@
+---
+description: "Runs the CSpell spell checker on any source code file."
+title: "spelling"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="cspell" rule="spelling" />
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+{/* cspell:disable */}
+
+```text
+tpyo
+```
+
+{/* cspell:enable */}
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```text
+typo
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.

@@ -1,0 +1,28 @@
+---
+description: "Consecutive non-null assertion operators are unnecessary."
+sidebar:
+  order: 0
+title: "About"
+---
+
+Flint's TypeScript plugin supports linting JavaScript and TypeScript source code.
+It comes provided with the `flint` npm package.
+
+## Presets
+
+### `logical`
+
+Rules that find bugs and enforce good TypeScript practices for most-to-all TypeScript files.
+
+```ts title="flint.config.ts"
+import { defineConfig, ts } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: ts.files.all,
+			rules: ts.presets.logical,
+		},
+	],
+});
+```

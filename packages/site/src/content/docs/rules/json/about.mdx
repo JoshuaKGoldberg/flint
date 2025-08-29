@@ -1,0 +1,28 @@
+---
+description: "JSON linting rules provided by Flint."
+sidebar:
+  order: 0
+title: "About"
+---
+
+Flint's JSON plugin supports linting `.json` source code.
+It comes provided with the `flint` npm package.
+
+## Presets
+
+### `logical`
+
+Rules that find bugs and enforce good JSON practices for most-to-all JSON files.
+
+```ts title="flint.config.ts"
+import { defineConfig, json } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: json.files.all,
+			rules: json.presets.logical,
+		},
+	],
+});
+```

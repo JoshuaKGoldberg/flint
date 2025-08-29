@@ -1,9 +1,9 @@
 import { FilesValues } from "../types/files.js";
 import { Plugin, PluginPresets } from "../types/plugins.js";
-import { BaseAbout, Rule } from "../types/rules.js";
+import { Rule, RuleAbout } from "../types/rules.js";
 
 export type CreatePluginOptions<
-	About extends BaseAbout,
+	About extends RuleAbout,
 	FilesKey extends string | undefined,
 	Rules extends UnsafeAnyRule<About>[],
 > = FilesKey extends string
@@ -11,7 +11,7 @@ export type CreatePluginOptions<
 	: CreatePluginOptionsWithoutFiles<About, Rules>;
 
 export interface CreatePluginOptionsWithFiles<
-	About extends BaseAbout,
+	About extends RuleAbout,
 	FilesKey extends string,
 	Rules extends UnsafeAnyRule<About>[],
 > {
@@ -21,7 +21,7 @@ export interface CreatePluginOptionsWithFiles<
 }
 
 export interface CreatePluginOptionsWithoutFiles<
-	About extends BaseAbout,
+	About extends RuleAbout,
 	Rules extends UnsafeAnyRule<About>[],
 > {
 	files?: never;
@@ -29,7 +29,7 @@ export interface CreatePluginOptionsWithoutFiles<
 	rules: Rules;
 }
 
-export type UnsafeAnyRule<About extends BaseAbout = BaseAbout> = Rule<
+export type UnsafeAnyRule<About extends RuleAbout = RuleAbout> = Rule<
 	About,
 	// TODO: How to make these types work with createPlugin.test.ts & co.?
 	/* eslint-disable @typescript-eslint/no-explicit-any */
@@ -41,7 +41,7 @@ export type UnsafeAnyRule<About extends BaseAbout = BaseAbout> = Rule<
 >;
 
 export function createPlugin<
-	const About extends BaseAbout,
+	const About extends RuleAbout,
 	const FilesKey extends string | undefined,
 	const Rules extends UnsafeAnyRule<About>[],
 >({
@@ -76,5 +76,6 @@ export function createPlugin<
 				rule: rulesById.get(id)!,
 			}));
 		},
+		rulesById,
 	};
 }

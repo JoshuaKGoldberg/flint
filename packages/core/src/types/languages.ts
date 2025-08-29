@@ -4,8 +4,8 @@ import { FileReport, NormalizedReport } from "./reports.js";
 import {
 	AnyRule,
 	AnyRuleDefinition,
-	BaseAbout,
 	Rule,
+	RuleAbout,
 	RuleDefinition,
 } from "./rules.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
@@ -13,7 +13,7 @@ import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 export type AnyLanguage = Language<object, object>;
 
 export interface CreateRule<AstNodesByName, ContextServices extends object> {
-	<const About extends BaseAbout, const MessageId extends string>(
+	<const About extends RuleAbout, const MessageId extends string>(
 		definition: RuleDefinition<
 			About,
 			AstNodesByName,
@@ -24,7 +24,7 @@ export interface CreateRule<AstNodesByName, ContextServices extends object> {
 	): Rule<About, AstNodesByName, ContextServices, MessageId, undefined>;
 
 	<
-		const About extends BaseAbout,
+		const About extends RuleAbout,
 		const MessageId extends string,
 		const OptionsSchema extends AnyOptionalSchema,
 	>(
@@ -78,7 +78,7 @@ export interface LanguageFile extends Disposable {
 			| AnyOptionalSchema
 			| undefined,
 	>(
-		rule: AnyRule<BaseAbout, OptionsSchema>,
+		rule: AnyRule<RuleAbout, OptionsSchema>,
 		options: InferredObject<OptionsSchema>,
 	): PromiseOrSync<NormalizedReport[]>;
 }

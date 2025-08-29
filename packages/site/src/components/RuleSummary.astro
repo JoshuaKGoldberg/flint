@@ -1,0 +1,40 @@
+---
+import markdownIt from "markdown-it";
+
+const renderer = markdownIt();
+
+interface Props {
+	plugin: string;
+	rule: string;
+}
+
+import { cspell } from "@flint.fyi/plugin-cspell";
+import { flint } from "@flint.fyi/plugin-flint";
+import { json, md, ts, yml } from "flint";
+
+const { plugin: pluginId, rule: ruleId } = Astro.props;
+const plugins = { cspell, json, flint, md, ts, yml };
+
+if (!(pluginId in plugins)) {
+	throw new Error(`Unknown RuleCards plugin: ${pluginId}.`);
+}
+
+const plugin = plugins[pluginId as keyof typeof plugins];
+const rule = plugin.rulesById.get(ruleId);
+
+if (!rule) {
+	throw new Error(`Unknown rule for ${pluginId}: ${ruleId}.`);
+}
+---
+
+<blockquote>
+	<Fragment set:html={renderer.render(rule.about.description)} />
+</blockquote>
+
+<blockquote>
+	✅ This rule is included in the{" "}
+	<a href={`/rules/${pluginId}/about#${rule.about.preset}`}>
+		{pluginId}
+		{rule.about.preset} preset</a
+	>.
+</blockquote>

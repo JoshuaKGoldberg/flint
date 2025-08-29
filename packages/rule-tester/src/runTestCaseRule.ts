@@ -2,9 +2,9 @@ import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
-	BaseAbout,
 	InferredObject,
 	LanguageFileFactory,
+	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
 
@@ -14,7 +14,7 @@ export interface TestCaseRuleConfiguration<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
 	options?: InferredObject<OptionsSchema>;
-	rule: AnyRule<BaseAbout, OptionsSchema>;
+	rule: AnyRule<RuleAbout, OptionsSchema>;
 }
 
 export function runTestCaseRule<

@@ -15,10 +15,14 @@
 	"dependencies": {
 		"@astrojs/check": "^0.9.4",
 		"@astrojs/starlight": "^0.35.2",
+		"@flint.fyi/plugin-cspell": "workspace:",
+		"@flint.fyi/plugin-flint": "workspace:",
 		"@konami-emoji-blast/astro": "^0.1.1",
 		"@types/node": "^24.3.0",
 		"astro": "^5.13.2",
+		"flint": "workspace:",
 		"konami-emoji-blast": "^0.5.9",
+		"markdown-it": "^14.1.0",
 		"remark-custom-heading-id": "^2.0.0",
 		"starlight-links-validator": "^0.17.1",
 		"starlight-package-managers": "^0.11.0",
@@ -26,6 +30,7 @@
 		"typescript": "^5.9.2"
 	},
 	"devDependencies": {
+		"@types/markdown-it": "^14.1.2",
 		"sharp": "0.34.3"
 	}
 }

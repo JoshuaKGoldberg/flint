@@ -4,6 +4,7 @@ import { typescriptLanguage } from "../language.js";
 
 export default typescriptLanguage.createRule({
 	about: {
+		description: "Reports unnecessary extra non-null assertions.",
 		id: "consecutiveNonNullAssertions",
 		preset: "logical",
 	},

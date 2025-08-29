@@ -1,0 +1,43 @@
+---
+description: "Consecutive non-null assertion operators are unnecessary."
+title: "consecutiveNonNullAssertions"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="consecutiveNonNullAssertions" />
+
+The non-null assertion operator (`!`) is used to assert that a value is not null or undefined.
+Using it multiple times in a row does not do anything, and just takes up space unnecessarily.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+declare const value: string | null;
+
+value!!.toUpperCase();
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+declare const value: string | null;
+
+value!.toUpperCase();
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+There are no situations where it is beneficial to include extra chains of `!!`s.

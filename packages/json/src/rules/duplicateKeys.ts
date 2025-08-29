@@ -6,7 +6,7 @@ import { jsonLanguage } from "../language.js";
 export default jsonLanguage.createRule({
 	about: {
 		description:
-			"Disallows unnecessary duplicate keys that override previous values.",
+			"Reports unnecessary duplicate keys that override previous values.",
 		id: "duplicateKeys",
 		preset: "logical",
 	},

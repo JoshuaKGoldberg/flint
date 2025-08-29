@@ -1,0 +1,44 @@
+---
+description: "Consecutive non-null assertion operators are unnecessary."
+title: "headingIncrements"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="md" rule="headingIncrements" />
+
+Heading levels describe the organization and structure of a Markdown document.
+When increasing the level of a heading from its parent, the level should only ever increment by one.
+Skipping heading ranks can be confusing -especially for automated tools and screen-readers- and should be avoided where possible.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```md
+# A
+
+### B
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```md
+# A
+
+## B
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## Further Reading
+
+- [W3 WAI Headings tutorial](https://www.w3.org/WAI/tutorials/page-structure/headings)
