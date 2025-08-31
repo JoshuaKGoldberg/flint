@@ -1,5 +1,11 @@
 # @flint/json
 
+## 0.15.0
+
+### Minor Changes
+
+- bb4f0e7: [duplicateKeys] add allowKeys option
+
 ## 0.14.0
 
 ### Minor Changes
