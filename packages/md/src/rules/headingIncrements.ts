@@ -2,6 +2,7 @@ import { markdownLanguage } from "../language.js";
 
 export default markdownLanguage.createRule({
 	about: {
+		description: "Reports heading levels incrementing by more than one.",
 		id: "headingIncrements",
 		preset: "logical",
 	},
@@ -9,7 +10,11 @@ export default markdownLanguage.createRule({
 		levelSkip: {
 			primary:
 				"This heading level {{ level }} skips more than one level from the previous heading level of {{ previous }}.",
-			secondary: ["TODO"],
+			secondary: [
+				"Heading levels describe the organization and structure of a Markdown document.",
+				"When increasing the level of a heading from its parent, the level should only ever increment by one.",
+				"Skipping heading ranks can be confusing -especially for automated tools and screen-readers- and should be avoided where possible.",
+			],
 			suggestions: ["TODO"],
 		},
 	},

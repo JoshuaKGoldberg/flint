@@ -1,0 +1,51 @@
+---
+description: "Consecutive non-null assertion operators are unnecessary."
+title: "forInArrays"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="forInArrays" />
+
+A for-in loop (`for (const i in o)`) iterates over all enumerable properties of an object, including those that are not array indices.
+This can lead to unexpected behavior when used with arrays, as it may include properties that are not part of the array's numeric indices.
+It also returns the index key (`i`) as a string, which is not the expected numeric type for array indices.
+
+Consider using a construct more suited for arrays, such as a for-of loop (`for (const i of o)`).
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const values = ["a", "b", "c"];
+
+for (const key in values) {
+	console.log(values[key]);
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const values = ["a", "b", "c"];
+
+for (const value of values) {
+	console.log(value);
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your project is a rare one that intentionally loops over string indices of arrays, you can turn off this rule.
+You might consider using [Flint disable comments](/) and/ [configuration file disables](/) for those specific situations instead of completely disabling this rule.

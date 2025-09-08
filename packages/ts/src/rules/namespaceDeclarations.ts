@@ -7,6 +7,7 @@ import { typescriptLanguage } from "../language.js";
 
 export default typescriptLanguage.createRule({
 	about: {
+		description: "Reports using legacy `namespace` declarations.",
 		id: "namespaceDeclarations",
 		preset: "logical",
 	},
@@ -23,8 +24,18 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	options: {
-		allowDeclarations: z.boolean().default(false),
-		allowDefinitionFiles: z.boolean().default(false),
+		allowDeclarations: z
+			.boolean()
+			.default(false)
+			.describe(
+				"Whether to allow namespaces declared with the `declare` keyword.",
+			),
+		allowDefinitionFiles: z
+			.boolean()
+			.default(false)
+			.describe(
+				"Whether to allow namespaces in `.d.ts` and other definition files.",
+			),
 	},
 	setup(context, { allowDeclarations, allowDefinitionFiles }) {
 		if (allowDefinitionFiles && context.sourceFile.isDeclarationFile) {

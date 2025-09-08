@@ -1,0 +1,28 @@
+---
+description: "Markdown linting rules provided by Flint."
+sidebar:
+  order: 0
+title: "About"
+---
+
+Flint's Markdown plugin supports linting `.md` source code.
+It comes provided with the `flint` npm package.
+
+## Presets
+
+### `logical`
+
+Rules that find bugs and enforce good Markdown practices for most-to-all Markdown files.
+
+```ts title="flint.config.ts"
+import { defineConfig, md } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: md.files.all,
+			rules: md.presets.logical,
+		},
+	],
+});
+```

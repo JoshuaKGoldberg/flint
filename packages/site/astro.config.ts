@@ -36,10 +36,30 @@ export default defineConfig({
 					{
 						icon: "list-format",
 						items: [
-							{ label: "JSON", link: "rules/json" },
-							{ label: "Markdown", link: "rules/md" },
-							{ label: "TypeScript", link: "rules/ts" },
-							{ label: "YML", link: "rules/yml" },
+							{
+								items: [
+									["json", "JSON"],
+									["md", "Markdown"],
+									["ts", "TypeScript"],
+									["yml", "YML"],
+								].map(([id, label]) => ({
+									autogenerate: { directory: `rules/${id}` },
+									collapsed: true,
+									label,
+								})),
+								label: "Core Plugins",
+							},
+							{
+								items: [
+									["cspell", "CSpell"],
+									["flint", "Flint"],
+								].map(([id, label]) => ({
+									autogenerate: { directory: `rules/${id}` },
+									collapsed: true,
+									label,
+								})),
+								label: "More Plugins",
+							},
 						],
 						label: "Rules",
 						link: "/rules",
