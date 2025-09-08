@@ -331,7 +331,7 @@ importers:
         version: 5.9.2
     devDependencies:
       '@types/markdown-it':
-        specifier: ^14.1.2
+        specifier: 14.1.2
         version: 14.1.2
       sharp:
         specifier: 0.34.3
