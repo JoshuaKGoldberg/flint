@@ -6,6 +6,8 @@
 		"CHANGELOG.md",
 		"lib",
 		"node_modules",
+		"packages/site/dist",
+		"packages/comparisons/src/data.json",
 		"pnpm-lock.yaml",
 		"tsconfig.tsbuildinfo"
 	],

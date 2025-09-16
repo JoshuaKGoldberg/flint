@@ -1,3 +1,4 @@
+import react from "@astrojs/react";
 import starlight from "@astrojs/starlight";
 import { konamiEmojiBlast } from "@konami-emoji-blast/astro";
 import { defineConfig } from "astro/config";
@@ -83,6 +84,7 @@ export default defineConfig({
 			},
 			title: "Flint",
 		}),
+		react(),
 	],
 	markdown: {
 		remarkPlugins: [remarkHeadingId],
