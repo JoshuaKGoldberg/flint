@@ -1,11 +1,10 @@
+import react from "@astrojs/react";
 import starlight from "@astrojs/starlight";
 import { konamiEmojiBlast } from "@konami-emoji-blast/astro";
 import { defineConfig } from "astro/config";
 import { remarkHeadingId } from "remark-custom-heading-id";
 import starlightLinksValidator from "starlight-links-validator";
 import starlightSidebarTopics from "starlight-sidebar-topics";
-
-import react from "@astrojs/react";
 
 export default defineConfig({
 	integrations: [
