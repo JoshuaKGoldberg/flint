@@ -1,0 +1,34 @@
+.rulesTable {
+	font-size: 70%;
+	table-layout: fixed;
+}
+
+.rulesTable td:nth-child(3),
+.rulesTable td:nth-child(4),
+.rulesTable td:nth-child(5),
+.rulesTable td:nth-child(6) {
+	width: 14%;
+}
+
+.rulesTable code {
+	font-size: 70%;
+	word-wrap: normal;
+}
+
+.rulesTable td,
+.rulesTable th {
+	padding: 0.25rem;
+}
+
+.rulesTable td:first-of-type,
+.rulesTable th:first-of-type {
+	padding-left: 0;
+}
+
+.rulesTable td a:has(code) {
+	display: block;
+}
+
+.rulesTable td code {
+	padding: 0.125rem 0.2rem;
+}

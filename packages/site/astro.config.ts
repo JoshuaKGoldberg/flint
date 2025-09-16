@@ -5,6 +5,8 @@ import { remarkHeadingId } from "remark-custom-heading-id";
 import starlightLinksValidator from "starlight-links-validator";
 import starlightSidebarTopics from "starlight-sidebar-topics";
 
+import react from "@astrojs/react";
+
 export default defineConfig({
 	integrations: [
 		konamiEmojiBlast(),
@@ -83,6 +85,7 @@ export default defineConfig({
 			},
 			title: "Flint",
 		}),
+		react(),
 	],
 	markdown: {
 		remarkPlugins: [remarkHeadingId],

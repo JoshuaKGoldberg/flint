@@ -1,0 +1,12 @@
+{
+	"name": "@flint.fyi/comparisons",
+	"version": "0.0.0",
+	"private": true,
+	"description": "Comparisons of common lint rules across Flint and other web linters.",
+	"type": "module",
+	"main": "./lib/index.js",
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	}
+}
