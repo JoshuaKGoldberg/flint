@@ -370,9 +370,6 @@
 				"name": "Deno"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "prefer-ascii"
 		}
 	},
 	"nodeGlobals": {
@@ -389,9 +386,6 @@
 				"name": "Deno"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "no-node-globals"
 		}
 	},
 	"syncFunctionInAsyncFunctions": {
@@ -408,9 +402,6 @@
 				"name": "Deno"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "no-sync-fn-in-async-fn"
 		}
 	},
 	"keyDuplicates": {
@@ -433,9 +424,6 @@
 				"name": "JSON"
 			},
 			"preset": "Logical"
-		},
-		"raw": {
-			"Deno Lint Name": "no-dupe-keys"
 		}
 	},
 	"keyNormalization": {
@@ -899,10 +887,7 @@
 				"name": "eslint/no-sparse-arrays",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-sparse-arrays.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-sparse-arrays"
-		}
+		]
 	},
 	"templateLiterals": {
 		"eslint": [
@@ -1337,9 +1322,6 @@
 				"name": "JSX"
 			},
 			"preset": "Logical"
-		},
-		"raw": {
-			"Deno Lint Name": "jsx-no-duplicate-props"
 		}
 	},
 	"duplicateSpreads": {
@@ -1356,9 +1338,6 @@
 				"name": "JSX"
 			},
 			"preset": "Logical"
-		},
-		"raw": {
-			"Deno Lint Name": "jsx-props-no-spread-multi"
 		}
 	},
 	"headingContents": {
@@ -1798,9 +1777,6 @@
 			},
 			"preset": "Logical",
 			"strictness": "Strict"
-		},
-		"raw": {
-			"Deno Lint Name": "jsx-void-dom-elements-no-children"
 		}
 	},
 	"buttonTypes": {
@@ -1821,9 +1797,6 @@
 				"name": "JSX"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "button-has-type; jsx-button-has-type"
 		}
 	},
 	"childrenProps": {
@@ -1840,9 +1813,6 @@
 				"name": "JSX"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "jsx-no-children-prop"
 		}
 	},
 	"commentTextNodes": {
@@ -1859,9 +1829,6 @@
 				"name": "JSX"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "jsx-no-comment-text-nodes"
 		}
 	},
 	"iterableKeys": {
@@ -1878,9 +1845,6 @@
 				"name": "JSX"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "jsx-key"
 		}
 	},
 	"misleadingSemicolons": {
@@ -1913,9 +1877,6 @@
 				"name": "JSX"
 			},
 			"preset": "Stylistic"
-		},
-		"raw": {
-			"Deno Lint Name": "jsx-boolean-value"
 		}
 	},
 	"bracedStatements": {
@@ -1932,9 +1893,6 @@
 				"name": "JSX"
 			},
 			"preset": "Stylistic"
-		},
-		"raw": {
-			"Deno Lint Name": "jsx-curly-braces"
 		}
 	},
 	"unescapedEntities": {
@@ -1951,9 +1909,6 @@
 				"name": "JSX"
 			},
 			"preset": "Stylistic"
-		},
-		"raw": {
-			"Deno Lint Name": "jsx-no-unescaped-entities"
 		}
 	},
 	"unnecessaryFragments": {
@@ -1970,9 +1925,6 @@
 				"name": "JSX"
 			},
 			"preset": "Stylistic"
-		},
-		"raw": {
-			"Deno Lint Name": "jsx-no-useless-fragment"
 		}
 	},
 	"definitionContents": {
@@ -2536,10 +2488,7 @@
 				"name": "import/extensions",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/import/extensions.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-sloppy-imports"
-		}
+		]
 	},
 	"assertStrict": {
 		"biome": [
@@ -2626,10 +2575,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Superseded by deprecated",
-		"raw": {
-			"Deno Lint Name": "no-deprecated-deno-api"
-		}
+		"notes": "Superseded by deprecated"
 	},
 	"exportsStyle": {
 		"eslint": [
@@ -2740,9 +2686,6 @@
 				"name": "Node"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "no-process-global"
 		}
 	},
 	"globalTextDecoder": {
@@ -4737,10 +4680,7 @@
 				"name": "unicorn/no-new-array",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/no-new-array.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-array-constructor"
-		}
+		]
 	},
 	"arrayElementDeletions": {
 		"eslint": [
@@ -4858,10 +4798,7 @@
 				"name": "typescript/require-await",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/require-await.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "require-await"
-		}
+		]
 	},
 	"asyncPromiseExecutors": {
 		"biome": [
@@ -4895,10 +4832,7 @@
 				"name": "eslint/no-async-promise-executor",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-async-promise-executor.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-async-promise-executor"
-		}
+		]
 	},
 	"asyncUnnecessaryPromiseWrappers": {
 		"eslint": [
@@ -5007,10 +4941,7 @@
 				"name": "eslint/no-duplicate-case",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-duplicate-case.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-duplicate-case"
-		}
+		]
 	},
 	"caseFallthroughs": {
 		"biome": [
@@ -5044,10 +4975,7 @@
 				"name": "eslint/no-fallthrough",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-fallthrough.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-fallthrough"
-		}
+		]
 	},
 	"catchCallbackTypes": {
 		"eslint": [
@@ -5130,9 +5058,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Logical"
-		},
-		"raw": {
-			"Deno Lint Name": "prefer-const"
 		}
 	},
 	"dateConstructorClones": {
@@ -5213,10 +5138,7 @@
 				"name": "eslint/no-debugger",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-debugger.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-debugger"
-		}
+		]
 	},
 	"defaultCaseLast": {
 		"biome": [
@@ -5361,10 +5283,7 @@
 				"name": "eslint/no-empty-pattern",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-empty-pattern.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-empty-pattern"
-		}
+		]
 	},
 	"emptyEnums": {
 		"deno": [
@@ -5380,9 +5299,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Logical"
-		},
-		"raw": {
-			"Deno Lint Name": "no-empty-enum"
 		}
 	},
 	"emptyExports": {
@@ -5457,10 +5373,7 @@
 				"name": "typescript/no-empty-interface",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/no-empty-interface.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "ban-types; no-empty-interface"
-		}
+		]
 	},
 	"enumMemberLiterals": {
 		"biome": [
@@ -5589,10 +5502,7 @@
 				"name": "eslint/eqeqeq",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/eqeqeq.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "eqeqeq"
-		}
+		]
 	},
 	"errorMessages": {
 		"biome": [
@@ -5688,10 +5598,7 @@
 				"name": "eslint/no-eval",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-eval.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-eval"
-		}
+		]
 	},
 	"exceptionAssignments": {
 		"biome": [
@@ -5725,10 +5632,7 @@
 				"name": "eslint/no-ex-assign",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-ex-assign.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-ex-assign"
-		}
+		]
 	},
 	"explicitAnys": {
 		"biome": [
@@ -5762,10 +5666,7 @@
 				"name": "typescript/no-explicit-any",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/no-explicit-any.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-explicit-any"
-		}
+		]
 	},
 	"exportMutables": {
 		"eslint": [
@@ -5939,10 +5840,7 @@
 				"name": "eslint/require-yield",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/require-yield.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "require-yield"
-		}
+		]
 	},
 	"getterSetterPairedTypes": {
 		"eslint": [
@@ -6141,10 +6039,7 @@
 				"name": "eslint/use-isnan",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/use-isnan.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "use-isnan"
-		}
+		]
 	},
 	"meaninglessVoidOperators": {
 		"eslint": [
@@ -6273,10 +6168,7 @@
 				"name": "typescript/no-namespace",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/no-namespace.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-namespace"
-		}
+		]
 	},
 	"negativeZeroComparisons": {
 		"biome": [
@@ -6310,10 +6202,7 @@
 				"name": "eslint/no-compare-neg-zero",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-compare-neg-zero.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-compare-neg-zero"
-		}
+		]
 	},
 	"newDefinitions": {
 		"biome": [
@@ -6347,10 +6236,7 @@
 				"name": "typescript/no-misused-new",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/no-misused-new.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-misused-new"
-		}
+		]
 	},
 	"newExpressions": {
 		"eslint": [
@@ -6411,10 +6297,7 @@
 				"name": "eslint/no-new-native-nonconstructor",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-new-native-nonconstructor.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-new-symbol"
-		}
+		]
 	},
 	"nonNullAssertedNullishCoalesces": {
 		"eslint": [
@@ -6471,10 +6354,7 @@
 				"name": "typescript/no-non-null-asserted-optional-chain",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/no-non-null-asserted-optional-chain.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-non-null-asserted-optional-chain"
-		}
+		]
 	},
 	"nonNullAssertions": {
 		"biome": [
@@ -6509,10 +6389,7 @@
 				"name": "typescript/no-non-null-assertion",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/no-non-null-assertion.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-non-null-assertion"
-		}
+		]
 	},
 	"numberMethodRanges": {
 		"flint": {
@@ -6682,10 +6559,7 @@
 				"name": "eslint/no-prototype-builtins",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-prototype-builtins.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-prototype-builtins"
-		}
+		]
 	},
 	"objectSpreadUnnecessaryFallbacks": {
 		"eslint": [
@@ -7038,10 +6912,7 @@
 				"name": "eslint/no-control-regex",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-control-regex.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-control-regex"
-		}
+		]
 	},
 	"regexDuplicateCharacterClassCharacters": {
 		"eslint": [
@@ -7808,10 +7679,7 @@
 				"name": "eslint/no-invalid-regexp",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-invalid-regexp.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-invalid-regexp"
-		}
+		]
 	},
 	"regexZeroQuantifiers": {
 		"eslint": [
@@ -7934,10 +7802,7 @@
 				"name": "eslint/no-self-assign",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-self-assign.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-self-assign"
-		}
+		]
 	},
 	"selfComparisons": {
 		"biome": [
@@ -7973,10 +7838,7 @@
 				"name": "eslint/no-self-compare",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-self-compare.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-self-compare"
-		}
+		]
 	},
 	"singleVariableDeclarations": {
 		"biome": [
@@ -8004,9 +7866,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Logical"
-		},
-		"raw": {
-			"Deno Lint Name": "single-var-declarator"
 		}
 	},
 	"stringCaseMismatches": {
@@ -8134,10 +7993,7 @@
 				"name": "unicorn/throw-new-error",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/throw-new-error.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-throw-literal"
-		}
+		]
 	},
 	"tripleSlashReferences": {
 		"deno": [
@@ -8165,10 +8021,7 @@
 				"name": "typescript/triple-slash-reference",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/triple-slash-reference.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "triple-slash-reference"
-		}
+		]
 	},
 	"tripleSlashReferenceValidity": {
 		"deno": [
@@ -8184,9 +8037,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Logical"
-		},
-		"raw": {
-			"Deno Lint Name": "no-invalid-triple-slash-references"
 		}
 	},
 	"tsComments": {
@@ -8225,10 +8075,7 @@
 				"name": "typescript/prefer-ts-expect-error",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/prefer-ts-expect-error.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "ban-ts-comment"
-		}
+		]
 	},
 	"typeConstituentDuplicates": {
 		"eslint": [
@@ -8773,10 +8620,7 @@
 				"name": "eslint/no-unsafe-finally",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-unsafe-finally.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-unsafe-finally"
-		}
+		]
 	},
 	"unsafeFunctionTypes": {
 		"eslint": [
@@ -8982,10 +8826,7 @@
 				"name": "eslint/no-unused-vars",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-unused-vars.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-unused-vars"
-		}
+		]
 	},
 	"withStatements": {
 		"biome": [
@@ -9019,10 +8860,7 @@
 				"name": "eslint/no-with",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-with.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-with"
-		}
+		]
 	},
 	"wrapperObjectTypes": {
 		"eslint": [
@@ -9072,10 +8910,7 @@
 				"name": "eslint/no-console",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-console.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-console"
-		}
+		]
 	},
 	"constructorReturns": {
 		"biome": [
@@ -9159,10 +8994,7 @@
 				"name": "eslint/no-await-in-loop",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-await-in-loop.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-await-in-loop"
-		}
+		]
 	},
 	"loopFunctions": {
 		"eslint": [
@@ -9722,9 +9554,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "no-boolean-literal-for-arguments"
 		}
 	},
 	"builtinPrototypeMethodAccesses": {
@@ -9848,10 +9677,7 @@
 				"name": "eslint/no-cond-assign",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-cond-assign.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-cond-assign"
-		}
+		]
 	},
 	"conditionNegations": {
 		"biome": [
@@ -9995,10 +9821,7 @@
 				"name": "eslint/no-constant-condition",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-constant-condition.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-constant-condition"
-		}
+		]
 	},
 	"constEnums": {
 		"biome": [
@@ -10226,10 +10049,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Handled by Flint core",
-		"raw": {
-			"Deno Lint Name": "ban-untagged-ignore"
-		}
+		"notes": "Handled by Flint core"
 	},
 	"directiveUnknownRules": {
 		"deno": [
@@ -10246,10 +10066,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Handled by Flint core",
-		"raw": {
-			"Deno Lint Name": "ban-unknown-rule-code"
-		}
+		"notes": "Handled by Flint core"
 	},
 	"directiveUnlimitedDisables": {
 		"eslint": [
@@ -10283,10 +10100,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Handled by Flint core",
-		"raw": {
-			"Deno Lint Name": "ban-unused-ignore"
-		}
+		"notes": "Handled by Flint core"
 	},
 	"directiveUnusedDisables": {
 		"eslint": [
@@ -10506,9 +10320,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "no-external-import"
 		}
 	},
 	"filenameCasing": {
@@ -10631,10 +10442,7 @@
 				"name": "typescript/explicit-function-return-type",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/explicit-function-return-type.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "explicit-function-return-type"
-		}
+		]
 	},
 	"hexEscapes": {
 		"eslint": [
@@ -10755,10 +10563,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Deno Lint Name": "no-import-assertions"
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"importDefaults": {
 		"eslint": [
@@ -10942,10 +10747,7 @@
 				"name": "eslint/no-inner-declarations",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-inner-declarations.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-inner-declarations"
-		}
+		]
 	},
 	"iteratorMethodFunctionReferences": {
 		"eslint": [
@@ -11986,10 +11788,7 @@
 				"name": "typescript/explicit-module-boundary-types",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/explicit-module-boundary-types.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "explicit-module-boundary-types"
-		}
+		]
 	},
 	"moduleFormats": {
 		"biome": [
@@ -12075,9 +11874,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "camelcase"
 		}
 	},
 	"nullComparisons": {
@@ -12656,10 +12452,7 @@
 				"name": "eslint/no-regex-spaces",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-regex-spaces.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-regex-spaces"
-		}
+		]
 	},
 	"regexDivisionStarts": {
 		"eslint": [
@@ -12809,9 +12602,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "no-slow-types"
 		}
 	},
 	"strictMode": {
@@ -13027,10 +12817,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Deno Lint Name": "no-await-in-sync-fun"
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"templateIndents": {
 		"eslint": [
@@ -13164,9 +12951,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "ban-untagged-todo"
 		}
 	},
 	"typeChecksTypeErrors": {
@@ -13467,9 +13251,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Not implementing"
-		},
-		"raw": {
-			"Deno Lint Name": "verbatim-module-syntax"
 		}
 	},
 	"arrayDeleteUnnecessaryCounts": {
@@ -13876,10 +13657,7 @@
 				"name": "typescript/prefer-as-const",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/prefer-as-const.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "prefer-as-const"
-		}
+		]
 	},
 	"assignmentOperatorShorthands": {
 		"eslint": [
@@ -14104,10 +13882,7 @@
 				"name": "typescript/no-extra-non-null-assertion",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/no-extra-non-null-assertion.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-extra-non-null-assertion"
-		}
+		]
 	},
 	"destructuringConsistency": {
 		"eslint": [
@@ -14204,10 +13979,7 @@
 				"name": "eslint/no-empty",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-empty.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-empty"
-		}
+		]
 	},
 	"emptyFiles": {
 		"eslint": [
@@ -14430,10 +14202,7 @@
 				"name": "eslint/for-direction",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/for-direction.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "for-direction"
-		}
+		]
 	},
 	"functionCallSpreads": {
 		"eslint": [
@@ -14569,10 +14338,7 @@
 				"name": "unicorn/prefer-global-this",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/prefer-global-this.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-window; no-window-prefix"
-		}
+		]
 	},
 	"groupedAccessorPairs": {
 		"biome": [
@@ -15128,9 +14894,6 @@
 			},
 			"preset": "Stylistic",
 			"strictness": "Strict"
-		},
-		"raw": {
-			"Deno Lint Name": "no-implicit-declare-namespace-export"
 		}
 	},
 	"namespaceKeywords": {
@@ -15165,10 +14928,7 @@
 				"name": "typescript/prefer-namespace-keyword",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/prefer-namespace-keyword.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "prefer-namespace-keyword"
-		}
+		]
 	},
 	"negativeIndexLengthMethods": {
 		"eslint": [
@@ -15584,10 +15344,7 @@
 				"name": "typescript/adjacent-overload-signatures",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/adjacent-overload-signatures.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "adjacent-overload-signatures"
-		}
+		]
 	},
 	"parameterReassignments": {
 		"biome": [
@@ -16516,9 +16273,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Stylistic"
-		},
-		"raw": {
-			"Deno Lint Name": "no-undef"
 		}
 	},
 	"undefinedTypeofChecks": {
@@ -16626,10 +16380,7 @@
 				"name": "eslint/no-extra-boolean-cast",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-extra-boolean-cast.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-extra-boolean-cast"
-		}
+		]
 	},
 	"unnecessaryComputedKeys": {
 		"biome": [
@@ -16745,10 +16496,7 @@
 				"name": "eslint/no-useless-rename",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-useless-rename.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-useless-rename"
-		}
+		]
 	},
 	"unnecessaryReturns": {
 		"eslint": [
@@ -16821,10 +16569,7 @@
 				"name": "typescript/no-inferrable-types",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/no-inferrable-types.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-inferrable-types"
-		}
+		]
 	},
 	"unusedLabels": {
 		"biome": [
@@ -16858,10 +16603,7 @@
 				"name": "eslint/no-unused-labels",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-unused-labels.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-unused-labels"
-		}
+		]
 	},
 	"varDeclarations": {
 		"biome": [
@@ -16889,9 +16631,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Stylistic"
-		},
-		"raw": {
-			"Deno Lint Name": "no-var"
 		}
 	},
 	"voidOperator": {
@@ -16982,10 +16721,7 @@
 				"name": "eslint/no-case-declarations",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-case-declarations.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-case-declarations"
-		}
+		]
 	},
 	"classAssignments": {
 		"biome": [
@@ -17019,10 +16755,7 @@
 				"name": "eslint/no-class-assign",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-class-assign.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-case-assign"
-		}
+		]
 	},
 	"classFieldDeclarations": {
 		"eslint": [
@@ -17077,10 +16810,7 @@
 				"name": "eslint/no-dupe-class-members",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-dupe-class-members.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-dupe-class-members"
-		}
+		]
 	},
 	"constantAssignments": {
 		"biome": [
@@ -17114,10 +16844,7 @@
 				"name": "eslint/no-const-assign",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-const-assign.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-const-assign"
-		}
+		]
 	},
 	"constructorSupers": {
 		"biome": [
@@ -17145,9 +16872,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Untyped"
-		},
-		"raw": {
-			"Deno Lint Name": "constructor-super"
 		}
 	},
 	"defaultParameterLast": {
@@ -17186,10 +16910,7 @@
 				"name": "eslint/default-param-last",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/default-param-last.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "default-param-last"
-		}
+		]
 	},
 	"duplicateArguments": {
 		"biome": [
@@ -17217,9 +16938,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Untyped"
-		},
-		"raw": {
-			"Deno Lint Name": "no-dupe-args"
 		}
 	},
 	"functionAssignments": {
@@ -17254,10 +16972,7 @@
 				"name": "eslint/no-func-assign",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-func-assign.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-func-assign"
-		}
+		]
 	},
 	"getterReturns": {
 		"biome": [
@@ -17291,10 +17006,7 @@
 				"name": "eslint/getter-return",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/getter-return.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "getter-return"
-		}
+		]
 	},
 	"globalAssignments": {
 		"biome": [
@@ -17328,10 +17040,7 @@
 				"name": "eslint/no-global-assign",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-global-assign.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-global-assign"
-		}
+		]
 	},
 	"globalObjectCalls": {
 		"biome": [
@@ -17365,10 +17074,7 @@
 				"name": "eslint/no-obj-calls",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-obj-calls.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-obj-calls"
-		}
+		]
 	},
 	"guardedForIns": {
 		"biome": [
@@ -17402,10 +17108,7 @@
 				"name": "eslint/guard-for-in",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/guard-for-in.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "guard-for-in"
-		}
+		]
 	},
 	"importAssignments": {
 		"biome": [
@@ -17433,9 +17136,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Untyped"
-		},
-		"raw": {
-			"Deno Lint Name": "no-import-assign"
 		}
 	},
 	"invalidThis": {
@@ -17556,9 +17256,6 @@
 				"name": "TypeScript"
 			},
 			"preset": "Untyped"
-		},
-		"raw": {
-			"Deno Lint Name": "no-octal"
 		}
 	},
 	"octalNumbers": {
@@ -17631,10 +17328,7 @@
 				"name": "eslint/no-setter-return",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-setter-return.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-setter-return"
-		}
+		]
 	},
 	"shadowedRestrictedNames": {
 		"biome": [
@@ -17668,10 +17362,7 @@
 				"name": "eslint/no-shadow-restricted-names",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-shadow-restricted-names.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-shadow-restricted-names"
-		}
+		]
 	},
 	"thisBeforeSuper": {
 		"biome": [
@@ -17705,10 +17396,7 @@
 				"name": "eslint/no-this-before-super",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-this-before-super.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-this-before-super"
-		}
+		]
 	},
 	"typeofComparisons": {
 		"biome": [
@@ -17742,10 +17430,7 @@
 				"name": "eslint/valid-typeof",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/valid-typeof.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "valid-typeof"
-		}
+		]
 	},
 	"unassignedVariables": {
 		"biome": [
@@ -17835,10 +17520,7 @@
 				"name": "eslint/no-unreachable",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-unreachable.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-unreachable"
-		}
+		]
 	},
 	"unsafeNegations": {
 		"biome": [
@@ -17872,10 +17554,7 @@
 				"name": "eslint/no-unsafe-negation",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-unsafe-negation.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-unsafe-negation"
-		}
+		]
 	},
 	"unsafeOptionalChains": {
 		"biome": [
@@ -17995,10 +17674,7 @@
 				"name": "eslint/no-delete-var",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-delete-var.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-delete-var"
-		}
+		]
 	},
 	"variableRedeclarations": {
 		"biome": [
@@ -18036,10 +17712,7 @@
 				"name": "eslint/no-redeclare",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-redeclare.html"
 			}
-		],
-		"raw": {
-			"Deno Lint Name": "no-redeclare"
-		}
+		]
 	},
 	"emptyDocuments": {
 		"eslint": [
