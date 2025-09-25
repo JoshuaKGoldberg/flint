@@ -1,5 +1,5 @@
 {
-	"browserAlerts": {
+	"alerts": {
 		"biome": [
 			{
 				"name": "noAlert",
@@ -9,7 +9,7 @@
 		"eslint": [
 			{
 				"name": "no-alert",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-alert"
 			}
 		],
 		"flint": {
@@ -139,7 +139,7 @@
 		"eslint": [
 			{
 				"name": "no-implicit-globals",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-implicit-globals"
 			}
 		],
 		"flint": {
@@ -345,7 +345,7 @@
 		"eslint": [
 			{
 				"name": "no-script-url",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-script-url"
 			}
 		],
 		"flint": {
@@ -925,7 +925,7 @@
 		"eslint": [
 			{
 				"name": "no-multi-str",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-multi-str"
 			}
 		],
 		"flint": {
@@ -1152,7 +1152,7 @@
 		"eslint": [
 			{
 				"name": "prefer-regex-literals",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-regex-literals"
 			}
 		],
 		"flint": {
@@ -1187,7 +1187,7 @@
 		"eslint": [
 			{
 				"name": "no-sparse-arrays",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-sparse-arrays"
 			}
 		],
 		"flint": {
@@ -1322,7 +1322,7 @@
 		"eslint": [
 			{
 				"name": "no-useless-escape",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-useless-escape"
 			}
 		],
 		"flint": {
@@ -3975,7 +3975,7 @@
 		"eslint": [
 			{
 				"name": "no-restricted-imports",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-restricted-imports"
 			},
 			{
 				"name": "@typescript-eslint/no-restricted-imports",
@@ -5630,7 +5630,7 @@
 		"eslint": [
 			{
 				"name": "sort-imports",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/sort-imports"
 			}
 		],
 		"flint": {
@@ -5810,7 +5810,7 @@
 		"eslint": [
 			{
 				"name": "sort-keys",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/sort-keys"
 			},
 			{
 				"name": "perfectionist/sort-objects",
@@ -6269,7 +6269,7 @@
 		"eslint": [
 			{
 				"name": "prefer-rest-params",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-rest-params"
 			}
 		],
 		"flint": {
@@ -6311,7 +6311,7 @@
 		"eslint": [
 			{
 				"name": "no-array-constructor",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-array-constructor"
 			},
 			{
 				"name": "@typescript-eslint/no-array-constructor",
@@ -6468,7 +6468,7 @@
 		"eslint": [
 			{
 				"name": "require-await",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/require-await"
 			},
 			{
 				"name": "@typescript-eslint/require-await",
@@ -6519,7 +6519,7 @@
 		"eslint": [
 			{
 				"name": "no-async-promise-executor",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-async-promise-executor"
 			}
 		],
 		"flint": {
@@ -6659,7 +6659,7 @@
 		"eslint": [
 			{
 				"name": "no-duplicate-case",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-duplicate-case"
 			}
 		],
 		"flint": {
@@ -6702,7 +6702,7 @@
 		"eslint": [
 			{
 				"name": "no-fallthrough",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-fallthrough"
 			}
 		],
 		"flint": {
@@ -6762,7 +6762,7 @@
 		"eslint": [
 			{
 				"name": "preserve-caught-error",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/preserve-caught-error"
 			}
 		],
 		"flint": {
@@ -6820,7 +6820,7 @@
 		"eslint": [
 			{
 				"name": "prefer-const",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-const"
 			}
 		],
 		"flint": {
@@ -6918,7 +6918,7 @@
 		"eslint": [
 			{
 				"name": "no-debugger",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-debugger"
 			}
 		],
 		"flint": {
@@ -6955,7 +6955,7 @@
 		"eslint": [
 			{
 				"name": "default-case-last",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/default-case-last"
 			}
 		],
 		"flint": {
@@ -7066,7 +7066,7 @@
 		"eslint": [
 			{
 				"name": "no-dupe-else-if",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-dupe-else-if"
 			}
 		],
 		"flint": {
@@ -7108,7 +7108,7 @@
 		"eslint": [
 			{
 				"name": "no-empty-pattern",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-empty-pattern"
 			}
 		],
 		"flint": {
@@ -7387,7 +7387,7 @@
 		"eslint": [
 			{
 				"name": "eqeqeq",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/eqeqeq"
 			}
 		],
 		"flint": {
@@ -7516,7 +7516,7 @@
 		"eslint": [
 			{
 				"name": "no-eval",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-eval"
 			}
 		],
 		"flint": {
@@ -7559,7 +7559,7 @@
 		"eslint": [
 			{
 				"name": "no-ex-assign",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-ex-assign"
 			}
 		],
 		"flint": {
@@ -7788,7 +7788,7 @@
 		"eslint": [
 			{
 				"name": "no-new-func",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-new-func"
 			}
 		],
 		"flint": {
@@ -7829,7 +7829,7 @@
 		"eslint": [
 			{
 				"name": "require-yield",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/require-yield"
 			}
 		],
 		"flint": {
@@ -7889,7 +7889,7 @@
 		"eslint": [
 			{
 				"name": "no-implied-eval",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-implied-eval"
 			},
 			{
 				"name": "@typescript-eslint/no-implied-eval",
@@ -8089,7 +8089,7 @@
 		"eslint": [
 			{
 				"name": "use-isnan",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/use-isnan"
 			}
 		],
 		"flint": {
@@ -8299,7 +8299,7 @@
 		"eslint": [
 			{
 				"name": "no-compare-neg-zero",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-compare-neg-zero"
 			}
 		],
 		"flint": {
@@ -8373,7 +8373,7 @@
 		"eslint": [
 			{
 				"name": "no-new",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-new"
 			}
 		],
 		"flint": {
@@ -8420,7 +8420,7 @@
 		"eslint": [
 			{
 				"name": "no-new-native-nonconstructor",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-new-native-nonconstructor"
 			}
 		],
 		"flint": {
@@ -8620,7 +8620,7 @@
 		"eslint": [
 			{
 				"name": "prefer-numeric-literals",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-numeric-literals"
 			}
 		],
 		"flint": {
@@ -8656,7 +8656,7 @@
 		"eslint": [
 			{
 				"name": "no-loss-of-precision",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-loss-of-precision"
 			},
 			{
 				"name": "@typescript-eslint/no-loss-of-precision",
@@ -8690,7 +8690,7 @@
 		"eslint": [
 			{
 				"name": "no-object-constructor",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-object-constructor"
 			}
 		],
 		"flint": {
@@ -8725,7 +8725,7 @@
 		"eslint": [
 			{
 				"name": "no-dupe-keys",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-dupe-keys"
 			}
 		],
 		"flint": {
@@ -8760,7 +8760,7 @@
 		"eslint": [
 			{
 				"name": "no-prototype-builtins",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-prototype-builtins"
 			}
 		],
 		"flint": {
@@ -8855,7 +8855,7 @@
 		"eslint": [
 			{
 				"name": "radix",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/radix"
 			}
 		],
 		"flint": {
@@ -8914,7 +8914,7 @@
 		"eslint": [
 			{
 				"name": "no-promise-executor-return",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-promise-executor-return"
 			}
 		],
 		"flint": {
@@ -8994,7 +8994,7 @@
 		"eslint": [
 			{
 				"name": "prefer-promise-reject-errors",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-promise-reject-errors"
 			},
 			{
 				"name": "@typescript-eslint/prefer-promise-reject-errors",
@@ -9220,7 +9220,7 @@
 		"eslint": [
 			{
 				"name": "no-control-regex",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-control-regex"
 			},
 			{
 				"name": "regexp/no-control-character",
@@ -9637,7 +9637,7 @@
 		"eslint": [
 			{
 				"name": "no-misleading-character-class",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-misleading-character-class"
 			},
 			{
 				"name": "regexp/no-misleading-unicode-character",
@@ -9664,7 +9664,7 @@
 		"eslint": [
 			{
 				"name": "prefer-named-capture-group",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-named-capture-group"
 			},
 			{
 				"name": "regexp/prefer-named-capture-group",
@@ -9894,7 +9894,7 @@
 		"eslint": [
 			{
 				"name": "no-useless-backreference",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-useless-backreference"
 			},
 			{
 				"name": "regexp/no-useless-backreference",
@@ -10264,7 +10264,7 @@
 		"eslint": [
 			{
 				"name": "no-invalid-regexp",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-invalid-regexp"
 			},
 			{
 				"name": "regexp/no-invalid-regexp",
@@ -10428,7 +10428,7 @@
 		"eslint": [
 			{
 				"name": "no-self-assign",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-self-assign"
 			}
 		],
 		"flint": {
@@ -10471,7 +10471,7 @@
 		"eslint": [
 			{
 				"name": "no-self-compare",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-self-compare"
 			}
 		],
 		"flint": {
@@ -10518,7 +10518,7 @@
 		"eslint": [
 			{
 				"name": "one-var",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/one-var"
 			}
 		],
 		"flint": {
@@ -10624,7 +10624,7 @@
 		"eslint": [
 			{
 				"name": "consistent-this",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/consistent-this"
 			}
 		],
 		"flint": {
@@ -10658,7 +10658,7 @@
 		"eslint": [
 			{
 				"name": "no-throw-literal",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-throw-literal"
 			},
 			{
 				"name": "@typescript-eslint/only-throw-errors",
@@ -10899,7 +10899,7 @@
 		"eslint": [
 			{
 				"name": "no-extra-bind",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-extra-bind"
 			}
 		],
 		"flint": {
@@ -10934,7 +10934,7 @@
 		"eslint": [
 			{
 				"name": "no-useless-catch",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-useless-catch"
 			}
 		],
 		"flint": {
@@ -11041,7 +11041,7 @@
 		"eslint": [
 			{
 				"name": "no-useless-call",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-useless-call"
 			}
 		],
 		"flint": {
@@ -11495,7 +11495,7 @@
 		"eslint": [
 			{
 				"name": "no-unsafe-finally",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-unsafe-finally"
 			}
 		],
 		"flint": {
@@ -11613,7 +11613,7 @@
 		"eslint": [
 			{
 				"name": "no-unused-expressions",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-unused-expressions"
 			},
 			{
 				"name": "@typescript-eslint/no-unused-expressions",
@@ -11652,7 +11652,7 @@
 		"eslint": [
 			{
 				"name": "no-unused-private-class-members",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-unused-private-class-members"
 			}
 		],
 		"flint": {
@@ -11718,7 +11718,7 @@
 		"eslint": [
 			{
 				"name": "no-useless-assignment",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-useless-assignment"
 			}
 		],
 		"flint": {
@@ -11756,7 +11756,7 @@
 		"eslint": [
 			{
 				"name": "no-unused-vars",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-unused-vars"
 			},
 			{
 				"name": "@typescript-eslint/no-unused-vars",
@@ -11803,7 +11803,7 @@
 		"eslint": [
 			{
 				"name": "no-with",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-with"
 			}
 		],
 		"flint": {
@@ -11868,7 +11868,7 @@
 		"eslint": [
 			{
 				"name": "no-console",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-console"
 			}
 		],
 		"flint": {
@@ -11905,7 +11905,7 @@
 		"eslint": [
 			{
 				"name": "no-constructor-return",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-constructor-return"
 			}
 		],
 		"flint": {
@@ -11976,7 +11976,7 @@
 		"eslint": [
 			{
 				"name": "no-await-in-loop",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-await-in-loop"
 			}
 		],
 		"flint": {
@@ -12007,7 +12007,7 @@
 		"eslint": [
 			{
 				"name": "no-loop-func",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-loop-func"
 			},
 			{
 				"name": "@typescript-eslint/no-loop-func",
@@ -12033,7 +12033,7 @@
 		"eslint": [
 			{
 				"name": "require-unicode-regexp",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/require-unicode-regexp"
 			},
 			{
 				"name": "regexp/require-unicode-regexp",
@@ -12065,7 +12065,7 @@
 		"eslint": [
 			{
 				"name": "no-restricted-globals",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-restricted-globals"
 			}
 		],
 		"flint": {
@@ -12095,7 +12095,7 @@
 		"eslint": [
 			{
 				"name": "id-denylist",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/id-denylist"
 			}
 		],
 		"flint": {
@@ -12117,7 +12117,7 @@
 		"eslint": [
 			{
 				"name": "no-restricted-properties",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-restricted-properties"
 			}
 		],
 		"flint": {
@@ -12139,7 +12139,7 @@
 		"eslint": [
 			{
 				"name": "no-restricted-syntax",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-restricted-syntax"
 			}
 		],
 		"flint": {
@@ -12212,7 +12212,7 @@
 		"eslint": [
 			{
 				"name": "accessor-pairs",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/accessor-pairs"
 			}
 		],
 		"flint": {
@@ -12256,7 +12256,7 @@
 		"eslint": [
 			{
 				"name": "no-caller",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-caller"
 			}
 		],
 		"flint": {
@@ -12459,7 +12459,7 @@
 		"eslint": [
 			{
 				"name": "arrow-body-style",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/arrow-body-style"
 			}
 		],
 		"flint": {
@@ -12494,7 +12494,7 @@
 		"eslint": [
 			{
 				"name": "prefer-arrow-callback",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-arrow-callback"
 			}
 		],
 		"flint": {
@@ -12561,7 +12561,7 @@
 		"eslint": [
 			{
 				"name": "require-atomic-updates",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/require-atomic-updates"
 			}
 		],
 		"flint": {
@@ -12662,7 +12662,7 @@
 		"eslint": [
 			{
 				"name": "no-bitwise",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-bitwise"
 			}
 		],
 		"flint": {
@@ -12698,7 +12698,7 @@
 		"eslint": [
 			{
 				"name": "curly",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/curly"
 			}
 		],
 		"flint": {
@@ -12785,7 +12785,7 @@
 		"eslint": [
 			{
 				"name": "new-cap",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/new-cap"
 			}
 		],
 		"flint": {
@@ -12814,7 +12814,7 @@
 		"eslint": [
 			{
 				"name": "capitalized-comments",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/capitalized-comments"
 			}
 		],
 		"flint": {
@@ -12836,7 +12836,7 @@
 		"eslint": [
 			{
 				"name": "no-warning-comments",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-warning-comments"
 			}
 		],
 		"flint": {
@@ -12887,7 +12887,7 @@
 		"eslint": [
 			{
 				"name": "no-cond-assign",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-cond-assign"
 			}
 		],
 		"flint": {
@@ -12926,7 +12926,7 @@
 		"eslint": [
 			{
 				"name": "no-negated-condition",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-negated-condition"
 			},
 			{
 				"name": "unicorn/no-negated-condition",
@@ -12966,7 +12966,7 @@
 		"eslint": [
 			{
 				"name": "yoda",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/yoda"
 			}
 		],
 		"flint": {
@@ -12996,7 +12996,7 @@
 		"eslint": [
 			{
 				"name": "consistent-return",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/consistent-return"
 			},
 			{
 				"name": "@typescript-eslint/consistent-return",
@@ -13028,7 +13028,7 @@
 		"eslint": [
 			{
 				"name": "no-constant-binary-expression",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-constant-binary-expression"
 			}
 		],
 		"flint": {
@@ -13072,7 +13072,7 @@
 		"eslint": [
 			{
 				"name": "no-constant-condition",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-constant-condition"
 			}
 		],
 		"flint": {
@@ -13127,7 +13127,7 @@
 		"eslint": [
 			{
 				"name": "no-continue",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-continue"
 			}
 		],
 		"flint": {
@@ -13162,7 +13162,7 @@
 		"eslint": [
 			{
 				"name": "default-case",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/default-case"
 			}
 		],
 		"flint": {
@@ -13251,7 +13251,7 @@
 		"eslint": [
 			{
 				"name": "prefer-destructuring",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-destructuring"
 			},
 			{
 				"name": "@typescript-eslint/prefer-destructuring",
@@ -13812,7 +13812,7 @@
 		"eslint": [
 			{
 				"name": "func-style",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/func-style"
 			}
 		],
 		"flint": {
@@ -13841,7 +13841,7 @@
 		"eslint": [
 			{
 				"name": "func-name-matching",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/func-name-matching"
 			}
 		],
 		"flint": {
@@ -13863,7 +13863,7 @@
 		"eslint": [
 			{
 				"name": "func-names",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/func-names"
 			}
 		],
 		"flint": {
@@ -13964,7 +13964,7 @@
 		"eslint": [
 			{
 				"name": "id-match",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/id-match"
 			}
 		],
 		"flint": {
@@ -14021,7 +14021,7 @@
 		"eslint": [
 			{
 				"name": "no-implicit-coercion",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-implicit-coercion"
 			}
 		],
 		"flint": {
@@ -14275,7 +14275,7 @@
 		"eslint": [
 			{
 				"name": "no-inline-comments",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-inline-comments"
 			}
 		],
 		"flint": {
@@ -14309,7 +14309,7 @@
 		"eslint": [
 			{
 				"name": "no-inner-declarations",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-inner-declarations"
 			}
 		],
 		"flint": {
@@ -15155,7 +15155,7 @@
 		"eslint": [
 			{
 				"name": "no-labels",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-labels"
 			}
 		],
 		"flint": {
@@ -15191,7 +15191,7 @@
 		"eslint": [
 			{
 				"name": "no-label-var",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-label-var"
 			}
 		],
 		"flint": {
@@ -15221,7 +15221,7 @@
 		"eslint": [
 			{
 				"name": "no-unmodified-loop-condition",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-unmodified-loop-condition"
 			}
 		],
 		"flint": {
@@ -15249,7 +15249,7 @@
 		"eslint": [
 			{
 				"name": "no-magic-numbers",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-magic-numbers"
 			},
 			{
 				"name": "@typescript-eslint/no-magic-numbers",
@@ -15341,7 +15341,7 @@
 		"eslint": [
 			{
 				"name": "max-classes-per-file",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/max-classes-per-file"
 			}
 		],
 		"flint": {
@@ -15370,7 +15370,7 @@
 		"eslint": [
 			{
 				"name": "complexity",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/complexity"
 			}
 		],
 		"flint": {
@@ -15392,7 +15392,7 @@
 		"eslint": [
 			{
 				"name": "max-depth",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/max-depth"
 			}
 		],
 		"flint": {
@@ -15421,7 +15421,7 @@
 		"eslint": [
 			{
 				"name": "id-length",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/id-length"
 			}
 		],
 		"flint": {
@@ -15450,7 +15450,7 @@
 		"eslint": [
 			{
 				"name": "max-lines",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/max-lines"
 			}
 		],
 		"flint": {
@@ -15485,7 +15485,7 @@
 		"eslint": [
 			{
 				"name": "max-lines-per-function",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/max-lines-per-function"
 			}
 		],
 		"flint": {
@@ -15515,7 +15515,7 @@
 		"eslint": [
 			{
 				"name": "max-nested-callbacks",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/max-nested-callbacks"
 			}
 		],
 		"flint": {
@@ -15550,7 +15550,7 @@
 		"eslint": [
 			{
 				"name": "max-params",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/max-params"
 			},
 			{
 				"name": "@typescript-eslint/max-params",
@@ -15584,7 +15584,7 @@
 		"eslint": [
 			{
 				"name": "max-statements",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/max-statements"
 			}
 		],
 		"flint": {
@@ -15814,7 +15814,7 @@
 		"eslint": [
 			{
 				"name": "camelcase",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/camelcase"
 			},
 			{
 				"name": "@typescript-eslint/naming-conventions",
@@ -15842,7 +15842,7 @@
 		"eslint": [
 			{
 				"name": "no-eq-null",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-eq-null"
 			}
 		],
 		"flint": {
@@ -16093,7 +16093,7 @@
 		"eslint": [
 			{
 				"name": "no-plusplus",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-plusplus"
 			}
 		],
 		"flint": {
@@ -16458,7 +16458,7 @@
 		"eslint": [
 			{
 				"name": "no-iterator",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-iterator"
 			}
 		],
 		"flint": {
@@ -16583,7 +16583,7 @@
 		"eslint": [
 			{
 				"name": "no-regex-spaces",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-regex-spaces"
 			}
 		],
 		"flint": {
@@ -16614,7 +16614,7 @@
 		"eslint": [
 			{
 				"name": "no-div-regex",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-div-regex"
 			}
 		],
 		"flint": {
@@ -16709,7 +16709,7 @@
 		"eslint": [
 			{
 				"name": "no-restricted-exports",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-restricted-exports"
 			}
 		],
 		"flint": {
@@ -16847,7 +16847,7 @@
 		"eslint": [
 			{
 				"name": "prefer-template",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-template"
 			}
 		],
 		"flint": {
@@ -16985,7 +16985,7 @@
 		"eslint": [
 			{
 				"name": "no-template-curly-in-string",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-template-curly-in-string"
 			}
 		],
 		"flint": {
@@ -17132,7 +17132,7 @@
 		"eslint": [
 			{
 				"name": "no-nested-ternary",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-nested-ternary"
 			},
 			{
 				"name": "unicorn/no-nested-ternary",
@@ -17170,7 +17170,7 @@
 		"eslint": [
 			{
 				"name": "no-ternary",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-ternary"
 			}
 		],
 		"flint": {
@@ -17337,7 +17337,7 @@
 		"eslint": [
 			{
 				"name": "no-undefined",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-undefined"
 			}
 		],
 		"flint": {
@@ -17366,7 +17366,7 @@
 		"eslint": [
 			{
 				"name": "no-underscore-dangle",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-underscore-dangle"
 			}
 		],
 		"flint": {
@@ -17394,7 +17394,7 @@
 		"eslint": [
 			{
 				"name": "no-extra-label",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-extra-label"
 			}
 		],
 		"flint": {
@@ -17470,7 +17470,7 @@
 		"eslint": [
 			{
 				"name": "no-unreachable-loop",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-unreachable-loop"
 			}
 		],
 		"flint": {
@@ -17567,7 +17567,7 @@
 		"eslint": [
 			{
 				"name": "init-declarations",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/init-declarations"
 			},
 			{
 				"name": "@typescript-eslint/init-declarations",
@@ -17600,7 +17600,7 @@
 		"eslint": [
 			{
 				"name": "sort-vars",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/sort-vars"
 			}
 		],
 		"flint": {
@@ -17629,7 +17629,7 @@
 		"eslint": [
 			{
 				"name": "vars-on-top",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/vars-on-top"
 			}
 		],
 		"flint": {
@@ -18212,7 +18212,7 @@
 		"eslint": [
 			{
 				"name": "logical-assignment-operators",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/logical-assignment-operators"
 			}
 		],
 		"flint": {
@@ -18363,7 +18363,7 @@
 		"eslint": [
 			{
 				"name": "no-multi-assign",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-multi-assign"
 			}
 		],
 		"flint": {
@@ -18414,7 +18414,7 @@
 		"eslint": [
 			{
 				"name": "class-methods-use-this",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/class-methods-use-this"
 			},
 			{
 				"name": "@typescript-eslint/class-methods-use-this",
@@ -18566,7 +18566,7 @@
 		"eslint": [
 			{
 				"name": "no-else-return",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-else-return"
 			}
 		],
 		"flint": {
@@ -18610,7 +18610,7 @@
 		"eslint": [
 			{
 				"name": "no-empty",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-empty"
 			}
 		],
 		"flint": {
@@ -18678,7 +18678,7 @@
 		"eslint": [
 			{
 				"name": "no-empty-function",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-empty-function"
 			},
 			{
 				"name": "@typescript-eslint/no-empty-function",
@@ -18742,7 +18742,7 @@
 		"eslint": [
 			{
 				"name": "no-empty-static-block",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-empty-static-block"
 			}
 		],
 		"flint": {
@@ -18831,7 +18831,7 @@
 		"eslint": [
 			{
 				"name": "prefer-exponentiation-operator",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-exponentiation-operator"
 			}
 		],
 		"flint": {
@@ -18902,7 +18902,7 @@
 		"eslint": [
 			{
 				"name": "for-direction",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/for-direction"
 			}
 		],
 		"flint": {
@@ -18933,7 +18933,7 @@
 		"eslint": [
 			{
 				"name": "prefer-spread",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-spread"
 			},
 			{
 				"name": "unicorn/prefer-spread",
@@ -19114,7 +19114,7 @@
 		"eslint": [
 			{
 				"name": "grouped-accessor-pairs",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/grouped-accessor-pairs"
 			}
 		],
 		"flint": {
@@ -19769,7 +19769,7 @@
 		"eslint": [
 			{
 				"name": "no-unexpected-multiline",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-unexpected-multiline"
 			}
 		],
 		"flint": {
@@ -19934,7 +19934,7 @@
 		"eslint": [
 			{
 				"name": "no-lonely-if",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-lonely-if"
 			},
 			{
 				"name": "unicorn/no-lonely-if",
@@ -20171,7 +20171,7 @@
 		"eslint": [
 			{
 				"name": "prefer-object-spread",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-object-spread"
 			}
 		],
 		"flint": {
@@ -20238,7 +20238,7 @@
 		"eslint": [
 			{
 				"name": "prefer-object-has-own",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/prefer-object-has-own"
 			}
 		],
 		"flint": {
@@ -20274,7 +20274,7 @@
 		"eslint": [
 			{
 				"name": "object-shorthand",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/object-shorthand"
 			}
 		],
 		"flint": {
@@ -20339,7 +20339,7 @@
 		"eslint": [
 			{
 				"name": "operator-assignment",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/operator-assignment"
 			}
 		],
 		"flint": {
@@ -20447,7 +20447,7 @@
 		"eslint": [
 			{
 				"name": "no-param-reassign",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-param-reassign"
 			}
 		],
 		"flint": {
@@ -20507,7 +20507,7 @@
 		"eslint": [
 			{
 				"name": "dot-notation",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/dot-notation"
 			},
 			{
 				"name": "@typescript-eslint/dot-notation",
@@ -21158,7 +21158,7 @@
 		"eslint": [
 			{
 				"name": "no-return-assign",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-return-assign"
 			}
 		],
 		"flint": {
@@ -21255,7 +21255,7 @@
 		"eslint": [
 			{
 				"name": "no-shadow",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-shadow"
 			},
 			{
 				"name": "@typescript-eslint/no-shadow",
@@ -21500,7 +21500,7 @@
 		"eslint": [
 			{
 				"name": "symbol-description",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/symbol-description"
 			}
 		],
 		"flint": {
@@ -21666,7 +21666,7 @@
 		"eslint": [
 			{
 				"name": "no-undef-init",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-undef-init"
 			}
 		],
 		"flint": {
@@ -21721,7 +21721,7 @@
 		"eslint": [
 			{
 				"name": "unicode-bom",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/unicode-bom"
 			}
 		],
 		"flint": {
@@ -21756,7 +21756,7 @@
 		"eslint": [
 			{
 				"name": "no-lone-blocks",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-lone-blocks"
 			}
 		],
 		"flint": {
@@ -21798,7 +21798,7 @@
 		"eslint": [
 			{
 				"name": "no-extra-boolean-cast",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-extra-boolean-cast"
 			}
 		],
 		"flint": {
@@ -21835,7 +21835,7 @@
 		"eslint": [
 			{
 				"name": "no-useless-computed-key",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-useless-computed-key"
 			}
 		],
 		"flint": {
@@ -21864,7 +21864,7 @@
 		"eslint": [
 			{
 				"name": "no-useless-concat",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-useless-concat"
 			}
 		],
 		"flint": {
@@ -21900,7 +21900,7 @@
 		"eslint": [
 			{
 				"name": "no-useless-constructor",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-useless-constructor"
 			},
 			{
 				"name": "@typescript-eslint/no-useless-constructor",
@@ -21946,7 +21946,7 @@
 		"eslint": [
 			{
 				"name": "no-useless-rename",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-useless-rename"
 			}
 		],
 		"flint": {
@@ -21977,7 +21977,7 @@
 		"eslint": [
 			{
 				"name": "no-useless-return",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-useless-return"
 			}
 		],
 		"flint": {
@@ -22085,7 +22085,7 @@
 		"eslint": [
 			{
 				"name": "no-unused-labels",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-unused-labels"
 			}
 		],
 		"flint": {
@@ -22128,7 +22128,7 @@
 		"eslint": [
 			{
 				"name": "no-var",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-var"
 			}
 		],
 		"flint": {
@@ -22158,7 +22158,7 @@
 		"eslint": [
 			{
 				"name": "no-void",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-void"
 			}
 		],
 		"flint": {
@@ -22194,7 +22194,7 @@
 		"eslint": [
 			{
 				"name": "array-callback-return",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/array-callback-return"
 			}
 		],
 		"flint": {
@@ -22236,7 +22236,7 @@
 		"eslint": [
 			{
 				"name": "no-case-declarations",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-case-declarations"
 			}
 		],
 		"flint": {
@@ -22279,7 +22279,7 @@
 		"eslint": [
 			{
 				"name": "no-class-assign",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-class-assign"
 			}
 		],
 		"flint": {
@@ -22346,7 +22346,7 @@
 		"eslint": [
 			{
 				"name": "no-dupe-class-members",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-dupe-class-members"
 			},
 			{
 				"name": "@typescript-eslint/no-dupe-class-members",
@@ -22393,7 +22393,7 @@
 		"eslint": [
 			{
 				"name": "no-const-assign",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-const-assign"
 			}
 		],
 		"flint": {
@@ -22436,7 +22436,7 @@
 		"eslint": [
 			{
 				"name": "constructor-super",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/constructor-super"
 			}
 		],
 		"flint": {
@@ -22472,7 +22472,7 @@
 		"eslint": [
 			{
 				"name": "default-param-last",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/default-param-last"
 			},
 			{
 				"name": "@typescript-eslint/default-param-last",
@@ -22519,7 +22519,7 @@
 		"eslint": [
 			{
 				"name": "no-dupe-args",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-dupe-args"
 			}
 		],
 		"flint": {
@@ -22555,7 +22555,7 @@
 		"eslint": [
 			{
 				"name": "no-func-assign",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-func-assign"
 			}
 		],
 		"flint": {
@@ -22598,7 +22598,7 @@
 		"eslint": [
 			{
 				"name": "getter-return",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/getter-return"
 			}
 		],
 		"flint": {
@@ -22641,7 +22641,7 @@
 		"eslint": [
 			{
 				"name": "no-global-assign",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-global-assign"
 			}
 		],
 		"flint": {
@@ -22684,7 +22684,7 @@
 		"eslint": [
 			{
 				"name": "no-obj-calls",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-obj-calls"
 			}
 		],
 		"flint": {
@@ -22727,7 +22727,7 @@
 		"eslint": [
 			{
 				"name": "guard-for-in",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/guard-for-in"
 			}
 		],
 		"flint": {
@@ -22770,7 +22770,7 @@
 		"eslint": [
 			{
 				"name": "no-import-assign",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-import-assign"
 			}
 		],
 		"flint": {
@@ -22794,7 +22794,7 @@
 		"eslint": [
 			{
 				"name": "no-invalid-this",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-invalid-this"
 			},
 			{
 				"name": "@typescript-eslint/no-invalid-this",
@@ -22820,7 +22820,7 @@
 		"eslint": [
 			{
 				"name": "no-extend-native",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-extend-native"
 			}
 		],
 		"flint": {
@@ -22855,7 +22855,7 @@
 		"eslint": [
 			{
 				"name": "no-nonoctal-decimal-escape",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-nonoctal-decimal-escape"
 			}
 		],
 		"flint": {
@@ -22885,7 +22885,7 @@
 		"eslint": [
 			{
 				"name": "no-proto",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-proto"
 			}
 		],
 		"flint": {
@@ -22926,7 +22926,7 @@
 		"eslint": [
 			{
 				"name": "no-octal-escape",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-octal-escape"
 			}
 		],
 		"flint": {
@@ -22950,7 +22950,7 @@
 		"eslint": [
 			{
 				"name": "no-octal",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-octal"
 			}
 		],
 		"flint": {
@@ -22978,7 +22978,7 @@
 		"eslint": [
 			{
 				"name": "no-sequences",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-sequences"
 			}
 		],
 		"flint": {
@@ -23013,7 +23013,7 @@
 		"eslint": [
 			{
 				"name": "no-setter-return",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-setter-return"
 			}
 		],
 		"flint": {
@@ -23056,7 +23056,7 @@
 		"eslint": [
 			{
 				"name": "no-shadow-restricted-names",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-shadow-restricted-names"
 			}
 		],
 		"flint": {
@@ -23099,7 +23099,7 @@
 		"eslint": [
 			{
 				"name": "no-this-before-super",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-this-before-super"
 			}
 		],
 		"flint": {
@@ -23142,7 +23142,7 @@
 		"eslint": [
 			{
 				"name": "valid-typeof",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/valid-typeof"
 			}
 		],
 		"flint": {
@@ -23179,7 +23179,7 @@
 		"eslint": [
 			{
 				"name": "no-unassigned-vars",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-unassigned-vars"
 			}
 		],
 		"flint": {
@@ -23215,7 +23215,7 @@
 		"eslint": [
 			{
 				"name": "no-undef",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-undef"
 			}
 		],
 		"flint": {
@@ -23257,7 +23257,7 @@
 		"eslint": [
 			{
 				"name": "no-unreachable",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-unreachable"
 			}
 		],
 		"flint": {
@@ -23300,7 +23300,7 @@
 		"eslint": [
 			{
 				"name": "no-unsafe-negation",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-unsafe-negation"
 			}
 		],
 		"flint": {
@@ -23337,7 +23337,7 @@
 		"eslint": [
 			{
 				"name": "no-unsafe-optional-chaining",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-unsafe-optional-chaining"
 			}
 		],
 		"flint": {
@@ -23373,7 +23373,7 @@
 		"eslint": [
 			{
 				"name": "no-use-before-define",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-use-before-define"
 			},
 			{
 				"name": "@typescript-eslint/no-use-before-define",
@@ -23400,7 +23400,7 @@
 		"eslint": [
 			{
 				"name": "strict",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/strict"
 			}
 		],
 		"flint": {
@@ -23422,7 +23422,7 @@
 		"eslint": [
 			{
 				"name": "block-scoped-var",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/block-scoped-var"
 			}
 		],
 		"flint": {
@@ -23457,7 +23457,7 @@
 		"eslint": [
 			{
 				"name": "no-delete-var",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-delete-var"
 			}
 		],
 		"flint": {
@@ -23499,7 +23499,7 @@
 		"eslint": [
 			{
 				"name": "no-redeclare",
-				"url": "https://eslint.org/docs/latest/rules/undefined"
+				"url": "https://eslint.org/docs/latest/rules/no-redeclare"
 			},
 			{
 				"name": "@typescript-eslint/no-redeclare",

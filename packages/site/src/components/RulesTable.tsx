@@ -31,7 +31,12 @@ function renderLinks(linter: Linter, rule: Rule) {
 	}
 
 	return rule[linter].map((reference) => (
-		<a href={reference.url} key={reference.name} target="_blank">
+		<a
+			data-wat={JSON.stringify(reference)}
+			href={reference.url}
+			key={reference.name}
+			target="_blank"
+		>
 			<code>{reference.name}</code>
 		</a>
 	));
