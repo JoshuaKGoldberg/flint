@@ -292,10 +292,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Superseded by deprecated",
-		"raw": {
-			"Notes": "Superseded by deprecated"
-		}
+		"notes": "Superseded by deprecated"
 	},
 	"windowMessagingTargetOrigin": {
 		"eslint": [
@@ -504,10 +501,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"binaryExpressions": {
 		"eslint": [
@@ -524,10 +518,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"binaryNumericLiterals": {
 		"eslint": [
@@ -544,10 +535,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"comments": {
 		"eslint": [
@@ -564,10 +552,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"floatingDecimals": {
 		"eslint": [
@@ -584,10 +569,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"hexadecimalNumericLiterals": {
 		"eslint": [
@@ -604,10 +586,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"identifierEscapeSequences": {
 		"eslint": [
@@ -624,10 +603,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"identifierNumbers": {
 		"eslint": [
@@ -644,10 +620,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"infinity": {
 		"eslint": [
@@ -664,10 +637,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"irregularWhitespace": {
 		"eslint": [
@@ -754,10 +724,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"numbers": {
 		"eslint": [
@@ -774,10 +741,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"numericSeparators": {
 		"eslint": [
@@ -794,10 +758,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"octalEscapeSequences": {
 		"eslint": [
@@ -814,10 +775,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"octalLiterals": {
 		"eslint": [
@@ -834,10 +792,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"octalNumericLiterals": {
 		"eslint": [
@@ -854,10 +809,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"parentheses": {
 		"eslint": [
@@ -874,10 +826,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"plusOperators": {
 		"eslint": [
@@ -894,10 +843,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"regexLiterals": {
 		"biome": [
@@ -973,10 +919,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"topLevelInteroperability": {
 		"eslint": [
@@ -1009,10 +952,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"unicodeCodepointEscapes": {
 		"eslint": [
@@ -1029,10 +969,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Generally handled by parsers.",
-		"raw": {
-			"Notes": "Generally handled by parsers."
-		}
+		"notes": "Generally handled by parsers."
 	},
 	"unnecessaryEscapes": {
 		"biome": [
@@ -2279,10 +2216,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "I intend to write a Prettier plugin.",
-		"raw": {
-			"Notes": "I intend to write a Prettier plugin."
-		}
+		"notes": "I intend to write a Prettier plugin."
 	},
 	"html": {
 		"eslint": [
@@ -2350,10 +2284,7 @@
 			"preset": "Stylistic",
 			"strictness": "Strict"
 		},
-		"notes": "Enable with Markdownlint's siblings_only equivalent",
-		"raw": {
-			"Notes": "Enable with Markdownlint's siblings_only equivalent"
-		}
+		"notes": "Enable with Markdownlint's siblings_only equivalent"
 	},
 	"mediaSyntaxReversals": {
 		"eslint": [
@@ -2697,8 +2628,7 @@
 		},
 		"notes": "Superseded by deprecated",
 		"raw": {
-			"Deno Lint Name": "no-deprecated-deno-api",
-			"Notes": "Superseded by deprecated"
+			"Deno Lint Name": "no-deprecated-deno-api"
 		}
 	},
 	"exportsStyle": {
@@ -2716,10 +2646,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "CJS-specific",
-		"raw": {
-			"Notes": "CJS-specific"
-		}
+		"notes": "CJS-specific"
 	},
 	"extraneousImports": {
 		"eslint": [
@@ -2736,10 +2663,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Superseded by Knip",
-		"raw": {
-			"Notes": "Superseded by Knip"
-		}
+		"notes": "Superseded by Knip"
 	},
 	"extraneousRequires": {
 		"eslint": [
@@ -2756,10 +2680,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Superseded by Knip",
-		"raw": {
-			"Notes": "Superseded by Knip"
-		}
+		"notes": "Superseded by Knip"
 	},
 	"globalBuffer": {
 		"eslint": [
@@ -2935,10 +2856,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Superseded by ESM and ordering rules",
-		"raw": {
-			"Notes": "Superseded by ESM and ordering rules"
-		}
+		"notes": "Superseded by ESM and ordering rules"
 	},
 	"newRequires": {
 		"eslint": [
@@ -3160,10 +3078,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "CJS-specific",
-		"raw": {
-			"Notes": "CJS-specific"
-		}
+		"notes": "CJS-specific"
 	},
 	"unpublishedRequires": {
 		"eslint": [
@@ -5235,10 +5150,7 @@
 			},
 			"preset": "Logical"
 		},
-		"notes": "unicorn/consistent-date-clone",
-		"raw": {
-			"Notes": "unicorn/consistent-date-clone"
-		}
+		"notes": "unicorn/consistent-date-clone"
 	},
 	"dateNowTimestamps": {
 		"biome": [
@@ -5679,8 +5591,7 @@
 			}
 		],
 		"raw": {
-			"Deno Lint Name": "eqeqeq",
-			"Notes": "Default ESLint's \"smart\" to true"
+			"Deno Lint Name": "eqeqeq"
 		}
 	},
 	"errorMessages": {
@@ -6173,10 +6084,7 @@
 				"name": "unicorn/no-instanceof-builtins",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/no-instanceof-builtins.html"
 			}
-		],
-		"raw": {
-			"Notes": "Only for built-ins with a static .is* (Array)"
-		}
+		]
 	},
 	"invalidVoidTypes": {
 		"biome": [
@@ -6469,10 +6377,7 @@
 				"name": "oxc/missing-throw",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/oxc/missing-throw.html"
 			}
-		],
-		"raw": {
-			"Notes": "oxc/missing-throw is a subset"
-		}
+		]
 	},
 	"newNativeNonConstructors": {
 		"biome": [
@@ -8070,8 +7975,7 @@
 			}
 		],
 		"raw": {
-			"Deno Lint Name": "no-self-compare",
-			"Notes": "Superseded by unnecessaryConditions"
+			"Deno Lint Name": "no-self-compare"
 		}
 	},
 	"singleVariableDeclarations": {
@@ -9802,10 +9706,7 @@
 				"name": "eslint/curly",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/curly.html"
 			}
-		],
-		"raw": {
-			"Notes": "Superseded by prettier-plugin-curly"
-		}
+		]
 	},
 	"booleanLiteralParameterComments": {
 		"deno": [
@@ -9912,10 +9813,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Handled by TypeScript / otherwise is stylistic",
-		"raw": {
-			"Notes": "Handled by TypeScript / otherwise is stylistic"
-		}
+		"notes": "Handled by TypeScript / otherwise is stylistic"
 	},
 	"conditionalAssignments": {
 		"biome": [
@@ -9952,8 +9850,7 @@
 			}
 		],
 		"raw": {
-			"Deno Lint Name": "no-cond-assign",
-			"Notes": "Superseded by unnecessaryConditions"
+			"Deno Lint Name": "no-cond-assign"
 		}
 	},
 	"conditionNegations": {
@@ -10063,10 +9960,7 @@
 				"name": "eslint/no-constant-binary-expression",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-constant-binary-expression.html"
 			}
-		],
-		"raw": {
-			"Notes": "Superseded by unnecessaryConditions"
-		}
+		]
 	},
 	"constantConditions": {
 		"biome": [
@@ -10103,8 +9997,7 @@
 			}
 		],
 		"raw": {
-			"Deno Lint Name": "no-constant-condition",
-			"Notes": "Superseded by unnecessaryConditions"
+			"Deno Lint Name": "no-constant-condition"
 		}
 	},
 	"constEnums": {
@@ -10266,10 +10159,7 @@
 				"name": "unicorn/no-abusive-eslint-disable",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/no-abusive-eslint-disable.html"
 			}
-		],
-		"raw": {
-			"Notes": "Core requires explicit disables"
-		}
+		]
 	},
 	"directiveDuplicateDisables": {
 		"eslint": [
@@ -10286,10 +10176,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Core detects duplicate disables",
-		"raw": {
-			"Notes": "Core detects duplicate disables"
-		}
+		"notes": "Core detects duplicate disables"
 	},
 	"directiveMisleadingEnables": {
 		"eslint": [
@@ -10306,10 +10193,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Core requires explicit enables",
-		"raw": {
-			"Notes": "Core requires explicit enables"
-		}
+		"notes": "Core requires explicit enables"
 	},
 	"directiveRestrictedDisables": {
 		"eslint": [
@@ -10344,8 +10228,7 @@
 		},
 		"notes": "Handled by Flint core",
 		"raw": {
-			"Deno Lint Name": "ban-untagged-ignore",
-			"Notes": "Handled by Flint core"
+			"Deno Lint Name": "ban-untagged-ignore"
 		}
 	},
 	"directiveUnknownRules": {
@@ -10365,8 +10248,7 @@
 		},
 		"notes": "Handled by Flint core",
 		"raw": {
-			"Deno Lint Name": "ban-unknown-rule-code",
-			"Notes": "Handled by Flint core"
+			"Deno Lint Name": "ban-unknown-rule-code"
 		}
 	},
 	"directiveUnlimitedDisables": {
@@ -10384,10 +10266,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Core requires explicit disables",
-		"raw": {
-			"Notes": "Core requires explicit disables"
-		}
+		"notes": "Core requires explicit disables"
 	},
 	"directiveUnused": {
 		"deno": [
@@ -10406,8 +10285,7 @@
 		},
 		"notes": "Handled by Flint core",
 		"raw": {
-			"Deno Lint Name": "ban-unused-ignore",
-			"Notes": "Handled by Flint core"
+			"Deno Lint Name": "ban-unused-ignore"
 		}
 	},
 	"directiveUnusedDisables": {
@@ -10425,10 +10303,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Core detects unused disables",
-		"raw": {
-			"Notes": "Core detects unused disables"
-		}
+		"notes": "Core detects unused disables"
 	},
 	"directiveUnusedEnables": {
 		"eslint": [
@@ -10445,10 +10320,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Core detects unused enables",
-		"raw": {
-			"Notes": "Core detects unused enables"
-		}
+		"notes": "Core detects unused enables"
 	},
 	"endingTernaryIfElses": {
 		"eslint": [
@@ -10885,8 +10757,7 @@
 		},
 		"notes": "Generally handled by parsers.",
 		"raw": {
-			"Deno Lint Name": "no-import-assertions",
-			"Notes": "Generally handled by parsers."
+			"Deno Lint Name": "no-import-assertions"
 		}
 	},
 	"importDefaults": {
@@ -10910,10 +10781,7 @@
 				"name": "eslint/default",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/default.html"
 			}
-		],
-		"raw": {
-			"Notes": "Handled by TypeScript"
-		}
+		]
 	},
 	"importFirst": {
 		"eslint": [
@@ -11002,10 +10870,7 @@
 				"name": "eslint/namespace",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/namespace.html"
 			}
-		],
-		"raw": {
-			"Notes": "Handled by TypeScript"
-		}
+		]
 	},
 	"importNamespaces": {
 		"eslint": [
@@ -11113,10 +10978,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "I intend to write a Prettier plugin.",
-		"raw": {
-			"Notes": "I intend to write a Prettier plugin."
-		}
+		"notes": "I intend to write a Prettier plugin."
 	},
 	"jsdocBlankBlockDescriptions": {
 		"eslint": [
@@ -11283,10 +11145,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "I intend to write a Prettier plugin.",
-		"raw": {
-			"Notes": "I intend to write a Prettier plugin."
-		}
+		"notes": "I intend to write a Prettier plugin."
 	},
 	"jsdocLineAlignment": {
 		"eslint": [
@@ -11303,10 +11162,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "I intend to write a Prettier plugin.",
-		"raw": {
-			"Notes": "I intend to write a Prettier plugin."
-		}
+		"notes": "I intend to write a Prettier plugin."
 	},
 	"jsdocMatchDescriptions": {
 		"eslint": [
@@ -12467,10 +12323,7 @@
 				"name": "promise/always-return",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/promise/always-return.html"
 			}
-		],
-		"raw": {
-			"Notes": "Superseded by no-floating-promises"
-		}
+		]
 	},
 	"promiseArgumentCounts": {
 		"flint": {
@@ -12569,10 +12422,7 @@
 				"name": "promise/catch-or-return",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/promise/catch-or-return.html"
 			}
-		],
-		"raw": {
-			"Notes": "Superseded by no-floating-promises"
-		}
+		]
 	},
 	"promiseErrorFirstCallbacks": {
 		"flint": {
@@ -12589,10 +12439,7 @@
 				"name": "promise/no-promise-in-callback",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/promise/no-promise-in-callback.html"
 			}
-		],
-		"raw": {
-			"Notes": "Superseded by no-floating-promises"
-		}
+		]
 	},
 	"promiseNesting": {
 		"eslint": [
@@ -12669,10 +12516,7 @@
 				"name": "promise/spec-only",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/promise/spec-only.html"
 			}
-		],
-		"raw": {
-			"Notes": "Superseded by no-floating-promises"
-		}
+		]
 	},
 	"promiseParameterNames": {
 		"eslint": [
@@ -12778,10 +12622,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Superseded by other regex cleanliness rules",
-		"raw": {
-			"Notes": "Superseded by other regex cleanliness rules"
-		}
+		"notes": "Superseded by other regex cleanliness rules"
 	},
 	"regexConsecutiveSpaces": {
 		"biome": [
@@ -13188,8 +13029,7 @@
 		},
 		"notes": "Generally handled by parsers.",
 		"raw": {
-			"Deno Lint Name": "no-await-in-sync-fun",
-			"Notes": "Generally handled by parsers."
+			"Deno Lint Name": "no-await-in-sync-fun"
 		}
 	},
 	"templateIndents": {
@@ -13454,10 +13294,7 @@
 			},
 			"preset": "Not implementing"
 		},
-		"notes": "Superseded by the e18e initiative",
-		"raw": {
-			"Notes": "Superseded by the e18e initiative"
-		}
+		"notes": "Superseded by the e18e initiative"
 	},
 	"unnecessaryStringRaws": {
 		"biome": [
@@ -13512,10 +13349,7 @@
 				"name": "unicorn/prefer-optional-catch-binding",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/prefer-optional-catch-binding.html"
 			}
-		],
-		"raw": {
-			"Notes": "Superseded by unusedVariables"
-		}
+		]
 	},
 	"unusedObjectProperties": {
 		"eslint": [
@@ -14235,10 +14069,7 @@
 			"preset": "Stylistic",
 			"strictness": "Strict"
 		},
-		"notes": "Just for Array#push(); the others would be their own rules",
-		"raw": {
-			"Notes": "Just for Array#push(); the others would be their own rules"
-		}
+		"notes": "Just for Array#push(); the others would be their own rules"
 	},
 	"consecutiveNonNullAssertions": {
 		"biome": [
@@ -15208,10 +15039,7 @@
 			},
 			"preset": "Stylistic"
 		},
-		"notes": "Will apply to all literals, not just bigint",
-		"raw": {
-			"Notes": "Will apply to all literals, not just bigint"
-		}
+		"notes": "Will apply to all literals, not just bigint"
 	},
 	"mathMethods": {
 		"eslint": [
