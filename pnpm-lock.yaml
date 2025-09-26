@@ -293,8 +293,8 @@ importers:
         specifier: ^4.3.1
         version: 4.3.1(@types/node@24.5.0)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(jiti@2.5.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(yaml@2.8.1)
       '@astrojs/starlight':
-        specifier: ^0.35.2
-        version: 0.35.2(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
+        specifier: ^0.36.0
+        version: 0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
       '@flint.fyi/comparisons':
         specifier: 'workspace:'
         version: link:../comparisons
@@ -336,13 +336,13 @@ importers:
         version: 2.0.0
       starlight-links-validator:
         specifier: ^0.18.0
-        version: 0.18.0(@astrojs/starlight@0.35.2(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)))
+        version: 0.18.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)))
       starlight-package-managers:
         specifier: ^0.11.0
-        version: 0.11.0(@astrojs/starlight@0.35.2(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)))
+        version: 0.11.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)))
       starlight-sidebar-topics:
         specifier: ^0.6.0
-        version: 0.6.0(@astrojs/starlight@0.35.2(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)))
+        version: 0.6.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)))
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
@@ -470,8 +470,8 @@ packages:
   '@astrojs/sitemap@3.5.0':
     resolution: {integrity: sha512-ldOvoBxuRgpcdndzksskOTzU55g76tkHC/POpejUbPGz6zR4rJKiXh8thX4WEPWDhCTZUafhJ1qf7k1muStHfg==}
 
-  '@astrojs/starlight@0.35.2':
-    resolution: {integrity: sha512-curGghoW4s5pCbW2tINsJPoxEYPan87ptCOv7GZ+S24N3J6AyaOu/OsjZDEMaIpo3ZlObM5DQn+w7iXl3drDhQ==}
+  '@astrojs/starlight@0.36.0':
+    resolution: {integrity: sha512-aVJVBfvFuE2avsMDhmRzn6I5GjDhUwIQFlu3qH9a1C0fNsPYDw2asxHQODAD7EfGiKGvvHCJgHb+9jbJ8lCfNQ==}
     peerDependencies:
       astro: ^5.5.0
 
@@ -4970,7 +4970,7 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.25.76
 
-  '@astrojs/starlight@0.35.2(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))':
+  '@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))':
     dependencies:
       '@astrojs/markdown-remark': 6.3.6
       '@astrojs/mdx': 4.3.4(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
@@ -9426,9 +9426,9 @@ snapshots:
 
   stackback@0.0.2: {}
 
-  starlight-links-validator@0.18.0(@astrojs/starlight@0.35.2(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))):
+  starlight-links-validator@0.18.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))):
     dependencies:
-      '@astrojs/starlight': 0.35.2(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
+      '@astrojs/starlight': 0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
       '@types/picomatch': 3.0.2
       github-slugger: 2.0.0
       hast-util-from-html: 2.0.3
@@ -9443,13 +9443,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  starlight-package-managers@0.11.0(@astrojs/starlight@0.35.2(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))):
+  starlight-package-managers@0.11.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))):
     dependencies:
-      '@astrojs/starlight': 0.35.2(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
+      '@astrojs/starlight': 0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
 
-  starlight-sidebar-topics@0.6.0(@astrojs/starlight@0.35.2(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))):
+  starlight-sidebar-topics@0.6.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))):
     dependencies:
-      '@astrojs/starlight': 0.35.2(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
+      '@astrojs/starlight': 0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
       picomatch: 4.0.3
 
   std-env@3.9.0: {}
