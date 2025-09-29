@@ -2,6 +2,7 @@ import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import eslint from "@eslint/js";
 import vitest from "@vitest/eslint-plugin";
 import jsdoc from "eslint-plugin-jsdoc";
+import json from "@eslint/json";
 import jsonc from "eslint-plugin-jsonc";
 import markdown from "eslint-plugin-markdown";
 import n from "eslint-plugin-n";
@@ -24,19 +25,19 @@ export default tseslint.config(
 		],
 	},
 	{ linterOptions: { reportUnusedDisableDirectives: "error" } },
-	eslint.configs.recommended,
-	comments.recommended,
-	jsdoc.configs["flat/contents-typescript-error"],
-	jsdoc.configs["flat/logical-typescript-error"],
-	jsdoc.configs["flat/stylistic-typescript-error"],
-	jsonc.configs["flat/recommended-with-json"],
-	markdown.configs.recommended,
-	n.configs["flat/recommended"],
-	packageJson.configs.recommended,
-	perfectionist.configs["recommended-natural"],
-	regexp.configs["flat/recommended"],
 	{
 		extends: [
+			eslint.configs.recommended,
+			comments.recommended,
+			jsdoc.configs["flat/contents-typescript-error"],
+			jsdoc.configs["flat/logical-typescript-error"],
+			jsdoc.configs["flat/stylistic-typescript-error"],
+			jsonc.configs["flat/recommended-with-json"],
+			markdown.configs.recommended,
+			n.configs["flat/recommended"],
+			packageJson.configs.recommended,
+			perfectionist.configs["recommended-natural"],
+			regexp.configs["flat/recommended"],
 			tseslint.configs.strictTypeChecked,
 			tseslint.configs.stylisticTypeChecked,
 		],
@@ -78,6 +79,14 @@ export default tseslint.config(
 		settings: {
 			perfectionist: { partitionByComment: true, type: "natural" },
 			vitest: { typecheck: true },
+		},
+	},
+	{
+		files: ["packages/comparisons/src/data.json"],
+		plugins: { json },
+		language: "json/json",
+		rules: {
+			"json/sort-keys": "error",
 		},
 	},
 	{
