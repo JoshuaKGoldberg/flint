@@ -1,5 +1,5 @@
 {
-	"alerts": {
+	"browserAlerts": {
 		"biome": [
 			{
 				"name": "noAlert",
@@ -13,7 +13,7 @@
 			}
 		],
 		"flint": {
-			"name": "alerts",
+			"name": "browserAlerts",
 			"plugin": {
 				"code": "browser",
 				"name": "Browser"
@@ -102,7 +102,7 @@
 			}
 		]
 	},
-	"globalImplicitDeclarations": {
+	"implicitGlobals": {
 		"eslint": [
 			{
 				"name": "no-implicit-globals",
@@ -110,7 +110,7 @@
 			}
 		],
 		"flint": {
-			"name": "globalImplicitDeclarations",
+			"name": "implicitGlobals",
 			"plugin": {
 				"code": "browser",
 				"name": "Browser"
@@ -187,7 +187,7 @@
 			}
 		]
 	},
-	"nodeRemovalMethods": {
+	"nodeRemoveMethods": {
 		"eslint": [
 			{
 				"name": "unicorn/prefer-dom-node-remove",
@@ -195,7 +195,7 @@
 			}
 		],
 		"flint": {
-			"name": "nodeRemovalMethods",
+			"name": "nodeRemoveMethods",
 			"plugin": {
 				"code": "browser",
 				"name": "Browser"
@@ -855,7 +855,7 @@
 			"preset": "Logical"
 		}
 	},
-	"arrayEmptySlots": {
+	"sparseArrays": {
 		"biome": [
 			{
 				"name": "noSparseArray",
@@ -875,7 +875,7 @@
 			}
 		],
 		"flint": {
-			"name": "arrayEmptySlots",
+			"name": "sparseArrays",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -1049,15 +1049,15 @@
 			}
 		]
 	},
-	"anchorContents": {
+	"anchorContent": {
 		"eslint": [
 			{
-				"name": "jsx-a11y/anchor-has-content",
-				"url": "https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-has-content.md"
+				"name": "jsx-a11y/anchor-content",
+				"url": "https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-content.md"
 			}
 		],
 		"flint": {
-			"name": "anchorContents",
+			"name": "anchorContent",
 			"plugin": {
 				"code": "jsx",
 				"name": "JSX"
@@ -1242,7 +1242,7 @@
 			}
 		]
 	},
-	"autofocus": {
+	"autoFocusProps": {
 		"eslint": [
 			{
 				"name": "jsx-a11y/no-autofocus",
@@ -1250,7 +1250,7 @@
 			}
 		],
 		"flint": {
-			"name": "autofocus",
+			"name": "autoFocusProps",
 			"plugin": {
 				"code": "jsx",
 				"name": "JSX"
@@ -1308,7 +1308,7 @@
 			}
 		]
 	},
-	"propDuplicates": {
+	"duplicateProps": {
 		"deno": [
 			{
 				"name": "jsx-no-duplicate-props",
@@ -1316,7 +1316,7 @@
 			}
 		],
 		"flint": {
-			"name": "propDuplicates",
+			"name": "duplicateProps",
 			"plugin": {
 				"code": "jsx",
 				"name": "JSX"
@@ -1324,7 +1324,7 @@
 			"preset": "Logical"
 		}
 	},
-	"propSpreadDuplicates": {
+	"duplicateSpreads": {
 		"deno": [
 			{
 				"name": "jsx-props-no-spread-multi",
@@ -1332,7 +1332,7 @@
 			}
 		],
 		"flint": {
-			"name": "propSpreadDuplicates",
+			"name": "duplicateSpreads",
 			"plugin": {
 				"code": "jsx",
 				"name": "JSX"
@@ -1400,7 +1400,7 @@
 			}
 		]
 	},
-	"altTextRedundantDescriptors": {
+	"imageAltRedundancy": {
 		"eslint": [
 			{
 				"name": "jsx-a11y/img-redundant-alt",
@@ -1408,7 +1408,7 @@
 			}
 		],
 		"flint": {
-			"name": "altTextRedundantDescriptors",
+			"name": "imageAltRedundancy",
 			"plugin": {
 				"code": "jsx",
 				"name": "JSX"
@@ -1438,15 +1438,15 @@
 			"preset": "Logical"
 		}
 	},
-	"interactiveRoleFocus": {
+	"interactiveElementsFocusable": {
 		"eslint": [
 			{
-				"name": "jsx-a11y/interactive-supports-focus",
-				"url": "https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/interactive-supports-focus.md"
+				"name": "jsx-a11y/interactive-elements-focusable",
+				"url": "https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/interactive-elements-focusable.md"
 			}
 		],
 		"flint": {
-			"name": "interactiveRoleFocus",
+			"name": "interactiveElementsFocusable",
 			"plugin": {
 				"code": "jsx",
 				"name": "JSX"
@@ -1992,7 +1992,7 @@
 			"preset": "Logical"
 		}
 	},
-	"headingRootDuplicates": {
+	"headingsRootDuplicates": {
 		"eslint": [
 			{
 				"name": "markdown/no-multiple-h1",
@@ -2000,7 +2000,7 @@
 			}
 		],
 		"flint": {
-			"name": "headingRootDuplicates",
+			"name": "headingsRootDuplicates",
 			"plugin": {
 				"code": "md",
 				"name": "Markdown"
@@ -2350,7 +2350,7 @@
 			}
 		]
 	},
-	"processExits": {
+	"processExists": {
 		"eslint": [
 			{
 				"name": "n/no-process-exit",
@@ -2362,7 +2362,7 @@
 			}
 		],
 		"flint": {
-			"name": "processExits",
+			"name": "processExists",
 			"plugin": {
 				"code": "node",
 				"name": "Node"
@@ -3252,7 +3252,7 @@
 			"preset": "Logical"
 		}
 	},
-	"descriptionExistence": {
+	"descriptionPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-description",
@@ -3260,7 +3260,7 @@
 			}
 		],
 		"flint": {
-			"name": "descriptionExistence",
+			"name": "descriptionPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3412,9 +3412,15 @@
 			"preset": "Logical"
 		}
 	},
-	"licenseExistence": {
+	"licenseRequired": {
+		"eslint": [
+			{
+				"name": "package-json/license-required",
+				"url": "https://github.com/JoshuaKGoldberg/eslint-plugin-package-json/blob/HEAD/docs/rules/license-required.md"
+			}
+		],
 		"flint": {
-			"name": "licenseExistence",
+			"name": "licenseRequired",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3470,7 +3476,7 @@
 			"preset": "Logical"
 		}
 	},
-	"nameExistence": {
+	"namePresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-name",
@@ -3478,7 +3484,7 @@
 			}
 		],
 		"flint": {
-			"name": "nameExistence",
+			"name": "namePresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3662,7 +3668,7 @@
 			"preset": "Logical"
 		}
 	},
-	"typeExistence": {
+	"typePresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-type",
@@ -3670,7 +3676,23 @@
 			}
 		],
 		"flint": {
-			"name": "typeExistence",
+			"name": "typePresence",
+			"plugin": {
+				"code": "package-json",
+				"name": "PackageJSON"
+			},
+			"preset": "Logical"
+		}
+	},
+	"typeRequired": {
+		"eslint": [
+			{
+				"name": "package-json/type-required",
+				"url": "https://github.com/JoshuaKGoldberg/eslint-plugin-package-json/blob/HEAD/docs/rules/type-required.md"
+			}
+		],
+		"flint": {
+			"name": "typeRequired",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3694,7 +3716,7 @@
 			"preset": "Logical"
 		}
 	},
-	"versionExistence": {
+	"versionPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-version",
@@ -3702,7 +3724,7 @@
 			}
 		],
 		"flint": {
-			"name": "versionExistence",
+			"name": "versionPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3742,7 +3764,7 @@
 			"preset": "Logical"
 		}
 	},
-	"authorExistence": {
+	"authorPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-author",
@@ -3750,7 +3772,7 @@
 			}
 		],
 		"flint": {
-			"name": "authorExistence",
+			"name": "authorPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3758,7 +3780,7 @@
 			"preset": "None"
 		}
 	},
-	"bugsExistence": {
+	"bugsPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-bugs",
@@ -3766,7 +3788,7 @@
 			}
 		],
 		"flint": {
-			"name": "bugsExistence",
+			"name": "bugsPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3774,7 +3796,7 @@
 			"preset": "None"
 		}
 	},
-	"bundleDependenciesExistence": {
+	"bundleDependenciesPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-bundleDependencies",
@@ -3782,7 +3804,7 @@
 			}
 		],
 		"flint": {
-			"name": "bundleDependenciesExistence",
+			"name": "bundleDependenciesPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3790,7 +3812,7 @@
 			"preset": "None"
 		}
 	},
-	"dependenciesExistence": {
+	"dependenciesPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-dependencies",
@@ -3798,7 +3820,7 @@
 			}
 		],
 		"flint": {
-			"name": "dependenciesExistence",
+			"name": "dependenciesPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3822,7 +3844,7 @@
 			"preset": "None"
 		}
 	},
-	"devDependenciesExistence": {
+	"devDependenciesPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-devDependencies",
@@ -3830,7 +3852,7 @@
 			}
 		],
 		"flint": {
-			"name": "devDependenciesExistence",
+			"name": "devDependenciesPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3838,7 +3860,7 @@
 			"preset": "None"
 		}
 	},
-	"enginesExistence": {
+	"enginesPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-engines",
@@ -3846,7 +3868,7 @@
 			}
 		],
 		"flint": {
-			"name": "enginesExistence",
+			"name": "enginesPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3854,7 +3876,7 @@
 			"preset": "None"
 		}
 	},
-	"filesExistence": {
+	"filesPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-files",
@@ -3862,7 +3884,7 @@
 			}
 		],
 		"flint": {
-			"name": "filesExistence",
+			"name": "filesPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3870,7 +3892,7 @@
 			"preset": "None"
 		}
 	},
-	"keywordsExistence": {
+	"keywordsPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-keywords",
@@ -3878,7 +3900,7 @@
 			}
 		],
 		"flint": {
-			"name": "keywordsExistence",
+			"name": "keywordsPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3886,7 +3908,7 @@
 			"preset": "None"
 		}
 	},
-	"optionalDependenciesExistence": {
+	"optionalDependenciesPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-optionalDependencies",
@@ -3894,7 +3916,7 @@
 			}
 		],
 		"flint": {
-			"name": "optionalDependenciesExistence",
+			"name": "optionalDependenciesPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3902,7 +3924,7 @@
 			"preset": "None"
 		}
 	},
-	"peerDependenciesExistence": {
+	"peerDependenciesPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-peerDependencies",
@@ -3910,7 +3932,7 @@
 			}
 		],
 		"flint": {
-			"name": "peerDependenciesExistence",
+			"name": "peerDependenciesPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -3918,7 +3940,7 @@
 			"preset": "None"
 		}
 	},
-	"typesExistence": {
+	"typesPresence": {
 		"eslint": [
 			{
 				"name": "package-json/require-types",
@@ -3926,7 +3948,7 @@
 			}
 		],
 		"flint": {
-			"name": "typesExistence",
+			"name": "typesPresence",
 			"plugin": {
 				"code": "package-json",
 				"name": "PackageJSON"
@@ -4812,7 +4834,7 @@
 			}
 		]
 	},
-	"asyncPromiseWrappedReturns": {
+	"asyncUnnecessaryPromiseWrappers": {
 		"eslint": [
 			{
 				"name": "unicorn/no-useless-promise-resolve-reject",
@@ -4820,7 +4842,7 @@
 			}
 		],
 		"flint": {
-			"name": "asyncPromiseWrappedReturns",
+			"name": "asyncUnnecessaryPromiseWrappers",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -4857,7 +4879,7 @@
 			}
 		]
 	},
-	"awaitThenables": {
+	"awaitThenable": {
 		"eslint": [
 			{
 				"name": "@typescript-eslint/await-thenable",
@@ -4869,7 +4891,7 @@
 			}
 		],
 		"flint": {
-			"name": "awaitThenables",
+			"name": "awaitThenable",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -5084,7 +5106,7 @@
 			}
 		]
 	},
-	"debuggerStatements": {
+	"debugger": {
 		"biome": [
 			{
 				"name": "noDebugger",
@@ -5229,7 +5251,7 @@
 			}
 		]
 	},
-	"destructurePropertyExistence": {
+	"emptyDestructures": {
 		"biome": [
 			{
 				"name": "noEmptyPattern",
@@ -5249,7 +5271,7 @@
 			}
 		],
 		"flint": {
-			"name": "destructurePropertyExistence",
+			"name": "emptyDestructures",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -5263,7 +5285,7 @@
 			}
 		]
 	},
-	"enumMemberExistence": {
+	"emptyEnums": {
 		"deno": [
 			{
 				"name": "no-empty-enum",
@@ -5271,7 +5293,7 @@
 			}
 		],
 		"flint": {
-			"name": "enumMemberExistence",
+			"name": "emptyEnums",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -5279,7 +5301,7 @@
 			"preset": "Logical"
 		}
 	},
-	"exportSpecifiersPresence": {
+	"emptyExports": {
 		"biome": [
 			{
 				"name": "noUselessEmptyExport",
@@ -5293,7 +5315,7 @@
 			}
 		],
 		"flint": {
-			"name": "exportSpecifiersPresence",
+			"name": "emptyExports",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -5544,7 +5566,7 @@
 			"preset": "Logical"
 		}
 	},
-	"evalExplicitCalls": {
+	"evals": {
 		"biome": [
 			{
 				"name": "noGlobalEval",
@@ -5564,7 +5586,7 @@
 			}
 		],
 		"flint": {
-			"name": "evalExplicitCalls",
+			"name": "evals",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -5646,7 +5668,7 @@
 			}
 		]
 	},
-	"exportedMutables": {
+	"exportMutables": {
 		"eslint": [
 			{
 				"name": "import/no-mutable-exports",
@@ -5654,7 +5676,7 @@
 			}
 		],
 		"flint": {
-			"name": "exportedMutables",
+			"name": "exportMutables",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -5820,7 +5842,7 @@
 			}
 		]
 	},
-	"getterSetterPairTypes": {
+	"getterSetterPairedTypes": {
 		"eslint": [
 			{
 				"name": "@typescript-eslint/related-getter-setter-pairs",
@@ -5828,7 +5850,7 @@
 			}
 		],
 		"flint": {
-			"name": "getterSetterPairTypes",
+			"name": "getterSetterPairedTypes",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -5842,7 +5864,7 @@
 			}
 		]
 	},
-	"evalImplicitCalls": {
+	"impliedEvals": {
 		"eslint": [
 			{
 				"name": "no-implied-eval",
@@ -5854,7 +5876,7 @@
 			}
 		],
 		"flint": {
-			"name": "evalImplicitCalls",
+			"name": "impliedEvals",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -6019,7 +6041,7 @@
 			}
 		]
 	},
-	"voidOperatorMeanings": {
+	"meaninglessVoidOperators": {
 		"eslint": [
 			{
 				"name": "@typescript-eslint/no-meaningless-void-operator",
@@ -6027,7 +6049,7 @@
 			}
 		],
 		"flint": {
-			"name": "voidOperatorMeanings",
+			"name": "meaninglessVoidOperators",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -6561,7 +6583,7 @@
 			}
 		]
 	},
-	"parameterPropertyAssignments": {
+	"parameterPropertyAssignment": {
 		"eslint": [
 			{
 				"name": "@typescript-eslint/no-unnecessary-parameter-property-assignment",
@@ -6569,7 +6591,7 @@
 			}
 		],
 		"flint": {
-			"name": "parameterPropertyAssignments",
+			"name": "parameterPropertyAssignment",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -6762,7 +6784,7 @@
 			}
 		]
 	},
-	"typeConstituentRedundancy": {
+	"redundantTypeConstituents": {
 		"eslint": [
 			{
 				"name": "@typescript-eslint/no-redundant-type-constituents",
@@ -6770,7 +6792,7 @@
 			}
 		],
 		"flint": {
-			"name": "typeConstituentRedundancy",
+			"name": "redundantTypeConstituents",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -7703,7 +7725,7 @@
 			}
 		]
 	},
-	"promiseAwaitReturns": {
+	"returnAwaitPromises": {
 		"eslint": [
 			{
 				"name": "@typescript-eslint/return-await",
@@ -7711,7 +7733,7 @@
 			}
 		],
 		"flint": {
-			"name": "promiseAwaitReturns",
+			"name": "returnAwaitPromises",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -7818,7 +7840,7 @@
 			}
 		]
 	},
-	"variableDeclarationSeparations": {
+	"singleVariableDeclarations": {
 		"biome": [
 			{
 				"name": "useSingleVarDeclarator",
@@ -7838,7 +7860,7 @@
 			}
 		],
 		"flint": {
-			"name": "variableDeclarationSeparations",
+			"name": "singleVariableDeclarations",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -8622,7 +8644,7 @@
 			}
 		]
 	},
-	"unsafeToStrings": {
+	"unsafeToString": {
 		"eslint": [
 			{
 				"name": "@typescript-eslint/no-base-to-string",
@@ -8630,7 +8652,7 @@
 			}
 		],
 		"flint": {
-			"name": "unsafeToStrings",
+			"name": "unsafeToString",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -8994,7 +9016,7 @@
 			"preset": "None"
 		}
 	},
-	"regexUnicodeFlags": {
+	"regexUnicodeFlag": {
 		"eslint": [
 			{
 				"name": "require-unicode-regexp",
@@ -9006,7 +9028,7 @@
 			}
 		],
 		"flint": {
-			"name": "regexUnicodeFlags",
+			"name": "regexUnicodeFlag",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -13925,7 +13947,7 @@
 			}
 		]
 	},
-	"blockContents": {
+	"emptyBlocks": {
 		"biome": [
 			{
 				"name": "noEmptyBlockStatements",
@@ -13945,7 +13967,7 @@
 			}
 		],
 		"flint": {
-			"name": "blockContents",
+			"name": "emptyBlocks",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -13959,7 +13981,7 @@
 			}
 		]
 	},
-	"fileContents": {
+	"emptyFiles": {
 		"eslint": [
 			{
 				"name": "unicorn/no-empty-file",
@@ -13967,7 +13989,7 @@
 			}
 		],
 		"flint": {
-			"name": "fileContents",
+			"name": "emptyFiles",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -13982,7 +14004,7 @@
 			}
 		]
 	},
-	"functionContents": {
+	"emptyFunctions": {
 		"biome": [
 			{
 				"name": "noEmptyBlockStatements",
@@ -14000,7 +14022,7 @@
 			}
 		],
 		"flint": {
-			"name": "functionContents",
+			"name": "emptyFunctions",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -14015,7 +14037,7 @@
 			}
 		]
 	},
-	"moduleAttributeContents": {
+	"emptyModuleAttributes": {
 		"eslint": [
 			{
 				"name": "unicorn/require-module-attributes",
@@ -14023,7 +14045,7 @@
 			}
 		],
 		"flint": {
-			"name": "moduleAttributeContents",
+			"name": "emptyModuleAttributes",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -14031,7 +14053,7 @@
 			"preset": "Stylistic"
 		}
 	},
-	"staticBlockContents": {
+	"emptyStaticBlocks": {
 		"biome": [
 			{
 				"name": "noEmptyBlockStatements",
@@ -14045,7 +14067,7 @@
 			}
 		],
 		"flint": {
-			"name": "staticBlockContents",
+			"name": "emptyStaticBlocks",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -14059,7 +14081,7 @@
 			}
 		]
 	},
-	"typeParameterListContents": {
+	"emptyTypeParameterLists": {
 		"biome": [
 			{
 				"name": "noEmptyTypeParameters",
@@ -14067,7 +14089,7 @@
 			}
 		],
 		"flint": {
-			"name": "typeParameterListContents",
+			"name": "emptyTypeParameterLists",
 			"plugin": {
 				"code": "ts",
 				"name": "TypeScript"
@@ -17856,7 +17878,7 @@
 			"strictness": "Strict"
 		}
 	},
-	"scalarQuotes": {
+	"plainScalars": {
 		"eslint": [
 			{
 				"name": "yml/plain-scalar",
@@ -17864,7 +17886,7 @@
 			}
 		],
 		"flint": {
-			"name": "scalarQuotes",
+			"name": "plainScalars",
 			"plugin": {
 				"code": "yml",
 				"name": "YML"
