@@ -17,15 +17,10 @@ export interface Comparison {
 	oxlint?: LinterRuleReference[];
 }
 
-export interface FlintRulePluginReference {
-	code: string;
-	name: string;
-}
-
 export interface FlintRuleReference {
 	implemented?: boolean;
 	name: string;
-	plugin: FlintRulePluginReference;
+	plugin: string;
 	preset: string;
 	strictness?: string;
 }
