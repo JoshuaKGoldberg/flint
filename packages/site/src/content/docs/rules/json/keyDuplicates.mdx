@@ -1,12 +1,12 @@
 ---
 description: "Consecutive non-null assertion operators are unnecessary."
-title: "duplicateKeys"
+title: "keyDuplicates"
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="json" rule="duplicateKeys" />
+<RuleSummary plugin="json" rule="keyDuplicates" />
 
 Although JSON technically allows duplicate keys, using them is at best confusing.
 Most JSON parsers will ignore all but the last value for a given key.
@@ -48,7 +48,7 @@ This can be useful for projects that store extra information as comments in JSON
 
 ```ts
 json.rules({
-	duplicateKeys: {
+	keyDuplicates: {
 		allowKeys: ["//"],
 	},
 });
