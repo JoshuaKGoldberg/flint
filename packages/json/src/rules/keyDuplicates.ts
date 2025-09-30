@@ -7,7 +7,7 @@ export default jsonLanguage.createRule({
 	about: {
 		description:
 			"Reports unnecessary duplicate keys that override previous values.",
-		id: "duplicateKeys",
+		id: "keyDuplicates",
 		preset: "logical",
 	},
 	messages: {
