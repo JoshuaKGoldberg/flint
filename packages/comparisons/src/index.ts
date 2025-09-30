@@ -1,8 +1,21 @@
-import dataRaw from "./data.json" with { type: "json" };
+import data from "./data.json" with { type: "json" };
 
-const data: Record<string, Rule> = dataRaw;
+export function getComparisonId(pluginId: string, ruleId: string) {
+	return [pluginId, ruleId].join("/");
+}
 
-export { data };
+const comparisons: Comparison[] = data;
+
+export { comparisons };
+
+export interface Comparison {
+	biome?: LinterRuleReference[];
+	deno?: LinterRuleReference[];
+	eslint?: LinterRuleReference[];
+	flint: FlintRuleReference;
+	notes?: string;
+	oxlint?: LinterRuleReference[];
+}
 
 export interface FlintRulePluginReference {
 	code: string;
@@ -22,13 +35,4 @@ export type Linter = "biome" | "deno" | "eslint" | "oxlint";
 export interface LinterRuleReference {
 	name: string;
 	url: string;
-}
-
-export interface Rule {
-	biome?: LinterRuleReference[];
-	deno?: LinterRuleReference[];
-	eslint?: LinterRuleReference[];
-	flint: FlintRuleReference;
-	notes?: string;
-	oxlint?: LinterRuleReference[];
 }

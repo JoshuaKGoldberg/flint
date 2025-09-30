@@ -1,4 +1,4 @@
-import rule from "./duplicateKeys.js";
+import rule from "./keyDuplicates.js";
 import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {

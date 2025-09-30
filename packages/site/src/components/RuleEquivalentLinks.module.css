@@ -1,0 +1,12 @@
+.ruleEquivalentLinks {
+	padding: 0.25rem;
+}
+
+.ruleEquivalentLinks:first-of-type {
+	padding-left: 0;
+}
+
+.ruleEquivalentLinks code {
+	padding: 0.125rem 0.2rem;
+	font-size: var(--font-size-table);
+}

@@ -4,6 +4,7 @@ title: "headingIncrements"
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
+import RuleEquivalentsTable from "~/components/RuleEquivalentsTable.astro";
 import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="md" rule="headingIncrements" />
@@ -42,3 +43,7 @@ This rule is not configurable.
 ## Further Reading
 
 - [W3 WAI Headings tutorial](https://www.w3.org/WAI/tutorials/page-structure/headings)
+
+## Equivalents in Other Linters
+
+<RuleEquivalentsTable pluginId="md" ruleId="headingIncrements" />

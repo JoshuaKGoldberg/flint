@@ -1,14 +1,13 @@
 import {
-	data,
-	type FlintRulePluginReference,
+	comparisons,
 	type FlintRuleReference,
-	type Linter,
-	type Rule,
+	type Comparison,
 } from "@flint.fyi/comparisons" with { type: "json" };
 
 import styles from "./RulesTable.module.css";
+import { RuleEquivalentLinks } from "./RuleEquivalentLinks";
 
-function getSortKey(rule: Rule) {
+function getSortKey(rule: Comparison) {
 	return [
 		rule.flint.plugin.name,
 		rule.flint.preset,
@@ -19,27 +18,10 @@ function getSortKey(rule: Rule) {
 		.replace("Not implemented", "Z-Not-implemented");
 }
 
-function renderFlintPreset(flint: Rule["flint"]) {
+function renderFlintPreset(flint: Comparison["flint"]) {
 	return flint.strictness
 		? `${flint.preset} (${flint.strictness})`
 		: flint.preset;
-}
-
-function renderLinks(linter: Linter, rule: Rule) {
-	if (!rule[linter]) {
-		return undefined;
-	}
-
-	return rule[linter].map((reference) => (
-		<a
-			data-wat={JSON.stringify(reference)}
-			href={reference.url}
-			key={reference.name}
-			target="_blank"
-		>
-			<code>{reference.name}</code>
-		</a>
-	));
 }
 
 export interface RulesTableProps {
@@ -56,7 +38,7 @@ function renderFlintName(flint: FlintRuleReference) {
 	);
 }
 
-function renderImplemented(values: Rule[]) {
+function renderImplemented(values: Comparison[]) {
 	const count = values.filter((value) => value.flint.implemented).length;
 
 	return (
@@ -68,9 +50,10 @@ function renderImplemented(values: Rule[]) {
 }
 
 export function RulesTable({ implementing }: RulesTableProps) {
-	const values = Object.values(data)
+	const values = comparisons
 		.filter(
-			(rule) => (rule.flint.preset !== "Not implementing") === implementing,
+			(comparison) =>
+				(comparison.flint.preset !== "Not implementing") === implementing,
 		)
 		.sort((a, b) => getSortKey(a).localeCompare(getSortKey(b)));
 
@@ -102,10 +85,10 @@ export function RulesTable({ implementing }: RulesTableProps) {
 							</td>
 							<td> {rule.flint.plugin.name}</td>
 							{implementing && <td>{renderFlintPreset(rule.flint)}</td>}
-							<td>{renderLinks("biome", rule)}</td>
-							<td>{renderLinks("deno", rule)}</td>
-							<td>{renderLinks("eslint", rule)}</td>
-							<td>{renderLinks("oxlint", rule)}</td>
+							<RuleEquivalentLinks comparison={rule} linter="biome" />
+							<RuleEquivalentLinks comparison={rule} linter="deno" />
+							<RuleEquivalentLinks comparison={rule} linter="eslint" />
+							<RuleEquivalentLinks comparison={rule} linter="oxlint" />
 							{!implementing && <td>{rule.notes}</td>}
 						</tr>
 					))}

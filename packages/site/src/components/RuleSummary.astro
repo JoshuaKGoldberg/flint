@@ -1,30 +1,14 @@
 ---
 import markdownIt from "markdown-it";
-
-const renderer = markdownIt();
+import { getRuleForPlugin } from "./getRuleForPlugin";
 
 interface Props {
 	plugin: string;
 	rule: string;
 }
 
-import { cspell } from "@flint.fyi/plugin-cspell";
-import { flint } from "@flint.fyi/plugin-flint";
-import { json, md, ts, yml } from "flint";
-
-const { plugin: pluginId, rule: ruleId } = Astro.props;
-const plugins = { cspell, json, flint, md, ts, yml };
-
-if (!(pluginId in plugins)) {
-	throw new Error(`Unknown RuleCards plugin: ${pluginId}.`);
-}
-
-const plugin = plugins[pluginId as keyof typeof plugins];
-const rule = plugin.rulesById.get(ruleId);
-
-if (!rule) {
-	throw new Error(`Unknown rule for ${pluginId}: ${ruleId}.`);
-}
+const renderer = markdownIt();
+const rule = getRuleForPlugin(Astro.props.plugin, Astro.props.rule);
 ---
 
 <blockquote>
@@ -33,8 +17,8 @@ if (!rule) {
 
 <blockquote>
 	✅ This rule is included in the{" "}
-	<a href={`/rules/${pluginId}/about#${rule.about.preset}`}>
-		{pluginId}
+	<a href={`/rules/${Astro.props.plugin}/about#${rule.about.preset}`}>
+		{Astro.props.plugin}
 		{rule.about.preset} preset</a
 	>.
 </blockquote>
