@@ -1,5 +1,5 @@
 .rulesTable {
-	font-size: var(--font-size-table);
+	font-size: 70%;
 	table-layout: fixed;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .rulesTable code {
-	font-size: var(--font-size-table);
+	font-size: 70%;
 	word-wrap: normal;
 }
 

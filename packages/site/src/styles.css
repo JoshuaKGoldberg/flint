@@ -35,8 +35,3 @@
 :root {
 	--sl-content-width: 63rem;
 }
-
-/* Introduced tokens. */
-:root {
-	--font-size-table: 70%;
-}
