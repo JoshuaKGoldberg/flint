@@ -1,5 +1,12 @@
 # @flint/cli
 
+## 0.15.1
+
+### Patch Changes
+
+- 8cab6e7: move wrap-ansi dep into package
+- bee0a51: fix: resolve esm url scheme error on windows
+
 ## 0.15.0
 
 ### Minor Changes
