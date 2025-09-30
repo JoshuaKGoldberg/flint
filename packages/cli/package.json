@@ -22,7 +22,8 @@
 		"cli-cursor": "^5.0.0",
 		"debounce": "^2.2.0",
 		"debug-for-file": "^0.2.0",
-		"text-table-fast": "^0.1.0"
+		"text-table-fast": "^0.1.0",
+		"wrap-ansi": "^9.0.0"
 	},
 	"engines": {
 		"node": ">=24.0.0"
