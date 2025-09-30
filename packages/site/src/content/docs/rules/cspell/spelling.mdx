@@ -4,6 +4,7 @@ title: "spelling"
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="cspell" rule="spelling" />
@@ -34,3 +35,7 @@ typo
 ## Options
 
 This rule is not configurable.
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="cspell" ruleId="spelling" />

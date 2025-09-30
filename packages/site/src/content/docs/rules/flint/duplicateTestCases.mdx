@@ -4,6 +4,7 @@ title: "duplicateTestCases"
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="flint" rule="duplicateTestCases" />
@@ -91,3 +92,7 @@ ruleTester.describe(rule, {
 ## Options
 
 This rule is not configurable.
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="flint" ruleId="duplicateTestCases" />

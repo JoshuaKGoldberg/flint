@@ -1,16 +1,33 @@
 import {
-	data,
-	type FlintRulePluginReference,
+	comparisons,
 	type FlintRuleReference,
+	type Comparison,
 	type Linter,
-	type Rule,
+	linterNames,
 } from "@flint.fyi/comparisons" with { type: "json" };
 
 import styles from "./RulesTable.module.css";
+import { RuleEquivalentLinks } from "./RuleEquivalentLinks";
 
-function getSortKey(rule: Rule) {
+const pluginNames: Record<string, string> = {
+	browser: "browser",
+	cspell: "CSpell",
+	deno: "Deno",
+	flint: "Flint",
+	json: "JSON",
+	jsx: "JSX",
+	md: "Markdown",
+	node: "Node",
+	packageJson: "PackageJSON",
+	performance: "Performance",
+	sorting: "Sorting",
+	ts: "TypeScript",
+	yml: "YML",
+};
+
+function getSortKey(rule: Comparison) {
 	return [
-		rule.flint.plugin.name,
+		rule.flint.plugin,
 		rule.flint.preset,
 		rule.flint.strictness,
 		rule.flint.name,
@@ -19,27 +36,10 @@ function getSortKey(rule: Rule) {
 		.replace("Not implemented", "Z-Not-implemented");
 }
 
-function renderFlintPreset(flint: Rule["flint"]) {
+function renderFlintPreset(flint: Comparison["flint"]) {
 	return flint.strictness
 		? `${flint.preset} (${flint.strictness})`
 		: flint.preset;
-}
-
-function renderLinks(linter: Linter, rule: Rule) {
-	if (!rule[linter]) {
-		return undefined;
-	}
-
-	return rule[linter].map((reference) => (
-		<a
-			data-wat={JSON.stringify(reference)}
-			href={reference.url}
-			key={reference.name}
-			target="_blank"
-		>
-			<code>{reference.name}</code>
-		</a>
-	));
 }
 
 export interface RulesTableProps {
@@ -48,7 +48,7 @@ export interface RulesTableProps {
 
 function renderFlintName(flint: FlintRuleReference) {
 	return flint.implemented ? (
-		<a href={`/rules/${flint.plugin.code}/${flint.name.toLowerCase()}`}>
+		<a href={`/rules/${flint.plugin}/${flint.name.toLowerCase()}`}>
 			{flint.name}
 		</a>
 	) : (
@@ -56,7 +56,7 @@ function renderFlintName(flint: FlintRuleReference) {
 	);
 }
 
-function renderImplemented(values: Rule[]) {
+function renderImplemented(values: Comparison[]) {
 	const count = values.filter((value) => value.flint.implemented).length;
 
 	return (
@@ -68,9 +68,10 @@ function renderImplemented(values: Rule[]) {
 }
 
 export function RulesTable({ implementing }: RulesTableProps) {
-	const values = Object.values(data)
+	const values = comparisons
 		.filter(
-			(rule) => (rule.flint.preset !== "Not implementing") === implementing,
+			(comparison) =>
+				(comparison.flint.preset !== "Not implementing") === implementing,
 		)
 		.sort((a, b) => getSortKey(a).localeCompare(getSortKey(b)));
 
@@ -95,18 +96,24 @@ export function RulesTable({ implementing }: RulesTableProps) {
 					{!implementing && <th>Notes</th>}
 				</thead>
 				<tbody>
-					{values.map((rule) => (
-						<tr key={rule.flint.name}>
+					{values.map((comparison) => (
+						<tr key={comparison.flint.name}>
 							<td>
-								<code>{renderFlintName(rule.flint)}</code>
+								<code>{renderFlintName(comparison.flint)}</code>
 							</td>
-							<td> {rule.flint.plugin.name}</td>
-							{implementing && <td>{renderFlintPreset(rule.flint)}</td>}
-							<td>{renderLinks("biome", rule)}</td>
-							<td>{renderLinks("deno", rule)}</td>
-							<td>{renderLinks("eslint", rule)}</td>
-							<td>{renderLinks("oxlint", rule)}</td>
-							{!implementing && <td>{rule.notes}</td>}
+							<td>{pluginNames[comparison.flint.plugin]}</td>
+							{implementing && <td>{renderFlintPreset(comparison.flint)}</td>}
+							{(Object.keys(linterNames) as Linter[]).map((linter) => (
+								<td key={linter}>
+									{comparison[linter] && (
+										<RuleEquivalentLinks
+											comparison={comparison}
+											linter={linter}
+										/>
+									)}
+								</td>
+							))}
+							{!implementing && <td>{comparison.notes}</td>}
 						</tr>
 					))}
 				</tbody>
