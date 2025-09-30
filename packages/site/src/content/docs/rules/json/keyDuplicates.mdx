@@ -4,7 +4,7 @@ title: "keyDuplicates"
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
-import RuleEquivalentsTable from "~/components/RuleEquivalentsTable.astro";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="json" rule="keyDuplicates" />
@@ -85,4 +85,4 @@ You might consider using [Flint disable comments](/) and/ [configuration file di
 
 ## Equivalents in Other Linters
 
-<RuleEquivalentsTable pluginId="json" ruleId="keyDuplicates" />
+<RuleEquivalents pluginId="json" ruleId="keyDuplicates" />

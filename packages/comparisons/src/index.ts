@@ -4,6 +4,13 @@ export function getComparisonId(pluginId: string, ruleId: string) {
 	return [pluginId, ruleId].join("/");
 }
 
+export const linterNames = {
+	biome: "Biome",
+	deno: "Deno",
+	eslint: "ESLint",
+	oxlint: "Oxlint",
+} as const;
+
 const comparisons: Comparison[] = data;
 
 export { comparisons };

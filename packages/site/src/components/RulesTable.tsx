@@ -2,6 +2,8 @@ import {
 	comparisons,
 	type FlintRuleReference,
 	type Comparison,
+	type Linter,
+	linterNames,
 } from "@flint.fyi/comparisons" with { type: "json" };
 
 import styles from "./RulesTable.module.css";
@@ -94,18 +96,24 @@ export function RulesTable({ implementing }: RulesTableProps) {
 					{!implementing && <th>Notes</th>}
 				</thead>
 				<tbody>
-					{values.map((rule) => (
-						<tr key={rule.flint.name}>
+					{values.map((comparison) => (
+						<tr key={comparison.flint.name}>
 							<td>
-								<code>{renderFlintName(rule.flint)}</code>
+								<code>{renderFlintName(comparison.flint)}</code>
 							</td>
-							<td>{pluginNames[rule.flint.plugin]}</td>
-							{implementing && <td>{renderFlintPreset(rule.flint)}</td>}
-							<RuleEquivalentLinks comparison={rule} linter="biome" />
-							<RuleEquivalentLinks comparison={rule} linter="deno" />
-							<RuleEquivalentLinks comparison={rule} linter="eslint" />
-							<RuleEquivalentLinks comparison={rule} linter="oxlint" />
-							{!implementing && <td>{rule.notes}</td>}
+							<td>{pluginNames[comparison.flint.plugin]}</td>
+							{implementing && <td>{renderFlintPreset(comparison.flint)}</td>}
+							{(Object.keys(linterNames) as Linter[]).map((linter) => (
+								<td key={linter}>
+									{comparison[linter] && (
+										<RuleEquivalentLinks
+											comparison={comparison}
+											linter={linter}
+										/>
+									)}
+								</td>
+							))}
+							{!implementing && <td>{comparison.notes}</td>}
 						</tr>
 					))}
 				</tbody>

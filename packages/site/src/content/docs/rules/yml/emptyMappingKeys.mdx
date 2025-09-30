@@ -4,7 +4,7 @@ title: "emptyMappingKeys"
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
-import RuleEquivalentsTable from "~/components/RuleEquivalentsTable.astro";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="yml" rule="emptyMappingKeys" />
@@ -37,4 +37,4 @@ This rule is not configurable.
 
 ## Equivalents in Other Linters
 
-<RuleEquivalentsTable pluginId="yml" ruleId="emptyMappingKeys" />
+<RuleEquivalents pluginId="yml" ruleId="emptyMappingKeys" />

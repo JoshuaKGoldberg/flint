@@ -4,7 +4,7 @@ title: "consecutiveNonNullAssertions"
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
-import RuleEquivalentsTable from "~/components/RuleEquivalentsTable.astro";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="ts" rule="consecutiveNonNullAssertions" />
@@ -45,4 +45,4 @@ There are no situations where it is beneficial to include extra chains of `!!`s.
 
 ## Equivalents in Other Linters
 
-<RuleEquivalentsTable pluginId="ts" ruleId="consecutiveNonNullAssertions" />
+<RuleEquivalents pluginId="ts" ruleId="consecutiveNonNullAssertions" />
