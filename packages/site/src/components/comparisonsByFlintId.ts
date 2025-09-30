@@ -2,7 +2,7 @@ import { comparisons, getComparisonId } from "@flint.fyi/comparisons";
 
 const comparisonsByFlintId = Object.fromEntries(
 	comparisons.map((comparison) => [
-		getComparisonId(comparison.flint.plugin.code, comparison.flint.name),
+		getComparisonId(comparison.flint.plugin, comparison.flint.name),
 		comparison,
 	]),
 );

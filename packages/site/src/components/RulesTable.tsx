@@ -7,9 +7,25 @@ import {
 import styles from "./RulesTable.module.css";
 import { RuleEquivalentLinks } from "./RuleEquivalentLinks";
 
+const pluginNames: Record<string, string> = {
+	browser: "browser",
+	cspell: "CSpell",
+	deno: "Deno",
+	flint: "Flint",
+	json: "JSON",
+	jsx: "JSX",
+	md: "Markdown",
+	node: "Node",
+	packageJson: "PackageJSON",
+	performance: "Performance",
+	sorting: "Sorting",
+	ts: "TypeScript",
+	yml: "YML",
+};
+
 function getSortKey(rule: Comparison) {
 	return [
-		rule.flint.plugin.name,
+		rule.flint.plugin,
 		rule.flint.preset,
 		rule.flint.strictness,
 		rule.flint.name,
@@ -30,7 +46,7 @@ export interface RulesTableProps {
 
 function renderFlintName(flint: FlintRuleReference) {
 	return flint.implemented ? (
-		<a href={`/rules/${flint.plugin.code}/${flint.name.toLowerCase()}`}>
+		<a href={`/rules/${flint.plugin}/${flint.name.toLowerCase()}`}>
 			{flint.name}
 		</a>
 	) : (
@@ -83,7 +99,7 @@ export function RulesTable({ implementing }: RulesTableProps) {
 							<td>
 								<code>{renderFlintName(rule.flint)}</code>
 							</td>
-							<td> {rule.flint.plugin.name}</td>
+							<td>{pluginNames[rule.flint.plugin]}</td>
 							{implementing && <td>{renderFlintPreset(rule.flint)}</td>}
 							<RuleEquivalentLinks comparison={rule} linter="biome" />
 							<RuleEquivalentLinks comparison={rule} linter="deno" />
