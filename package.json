@@ -35,7 +35,6 @@
 		"*": "prettier --ignore-unknown --write"
 	},
 	"dependencies": {
-		"wrap-ansi": "^9.0.0",
 		"zod": "^4.0.0"
 	},
 	"devDependencies": {
