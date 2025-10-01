@@ -28,12 +28,15 @@ export default typescriptLanguage.createRule({
 					};
 
 					context.report({
-						fix: {
-							range,
-							text: "",
-						},
 						message: "noDebugger",
 						range,
+						suggestions: [
+							{
+								id: "removeDebugger",
+								range,
+								text: "",
+							},
+						],
 					});
 				},
 			},
