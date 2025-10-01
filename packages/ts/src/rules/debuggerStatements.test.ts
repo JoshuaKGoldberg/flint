@@ -7,6 +7,8 @@ ruleTester.describe(rule, {
 			code: `
 debugger;
 `,
+			output: `
+`,
 			snapshot: `
 debugger;
 ~~~~~~~~~
@@ -17,6 +19,11 @@ Debugger statements should not be used in production code.
 			code: `
 function test() {
 	debugger;
+}
+`,
+			output: `
+function test() {
+	
 }
 `,
 			snapshot: `
@@ -31,6 +38,11 @@ function test() {
 			code: `
 if (condition) {
 	debugger;
+}
+`,
+			output: `
+if (condition) {
+	
 }
 `,
 			snapshot: `
