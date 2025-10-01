@@ -9,5 +9,5 @@ export const ts = createPlugin({
 		all: ["**/*.{cjs,js,jsx,mjs,ts,tsx}"],
 	},
 	name: "ts",
-	rules: [forInArrays, consecutiveNonNullAssertions, namespaceDeclarations],
+	rules: [consecutiveNonNullAssertions, forInArrays, namespaceDeclarations],
 });
