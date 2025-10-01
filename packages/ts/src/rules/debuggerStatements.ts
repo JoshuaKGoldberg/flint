@@ -1,4 +1,5 @@
-import { getTSNodeRange } from "../getTSNodeRange.js";
+import * as ts from "typescript";
+
 import { typescriptLanguage } from "../language.js";
 
 export default typescriptLanguage.createRule({
@@ -25,7 +26,10 @@ export default typescriptLanguage.createRule({
 				DebuggerStatement: (node) => {
 					context.report({
 						message: "noDebugger",
-						range: getTSNodeRange(node, context.sourceFile),
+						range: {
+							begin: node.getStart(),
+							end: node.getEnd(),
+						},
 					});
 				},
 			},
