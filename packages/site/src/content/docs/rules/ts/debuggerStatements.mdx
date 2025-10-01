@@ -1,0 +1,49 @@
+---
+description: "Debugger statements should not be used in production code."
+title: "debuggerStatements"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="debuggerStatements" />
+
+The `debugger` statement causes the JavaScript runtime to pause execution and start a debugger if one is available.
+While this can be useful during development, it should not be left in production code as it can cause unexpected pauses in execution.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function processData(data) {
+	debugger;
+	return data.map((item) => item * 2);
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function processData(data) {
+	return data.map((item) => item * 2);
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you want to allow debugger statements in your codebase (not recommended for production), you can disable this rule.
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="debuggerStatements" />
