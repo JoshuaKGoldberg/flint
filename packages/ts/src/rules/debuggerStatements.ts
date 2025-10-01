@@ -11,11 +11,11 @@ export default typescriptLanguage.createRule({
 		noDebugger: {
 			primary: "Debugger statements should not be used in production code.",
 			secondary: [
-				"The debugger statement causes the JavaScript runtime to pause execution and start a debugger if one is available.",
+				"The debugger statement causes the JavaScript runtime to pause execution and start a debugger if one is available, such as when browser developer tools are open.",
 				"This can be useful during development, but should not be left in production code.",
 			],
 			suggestions: [
-				"Remove the debugger statement or use a proper logging solution.",
+				"Remove the debugger statement before shipping this code to users.",
 			],
 		},
 	},

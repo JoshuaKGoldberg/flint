@@ -51,5 +51,23 @@ function test() {
 	console.log("test");
 }
 `,
+		`
+for (let i = 0; i < 10; i++) {
+	break;
+}
+`,
+		`
+for (let i = 0; i < 10; i++) {
+	continue;
+}
+`,
+		`
+function test() {
+	return;
+}
+`,
+		`
+throw new Error("test");
+`,
 	],
 });

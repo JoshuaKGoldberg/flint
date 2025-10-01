@@ -9,7 +9,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="ts" rule="debuggerStatements" />
 
-The `debugger` statement causes the JavaScript runtime to pause execution and start a debugger if one is available.
+The `debugger` statement causes the JavaScript runtime to pause execution and start a debugger if one is available, such as when browser developer tools are open.
 While this can be useful during development, it should not be left in production code as it can cause unexpected pauses in execution.
 
 ## Examples
@@ -43,6 +43,10 @@ This rule is not configurable.
 ## When Not To Use It
 
 If you want to allow debugger statements in your codebase (not recommended for production), you can disable this rule.
+
+## Further Reading
+
+- [MDN: debugger statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger)
 
 ## Equivalents in Other Linters
 
