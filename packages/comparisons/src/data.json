@@ -10282,9 +10282,6 @@
 				"url": "https://biomejs.dev/linter/rules/noOctalEscape"
 			}
 		],
-		"deno": [
-			{ "name": "no-octal", "url": "https://docs.deno.com/lint/rules/no-octal" }
-		],
 		"eslint": [
 			{
 				"name": "no-octal-escape",
