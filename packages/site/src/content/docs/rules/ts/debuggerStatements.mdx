@@ -18,9 +18,9 @@ While this can be useful during development, it should not be left in production
 <TabItem label="❌ Incorrect">
 
 ```ts
-function processData(data) {
+function doubleValues(values: number[]) {
 	debugger;
-	return data.map((item) => item * 2);
+	return values.map((value) => value * 2);
 }
 ```
 
@@ -28,8 +28,8 @@ function processData(data) {
 <TabItem label="✅ Correct">
 
 ```ts
-function processData(data) {
-	return data.map((item) => item * 2);
+function doubleValues(values: number[]) {
+	return values.map((value) => value * 2);
 }
 ```
 
@@ -42,11 +42,11 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-If you want to allow debugger statements in your codebase (not recommended for production), you can disable this rule.
+If your app isn't shipped to production users, you might choose to disable this rule. For example, if you're developing a local-only application where pausing in a debugger when dev tools are open is acceptable behavior.
 
 ## Further Reading
 
-- [MDN: debugger statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger)
+- [MDN documentation on `debugger` statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger)
 
 ## Equivalents in Other Linters
 
