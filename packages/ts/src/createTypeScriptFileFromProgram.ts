@@ -7,7 +7,10 @@ import * as ts from "typescript";
 
 import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
 import { formatDiagnostic } from "./formatDiagnostic.js";
+import { getFirstEnumValues } from "./getFirstEnumValues.js";
 import { normalizeRange } from "./normalizeRange.js";
+
+const NodeSyntaxKinds = getFirstEnumValues(ts.SyntaxKind);
 
 export function createTypeScriptFileFromProgram(
 	program: ts.Program,
@@ -65,7 +68,7 @@ export function createTypeScriptFileFromProgram(
 
 			const { visitors } = runtime;
 			const visit = (node: ts.Node) => {
-				visitors[ts.SyntaxKind[node.kind]]?.(node);
+				visitors[NodeSyntaxKinds[node.kind]]?.(node);
 
 				node.forEachChild(visit);
 			};
