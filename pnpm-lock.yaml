@@ -34,11 +34,11 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
       '@types/node':
-        specifier: 24.5.0
-        version: 24.5.0
+        specifier: 24.6.0
+        version: 24.6.0
       '@vitest/eslint-plugin':
         specifier: 1.3.3
-        version: 1.3.3(eslint@9.36.0(jiti@2.5.1))(typescript@5.9.2)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1))
+        version: 1.3.3(eslint@9.36.0(jiti@2.5.1))(typescript@5.9.2)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1))
       console-fail-test:
         specifier: 0.5.0
         version: 0.5.0
@@ -80,7 +80,7 @@ importers:
         version: 9.1.7
       knip:
         specifier: 5.64.0
-        version: 5.64.0(@types/node@24.5.0)(typescript@5.9.2)
+        version: 5.64.0(@types/node@24.6.0)(typescript@5.9.2)
       lint-staged:
         specifier: 16.2.0
         version: 16.2.0
@@ -116,7 +116,7 @@ importers:
         version: 8.41.0(eslint@9.36.0(jiti@2.5.1))(typescript@5.9.2)
       vitest:
         specifier: 3.2.4
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1)
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1)
 
   packages/cli:
     dependencies:
@@ -291,10 +291,10 @@ importers:
         version: 0.9.4(prettier-plugin-astro@0.14.1)(prettier@3.6.1)(typescript@5.9.2)
       '@astrojs/react':
         specifier: ^4.3.1
-        version: 4.3.1(@types/node@24.5.0)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(jiti@2.5.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(yaml@2.8.1)
+        version: 4.3.1(@types/node@24.6.0)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(jiti@2.5.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(yaml@2.8.1)
       '@astrojs/starlight':
         specifier: ^0.36.0
-        version: 0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
+        version: 0.36.0(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
       '@flint.fyi/comparisons':
         specifier: 'workspace:'
         version: link:../comparisons
@@ -303,10 +303,10 @@ importers:
         version: link:../plugin-flint
       '@konami-emoji-blast/astro':
         specifier: ^0.1.1
-        version: 0.1.1(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))(konami-emoji-blast@0.5.9)
+        version: 0.1.1(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))(konami-emoji-blast@0.5.9)
       '@types/node':
         specifier: ^24.3.0
-        version: 24.5.0
+        version: 24.6.0
       '@types/react':
         specifier: ^19.1.13
         version: 19.1.13
@@ -315,7 +315,7 @@ importers:
         version: 19.1.9(@types/react@19.1.13)
       astro:
         specifier: ^5.13.2
-        version: 5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)
+        version: 5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)
       flint:
         specifier: 'workspace:'
         version: link:../flint
@@ -336,13 +336,13 @@ importers:
         version: 2.0.0
       starlight-links-validator:
         specifier: ^0.18.0
-        version: 0.18.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)))
+        version: 0.18.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)))
       starlight-package-managers:
         specifier: ^0.11.0
-        version: 0.11.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)))
+        version: 0.11.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)))
       starlight-sidebar-topics:
         specifier: ^0.6.0
-        version: 0.6.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)))
+        version: 0.6.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)))
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
@@ -1756,8 +1756,8 @@ packages:
   '@types/node@17.0.45':
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
 
-  '@types/node@24.5.0':
-    resolution: {integrity: sha512-y1dMvuvJspJiPSDZUQ+WMBvF7dpnEqN4x9DDC9ie5Fs/HUZJA3wFp7EhHoVaKX/iI0cRoECV8X2jL8zi0xrHCg==}
+  '@types/node@24.6.0':
+    resolution: {integrity: sha512-F1CBxgqwOMc4GKJ7eY22hWhBVQuMYTtqI8L0FcszYcpYX0fzfDGpez22Xau8Mgm7O9fI+zA/TYIdq3tGWfweBA==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -4328,8 +4328,8 @@ packages:
   uncrypto@0.1.3:
     resolution: {integrity: sha512-Ql87qFHB3s/De2ClA9e0gsnS6zXG27SkTiSJwjCc9MebbfapQfuPzumMIUMi38ezPZVNFcHI9sUIepeQfw8J8Q==}
 
-  undici-types@7.12.0:
-    resolution: {integrity: sha512-goOacqME2GYyOZZfb5Lgtu+1IDmAlAEu5xnD3+xTzS10hT0vzpf0SPjkXwAw9Jm+4n/mQGDP3LO8CPbYROeBfQ==}
+  undici-types@7.13.0:
+    resolution: {integrity: sha512-Ov2Rr9Sx+fRgagJ5AX0qvItZG/JKKoBRAVITs1zk7IqZGTJUwgUr7qoYBpWwakpWilTZFM98rG/AFRocu10iIQ==}
 
   unicode-properties@1.4.1:
     resolution: {integrity: sha512-CLjCCLQ6UuMxWnbIylkisbRj31qxHPAurvena/0iwSVbQ2G1VY5/HjV0IRabOEbDHlzZlRdCrD4NhB0JtU40Pg==}
@@ -4913,12 +4913,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@4.3.4(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))':
+  '@astrojs/mdx@4.3.4(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))':
     dependencies:
       '@astrojs/markdown-remark': 6.3.6
       '@mdx-js/mdx': 3.1.0(acorn@8.15.0)
       acorn: 8.15.0
-      astro: 5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)
+      astro: 5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)
       es-module-lexer: 1.7.0
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.5
@@ -4936,15 +4936,15 @@ snapshots:
     dependencies:
       prismjs: 1.30.0
 
-  '@astrojs/react@4.3.1(@types/node@24.5.0)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(jiti@2.5.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(yaml@2.8.1)':
+  '@astrojs/react@4.3.1(@types/node@24.6.0)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(jiti@2.5.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(yaml@2.8.1)':
     dependencies:
       '@types/react': 19.1.13
       '@types/react-dom': 19.1.9(@types/react@19.1.13)
-      '@vitejs/plugin-react': 4.7.0(vite@6.3.6(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1))
+      '@vitejs/plugin-react': 4.7.0(vite@6.3.6(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1))
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
       ultrahtml: 1.6.0
-      vite: 6.3.6(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1)
+      vite: 6.3.6(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -4965,17 +4965,17 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.25.76
 
-  '@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))':
+  '@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))':
     dependencies:
       '@astrojs/markdown-remark': 6.3.6
-      '@astrojs/mdx': 4.3.4(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
+      '@astrojs/mdx': 4.3.4(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
       '@astrojs/sitemap': 3.5.0
       '@pagefind/default-ui': 1.3.0
       '@types/hast': 3.0.4
       '@types/js-yaml': 4.0.9
       '@types/mdast': 4.0.4
-      astro: 5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)
-      astro-expressive-code: 0.41.3(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
+      astro: 5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)
+      astro-expressive-code: 0.41.3(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
       bcp-47: 2.1.0
       hast-util-from-html: 2.0.3
       hast-util-select: 6.0.4
@@ -5899,9 +5899,9 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@konami-emoji-blast/astro@0.1.1(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))(konami-emoji-blast@0.5.9)':
+  '@konami-emoji-blast/astro@0.1.1(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))(konami-emoji-blast@0.5.9)':
     dependencies:
-      astro: 5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)
+      astro: 5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)
       konami-emoji-blast: 0.5.9
 
   '@manypkg/find-root@1.1.0':
@@ -6219,7 +6219,7 @@ snapshots:
 
   '@types/fontkit@2.0.8':
     dependencies:
-      '@types/node': 24.5.0
+      '@types/node': 24.6.0
 
   '@types/hast@3.0.4':
     dependencies:
@@ -6260,9 +6260,9 @@ snapshots:
 
   '@types/node@17.0.45': {}
 
-  '@types/node@24.5.0':
+  '@types/node@24.6.0':
     dependencies:
-      undici-types: 7.12.0
+      undici-types: 7.13.0
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -6280,7 +6280,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 24.5.0
+      '@types/node': 24.6.0
 
   '@types/unist@2.0.11': {}
 
@@ -6390,7 +6390,7 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
-  '@vitejs/plugin-react@4.7.0(vite@6.3.6(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1))':
+  '@vitejs/plugin-react@4.7.0(vite@6.3.6(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1))':
     dependencies:
       '@babel/core': 7.28.4
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.4)
@@ -6398,17 +6398,17 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.27
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 6.3.6(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1)
+      vite: 6.3.6(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1)
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/eslint-plugin@1.3.3(eslint@9.36.0(jiti@2.5.1))(typescript@5.9.2)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1))':
+  '@vitest/eslint-plugin@1.3.3(eslint@9.36.0(jiti@2.5.1))(typescript@5.9.2)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1))':
     dependencies:
       '@typescript-eslint/utils': 8.41.0(eslint@9.36.0(jiti@2.5.1))(typescript@5.9.2)
       eslint: 9.36.0(jiti@2.5.1)
     optionalDependencies:
       typescript: 5.9.2
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -6420,13 +6420,13 @@ snapshots:
       chai: 5.3.2
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@3.2.4(vite@7.1.3(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1))':
+  '@vitest/mocker@3.2.4(vite@7.1.3(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1))':
     dependencies:
       '@vitest/spy': 3.2.4
       estree-walker: 3.0.3
       magic-string: 0.30.18
     optionalDependencies:
-      vite: 7.1.3(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1)
+      vite: 7.1.3(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1)
 
   '@vitest/pretty-format@3.2.4':
     dependencies:
@@ -6573,12 +6573,12 @@ snapshots:
 
   astring@1.9.0: {}
 
-  astro-expressive-code@0.41.3(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)):
+  astro-expressive-code@0.41.3(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)):
     dependencies:
-      astro: 5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)
+      astro: 5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)
       rehype-expressive-code: 0.41.3
 
-  astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1):
+  astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1):
     dependencies:
       '@astrojs/compiler': 2.12.2
       '@astrojs/internal-helpers': 0.7.2
@@ -6634,8 +6634,8 @@ snapshots:
       unist-util-visit: 5.0.0
       unstorage: 1.16.1
       vfile: 6.0.3
-      vite: 6.3.6(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1)
-      vitefu: 1.1.1(vite@6.3.6(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1))
+      vite: 6.3.6(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1)
+      vitefu: 1.1.1(vite@6.3.6(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1))
       xxhash-wasm: 1.1.0
       yargs-parser: 21.1.1
       yocto-spinner: 0.2.3
@@ -7954,10 +7954,10 @@ snapshots:
 
   klona@2.0.6: {}
 
-  knip@5.64.0(@types/node@24.5.0)(typescript@5.9.2):
+  knip@5.64.0(@types/node@24.6.0)(typescript@5.9.2):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
-      '@types/node': 24.5.0
+      '@types/node': 24.6.0
       fast-glob: 3.3.3
       formatly: 0.3.0
       jiti: 2.5.1
@@ -9410,9 +9410,9 @@ snapshots:
 
   stackback@0.0.2: {}
 
-  starlight-links-validator@0.18.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))):
+  starlight-links-validator@0.18.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))):
     dependencies:
-      '@astrojs/starlight': 0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
+      '@astrojs/starlight': 0.36.0(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
       '@types/picomatch': 3.0.2
       github-slugger: 2.0.0
       hast-util-from-html: 2.0.3
@@ -9427,13 +9427,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  starlight-package-managers@0.11.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))):
+  starlight-package-managers@0.11.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))):
     dependencies:
-      '@astrojs/starlight': 0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
+      '@astrojs/starlight': 0.36.0(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
 
-  starlight-sidebar-topics@0.6.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))):
+  starlight-sidebar-topics@0.6.0(@astrojs/starlight@0.36.0(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))):
     dependencies:
-      '@astrojs/starlight': 0.36.0(astro@5.13.2(@types/node@24.5.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
+      '@astrojs/starlight': 0.36.0(astro@5.13.2(@types/node@24.6.0)(jiti@2.5.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))
       picomatch: 4.0.3
 
   std-env@3.9.0: {}
@@ -9611,7 +9611,7 @@ snapshots:
 
   uncrypto@0.1.3: {}
 
-  undici-types@7.12.0: {}
+  undici-types@7.13.0: {}
 
   unicode-properties@1.4.1:
     dependencies:
@@ -9738,13 +9738,13 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  vite-node@3.2.4(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1):
+  vite-node@3.2.4(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1):
     dependencies:
       cac: 6.7.14
       debug: 4.4.3
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 7.1.3(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1)
+      vite: 7.1.3(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -9759,7 +9759,7 @@ snapshots:
       - tsx
       - yaml
 
-  vite@6.3.6(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1):
+  vite@6.3.6(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1):
     dependencies:
       esbuild: 0.25.9
       fdir: 6.5.0(picomatch@4.0.3)
@@ -9768,12 +9768,12 @@ snapshots:
       rollup: 4.47.1
       tinyglobby: 0.2.14
     optionalDependencies:
-      '@types/node': 24.5.0
+      '@types/node': 24.6.0
       fsevents: 2.3.3
       jiti: 2.5.1
       yaml: 2.8.1
 
-  vite@7.1.3(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1):
+  vite@7.1.3(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1):
     dependencies:
       esbuild: 0.25.9
       fdir: 6.5.0(picomatch@4.0.3)
@@ -9782,20 +9782,20 @@ snapshots:
       rollup: 4.47.1
       tinyglobby: 0.2.14
     optionalDependencies:
-      '@types/node': 24.5.0
+      '@types/node': 24.6.0
       fsevents: 2.3.3
       jiti: 2.5.1
       yaml: 2.8.1
 
-  vitefu@1.1.1(vite@6.3.6(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1)):
+  vitefu@1.1.1(vite@6.3.6(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1)):
     optionalDependencies:
-      vite: 6.3.6(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1)
+      vite: 6.3.6(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1)
 
-  vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1):
+  vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1):
     dependencies:
       '@types/chai': 5.2.2
       '@vitest/expect': 3.2.4
-      '@vitest/mocker': 3.2.4(vite@7.1.3(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1))
+      '@vitest/mocker': 3.2.4(vite@7.1.3(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1))
       '@vitest/pretty-format': 3.2.4
       '@vitest/runner': 3.2.4
       '@vitest/snapshot': 3.2.4
@@ -9813,12 +9813,12 @@ snapshots:
       tinyglobby: 0.2.14
       tinypool: 1.1.1
       tinyrainbow: 2.0.0
-      vite: 7.1.3(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1)
-      vite-node: 3.2.4(@types/node@24.5.0)(jiti@2.5.1)(yaml@2.8.1)
+      vite: 7.1.3(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1)
+      vite-node: 3.2.4(@types/node@24.6.0)(jiti@2.5.1)(yaml@2.8.1)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/debug': 4.1.12
-      '@types/node': 24.5.0
+      '@types/node': 24.6.0
     transitivePeerDependencies:
       - jiti
       - less
