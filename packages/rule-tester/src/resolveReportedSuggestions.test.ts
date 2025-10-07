@@ -68,11 +68,6 @@ describe("resolveReportedSuggestions", () => {
 			],
 		};
 
-		const result = resolveReportedSuggestions([report], {
-			...mockTestCaseNormalized,
-			suggestions: undefined,
-		});
-
 		expect(() =>
 			resolveReportedSuggestions([report], {
 				...mockTestCaseNormalized,
