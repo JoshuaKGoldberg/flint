@@ -2,6 +2,32 @@ import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
 
+/**
+ * Finds the position and length of an octal escape sequence in a string.
+ * Returns undefined if no octal escape is found.
+ */
+function findOctalEscape(
+	text: string,
+): undefined | { index: number; length: number } {
+	// Remove quotes from the string literal
+	const content = text.slice(1, -1);
+
+	// Match octal escapes: \0 followed by [0-7], or \1-7 optionally followed by [0-7]
+	// But exclude escaped backslashes (\\)
+	const octalEscapePattern = /(?<!\\)\\0[0-7]|(?<!\\)\\[1-7][0-7]*/;
+	const match = octalEscapePattern.exec(content);
+
+	if (!match) {
+		return undefined;
+	}
+
+	// Add 1 to account for the opening quote
+	return {
+		index: match.index + 1,
+		length: match[0].length,
+	};
+}
+
 export default typescriptLanguage.createRule({
 	about: {
 		description: "Reports using octal escape sequences in string literals.",
@@ -22,26 +48,20 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkNode(
-			node: ts.NoSubstitutionTemplateLiteral | ts.StringLiteral,
-		) {
-			// Remove quotes from the string literal
-			const content = node.getText(context.sourceFile).slice(1, -1);
+		function checkNode(node: ts.Node) {
+			const text = node.getText(context.sourceFile);
+			const octalEscape = findOctalEscape(text);
 
-			// Match octal escapes: \0 followed by [0-7], or \1-7 optionally followed by [0-7]
-			// But exclude escaped backslashes (\\)
-			const match = /(?<!\\)\\0[0-7]|(?<!\\)\\[1-7][0-7]*/.exec(content);
-			if (!match) {
-				return undefined;
+			if (!octalEscape) {
+				return;
 			}
 
 			const nodeStart = node.getStart(context.sourceFile);
-
 			context.report({
 				message: "noOctalEscape",
 				range: {
-					begin: nodeStart + match.index + 1,
-					end: nodeStart + match.index + match[0].length + 1,
+					begin: nodeStart + octalEscape.index,
+					end: nodeStart + octalEscape.index + octalEscape.length,
 				},
 			});
 		}
@@ -50,6 +70,15 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				NoSubstitutionTemplateLiteral: checkNode,
 				StringLiteral: checkNode,
+				TemplateExpression: (node) => {
+					// Check the head of the template
+					checkNode(node.head);
+
+					// Check each template span
+					for (const span of node.templateSpans) {
+						checkNode(span.literal);
+					}
+				},
 			},
 		};
 	},
