@@ -7,6 +7,7 @@ import { SuggestionForFiles } from "@flint.fyi/core/src/types/changes.js";
 import { isTruthy } from "@flint.fyi/utils";
 
 import { TestCaseNormalized } from "./normalizeTestCase.js";
+import { isTestSuggestionForFiles } from "./predicates.js";
 import { InvalidTestCase, TestSuggestionFileCase } from "./types.js";
 
 export function resolveReportedSuggestions(
@@ -21,19 +22,23 @@ export function resolveReportedSuggestions(
 		return undefined;
 	}
 
-	return suggestionsReported.map((suggestionReported) => ({
-		files: isSuggestionForFiles(suggestionReported)
-			? resolveReportedSuggestionForFiles(
-					suggestionReported,
-					testCaseNormalized,
-				)
-			: [
-					{
-						[testCaseNormalized.fileName]: suggestionReported,
-					},
-				],
-		id: suggestionReported.id,
-	}));
+	return suggestionsReported.map((suggestionReported) =>
+		isSuggestionForFiles(suggestionReported)
+			? {
+					files: resolveReportedSuggestionForFiles(
+						suggestionReported,
+						testCaseNormalized,
+					),
+					id: suggestionReported.id,
+				}
+			: {
+					id: suggestionReported.id,
+					updated: applyChangesToText(
+						[suggestionReported],
+						testCaseNormalized.code,
+					),
+				},
+	);
 }
 
 function resolveReportedSuggestionForFiles(
@@ -42,6 +47,12 @@ function resolveReportedSuggestionForFiles(
 ) {
 	if (!testCaseNormalized.suggestions) {
 		return {};
+	}
+
+	if (!testCaseNormalized.suggestions.every(isTestSuggestionForFiles)) {
+		throw new Error(
+			"This test case describes suggestions across files, but the rule is only reporting changes to its own file.",
+		);
 	}
 
 	return Object.fromEntries(
