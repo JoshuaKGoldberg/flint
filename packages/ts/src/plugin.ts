@@ -11,9 +11,9 @@ export const ts = createPlugin({
 	},
 	name: "ts",
 	rules: [
-		forInArrays,
 		consecutiveNonNullAssertions,
 		debuggerStatements,
+		forInArrays,
 		namespaceDeclarations,
 	],
 });
