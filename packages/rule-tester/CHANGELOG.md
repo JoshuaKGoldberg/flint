@@ -1,5 +1,11 @@
 # @flint/rule-tester
 
+## 0.14.1
+
+### Patch Changes
+
+- b58d145: corrected logic and types for current-file suggestions
+
 ## 0.14.0
 
 ### Minor Changes

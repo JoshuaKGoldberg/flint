@@ -1,5 +1,13 @@
 # @flint/ts
 
+## 0.14.2
+
+### Patch Changes
+
+- 6415134: feat: implement debuggerStatements rule for TypeScript plugin
+- Updated dependencies [b58d145]
+  - @flint.fyi/rule-tester@0.14.1
+
 ## 0.14.1
 
 ### Patch Changes
