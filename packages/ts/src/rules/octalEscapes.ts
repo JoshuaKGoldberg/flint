@@ -1,5 +1,3 @@
-import * as ts from "typescript";
-
 import { typescriptLanguage } from "../language.js";
 
 /**
@@ -42,7 +40,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				StringLiteral: (node) => {
+				NoSubstitutionTemplateLiteral: (node) => {
 					const text = node.getText(context.sourceFile);
 
 					if (hasOctalEscape(text)) {
@@ -55,7 +53,7 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
-				NoSubstitutionTemplateLiteral: (node) => {
+				StringLiteral: (node) => {
 					const text = node.getText(context.sourceFile);
 
 					if (hasOctalEscape(text)) {
