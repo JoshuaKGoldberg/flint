@@ -1,0 +1,59 @@
+---
+description: "Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences."
+title: "octalEscapes"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="octalEscapes" />
+
+Octal escape sequences (e.g., `\01`, `\02`, `\377`) are a deprecated feature in JavaScript that can lead to confusion and portability issues.
+They are forbidden in strict mode code, template literals, and are less readable than their modern alternatives.
+The null character escape sequence `\0` (when not followed by an octal digit) is still allowed as it is commonly used and well-understood.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const message = "Hello\07World";
+const path = "C:\01\02\03";
+const octal = "\377";
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const message = "Hello\x07World";
+const path = "C:\x01\x02\x03";
+const octal = "\xFF";
+
+// The null character escape is allowed
+const nullChar = "\0";
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you need to maintain compatibility with very old JavaScript engines that don't support hexadecimal or Unicode escape sequences, you might choose to disable this rule.
+However, this is extremely rare in modern development.
+
+## Further Reading
+
+- [ECMAScript Specification: String Literals](https://tc39.es/ecma262/#sec-literals-string-literals)
+- [MDN: Escape sequences](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#escape_sequences)
+- [MDN: Strict Mode in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="octalEscapes" />

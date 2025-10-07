@@ -4,6 +4,7 @@ import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.j
 import debuggerStatements from "./rules/debuggerStatements.js";
 import forInArrays from "./rules/forInArrays.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
+import octalEscapes from "./rules/octalEscapes.js";
 
 export const ts = createPlugin({
 	files: {
@@ -15,5 +16,6 @@ export const ts = createPlugin({
 		debuggerStatements,
 		forInArrays,
 		namespaceDeclarations,
+		octalEscapes,
 	],
 });

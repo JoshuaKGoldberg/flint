@@ -1,7 +1,10 @@
 [
 	{
 		"biome": [
-			{ "name": "noAlert", "url": "https://biomejs.dev/linter/rules/noAlert" }
+			{
+				"name": "noAlert",
+				"url": "https://biomejs.dev/linter/rules/noAlert"
+			}
 		],
 		"eslint": [
 			{
@@ -1195,7 +1198,10 @@
 	},
 	{
 		"deno": [
-			{ "name": "jsx-key", "url": "https://docs.deno.com/lint/rules/jsx-key" }
+			{
+				"name": "jsx-key",
+				"url": "https://docs.deno.com/lint/rules/jsx-key"
+			}
 		],
 		"flint": {
 			"name": "iterableKeys",
@@ -3153,7 +3159,10 @@
 	},
 	{
 		"biome": [
-			{ "name": "noDelete", "url": "https://biomejs.dev/linter/rules/noDelete" }
+			{
+				"name": "noDelete",
+				"url": "https://biomejs.dev/linter/rules/noDelete"
+			}
 		],
 		"flint": {
 			"name": "deletes",
@@ -4075,7 +4084,10 @@
 				"name": "noForEach",
 				"url": "https://biomejs.dev/linter/rules/noForEach"
 			},
-			{ "name": "useForOf", "url": "https://biomejs.dev/linter/rules/useForOf" }
+			{
+				"name": "useForOf",
+				"url": "https://biomejs.dev/linter/rules/useForOf"
+			}
 		],
 		"eslint": [
 			{
@@ -4419,7 +4431,10 @@
 	},
 	{
 		"biome": [
-			{ "name": "useAwait", "url": "https://biomejs.dev/linter/rules/useAwait" }
+			{
+				"name": "useAwait",
+				"url": "https://biomejs.dev/linter/rules/useAwait"
+			}
 		],
 		"deno": [
 			{
@@ -4661,7 +4676,10 @@
 			}
 		],
 		"eslint": [
-			{ "name": "curly", "url": "https://eslint.org/docs/latest/rules/curly" }
+			{
+				"name": "curly",
+				"url": "https://eslint.org/docs/latest/rules/curly"
+			}
 		],
 		"flint": {
 			"name": "blockStatements",
@@ -5181,7 +5199,10 @@
 			}
 		],
 		"eslint": [
-			{ "name": "yoda", "url": "https://eslint.org/docs/latest/rules/yoda" }
+			{
+				"name": "yoda",
+				"url": "https://eslint.org/docs/latest/rules/yoda"
+			}
 		],
 		"flint": {
 			"name": "conditionOrdering",
@@ -5429,7 +5450,10 @@
 	},
 	{
 		"biome": [
-			{ "name": "useConst", "url": "https://biomejs.dev/linter/rules/useConst" }
+			{
+				"name": "useConst",
+				"url": "https://biomejs.dev/linter/rules/useConst"
+			}
 		],
 		"deno": [
 			{
@@ -5991,7 +6015,10 @@
 			}
 		],
 		"deno": [
-			{ "name": "no-empty", "url": "https://docs.deno.com/lint/rules/no-empty" }
+			{
+				"name": "no-empty",
+				"url": "https://docs.deno.com/lint/rules/no-empty"
+			}
 		],
 		"eslint": [
 			{
@@ -6384,10 +6411,16 @@
 			}
 		],
 		"deno": [
-			{ "name": "eqeqeq", "url": "https://docs.deno.com/lint/rules/eqeqeq" }
+			{
+				"name": "eqeqeq",
+				"url": "https://docs.deno.com/lint/rules/eqeqeq"
+			}
 		],
 		"eslint": [
-			{ "name": "eqeqeq", "url": "https://eslint.org/docs/latest/rules/eqeqeq" }
+			{
+				"name": "eqeqeq",
+				"url": "https://eslint.org/docs/latest/rules/eqeqeq"
+			}
 		],
 		"flint": {
 			"name": "equalityOperators",
@@ -6483,7 +6516,10 @@
 			}
 		],
 		"deno": [
-			{ "name": "no-eval", "url": "https://docs.deno.com/lint/rules/no-eval" }
+			{
+				"name": "no-eval",
+				"url": "https://docs.deno.com/lint/rules/no-eval"
+			}
 		],
 		"eslint": [
 			{
@@ -7076,7 +7112,10 @@
 	},
 	{
 		"biome": [
-			{ "name": "useYield", "url": "https://biomejs.dev/linter/rules/useYield" }
+			{
+				"name": "useYield",
+				"url": "https://biomejs.dev/linter/rules/useYield"
+			}
 		],
 		"deno": [
 			{
@@ -7865,7 +7904,10 @@
 	},
 	{
 		"biome": [
-			{ "name": "useIsNan", "url": "https://biomejs.dev/linter/rules/useIsNan" }
+			{
+				"name": "useIsNan",
+				"url": "https://biomejs.dev/linter/rules/useIsNan"
+			}
 		],
 		"deno": [
 			{
@@ -9561,7 +9603,10 @@
 	},
 	{
 		"eslint": [
-			{ "name": "no-new", "url": "https://eslint.org/docs/latest/rules/no-new" }
+			{
+				"name": "no-new",
+				"url": "https://eslint.org/docs/latest/rules/no-new"
+			}
 		],
 		"flint": {
 			"name": "newExpressions",
@@ -10291,7 +10336,8 @@
 		"flint": {
 			"name": "octalEscapes",
 			"plugin": "ts",
-			"preset": "Untyped"
+			"preset": "Untyped",
+			"implemented": true
 		}
 	},
 	{
@@ -10465,7 +10511,10 @@
 			}
 		],
 		"eslint": [
-			{ "name": "radix", "url": "https://eslint.org/docs/latest/rules/radix" }
+			{
+				"name": "radix",
+				"url": "https://eslint.org/docs/latest/rules/radix"
+			}
 		],
 		"flint": {
 			"name": "parseIntRadixes",
@@ -12641,7 +12690,10 @@
 	},
 	{
 		"biome": [
-			{ "name": "noShadow", "url": "https://biomejs.dev/linter/rules/noShadow" }
+			{
+				"name": "noShadow",
+				"url": "https://biomejs.dev/linter/rules/noShadow"
+			}
 		],
 		"eslint": [
 			{
@@ -12917,7 +12969,10 @@
 	},
 	{
 		"biome": [
-			{ "name": "noSubstr", "url": "https://biomejs.dev/linter/rules/noSubstr" }
+			{
+				"name": "noSubstr",
+				"url": "https://biomejs.dev/linter/rules/noSubstr"
+			}
 		],
 		"eslint": [
 			{
@@ -13661,7 +13716,10 @@
 			}
 		],
 		"deno": [
-			{ "name": "no-undef", "url": "https://docs.deno.com/lint/rules/no-undef" }
+			{
+				"name": "no-undef",
+				"url": "https://docs.deno.com/lint/rules/no-undef"
+			}
 		],
 		"eslint": [
 			{
@@ -14889,7 +14947,10 @@
 	},
 	{
 		"eslint": [
-			{ "name": "strict", "url": "https://eslint.org/docs/latest/rules/strict" }
+			{
+				"name": "strict",
+				"url": "https://eslint.org/docs/latest/rules/strict"
+			}
 		],
 		"flint": {
 			"name": "useStrictDirectives",
@@ -14899,13 +14960,22 @@
 	},
 	{
 		"biome": [
-			{ "name": "noVar", "url": "https://biomejs.dev/linter/rules/noVar" }
+			{
+				"name": "noVar",
+				"url": "https://biomejs.dev/linter/rules/noVar"
+			}
 		],
 		"deno": [
-			{ "name": "no-var", "url": "https://docs.deno.com/lint/rules/no-var" }
+			{
+				"name": "no-var",
+				"url": "https://docs.deno.com/lint/rules/no-var"
+			}
 		],
 		"eslint": [
-			{ "name": "no-var", "url": "https://eslint.org/docs/latest/rules/no-var" }
+			{
+				"name": "no-var",
+				"url": "https://eslint.org/docs/latest/rules/no-var"
+			}
 		],
 		"flint": {
 			"name": "varDeclarations",
@@ -15068,7 +15138,10 @@
 	},
 	{
 		"biome": [
-			{ "name": "noVoid", "url": "https://biomejs.dev/linter/rules/noVoid" }
+			{
+				"name": "noVoid",
+				"url": "https://biomejs.dev/linter/rules/noVoid"
+			}
 		],
 		"eslint": [
 			{
@@ -15090,10 +15163,16 @@
 	},
 	{
 		"biome": [
-			{ "name": "noWith", "url": "https://biomejs.dev/linter/rules/noWith" }
+			{
+				"name": "noWith",
+				"url": "https://biomejs.dev/linter/rules/noWith"
+			}
 		],
 		"deno": [
-			{ "name": "no-with", "url": "https://docs.deno.com/lint/rules/no-with" }
+			{
+				"name": "no-with",
+				"url": "https://docs.deno.com/lint/rules/no-with"
+			}
 		],
 		"eslint": [
 			{
