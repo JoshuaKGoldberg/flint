@@ -102,5 +102,7 @@ const result = 010 + 020;
 		`const hex = 0xFF;`,
 		`const binary = 0b1010;`,
 		`const octal = 0o755;`,
+		`const notOctal = 08;`,
+		`const alsoNotOctal = 09;`,
 	],
 });
