@@ -1,22 +1,31 @@
+import * as ts from "typescript";
+
 import { typescriptLanguage } from "../language.js";
 
 /**
- * Checks if a string contains octal escape sequences.
- * Octal escapes are:
- * - \0 followed by an octal digit (0-7)
- * - \1 through \7 optionally followed by more octal digits
- * But \0 alone (null character) is allowed.
- *
- * We need to check the actual source text, not the interpreted string.
+ * Finds the position and length of an octal escape sequence in a string.
+ * Returns null if no octal escape is found.
  */
-function hasOctalEscape(text: string): boolean {
+function findOctalEscape(
+	text: string,
+): null | { index: number; length: number } {
 	// Remove quotes from the string literal
 	const content = text.slice(1, -1);
 
 	// Match octal escapes: \0 followed by [0-7], or \1-7 optionally followed by [0-7]
 	// But exclude escaped backslashes (\\)
 	const octalEscapePattern = /(?<!\\)\\0[0-7]|(?<!\\)\\[1-7][0-7]*/;
-	return octalEscapePattern.test(content);
+	const match = octalEscapePattern.exec(content);
+
+	if (!match || match.index === undefined) {
+		return null;
+	}
+
+	// Add 1 to account for the opening quote
+	return {
+		index: match.index + 1,
+		length: match[0].length,
+	};
 }
 
 export default typescriptLanguage.createRule({
@@ -38,34 +47,26 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
+		function checkNode(node: ts.Node) {
+			const text = node.getText(context.sourceFile);
+			const octalEscape = findOctalEscape(text);
+
+			if (octalEscape) {
+				const nodeStart = node.getStart(context.sourceFile);
+				context.report({
+					message: "noOctalEscape",
+					range: {
+						begin: nodeStart + octalEscape.index,
+						end: nodeStart + octalEscape.index + octalEscape.length,
+					},
+				});
+			}
+		}
+
 		return {
 			visitors: {
-				NoSubstitutionTemplateLiteral: (node) => {
-					const text = node.getText(context.sourceFile);
-
-					if (hasOctalEscape(text)) {
-						context.report({
-							message: "noOctalEscape",
-							range: {
-								begin: node.getStart(context.sourceFile),
-								end: node.getEnd(),
-							},
-						});
-					}
-				},
-				StringLiteral: (node) => {
-					const text = node.getText(context.sourceFile);
-
-					if (hasOctalEscape(text)) {
-						context.report({
-							message: "noOctalEscape",
-							range: {
-								begin: node.getStart(context.sourceFile),
-								end: node.getEnd(),
-							},
-						});
-					}
-				},
+				NoSubstitutionTemplateLiteral: checkNode,
+				StringLiteral: checkNode,
 			},
 		};
 	},
