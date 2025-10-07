@@ -1,6 +1,7 @@
 import { createPlugin } from "@flint.fyi/core";
 
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.js";
+import debuggerStatements from "./rules/debuggerStatements.js";
 import forInArrays from "./rules/forInArrays.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 
@@ -9,5 +10,10 @@ export const ts = createPlugin({
 		all: ["**/*.{cjs,js,jsx,mjs,ts,tsx}"],
 	},
 	name: "ts",
-	rules: [consecutiveNonNullAssertions, forInArrays, namespaceDeclarations],
+	rules: [
+		consecutiveNonNullAssertions,
+		debuggerStatements,
+		forInArrays,
+		namespaceDeclarations,
+	],
 });

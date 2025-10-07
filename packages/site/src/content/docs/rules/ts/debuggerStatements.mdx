@@ -1,0 +1,54 @@
+---
+description: "Debugger statements should not be used in production code."
+title: "debuggerStatements"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="debuggerStatements" />
+
+The `debugger` statement causes the JavaScript runtime to pause execution and start a debugger if one is available, such as when browser developer tools are open.
+While this can be useful during development, it should not be left in production code as it can cause unexpected pauses in execution.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function doubleValues(values: number[]) {
+	debugger;
+	return values.map((value) => value * 2);
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function doubleValues(values: number[]) {
+	return values.map((value) => value * 2);
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your app isn't shipped to production users, you might choose to disable this rule.
+For example, if you're developing a local-only application where pausing in a debugger when dev tools are open is acceptable behavior, this rule might not be useful to you.
+
+## Further Reading
+
+- [MDN documentation on `debugger` statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="debuggerStatements" />
