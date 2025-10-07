@@ -29,14 +29,21 @@ export interface TestCase<
 	skip?: boolean;
 }
 
-export interface TestSuggestion {
-	files: Record<string, TestSuggestionFileCase[]>;
-	id: string;
-}
+export type TestSuggestion = TestSuggestionForFile | TestSuggestionForFiles;
 
 export interface TestSuggestionFileCase {
 	original: string;
 	updated: string;
+}
+
+export interface TestSuggestionForFile {
+	id: string;
+	updated: string;
+}
+
+export interface TestSuggestionForFiles {
+	files: Record<string, TestSuggestionFileCase[]>;
+	id: string;
 }
 
 export type ValidTestCase<Options extends object | undefined> =
