@@ -17,7 +17,7 @@ function findOctalEscape(
 	const octalEscapePattern = /(?<!\\)\\0[0-7]|(?<!\\)\\[1-7][0-7]*/;
 	const match = octalEscapePattern.exec(content);
 
-	if (!match || match.index === undefined) {
+	if (!match) {
 		return null;
 	}
 
@@ -36,7 +36,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		noOctalEscape: {
-			primary: "Octal escape sequences should not be used in string literals.",
+			primary:
+				"Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.",
 			secondary: [
 				"Octal escape sequences (e.g., `\\01`, `\\02`, `\\377`) are a deprecated feature in JavaScript that can lead to confusion and are forbidden in strict mode and template literals.",
 				"They are less readable than their modern alternatives and can cause portability issues.",
@@ -51,16 +52,18 @@ export default typescriptLanguage.createRule({
 			const text = node.getText(context.sourceFile);
 			const octalEscape = findOctalEscape(text);
 
-			if (octalEscape) {
-				const nodeStart = node.getStart(context.sourceFile);
-				context.report({
-					message: "noOctalEscape",
-					range: {
-						begin: nodeStart + octalEscape.index,
-						end: nodeStart + octalEscape.index + octalEscape.length,
-					},
-				});
+			if (!octalEscape) {
+				return;
 			}
+
+			const nodeStart = node.getStart(context.sourceFile);
+			context.report({
+				message: "noOctalEscape",
+				range: {
+					begin: nodeStart + octalEscape.index,
+					end: nodeStart + octalEscape.index + octalEscape.length,
+				},
+			});
 		}
 
 		return {

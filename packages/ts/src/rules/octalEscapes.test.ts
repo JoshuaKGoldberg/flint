@@ -10,7 +10,7 @@ const a = "\\1";
 			snapshot: `
 const a = "\\1";
            ~~
-           Octal escape sequences should not be used in string literals.
+           Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ const a = "\\2";
 			snapshot: `
 const a = "\\2";
            ~~
-           Octal escape sequences should not be used in string literals.
+           Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ const a = "\\7";
 			snapshot: `
 const a = "\\7";
            ~~
-           Octal escape sequences should not be used in string literals.
+           Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -40,7 +40,7 @@ const a = "\\00";
 			snapshot: `
 const a = "\\00";
            ~~~
-           Octal escape sequences should not be used in string literals.
+           Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -50,7 +50,7 @@ const a = "\\01";
 			snapshot: `
 const a = "\\01";
            ~~~
-           Octal escape sequences should not be used in string literals.
+           Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -60,7 +60,7 @@ const a = "\\02";
 			snapshot: `
 const a = "\\02";
            ~~~
-           Octal escape sequences should not be used in string literals.
+           Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -70,7 +70,7 @@ const a = "\\07";
 			snapshot: `
 const a = "\\07";
            ~~~
-           Octal escape sequences should not be used in string literals.
+           Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -80,7 +80,7 @@ const a = "\\377";
 			snapshot: `
 const a = "\\377";
            ~~~~
-           Octal escape sequences should not be used in string literals.
+           Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -90,7 +90,7 @@ const a = "\\12";
 			snapshot: `
 const a = "\\12";
            ~~~
-           Octal escape sequences should not be used in string literals.
+           Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -100,7 +100,7 @@ const a = "foo\\1bar";
 			snapshot: `
 const a = "foo\\1bar";
               ~~
-              Octal escape sequences should not be used in string literals.
+              Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -110,7 +110,7 @@ const a = "foo\\01bar";
 			snapshot: `
 const a = "foo\\01bar";
               ~~~
-              Octal escape sequences should not be used in string literals.
+              Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -120,7 +120,7 @@ const a = '\\1';
 			snapshot: `
 const a = '\\1';
            ~~
-           Octal escape sequences should not be used in string literals.
+           Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -130,7 +130,7 @@ const a = '\\01';
 			snapshot: `
 const a = '\\01';
            ~~~
-           Octal escape sequences should not be used in string literals.
+           Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 	],
