@@ -95,22 +95,22 @@ const a = "\\12";
 		},
 		{
 			code: `
-const a = "foo\\1bar";
+const a = "before\\1after";
 `,
 			snapshot: `
-const a = "foo\\1bar";
-              ~~
-              Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
+const a = "before\\1after";
+                 ~~
+                 Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
 			code: `
-const a = "foo\\01bar";
+const a = "before\\01after";
 `,
 			snapshot: `
-const a = "foo\\01bar";
-              ~~~
-              Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
+const a = "before\\01after";
+                 ~~~
+                 Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -155,12 +155,12 @@ const a = \`\\01\`;
 		},
 		{
 			code: `
-const a = \`foo\\1bar\`;
+const a = \`before\\1after\`;
 `,
 			snapshot: `
-const a = \`foo\\1bar\`;
-              ~~
-              Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
+const a = \`before\\1after\`;
+                 ~~
+                 Prefer hexadecimal or Unicode escape sequences over legacy octal escape sequences.
 `,
 		},
 		{
@@ -198,9 +198,9 @@ const a = \`\\01 value: \${x}\`;
 		`const a = "\\t";`,
 		`const a = "\\\\0";`,
 		`const a = "\\\\1";`,
-		`const a = "foo\\0bar";`,
-		`const a = "foo\\8bar";`,
-		`const a = "foo\\9bar";`,
+		`const a = "before\\0after";`,
+		`const a = "before\\8after";`,
+		`const a = "before\\9after";`,
 		`const a = '\\0';`,
 		`const a = '\\8';`,
 		`const a = '\\9';`,
