@@ -10348,6 +10348,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "octalNumbers",
 			"plugin": "ts",
 			"preset": "Untyped"
