@@ -15058,6 +15058,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "variableDeletions",
 			"plugin": "ts",
 			"preset": "Untyped"
