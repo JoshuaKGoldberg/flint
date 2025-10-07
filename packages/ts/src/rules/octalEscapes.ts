@@ -4,11 +4,11 @@ import { typescriptLanguage } from "../language.js";
 
 /**
  * Finds the position and length of an octal escape sequence in a string.
- * Returns null if no octal escape is found.
+ * Returns undefined if no octal escape is found.
  */
 function findOctalEscape(
 	text: string,
-): null | { index: number; length: number } {
+): undefined | { index: number; length: number } {
 	// Remove quotes from the string literal
 	const content = text.slice(1, -1);
 
@@ -18,7 +18,7 @@ function findOctalEscape(
 	const match = octalEscapePattern.exec(content);
 
 	if (!match) {
-		return null;
+		return undefined;
 	}
 
 	// Add 1 to account for the opening quote
