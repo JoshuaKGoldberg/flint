@@ -1,9 +1,6 @@
 import rule from "./debuggerStatements.js";
 import { ruleTester } from "./ruleTester.js";
 
-// Note: This rule reports suggestions (not fixes) to remove debugger statements.
-// Test framework limitation: suggestion assertions are not included because
-// resolveReportedSuggestions doesn't support SuggestionForFile format testing.
 ruleTester.describe(rule, {
 	invalid: [
 		{
@@ -15,6 +12,14 @@ debugger;
 ~~~~~~~~~
 Debugger statements should not be used in production code.
 `,
+			suggestions: [
+				{
+					id: "removeDebugger",
+					updated: `
+
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -29,6 +34,16 @@ function test() {
  Debugger statements should not be used in production code.
 }
 `,
+			suggestions: [
+				{
+					id: "removeDebugger",
+					updated: `
+function test() {
+	
+}
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -43,6 +58,16 @@ if (condition) {
  Debugger statements should not be used in production code.
 }
 `,
+			suggestions: [
+				{
+					id: "removeDebugger",
+					updated: `
+if (condition) {
+	
+}
+`,
+				},
+			],
 		},
 	],
 	valid: [
