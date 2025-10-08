@@ -1,0 +1,77 @@
+---
+description: "Exception parameters in catch clauses should not be reassigned."
+title: "exceptionAssignments"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="exceptionAssignments" />
+
+Reassigning an exception parameter in a catch clause can make debugging more difficult by obscuring the original error.
+The exception parameter contains important information about what went wrong, and reassigning it makes it harder to understand the root cause of an error.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+try {
+	processData();
+} catch (error) {
+	error = new Error("Processing failed");
+	throw error;
+}
+```
+
+```ts
+try {
+	validateInput();
+} catch (exception) {
+	exception = null;
+	console.log(exception);
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+try {
+	processData();
+} catch (error) {
+	const wrappedError = new Error("Processing failed");
+	throw wrappedError;
+}
+```
+
+```ts
+try {
+	validateInput();
+} catch (exception) {
+	console.log(exception.message);
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have a specific use case where reassigning exception parameters is necessary and you understand the implications, you might choose to disable this rule for those specific cases.
+However, this is generally not recommended as it can make code harder to debug and maintain.
+
+## Further Reading
+
+- [MDN documentation on try...catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch)
+- [JavaScript.info: Error handling, "try...catch"](https://javascript.info/try-catch)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="exceptionAssignments" />

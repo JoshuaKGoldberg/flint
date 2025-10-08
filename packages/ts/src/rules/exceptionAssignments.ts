@@ -4,8 +4,7 @@ import { typescriptLanguage } from "../language.js";
 
 export default typescriptLanguage.createRule({
 	about: {
-		description:
-			"Reports reassigning exception parameters in catch clauses.",
+		description: "Reports reassigning exception parameters in catch clauses.",
 		id: "exceptionAssignments",
 		preset: "logical",
 	},
@@ -25,16 +24,32 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		const exceptionParameters = new Set<ts.Identifier>();
 
+		function isAssignmentOperator(kind: ts.SyntaxKind): boolean {
+			return (
+				kind === ts.SyntaxKind.EqualsToken ||
+				kind === ts.SyntaxKind.PlusEqualsToken ||
+				kind === ts.SyntaxKind.MinusEqualsToken ||
+				kind === ts.SyntaxKind.AsteriskEqualsToken ||
+				kind === ts.SyntaxKind.AsteriskAsteriskEqualsToken ||
+				kind === ts.SyntaxKind.SlashEqualsToken ||
+				kind === ts.SyntaxKind.PercentEqualsToken ||
+				kind === ts.SyntaxKind.LessThanLessThanEqualsToken ||
+				kind === ts.SyntaxKind.GreaterThanGreaterThanEqualsToken ||
+				kind === ts.SyntaxKind.GreaterThanGreaterThanGreaterThanEqualsToken ||
+				kind === ts.SyntaxKind.AmpersandEqualsToken ||
+				kind === ts.SyntaxKind.BarEqualsToken ||
+				kind === ts.SyntaxKind.CaretEqualsToken ||
+				kind === ts.SyntaxKind.AmpersandAmpersandEqualsToken ||
+				kind === ts.SyntaxKind.BarBarEqualsToken ||
+				kind === ts.SyntaxKind.QuestionQuestionEqualsToken
+			);
+		}
+
 		return {
 			visitors: {
-				CatchClause: (node) => {
-					if (node.variableDeclaration?.name.kind === ts.SyntaxKind.Identifier) {
-						exceptionParameters.add(node.variableDeclaration.name);
-					}
-				},
 				BinaryExpression: (node) => {
 					if (
-						ts.isAssignmentOperator(node.operatorToken.kind) &&
+						isAssignmentOperator(node.operatorToken.kind) &&
 						node.left.kind === ts.SyntaxKind.Identifier &&
 						exceptionParameters.has(node.left as ts.Identifier)
 					) {
@@ -47,10 +62,15 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
+				CatchClause: (node) => {
+					if (
+						node.variableDeclaration?.name.kind === ts.SyntaxKind.Identifier
+					) {
+						exceptionParameters.add(node.variableDeclaration.name);
+					}
+				},
 				PostfixUnaryExpression: (node) => {
 					if (
-						(node.operator === ts.SyntaxKind.PlusPlusToken ||
-							node.operator === ts.SyntaxKind.MinusMinusToken) &&
 						node.operand.kind === ts.SyntaxKind.Identifier &&
 						exceptionParameters.has(node.operand as ts.Identifier)
 					) {
