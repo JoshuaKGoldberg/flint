@@ -2,6 +2,8 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
+import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.js";
+import { unwrapParentParenthesizedExpressions } from "../utils/unwrapParentParenthesizedExpressions.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -31,11 +33,7 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					let rightSide = node.right;
-
-					while (ts.isParenthesizedExpression(rightSide)) {
-						rightSide = rightSide.expression;
-					}
+					const rightSide = unwrapParenthesizedExpression(node.right);
 
 					if (
 						!ts.isBinaryExpression(rightSide) ||
@@ -44,10 +42,7 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					let current = node.parent;
-					while (ts.isParenthesizedExpression(current)) {
-						current = current.parent;
-					}
+					const current = unwrapParentParenthesizedExpressions(node);
 
 					if (
 						ts.isBinaryExpression(current) &&
