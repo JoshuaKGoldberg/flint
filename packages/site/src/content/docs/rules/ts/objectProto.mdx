@@ -1,0 +1,61 @@
+---
+description: "Use Object.getPrototypeOf or Object.setPrototypeOf instead of the deprecated __proto__ property."
+title: "objectProto"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="objectProto" />
+
+The `__proto__` property is a deprecated way to access and modify an object's prototype.
+While it is supported for backwards compatibility, it is not part of the ECMAScript standard and can cause performance issues.
+Direct manipulation of an object's prototype can lead to "hidden classes" in JavaScript engines, resulting in slower code execution.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const proto = obj.__proto__;
+
+obj.__proto__ = prototype;
+
+const value = obj["__proto__"];
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const proto = Object.getPrototypeOf(obj);
+
+Object.setPrototypeOf(obj, prototype);
+
+const obj = Object.create(prototype);
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you need to support very old JavaScript environments that don't have `Object.getPrototypeOf` and `Object.setPrototypeOf` (pre-ES5), you might need to disable this rule.
+However, this is extremely rare in modern development, as even Internet Explorer 9 supports these methods.
+
+## Further Reading
+
+- [MDN: Object.prototype.**proto**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/proto)
+- [MDN: Object.getPrototypeOf()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf)
+- [MDN: Object.setPrototypeOf()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf)
+- [MDN: Object.create()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="objectProto" />

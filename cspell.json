@@ -11,5 +11,13 @@
 		"pnpm-lock.yaml",
 		"tsconfig.tsbuildinfo"
 	],
-	"words": ["joshuakgoldberg", "mdast", "nord", "Oxlint", "shiki", "shikijs"]
+	"words": [
+		"deoptimizations",
+		"joshuakgoldberg",
+		"mdast",
+		"nord",
+		"Oxlint",
+		"shiki",
+		"shikijs"
+	]
 }
