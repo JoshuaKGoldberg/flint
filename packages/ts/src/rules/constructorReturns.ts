@@ -6,13 +6,12 @@ export default typescriptLanguage.createRule({
 	about: {
 		description: "Reports returning values from constructor functions.",
 		id: "constructorReturns",
-		preset: "logical",
+		preset: "untyped",
 	},
 	messages: {
 		noConstructorReturn: {
-			primary: "Constructor functions should not return values.",
+			primary: "Returning a value from a constructor function overrides the newly created instance.",
 			secondary: [
-				"Returning a value from a constructor overrides the newly created instance.",
 				"This behavior is often unintentional and can lead to unexpected results.",
 				"If you need to return a different object, consider using a factory function instead.",
 			],
@@ -43,7 +42,6 @@ export default typescriptLanguage.createRule({
 							return;
 						}
 
-						// Don't traverse into nested functions/classes/constructors
 						if (
 							ts.isFunctionDeclaration(node) ||
 							ts.isFunctionExpression(node) ||
