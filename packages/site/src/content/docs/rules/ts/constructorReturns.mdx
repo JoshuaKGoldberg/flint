@@ -1,0 +1,94 @@
+---
+description: "Constructor functions should not return values."
+title: "constructorReturns"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="constructorReturns" />
+
+In JavaScript and TypeScript, returning a value from a constructor overrides the newly created instance.
+This behavior is often unintentional and can lead to unexpected results where the returned value becomes the result of the `new` expression instead of the instance.
+
+While JavaScript technically allows this, it's generally a code smell that indicates a design issue.
+If you need to return a different object based on constructor parameters, consider using a factory function instead.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class Database {
+	constructor(connectionString: string) {
+		if (!connectionString) {
+			return null;
+		}
+		this.connection = createConnection(connectionString);
+	}
+}
+
+class Singleton {
+	private static instance: Singleton;
+
+	constructor() {
+		if (Singleton.instance) {
+			return Singleton.instance;
+		}
+		Singleton.instance = this;
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class Database {
+	constructor(connectionString: string) {
+		if (!connectionString) {
+			throw new Error("Connection string is required");
+		}
+		this.connection = createConnection(connectionString);
+	}
+}
+
+class Singleton {
+	private static instance: Singleton;
+
+	private constructor() {
+		// Private constructor prevents direct instantiation
+	}
+
+	static getInstance(): Singleton {
+		if (!Singleton.instance) {
+			Singleton.instance = new Singleton();
+		}
+		return Singleton.instance;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have a rare use case where you intentionally need to return different objects from a constructor, you might choose to disable this rule for those specific cases.
+However, this is generally considered an anti-pattern, and you should strongly consider refactoring to use a factory function instead.
+
+## Further Reading
+
+- [MDN: Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor)
+- [MDN: Factory Functions](https://developer.mozilla.org/en-US/docs/Glossary/Factory_function)
+- [JavaScript Info: Class patterns](https://javascript.info/class-patterns)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="constructorReturns" />

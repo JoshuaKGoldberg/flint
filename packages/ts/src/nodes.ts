@@ -26,6 +26,7 @@ export interface TSNodesByName {
 	ComputedPropertyName: ts.ComputedPropertyName;
 	ConditionalExpression: ts.ConditionalExpression;
 	ConditionalType: ts.ConditionalType;
+	ConstructorDeclaration: ts.ConstructorDeclaration;
 	ContinueStatement: ts.ContinueStatement;
 	DebuggerStatement: ts.DebuggerStatement;
 	Decorator: ts.Decorator;

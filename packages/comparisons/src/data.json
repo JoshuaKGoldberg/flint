@@ -5412,9 +5412,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "constructorReturns",
 			"plugin": "ts",
-			"preset": "None"
+			"preset": "logical"
 		},
 		"oxlint": [
 			{
