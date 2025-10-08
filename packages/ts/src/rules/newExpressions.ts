@@ -24,7 +24,7 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function isStandaloneNewExpression(node: ts.NewExpression): boolean {
+		function isStandaloneExpression(node: ts.Node): boolean {
 			const parent = node.parent;
 
 			// If parent is an ExpressionStatement, it's standalone
@@ -34,13 +34,12 @@ export default typescriptLanguage.createRule({
 
 			// If parent is a comma expression, check recursively
 			if (
-				parent.kind === ts.SyntaxKind.BinaryExpression &&
-				(parent as ts.BinaryExpression).operatorToken.kind ===
-					ts.SyntaxKind.CommaToken
+				ts.isBinaryExpression(parent) &&
+				parent.operatorToken.kind === ts.SyntaxKind.CommaToken
 			) {
-				// If this is the last expression in the comma sequence and the parent is standalone
-				if ((parent as ts.BinaryExpression).right === node) {
-					return isStandaloneNewExpression(parent as ts.NewExpression);
+				// If this is the last expression in the comma sequence, check if the parent is standalone
+				if (parent.right === node) {
+					return isStandaloneExpression(parent);
 				}
 				return true;
 			}
@@ -51,11 +50,11 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				NewExpression: (node) => {
-					if (isStandaloneNewExpression(node)) {
+					if (isStandaloneExpression(node)) {
 						context.report({
 							message: "noStandaloneNew",
 							range: {
-								begin: node.getStart(),
+								begin: node.getStart(context.sourceFile),
 								end: node.getEnd(),
 							},
 						});
