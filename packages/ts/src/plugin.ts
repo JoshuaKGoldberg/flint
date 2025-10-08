@@ -7,6 +7,7 @@ import debuggerStatements from "./rules/debuggerStatements.js";
 import defaultCaseLast from "./rules/defaultCaseLast.js";
 import forInArrays from "./rules/forInArrays.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
+import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
 import variableDeletions from "./rules/variableDeletions.js";
@@ -24,6 +25,7 @@ export const ts = createPlugin({
 		defaultCaseLast,
 		forInArrays,
 		namespaceDeclarations,
+		objectProto,
 		octalEscapes,
 		octalNumbers,
 		variableDeletions,
