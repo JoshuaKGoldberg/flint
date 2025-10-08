@@ -1,0 +1,59 @@
+---
+description: "Variables should not be deleted with the delete operator."
+title: "variableDeletions"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="variableDeletions" />
+
+The `delete` operator is only meant to remove properties from objects, not variables.
+Attempting to delete a variable in strict mode will cause a syntax error.
+In non-strict mode, it will silently fail and return false without actually deleting the variable, which can lead to confusing bugs.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+let count = 5;
+delete count;
+
+function calculate(value: number) {
+	delete value;
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+let count = 5;
+count = undefined;
+
+const obj = { property: 1 };
+delete obj.property;
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+This rule should always be enabled, as attempting to delete variables is always incorrect behavior in JavaScript and TypeScript.
+
+## Further Reading
+
+- [MDN documentation on the `delete` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete)
+- [MDN JavaScript Reference: Strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="variableDeletions" />

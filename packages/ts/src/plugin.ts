@@ -6,6 +6,7 @@ import forInArrays from "./rules/forInArrays.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
+import variableDeletions from "./rules/variableDeletions.js";
 
 export const ts = createPlugin({
 	files: {
@@ -19,5 +20,6 @@ export const ts = createPlugin({
 		namespaceDeclarations,
 		octalEscapes,
 		octalNumbers,
+		variableDeletions,
 	],
 });
