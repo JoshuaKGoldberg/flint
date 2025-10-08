@@ -10,7 +10,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		noConstructorReturn: {
-			primary: "Returning a value from a constructor function overrides the newly created instance.",
+			primary:
+				"Returning a value from a constructor function overrides the newly created instance.",
 			secondary: [
 				"This behavior is often unintentional and can lead to unexpected results.",
 				"If you need to return a different object, consider using a factory function instead.",
@@ -43,12 +44,10 @@ export default typescriptLanguage.createRule({
 						}
 
 						if (
-							ts.isFunctionDeclaration(node) ||
-							ts.isFunctionExpression(node) ||
-							ts.isArrowFunction(node) ||
 							ts.isClassDeclaration(node) ||
 							ts.isClassExpression(node) ||
-							ts.isConstructorDeclaration(node)
+							ts.isConstructorDeclaration(node) ||
+							ts.isFunctionLike(node)
 						) {
 							return;
 						}
