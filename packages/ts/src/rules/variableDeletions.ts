@@ -11,7 +11,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		noDeleteVar: {
-			primary: "Variables should not be deleted with the delete operator.",
+			primary:
+				"Deleting a variable with the delete operator outside of strict mode will silently fail and return false.",
 			secondary: [
 				"The delete operator is only meant to remove properties from objects, not variables.",
 				"Attempting to delete a variable in strict mode will cause a syntax error.",

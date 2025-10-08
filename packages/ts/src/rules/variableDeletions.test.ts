@@ -10,7 +10,7 @@ delete value;
 			snapshot: `
 delete value;
 ~~~~~~~~~~~~
-Variables should not be deleted with the delete operator.
+Deleting a variable with the delete operator outside of strict mode will silently fail and return false.
 `,
 		},
 		{
@@ -22,7 +22,7 @@ delete x;
 let x = 5;
 delete x;
 ~~~~~~~~
-Variables should not be deleted with the delete operator.
+Deleting a variable with the delete operator outside of strict mode will silently fail and return false.
 `,
 		},
 		{
@@ -34,7 +34,7 @@ delete variable;
 const variable = 10;
 delete variable;
 ~~~~~~~~~~~~~~~
-Variables should not be deleted with the delete operator.
+Deleting a variable with the delete operator outside of strict mode will silently fail and return false.
 `,
 		},
 		{
@@ -47,7 +47,7 @@ function test(parameter: number) {
 function test(parameter: number) {
   delete parameter;
   ~~~~~~~~~~~~~~~~
-  Variables should not be deleted with the delete operator.
+  Deleting a variable with the delete operator outside of strict mode will silently fail and return false.
 }
 `,
 		},
@@ -61,7 +61,7 @@ for (let index = 0; index < 10; index++) {
 for (let index = 0; index < 10; index++) {
   delete index;
   ~~~~~~~~~~~~
-  Variables should not be deleted with the delete operator.
+  Deleting a variable with the delete operator outside of strict mode will silently fail and return false.
 }
 `,
 		},
