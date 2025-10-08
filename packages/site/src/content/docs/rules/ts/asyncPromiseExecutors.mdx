@@ -11,7 +11,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 The Promise executor function is called synchronously by the Promise constructor.
 If an async function is used as a Promise executor, thrown errors will not be caught by the Promise and will instead result in unhandled rejections.
-Additionally, if a Promise executor function is using `await`, there's probably no need to use the `new Promise` constructor - you can simply return the awaited value or use the Promise directly.
+Additionally, if a Promise executor function is using `await`, there's probably no need to use the `new Promise` constructor - you can return the awaited value or use the Promise directly.
 
 ## Examples
 
