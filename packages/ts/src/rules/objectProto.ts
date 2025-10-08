@@ -16,7 +16,7 @@ export default typescriptLanguage.createRule({
 			secondary: [
 				"The __proto__ property is deprecated and not part of the ECMAScript standard.",
 				"It is maintained for compatibility with older browsers but can cause performance issues and unexpected behavior.",
-				"Direct manipulation of an object's prototype can lead to hidden classes deoptimization in JavaScript engines.",
+				"Direct manipulation of an object's prototype can lead to hidden classes deoptimizations in JavaScript engines.",
 			],
 			suggestions: [
 				"Use Object.getPrototypeOf(obj) to read the prototype of an object.",
