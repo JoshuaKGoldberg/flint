@@ -4488,6 +4488,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "asyncPromiseExecutors",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -5414,7 +5415,7 @@
 		"flint": {
 			"name": "constructorReturns",
 			"plugin": "ts",
-			"preset": "None"
+			"preset": "Untyped"
 		},
 		"oxlint": [
 			{
@@ -5578,6 +5579,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "defaultCaseLast",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -10349,6 +10351,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "octalNumbers",
 			"plugin": "ts",
 			"preset": "Untyped"
