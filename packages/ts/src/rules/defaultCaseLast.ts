@@ -25,33 +25,28 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				SwitchStatement: (node) => {
-					if (!node.caseBlock.clauses.length) {
-						return;
-					}
-
 					const clauses = node.caseBlock.clauses;
 					const defaultClauseIndex = clauses.findIndex(
 						(clause) => clause.kind === ts.SyntaxKind.DefaultClause,
 					);
 
-					if (defaultClauseIndex === -1) {
+					if (
+						defaultClauseIndex === -1 ||
+						defaultClauseIndex === clauses.length - 1
+					) {
 						return;
 					}
 
-					const isLast = defaultClauseIndex === clauses.length - 1;
+					const defaultClause = clauses[defaultClauseIndex];
 
-					if (!isLast) {
-						const defaultClause = clauses[defaultClauseIndex];
-
-						context.report({
-							message: "defaultCaseShouldBeLast",
-							range: {
-								begin: defaultClause.getStart(context.sourceFile),
-								end:
-									defaultClause.getStart(context.sourceFile) + "default".length,
-							},
-						});
-					}
+					context.report({
+						message: "defaultCaseShouldBeLast",
+						range: {
+							begin: defaultClause.getStart(context.sourceFile),
+							end:
+								defaultClause.getStart(context.sourceFile) + "default".length,
+						},
+					});
 				},
 			},
 		};
