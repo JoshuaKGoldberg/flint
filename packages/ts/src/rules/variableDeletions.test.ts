@@ -40,28 +40,28 @@ Variables should not be deleted with the delete operator.
 		{
 			code: `
 function test(parameter: number) {
-	delete parameter;
+  delete parameter;
 }
 `,
 			snapshot: `
 function test(parameter: number) {
-	delete parameter;
- ~~~~~~~~~~~~~~~~
- Variables should not be deleted with the delete operator.
+  delete parameter;
+  ~~~~~~~~~~~~~~~~
+  Variables should not be deleted with the delete operator.
 }
 `,
 		},
 		{
 			code: `
 for (let index = 0; index < 10; index++) {
-	delete index;
+  delete index;
 }
 `,
 			snapshot: `
 for (let index = 0; index < 10; index++) {
-	delete index;
- ~~~~~~~~~~~~
- Variables should not be deleted with the delete operator.
+  delete index;
+  ~~~~~~~~~~~~
+  Variables should not be deleted with the delete operator.
 }
 `,
 		},
