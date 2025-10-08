@@ -7,7 +7,7 @@ export default typescriptLanguage.createRule({
 		description:
 			"Reports attempting to delete variables with the delete operator.",
 		id: "variableDeletions",
-		preset: "logical",
+		preset: "untyped",
 	},
 	messages: {
 		noDeleteVar: {
@@ -30,7 +30,7 @@ export default typescriptLanguage.createRule({
 						context.report({
 							message: "noDeleteVar",
 							range: {
-								begin: node.getStart(),
+								begin: node.getStart(context.sourceFile),
 								end: node.getEnd(),
 							},
 						});
