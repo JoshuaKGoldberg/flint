@@ -1,3 +1,4 @@
+import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
@@ -43,12 +44,7 @@ export default typescriptLanguage.createRule({
 							return;
 						}
 
-						if (
-							ts.isClassDeclaration(node) ||
-							ts.isClassExpression(node) ||
-							ts.isConstructorDeclaration(node) ||
-							ts.isFunctionLike(node)
-						) {
+						if (tsutils.isFunctionScopeBoundary(node)) {
 							return;
 						}
 
