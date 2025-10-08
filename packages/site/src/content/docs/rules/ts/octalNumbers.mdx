@@ -14,7 +14,7 @@ They are forbidden in strict mode and are less readable than their modern altern
 The explicit octal syntax `0o` (e.g., `0o77`) introduced in ES6 is clearer and works in both strict and non-strict modes.
 The digit `0` by itself is allowed as it represents zero, not an octal literal.
 
-This rule helps catch potential bugs where a leading zero was added accidentally, as `077` evaluates to `63` in decimal, not `77`.
+This rule reports on numeric literals with a preceding `0`.
 
 ## Examples
 
@@ -51,15 +51,6 @@ const binary = 0b1010;
 
 </TabItem>
 </Tabs>
-
-## Automatic Fixes
-
-This rule provides two automatic fix suggestions:
-
-1. **Use modern octal syntax**: Converts `077` to `0o77` (maintains the octal interpretation)
-2. **Remove leading zero**: Converts `077` to `77` (uses the decimal interpretation)
-
-Choose the fix that matches your intent.
 
 ## Options
 
