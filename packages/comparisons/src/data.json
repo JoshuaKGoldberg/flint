@@ -4488,6 +4488,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "asyncPromiseExecutors",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -10349,6 +10350,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "octalNumbers",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -15059,6 +15061,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "variableDeletions",
 			"plugin": "ts",
 			"preset": "Untyped"

@@ -1,11 +1,14 @@
 import { createPlugin } from "@flint.fyi/core";
 
+import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.js";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.js";
 import debuggerStatements from "./rules/debuggerStatements.js";
 import forInArrays from "./rules/forInArrays.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import newExpressions from "./rules/newExpressions.js";
 import octalEscapes from "./rules/octalEscapes.js";
+import octalNumbers from "./rules/octalNumbers.js";
+import variableDeletions from "./rules/variableDeletions.js";
 
 export const ts = createPlugin({
 	files: {
@@ -13,11 +16,14 @@ export const ts = createPlugin({
 	},
 	name: "ts",
 	rules: [
+		asyncPromiseExecutors,
 		consecutiveNonNullAssertions,
 		debuggerStatements,
 		forInArrays,
 		namespaceDeclarations,
 		newExpressions,
 		octalEscapes,
+		octalNumbers,
+		variableDeletions,
 	],
 });
