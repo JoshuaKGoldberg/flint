@@ -12,7 +12,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		asyncPromiseExecutor: {
 			primary:
-				"Promise executor functions should not be async because errors thrown within them won't be caught properly.",
+				"Async Promise executor functions are not able to properly catch thrown errors and often indicate unnecessarily complex logic.",
 			secondary: [
 				"The Promise executor function is called synchronously by the Promise constructor.",
 				"If an async function is used as a Promise executor, thrown errors will not be caught by the Promise and will instead result in unhandled rejections.",
