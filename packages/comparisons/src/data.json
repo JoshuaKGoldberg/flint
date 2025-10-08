@@ -5578,6 +5578,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "defaultCaseLast",
 			"plugin": "ts",
 			"preset": "Logical"
