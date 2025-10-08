@@ -18,7 +18,6 @@ export function isGlobalPromiseConstructor(
 		return false;
 	}
 
-	// Check if any declaration is in a lib.d.ts file
 	return declarations.some((declaration) => {
 		const sourceFile = declaration.getSourceFile();
 		return (
