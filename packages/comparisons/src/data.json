@@ -4488,6 +4488,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "asyncPromiseExecutors",
 			"plugin": "ts",
 			"preset": "Logical"
