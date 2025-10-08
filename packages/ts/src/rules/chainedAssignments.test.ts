@@ -133,8 +133,8 @@ let first;
 let second;
 let third;
 first = (second = third = 5);
-        ~
-        Use separate assignment statements instead of chaining assignments.
+      ~
+      Use separate assignment statements instead of chaining assignments.
 `,
 		},
 	],

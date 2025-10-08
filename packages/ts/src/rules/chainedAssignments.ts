@@ -27,10 +27,31 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				BinaryExpression: (node) => {
+					if (node.operatorToken.kind !== ts.SyntaxKind.EqualsToken) {
+						return;
+					}
+
+					let rightSide = node.right;
+
+					while (ts.isParenthesizedExpression(rightSide)) {
+						rightSide = rightSide.expression;
+					}
+
 					if (
-						node.operatorToken.kind !== ts.SyntaxKind.EqualsToken ||
-						!ts.isBinaryExpression(node.right) ||
-						node.right.operatorToken.kind !== ts.SyntaxKind.EqualsToken
+						!ts.isBinaryExpression(rightSide) ||
+						rightSide.operatorToken.kind !== ts.SyntaxKind.EqualsToken
+					) {
+						return;
+					}
+
+					let current = node.parent;
+					while (ts.isParenthesizedExpression(current)) {
+						current = current.parent;
+					}
+
+					if (
+						ts.isBinaryExpression(current) &&
+						current.operatorToken.kind === ts.SyntaxKind.EqualsToken
 					) {
 						return;
 					}
