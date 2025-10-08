@@ -5415,7 +5415,7 @@
 		"flint": {
 			"name": "constructorReturns",
 			"plugin": "ts",
-			"preset": "None"
+			"preset": "Untyped"
 		},
 		"oxlint": [
 			{
