@@ -10215,6 +10215,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "objectProto",
 			"plugin": "ts",
 			"preset": "Untyped"

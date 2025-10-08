@@ -4,6 +4,7 @@ import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.j
 import debuggerStatements from "./rules/debuggerStatements.js";
 import forInArrays from "./rules/forInArrays.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
+import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import variableDeletions from "./rules/variableDeletions.js";
 
@@ -17,6 +18,7 @@ export const ts = createPlugin({
 		debuggerStatements,
 		forInArrays,
 		namespaceDeclarations,
+		objectProto,
 		octalEscapes,
 		variableDeletions,
 	],
