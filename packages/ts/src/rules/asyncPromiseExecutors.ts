@@ -36,10 +36,7 @@ export default typescriptLanguage.createRule({
 					}
 
 					const executor = node.arguments[0];
-					if (
-						!ts.isArrowFunction(executor) &&
-						!ts.isFunctionExpression(executor)
-					) {
+					if (!ts.isFunctionLike(executor)) {
 						return;
 					}
 
