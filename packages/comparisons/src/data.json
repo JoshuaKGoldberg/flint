@@ -9609,10 +9609,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "newExpressions",
 			"plugin": "ts",
-			"preset": "Logical",
-			"implemented": true
+			"preset": "Logical"
 		},
 		"notes": "oxc/missing-throw is a subset",
 		"oxlint": [
