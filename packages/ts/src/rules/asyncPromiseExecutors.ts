@@ -25,53 +25,38 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function getAsyncKeywordRange(
-			executor: ts.ArrowFunction | ts.FunctionExpression,
-		): null | { begin: number; end: number } {
-			const asyncModifier = executor.modifiers?.find(
-				(mod) => mod.kind === ts.SyntaxKind.AsyncKeyword,
-			);
-			if (!asyncModifier) {
-				return null;
-			}
-			return {
-				begin: asyncModifier.getStart(),
-				end: asyncModifier.getEnd(),
-			};
-		}
-
 		return {
 			visitors: {
 				NewExpression: (node) => {
 					if (
-						!isGlobalPromiseConstructor(node.expression, context.typeChecker)
+						!isGlobalPromiseConstructor(node.expression, context.typeChecker) ||
+						!node.arguments?.length
 					) {
 						return;
 					}
 
-					if (!node.arguments?.length) {
+					const executor = node.arguments[0];
+					if (
+						!ts.isArrowFunction(executor) &&
+						!ts.isFunctionExpression(executor)
+					) {
 						return;
 					}
 
-					const executor = node.arguments[0];
-
-					const isAsync =
-						(ts.isArrowFunction(executor) ||
-							ts.isFunctionExpression(executor)) &&
-						(executor.modifiers?.some(
-							(mod) => mod.kind === ts.SyntaxKind.AsyncKeyword,
-						) ??
-							false);
-
-					if (isAsync) {
-						const range = getAsyncKeywordRange(executor);
-						if (range) {
-							context.report({
-								message: "asyncPromiseExecutor",
-								range,
-							});
-						}
+					const asyncModifier = executor.modifiers?.find(
+						(mod) => mod.kind === ts.SyntaxKind.AsyncKeyword,
+					);
+					if (!asyncModifier) {
+						return;
 					}
+
+					context.report({
+						message: "asyncPromiseExecutor",
+						range: {
+							begin: asyncModifier.getStart(context.sourceFile),
+							end: asyncModifier.getEnd(),
+						},
+					});
 				},
 			},
 		};
