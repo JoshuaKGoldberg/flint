@@ -5,16 +5,16 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-const promise = new Promise(async (resolve, reject) => {
-	resolve(await fetch('/api'));
+new Promise(async (resolve, reject) => {
+	resolve(42);
 });
 `,
 			snapshot: `
-const promise = new Promise(async (resolve, reject) => {
-                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                            Promise executor functions should not be async.
-	resolve(await fetch('/api'));
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+new Promise(async (resolve, reject) => {
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            Promise executor functions should not be async.
+	resolve(42);
+~~~~~~~~~~~~~
 Promise executor functions should not be async.
 });
 ~~~
@@ -42,7 +42,6 @@ Promise executor functions should not be async.
 		{
 			code: `
 const p = new Promise(async (resolve) => {
-	await doSomething();
 	resolve();
 });
 `,
@@ -50,9 +49,6 @@ const p = new Promise(async (resolve) => {
 const p = new Promise(async (resolve) => {
                       ~~~~~~~~~~~~~~~~~~~~~~
                       Promise executor functions should not be async.
-	await doSomething();
-~~~~~~~~~~~~~~~~~~~~~
-Promise executor functions should not be async.
 	resolve();
 ~~~~~~~~~~~
 Promise executor functions should not be async.
