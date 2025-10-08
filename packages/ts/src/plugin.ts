@@ -3,6 +3,7 @@ import { createPlugin } from "@flint.fyi/core";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.js";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.js";
 import debuggerStatements from "./rules/debuggerStatements.js";
+import defaultCaseLast from "./rules/defaultCaseLast.js";
 import forInArrays from "./rules/forInArrays.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import octalEscapes from "./rules/octalEscapes.js";
@@ -18,6 +19,7 @@ export const ts = createPlugin({
 		asyncPromiseExecutors,
 		consecutiveNonNullAssertions,
 		debuggerStatements,
+		defaultCaseLast,
 		forInArrays,
 		namespaceDeclarations,
 		octalEscapes,
