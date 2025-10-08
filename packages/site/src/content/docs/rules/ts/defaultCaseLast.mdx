@@ -1,0 +1,96 @@
+---
+description: "Default clauses in switch statements should be last."
+title: "defaultCaseLast"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="defaultCaseLast" />
+
+When a `default` clause appears before other `case` clauses in a switch statement, it can lead to confusion about the control flow.
+While the `default` clause will still only execute when no other case matches, placing it in the middle or at the beginning makes the code harder to understand.
+Convention and readability are improved by keeping the `default` clause at the end of switch statements.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function getDescription(value: number): string {
+	switch (value) {
+		default:
+			return "unknown";
+		case 1:
+			return "one";
+		case 2:
+			return "two";
+	}
+}
+
+function processValue(input: string): void {
+	switch (input) {
+		case "start":
+			console.log("Starting...");
+			break;
+		default:
+			console.log("Processing...");
+			break;
+		case "end":
+			console.log("Ending...");
+			break;
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function getDescription(value: number): string {
+	switch (value) {
+		case 1:
+			return "one";
+		case 2:
+			return "two";
+		default:
+			return "unknown";
+	}
+}
+
+function processValue(input: string): void {
+	switch (input) {
+		case "start":
+			console.log("Starting...");
+			break;
+		case "end":
+			console.log("Ending...");
+			break;
+		default:
+			console.log("Processing...");
+			break;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have a specific code style guide that requires default clauses to appear in a different position, you might choose to disable this rule.
+However, this is generally not recommended as it goes against common JavaScript conventions.
+
+## Further Reading
+
+- [MDN: switch statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="defaultCaseLast" />

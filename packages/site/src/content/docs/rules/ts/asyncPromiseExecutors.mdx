@@ -1,0 +1,74 @@
+---
+description: "Reports using async functions as Promise executor functions."
+title: "asyncPromiseExecutors"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="asyncPromiseExecutors" />
+
+The Promise executor function is called synchronously by the Promise constructor.
+If an async function is used as a Promise executor, thrown errors will not be caught by the Promise and will instead result in unhandled rejections.
+Additionally, if a Promise executor function is using `await`, there's probably no need to use the `new Promise` constructor - you can return the awaited value or use the Promise directly.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const result = new Promise(async (resolve, reject) => {
+	const data = await fetch("/api");
+	resolve(data);
+});
+```
+
+```ts
+new Promise(async function (resolve, reject) {
+	try {
+		resolve(await asyncOperation());
+	} catch (error) {
+		reject(error);
+	}
+});
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const result = new Promise((resolve, reject) => {
+	fetch("/api")
+		.then((data) => resolve(data))
+		.catch((error) => reject(error));
+});
+```
+
+```ts
+// Or even better, use the async function directly:
+const result = async () => {
+	return await fetch("/api");
+};
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have very old, complex logic that is difficult to refactor, you might consider disabling this rule on a per-case basis.
+
+## Further Reading
+
+- [MDN documentation on Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+- [MDN documentation on async functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="asyncPromiseExecutors" />
