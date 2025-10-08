@@ -47,7 +47,7 @@ const result = new Promise((resolve, reject) => {
 ```
 
 ```ts
-// Or even better, just use the async function directly:
+// Or even better, use the async function directly:
 const result = async () => {
 	return await fetch("/api");
 };
@@ -62,8 +62,8 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-If you have a specific use case where you intentionally need to use an async function as a Promise executor, you can disable this rule.
-However, this is generally considered an anti-pattern and should be avoided.
+There are no known cases where using an async function as a Promise executor is beneficial.
+This is universally considered an anti-pattern and should be avoided.
 
 ## Further Reading
 

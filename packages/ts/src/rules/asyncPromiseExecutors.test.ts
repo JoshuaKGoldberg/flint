@@ -11,14 +11,10 @@ new Promise(async (resolve, reject) => {
 `,
 			snapshot: `
 new Promise(async (resolve, reject) => {
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            Promise executor functions should not be async.
+            ~~~~~
+            Promise executor functions should not be async because errors thrown within them won't be caught properly.
 	resolve(42);
-~~~~~~~~~~~~~
-Promise executor functions should not be async.
 });
-~~~
-Promise executor functions should not be async.
 `,
 		},
 		{
@@ -29,14 +25,10 @@ new Promise(async function(resolve, reject) {
 `,
 			snapshot: `
 new Promise(async function(resolve, reject) {
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            Promise executor functions should not be async.
+            ~~~~~
+            Promise executor functions should not be async because errors thrown within them won't be caught properly.
 	resolve(42);
-~~~~~~~~~~~~~
-Promise executor functions should not be async.
 });
-~~~
-Promise executor functions should not be async.
 `,
 		},
 		{
@@ -47,14 +39,10 @@ const p = new Promise(async (resolve) => {
 `,
 			snapshot: `
 const p = new Promise(async (resolve) => {
-                      ~~~~~~~~~~~~~~~~~~~~~~
-                      Promise executor functions should not be async.
+                      ~~~~~
+                      Promise executor functions should not be async because errors thrown within them won't be caught properly.
 	resolve();
-~~~~~~~~~~~
-Promise executor functions should not be async.
 });
-~~~
-Promise executor functions should not be async.
 `,
 		},
 	],
