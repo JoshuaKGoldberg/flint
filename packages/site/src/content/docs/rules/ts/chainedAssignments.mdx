@@ -18,18 +18,22 @@ Each assignment creates a reference to the same value, which may cause confusion
 <TabItem label="❌ Incorrect">
 
 ```ts
-let first, second;
+let first;
+let second;
 first = second = 1;
 ```
 
 ```ts
-let first, second, third;
+let first;
+let second;
+let third;
 first = second = third = getValue();
 ```
 
 ```ts
 function process(value: number): void {
-	let result, cache;
+	let result;
+	let cache;
 	result = cache = value * 2;
 }
 ```
@@ -38,13 +42,16 @@ function process(value: number): void {
 <TabItem label="✅ Correct">
 
 ```ts
-let first, second;
+let first;
+let second;
 first = 1;
 second = 1;
 ```
 
 ```ts
-let first, second, third;
+let first;
+let second;
+let third;
 const value = getValue();
 first = value;
 second = value;
@@ -53,7 +60,8 @@ third = value;
 
 ```ts
 function process(value: number): void {
-	let result, cache;
+	let result;
+	let cache;
 	const computed = value * 2;
 	result = computed;
 	cache = computed;

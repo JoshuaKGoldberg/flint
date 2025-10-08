@@ -5,11 +5,13 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-let first, second;
+let first;
+let second;
 first = second = 1;
 `,
 			snapshot: `
-let first, second;
+let first;
+let second;
 first = second = 1;
       ~
       Use separate assignment statements instead of chaining assignments.
@@ -17,11 +19,15 @@ first = second = 1;
 		},
 		{
 			code: `
-let first, second, third;
+let first;
+let second;
+let third;
 first = second = third = 0;
 `,
 			snapshot: `
-let first, second, third;
+let first;
+let second;
+let third;
 first = second = third = 0;
       ~
       Use separate assignment statements instead of chaining assignments.
@@ -29,11 +35,13 @@ first = second = third = 0;
 		},
 		{
 			code: `
-let value, another;
+let value;
+let another;
 value = another = getValue();
 `,
 			snapshot: `
-let value, another;
+let value;
+let another;
 value = another = getValue();
       ~
       Use separate assignment statements instead of chaining assignments.
@@ -41,11 +49,13 @@ value = another = getValue();
 		},
 		{
 			code: `
-let first, second;
+let first;
+let second;
 (first = second = 1);
 `,
 			snapshot: `
-let first, second;
+let first;
+let second;
 (first = second = 1);
        ~
        Use separate assignment statements instead of chaining assignments.
@@ -54,14 +64,16 @@ let first, second;
 		{
 			code: `
 const calculate = (value: number) => {
-    let first, second;
+    let first;
+    let second;
     first = second = value;
     return first + second;
 };
 `,
 			snapshot: `
 const calculate = (value: number) => {
-    let first, second;
+    let first;
+    let second;
     first = second = value;
           ~
           Use separate assignment statements instead of chaining assignments.
@@ -71,13 +83,15 @@ const calculate = (value: number) => {
 		},
 		{
 			code: `
-let first, second;
+let first;
+let second;
 if (true) {
     first = second = 10;
 }
 `,
 			snapshot: `
-let first, second;
+let first;
+let second;
 if (true) {
     first = second = 10;
           ~
@@ -89,7 +103,8 @@ if (true) {
 			code: `
 class MyClass {
     method() {
-        let first, second;
+        let first;
+        let second;
         first = second = 0;
     }
 }
@@ -97,7 +112,8 @@ class MyClass {
 			snapshot: `
 class MyClass {
     method() {
-        let first, second;
+        let first;
+        let second;
         first = second = 0;
               ~
               Use separate assignment statements instead of chaining assignments.
@@ -107,11 +123,15 @@ class MyClass {
 		},
 		{
 			code: `
-let first, second, third;
+let first;
+let second;
+let third;
 first = (second = third = 5);
 `,
 			snapshot: `
-let first, second, third;
+let first;
+let second;
+let third;
 first = (second = third = 5);
         ~
         Use separate assignment statements instead of chaining assignments.
@@ -122,24 +142,28 @@ first = (second = third = 5);
 		`let first = 1;`,
 		`let first = 1, second = 2;`,
 		`let first = 1; let second = 2;`,
-		`let first, second; first = 1; second = 2;`,
-		`let first, second; first = 1; second = first;`,
+		`let first; let second; first = 1; second = 2;`,
+		`let first; let second; first = 1; second = first;`,
 		`const value = getValue();`,
 		`let first; first = 1;`,
 		`
-let first, second;
+let first;
+let second;
 first = 1;
 second = 2;
 `,
 		`
-let first, second, third;
+let first;
+let second;
+let third;
 first = 1;
 second = 2;
 third = 3;
 `,
 		`
 const calculate = (value: number) => {
-    let first, second;
+    let first;
+    let second;
     first = value;
     second = value;
     return first + second;
@@ -148,7 +172,8 @@ const calculate = (value: number) => {
 		`
 class MyClass {
     method() {
-        let first, second;
+        let first;
+        let second;
         first = 0;
         second = 0;
     }
