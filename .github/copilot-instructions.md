@@ -76,7 +76,7 @@ Indent with four spaces.
 
 If `valid` test cases can be collapsed to one line, they should be.
 
-Start all `invalid` test case code after the first line (i.e. `snapshot: ` and then newline), so that snapshot `~`s visually show up underneath the flagged characters of code.
+Start all `invalid` test case code after the first line (i.e. `snapshot:` and then newline), so that snapshot `~`s visually show up underneath the flagged characters of code.
 
 Don't use foo/bar/etc. names.
 Use succinct descriptive ones instead.
@@ -112,4 +112,3 @@ If there important differences between this rule and other linter implementation
 
 Use conventional commit format for PR titles.
 Example: `feat: implement myRuleName for TypeScript plugin`.
-This is linted by OctoGuide: https://octo.guide/rules/pr-title-conventional
