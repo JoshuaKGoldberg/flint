@@ -5,6 +5,7 @@ import debuggerStatements from "./rules/debuggerStatements.js";
 import forInArrays from "./rules/forInArrays.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import octalEscapes from "./rules/octalEscapes.js";
+import octalNumbers from "./rules/octalNumbers.js";
 
 export const ts = createPlugin({
 	files: {
@@ -17,5 +18,6 @@ export const ts = createPlugin({
 		forInArrays,
 		namespaceDeclarations,
 		octalEscapes,
+		octalNumbers,
 	],
 });

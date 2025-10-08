@@ -10,8 +10,22 @@ const value = 07;
 			snapshot: `
 const value = 07;
               ~~
-              Use explicit octal syntax with the '0o' prefix instead of legacy octal numeric literals.
+              This legacy octal numeric literal evaluates to 7. Did you mean that value, or to use a modern octal syntax such as 0o7?
 `,
+			suggestions: [
+				{
+					id: "useModernOctalSyntax",
+					updated: `
+const value = 0o7;
+`,
+				},
+				{
+					id: "removeLeadingZero",
+					updated: `
+const value = 7;
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -20,8 +34,22 @@ const value = 077;
 			snapshot: `
 const value = 077;
               ~~~
-              Use explicit octal syntax with the '0o' prefix instead of legacy octal numeric literals.
+              This legacy octal numeric literal evaluates to 63. Did you mean that value, or to use a modern octal syntax such as 0o77?
 `,
+			suggestions: [
+				{
+					id: "useModernOctalSyntax",
+					updated: `
+const value = 0o77;
+`,
+				},
+				{
+					id: "removeLeadingZero",
+					updated: `
+const value = 77;
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -30,8 +58,22 @@ const value = 0123;
 			snapshot: `
 const value = 0123;
               ~~~~
-              Use explicit octal syntax with the '0o' prefix instead of legacy octal numeric literals.
+              This legacy octal numeric literal evaluates to 83. Did you mean that value, or to use a modern octal syntax such as 0o123?
 `,
+			suggestions: [
+				{
+					id: "useModernOctalSyntax",
+					updated: `
+const value = 0o123;
+`,
+				},
+				{
+					id: "removeLeadingZero",
+					updated: `
+const value = 123;
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -40,8 +82,22 @@ const value = 01234567;
 			snapshot: `
 const value = 01234567;
               ~~~~~~~~
-              Use explicit octal syntax with the '0o' prefix instead of legacy octal numeric literals.
+              This legacy octal numeric literal evaluates to 342391. Did you mean that value, or to use a modern octal syntax such as 0o1234567?
 `,
+			suggestions: [
+				{
+					id: "useModernOctalSyntax",
+					updated: `
+const value = 0o1234567;
+`,
+				},
+				{
+					id: "removeLeadingZero",
+					updated: `
+const value = 1234567;
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -50,12 +106,50 @@ const values = [01, 02, 03];
 			snapshot: `
 const values = [01, 02, 03];
                 ~~
-                Use explicit octal syntax with the '0o' prefix instead of legacy octal numeric literals.
+                This legacy octal numeric literal evaluates to 1. Did you mean that value, or to use a modern octal syntax such as 0o1?
                     ~~
-                    Use explicit octal syntax with the '0o' prefix instead of legacy octal numeric literals.
+                    This legacy octal numeric literal evaluates to 2. Did you mean that value, or to use a modern octal syntax such as 0o2?
                         ~~
-                        Use explicit octal syntax with the '0o' prefix instead of legacy octal numeric literals.
+                        This legacy octal numeric literal evaluates to 3. Did you mean that value, or to use a modern octal syntax such as 0o3?
 `,
+			suggestions: [
+				{
+					id: "useModernOctalSyntax",
+					updated: `
+const values = [0o1, 02, 03];
+`,
+				},
+				{
+					id: "removeLeadingZero",
+					updated: `
+const values = [1, 02, 03];
+`,
+				},
+				{
+					id: "useModernOctalSyntax",
+					updated: `
+const values = [01, 0o2, 03];
+`,
+				},
+				{
+					id: "removeLeadingZero",
+					updated: `
+const values = [01, 2, 03];
+`,
+				},
+				{
+					id: "useModernOctalSyntax",
+					updated: `
+const values = [01, 02, 0o3];
+`,
+				},
+				{
+					id: "removeLeadingZero",
+					updated: `
+const values = [01, 02, 3];
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -67,9 +161,27 @@ function calculate() {
 function calculate() {
 	return 077;
         ~~~
-        Use explicit octal syntax with the '0o' prefix instead of legacy octal numeric literals.
+        This legacy octal numeric literal evaluates to 63. Did you mean that value, or to use a modern octal syntax such as 0o77?
 }
 `,
+			suggestions: [
+				{
+					id: "useModernOctalSyntax",
+					updated: `
+function calculate() {
+	return 0o77;
+}
+`,
+				},
+				{
+					id: "removeLeadingZero",
+					updated: `
+function calculate() {
+	return 77;
+}
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -78,10 +190,36 @@ const result = 010 + 020;
 			snapshot: `
 const result = 010 + 020;
                ~~~
-               Use explicit octal syntax with the '0o' prefix instead of legacy octal numeric literals.
+               This legacy octal numeric literal evaluates to 8. Did you mean that value, or to use a modern octal syntax such as 0o10?
                      ~~~
-                     Use explicit octal syntax with the '0o' prefix instead of legacy octal numeric literals.
+                     This legacy octal numeric literal evaluates to 16. Did you mean that value, or to use a modern octal syntax such as 0o20?
 `,
+			suggestions: [
+				{
+					id: "useModernOctalSyntax",
+					updated: `
+const result = 0o10 + 020;
+`,
+				},
+				{
+					id: "removeLeadingZero",
+					updated: `
+const result = 10 + 020;
+`,
+				},
+				{
+					id: "useModernOctalSyntax",
+					updated: `
+const result = 010 + 0o20;
+`,
+				},
+				{
+					id: "removeLeadingZero",
+					updated: `
+const result = 010 + 20;
+`,
+				},
+			],
 		},
 	],
 	valid: [

@@ -1,5 +1,5 @@
 ---
-description: "Use explicit octal syntax with the '0o' prefix instead of legacy octal numeric literals."
+description: "This legacy octal numeric literal evaluates to a specific value. Did you mean that value, or to use a modern octal syntax?"
 title: "octalNumbers"
 ---
 
@@ -14,14 +14,16 @@ They are forbidden in strict mode and are less readable than their modern altern
 The explicit octal syntax `0o` (e.g., `0o77`) introduced in ES6 is clearer and works in both strict and non-strict modes.
 The digit `0` by itself is allowed as it represents zero, not an octal literal.
 
+This rule helps catch potential bugs where a leading zero was added accidentally, as `077` evaluates to `63` in decimal, not `77`.
+
 ## Examples
 
 <Tabs>
 <TabItem label="❌ Incorrect">
 
 ```ts
-const permissions = 0755;
-const value = 077;
+const permissions = 0755; // Evaluates to 493, not 755!
+const value = 077; // Evaluates to 63, not 77!
 const numbers = [01, 02, 03, 04, 05, 06, 07];
 ```
 
@@ -29,9 +31,14 @@ const numbers = [01, 02, 03, 04, 05, 06, 07];
 <TabItem label="✅ Correct">
 
 ```ts
-const permissions = 0o755;
-const value = 0o77;
+// Use explicit octal syntax if you intended octal
+const permissions = 0o755; // Clearly octal: 493 in decimal
+const value = 0o77; // Clearly octal: 63 in decimal
 const numbers = [0o1, 0o2, 0o3, 0o4, 0o5, 0o6, 0o7];
+
+// Or use decimal if you meant the decimal value
+const permissions = 755; // Clearly decimal
+const value = 77; // Clearly decimal
 
 // The number zero is allowed
 const zero = 0;
@@ -44,6 +51,15 @@ const binary = 0b1010;
 
 </TabItem>
 </Tabs>
+
+## Automatic Fixes
+
+This rule provides two automatic fix suggestions:
+
+1. **Use modern octal syntax**: Converts `077` to `0o77` (maintains the octal interpretation)
+2. **Remove leading zero**: Converts `077` to `77` (uses the decimal interpretation)
+
+Choose the fix that matches your intent.
 
 ## Options
 
