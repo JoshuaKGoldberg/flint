@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
+import { isGlobalPromiseConstructor } from "../utils/isGlobalPromiseConstructor.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -24,31 +25,6 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function isGlobalPromiseConstructor(node: ts.Expression): boolean {
-			if (node.kind !== ts.SyntaxKind.Identifier) {
-				return false;
-			}
-
-			const symbol = context.typeChecker.getSymbolAtLocation(node);
-			if (!symbol) {
-				return false;
-			}
-
-			const declarations = symbol.getDeclarations();
-			if (!declarations || declarations.length === 0) {
-				return false;
-			}
-
-			// Check if any declaration is in a lib.d.ts file
-			return declarations.some((declaration) => {
-				const sourceFile = declaration.getSourceFile();
-				return (
-					sourceFile.hasNoDefaultLib ||
-					/\/lib\.[^/]*\.d\.ts$/.test(sourceFile.fileName)
-				);
-			});
-		}
-
 		function getAsyncKeywordRange(
 			executor: ts.ArrowFunction | ts.FunctionExpression,
 		): null | { begin: number; end: number } {
@@ -67,31 +43,27 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				NewExpression: (node) => {
-					if (!isGlobalPromiseConstructor(node.expression)) {
+					if (
+						!isGlobalPromiseConstructor(node.expression, context.typeChecker)
+					) {
 						return;
 					}
 
-					if (!node.arguments || node.arguments.length === 0) {
+					if (!node.arguments?.length) {
 						return;
 					}
 
 					const executor = node.arguments[0];
 
-					const isAsyncArrowFunction =
-						ts.isArrowFunction(executor) &&
+					const isAsync =
+						(ts.isArrowFunction(executor) ||
+							ts.isFunctionExpression(executor)) &&
 						(executor.modifiers?.some(
 							(mod) => mod.kind === ts.SyntaxKind.AsyncKeyword,
 						) ??
 							false);
 
-					const isAsyncFunctionExpression =
-						ts.isFunctionExpression(executor) &&
-						(executor.modifiers?.some(
-							(mod) => mod.kind === ts.SyntaxKind.AsyncKeyword,
-						) ??
-							false);
-
-					if (isAsyncArrowFunction || isAsyncFunctionExpression) {
+					if (isAsync) {
 						const range = getAsyncKeywordRange(executor);
 						if (range) {
 							context.report({
