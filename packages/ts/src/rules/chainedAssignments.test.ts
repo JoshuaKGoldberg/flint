@@ -14,7 +14,7 @@ let first;
 let second;
 first = second = 1;
       ~
-      Use separate assignment statements instead of chaining assignments.
+      Prefer separate assignment statements for readability instead of chaining assignments.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ let second;
 let third;
 first = second = third = 0;
       ~
-      Use separate assignment statements instead of chaining assignments.
+      Prefer separate assignment statements for readability instead of chaining assignments.
 `,
 		},
 		{
@@ -44,7 +44,7 @@ let value;
 let another;
 value = another = getValue();
       ~
-      Use separate assignment statements instead of chaining assignments.
+      Prefer separate assignment statements for readability instead of chaining assignments.
 `,
 		},
 		{
@@ -58,7 +58,7 @@ let first;
 let second;
 (first = second = 1);
        ~
-       Use separate assignment statements instead of chaining assignments.
+       Prefer separate assignment statements for readability instead of chaining assignments.
 `,
 		},
 		{
@@ -76,7 +76,7 @@ const calculate = (value: number) => {
     let second;
     first = second = value;
           ~
-          Use separate assignment statements instead of chaining assignments.
+          Prefer separate assignment statements for readability instead of chaining assignments.
     return first + second;
 };
 `,
@@ -95,7 +95,7 @@ let second;
 if (true) {
     first = second = 10;
           ~
-          Use separate assignment statements instead of chaining assignments.
+          Prefer separate assignment statements for readability instead of chaining assignments.
 }
 `,
 		},
@@ -116,7 +116,7 @@ class MyClass {
         let second;
         first = second = 0;
               ~
-              Use separate assignment statements instead of chaining assignments.
+              Prefer separate assignment statements for readability instead of chaining assignments.
     }
 }
 `,
@@ -134,7 +134,7 @@ let second;
 let third;
 first = (second = third = 5);
       ~
-      Use separate assignment statements instead of chaining assignments.
+      Prefer separate assignment statements for readability instead of chaining assignments.
 `,
 		},
 		{
@@ -148,7 +148,7 @@ let first;
 let second;
 first ||= second ||= 1;
       ~~~
-      Use separate assignment statements instead of chaining assignments.
+      Prefer separate assignment statements for readability instead of chaining assignments.
 `,
 		},
 		{
@@ -162,7 +162,7 @@ let first;
 let second;
 first ??= second ??= 0;
       ~~~
-      Use separate assignment statements instead of chaining assignments.
+      Prefer separate assignment statements for readability instead of chaining assignments.
 `,
 		},
 		{
@@ -176,7 +176,7 @@ let first;
 let second;
 first += second += 5;
       ~~
-      Use separate assignment statements instead of chaining assignments.
+      Prefer separate assignment statements for readability instead of chaining assignments.
 `,
 		},
 		{
@@ -190,7 +190,7 @@ let first;
 let second;
 first |= second |= 3;
       ~~
-      Use separate assignment statements instead of chaining assignments.
+      Prefer separate assignment statements for readability instead of chaining assignments.
 `,
 		},
 	],

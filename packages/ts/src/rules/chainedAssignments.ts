@@ -1,8 +1,8 @@
+import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
-import { isAssignmentOperator } from "../utils/isAssignmentOperator.js";
 import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.js";
 import { unwrapParenthesizedExpressionsParent } from "../utils/unwrapParentParenthesizedExpressions.js";
 
@@ -16,7 +16,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		noChainedAssignment: {
 			primary:
-				"Use separate assignment statements instead of chaining assignments.",
+				"Prefer separate assignment statements for readability instead of chaining assignments.",
 			secondary: [
 				"Chained assignments can be hard to read and can lead to unexpected behavior with variable scoping and type inference.",
 				"Each assignment creates a reference to the same value, which may cause confusion when dealing with mutable values.",
@@ -30,25 +30,17 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				BinaryExpression: (node) => {
-					if (!isAssignmentOperator(node.operatorToken.kind)) {
+					if (!tsutils.isAssignmentKind(node.operatorToken.kind)) {
 						return;
 					}
 
 					const rightSide = unwrapParenthesizedExpression(node.right);
-
-					if (
-						!ts.isBinaryExpression(rightSide) ||
-						!isAssignmentOperator(rightSide.operatorToken.kind)
-					) {
+					if (!ts.isBinaryExpression(rightSide)) {
 						return;
 					}
 
-					const current = unwrapParenthesizedExpressionsParent(node);
-
-					if (
-						ts.isBinaryExpression(current) &&
-						isAssignmentOperator(current.operatorToken.kind)
-					) {
+					const parent = unwrapParenthesizedExpressionsParent(node);
+					if (ts.isBinaryExpression(parent)) {
 						return;
 					}
 
