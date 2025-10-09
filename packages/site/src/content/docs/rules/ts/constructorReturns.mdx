@@ -21,23 +21,18 @@ If you need to return a different object based on constructor parameters, consid
 <TabItem label="❌ Incorrect">
 
 ```ts
-class Database {
-	constructor(connectionString: string) {
-		if (!connectionString) {
-			return null;
-		}
-		this.connection = createConnection(connectionString);
+class Example {
+	constructor() {
+		return {};
 	}
 }
 
-class Singleton {
-	private static instance: Singleton;
-
-	constructor() {
-		if (Singleton.instance) {
-			return Singleton.instance;
+class SpecialValue {
+	constructor(value: number) {
+		if (value < 0) {
+			return null;
 		}
-		Singleton.instance = this;
+		this.value = value;
 	}
 }
 ```
@@ -46,27 +41,18 @@ class Singleton {
 <TabItem label="✅ Correct">
 
 ```ts
-class Database {
-	constructor(connectionString: string) {
-		if (!connectionString) {
-			throw new Error("Connection string is required");
-		}
-		this.connection = createConnection(connectionString);
+class Example {
+	constructor() {
+		this.value = 42;
 	}
 }
 
-class Singleton {
-	private static instance: Singleton;
-
-	private constructor() {
-		// Private constructor prevents direct instantiation
-	}
-
-	static getInstance(): Singleton {
-		if (!Singleton.instance) {
-			Singleton.instance = new Singleton();
+class SpecialValue {
+	constructor(value: number) {
+		if (value < 0) {
+			throw new Error("Value must be non-negative");
 		}
-		return Singleton.instance;
+		this.value = value;
 	}
 }
 ```
