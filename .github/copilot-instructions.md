@@ -5,7 +5,8 @@ Existing patterns in code and on github.com are generally very intentional (unle
 
 ## Builds & scripts
 
-To start development, use Node.js 24, run `pnpm install`, then run `pnpm build`.
+You should have done the steps in `.github/workflows/copilot-setup-steps.yml` to start development.
+Most importantly, it should have had you use Node.js 24, run `pnpm install`, then run `pnpm build --noCheck`.
 Do this before you run any other scripts such as tests.
 
 If you see failures in things you didn't touch, such as cross-rule unit test failures when you only changed one rule, it's probably that your dev environment isn't on Node.js 24 and/or you didn't build.
@@ -29,6 +30,10 @@ In large lists such as `plugins.ts` `rules`, keep things alphabetical.
 
 In JSON files such as the comparisons data.json, even if they're not linted to stay alphabetical, keep them alphabetical (excluding `package.json` files).
 
+### Utilities
+
+Whenever you want to implement a helper/utility method, first check if an equivalent exists in the `typescript` package, or failing that `ts-api-utils`.
+
 ## Documentation
 
 Don't be vague in documentation lines: be precise.
@@ -45,7 +50,7 @@ Example: don't mention behavior differences in strict mode vs. non-strict mode u
 
 Don't say "easily", "simply", or equivalent words or phrases.
 Nothing is simple to everyone.
-For example, don't say "If ABC, just do XYZ" - that "just" implies things are easy or simple.
+Example: don't say "If ABC, just do XYZ" - that "just" implies things are easy or simple.
 
 ## Lint Rules
 
@@ -69,7 +74,16 @@ Same with other TypeScript APIs that optionally take in a sourceFile.
 
 ### Lint Rule Unit Tests
 
+> Tip: to re-run just the tests for a rule, run `pnpm run test run <rulename>`.
+> Example: to rerun tests for the `unnecessaryCatches` rule, run `pnpm test unnecessaryCatches`.
+
 Look at other rule tests and try to mirror their layouts and styles as much as possible.
+
+Make sure each piece of logic in a rule is unit tested.
+If removing a piece of logic doesn’t fail unit tests, that’s likely as sign you’re missing unit testing some edge case.
+If you can’t find an edge case that requires the logic, then remove that logic.
+Example: if removing `ts.isIdentifier(node.parent) &&` from an if statement doesn’t fail unit tests, then maybe you’re not testing the case of a non-identifier node parent? If that’s possible, add those test case(s).
+If that’s not possible, remove the logic.
 
 Don't use tabs in template literal strings.
 Indent with four spaces.
@@ -82,6 +96,8 @@ Don't use foo/bar/etc. names.
 Use succinct descriptive ones instead.
 Example: instead of `let foo;` use `let value;`.
 Instead of `foo-.-bar` use `before-.-after`.
+
+If a rule has fixer and/or suggestions, those should be tested in unit tests.
 
 ## Pull Requests
 

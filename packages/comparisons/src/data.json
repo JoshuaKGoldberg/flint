@@ -4947,6 +4947,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "chainedAssignments",
 			"plugin": "ts",
 			"preset": "Stylistic"
