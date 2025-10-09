@@ -16,7 +16,7 @@ class Example {
     constructor() {
         return {};
         ~~~~~~~~~~
-        Constructor functions should not return values.
+        Returning a value from a constructor function overrides the newly created instance.
     }
 }
 `,
@@ -34,7 +34,7 @@ class Example {
     constructor() {
         return { value: 1 };
         ~~~~~~~~~~~~~~~~~~~~
-        Constructor functions should not return values.
+        Returning a value from a constructor function overrides the newly created instance.
     }
 }
 `,
@@ -55,7 +55,7 @@ class Example {
         if (condition) {
             return new OtherClass();
             ~~~~~~~~~~~~~~~~~~~~~~~~
-            Constructor functions should not return values.
+            Returning a value from a constructor function overrides the newly created instance.
         }
     }
 }
@@ -78,7 +78,7 @@ class Example {
         if (value < 0) {
             return null;
             ~~~~~~~~~~~~
-            Constructor functions should not return values.
+            Returning a value from a constructor function overrides the newly created instance.
         }
         this.value = value;
     }

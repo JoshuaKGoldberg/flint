@@ -9,8 +9,8 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="ts" rule="constructorReturns" />
 
-In JavaScript and TypeScript, returning a value from a constructor overrides the newly created instance.
-This behavior is often unintentional and can lead to unexpected results where the returned value becomes the result of the `new` expression instead of the instance.
+In JavaScript, returning a value from a constructor overrides the newly created instance.
+This behavior is generally unintentional and can lead to unexpected results where the returned value becomes the result of the `new` expression instead of the instance.
 
 While JavaScript technically allows this, it's generally a code smell that indicates a design issue.
 If you need to return a different object based on constructor parameters, consider using a factory function instead.
