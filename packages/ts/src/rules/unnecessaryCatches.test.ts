@@ -16,7 +16,7 @@ try {
     doSomething();
 } catch (error) {
   ~~~~~
-  Remove catch clauses that only rethrow the error without modification.
+  This catch clause is unnecessary, as it only rethrows the exception without modification.
     throw error;
 }
 `,
@@ -37,7 +37,7 @@ async function fetchData() {
         return await fetch("/api/data");
     } catch (error) {
       ~~~~~
-      Remove catch clauses that only rethrow the error without modification.
+      This catch clause is unnecessary, as it only rethrows the exception without modification.
         throw error;
     }
 }
@@ -56,7 +56,7 @@ try {
     processData();
 } catch (exception) {
   ~~~~~
-  Remove catch clauses that only rethrow the error without modification.
+  This catch clause is unnecessary, as it only rethrows the exception without modification.
     throw exception;
 }
 `,
@@ -79,9 +79,38 @@ function handleRequest() {
         return result;
     } catch (err) {
       ~~~~~
-      Remove catch clauses that only rethrow the error without modification.
+      This catch clause is unnecessary, as it only rethrows the exception without modification.
         throw err;
     }
+}
+`,
+		},
+		{
+			code: `
+try {
+    doSomething();
+} catch (error) {
+    throw error;
+} finally {
+    cleanup();
+}
+`,
+			output: `
+try {
+    doSomething();
+} finally {
+    cleanup();
+}
+`,
+			snapshot: `
+try {
+    doSomething();
+} catch (error) {
+  ~~~~~
+  This catch clause is unnecessary, as it only rethrows the exception without modification.
+    throw error;
+} finally {
+    cleanup();
 }
 `,
 		},
@@ -129,6 +158,13 @@ async function fetchData() {
         await logError(error);
         throw error;
     }
+}
+`,
+		`
+try {
+    doSomething();
+} catch ({ message }) {
+    throw message;
 }
 `,
 	],

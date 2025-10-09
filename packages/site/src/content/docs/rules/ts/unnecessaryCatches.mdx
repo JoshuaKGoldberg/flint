@@ -58,14 +58,6 @@ function processFile(path: string) {
 		throw new Error(`Failed to process file ${path}`, { cause: exception });
 	}
 }
-
-async function loadData() {
-	return await fetch("/api/data");
-}
-
-function parseContent(content: string) {
-	return JSON.parse(content);
-}
 ```
 
 </TabItem>
