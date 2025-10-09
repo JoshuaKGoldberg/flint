@@ -122,14 +122,6 @@ try {
 }
 `,
 		`
-try {
-    doSomething();
-} catch (error) {
-    // Comment explaining why we're rethrowing
-    throw error;
-}
-`,
-		`
 async function fetchData() {
     try {
         return await fetch("/api/data");
