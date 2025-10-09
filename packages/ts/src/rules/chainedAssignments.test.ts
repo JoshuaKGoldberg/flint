@@ -137,6 +137,62 @@ first = (second = third = 5);
       Use separate assignment statements instead of chaining assignments.
 `,
 		},
+		{
+			code: `
+let first;
+let second;
+first ||= second ||= 1;
+`,
+			snapshot: `
+let first;
+let second;
+first ||= second ||= 1;
+      ~~~
+      Use separate assignment statements instead of chaining assignments.
+`,
+		},
+		{
+			code: `
+let first;
+let second;
+first ??= second ??= 0;
+`,
+			snapshot: `
+let first;
+let second;
+first ??= second ??= 0;
+      ~~~
+      Use separate assignment statements instead of chaining assignments.
+`,
+		},
+		{
+			code: `
+let first;
+let second;
+first += second += 5;
+`,
+			snapshot: `
+let first;
+let second;
+first += second += 5;
+      ~~
+      Use separate assignment statements instead of chaining assignments.
+`,
+		},
+		{
+			code: `
+let first;
+let second;
+first |= second |= 3;
+`,
+			snapshot: `
+let first;
+let second;
+first |= second |= 3;
+      ~~
+      Use separate assignment statements instead of chaining assignments.
+`,
+		},
 	],
 	valid: [
 		`let first = 1;`,

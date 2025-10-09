@@ -2,8 +2,9 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
+import { isAssignmentOperator } from "../utils/isAssignmentOperator.js";
 import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.js";
-import { unwrapParentParenthesizedExpressions } from "../utils/unwrapParentParenthesizedExpressions.js";
+import { unwrapParenthesizedExpressionsParent } from "../utils/unwrapParentParenthesizedExpressions.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -29,7 +30,7 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				BinaryExpression: (node) => {
-					if (node.operatorToken.kind !== ts.SyntaxKind.EqualsToken) {
+					if (!isAssignmentOperator(node.operatorToken.kind)) {
 						return;
 					}
 
@@ -37,16 +38,16 @@ export default typescriptLanguage.createRule({
 
 					if (
 						!ts.isBinaryExpression(rightSide) ||
-						rightSide.operatorToken.kind !== ts.SyntaxKind.EqualsToken
+						!isAssignmentOperator(rightSide.operatorToken.kind)
 					) {
 						return;
 					}
 
-					const current = unwrapParentParenthesizedExpressions(node);
+					const current = unwrapParenthesizedExpressionsParent(node);
 
 					if (
 						ts.isBinaryExpression(current) &&
-						current.operatorToken.kind === ts.SyntaxKind.EqualsToken
+						isAssignmentOperator(current.operatorToken.kind)
 					) {
 						return;
 					}
