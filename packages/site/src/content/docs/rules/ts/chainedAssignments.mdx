@@ -1,0 +1,90 @@
+---
+description: "Prefer separate assignment statements for readability instead of chaining assignments."
+title: "chainedAssignments"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="chainedAssignments" />
+
+Chained assignments can be hard to read and can lead to unexpected behavior with variable scoping and type inference.
+Each assignment creates a reference to the same value, which may cause confusion when dealing with mutable values.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+let first;
+let second;
+first = second = 1;
+```
+
+```ts
+let first;
+let second;
+let third;
+first = second = third = getValue();
+```
+
+```ts
+function process(value: number): void {
+	let result;
+	let cache;
+	result = cache = value * 2;
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+let first;
+let second;
+first = 1;
+second = 1;
+```
+
+```ts
+let first;
+let second;
+let third;
+const value = getValue();
+first = value;
+second = value;
+third = value;
+```
+
+```ts
+function process(value: number): void {
+	let result;
+	let cache;
+	const computed = value * 2;
+	result = computed;
+	cache = computed;
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your codebase frequently uses chained assignments as a concise idiom and you find them readable, you might choose to disable this rule.
+However, breaking chained assignments into separate statements generally improves code clarity and reduces potential for bugs.
+
+## Further Reading
+
+- [MDN: Assignment operators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment)
+- [MDN: Destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="chainedAssignments" />
