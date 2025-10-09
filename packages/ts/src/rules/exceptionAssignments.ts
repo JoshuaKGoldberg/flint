@@ -1,3 +1,4 @@
+import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
@@ -25,30 +26,9 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		const exceptionParameters: ts.Identifier[] = [];
 
-		function isAssignmentOperator(kind: ts.SyntaxKind): boolean {
-			return (
-				kind === ts.SyntaxKind.EqualsToken ||
-				kind === ts.SyntaxKind.PlusEqualsToken ||
-				kind === ts.SyntaxKind.MinusEqualsToken ||
-				kind === ts.SyntaxKind.AsteriskEqualsToken ||
-				kind === ts.SyntaxKind.AsteriskAsteriskEqualsToken ||
-				kind === ts.SyntaxKind.SlashEqualsToken ||
-				kind === ts.SyntaxKind.PercentEqualsToken ||
-				kind === ts.SyntaxKind.LessThanLessThanEqualsToken ||
-				kind === ts.SyntaxKind.GreaterThanGreaterThanEqualsToken ||
-				kind === ts.SyntaxKind.GreaterThanGreaterThanGreaterThanEqualsToken ||
-				kind === ts.SyntaxKind.AmpersandEqualsToken ||
-				kind === ts.SyntaxKind.BarEqualsToken ||
-				kind === ts.SyntaxKind.CaretEqualsToken ||
-				kind === ts.SyntaxKind.AmpersandAmpersandEqualsToken ||
-				kind === ts.SyntaxKind.BarBarEqualsToken ||
-				kind === ts.SyntaxKind.QuestionQuestionEqualsToken
-			);
-		}
-
-		function isExceptionParameter(identifier: ts.Identifier): boolean {
+		function isExceptionParameter(node: ts.Node): boolean {
 			return exceptionParameters.some((param) =>
-				isSameVariable(param, identifier, context.typeChecker),
+				isSameVariable(param, node, context.typeChecker),
 			);
 		}
 
@@ -56,9 +36,9 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				BinaryExpression: (node) => {
 					if (
-						isAssignmentOperator(node.operatorToken.kind) &&
-						node.left.kind === ts.SyntaxKind.Identifier &&
-						isExceptionParameter(node.left as ts.Identifier)
+						tsutils.isAssignmentKind(node.operatorToken.kind) &&
+						ts.isIdentifier(node.left) &&
+						isExceptionParameter(node.left)
 					) {
 						context.report({
 							message: "noExAssign",
@@ -77,10 +57,7 @@ export default typescriptLanguage.createRule({
 					}
 				},
 				PostfixUnaryExpression: (node) => {
-					if (
-						node.operand.kind === ts.SyntaxKind.Identifier &&
-						isExceptionParameter(node.operand as ts.Identifier)
-					) {
+					if (isExceptionParameter(node.operand)) {
 						context.report({
 							message: "noExAssign",
 							range: {
@@ -91,12 +68,7 @@ export default typescriptLanguage.createRule({
 					}
 				},
 				PrefixUnaryExpression: (node) => {
-					if (
-						(node.operator === ts.SyntaxKind.PlusPlusToken ||
-							node.operator === ts.SyntaxKind.MinusMinusToken) &&
-						node.operand.kind === ts.SyntaxKind.Identifier &&
-						isExceptionParameter(node.operand as ts.Identifier)
-					) {
+					if (isExceptionParameter(node.operand)) {
 						context.report({
 							message: "noExAssign",
 							range: {
