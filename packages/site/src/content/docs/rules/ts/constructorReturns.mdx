@@ -1,0 +1,96 @@
+---
+description: "Disallows returning values from constructor functions in classes."
+title: "constructorReturns"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="constructorReturns" />
+
+Constructors are special functions that create and initialize instances of classes.
+When you use the `new` keyword with a class, JavaScript creates a new object and calls the constructor function with that object bound to `this`.
+By default, the constructor returns the newly created object.
+
+However, if a constructor explicitly returns a value other than `this` or `undefined`, that value becomes the result of the `new` expression instead of the newly created instance.
+This can lead to unexpected behavior and bugs because callers expect `new` to return an instance of the class.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class Person {
+	constructor(name: string) {
+		this.name = name;
+		return { name };
+	}
+}
+
+class Counter {
+	constructor() {
+		return 0;
+	}
+}
+
+class Factory {
+	constructor() {
+		if (shouldReturnNull) {
+			return null;
+		}
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class Person {
+	constructor(name: string) {
+		this.name = name;
+	}
+}
+
+class Counter {
+	constructor() {
+		this.value = 0;
+	}
+}
+
+class Factory {
+	constructor() {
+		if (shouldSkipInitialization) {
+			return;
+		}
+		this.initialize();
+	}
+}
+
+function createObject() {
+	return { key: "value" };
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+This rule is generally recommended because returning values from constructors violates the expected behavior of JavaScript classes and can lead to hard-to-diagnose bugs.
+However, if you have a codebase that intentionally uses constructors as factory functions and all team members understand this pattern, you might choose to disable this rule.
+
+## Further Reading
+
+- [MDN: constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor)
+- [MDN: new operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="constructorReturns" />
