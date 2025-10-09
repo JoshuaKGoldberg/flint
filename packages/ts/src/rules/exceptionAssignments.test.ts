@@ -93,6 +93,28 @@ try {
 }
 `,
 		},
+		{
+			code: `
+try {
+    doSomething();
+} catch (error) {
+    function inner() {
+        error = "reassigned in nested function";
+    }
+}
+`,
+			snapshot: `
+try {
+    doSomething();
+} catch (error) {
+    function inner() {
+        error = "reassigned in nested function";
+        ~~~~~
+        Exception parameters in catch clauses should not be reassigned.
+    }
+}
+`,
+		},
 	],
 	valid: [
 		`try { doSomething(); } catch (error) { console.log(error); }`,
@@ -101,5 +123,32 @@ try {
 		`try { doSomething(); } catch (error) { if (error instanceof TypeError) { handle(); } }`,
 		`try { doSomething(); } catch { handleError(); }`,
 		`const error = new Error("test");`,
+		`
+try {
+    doSomething();
+} catch (error) {
+    const error = "shadowed variable";
+    console.log(error);
+}
+`,
+		`
+try {
+    doSomething();
+} catch (error) {
+    function inner() {
+        const error = "shadowed in function";
+        error = "reassigning shadowed variable is ok";
+    }
+}
+`,
+		`
+let error = "outer";
+try {
+    doSomething();
+} catch (error) {
+    console.log(error);
+}
+error = "reassigning outer is ok";
+`,
 	],
 });

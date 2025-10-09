@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
+import { isSameVariable } from "../utils/isSameVariable.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -22,7 +23,7 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		const exceptionParameters = new Set<ts.Identifier>();
+		const exceptionParameters: ts.Identifier[] = [];
 
 		function isAssignmentOperator(kind: ts.SyntaxKind): boolean {
 			return (
@@ -45,13 +46,19 @@ export default typescriptLanguage.createRule({
 			);
 		}
 
+		function isExceptionParameter(identifier: ts.Identifier): boolean {
+			return exceptionParameters.some((param) =>
+				isSameVariable(param, identifier, context.typeChecker),
+			);
+		}
+
 		return {
 			visitors: {
 				BinaryExpression: (node) => {
 					if (
 						isAssignmentOperator(node.operatorToken.kind) &&
 						node.left.kind === ts.SyntaxKind.Identifier &&
-						exceptionParameters.has(node.left as ts.Identifier)
+						isExceptionParameter(node.left as ts.Identifier)
 					) {
 						context.report({
 							message: "noExAssign",
@@ -66,13 +73,13 @@ export default typescriptLanguage.createRule({
 					if (
 						node.variableDeclaration?.name.kind === ts.SyntaxKind.Identifier
 					) {
-						exceptionParameters.add(node.variableDeclaration.name);
+						exceptionParameters.push(node.variableDeclaration.name);
 					}
 				},
 				PostfixUnaryExpression: (node) => {
 					if (
 						node.operand.kind === ts.SyntaxKind.Identifier &&
-						exceptionParameters.has(node.operand as ts.Identifier)
+						isExceptionParameter(node.operand as ts.Identifier)
 					) {
 						context.report({
 							message: "noExAssign",
@@ -88,7 +95,7 @@ export default typescriptLanguage.createRule({
 						(node.operator === ts.SyntaxKind.PlusPlusToken ||
 							node.operator === ts.SyntaxKind.MinusMinusToken) &&
 						node.operand.kind === ts.SyntaxKind.Identifier &&
-						exceptionParameters.has(node.operand as ts.Identifier)
+						isExceptionParameter(node.operand as ts.Identifier)
 					) {
 						context.report({
 							message: "noExAssign",
