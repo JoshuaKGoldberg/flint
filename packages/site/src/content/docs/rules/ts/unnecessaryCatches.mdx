@@ -55,7 +55,7 @@ function processFile(path: string) {
 		const content = readFileSync(path);
 		return JSON.parse(content);
 	} catch (exception) {
-		throw new Error(`Failed to process file ${path}: ${exception.message}`);
+		throw new Error(`Failed to process file ${path}`, { cause: exception });
 	}
 }
 

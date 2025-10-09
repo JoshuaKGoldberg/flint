@@ -12,7 +12,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		unnecessaryCatch: {
 			primary:
-				"Remove catch clauses that only rethrow the error without modification.",
+				"This catch clause is unnecessary, as it only rethrows the exception without modification.",
 			secondary: [
 				"A catch clause that only rethrows the caught error adds no value and creates unnecessary code complexity.",
 				"Removing such catch clauses allows errors to propagate naturally without the overhead of an unnecessary try-catch block.",
@@ -56,12 +56,28 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
+					const tryStatement = node.parent;
+					if (!ts.isTryStatement(tryStatement)) {
+						return;
+					}
+
+					const range = {
+						begin: node.getStart(context.sourceFile),
+						end: node.getStart(context.sourceFile) + "catch".length,
+					};
+
 					context.report({
+						fix: tryStatement.finallyBlock
+							? {
+									range: {
+										begin: tryStatement.tryBlock.getEnd(),
+										end: node.getEnd(),
+									},
+									text: "",
+								}
+							: undefined,
 						message: "unnecessaryCatch",
-						range: {
-							begin: node.getStart(context.sourceFile),
-							end: node.getStart(context.sourceFile) + "catch".length,
-						},
+						range,
 					});
 				},
 			},
