@@ -24,12 +24,27 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		const exceptionParameters: ts.Identifier[] = [];
+		const exceptionParameters: ts.Node[] = [];
 
 		function isExceptionParameter(node: ts.Node): boolean {
 			return exceptionParameters.some((param) =>
 				isSameVariable(param, node, context.typeChecker),
 			);
+		}
+
+		function collectBindingElements(name: ts.BindingName): void {
+			if (ts.isIdentifier(name)) {
+				exceptionParameters.push(name);
+			} else if (
+				ts.isObjectBindingPattern(name) ||
+				ts.isArrayBindingPattern(name)
+			) {
+				for (const element of name.elements) {
+					if (ts.isBindingElement(element)) {
+						collectBindingElements(element.name);
+					}
+				}
+			}
 		}
 
 		return {
@@ -50,14 +65,15 @@ export default typescriptLanguage.createRule({
 					}
 				},
 				CatchClause: (node) => {
-					if (
-						node.variableDeclaration?.name.kind === ts.SyntaxKind.Identifier
-					) {
-						exceptionParameters.push(node.variableDeclaration.name);
+					if (node.variableDeclaration?.name) {
+						collectBindingElements(node.variableDeclaration.name);
 					}
 				},
 				PostfixUnaryExpression: (node) => {
-					if (isExceptionParameter(node.operand)) {
+					if (
+						ts.isIdentifier(node.operand) &&
+						isExceptionParameter(node.operand)
+					) {
 						context.report({
 							message: "noExAssign",
 							range: {
@@ -68,7 +84,10 @@ export default typescriptLanguage.createRule({
 					}
 				},
 				PrefixUnaryExpression: (node) => {
-					if (isExceptionParameter(node.operand)) {
+					if (
+						ts.isIdentifier(node.operand) &&
+						isExceptionParameter(node.operand)
+					) {
 						context.report({
 							message: "noExAssign",
 							range: {

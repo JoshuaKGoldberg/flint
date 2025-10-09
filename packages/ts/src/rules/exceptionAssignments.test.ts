@@ -115,6 +115,60 @@ try {
 }
 `,
 		},
+		{
+			code: `
+try {
+    doSomething();
+} catch ({ message }) {
+    message = "reassigned destructured parameter";
+}
+`,
+			snapshot: `
+try {
+    doSomething();
+} catch ({ message }) {
+    message = "reassigned destructured parameter";
+    ~~~~~~~
+    Exception parameters in catch clauses should not be reassigned.
+}
+`,
+		},
+		{
+			code: `
+try {
+    doSomething();
+} catch ({ message, code }) {
+    code = 500;
+}
+`,
+			snapshot: `
+try {
+    doSomething();
+} catch ({ message, code }) {
+    code = 500;
+    ~~~~
+    Exception parameters in catch clauses should not be reassigned.
+}
+`,
+		},
+		{
+			code: `
+try {
+    doSomething();
+} catch ([first, second]) {
+    first = "reassigned array destructured parameter";
+}
+`,
+			snapshot: `
+try {
+    doSomething();
+} catch ([first, second]) {
+    first = "reassigned array destructured parameter";
+    ~~~~~
+    Exception parameters in catch clauses should not be reassigned.
+}
+`,
+		},
 	],
 	valid: [
 		`try { doSomething(); } catch (error) { console.log(error); }`,
@@ -150,5 +204,8 @@ try {
 }
 error = "reassigning outer is ok";
 `,
+		`try { doSomething(); } catch ({ message }) { console.log(message); }`,
+		`try { doSomething(); } catch ({ message, code }) { if (code === 404) { handle(); } }`,
+		`try { doSomething(); } catch ([first]) { console.log(first); }`,
 	],
 });
