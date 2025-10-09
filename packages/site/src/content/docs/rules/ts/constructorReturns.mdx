@@ -1,5 +1,5 @@
 ---
-description: "Disallows returning values from constructor functions in classes."
+description: "Constructor functions should not return values."
 title: "constructorReturns"
 ---
 
@@ -9,12 +9,11 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="ts" rule="constructorReturns" />
 
-Constructors are special functions that create and initialize instances of classes.
-When you use the `new` keyword with a class, JavaScript creates a new object and calls the constructor function with that object bound to `this`.
-By default, the constructor returns the newly created object.
+In JavaScript, returning a value from a constructor overrides the newly created instance.
+This behavior is generally unintentional and can lead to unexpected results where the returned value becomes the result of the `new` expression instead of the instance.
 
-However, if a constructor explicitly returns a value other than `this` or `undefined`, that value becomes the result of the `new` expression instead of the newly created instance.
-This can lead to unexpected behavior and bugs because callers expect `new` to return an instance of the class.
+While JavaScript technically allows this, it's generally a code smell that indicates a design issue.
+If you need to return a different object based on constructor parameters, consider using a factory function instead.
 
 ## Examples
 
@@ -22,24 +21,18 @@ This can lead to unexpected behavior and bugs because callers expect `new` to re
 <TabItem label="❌ Incorrect">
 
 ```ts
-class Person {
-	constructor(name: string) {
-		this.name = name;
-		return { name };
+class Example {
+	constructor() {
+		return {};
 	}
 }
 
-class Counter {
-	constructor() {
-		return 0;
-	}
-}
-
-class Factory {
-	constructor() {
-		if (shouldReturnNull) {
+class SpecialValue {
+	constructor(value: number) {
+		if (value < 0) {
 			return null;
 		}
+		this.value = value;
 	}
 }
 ```
@@ -48,29 +41,19 @@ class Factory {
 <TabItem label="✅ Correct">
 
 ```ts
-class Person {
-	constructor(name: string) {
-		this.name = name;
+class Example {
+	constructor() {
+		this.value = 42;
 	}
 }
 
-class Counter {
-	constructor() {
-		this.value = 0;
-	}
-}
-
-class Factory {
-	constructor() {
-		if (shouldSkipInitialization) {
-			return;
+class SpecialValue {
+	constructor(value: number) {
+		if (value < 0) {
+			throw new Error("Value must be non-negative");
 		}
-		this.initialize();
+		this.value = value;
 	}
-}
-
-function createObject() {
-	return { key: "value" };
 }
 ```
 
@@ -83,13 +66,14 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-This rule is generally recommended because returning values from constructors violates the expected behavior of JavaScript classes and can lead to hard-to-diagnose bugs.
-However, if you have a codebase that intentionally uses constructors as factory functions and all team members understand this pattern, you might choose to disable this rule.
+If you have a rare use case where you intentionally need to return different objects from a constructor, you might choose to disable this rule for those specific cases.
+However, this is generally considered an anti-pattern, and you should strongly consider refactoring to use a factory function instead.
 
 ## Further Reading
 
-- [MDN: constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor)
-- [MDN: new operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new)
+- [MDN: Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor)
+- [MDN: Factory Functions](https://developer.mozilla.org/en-US/docs/Glossary/Factory_function)
+- [JavaScript Info: Class patterns](https://javascript.info/class-patterns)
 
 ## Equivalents in Other Linters
 

@@ -5,75 +5,57 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-class A {
-    constructor() {
-        return 1;
-    }
-}
-`,
-			snapshot: `
-class A {
-    constructor() {
-        return 1;
-        ~~~~~~
-        Constructors should not return values other than \`this\` or \`undefined\`.
-    }
-}
-`,
-		},
-		{
-			code: `
-class B {
+class Example {
     constructor() {
         return {};
     }
 }
 `,
 			snapshot: `
-class B {
+class Example {
     constructor() {
         return {};
-        ~~~~~~
-        Constructors should not return values other than \`this\` or \`undefined\`.
+        ~~~~~~~~~~
+        Returning a value from a constructor function overrides the newly created instance.
     }
 }
 `,
 		},
 		{
 			code: `
-class C {
+class Example {
     constructor() {
-        return "value";
+        return { value: 1 };
     }
 }
 `,
 			snapshot: `
-class C {
+class Example {
     constructor() {
-        return "value";
-        ~~~~~~
-        Constructors should not return values other than \`this\` or \`undefined\`.
+        return { value: 1 };
+        ~~~~~~~~~~~~~~~~~~~~
+        Returning a value from a constructor function overrides the newly created instance.
     }
 }
 `,
 		},
 		{
 			code: `
-class D {
+class Example {
     constructor() {
         if (condition) {
-            return null;
+            return new OtherClass();
         }
     }
 }
 `,
 			snapshot: `
-class D {
+class Example {
     constructor() {
         if (condition) {
-            return null;
-            ~~~~~~
-            Constructors should not return values other than \`this\` or \`undefined\`.
+            return new OtherClass();
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+            Returning a value from a constructor function overrides the newly created instance.
         }
     }
 }
@@ -81,47 +63,35 @@ class D {
 		},
 		{
 			code: `
-class E {
-    constructor() {
-        return this.value;
+class Example {
+    constructor(value: number) {
+        if (value < 0) {
+            return null;
+        }
+        this.value = value;
     }
 }
 `,
 			snapshot: `
-class E {
-    constructor() {
-        return this.value;
-        ~~~~~~
-        Constructors should not return values other than \`this\` or \`undefined\`.
+class Example {
+    constructor(value: number) {
+        if (value < 0) {
+            return null;
+            ~~~~~~~~~~~~
+            Returning a value from a constructor function overrides the newly created instance.
+        }
+        this.value = value;
     }
 }
 `,
 		},
 	],
 	valid: [
-		`class A { constructor() {} }`,
-		`class B { constructor() { return; } }`,
-		`class C { constructor() { if (condition) { return; } } }`,
-		`class D { method() { return 1; } }`,
-		`function factory() { return {}; }`,
-		`const arrowFn = () => { return 1; };`,
-		`
-class E {
-    constructor() {
-        const fn = () => {
-            return 1;
-        };
-    }
-}
-`,
-		`
-class F {
-    constructor() {
-        function helper() {
-            return 1;
-        }
-    }
-}
-`,
+		`class Example { constructor() {} }`,
+		`class Example { constructor() { this.value = 1; } }`,
+		`class Example { constructor() { return; } }`,
+		`class Example { constructor() { if (condition) { return; } this.value = 1; } }`,
+		`class Example { constructor() { const factory = () => { return {}; }; } }`,
+		`class Example { constructor() { function helper() { return 1; } } }`,
 	],
 });

@@ -1,59 +1,57 @@
+import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
 
 export default typescriptLanguage.createRule({
 	about: {
-		description:
-			"Disallows returning values from constructor functions in classes.",
+		description: "Reports returning values from constructor functions.",
 		id: "constructorReturns",
 		preset: "untyped",
 	},
 	messages: {
 		noConstructorReturn: {
 			primary:
-				"Constructors should not return values other than `this` or `undefined`.",
+				"Returning a value from a constructor function overrides the newly created instance.",
 			secondary: [
-				"Returning a value from a constructor function can cause unexpected behavior.",
-				"If a constructor returns a value, that value becomes the result of the `new` expression instead of the newly created instance.",
-				"This can lead to confusion and bugs because callers expect `new` to return an instance of the class.",
+				"This behavior is often unintentional and can lead to unexpected results.",
+				"If you need to return a different object, consider using a factory function instead.",
 			],
 			suggestions: [
-				"Remove the return statement or return only `this` or `undefined`.",
+				"Remove the return statement, or return without a value to exit early.",
 			],
 		},
 	},
 	setup(context) {
 		return {
 			visitors: {
-				ReturnStatement: (node) => {
-					if (!node.expression) {
+				Constructor: (node) => {
+					if (!node.body) {
 						return;
 					}
 
-					let current: ts.Node | undefined = node.parent;
-					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-					while (current !== undefined) {
-						if (
-							ts.isConstructorDeclaration(current) ||
-							ts.isConstructSignatureDeclaration(current)
-						) {
-							context.report({
-								message: "noConstructorReturn",
-								range: {
-									begin: node.getStart(context.sourceFile),
-									end: node.getStart(context.sourceFile) + "return".length,
-								},
-							});
+					function checkForReturnStatements(node: ts.Node): void {
+						if (ts.isReturnStatement(node)) {
+							if (node.expression) {
+								context.report({
+									message: "noConstructorReturn",
+									range: {
+										begin: node.getStart(context.sourceFile),
+										end: node.getEnd(),
+									},
+								});
+							}
 							return;
 						}
 
-						if (ts.isFunctionLike(current)) {
+						if (tsutils.isFunctionScopeBoundary(node)) {
 							return;
 						}
 
-						current = current.parent;
+						ts.forEachChild(node, checkForReturnStatements);
 					}
+
+					ts.forEachChild(node.body, checkForReturnStatements);
 				},
 			},
 		};
