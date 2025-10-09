@@ -1,0 +1,90 @@
+---
+description: "Remove catch clauses that only rethrow the error without modification."
+title: "unnecessaryCatches"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="unnecessaryCatches" />
+
+A catch clause that only rethrows the caught error without any modification or additional logic serves no purpose.
+It adds unnecessary code complexity and performance overhead without providing any benefit.
+Errors will propagate naturally without the catch clause, making it redundant.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+async function fetchData() {
+	try {
+		return await fetch("/api/data");
+	} catch (error) {
+		throw error;
+	}
+}
+
+function processFile(path: string) {
+	try {
+		const content = readFileSync(path);
+		return JSON.parse(content);
+	} catch (exception) {
+		throw exception;
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+async function fetchData() {
+	try {
+		return await fetch("/api/data");
+	} catch (error) {
+		console.error("Failed to fetch data:", error);
+		throw error;
+	}
+}
+
+function processFile(path: string) {
+	try {
+		const content = readFileSync(path);
+		return JSON.parse(content);
+	} catch (exception) {
+		throw new Error(`Failed to process file ${path}: ${exception.message}`);
+	}
+}
+
+async function loadData() {
+	return await fetch("/api/data");
+}
+
+function parseContent(content: string) {
+	return JSON.parse(content);
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have a specific need to explicitly catch and rethrow errors for documentation purposes or to maintain consistent code structure across multiple try-catch blocks, you might choose to disable this rule.
+However, in most cases, removing unnecessary catch clauses improves code clarity and maintainability.
+
+## Further Reading
+
+- [MDN: try...catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch)
+- [MDN: Error handling](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling#exception_handling_statements)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="unnecessaryCatches" />
