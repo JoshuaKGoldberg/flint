@@ -31,8 +31,9 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					let current: ts.Node | undefined = node;
-					while (current) {
+					let current: ts.Node | undefined = node.parent;
+					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+					while (current !== undefined) {
 						if (
 							ts.isConstructorDeclaration(current) ||
 							ts.isConstructSignatureDeclaration(current)
@@ -47,7 +48,7 @@ export default typescriptLanguage.createRule({
 							return;
 						}
 
-						if (ts.isFunctionLike(current) && current !== node.parent) {
+						if (ts.isFunctionLike(current)) {
 							return;
 						}
 
