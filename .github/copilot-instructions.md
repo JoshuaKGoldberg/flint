@@ -32,7 +32,7 @@ In JSON files such as the comparisons data.json, even if they're not linted to s
 
 ### Utilities
 
-Whenever you want to implement a helper/utility method, first check if an equivalent exists in the typescript package, or failing that ts-api-utils.
+Whenever you want to implement a helper/utility method, first check if an equivalent exists in the `typescript` package, or failing that `ts-api-utils`.
 
 ## Documentation
 
