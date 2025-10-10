@@ -1,5 +1,3 @@
-import * as ts from "typescript";
-
 import { typescriptLanguage } from "../language.js";
 import { getModifyingReferences } from "../utils/getModifyingReferences.js";
 
