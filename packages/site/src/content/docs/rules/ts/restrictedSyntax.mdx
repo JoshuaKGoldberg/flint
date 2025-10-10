@@ -1,0 +1,120 @@
+---
+description: "Reports using specific TypeScript AST node types that are restricted by configuration."
+title: "restrictedSyntax"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="restrictedSyntax" />
+
+This rule allows you to restrict the use of specific TypeScript AST node types in your codebase.
+By specifying node type selectors in the configuration, you can prevent certain syntax patterns from being used, which is useful for enforcing project-specific coding standards or avoiding problematic language features.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+With configuration `{ selectors: ["WithStatement"] }`:
+
+```ts
+with (object) {
+	property;
+}
+```
+
+With configuration `{ selectors: ["ForInStatement"] }`:
+
+```ts
+for (const key in object) {
+	console.log(key);
+}
+```
+
+With configuration `{ selectors: [{ selector: "EnumDeclaration", message: "Prefer using union types instead of enums." }] }`:
+
+```ts
+enum Status {
+	Active,
+	Inactive,
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+With configuration `{ selectors: ["WithStatement"] }`:
+
+```ts
+const { property } = object;
+```
+
+With configuration `{ selectors: ["ForInStatement"] }`:
+
+```ts
+for (const key of Object.keys(object)) {
+	console.log(key);
+}
+```
+
+With configuration `{ selectors: [{ selector: "EnumDeclaration", message: "Prefer using union types instead of enums." }] }`:
+
+```ts
+type Status = "Active" | "Inactive";
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+### `selectors`
+
+An array of TypeScript AST node type names to restrict.
+Each element can be either:
+
+- A string representing the node type name (e.g., `"WithStatement"`, `"ForInStatement"`)
+- An object with a `selector` property and an optional custom `message` property
+
+```ts
+ts.rules({
+	restrictedSyntax: {
+		selectors: [
+			"WithStatement",
+			"ForInStatement",
+			{
+				selector: "EnumDeclaration",
+				message: "Prefer using union types instead of enums.",
+			},
+		],
+	},
+});
+```
+
+Available node types correspond to TypeScript's AST node kinds, including but not limited to:
+
+- `VariableStatement`, `FunctionDeclaration`, `ClassDeclaration`
+- `ForStatement`, `ForInStatement`, `ForOfStatement`, `WhileStatement`, `DoStatement`
+- `IfStatement`, `SwitchStatement`, `TryStatement`, `ThrowStatement`
+- `WithStatement`, `DebuggerStatement`
+- `BinaryExpression`, `ConditionalExpression`, `NewExpression`
+- `EnumDeclaration`, `ModuleDeclaration`, `TemplateExpression`
+
+See the [TypeScript Compiler API documentation](https://github.com/microsoft/TypeScript/blob/main/src/compiler/types.ts) for a complete list of available node types.
+
+## When Not To Use It
+
+If you don't need to restrict any specific syntax patterns in your codebase, you can disable this rule or leave it unconfigured.
+
+This rule requires explicit configuration to be useful - without any selectors configured, it has no effect.
+
+## Further Reading
+
+- [TypeScript Compiler API documentation](https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API)
+- [Abstract Syntax Trees (ASTs)](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="restrictedSyntax" />
