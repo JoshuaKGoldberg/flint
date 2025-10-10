@@ -1,0 +1,70 @@
+---
+description: "Symbols should have descriptions for easier debugging."
+title: "symbolDescriptions"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="symbolDescriptions" />
+
+Creating symbols without descriptions makes debugging difficult, as the symbol's purpose isn't clear when inspecting it.
+While the description doesn't affect the symbol's uniqueness, it appears in the symbol's string representation and can be accessed via `Symbol.prototype.description`.
+Providing meaningful descriptions helps developers understand the purpose of each symbol during debugging and logging.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const uniqueId = Symbol();
+const privateKey = Symbol();
+
+class MyClass {
+	[Symbol()]() {
+		return "method";
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const uniqueId = Symbol("uniqueId");
+const privateKey = Symbol("privateKey");
+
+class MyClass {
+	[Symbol("customMethod")]() {
+		return "method";
+	}
+}
+
+// Well-known symbols don't need descriptions
+const iterator = Symbol.iterator;
+
+// Symbol.for() creates global symbols with identifiers
+const globalSymbol = Symbol.for("app.config");
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you're working in a codebase where symbol descriptions aren't important for debugging purposes, or if you have a specific reason to create symbols without descriptions, you might choose to disable this rule.
+
+## Further Reading
+
+- [MDN: Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
+- [MDN: Symbol.prototype.description](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/description)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="symbolDescriptions" />
