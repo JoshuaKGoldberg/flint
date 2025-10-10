@@ -15160,6 +15160,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "voidOperator",
 			"plugin": "ts",
 			"preset": "Stylistic"
