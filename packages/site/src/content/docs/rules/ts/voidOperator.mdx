@@ -11,6 +11,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 The `void` operator evaluates an expression and returns `undefined`, regardless of the expression's value.
 While this was historically used to safely obtain `undefined`, modern JavaScript has `undefined` as a proper value, making the `void` operator unnecessary and potentially confusing.
+`void 0` is specifically used in minified code to lower total character size, but that is not necessary in source code.
 Using `undefined` directly is clearer and more explicit.
 
 ## Examples
