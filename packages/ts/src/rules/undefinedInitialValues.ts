@@ -25,18 +25,15 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				VariableStatement: (node) => {
-					if (
-						node.declarationList.flags & ts.NodeFlags.Const ||
-						node.declarationList.flags === ts.NodeFlags.Const
-					) {
+					if ((node.declarationList.flags & ts.NodeFlags.Const) !== 0) {
 						return;
 					}
 
 					for (const declaration of node.declarationList.declarations) {
 						if (
 							declaration.initializer &&
-							declaration.initializer.kind === ts.SyntaxKind.Identifier &&
-							(declaration.initializer as ts.Identifier).text === "undefined"
+							ts.isIdentifier(declaration.initializer) &&
+							declaration.initializer.text === "undefined"
 						) {
 							const equalsToken = declaration
 								.getChildren(context.sourceFile)
@@ -48,9 +45,7 @@ export default typescriptLanguage.createRule({
 
 							const range = {
 								begin: equalsToken.getStart(context.sourceFile),
-								end:
-									declaration.initializer.getStart(context.sourceFile) +
-									"undefined".length,
+								end: declaration.initializer.getEnd(),
 							};
 
 							context.report({
