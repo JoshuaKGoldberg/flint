@@ -105,6 +105,22 @@ function test(first, second, third, second) {
 }
 `,
 		},
+		{
+			code: `
+function test(value, value, value) {
+    return value;
+}
+`,
+			snapshot: `
+function test(value, value, value) {
+                     ~~~~~
+                     Duplicate parameter names are not allowed in function signatures.
+                            ~~~~~
+                            Duplicate parameter names are not allowed in function signatures.
+    return value;
+}
+`,
+		},
 	],
 	valid: [
 		`function test(value) { return value; }`,
