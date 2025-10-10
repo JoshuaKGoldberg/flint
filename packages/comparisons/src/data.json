@@ -7352,6 +7352,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "guardedForIns",
 			"plugin": "ts",
 			"preset": "Untyped"
