@@ -7235,6 +7235,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "globalAssignments",
 			"plugin": "ts",
 			"preset": "Untyped"

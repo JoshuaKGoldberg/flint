@@ -1,0 +1,88 @@
+---
+description: "Read-only global variables should not be reassigned or modified."
+title: "globalAssignments"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="globalAssignments" />
+
+Global variables like `undefined`, `NaN`, `Infinity`, and built-in objects like `Object` and `Array` are read-only and should not be modified.
+Attempting to reassign these globals can lead to confusing behavior and potential bugs in your code.
+In strict mode, reassigning these globals will throw a TypeError at runtime.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+undefined = 1;
+
+NaN = 42;
+
+Infinity = 100;
+
+Object = null;
+
+Array = function () {};
+```
+
+```ts
+let count = 5;
+undefined += count;
+
+NaN++;
+
+--Infinity;
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+let myUndefined = 1;
+
+const notANumber = 42;
+
+const infiniteValue = 100;
+
+let myObject = null;
+
+const myArray = function () {};
+```
+
+```ts
+let count = 5;
+let undefinedValue = undefined;
+undefinedValue = count;
+
+let notANumber = NaN;
+notANumber++;
+
+let infiniteValue = Infinity;
+--infiniteValue;
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+This rule should always be enabled, as attempting to reassign read-only global variables is always incorrect behavior in JavaScript and TypeScript.
+Modern JavaScript environments enforce these restrictions in strict mode, and violating them can cause runtime errors.
+
+## Further Reading
+
+- [MDN documentation on global objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects)
+- [MDN JavaScript Reference: Strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="globalAssignments" />
