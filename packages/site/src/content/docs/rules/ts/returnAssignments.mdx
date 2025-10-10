@@ -1,0 +1,96 @@
+---
+description: "Return statements should not contain assignment expressions."
+title: "returnAssignments"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="returnAssignments" />
+
+Using assignments in return statements can make code harder to read and can lead to confusion about whether the assignment or the returned value is the primary intent.
+Assignment expressions return the assigned value, but mixing assignment with return makes the control flow less clear.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function getValue() {
+	let value;
+	return (value = 1);
+}
+```
+
+```ts
+function process() {
+	let result;
+	return (result = calculate());
+}
+```
+
+```ts
+const arrow = () => (value = 42);
+```
+
+```ts
+function compound() {
+	let count;
+	return (count += 5);
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function getValue() {
+	let value = 1;
+	return value;
+}
+```
+
+```ts
+function process() {
+	let result = calculate();
+	return result;
+}
+```
+
+```ts
+const arrow = () => {
+	const value = 42;
+	return value;
+};
+```
+
+```ts
+function compound() {
+	let count = 0;
+	count += 5;
+	return count;
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your codebase uses assignments in return statements as a common idiom and you find them readable, you might choose to disable this rule.
+However, separating assignments from return statements generally improves code clarity and reduces potential for confusion.
+
+## Further Reading
+
+- [MDN: return statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return)
+- [MDN: Assignment operators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="returnAssignments" />
