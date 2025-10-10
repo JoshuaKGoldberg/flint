@@ -9,6 +9,7 @@ import defaultCaseLast from "./rules/defaultCaseLast.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
 import forInArrays from "./rules/forInArrays.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
+import negativeZeroComparisons from "./rules/negativeZeroComparisons.js";
 import newExpressions from "./rules/newExpressions.js";
 import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
@@ -31,6 +32,7 @@ export const ts = createPlugin({
 		exceptionAssignments,
 		forInArrays,
 		namespaceDeclarations,
+		negativeZeroComparisons,
 		newExpressions,
 		objectProto,
 		octalEscapes,

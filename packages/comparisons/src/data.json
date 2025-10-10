@@ -9527,6 +9527,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "negativeZeroComparisons",
 			"plugin": "ts",
 			"preset": "Logical"
