@@ -7266,6 +7266,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "globalObjectCalls",
 			"plugin": "ts",
 			"preset": "Untyped"
