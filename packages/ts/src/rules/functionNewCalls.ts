@@ -26,7 +26,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function isFunctionConstructor(
-			node: ts.NewExpression | ts.CallExpression,
+			node: ts.CallExpression | ts.NewExpression,
 		): boolean {
 			const expression = node.expression;
 
