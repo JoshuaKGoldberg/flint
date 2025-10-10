@@ -202,5 +202,15 @@ const obj = {
 };
 obj.undefined = 5;
 `,
+		`
+const fn = (undefined: number) => {
+    undefined = 10;
+};
+`,
+		`
+function test(NaN: string) {
+    NaN = "updated";
+}
+`,
 	],
 });
