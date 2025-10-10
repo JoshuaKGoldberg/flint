@@ -67,15 +67,13 @@ export default typescriptLanguage.createRule({
 					};
 
 					context.report({
-						fix: tryStatement.finallyBlock
-							? {
-									range: {
-										begin: tryStatement.tryBlock.getEnd(),
-										end: node.getEnd(),
-									},
-									text: "",
-								}
-							: undefined,
+						fix: {
+							range: {
+								begin: tryStatement.tryBlock.getEnd(),
+								end: node.getEnd(),
+							},
+							text: "",
+						},
 						message: "unnecessaryCatch",
 						range,
 					});

@@ -11,6 +11,11 @@ try {
     throw error;
 }
 `,
+			output: `
+try {
+    doSomething();
+}
+`,
 			snapshot: `
 try {
     doSomething();
@@ -28,6 +33,13 @@ async function fetchData() {
         return await fetch("/api/data");
     } catch (error) {
         throw error;
+    }
+}
+`,
+			output: `
+async function fetchData() {
+    try {
+        return await fetch("/api/data");
     }
 }
 `,
@@ -51,6 +63,11 @@ try {
     throw exception;
 }
 `,
+			output: `
+try {
+    processData();
+}
+`,
 			snapshot: `
 try {
     processData();
@@ -69,6 +86,14 @@ function handleRequest() {
         return result;
     } catch (err) {
         throw err;
+    }
+}
+`,
+			output: `
+function handleRequest() {
+    try {
+        const result = performOperation();
+        return result;
     }
 }
 `,
@@ -165,6 +190,21 @@ try {
     doSomething();
 } catch ({ message }) {
     throw message;
+}
+`,
+		`
+try {
+    doSomething();
+} catch (error) {
+}
+`,
+		`
+try {
+    doSomething();
+} catch (error) {
+    console.log("error");
+    cleanup();
+    throw error;
 }
 `,
 	],
