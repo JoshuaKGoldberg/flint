@@ -50,7 +50,7 @@ export default typescriptLanguage.createRule({
 							message: "guardForIn",
 							range: {
 								begin: node.getStart(context.sourceFile),
-								end: node.statement.getStart(),
+								end: node.statement.getStart(context.sourceFile),
 							},
 						});
 					}
