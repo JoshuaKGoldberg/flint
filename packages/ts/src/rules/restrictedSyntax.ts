@@ -33,12 +33,13 @@ export default typescriptLanguage.createRule({
 					}),
 				]),
 			)
+			.default([])
 			.describe(
 				"Array of TypeScript AST node type names to restrict, or objects with selector and custom message.",
 			),
 	},
-	setup(context, { selectors }) {
-		if (!selectors || selectors.length === 0) {
+	setup(context, { selectors = [] }) {
+		if (selectors.length === 0) {
 			return;
 		}
 

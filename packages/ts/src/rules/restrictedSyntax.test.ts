@@ -42,8 +42,8 @@ function getValue() {
 			options: {
 				selectors: [
 					{
-						selector: "FunctionDeclaration",
 						message: "Use arrow functions instead.",
+						selector: "FunctionDeclaration",
 					},
 				],
 			},
