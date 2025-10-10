@@ -9614,6 +9614,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "newExpressions",
 			"plugin": "ts",
 			"preset": "Logical"

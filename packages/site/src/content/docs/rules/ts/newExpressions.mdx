@@ -1,0 +1,70 @@
+---
+description: "Constructors should only be called when their return value is used."
+title: "newExpressions"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="newExpressions" />
+
+Using the `new` keyword to construct an object without storing or using the result is often a mistake or indicates unclear code intent.
+If a constructor has side effects that you want to trigger, it's better to make those side effects explicit by calling a separate method rather than relying on constructor side effects.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+// Constructing an object without using it
+new MyClass();
+
+function initialize() {
+	// Creating an instance but not capturing it
+	new EventEmitter();
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+// Store the constructed object
+const instance = new MyClass();
+
+function initialize() {
+	// Use the constructed object
+	const emitter = new EventEmitter();
+	emitter.on("data", handleData);
+}
+
+// Return the constructed object
+function createInstance() {
+	return new MyClass();
+}
+
+// Throw an error object
+throw new Error("Something went wrong");
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have constructors that are intentionally designed to have side effects and you want to call them without using their return value, you might choose to disable this rule.
+However, in most cases, it's better to refactor such code to make the side effects explicit through regular function calls rather than relying on constructor side effects.
+
+## Further Reading
+
+- [MDN: `new` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="newExpressions" />
