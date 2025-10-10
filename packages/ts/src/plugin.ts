@@ -8,6 +8,7 @@ import debuggerStatements from "./rules/debuggerStatements.js";
 import defaultCaseLast from "./rules/defaultCaseLast.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
 import forInArrays from "./rules/forInArrays.js";
+import functionAssignments from "./rules/functionAssignments.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import newExpressions from "./rules/newExpressions.js";
 import objectProto from "./rules/objectProto.js";
@@ -31,6 +32,7 @@ export const ts = createPlugin({
 		defaultCaseLast,
 		exceptionAssignments,
 		forInArrays,
+		functionAssignments,
 		namespaceDeclarations,
 		newExpressions,
 		objectProto,
