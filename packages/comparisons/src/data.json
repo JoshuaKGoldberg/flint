@@ -8794,9 +8794,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "loopAwaits",
 			"plugin": "ts",
-			"preset": "None"
+			"preset": "logical"
 		},
 		"oxlint": [
 			{
