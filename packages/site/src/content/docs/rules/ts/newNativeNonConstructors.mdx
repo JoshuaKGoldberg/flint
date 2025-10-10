@@ -1,0 +1,70 @@
+---
+description: "Disallows using `new` with global non-constructor functions like Symbol and BigInt."
+title: "newNativeNonConstructors"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="newNativeNonConstructors" />
+
+The global `Symbol` and `BigInt` functions are not constructors and will throw a `TypeError` when called with the `new` keyword.
+These functions should be called directly without `new` to create their respective values.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const symbol = new Symbol("description");
+```
+
+```ts
+const bigNumber = new BigInt(42);
+```
+
+```ts
+function create() {
+	return new BigInt(100);
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const symbol = Symbol("description");
+```
+
+```ts
+const bigNumber = BigInt(42);
+```
+
+```ts
+function create() {
+	return BigInt(100);
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have defined your own classes named `Symbol` or `BigInt` that are meant to be used as constructors, you may want to disable this rule.
+However, reusing these names is generally not recommended as it can cause confusion with the global functions.
+
+## Further Reading
+
+- [MDN documentation on Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
+- [MDN documentation on BigInt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="newNativeNonConstructors" />
