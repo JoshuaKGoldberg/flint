@@ -177,6 +177,28 @@ switch (value) {
 }
 `,
 		},
+		{
+			code: `
+const condition = true;
+switch (value) {
+    case condition ? "a" : "b":
+        break;
+    case condition ? "a" : "b":
+        break;
+}
+`,
+			snapshot: `
+const condition = true;
+switch (value) {
+    case condition ? "a" : "b":
+        break;
+    case condition ? "a" : "b":
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Duplicate case label. A case with an identical test expression exists.
+        break;
+}
+`,
+		},
 	],
 	valid: [
 		`switch (value) { case 1: break; case 2: break; }`,

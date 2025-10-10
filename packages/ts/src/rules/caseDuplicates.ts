@@ -36,16 +36,11 @@ export default typescriptLanguage.createRule({
 						const caseText = clause.expression.getText(context.sourceFile);
 
 						if (seenCaseTexts.has(caseText)) {
-							const clauseText = clause.getText(context.sourceFile);
-							const colonIndex = clauseText.indexOf(":");
-
 							context.report({
 								message: "duplicateCase",
 								range: {
 									begin: clause.getStart(context.sourceFile),
-									end:
-										clause.getStart(context.sourceFile) +
-										(colonIndex !== -1 ? colonIndex : clauseText.length),
+									end: clause.expression.getEnd(),
 								},
 							});
 						} else {
