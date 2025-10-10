@@ -3,11 +3,11 @@ import * as ts from "typescript";
 import { typescriptLanguage } from "../language.js";
 
 const restrictedNames = new Set([
-	"undefined",
-	"NaN",
 	"Infinity",
+	"NaN",
 	"arguments",
 	"eval",
+	"undefined",
 ]);
 
 export default typescriptLanguage.createRule({
@@ -58,23 +58,18 @@ export default typescriptLanguage.createRule({
 			}
 		}
 
+		function checkParameters(
+			parameters: ts.NodeArray<ts.ParameterDeclaration>,
+		): void {
+			for (const parameter of parameters) {
+				checkBindingName(parameter.name);
+			}
+		}
+
 		return {
 			visitors: {
-				VariableDeclaration: (node) => {
-					checkBindingName(node.name);
-				},
-				Parameter: (node) => {
-					checkBindingName(node.name);
-				},
-				FunctionDeclaration: (node) => {
-					if (node.name) {
-						checkIdentifier(node.name);
-					}
-				},
-				FunctionExpression: (node) => {
-					if (node.name) {
-						checkIdentifier(node.name);
-					}
+				ArrowFunction: (node) => {
+					checkParameters(node.parameters);
 				},
 				ClassDeclaration: (node) => {
 					if (node.name) {
@@ -85,6 +80,24 @@ export default typescriptLanguage.createRule({
 					if (node.name) {
 						checkIdentifier(node.name);
 					}
+				},
+				FunctionDeclaration: (node) => {
+					if (node.name) {
+						checkIdentifier(node.name);
+					}
+					checkParameters(node.parameters);
+				},
+				FunctionExpression: (node) => {
+					if (node.name) {
+						checkIdentifier(node.name);
+					}
+					checkParameters(node.parameters);
+				},
+				MethodDeclaration: (node) => {
+					checkParameters(node.parameters);
+				},
+				VariableDeclaration: (node) => {
+					checkBindingName(node.name);
 				},
 			},
 		};

@@ -1,5 +1,5 @@
-import rule from "./shadowedRestrictedNames.js";
 import { ruleTester } from "./ruleTester.js";
+import rule from "./shadowedRestrictedNames.js";
 
 ruleTester.describe(rule, {
 	invalid: [
