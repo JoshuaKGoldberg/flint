@@ -6576,6 +6576,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "exceptionAssignments",
 			"plugin": "ts",
 			"preset": "Logical"
