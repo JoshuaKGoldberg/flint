@@ -13736,6 +13736,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "undefinedInitialValues",
 			"plugin": "ts",
 			"preset": "Stylistic"
