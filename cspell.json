@@ -1,4 +1,5 @@
 {
+	"allowCompoundWords": true,
 	"dictionaries": ["npm", "node", "typescript"],
 	"ignorePaths": [
 		".all-contributorsrc",
@@ -13,7 +14,6 @@
 	],
 	"words": [
 		"deoptimizations",
-		"Destructures",
 		"joshuakgoldberg",
 		"mdast",
 		"nord",
