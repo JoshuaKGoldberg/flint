@@ -7048,6 +7048,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "functionNewCalls",
 			"plugin": "ts",
 			"preset": "Logical"
