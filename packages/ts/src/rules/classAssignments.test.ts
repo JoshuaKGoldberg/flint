@@ -12,7 +12,7 @@ A = 0;
 class A {}
 A = 0;
 ~
-Class declarations should not be reassigned.
+Reassigning a class declaration is misleading and makes the class harder to use.
 `,
 		},
 		{
@@ -24,7 +24,7 @@ MyClass = "string";
 class MyClass {}
 MyClass = "string";
 ~~~~~~~
-Class declarations should not be reassigned.
+Reassigning a class declaration is misleading and makes the class harder to use.
 `,
 		},
 		{
@@ -36,7 +36,7 @@ Counter++;
 class Counter {}
 Counter++;
 ~~~~~~~
-Class declarations should not be reassigned.
+Reassigning a class declaration is misleading and makes the class harder to use.
 `,
 		},
 		{
@@ -48,7 +48,7 @@ class Value {}
 class Value {}
 ++Value;
   ~~~~~
-  Class declarations should not be reassigned.
+  Reassigning a class declaration is misleading and makes the class harder to use.
 `,
 		},
 		{
@@ -60,7 +60,7 @@ MyClass += "suffix";
 class MyClass {}
 MyClass += "suffix";
 ~~~~~~~
-Class declarations should not be reassigned.
+Reassigning a class declaration is misleading and makes the class harder to use.
 `,
 		},
 		{
@@ -72,7 +72,7 @@ Example ??= null;
 class Example {}
 Example ??= null;
 ~~~~~~~
-Class declarations should not be reassigned.
+Reassigning a class declaration is misleading and makes the class harder to use.
 `,
 		},
 		{
@@ -84,7 +84,7 @@ Test &&= false;
 class Test {}
 Test &&= false;
 ~~~~
-Class declarations should not be reassigned.
+Reassigning a class declaration is misleading and makes the class harder to use.
 `,
 		},
 		{
@@ -96,7 +96,7 @@ Data ||= null;
 class Data {}
 Data ||= null;
 ~~~~
-Class declarations should not be reassigned.
+Reassigning a class declaration is misleading and makes the class harder to use.
 `,
 		},
 		{
@@ -111,7 +111,7 @@ class Outer {}
 function inner() {
     Outer = null;
     ~~~~~
-    Class declarations should not be reassigned.
+    Reassigning a class declaration is misleading and makes the class harder to use.
 }
 `,
 		},
@@ -127,7 +127,7 @@ class MyClass {}
 if (true) {
     MyClass = null;
     ~~~~~~~
-    Class declarations should not be reassigned.
+    Reassigning a class declaration is misleading and makes the class harder to use.
 }
 `,
 		},

@@ -9,7 +9,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		noClassAssign: {
-			primary: "Class declarations should not be reassigned.",
+			primary:
+				"Reassigning a class declaration is misleading and makes the class harder to use.",
 			secondary: [
 				"Reassigning a class declaration can lead to unexpected behavior and makes code harder to understand.",
 				"Class declarations are typically intended to be immutable references, and reassigning them can cause confusion about which class is being used.",
