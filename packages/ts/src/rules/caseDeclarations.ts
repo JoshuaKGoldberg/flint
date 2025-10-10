@@ -30,8 +30,8 @@ export default typescriptLanguage.createRule({
 			for (const statement of statements) {
 				if (
 					ts.isVariableStatement(statement) &&
-					(statement.declarationList.flags & ts.NodeFlags.Let ||
-						statement.declarationList.flags & ts.NodeFlags.Const)
+					((statement.declarationList.flags & ts.NodeFlags.Let) !== 0 ||
+						(statement.declarationList.flags & ts.NodeFlags.Const) !== 0)
 				) {
 					return statement.declarationList.getChildAt(0, context.sourceFile);
 				}
@@ -47,26 +47,20 @@ export default typescriptLanguage.createRule({
 			return undefined;
 		}
 
+		function checkClause(node: ts.CaseClause | ts.DefaultClause): void {
+			const declarationNode = hasLexicalDeclaration(node.statements);
+			if (declarationNode) {
+				context.report({
+					message: "unexpectedLexicalDeclaration",
+					range: getTSNodeRange(declarationNode, context.sourceFile),
+				});
+			}
+		}
+
 		return {
 			visitors: {
-				CaseClause: (node) => {
-					const declarationNode = hasLexicalDeclaration(node.statements);
-					if (declarationNode) {
-						context.report({
-							message: "unexpectedLexicalDeclaration",
-							range: getTSNodeRange(declarationNode, context.sourceFile),
-						});
-					}
-				},
-				DefaultClause: (node) => {
-					const declarationNode = hasLexicalDeclaration(node.statements);
-					if (declarationNode) {
-						context.report({
-							message: "unexpectedLexicalDeclaration",
-							range: getTSNodeRange(declarationNode, context.sourceFile),
-						});
-					}
-				},
+				CaseClause: checkClause,
+				DefaultClause: checkClause,
 			},
 		};
 	},
