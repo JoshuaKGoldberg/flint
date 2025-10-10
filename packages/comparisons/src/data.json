@@ -6931,6 +6931,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "functionAssignments",
 			"plugin": "ts",
 			"preset": "Untyped"
