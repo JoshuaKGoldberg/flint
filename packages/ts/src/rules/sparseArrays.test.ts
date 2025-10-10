@@ -19,8 +19,8 @@ const array = [, 2, 3];
 `,
 			snapshot: `
 const array = [, 2, 3];
-                  ~
-                  Avoid sparse arrays with holes. Use explicit \`undefined\` values instead.
+               ~
+               Avoid sparse arrays with holes. Use explicit \`undefined\` values instead.
 `,
 		},
 		{
