@@ -40,19 +40,19 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				ReturnStatement: (node) => {
-					if (!node.expression) {
-						return;
-					}
-
-					checkForAssignment(node.expression);
-				},
 				ArrowFunction: (node) => {
 					if (ts.isBlock(node.body)) {
 						return;
 					}
 
 					checkForAssignment(node.body);
+				},
+				ReturnStatement: (node) => {
+					if (!node.expression) {
+						return;
+					}
+
+					checkForAssignment(node.expression);
 				},
 			},
 		};
