@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
 
 export default typescriptLanguage.createRule({
@@ -53,10 +54,10 @@ export default typescriptLanguage.createRule({
 					if (isStandaloneExpression(node)) {
 						context.report({
 							message: "noStandaloneNew",
-							range: {
-								begin: node.getStart(context.sourceFile),
-								end: node.getEnd(),
-							},
+							range: getTSNodeRange(
+								node.getChildAt(0, context.sourceFile),
+								context.sourceFile,
+							),
 						});
 					}
 				},

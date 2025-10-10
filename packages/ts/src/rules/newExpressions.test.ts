@@ -9,7 +9,7 @@ new MyClass();
 `,
 			snapshot: `
 new MyClass();
-~~~~~~~~~~~~~~
+~~~
 Constructors should only be called when their return value is used.
 `,
 		},
@@ -22,7 +22,7 @@ function process() {
 			snapshot: `
 function process() {
     new EventEmitter();
-    ~~~~~~~~~~~~~~~~~~~
+    ~~~
     Constructors should only be called when their return value is used.
 }
 `,
@@ -36,7 +36,7 @@ if (condition) {
 			snapshot: `
 if (condition) {
     new Logger();
-    ~~~~~~~~~~~~~
+    ~~~
     Constructors should only be called when their return value is used.
 }
 `,
@@ -47,7 +47,7 @@ new DatabaseConnection(), processData();
 `,
 			snapshot: `
 new DatabaseConnection(), processData();
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~
 Constructors should only be called when their return value is used.
 `,
 		},
@@ -57,7 +57,7 @@ someFunction(), new Queue();
 `,
 			snapshot: `
 someFunction(), new Queue();
-                ~~~~~~~~~~~
+                ~~~
                 Constructors should only be called when their return value is used.
 `,
 		},
