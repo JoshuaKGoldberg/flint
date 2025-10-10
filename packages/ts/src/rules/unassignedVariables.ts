@@ -94,7 +94,7 @@ export default typescriptLanguage.createRule({
 					// Skip const declarations - they must have initializers (syntax error otherwise)
 					if (
 						ts.isVariableDeclarationList(node.parent) &&
-						Boolean(node.parent.flags & ts.NodeFlags.Const)
+						!!(node.parent.flags & ts.NodeFlags.Const)
 					) {
 						return;
 					}
