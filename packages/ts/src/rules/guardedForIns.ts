@@ -46,21 +46,11 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				ForInStatement: (node) => {
 					if (!hasGuard(node.statement)) {
-						const sourceText = context.sourceFile.getText();
-						const start = node.getStart(context.sourceFile);
-						const statementStart = node.statement.getStart(context.sourceFile);
-
-						const openBraceIndex = sourceText.indexOf("{", start);
-						const end =
-							openBraceIndex >= 0 && openBraceIndex < statementStart + 10
-								? openBraceIndex
-								: statementStart;
-
 						context.report({
 							message: "guardForIn",
 							range: {
-								begin: start,
-								end,
+								begin: node.getStart(context.sourceFile),
+								end: node.statement.getStart(),
 							},
 						});
 					}
