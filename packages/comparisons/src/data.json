@@ -6064,7 +6064,8 @@
 		"flint": {
 			"name": "emptyDestructures",
 			"plugin": "ts",
-			"preset": "Logical"
+			"preset": "Logical",
+			"implemented": true
 		},
 		"oxlint": [
 			{

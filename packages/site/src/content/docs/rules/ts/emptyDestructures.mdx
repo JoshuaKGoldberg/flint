@@ -1,0 +1,71 @@
+---
+description: "Destructuring patterns should extract at least one value from the source."
+title: "emptyDestructures"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="emptyDestructures" />
+
+Empty destructuring patterns like `{}` or `[]` don't extract any values from the source object or array and serve no practical purpose.
+These patterns are typically mistakes or leftover code from refactoring where variables were removed but the destructuring syntax remained.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const {} = object;
+const [] = array;
+
+function process({}) {
+	console.log("No values extracted");
+}
+
+for (const {} of items) {
+	console.log("No values extracted in loop");
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const { name, age } = person;
+const [first, second] = array;
+
+function process({ id, value }) {
+	console.log(id, value);
+}
+
+for (const { item } of items) {
+	console.log(item);
+}
+
+// Empty object/array literals are fine (not destructuring)
+const empty = {};
+const emptyArray = [];
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have code that intentionally uses empty destructuring patterns for some reason (though this is rare), you might choose to disable this rule.
+However, in most cases, empty destructuring patterns indicate an error or code that should be cleaned up.
+
+## Further Reading
+
+- [MDN documentation on destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="emptyDestructures" />
