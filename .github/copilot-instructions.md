@@ -22,7 +22,6 @@ Prefer `undefined` over `null`.
 
 Don't abbreviate names.
 Example: instead of `val`/`vals` prefer `value`/`values`.
-Example: instead of `firstPos` prefer `firstPosition`.
 
 Only add comments rarely and sparingly.
 Example: don't restate things that are either implied by the type system or apparent by reading the next few lines.
