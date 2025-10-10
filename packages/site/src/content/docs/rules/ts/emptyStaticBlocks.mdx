@@ -1,0 +1,64 @@
+---
+description: "Empty static blocks serve no purpose and should be removed for cleaner code."
+title: "emptyStaticBlocks"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="emptyStaticBlocks" />
+
+Static blocks are used to initialize static class properties or perform other one-time setup when a class is loaded.
+An empty static block contains no statements and therefore serves no purpose.
+Removing empty static blocks keeps code cleaner and easier to maintain.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class Example {
+	static {}
+
+	static property = 1;
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class Example {
+	static property = 1;
+}
+```
+
+```ts
+class Example {
+	static {
+		this.property = 1;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have a build process that automatically generates class definitions with static blocks that may be empty in certain cases, you might choose to disable this rule for those generated files.
+
+## Further Reading
+
+- [MDN documentation on static initialization blocks](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Static_initialization_blocks)
+- [TC39 proposal for class static initialization blocks](https://github.com/tc39/proposal-class-static-block)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="emptyStaticBlocks" />
