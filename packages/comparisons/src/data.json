@@ -5414,6 +5414,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "constructorReturns",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -6575,6 +6576,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "exceptionAssignments",
 			"plugin": "ts",
 			"preset": "Logical"
