@@ -1,0 +1,80 @@
+---
+description: "Reports returning values from constructor functions."
+title: "constructorReturns"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="constructorReturns" />
+
+In JavaScript, returning a value from a constructor overrides the newly created instance.
+This behavior is generally unintentional and can lead to unexpected results where the returned value becomes the result of the `new` expression instead of the instance.
+
+While JavaScript technically allows this, it's generally a code smell that indicates a design issue.
+If you need to return a different object based on constructor parameters, consider using a factory function instead.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class Example {
+	constructor() {
+		return {};
+	}
+}
+
+class SpecialValue {
+	constructor(value: number) {
+		if (value < 0) {
+			return null;
+		}
+		this.value = value;
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class Example {
+	constructor() {
+		this.value = 42;
+	}
+}
+
+class SpecialValue {
+	constructor(value: number) {
+		if (value < 0) {
+			throw new Error("Value must be non-negative");
+		}
+		this.value = value;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have a rare use case where you intentionally need to return different objects from a constructor, you might choose to disable this rule for those specific cases.
+However, this is generally considered an anti-pattern, and you should strongly consider refactoring to use a factory function instead.
+
+## Further Reading
+
+- [MDN: Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor)
+- [MDN: Factory Functions](https://developer.mozilla.org/en-US/docs/Glossary/Factory_function)
+- [JavaScript Info: Class patterns](https://javascript.info/class-patterns)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="constructorReturns" />

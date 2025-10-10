@@ -5414,6 +5414,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "constructorReturns",
 			"plugin": "ts",
 			"preset": "Untyped"
