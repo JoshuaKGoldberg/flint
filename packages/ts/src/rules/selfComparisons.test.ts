@@ -1,5 +1,5 @@
-import rule from "./selfComparisons.js";
 import { ruleTester } from "./ruleTester.js";
+import rule from "./selfComparisons.js";
 
 ruleTester.describe(rule, {
 	invalid: [
