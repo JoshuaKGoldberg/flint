@@ -94,7 +94,8 @@ export default typescriptLanguage.createRule({
 					// Skip const declarations - they must have initializers (syntax error otherwise)
 					if (
 						ts.isVariableDeclarationList(node.parent) &&
-						node.parent.flags & ts.NodeFlags.Const
+						// eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+						(node.parent.flags & ts.NodeFlags.Const) === ts.NodeFlags.Const
 					) {
 						return;
 					}
