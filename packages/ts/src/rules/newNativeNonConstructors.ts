@@ -22,7 +22,7 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		const nonConstructors = new Set(["Symbol", "BigInt"]);
+		const nonConstructors = new Set(["BigInt", "Symbol"]);
 
 		return {
 			visitors: {
