@@ -13945,6 +13945,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unnecessaryCatches",
 			"plugin": "ts",
 			"preset": "Logical"

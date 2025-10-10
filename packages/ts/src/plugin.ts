@@ -12,6 +12,7 @@ import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
+import unnecessaryCatches from "./rules/unnecessaryCatches.js";
 import variableDeletions from "./rules/variableDeletions.js";
 
 export const ts = createPlugin({
@@ -32,6 +33,7 @@ export const ts = createPlugin({
 		objectProto,
 		octalEscapes,
 		octalNumbers,
+		unnecessaryCatches,
 		variableDeletions,
 	],
 });
