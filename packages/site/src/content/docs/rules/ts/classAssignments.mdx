@@ -1,0 +1,72 @@
+---
+description: "Class declarations should not be reassigned."
+title: "classAssignments"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="classAssignments" />
+
+Reassigning a class declaration can lead to unexpected behavior and makes code harder to understand.
+Class declarations are typically intended to be immutable references, and reassigning them can cause confusion about which class is being used.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class MyClass {}
+MyClass = 0;
+```
+
+```ts
+class Counter {}
+Counter++;
+```
+
+```ts
+class Data {}
+Data = null;
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class MyClass {}
+const instance = new MyClass();
+```
+
+```ts
+class Counter {}
+const value = Counter;
+```
+
+```ts
+class MyClass {}
+const derived = class extends MyClass {};
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+This rule should generally always be enabled, as reassigning class declarations is almost always a mistake.
+If you need a mutable reference, consider using a variable instead.
+
+## Further Reading
+
+- [MDN documentation on classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+- [MDN JavaScript Reference: Assignment operators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#assignment_operators)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="classAssignments" />

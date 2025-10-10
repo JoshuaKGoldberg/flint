@@ -2,6 +2,7 @@ import { createPlugin } from "@flint.fyi/core";
 
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.js";
 import chainedAssignments from "./rules/chainedAssignments.js";
+import classAssignments from "./rules/classAssignments.js";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.js";
 import constructorReturns from "./rules/constructorReturns.js";
 import debuggerStatements from "./rules/debuggerStatements.js";
@@ -24,6 +25,7 @@ export const ts = createPlugin({
 	rules: [
 		asyncPromiseExecutors,
 		chainedAssignments,
+		classAssignments,
 		consecutiveNonNullAssertions,
 		constructorReturns,
 		debuggerStatements,
