@@ -25,45 +25,35 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkCallExpression(node: ts.CallExpression): void {
-			if (
-				ts.isIdentifier(node.expression) &&
-				GLOBAL_OBJECTS.has(node.expression.text)
-			) {
-				context.report({
-					data: {
-						name: node.expression.text,
-					},
-					message: "noGlobalObjectCall",
-					range: {
-						begin: node.expression.getStart(context.sourceFile),
-						end: node.expression.getEnd(),
-					},
-				});
+		function reportGlobalObjectCall(
+			expression: ts.Expression,
+			name: string,
+		): void {
+			context.report({
+				data: {
+					name,
+				},
+				message: "noGlobalObjectCall",
+				range: {
+					begin: expression.getStart(context.sourceFile),
+					end: expression.getEnd(),
+				},
+			});
+		}
+
+		function checkExpression(expression: ts.Expression): void {
+			if (ts.isIdentifier(expression) && GLOBAL_OBJECTS.has(expression.text)) {
+				reportGlobalObjectCall(expression, expression.text);
 			}
 		}
 
 		return {
 			visitors: {
 				CallExpression: (node) => {
-					checkCallExpression(node);
+					checkExpression(node.expression);
 				},
 				NewExpression: (node) => {
-					if (
-						ts.isIdentifier(node.expression) &&
-						GLOBAL_OBJECTS.has(node.expression.text)
-					) {
-						context.report({
-							data: {
-								name: node.expression.text,
-							},
-							message: "noGlobalObjectCall",
-							range: {
-								begin: node.expression.getStart(context.sourceFile),
-								end: node.expression.getEnd(),
-							},
-						});
-					}
+					checkExpression(node.expression);
 				},
 			},
 		};
