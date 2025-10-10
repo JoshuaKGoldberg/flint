@@ -51,16 +51,42 @@ export default typescriptLanguage.createRule({
 					}
 
 					const operator = node.operatorToken.getText(context.sourceFile);
+					const range = {
+						begin: node.getStart(context.sourceFile),
+						end: node.getEnd(),
+					};
+
+					// Generate Object.is() replacement for equality operators
+					const isEqualityOperator =
+						operator === "===" ||
+						operator === "==" ||
+						operator === "!==" ||
+						operator === "!=";
+
+					const suggestions = [];
+					if (isEqualityOperator) {
+						const leftText = node.left.getText(context.sourceFile);
+						const rightText = node.right.getText(context.sourceFile);
+						const isNegated = operator === "!==" || operator === "!=";
+						const objectIsCall = `Object.is(${leftText}, ${rightText})`;
+						const replacementText = isNegated
+							? `!${objectIsCall}`
+							: objectIsCall;
+
+						suggestions.push({
+							id: "useObjectIs",
+							range,
+							text: replacementText,
+						});
+					}
 
 					context.report({
 						data: {
 							operator,
 						},
 						message: "unexpectedNegativeZeroComparison",
-						range: {
-							begin: node.getStart(context.sourceFile),
-							end: node.getEnd(),
-						},
+						range,
+						suggestions,
 					});
 				},
 			},
