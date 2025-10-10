@@ -13,6 +13,7 @@ import newExpressions from "./rules/newExpressions.js";
 import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
+import unicodeBOMs from "./rules/unicodeBOMs.js";
 import unnecessaryCatches from "./rules/unnecessaryCatches.js";
 import variableDeletions from "./rules/variableDeletions.js";
 import voidOperator from "./rules/voidOperator.js";
@@ -37,6 +38,7 @@ export const ts = createPlugin({
 		octalEscapes,
 		octalNumbers,
 		unnecessaryCatches,
+		unicodeBOMs,
 		variableDeletions,
 		voidOperator,
 	],
