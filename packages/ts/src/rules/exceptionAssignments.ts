@@ -1,8 +1,7 @@
-import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
-import { isSameVariable } from "../utils/isSameVariable.js";
+import { getModifyingReferences } from "../utils/getModifyingReferences.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -24,77 +23,52 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		const exceptionParameters: ts.Node[] = [];
+		function collectBindingElements(name: ts.BindingName): ts.Identifier[] {
+			const identifiers: ts.Identifier[] = [];
 
-		function isExceptionParameter(node: ts.Node): boolean {
-			return exceptionParameters.some((param) =>
-				isSameVariable(param, node, context.typeChecker),
-			);
-		}
-
-		function collectBindingElements(name: ts.BindingName): void {
 			if (ts.isIdentifier(name)) {
-				exceptionParameters.push(name);
+				identifiers.push(name);
 			} else if (
 				ts.isObjectBindingPattern(name) ||
 				ts.isArrayBindingPattern(name)
 			) {
 				for (const element of name.elements) {
 					if (ts.isBindingElement(element)) {
-						collectBindingElements(element.name);
+						identifiers.push(...collectBindingElements(element.name));
 					}
 				}
 			}
+
+			return identifiers;
 		}
 
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
-					if (
-						tsutils.isAssignmentKind(node.operatorToken.kind) &&
-						ts.isIdentifier(node.left) &&
-						isExceptionParameter(node.left)
-					) {
-						context.report({
-							message: "noExAssign",
-							range: {
-								begin: node.left.getStart(context.sourceFile),
-								end: node.left.getEnd(),
-							},
-						});
-					}
-				},
 				CatchClause: (node) => {
-					if (node.variableDeclaration?.name) {
-						collectBindingElements(node.variableDeclaration.name);
+					if (!node.variableDeclaration?.name) {
+						return;
 					}
-				},
-				PostfixUnaryExpression: (node) => {
-					if (
-						ts.isIdentifier(node.operand) &&
-						isExceptionParameter(node.operand)
-					) {
-						context.report({
-							message: "noExAssign",
-							range: {
-								begin: node.operand.getStart(context.sourceFile),
-								end: node.operand.getEnd(),
-							},
-						});
-					}
-				},
-				PrefixUnaryExpression: (node) => {
-					if (
-						ts.isIdentifier(node.operand) &&
-						isExceptionParameter(node.operand)
-					) {
-						context.report({
-							message: "noExAssign",
-							range: {
-								begin: node.operand.getStart(context.sourceFile),
-								end: node.operand.getEnd(),
-							},
-						});
+
+					const identifiers = collectBindingElements(
+						node.variableDeclaration.name,
+					);
+
+					for (const identifier of identifiers) {
+						const modifyingReferences = getModifyingReferences(
+							identifier,
+							context.sourceFile,
+							context.typeChecker,
+						);
+
+						for (const reference of modifyingReferences) {
+							context.report({
+								message: "noExAssign",
+								range: {
+									begin: reference.getStart(context.sourceFile),
+									end: reference.getEnd(),
+								},
+							});
+						}
 					}
 				},
 			},

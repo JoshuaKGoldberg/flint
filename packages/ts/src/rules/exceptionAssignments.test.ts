@@ -98,6 +98,60 @@ try {
 try {
     doSomething();
 } catch (error) {
+    error ??= new Error("default error");
+}
+`,
+			snapshot: `
+try {
+    doSomething();
+} catch (error) {
+    error ??= new Error("default error");
+    ~~~~~
+    Exception parameters in catch clauses should not be reassigned.
+}
+`,
+		},
+		{
+			code: `
+try {
+    doSomething();
+} catch (error) {
+    error &&= false;
+}
+`,
+			snapshot: `
+try {
+    doSomething();
+} catch (error) {
+    error &&= false;
+    ~~~~~
+    Exception parameters in catch clauses should not be reassigned.
+}
+`,
+		},
+		{
+			code: `
+try {
+    doSomething();
+} catch (error) {
+    error ||= new Error("fallback");
+}
+`,
+			snapshot: `
+try {
+    doSomething();
+} catch (error) {
+    error ||= new Error("fallback");
+    ~~~~~
+    Exception parameters in catch clauses should not be reassigned.
+}
+`,
+		},
+		{
+			code: `
+try {
+    doSomething();
+} catch (error) {
     function inner() {
         error = "reassigned in nested function";
     }
