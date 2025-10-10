@@ -12416,6 +12416,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "restrictedSyntax",
 			"plugin": "ts",
 			"preset": "None"
