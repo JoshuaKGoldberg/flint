@@ -69,19 +69,19 @@ function* generatorWithNestedFunction() {
 		},
 		{
 			code: `
-function* generatorWithArrowFunction() {
-    const arrow = () => {
+function* generatorWithNestedGeneratorFunction() {
+    function* inner() {
         yield 42;
-    };
+    }
 }
 `,
 			snapshot: `
-function* generatorWithArrowFunction() {
+function* generatorWithNestedGeneratorFunction() {
         ~
         Generator functions must contain at least one yield expression to produce values.
-    const arrow = () => {
+    function* inner() {
         yield 42;
-    };
+    }
 }
 `,
 		},
