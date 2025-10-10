@@ -25,12 +25,12 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkForAwaitExpressions(node: ts.Node, loopNode: ts.Node): void {
 			if (ts.isAwaitExpression(node)) {
-				const awaitKeyword = node.getChildAt(0, context.sourceFile);
+				const start = node.getStart(context.sourceFile);
 				context.report({
 					message: "noAwaitInLoop",
 					range: {
-						begin: awaitKeyword.getStart(context.sourceFile),
-						end: awaitKeyword.getEnd(),
+						begin: start,
+						end: start + "await".length,
 					},
 				});
 				return;
