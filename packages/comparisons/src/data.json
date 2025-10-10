@@ -7137,7 +7137,8 @@
 		"flint": {
 			"name": "generatorFunctionYields",
 			"plugin": "ts",
-			"preset": "Logical"
+			"preset": "Logical",
+			"implemented": true
 		},
 		"oxlint": [
 			{
