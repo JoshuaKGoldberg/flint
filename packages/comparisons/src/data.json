@@ -12816,6 +12816,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "sparseArrays",
 			"plugin": "ts",
 			"preset": "Logical"
