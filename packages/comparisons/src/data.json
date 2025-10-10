@@ -4813,6 +4813,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "caseDeclarations",
 			"plugin": "ts",
 			"preset": "Untyped"
