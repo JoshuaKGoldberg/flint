@@ -1,0 +1,97 @@
+---
+description: "Duplicate case clauses in switch statements are logic errors."
+title: "caseDuplicates"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="caseDuplicates" />
+
+Duplicate case clauses in a switch statement represent a logic error where the second occurrence of a case will never be executed.
+When multiple case clauses have identical test expressions, only the first matching case is executed, making subsequent duplicates unreachable code.
+This typically indicates a copy-paste error or incomplete refactoring.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function getStatus(code: number): string {
+	switch (code) {
+		case 200:
+			return "OK";
+		case 404:
+			return "Not Found";
+		case 200:
+			return "Success"; // This case will never be reached
+	}
+}
+
+function handleInput(value: string): void {
+	switch (value) {
+		case "start":
+			console.log("Starting process");
+			break;
+		case "stop":
+			console.log("Stopping process");
+			break;
+		case "start":
+			console.log("Begin operation"); // This case will never be reached
+			break;
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function getStatus(code: number): string {
+	switch (code) {
+		case 200:
+			return "OK";
+		case 201:
+			return "Created";
+		case 404:
+			return "Not Found";
+	}
+}
+
+function handleInput(value: string): void {
+	switch (value) {
+		case "start":
+			console.log("Starting process");
+			break;
+		case "stop":
+			console.log("Stopping process");
+			break;
+		case "restart":
+			console.log("Restarting process");
+			break;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+There are no legitimate cases where duplicate case clauses are intentional.
+This rule should always be enabled.
+
+## Further Reading
+
+- [MDN: switch statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch)
+- [MDN: Unreachable code](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Stmt_after_return)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="caseDuplicates" />
