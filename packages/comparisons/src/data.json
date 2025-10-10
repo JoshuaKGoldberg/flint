@@ -9651,6 +9651,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "newNativeNonConstructors",
 			"plugin": "ts",
 			"preset": "Logical"

@@ -10,6 +10,7 @@ import exceptionAssignments from "./rules/exceptionAssignments.js";
 import forInArrays from "./rules/forInArrays.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import newExpressions from "./rules/newExpressions.js";
+import newNativeNonConstructors from "./rules/newNativeNonConstructors.js";
 import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
@@ -33,6 +34,7 @@ export const ts = createPlugin({
 		forInArrays,
 		namespaceDeclarations,
 		newExpressions,
+		newNativeNonConstructors,
 		objectProto,
 		octalEscapes,
 		octalNumbers,
