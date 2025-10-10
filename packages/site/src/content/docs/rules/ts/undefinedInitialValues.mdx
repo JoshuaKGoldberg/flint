@@ -1,0 +1,62 @@
+---
+description: "Variables should not be explicitly initialized to undefined."
+title: "undefinedInitialValues"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="undefinedInitialValues" />
+
+In JavaScript and TypeScript, variables declared with `let` or `var` are automatically initialized to `undefined` if no value is provided.
+Explicitly setting a variable to `undefined` is redundant and adds unnecessary code.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+let value = undefined;
+
+var count = undefined;
+
+let first = undefined,
+	second = 2;
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+let value;
+
+var count;
+
+let first,
+	second = 2;
+
+const value = undefined;
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+This rule is stylistic and does not affect runtime behavior.
+If you prefer explicitly initializing variables to `undefined` for clarity, you may want to disable this rule.
+
+## Further Reading
+
+- [MDN: JavaScript Variables](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#variables)
+- [MDN: undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="undefinedInitialValues" />
