@@ -4844,6 +4844,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "caseDuplicates",
 			"plugin": "ts",
 			"preset": "Logical"
