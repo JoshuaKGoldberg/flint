@@ -13,6 +13,7 @@ import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
 import variableDeletions from "./rules/variableDeletions.js";
+import voidOperator from "./rules/voidOperator.js";
 
 export const ts = createPlugin({
 	files: {
@@ -33,5 +34,6 @@ export const ts = createPlugin({
 		octalEscapes,
 		octalNumbers,
 		variableDeletions,
+		voidOperator,
 	],
 });

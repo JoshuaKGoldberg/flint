@@ -1,0 +1,66 @@
+---
+description: "Prefer explicit values over using the void operator."
+title: "voidOperator"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="voidOperator" />
+
+The `void` operator evaluates an expression and returns `undefined`, regardless of the expression's value.
+While this was historically used to safely obtain `undefined`, modern JavaScript has `undefined` as a proper value, making the `void` operator unnecessary and potentially confusing.
+Using `undefined` directly is clearer and more explicit.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const value = void 0;
+
+function process() {
+	void doSomething();
+}
+
+const callback = () => void action();
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const value = undefined;
+
+function process() {
+	doSomething();
+}
+
+const callback = () => {
+	action();
+	return undefined;
+};
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have a specific code style that requires the use of `void` operator, you might want to disable this rule.
+However, in most modern codebases, using `undefined` directly is preferred for clarity.
+
+## Further Reading
+
+- [MDN documentation on the `void` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void)
+- [MDN documentation on `undefined`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="voidOperator" />
