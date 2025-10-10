@@ -25,7 +25,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkBindingPattern(
-			node: ts.ObjectBindingPattern | ts.ArrayBindingPattern,
+			node: ts.ArrayBindingPattern | ts.ObjectBindingPattern,
 		) {
 			if (node.elements.length === 0) {
 				context.report({
