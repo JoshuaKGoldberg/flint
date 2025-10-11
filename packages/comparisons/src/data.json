@@ -14008,7 +14008,8 @@
 			}
 		],
 		"flint": {
-			"name": "unnecessaryConcatentation",
+			"implemented": true,
+			"name": "unnecessaryConcatenation",
 			"plugin": "ts",
 			"preset": "Stylistic"
 		},
