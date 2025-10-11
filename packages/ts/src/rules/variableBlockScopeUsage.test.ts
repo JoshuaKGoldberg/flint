@@ -1,5 +1,5 @@
-import rule from "./variableBlockScopeUsage.js";
 import { ruleTester } from "./ruleTester.js";
+import rule from "./variableBlockScopeUsage.js";
 
 ruleTester.describe(rule, {
 	invalid: [

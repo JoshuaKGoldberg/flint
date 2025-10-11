@@ -26,8 +26,8 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function getDeclaringBlock(node: ts.Node): ts.Node | undefined {
-			let current: ts.Node | undefined = node.parent;
-			while (current) {
+			let current = node.parent;
+			while (!ts.isSourceFile(current)) {
 				if (
 					ts.isBlock(current) ||
 					ts.isCaseClause(current) ||
@@ -43,8 +43,7 @@ export default typescriptLanguage.createRule({
 					ts.isFunctionDeclaration(current) ||
 					ts.isFunctionExpression(current) ||
 					ts.isArrowFunction(current) ||
-					ts.isMethodDeclaration(current) ||
-					ts.isSourceFile(current)
+					ts.isMethodDeclaration(current)
 				) {
 					return undefined;
 				}
@@ -54,8 +53,8 @@ export default typescriptLanguage.createRule({
 		}
 
 		function isInScope(declaringBlock: ts.Node, reference: ts.Node): boolean {
-			let current: ts.Node | undefined = reference;
-			while (current) {
+			let current = reference;
+			while (!ts.isSourceFile(current)) {
 				if (current === declaringBlock) {
 					return true;
 				}
@@ -112,7 +111,7 @@ export default typescriptLanguage.createRule({
 
 								// Search from the nearest function scope
 								let searchRoot: ts.Node = declaration;
-								while (searchRoot.parent) {
+								while (!ts.isSourceFile(searchRoot)) {
 									if (
 										ts.isFunctionDeclaration(searchRoot.parent) ||
 										ts.isFunctionExpression(searchRoot.parent) ||
