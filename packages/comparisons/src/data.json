@@ -14009,7 +14009,7 @@
 		],
 		"flint": {
 			"implemented": true,
-			"name": "unnecessaryConcatentation",
+			"name": "unnecessaryConcatenation",
 			"plugin": "ts",
 			"preset": "Stylistic"
 		},
