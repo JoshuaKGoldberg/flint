@@ -68,7 +68,9 @@ function findAmbiguousExpression(
 	// Recursively check children
 	let foundResult: AmbiguityResult | undefined;
 	ts.forEachChild(node, (child) => {
-		foundResult ??= findAmbiguousExpression(child, sourceFile, rootExpression);
+		if (!foundResult) {
+			foundResult = findAmbiguousExpression(child, sourceFile, rootExpression);
+		}
 	});
 
 	return foundResult;
