@@ -13890,6 +13890,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unnecessaryBlocks",
 			"plugin": "ts",
 			"preset": "Stylistic"
