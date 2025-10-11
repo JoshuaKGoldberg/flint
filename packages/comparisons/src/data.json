@@ -10195,6 +10195,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "objectKeyDuplicates",
 			"plugin": "ts",
 			"preset": "Logical"
