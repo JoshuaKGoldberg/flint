@@ -9301,6 +9301,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "multilineAmbiguities",
 			"plugin": "ts",
 			"preset": "Stylistic"
