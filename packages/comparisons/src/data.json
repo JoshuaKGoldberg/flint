@@ -15000,6 +15000,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "variableBlockScopeUsage",
 			"plugin": "ts",
 			"preset": "Untyped"
