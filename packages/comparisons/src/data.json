@@ -10170,6 +10170,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "objectHasOwns",
 			"plugin": "ts",
 			"preset": "Stylistic"
