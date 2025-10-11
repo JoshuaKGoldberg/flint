@@ -86,8 +86,8 @@ function test() {
 function test() {
     const result = calculate()
     (value + 1).toString()
-    ~~~~~~~~~~~~~~~~~~~~~~~
-    Avoid ambiguous line breaks before parentheses that could be interpreted as function calls.
+   ~~~~~~~~~~~~~~~~~~~~~~~
+   Avoid ambiguous line breaks before parentheses that could be interpreted as function calls.
 }
 `,
 		},
@@ -105,8 +105,8 @@ class MyClass {
     method() {
         const data = getData()
         [0].value
-        ~~~~~~~~~~
-        Avoid ambiguous line breaks before brackets that could be interpreted as property access.
+       ~~~~~~~~~~
+       Avoid ambiguous line breaks before brackets that could be interpreted as property access.
     }
 }
 `,

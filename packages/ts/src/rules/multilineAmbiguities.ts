@@ -2,9 +2,76 @@ import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
 
-function getLineNumber(node: ts.Node, sourceFile: ts.SourceFile): number {
-	return sourceFile.getLineAndCharacterOfPosition(node.getStart(sourceFile))
-		.line;
+interface AmbiguityResult {
+	message: "unexpectedCall" | "unexpectedProperty" | "unexpectedTemplate";
+	rangeEnd: number;
+	rangeStart: number;
+}
+
+function findAmbiguousExpression(
+	node: ts.Node,
+	sourceFile: ts.SourceFile,
+	rootExpression: ts.Expression,
+): AmbiguityResult | undefined {
+	// Check if this node itself is ambiguous
+	if (ts.isCallExpression(node) && node.arguments.length > 0) {
+		const calleeEndLine = getEndLineNumber(node.expression, sourceFile);
+		const argsStartLine = getLineNumber(node.arguments[0], sourceFile);
+
+		if (calleeEndLine < argsStartLine) {
+			// Report from the first non-whitespace character on the line where the ambiguity begins
+			const lineStart = getFirstNonWhitespaceOnLine(argsStartLine, sourceFile);
+
+			return {
+				message: "unexpectedCall",
+				rangeEnd: rootExpression.getEnd(),
+				rangeStart: lineStart,
+			};
+		}
+	}
+
+	if (ts.isElementAccessExpression(node)) {
+		const objectEndLine = getEndLineNumber(node.expression, sourceFile);
+		const indexStartLine = getLineNumber(node.argumentExpression, sourceFile);
+
+		if (objectEndLine < indexStartLine) {
+			// Report from the first non-whitespace character on the line where the ambiguity begins
+			const lineStart = getFirstNonWhitespaceOnLine(indexStartLine, sourceFile);
+
+			return {
+				message: "unexpectedProperty",
+				rangeEnd: rootExpression.getEnd(),
+				rangeStart: lineStart,
+			};
+		}
+	}
+
+	if (ts.isTaggedTemplateExpression(node)) {
+		const tagEndLine = getEndLineNumber(node.tag, sourceFile);
+		const templateStartLine = getLineNumber(node.template, sourceFile);
+
+		if (tagEndLine < templateStartLine) {
+			// Report from the first non-whitespace character on the line where the ambiguity begins
+			const lineStart = getFirstNonWhitespaceOnLine(
+				templateStartLine,
+				sourceFile,
+			);
+
+			return {
+				message: "unexpectedTemplate",
+				rangeEnd: rootExpression.getEnd(),
+				rangeStart: lineStart,
+			};
+		}
+	}
+
+	// Recursively check children
+	let foundResult: AmbiguityResult | undefined;
+	ts.forEachChild(node, (child) => {
+		foundResult ??= findAmbiguousExpression(child, sourceFile, rootExpression);
+	});
+
+	return foundResult;
 }
 
 function getEndLineNumber(node: ts.Node, sourceFile: ts.SourceFile): number {
@@ -26,105 +93,9 @@ function getFirstNonWhitespaceOnLine(
 	return pos;
 }
 
-function getEndWithoutTrailingNewlines(
-	node: ts.Node,
-	sourceFile: ts.SourceFile,
-): number {
-	const text = sourceFile.getText();
-	let end = node.getEnd();
-
-	// Back up past trailing newlines and carriage returns
-	while (end > 0 && (text[end - 1] === "\n" || text[end - 1] === "\r")) {
-		end--;
-	}
-
-	return end;
-}
-
-interface AmbiguityResult {
-	message: "unexpectedCall" | "unexpectedProperty" | "unexpectedTemplate";
-	rangeStart: number;
-	rangeEnd: number;
-}
-
-function findAmbiguousExpression(
-	node: ts.Node,
-	sourceFile: ts.SourceFile,
-	rootExpression: ts.Expression,
-): AmbiguityResult | undefined {
-	// Check if this node itself is ambiguous
-	if (ts.isCallExpression(node) && node.arguments.length > 0) {
-		const calleeEndLine = getEndLineNumber(node.expression, sourceFile);
-		const argsStartLine = getLineNumber(node.arguments[0], sourceFile);
-
-		if (calleeEndLine < argsStartLine) {
-			// Report from the first non-whitespace character on the line where the ambiguity begins
-			const lineStart = getFirstNonWhitespaceOnLine(argsStartLine, sourceFile);
-			const rangeEnd = getEndWithoutTrailingNewlines(
-				rootExpression,
-				sourceFile,
-			);
-
-			return {
-				message: "unexpectedCall",
-				rangeStart: lineStart,
-				rangeEnd,
-			};
-		}
-	}
-
-	if (ts.isElementAccessExpression(node)) {
-		const objectEndLine = getEndLineNumber(node.expression, sourceFile);
-		const indexStartLine = getLineNumber(node.argumentExpression, sourceFile);
-
-		if (objectEndLine < indexStartLine) {
-			// Report from the first non-whitespace character on the line where the ambiguity begins
-			const lineStart = getFirstNonWhitespaceOnLine(indexStartLine, sourceFile);
-			const rangeEnd = getEndWithoutTrailingNewlines(
-				rootExpression,
-				sourceFile,
-			);
-
-			return {
-				message: "unexpectedProperty",
-				rangeStart: lineStart,
-				rangeEnd,
-			};
-		}
-	}
-
-	if (ts.isTaggedTemplateExpression(node)) {
-		const tagEndLine = getEndLineNumber(node.tag, sourceFile);
-		const templateStartLine = getLineNumber(node.template, sourceFile);
-
-		if (tagEndLine < templateStartLine) {
-			// Report from the first non-whitespace character on the line where the ambiguity begins
-			const lineStart = getFirstNonWhitespaceOnLine(
-				templateStartLine,
-				sourceFile,
-			);
-			const rangeEnd = getEndWithoutTrailingNewlines(
-				rootExpression,
-				sourceFile,
-			);
-
-			return {
-				message: "unexpectedTemplate",
-				rangeStart: lineStart,
-				rangeEnd,
-			};
-		}
-	}
-
-	// Recursively check children
-	let foundResult: AmbiguityResult | undefined;
-	ts.forEachChild(node, (child) => {
-		if (!foundResult) {
-			foundResult = findAmbiguousExpression(child, sourceFile, rootExpression);
-		}
-	});
-
-	return foundResult;
+function getLineNumber(node: ts.Node, sourceFile: ts.SourceFile): number {
+	return sourceFile.getLineAndCharacterOfPosition(node.getStart(sourceFile))
+		.line;
 }
 
 export default typescriptLanguage.createRule({
