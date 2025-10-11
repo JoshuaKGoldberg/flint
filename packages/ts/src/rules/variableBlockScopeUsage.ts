@@ -112,17 +112,18 @@ export default typescriptLanguage.createRule({
 								// Search from the nearest function scope
 								let searchRoot: ts.Node = declaration;
 								while (!ts.isSourceFile(searchRoot)) {
+									const parent = searchRoot.parent;
 									if (
-										ts.isFunctionDeclaration(searchRoot.parent) ||
-										ts.isFunctionExpression(searchRoot.parent) ||
-										ts.isArrowFunction(searchRoot.parent) ||
-										ts.isMethodDeclaration(searchRoot.parent) ||
-										ts.isSourceFile(searchRoot.parent)
+										ts.isFunctionDeclaration(parent) ||
+										ts.isFunctionExpression(parent) ||
+										ts.isArrowFunction(parent) ||
+										ts.isMethodDeclaration(parent) ||
+										ts.isSourceFile(parent)
 									) {
-										searchRoot = searchRoot.parent;
+										searchRoot = parent;
 										break;
 									}
-									searchRoot = searchRoot.parent;
+									searchRoot = parent;
 								}
 
 								findReferences(searchRoot);
