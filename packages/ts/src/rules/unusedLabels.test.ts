@@ -104,7 +104,7 @@ outer: for (let i = 0; i < 10; i++) {
 `,
 		`
 used: {
-    if (condition) break used;
+    if (true) break used;
     console.log("block");
 }
 `,
