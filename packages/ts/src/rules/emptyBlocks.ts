@@ -6,7 +6,7 @@ export default typescriptLanguage.createRule({
 	about: {
 		description: "Reports empty block statements that should contain code.",
 		id: "emptyBlocks",
-		preset: "logical",
+		preset: "stylistic",
 	},
 	messages: {
 		emptyBlock: {
