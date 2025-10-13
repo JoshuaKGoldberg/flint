@@ -13166,6 +13166,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "symbolDescriptions",
 			"plugin": "ts",
 			"preset": "Stylistic"
