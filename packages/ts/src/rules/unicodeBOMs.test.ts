@@ -8,7 +8,7 @@ ruleTester.describe(rule, {
 `,
 			snapshot: `\uFEFFconst value = 1;
 ~
-Prefer files without a Unicode Byte Order Mark (BOM).
+This Unicode Byte Order Mark (BOM) is unnecessary and can cause issues with some tools.
 `,
 			suggestions: [
 				{
@@ -24,7 +24,7 @@ const value = 1;
 `,
 			snapshot: `\uFEFF// Comment
 ~
-Prefer files without a Unicode Byte Order Mark (BOM).
+This Unicode Byte Order Mark (BOM) is unnecessary and can cause issues with some tools.
 const value = 1;
 `,
 			suggestions: [
@@ -42,7 +42,7 @@ const value = 1;
 `,
 			snapshot: `\uFEFF
 ~
-Prefer files without a Unicode Byte Order Mark (BOM).
+This Unicode Byte Order Mark (BOM) is unnecessary and can cause issues with some tools.
 const value = 1;
 `,
 			suggestions: [
