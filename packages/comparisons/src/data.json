@@ -13831,6 +13831,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unicodeBOMs",
 			"plugin": "ts",
 			"preset": "Stylistic"
