@@ -11,9 +11,8 @@ export default typescriptLanguage.createRule({
 	messages: {
 		noSparseArray: {
 			primary:
-				"Avoid sparse arrays with holes. Use explicit `undefined` values instead.",
+				"Sparse arrays with \"holes\" (empty slots) are misleading and behave differently from `undefined` values.",
 			secondary: [
-				"Sparse arrays contain holes (empty slots) that behave differently from `undefined` values.",
 				"Array methods treat holes inconsistently, which can lead to unexpected behavior and bugs.",
 				"Using explicit `undefined` values makes the intent clear and ensures consistent behavior.",
 			],
