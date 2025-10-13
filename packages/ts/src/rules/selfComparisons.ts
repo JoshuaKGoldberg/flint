@@ -1,6 +1,5 @@
-import * as ts from "typescript";
-
 import { typescriptLanguage } from "../language.js";
+import { isComparisonOperator } from "./utils/operators.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -26,36 +25,26 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				BinaryExpression: (node) => {
-					// Check if this is a comparison operator
-					const operator = node.operatorToken.kind;
-					if (
-						operator !== ts.SyntaxKind.EqualsEqualsToken &&
-						operator !== ts.SyntaxKind.ExclamationEqualsToken &&
-						operator !== ts.SyntaxKind.EqualsEqualsEqualsToken &&
-						operator !== ts.SyntaxKind.ExclamationEqualsEqualsToken &&
-						operator !== ts.SyntaxKind.LessThanToken &&
-						operator !== ts.SyntaxKind.LessThanEqualsToken &&
-						operator !== ts.SyntaxKind.GreaterThanToken &&
-						operator !== ts.SyntaxKind.GreaterThanEqualsToken
-					) {
+					if (!isComparisonOperator(node.operatorToken)) {
 						return;
 					}
 
-					// Compare the text representation of both sides
 					const leftText = node.left.getText(context.sourceFile);
 					const rightText = node.right.getText(context.sourceFile);
 
-					if (leftText === rightText) {
-						const range = {
-							begin: node.getStart(context.sourceFile),
-							end: node.getEnd(),
-						};
-
-						context.report({
-							message: "noSelfComparison",
-							range,
-						});
+					if (leftText !== rightText) {
+						return;
 					}
+
+					const range = {
+						begin: node.getStart(context.sourceFile),
+						end: node.getEnd(),
+					};
+
+					context.report({
+						message: "noSelfComparison",
+						range,
+					});
 				},
 			},
 		};
