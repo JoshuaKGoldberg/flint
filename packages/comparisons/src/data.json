@@ -6232,6 +6232,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "emptyStaticBlocks",
 			"plugin": "ts",
 			"preset": "Stylistic"
