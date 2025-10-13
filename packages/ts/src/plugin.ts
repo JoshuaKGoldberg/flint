@@ -10,6 +10,7 @@ import defaultCaseLast from "./rules/defaultCaseLast.js";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
 import forInArrays from "./rules/forInArrays.js";
+import generatorFunctionYields from "./rules/generatorFunctionYields.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import negativeZeroComparisons from "./rules/negativeZeroComparisons.js";
 import newExpressions from "./rules/newExpressions.js";
@@ -39,6 +40,7 @@ export const ts = createPlugin({
 		emptyStaticBlocks,
 		exceptionAssignments,
 		forInArrays,
+		generatorFunctionYields,
 		namespaceDeclarations,
 		negativeZeroComparisons,
 		newExpressions,
