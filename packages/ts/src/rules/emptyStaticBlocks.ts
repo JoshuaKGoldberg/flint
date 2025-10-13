@@ -24,36 +24,35 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				ClassStaticBlockDeclaration: (node) => {
-					const sourceFile = node.getSourceFile();
 					const statements = node.body.statements;
-
-					if (statements.length === 0) {
-						const openBrace = node.body.getFirstToken(sourceFile);
-
-						if (!openBrace) {
-							return;
-						}
-
-						const range = {
-							begin: node.getStart(sourceFile),
-							end: openBrace.getEnd(),
-						};
-
-						context.report({
-							message: "emptyStaticBlock",
-							range,
-							suggestions: [
-								{
-									id: "removeEmptyStaticBlock",
-									range: {
-										begin: node.getStart(sourceFile),
-										end: node.getEnd(),
-									},
-									text: "",
-								},
-							],
-						});
+					if (statements.length) {
+						return;
 					}
+
+					const openBrace = node.body.getFirstToken(context.sourceFile);
+					if (!openBrace) {
+						return;
+					}
+
+					const range = {
+						begin: node.getStart(context.sourceFile),
+						end: openBrace.getEnd(),
+					};
+
+					context.report({
+						message: "emptyStaticBlock",
+						range,
+						suggestions: [
+							{
+								id: "removeEmptyStaticBlock",
+								range: {
+									begin: node.getStart(context.sourceFile),
+									end: node.getEnd(),
+								},
+								text: "",
+							},
+						],
+					});
 				},
 			},
 		};

@@ -52,12 +52,12 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-If you have a build process that automatically generates class definitions with static blocks that may be empty in certain cases, you might choose to disable this rule for those generated files.
+Some projects choose to standardize some classes with the same static blocks, even if those blocks are empty.
+If you prefer that kind of strict stylistic standardization over conciseness then this rule might not be for you.
 
 ## Further Reading
 
-- [MDN documentation on static initialization blocks](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Static_initialization_blocks)
-- [TC39 proposal for class static initialization blocks](https://github.com/tc39/proposal-class-static-block)
+- [MDN documentation: static initialization blocks](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Static_initialization_blocks)
 
 ## Equivalents in Other Linters
 
