@@ -57,8 +57,8 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-If you have defined your own classes named `Symbol` or `BigInt` that are meant to be used as constructors, you may want to disable this rule.
-However, reusing these names is generally not recommended as it can cause confusion with the global functions.
+If you have globally overridden `BigInt` and/or `Symbol` with classes that are meant to be used as constructors, you may want to disable this rule.
+However, overriding these names is generally not recommended as it can cause confusion with the global functions.
 
 ## Further Reading
 
