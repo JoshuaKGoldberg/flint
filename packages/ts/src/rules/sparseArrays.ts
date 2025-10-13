@@ -32,7 +32,6 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Get the SyntaxList containing the array elements and commas
 					const syntaxList = parent
 						.getChildren(context.sourceFile)
 						.find((child) => child.kind === ts.SyntaxKind.SyntaxList);
@@ -41,11 +40,9 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Find the comma token that follows this omitted expression
 					const children = syntaxList.getChildren(context.sourceFile);
 					const omittedIndex = children.indexOf(node);
 
-					// Look for the next comma token after this omitted expression
 					for (let i = omittedIndex + 1; i < children.length; i++) {
 						if (children[i].kind === ts.SyntaxKind.CommaToken) {
 							context.report({
