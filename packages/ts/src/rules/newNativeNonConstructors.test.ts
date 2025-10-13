@@ -82,6 +82,11 @@ function create() {
 		`new WeakMap();`,
 		`new WeakSet();`,
 		`
+			class BigInt {}
+			new BigInt();
+			export {}
+		`,
+		`
 			class Symbol {}
 			new Symbol();
 			export {}
