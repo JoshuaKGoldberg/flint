@@ -17,6 +17,7 @@ import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
 import sparseArrays from "./rules/sparseArrays.js";
+import symbolDescriptions from "./rules/symbolDescriptions.js";
 import unicodeBOMs from "./rules/unicodeBOMs.js";
 import unnecessaryCatches from "./rules/unnecessaryCatches.js";
 import variableDeletions from "./rules/variableDeletions.js";
@@ -45,6 +46,7 @@ export const ts = createPlugin({
 		octalEscapes,
 		octalNumbers,
 		sparseArrays,
+		symbolDescriptions,
 		unnecessaryCatches,
 		unicodeBOMs,
 		variableDeletions,
