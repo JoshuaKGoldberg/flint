@@ -4,6 +4,7 @@
 		{
 			"type": "node",
 			"request": "launch",
+			"runtimeExecutable": "/Users/josh/.nvm/versions/node/v24.3.0/bin/node",
 			"name": "Run Current File Tests",
 			"program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
 			"args": ["${fileBasenameNoExtension}"],

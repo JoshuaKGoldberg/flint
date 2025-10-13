@@ -7,105 +7,59 @@ ruleTester.describe(rule, {
 			code: `
 new Symbol("description");
 `,
+			output: `
+Symbol("description");
+`,
 			snapshot: `
 new Symbol("description");
 ~~~
-Prefer calling Symbol directly over using \`new\` with Symbol.
+Symbol cannot be called with \`new\` as it is not a class.
 `,
-			suggestions: [
-				{
-					id: "removeNew",
-					updated: `
-Symbol("description");
-`,
-				},
-			],
 		},
 		{
 			code: `
 new BigInt(42);
 `,
+			output: `
+BigInt(42);
+`,
 			snapshot: `
 new BigInt(42);
 ~~~
-Prefer calling BigInt directly over using \`new\` with BigInt.
+BigInt cannot be called with \`new\` as it is not a class.
 `,
-			suggestions: [
-				{
-					id: "removeNew",
-					updated: `
-BigInt(42);
-`,
-				},
-			],
 		},
 		{
 			code: `
 const value = new Symbol();
+`,
+			output: `
+const value = Symbol();
 `,
 			snapshot: `
 const value = new Symbol();
               ~~~
-              Prefer calling Symbol directly over using \`new\` with Symbol.
+              Symbol cannot be called with \`new\` as it is not a class.
 `,
-			suggestions: [
-				{
-					id: "removeNew",
-					updated: `
-const value = Symbol();
-`,
-				},
-			],
 		},
 		{
 			code: `
 function create() {
     return new BigInt(100);
+}
+`,
+			output: `
+function create() {
+    return BigInt(100);
 }
 `,
 			snapshot: `
 function create() {
     return new BigInt(100);
            ~~~
-           Prefer calling BigInt directly over using \`new\` with BigInt.
+           BigInt cannot be called with \`new\` as it is not a class.
 }
 `,
-			suggestions: [
-				{
-					id: "removeNew",
-					updated: `
-function create() {
-    return BigInt(100);
-}
-`,
-				},
-			],
-		},
-		{
-			code: `
-const symbols = [new Symbol("a"), new Symbol("b")];
-`,
-			snapshot: `
-const symbols = [new Symbol("a"), new Symbol("b")];
-                 ~~~
-                 Prefer calling Symbol directly over using \`new\` with Symbol.
-                                  ~~~
-                                  Prefer calling Symbol directly over using \`new\` with Symbol.
-`,
-			suggestions: [
-				{
-					id: "removeNew",
-					updated: `
-const symbols = [Symbol("a"), new Symbol("b")];
-`,
-				},
-				{
-					id: "removeNew",
-					updated: `
-const symbols = [new Symbol("a"), Symbol("b")];
-`,
-				},
-			],
 		},
 	],
 	valid: [
@@ -127,5 +81,10 @@ const symbols = [new Symbol("a"), Symbol("b")];
 		`new Promise((resolve) => resolve());`,
 		`new WeakMap();`,
 		`new WeakSet();`,
+		`
+			class Symbol {}
+			new Symbol();
+			export {}
+		`,
 	],
 });
