@@ -4992,6 +4992,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "classAssignments",
 			"plugin": "ts",
 			"preset": "Untyped"
