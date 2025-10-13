@@ -13,7 +13,7 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		noNewNonConstructor: {
-			primary: "{{ name }} cannot be called with `new` as it is not a class.",
+			primary: "{{ name }} cannot be called with `new`.",
 			secondary: [
 				"`Symbol` and `BigInt` are not constructors and will throw a `TypeError` when called with `new`.",
 				"These functions should be called directly without the `new` keyword to create their respective values.",

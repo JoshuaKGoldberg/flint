@@ -13,7 +13,7 @@ Symbol("description");
 			snapshot: `
 new Symbol("description");
 ~~~
-Symbol cannot be called with \`new\` as it is not a class.
+Symbol cannot be called with \`new\`.
 `,
 		},
 		{
@@ -26,7 +26,7 @@ BigInt(42);
 			snapshot: `
 new BigInt(42);
 ~~~
-BigInt cannot be called with \`new\` as it is not a class.
+BigInt cannot be called with \`new\`.
 `,
 		},
 		{
@@ -39,7 +39,7 @@ const value = Symbol();
 			snapshot: `
 const value = new Symbol();
               ~~~
-              Symbol cannot be called with \`new\` as it is not a class.
+              Symbol cannot be called with \`new\`.
 `,
 		},
 		{
@@ -57,7 +57,7 @@ function create() {
 function create() {
     return new BigInt(100);
            ~~~
-           BigInt cannot be called with \`new\` as it is not a class.
+           BigInt cannot be called with \`new\`.
 }
 `,
 		},
