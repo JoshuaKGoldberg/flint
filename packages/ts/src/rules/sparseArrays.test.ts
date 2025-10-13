@@ -10,7 +10,7 @@ const array = [1, , 3];
 			snapshot: `
 const array = [1, , 3];
                   ~
-                  Avoid sparse arrays with holes. Use explicit \`undefined\` values instead.
+                  Sparse arrays with "holes" (empty slots) are misleading and behave differently from \`undefined\` values.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ const array = [, 2, 3];
 			snapshot: `
 const array = [, 2, 3];
                ~
-               Avoid sparse arrays with holes. Use explicit \`undefined\` values instead.
+               Sparse arrays with "holes" (empty slots) are misleading and behave differently from \`undefined\` values.
 `,
 		},
 		{
@@ -30,9 +30,9 @@ const array = [1, , , 4];
 			snapshot: `
 const array = [1, , , 4];
                   ~
-                  Avoid sparse arrays with holes. Use explicit \`undefined\` values instead.
+                  Sparse arrays with "holes" (empty slots) are misleading and behave differently from \`undefined\` values.
                     ~
-                    Avoid sparse arrays with holes. Use explicit \`undefined\` values instead.
+                    Sparse arrays with "holes" (empty slots) are misleading and behave differently from \`undefined\` values.
 `,
 		},
 		{
@@ -42,7 +42,7 @@ const nested = [[1, , 3], [4, 5, 6]];
 			snapshot: `
 const nested = [[1, , 3], [4, 5, 6]];
                     ~
-                    Avoid sparse arrays with holes. Use explicit \`undefined\` values instead.
+                    Sparse arrays with "holes" (empty slots) are misleading and behave differently from \`undefined\` values.
 `,
 		},
 		{
@@ -58,7 +58,7 @@ const result = [
     1,
     ,
     ~
-    Avoid sparse arrays with holes. Use explicit \`undefined\` values instead.
+    Sparse arrays with "holes" (empty slots) are misleading and behave differently from \`undefined\` values.
     3
 ];
 `,
@@ -76,7 +76,7 @@ const matrix = [
     [1, 2, 3],
     [4, , 6],
         ~
-        Avoid sparse arrays with holes. Use explicit \`undefined\` values instead.
+        Sparse arrays with "holes" (empty slots) are misleading and behave differently from \`undefined\` values.
     [7, 8, 9]
 ];
 `,
@@ -91,7 +91,7 @@ function getArray() {
 function getArray() {
     return [1, , 3];
                ~
-               Avoid sparse arrays with holes. Use explicit \`undefined\` values instead.
+               Sparse arrays with "holes" (empty slots) are misleading and behave differently from \`undefined\` values.
 }
 `,
 		},
