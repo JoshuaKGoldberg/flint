@@ -13,6 +13,19 @@ const comparisonOperators = new Set([
 	ts.SyntaxKind.LessThanToken,
 ]);
 
+function isEqualityOperator(operator: string) {
+	return (
+		operator === "===" ||
+		operator === "==" ||
+		operator === "!==" ||
+		operator === "!="
+	);
+}
+
+function isNegatedEqualityOperator(operator: string) {
+	return operator === "!==" || operator === "!=";
+}
+
 function isNegativeZero(node: ts.Node): boolean {
 	return (
 		ts.isPrefixUnaryExpression(node) &&
@@ -40,6 +53,17 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
+		function generateObjectIsText(
+			node: ts.BinaryExpression,
+			isNegated: boolean,
+		) {
+			const leftText = node.left.getText(context.sourceFile);
+			const rightText = node.right.getText(context.sourceFile);
+			const objectIsCall = `Object.is(${leftText}, ${rightText})`;
+
+			return isNegated ? `!${objectIsCall}` : objectIsCall;
+		}
+
 		return {
 			visitors: {
 				BinaryExpression: (node) => {
@@ -56,37 +80,24 @@ export default typescriptLanguage.createRule({
 						end: node.getEnd(),
 					};
 
-					// Generate Object.is() replacement for equality operators
-					const isEqualityOperator =
-						operator === "===" ||
-						operator === "==" ||
-						operator === "!==" ||
-						operator === "!=";
-
-					const suggestions = [];
-					if (isEqualityOperator) {
-						const leftText = node.left.getText(context.sourceFile);
-						const rightText = node.right.getText(context.sourceFile);
-						const isNegated = operator === "!==" || operator === "!=";
-						const objectIsCall = `Object.is(${leftText}, ${rightText})`;
-						const replacementText = isNegated
-							? `!${objectIsCall}`
-							: objectIsCall;
-
-						suggestions.push({
-							id: "useObjectIs",
-							range,
-							text: replacementText,
-						});
-					}
-
 					context.report({
 						data: {
 							operator,
 						},
 						message: "unexpectedNegativeZeroComparison",
 						range,
-						suggestions,
+						suggestions: isEqualityOperator(operator)
+							? [
+									{
+										id: "useObjectIs",
+										range,
+										text: generateObjectIsText(
+											node,
+											isNegatedEqualityOperator(operator),
+										),
+									},
+								]
+							: undefined,
 					});
 				},
 			},
