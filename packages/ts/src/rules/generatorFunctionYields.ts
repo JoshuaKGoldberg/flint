@@ -39,37 +39,33 @@ export default typescriptLanguage.createRule({
 				| ts.FunctionExpression
 				| ts.MethodDeclaration,
 		): void {
-			if (!node.asteriskToken || !node.body) {
+			if (!node.asteriskToken || !node.body || blockContainsYield(node.body)) {
 				return;
 			}
 
-			let hasYield = false;
-
-			function checkForYield(node: ts.Node): void {
-				if (ts.isYieldExpression(node)) {
-					hasYield = true;
-					return;
-				}
-
-				if (tsutils.isFunctionScopeBoundary(node)) {
-					return;
-				}
-
-				ts.forEachChild(node, checkForYield);
-			}
-
-			ts.forEachChild(node.body, checkForYield);
-
-			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- hasYield is modified in callback
-			if (!hasYield) {
-				context.report({
-					message: "missingYield",
-					range: {
-						begin: node.asteriskToken.getStart(context.sourceFile),
-						end: node.asteriskToken.getEnd(),
-					},
-				});
-			}
+			context.report({
+				message: "missingYield",
+				range: {
+					begin: node.asteriskToken.getStart(context.sourceFile),
+					end: node.asteriskToken.getEnd(),
+				},
+			});
 		}
 	},
 });
+
+function blockContainsYield(block: ts.Block) {
+	function checkForYield(node: ts.Node): boolean | undefined {
+		if (ts.isYieldExpression(node)) {
+			return true;
+		}
+
+		if (tsutils.isFunctionScopeBoundary(node)) {
+			return false;
+		}
+
+		return ts.forEachChild(node, checkForYield);
+	}
+
+	return ts.forEachChild(block, checkForYield);
+}
