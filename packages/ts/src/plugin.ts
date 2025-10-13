@@ -2,17 +2,21 @@ import { createPlugin } from "@flint.fyi/core";
 
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.js";
 import chainedAssignments from "./rules/chainedAssignments.js";
+import classAssignments from "./rules/classAssignments.js";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.js";
 import constructorReturns from "./rules/constructorReturns.js";
 import debuggerStatements from "./rules/debuggerStatements.js";
 import defaultCaseLast from "./rules/defaultCaseLast.js";
+import emptyStaticBlocks from "./rules/emptyStaticBlocks.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
 import forInArrays from "./rules/forInArrays.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
+import negativeZeroComparisons from "./rules/negativeZeroComparisons.js";
 import newExpressions from "./rules/newExpressions.js";
 import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
+import sparseArrays from "./rules/sparseArrays.js";
 import unicodeBOMs from "./rules/unicodeBOMs.js";
 import unnecessaryCatches from "./rules/unnecessaryCatches.js";
 import variableDeletions from "./rules/variableDeletions.js";
@@ -26,17 +30,21 @@ export const ts = createPlugin({
 	rules: [
 		asyncPromiseExecutors,
 		chainedAssignments,
+		classAssignments,
 		consecutiveNonNullAssertions,
 		constructorReturns,
 		debuggerStatements,
 		defaultCaseLast,
+		emptyStaticBlocks,
 		exceptionAssignments,
 		forInArrays,
 		namespaceDeclarations,
+		negativeZeroComparisons,
 		newExpressions,
 		objectProto,
 		octalEscapes,
 		octalNumbers,
+		sparseArrays,
 		unnecessaryCatches,
 		unicodeBOMs,
 		variableDeletions,
