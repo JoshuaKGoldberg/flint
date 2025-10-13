@@ -11,7 +11,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		noSparseArray: {
 			primary:
-				"Sparse arrays with \"holes\" (empty slots) are misleading and behave differently from `undefined` values.",
+				'Sparse arrays with "holes" (empty slots) are misleading and behave differently from `undefined` values.',
 			secondary: [
 				"Array methods treat holes inconsistently, which can lead to unexpected behavior and bugs.",
 				"Using explicit `undefined` values makes the intent clear and ensures consistent behavior.",
