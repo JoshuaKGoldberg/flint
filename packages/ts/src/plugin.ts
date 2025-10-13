@@ -14,6 +14,7 @@ import generatorFunctionYields from "./rules/generatorFunctionYields.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import negativeZeroComparisons from "./rules/negativeZeroComparisons.js";
 import newExpressions from "./rules/newExpressions.js";
+import newNativeNonConstructors from "./rules/newNativeNonConstructors.js";
 import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
@@ -44,6 +45,7 @@ export const ts = createPlugin({
 		namespaceDeclarations,
 		negativeZeroComparisons,
 		newExpressions,
+		newNativeNonConstructors,
 		objectProto,
 		octalEscapes,
 		octalNumbers,

@@ -9655,9 +9655,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "newNativeNonConstructors",
 			"plugin": "ts",
-			"preset": "Logical"
+			"preset": "Untyped"
 		},
 		"oxlint": [
 			{

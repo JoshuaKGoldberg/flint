@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
-import { isGlobalPromiseConstructor } from "../utils/isGlobalPromiseConstructor.js";
+import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -29,7 +29,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				NewExpression: (node) => {
 					if (
-						!isGlobalPromiseConstructor(node.expression, context.typeChecker) ||
+						!isGlobalDeclaration(node.expression, context.typeChecker) ||
 						!node.arguments?.length
 					) {
 						return;
