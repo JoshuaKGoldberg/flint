@@ -10,7 +10,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		missingDescription: {
-			primary: "Symbols should have descriptions for easier debugging.",
+			primary:
+				"Symbols without descriptions are more difficult to debug or reason about.",
 			secondary: [
 				"Creating a symbol without a description makes debugging difficult, as the symbol's purpose isn't clear when inspecting it.",
 				"While the description doesn't affect the symbol's uniqueness, it appears in the symbol's string representation and can be accessed via `Symbol.prototype.description`.",
@@ -24,22 +25,21 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression: (node) => {
-					// Check if this is a call to Symbol()
 					if (
-						ts.isIdentifier(node.expression) &&
-						node.expression.text === "Symbol" &&
-						node.arguments.length === 0
+						!ts.isIdentifier(node.expression) ||
+						node.expression.text !== "Symbol" ||
+						node.arguments.length
 					) {
-						const range = {
+						return;
+					}
+
+					context.report({
+						message: "missingDescription",
+						range: {
 							begin: node.getStart(context.sourceFile),
 							end: node.getEnd(),
-						};
-
-						context.report({
-							message: "missingDescription",
-							range,
-						});
-					}
+						},
+					});
 				},
 			},
 		};

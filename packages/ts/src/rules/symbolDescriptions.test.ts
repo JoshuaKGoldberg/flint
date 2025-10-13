@@ -10,7 +10,7 @@ const symbol = Symbol();
 			snapshot: `
 const symbol = Symbol();
                ~~~~~~~~
-               Symbols should have descriptions for easier debugging.
+               Symbols without descriptions are more difficult to debug or reason about.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ const uniqueKey = Symbol();
 			snapshot: `
 const uniqueKey = Symbol();
                   ~~~~~~~~
-                  Symbols should have descriptions for easier debugging.
+                  Symbols without descriptions are more difficult to debug or reason about.
 `,
 		},
 		{
@@ -30,9 +30,9 @@ const symbols = [Symbol(), Symbol()];
 			snapshot: `
 const symbols = [Symbol(), Symbol()];
                  ~~~~~~~~
-                 Symbols should have descriptions for easier debugging.
+                 Symbols without descriptions are more difficult to debug or reason about.
                            ~~~~~~~~
-                           Symbols should have descriptions for easier debugging.
+                           Symbols without descriptions are more difficult to debug or reason about.
 `,
 		},
 		{
@@ -45,7 +45,7 @@ function createSymbol() {
 function createSymbol() {
 	return Symbol();
         ~~~~~~~~
-        Symbols should have descriptions for easier debugging.
+        Symbols without descriptions are more difficult to debug or reason about.
 }
 `,
 		},
@@ -59,7 +59,7 @@ const obj = {
 const obj = {
 	key: Symbol(),
       ~~~~~~~~
-      Symbols should have descriptions for easier debugging.
+      Symbols without descriptions are more difficult to debug or reason about.
 };
 `,
 		},
@@ -70,7 +70,7 @@ const value = condition ? Symbol() : null;
 			snapshot: `
 const value = condition ? Symbol() : null;
                           ~~~~~~~~
-                          Symbols should have descriptions for easier debugging.
+                          Symbols without descriptions are more difficult to debug or reason about.
 `,
 		},
 	],
