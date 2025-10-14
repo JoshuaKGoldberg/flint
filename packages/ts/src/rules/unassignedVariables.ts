@@ -1,7 +1,7 @@
-import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
+import { getModifyingReferences } from "../utils/getModifyingReferences.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -29,49 +29,9 @@ export default typescriptLanguage.createRule({
 			sourceFile: ts.SourceFile,
 			typeChecker: ts.TypeChecker,
 		): boolean {
-			const symbol = typeChecker.getSymbolAtLocation(identifier);
-			if (!symbol?.valueDeclaration) {
-				return false;
-			}
-
-			const valueDeclaration = symbol.valueDeclaration;
-			let hasAssignment = false;
-
-			function visit(node: ts.Node): void {
-				if (hasAssignment) {
-					return;
-				}
-
-				if (
-					ts.isIdentifier(node) &&
-					typeChecker.getSymbolAtLocation(node)?.valueDeclaration ===
-						valueDeclaration
-				) {
-					if (
-						ts.isBinaryExpression(node.parent) &&
-						tsutils.isAssignmentKind(node.parent.operatorToken.kind) &&
-						node.parent.left === node
-					) {
-						hasAssignment = true;
-						return;
-					}
-
-					if (
-						(ts.isPostfixUnaryExpression(node.parent) ||
-							ts.isPrefixUnaryExpression(node.parent)) &&
-						node.parent.operand === node
-					) {
-						hasAssignment = true;
-						return;
-					}
-				}
-
-				ts.forEachChild(node, visit);
-			}
-
-			visit(sourceFile);
-
-			return hasAssignment;
+			// TODO (#400): Switch to scope analysis
+			return !!getModifyingReferences(identifier, sourceFile, typeChecker)
+				.length;
 		}
 
 		return {
