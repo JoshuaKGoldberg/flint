@@ -16,7 +16,7 @@ switch (value) {
     case 1:
         let x = 1;
         ~~~
-        Lexical declarations in case clauses should be wrapped in blocks.
+        Variables declared in case clauses without braces leak into the surrounding scope.
         break;
 }
 `,
@@ -34,7 +34,7 @@ switch (value) {
     case 1:
         const x = 1;
         ~~~~~
-        Lexical declarations in case clauses should be wrapped in blocks.
+        Variables declared in case clauses without braces leak into the surrounding scope.
         break;
 }
 `,
@@ -52,7 +52,7 @@ switch (value) {
     case 1:
         function foo() {}
         ~~~~~~~~
-        Lexical declarations in case clauses should be wrapped in blocks.
+        Variables declared in case clauses without braces leak into the surrounding scope.
         break;
 }
 `,
@@ -70,7 +70,7 @@ switch (value) {
     case 1:
         class Foo {}
         ~~~~~
-        Lexical declarations in case clauses should be wrapped in blocks.
+        Variables declared in case clauses without braces leak into the surrounding scope.
         break;
 }
 `,
@@ -88,7 +88,7 @@ switch (value) {
     default:
         let x = 1;
         ~~~
-        Lexical declarations in case clauses should be wrapped in blocks.
+        Variables declared in case clauses without braces leak into the surrounding scope.
         break;
 }
 `,
@@ -106,7 +106,7 @@ switch (value) {
     default:
         const x = 1;
         ~~~~~
-        Lexical declarations in case clauses should be wrapped in blocks.
+        Variables declared in case clauses without braces leak into the surrounding scope.
         break;
 }
 `,
@@ -126,11 +126,11 @@ switch (value) {
     case 1:
         let x = 1;
         ~~~
-        Lexical declarations in case clauses should be wrapped in blocks.
+        Variables declared in case clauses without braces leak into the surrounding scope.
     case 2:
         let y = 2;
         ~~~
-        Lexical declarations in case clauses should be wrapped in blocks.
+        Variables declared in case clauses without braces leak into the surrounding scope.
         break;
 }
 `,
@@ -149,7 +149,7 @@ switch (value) {
     case 1:
         const x = 1;
         ~~~~~
-        Lexical declarations in case clauses should be wrapped in blocks.
+        Variables declared in case clauses without braces leak into the surrounding scope.
         console.log(x);
         break;
 }

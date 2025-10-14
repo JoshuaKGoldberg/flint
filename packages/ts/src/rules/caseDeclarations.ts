@@ -1,3 +1,4 @@
+import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
@@ -13,7 +14,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		unexpectedLexicalDeclaration: {
 			primary:
-				"Lexical declarations in case clauses should be wrapped in blocks.",
+				"Variables declared in case clauses without braces leak into the surrounding scope.",
 			secondary: [
 				"Lexical declarations (let, const, function, class) are scoped to the entire switch statement, not just the case clause where they are declared.",
 				"This can lead to unexpected behavior when the same variable name is used in multiple case clauses, as they will conflict in the same scope.",
@@ -24,21 +25,23 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function hasLexicalDeclaration(
+		function getLexicalDeclaration(
 			statements: ts.NodeArray<ts.Statement>,
 		): ts.Node | undefined {
 			for (const statement of statements) {
 				if (
 					ts.isVariableStatement(statement) &&
-					((statement.declarationList.flags & ts.NodeFlags.Let) !== 0 ||
-						(statement.declarationList.flags & ts.NodeFlags.Const) !== 0)
+					tsutils.isNodeFlagSet(
+						statement.declarationList,
+						ts.NodeFlags.Let | ts.NodeFlags.Const,
+					)
 				) {
 					return statement.declarationList.getChildAt(0, context.sourceFile);
 				}
 
 				if (
-					ts.isFunctionDeclaration(statement) ||
-					ts.isClassDeclaration(statement)
+					ts.isClassDeclaration(statement) ||
+					ts.isFunctionDeclaration(statement)
 				) {
 					return statement.getChildAt(0, context.sourceFile);
 				}
@@ -48,7 +51,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		function checkClause(node: ts.CaseClause | ts.DefaultClause): void {
-			const declarationNode = hasLexicalDeclaration(node.statements);
+			const declarationNode = getLexicalDeclaration(node.statements);
 			if (declarationNode) {
 				context.report({
 					message: "unexpectedLexicalDeclaration",
