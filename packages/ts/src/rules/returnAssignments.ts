@@ -13,7 +13,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		noReturnAssign: {
-			primary: "Return statements should not contain assignment expressions.",
+			primary:
+				"Placing an assignment inside a return statement can be misleading and is often a sign of a logical mistake.",
 			secondary: [
 				"Using assignments in return statements can make code harder to read and can lead to confusion about whether the assignment or the returned value is the primary intent.",
 				"Assignment expressions return the assigned value, but mixing assignment with return makes the control flow less clear.",
@@ -41,18 +42,14 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				ArrowFunction: (node) => {
-					if (ts.isBlock(node.body)) {
-						return;
+					if (!ts.isBlock(node.body)) {
+						checkForAssignment(node.body);
 					}
-
-					checkForAssignment(node.body);
 				},
 				ReturnStatement: (node) => {
-					if (!node.expression) {
-						return;
+					if (node.expression) {
+						checkForAssignment(node.expression);
 					}
-
-					checkForAssignment(node.expression);
 				},
 			},
 		};

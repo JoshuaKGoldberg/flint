@@ -15,7 +15,7 @@ function getValue() {
     let value;
     return value = 1;
                  ~
-                 Return statements should not contain assignment expressions.
+                 Placing an assignment inside a return statement can be misleading and is often a sign of a logical mistake.
 }
 `,
 		},
@@ -31,7 +31,7 @@ function process() {
     let result;
     return result = calculate();
                   ~
-                  Return statements should not contain assignment expressions.
+                  Placing an assignment inside a return statement can be misleading and is often a sign of a logical mistake.
 }
 `,
 		},
@@ -47,7 +47,7 @@ function update() {
     let status;
     return (status = "updated");
                    ~
-                   Return statements should not contain assignment expressions.
+                   Placing an assignment inside a return statement can be misleading and is often a sign of a logical mistake.
 }
 `,
 		},
@@ -63,7 +63,7 @@ const arrow = () => {
     let value;
     return value = 42;
                  ~
-                 Return statements should not contain assignment expressions.
+                 Placing an assignment inside a return statement can be misleading and is often a sign of a logical mistake.
 };
 `,
 		},
@@ -74,7 +74,7 @@ const arrowImplicit = () => (value = 100);
 			snapshot: `
 const arrowImplicit = () => (value = 100);
                                    ~
-                                   Return statements should not contain assignment expressions.
+                                   Placing an assignment inside a return statement can be misleading and is often a sign of a logical mistake.
 `,
 		},
 		{
@@ -89,7 +89,7 @@ function multiply(factor: number) {
     let result;
     return result = factor * 2;
                   ~
-                  Return statements should not contain assignment expressions.
+                  Placing an assignment inside a return statement can be misleading and is often a sign of a logical mistake.
 }
 `,
 		},
@@ -105,7 +105,7 @@ function compound() {
     let count;
     return count += 5;
                  ~~
-                 Return statements should not contain assignment expressions.
+                 Placing an assignment inside a return statement can be misleading and is often a sign of a logical mistake.
 }
 `,
 		},
@@ -121,7 +121,7 @@ function bitwise() {
     let flags;
     return flags |= 0x01;
                  ~~
-                 Return statements should not contain assignment expressions.
+                 Placing an assignment inside a return statement can be misleading and is often a sign of a logical mistake.
 }
 `,
 		},
