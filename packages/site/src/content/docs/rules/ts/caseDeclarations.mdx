@@ -9,7 +9,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="ts" rule="caseDeclarations" />
 
-Lexical declarations (`let`, `const`, `function`, `class`) in `case` or `default` clauses are scoped to the entire switch statement block, not just to the individual clause where they appear.
+Lexical declarations (`let`, `const`, `function`, `class`) in `case` and `default` clauses are scoped to the entire `switch` statement block, not just to the individual clause where they appear.
 This can lead to unexpected behavior when multiple clauses attempt to declare variables with the same name, resulting in syntax errors or unintended variable shadowing.
 Wrapping the contents of case clauses in curly braces creates a proper block scope, preventing these issues.
 
