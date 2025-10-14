@@ -12697,6 +12697,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "shadowedRestrictedNames",
 			"plugin": "ts",
 			"preset": "Untyped"

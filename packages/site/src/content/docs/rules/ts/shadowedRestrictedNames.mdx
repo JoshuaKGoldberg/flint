@@ -1,0 +1,76 @@
+---
+description: "Avoid shadowing restricted names like undefined, NaN, Infinity, arguments, and eval."
+title: "shadowedRestrictedNames"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="shadowedRestrictedNames" />
+
+JavaScript has certain built-in global identifiers that are considered restricted because shadowing them can lead to confusing or erroneous code.
+These restricted names include `undefined`, `NaN`, `Infinity`, `arguments`, and `eval`.
+When you declare a variable, function, or class with one of these names, it shadows the global identifier and can cause unexpected behavior or make code harder to understand.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function processValue(undefined) {
+	if (undefined === null) {
+		return 0;
+	}
+	return undefined;
+}
+
+let NaN = 123;
+
+class Infinity {
+	value = 100;
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function processValue(value) {
+	if (value === undefined) {
+		return 0;
+	}
+	return value;
+}
+
+let notANumber = NaN;
+
+class InfiniteValue {
+	value = Infinity;
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+This rule should generally always be enabled as shadowing restricted names can lead to confusing code and potential bugs.
+However, if you have legacy code that intentionally uses these names in a way that doesn't cause issues, you might choose to disable this rule for specific files.
+
+## Further Reading
+
+- [MDN documentation on `undefined`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)
+- [MDN documentation on `NaN`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN)
+- [MDN documentation on `Infinity`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity)
+- [MDN documentation on `eval()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval)
+- [MDN documentation on the `arguments` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="shadowedRestrictedNames" />

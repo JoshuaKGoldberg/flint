@@ -25,6 +25,7 @@ import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
 import returnAssignments from "./rules/returnAssignments.js";
+import shadowedRestrictedNames from "./rules/shadowedRestrictedNames.js";
 import sparseArrays from "./rules/sparseArrays.js";
 import symbolDescriptions from "./rules/symbolDescriptions.js";
 import unassignedVariables from "./rules/unassignedVariables.js";
@@ -65,6 +66,7 @@ export const ts = createPlugin({
 		octalEscapes,
 		octalNumbers,
 		returnAssignments,
+		shadowedRestrictedNames,
 		sparseArrays,
 		symbolDescriptions,
 		unassignedVariables,
