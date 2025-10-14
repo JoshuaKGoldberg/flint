@@ -42,32 +42,27 @@ export default typescriptLanguage.createRule({
 					return;
 				}
 
-				if (ts.isIdentifier(node)) {
-					const nodeSymbol = typeChecker.getSymbolAtLocation(node);
+				if (
+					ts.isIdentifier(node) &&
+					typeChecker.getSymbolAtLocation(node)?.valueDeclaration ===
+						valueDeclaration
+				) {
 					if (
-						nodeSymbol?.valueDeclaration &&
-						nodeSymbol.valueDeclaration === valueDeclaration
+						ts.isBinaryExpression(node.parent) &&
+						tsutils.isAssignmentKind(node.parent.operatorToken.kind) &&
+						node.parent.left === node
 					) {
-						const parent = node.parent;
+						hasAssignment = true;
+						return;
+					}
 
-						// Assignment expressions (=, +=, -=, etc.)
-						if (
-							ts.isBinaryExpression(parent) &&
-							tsutils.isAssignmentKind(parent.operatorToken.kind) &&
-							parent.left === node
-						) {
-							hasAssignment = true;
-							return;
-						}
-						// Unary expressions (++, --)
-						if (
-							(ts.isPostfixUnaryExpression(parent) ||
-								ts.isPrefixUnaryExpression(parent)) &&
-							parent.operand === node
-						) {
-							hasAssignment = true;
-							return;
-						}
+					if (
+						(ts.isPostfixUnaryExpression(node.parent) ||
+							ts.isPrefixUnaryExpression(node.parent)) &&
+						node.parent.operand === node
+					) {
+						hasAssignment = true;
+						return;
 					}
 				}
 
@@ -75,23 +70,17 @@ export default typescriptLanguage.createRule({
 			}
 
 			visit(sourceFile);
+
 			return hasAssignment;
 		}
 
 		return {
 			visitors: {
 				VariableDeclaration: (node) => {
-					// Skip declarations with initializers
-					if (node.initializer) {
+					if (node.initializer || !ts.isIdentifier(node.name)) {
 						return;
 					}
 
-					// Only check simple identifier bindings
-					if (!ts.isIdentifier(node.name)) {
-						return;
-					}
-
-					// Skip const declarations - they must have initializers (syntax error otherwise)
 					if (
 						ts.isVariableDeclarationList(node.parent) &&
 						!!(node.parent.flags & ts.NodeFlags.Const)
@@ -99,7 +88,6 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Check if the variable is ever assigned
 					if (
 						!hasAssignments(node.name, context.sourceFile, context.typeChecker)
 					) {
