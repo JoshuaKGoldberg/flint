@@ -10,7 +10,7 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		undefinedVariable: {
-			primary: "Using undefined variable '{{ name }}'.",
+			primary: "Variable '{{ name }}' is used but was never defined.",
 			secondary: [
 				"Variables must be declared before they can be used.",
 				"Using undefined variables will cause a ReferenceError at runtime.",
@@ -24,7 +24,6 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				Identifier: (node) => {
-					// Skip if this identifier is the name of a declaration
 					if (
 						ts.isVariableDeclaration(node.parent) &&
 						node.parent.name === node
@@ -32,12 +31,10 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Skip if this is a parameter name
 					if (ts.isParameter(node.parent) && node.parent.name === node) {
 						return;
 					}
 
-					// Skip if this is a function/class/etc name
 					if (
 						(ts.isFunctionDeclaration(node.parent) ||
 							ts.isClassDeclaration(node.parent) ||
@@ -50,7 +47,6 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Skip import-related identifiers
 					if (
 						ts.isImportSpecifier(node.parent) ||
 						ts.isImportClause(node.parent) ||
@@ -59,7 +55,6 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Skip if this is a property name
 					if (
 						ts.isPropertyAccessExpression(node.parent) &&
 						node.parent.name === node
@@ -67,7 +62,6 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Skip if this is a property assignment name
 					if (
 						ts.isPropertyAssignment(node.parent) &&
 						node.parent.name === node
@@ -75,13 +69,6 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Skip if this is a shorthand property assignment
-					if (ts.isShorthandPropertyAssignment(node.parent)) {
-						// For shorthand properties, we need to check if the value is defined
-						// This is the identifier being referenced
-					}
-
-					// Skip if this is in a typeof expression (typeof is safe with undefined vars)
 					if (
 						ts.isTypeOfExpression(node.parent) &&
 						node.parent.expression === node
@@ -89,11 +76,9 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Try to get the symbol for this identifier
-					const symbol = context.typeChecker.getSymbolAtLocation(node);
-
-					// If there's no symbol, it means the variable is not defined
-					if (!symbol) {
+					// TODO: This rule is untyped, so it should use scope analysis
+					// https://github.com/JoshuaKGoldberg/flint/issues/400
+					if (!context.typeChecker.getSymbolAtLocation(node)) {
 						context.report({
 							data: {
 								name: node.text,

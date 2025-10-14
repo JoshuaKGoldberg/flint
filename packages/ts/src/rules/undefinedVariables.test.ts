@@ -10,7 +10,7 @@ console.log(undefinedVar);
 			snapshot: `
 console.log(undefinedVar);
             ~~~~~~~~~~~~
-            Using undefined variable 'undefinedVar'.
+            Variable 'undefinedVar' is used but was never defined.
 `,
 		},
 		{
@@ -23,7 +23,7 @@ function test() {
 function test() {
     return notDefined;
            ~~~~~~~~~~
-           Using undefined variable 'notDefined'.
+           Variable 'notDefined' is used but was never defined.
 }
 `,
 		},
@@ -34,7 +34,7 @@ const value = unknownVariable;
 			snapshot: `
 const value = unknownVariable;
               ~~~~~~~~~~~~~~~
-              Using undefined variable 'unknownVariable'.
+              Variable 'unknownVariable' is used but was never defined.
 `,
 		},
 		{
@@ -46,10 +46,10 @@ if (condition) {
 			snapshot: `
 if (condition) {
     ~~~~~~~~~
-    Using undefined variable 'condition'.
+    Variable 'condition' is used but was never defined.
     doSomething();
     ~~~~~~~~~~~
-    Using undefined variable 'doSomething'.
+    Variable 'doSomething' is used but was never defined.
 }
 `,
 		},
@@ -60,9 +60,9 @@ const result = first + second;
 			snapshot: `
 const result = first + second;
                ~~~~~
-               Using undefined variable 'first'.
+               Variable 'first' is used but was never defined.
                        ~~~~~~
-                       Using undefined variable 'second'.
+                       Variable 'second' is used but was never defined.
 `,
 		},
 	],
