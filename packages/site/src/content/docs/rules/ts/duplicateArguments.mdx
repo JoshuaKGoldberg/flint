@@ -1,0 +1,79 @@
+---
+description: "This parameter overrides the previous parameter of the same name."
+title: "duplicateArguments"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="duplicateArguments" />
+
+In JavaScript, duplicate parameter names in function signatures can lead to unexpected behavior.
+In strict mode (which TypeScript uses by default), duplicate parameter names are a syntax error.
+Even in non-strict mode, only the last parameter with a given name is accessible, making earlier parameters with the same name unreachable.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function calculateTotal(value, value) {
+	return value * 2;
+}
+```
+
+```ts
+function process(first, second, first) {
+	return first + second;
+}
+```
+
+```ts
+const handler = (data, data) => {
+	console.log(data);
+};
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function calculateTotal(value) {
+	return value * 2;
+}
+```
+
+```ts
+function process(first, second, third) {
+	return first + second + third;
+}
+```
+
+```ts
+const handler = (data) => {
+	console.log(data);
+};
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+This rule should always be enabled, as duplicate parameter names are either a syntax error (in strict mode) or a source of confusion (in non-strict mode).
+Modern JavaScript and TypeScript code should never use duplicate parameter names.
+
+## Further Reading
+
+- [MDN: Functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions)
+- [MDN: Strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="duplicateArguments" />

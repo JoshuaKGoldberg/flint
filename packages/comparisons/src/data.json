@@ -4813,6 +4813,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "caseDeclarations",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -4992,6 +4993,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "classAssignments",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -5318,6 +5320,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "constantAssignments",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -5936,6 +5939,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "duplicateArguments",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -6064,7 +6068,8 @@
 		"flint": {
 			"name": "emptyDestructures",
 			"plugin": "ts",
-			"preset": "Logical"
+			"preset": "Logical",
+			"implemented": true
 		},
 		"oxlint": [
 			{
@@ -6231,6 +6236,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "emptyStaticBlocks",
 			"plugin": "ts",
 			"preset": "Stylistic"
@@ -6931,6 +6937,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "functionAssignments",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -7137,7 +7144,8 @@
 		"flint": {
 			"name": "generatorFunctionYields",
 			"plugin": "ts",
-			"preset": "Logical"
+			"preset": "Logical",
+			"implemented": true
 		},
 		"oxlint": [
 			{
@@ -9528,6 +9536,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "negativeZeroComparisons",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -9652,9 +9661,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "newNativeNonConstructors",
 			"plugin": "ts",
-			"preset": "Logical"
+			"preset": "Untyped"
 		},
 		"oxlint": [
 			{
@@ -12462,6 +12472,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "returnAssignments",
 			"plugin": "ts",
 			"preset": "Stylistic"
@@ -12817,6 +12828,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "sparseArrays",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -13163,6 +13175,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "symbolDescriptions",
 			"plugin": "ts",
 			"preset": "Stylistic"
@@ -13687,6 +13700,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unassignedVariables",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -13795,6 +13809,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "undefinedVariables",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -13827,6 +13842,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unicodeBOMs",
 			"plugin": "ts",
 			"preset": "Stylistic"
