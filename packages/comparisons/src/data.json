@@ -5319,6 +5319,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "constantAssignments",
 			"plugin": "ts",
 			"preset": "Untyped"

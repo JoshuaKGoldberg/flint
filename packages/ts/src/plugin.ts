@@ -4,6 +4,7 @@ import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.js";
 import chainedAssignments from "./rules/chainedAssignments.js";
 import classAssignments from "./rules/classAssignments.js";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.js";
+import constantAssignments from "./rules/constantAssignments.js";
 import constructorReturns from "./rules/constructorReturns.js";
 import debuggerStatements from "./rules/debuggerStatements.js";
 import defaultCaseLast from "./rules/defaultCaseLast.js";
@@ -36,6 +37,7 @@ export const ts = createPlugin({
 		chainedAssignments,
 		classAssignments,
 		consecutiveNonNullAssertions,
+		constantAssignments,
 		constructorReturns,
 		debuggerStatements,
 		defaultCaseLast,
