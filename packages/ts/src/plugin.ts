@@ -24,6 +24,7 @@ import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
 import sparseArrays from "./rules/sparseArrays.js";
 import symbolDescriptions from "./rules/symbolDescriptions.js";
+import unassignedVariables from "./rules/unassignedVariables.js";
 import undefinedVariables from "./rules/undefinedVariables.js";
 import unicodeBOMs from "./rules/unicodeBOMs.js";
 import unnecessaryCatches from "./rules/unnecessaryCatches.js";
@@ -60,6 +61,7 @@ export const ts = createPlugin({
 		octalNumbers,
 		sparseArrays,
 		symbolDescriptions,
+		unassignedVariables,
 		undefinedVariables,
 		unicodeBOMs,
 		unnecessaryCatches,
