@@ -8806,7 +8806,7 @@
 			"implemented": true,
 			"name": "loopAwaits",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "None"
 		},
 		"oxlint": [
 			{

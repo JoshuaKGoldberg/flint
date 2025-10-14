@@ -7,7 +7,6 @@ export default typescriptLanguage.createRule({
 	about: {
 		description: "Reports using await expressions inside loops.",
 		id: "loopAwaits",
-		preset: "logical",
 	},
 	messages: {
 		noAwaitInLoop: {
@@ -36,15 +35,13 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			// Don't descend into nested loops or function boundaries
 			if (
-				node !== loopNode &&
-				(ts.isForStatement(node) ||
-					ts.isForInStatement(node) ||
-					ts.isForOfStatement(node) ||
-					ts.isWhileStatement(node) ||
-					ts.isDoStatement(node) ||
-					tsutils.isFunctionScopeBoundary(node))
+				ts.isDoStatement(node) ||
+				ts.isForInStatement(node) ||
+				ts.isForOfStatement(node) ||
+				ts.isForStatement(node) ||
+				ts.isWhileStatement(node) ||
+				tsutils.isFunctionScopeBoundary(node)
 			) {
 				return;
 			}
@@ -54,23 +51,17 @@ export default typescriptLanguage.createRule({
 			});
 		}
 
+		function checkNode(node: ts.Node & { statement: ts.Node }) {
+			checkForAwaitExpressions(node.statement, node);
+		}
+
 		return {
 			visitors: {
-				DoStatement: (node) => {
-					checkForAwaitExpressions(node.statement, node);
-				},
-				ForInStatement: (node) => {
-					checkForAwaitExpressions(node.statement, node);
-				},
-				ForOfStatement: (node) => {
-					checkForAwaitExpressions(node.statement, node);
-				},
-				ForStatement: (node) => {
-					checkForAwaitExpressions(node.statement, node);
-				},
-				WhileStatement: (node) => {
-					checkForAwaitExpressions(node.statement, node);
-				},
+				DoStatement: checkNode,
+				ForInStatement: checkNode,
+				ForOfStatement: checkNode,
+				ForStatement: checkNode,
+				WhileStatement: checkNode,
 			},
 		};
 	},
