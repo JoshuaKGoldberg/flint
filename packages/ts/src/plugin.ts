@@ -7,6 +7,7 @@ import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.j
 import constructorReturns from "./rules/constructorReturns.js";
 import debuggerStatements from "./rules/debuggerStatements.js";
 import defaultCaseLast from "./rules/defaultCaseLast.js";
+import emptyDestructures from "./rules/emptyDestructures.js";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
 import forInArrays from "./rules/forInArrays.js";
@@ -38,6 +39,7 @@ export const ts = createPlugin({
 		constructorReturns,
 		debuggerStatements,
 		defaultCaseLast,
+		emptyDestructures,
 		emptyStaticBlocks,
 		exceptionAssignments,
 		forInArrays,
