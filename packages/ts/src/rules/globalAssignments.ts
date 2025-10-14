@@ -31,11 +31,10 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				BinaryExpression: (node) => {
-					if (!tsutils.isAssignmentKind(node.operatorToken.kind)) {
-						return;
-					}
-
-					if (isGlobalVariable(node.left, context.typeChecker)) {
+					if (
+						tsutils.isAssignmentKind(node.operatorToken.kind) &&
+						isGlobalVariable(node.left, context.typeChecker)
+					) {
 						context.report({
 							message: "noGlobalAssign",
 							range: getTSNodeRange(node.left, context.sourceFile),
