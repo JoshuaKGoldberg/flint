@@ -12471,6 +12471,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "returnAssignments",
 			"plugin": "ts",
 			"preset": "Stylistic"
