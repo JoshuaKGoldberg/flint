@@ -1,0 +1,66 @@
+---
+description: "Variables should be declared before they are used."
+title: "undefinedVariables"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="undefinedVariables" />
+
+Variables must be declared before they can be used in JavaScript.
+Using undefined variables will cause a ReferenceError at runtime.
+This rule helps catch typos and missing declarations early in development.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+console.log(undefinedVar);
+
+function calculate() {
+	return result;
+}
+
+const value = first + second;
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const value = 5;
+console.log(value);
+
+function calculate(input: number) {
+	const result = input * 2;
+	return result;
+}
+
+const first = 1;
+const second = 2;
+const value = first + second;
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+This rule can be safely disabled if you're using TypeScript's type checking, which will catch undefined variables through its own error reporting.
+
+## Further Reading
+
+- [MDN: ReferenceError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError)
+- [MDN: Grammar and types - Declarations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#declarations)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="undefinedVariables" />

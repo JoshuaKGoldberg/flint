@@ -1,24 +1,17 @@
 import * as ts from "typescript";
 
-export function isGlobalPromiseConstructor(
+export function isGlobalDeclaration(
 	node: ts.Expression,
 	typeChecker: ts.TypeChecker,
 ): boolean {
-	if (node.kind !== ts.SyntaxKind.Identifier) {
-		return false;
-	}
-
 	const symbol = typeChecker.getSymbolAtLocation(node);
 	if (!symbol) {
 		return false;
 	}
 
 	const declarations = symbol.getDeclarations();
-	if (!declarations || declarations.length === 0) {
-		return false;
-	}
 
-	return declarations.some((declaration) => {
+	return !!declarations?.some((declaration) => {
 		const sourceFile = declaration.getSourceFile();
 		return (
 			sourceFile.hasNoDefaultLib ||
