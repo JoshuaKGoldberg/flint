@@ -12,7 +12,7 @@ function test(value, value) {
 			snapshot: `
 function test(value, value) {
                      ~~~~~
-                     Duplicate parameter names are not allowed in function signatures.
+                     This parameter overrides the previous parameter of the same name.
     return value;
 }
 `,
@@ -26,7 +26,7 @@ function test(first, second, first) {
 			snapshot: `
 function test(first, second, first) {
                              ~~~~~
-                             Duplicate parameter names are not allowed in function signatures.
+                             This parameter overrides the previous parameter of the same name.
     return first + second;
 }
 `,
@@ -38,7 +38,7 @@ const arrow = (value, value) => value;
 			snapshot: `
 const arrow = (value, value) => value;
                       ~~~~~
-                      Duplicate parameter names are not allowed in function signatures.
+                      This parameter overrides the previous parameter of the same name.
 `,
 		},
 		{
@@ -50,7 +50,7 @@ const func = function (value, value) {
 			snapshot: `
 const func = function (value, value) {
                               ~~~~~
-                              Duplicate parameter names are not allowed in function signatures.
+                              This parameter overrides the previous parameter of the same name.
     return value;
 };
 `,
@@ -67,7 +67,7 @@ class Example {
 class Example {
     method(value, value) {
                   ~~~~~
-                  Duplicate parameter names are not allowed in function signatures.
+                  This parameter overrides the previous parameter of the same name.
         return value;
     }
 }
@@ -85,7 +85,7 @@ class Example {
 class Example {
     constructor(value, value) {
                        ~~~~~
-                       Duplicate parameter names are not allowed in function signatures.
+                       This parameter overrides the previous parameter of the same name.
         this.value = value;
     }
 }
@@ -100,7 +100,7 @@ function test(first, second, third, second) {
 			snapshot: `
 function test(first, second, third, second) {
                                     ~~~~~~
-                                    Duplicate parameter names are not allowed in function signatures.
+                                    This parameter overrides the previous parameter of the same name.
     return first + second + third;
 }
 `,
@@ -114,9 +114,9 @@ function test(value, value, value) {
 			snapshot: `
 function test(value, value, value) {
                      ~~~~~
-                     Duplicate parameter names are not allowed in function signatures.
+                     This parameter overrides the previous parameter of the same name.
                             ~~~~~
-                            Duplicate parameter names are not allowed in function signatures.
+                            This parameter overrides the previous parameter of the same name.
     return value;
 }
 `,
