@@ -9,6 +9,7 @@ import constantAssignments from "./rules/constantAssignments.js";
 import constructorReturns from "./rules/constructorReturns.js";
 import debuggerStatements from "./rules/debuggerStatements.js";
 import defaultCaseLast from "./rules/defaultCaseLast.js";
+import duplicateArguments from "./rules/duplicateArguments.js";
 import emptyDestructures from "./rules/emptyDestructures.js";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
@@ -46,6 +47,7 @@ export const ts = createPlugin({
 		constructorReturns,
 		debuggerStatements,
 		defaultCaseLast,
+		duplicateArguments,
 		emptyDestructures,
 		emptyStaticBlocks,
 		exceptionAssignments,

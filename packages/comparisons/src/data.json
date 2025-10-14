@@ -5939,6 +5939,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "duplicateArguments",
 			"plugin": "ts",
 			"preset": "Untyped"
