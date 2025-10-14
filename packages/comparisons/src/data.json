@@ -13805,6 +13805,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "undefinedVariables",
 			"plugin": "ts",
 			"preset": "Untyped"
