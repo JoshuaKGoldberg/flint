@@ -17,6 +17,7 @@ import forInArrays from "./rules/forInArrays.js";
 import functionAssignments from "./rules/functionAssignments.js";
 import generatorFunctionYields from "./rules/generatorFunctionYields.js";
 import globalAssignments from "./rules/globalAssignments.js";
+import globalObjectCalls from "./rules/globalObjectCalls.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import negativeZeroComparisons from "./rules/negativeZeroComparisons.js";
 import newExpressions from "./rules/newExpressions.js";
@@ -57,6 +58,7 @@ export const ts = createPlugin({
 		functionAssignments,
 		generatorFunctionYields,
 		globalAssignments,
+		globalObjectCalls,
 		namespaceDeclarations,
 		negativeZeroComparisons,
 		newExpressions,
