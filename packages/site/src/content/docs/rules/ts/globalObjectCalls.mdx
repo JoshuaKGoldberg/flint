@@ -50,15 +50,15 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-This rule should generally always be enabled, as calling these global objects as functions will always result in a runtime error.
-You might only disable it if you're intentionally redefining these names in your code (though this is not recommended).
+If your codebase redefines these objects, you likely will not want to enable this rule.
+Otherwise this rule should generally always be enabled, as calling these global objects as functions will always result in a runtime error.
 
 ## Further Reading
 
-- [MDN: Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
-- [MDN: JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON)
-- [MDN: Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect)
 - [MDN: Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics)
+- [MDN: JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON)
+- [MDN: Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
+- [MDN: Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect)
 
 ## Equivalents in Other Linters
 

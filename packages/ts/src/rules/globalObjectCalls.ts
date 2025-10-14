@@ -1,8 +1,9 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
 
-const GLOBAL_OBJECTS = new Set(["Atomics", "JSON", "Math", "Reflect"]);
+const globalObjects = new Set(["Atomics", "JSON", "Math", "Reflect"]);
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -29,19 +30,14 @@ export default typescriptLanguage.createRule({
 			name: string,
 		): void {
 			context.report({
-				data: {
-					name,
-				},
+				data: { name },
 				message: "noGlobalObjectCall",
-				range: {
-					begin: expression.getStart(context.sourceFile),
-					end: expression.getEnd(),
-				},
+				range: getTSNodeRange(expression, context.sourceFile),
 			});
 		}
 
 		function checkNode({ expression }: ts.CallExpression | ts.NewExpression) {
-			if (ts.isIdentifier(expression) && GLOBAL_OBJECTS.has(expression.text)) {
+			if (ts.isIdentifier(expression) && globalObjects.has(expression.text)) {
 				reportGlobalObjectCall(expression, expression.text);
 			}
 		}
