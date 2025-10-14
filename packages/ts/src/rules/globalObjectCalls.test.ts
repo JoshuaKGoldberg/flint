@@ -10,7 +10,7 @@ const result = Math();
 			snapshot: `
 const result = Math();
                ~~~~
-               Math is not a function and should not be called directly.
+               Math is not a function and cannot be called directly.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ const data = JSON();
 			snapshot: `
 const data = JSON();
              ~~~~
-             JSON is not a function and should not be called directly.
+             JSON is not a function and cannot be called directly.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ const reflected = Reflect();
 			snapshot: `
 const reflected = Reflect();
                   ~~~~~~~
-                  Reflect is not a function and should not be called directly.
+                  Reflect is not a function and cannot be called directly.
 `,
 		},
 		{
@@ -40,7 +40,7 @@ const atomic = Atomics();
 			snapshot: `
 const atomic = Atomics();
                ~~~~~~~
-               Atomics is not a function and should not be called directly.
+               Atomics is not a function and cannot be called directly.
 `,
 		},
 		{
@@ -50,7 +50,7 @@ const instance = new Math();
 			snapshot: `
 const instance = new Math();
                      ~~~~
-                     Math is not a function and should not be called directly.
+                     Math is not a function and cannot be called directly.
 `,
 		},
 		{
@@ -60,7 +60,7 @@ const instance = new JSON();
 			snapshot: `
 const instance = new JSON();
                      ~~~~
-                     JSON is not a function and should not be called directly.
+                     JSON is not a function and cannot be called directly.
 `,
 		},
 		{
@@ -70,7 +70,7 @@ const instance = new Reflect();
 			snapshot: `
 const instance = new Reflect();
                      ~~~~~~~
-                     Reflect is not a function and should not be called directly.
+                     Reflect is not a function and cannot be called directly.
 `,
 		},
 		{
@@ -80,7 +80,7 @@ const instance = new Atomics();
 			snapshot: `
 const instance = new Atomics();
                      ~~~~~~~
-                     Atomics is not a function and should not be called directly.
+                     Atomics is not a function and cannot be called directly.
 `,
 		},
 	],

@@ -7,14 +7,13 @@ const GLOBAL_OBJECTS = new Set(["Atomics", "JSON", "Math", "Reflect"]);
 export default typescriptLanguage.createRule({
 	about: {
 		description:
-			"Reports calling global objects like Math, JSON, Reflect, or Atomics as functions.",
+			"Reports calling global objects like Math, JSON, or Reflect as functions.",
 		id: "globalObjectCalls",
 		preset: "untyped",
 	},
 	messages: {
 		noGlobalObjectCall: {
-			primary:
-				"{{ name }} is not a function and should not be called directly.",
+			primary: "{{ name }} is not a function and cannot be called directly.",
 			secondary: [
 				"{{ name }} is a built-in global object that provides utility methods and properties.",
 				"It is not a constructor or function and cannot be called or instantiated.",
@@ -41,7 +40,7 @@ export default typescriptLanguage.createRule({
 			});
 		}
 
-		function checkExpression(expression: ts.Expression): void {
+		function checkNode({ expression }: ts.CallExpression | ts.NewExpression) {
 			if (ts.isIdentifier(expression) && GLOBAL_OBJECTS.has(expression.text)) {
 				reportGlobalObjectCall(expression, expression.text);
 			}
@@ -49,12 +48,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression: (node) => {
-					checkExpression(node.expression);
-				},
-				NewExpression: (node) => {
-					checkExpression(node.expression);
-				},
+				CallExpression: checkNode,
+				NewExpression: checkNode,
 			},
 		};
 	},
