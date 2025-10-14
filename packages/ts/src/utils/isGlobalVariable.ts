@@ -6,8 +6,7 @@ import { declarationsIncludeGlobal } from "./declarationsIncludeGlobal.js";
  * Checks if a node is a reference to a global variable (e.g., Object, undefined, NaN).
  * Global variables are those declared in TypeScript's lib files or are global identifiers
  * like undefined which have symbols but no user-defined declarations.
- * TODO: Use a scope manager.
- * https://github.com/JoshuaKGoldberg/flint/issues/400
+ * TODO: Use a scope manager (#400).
  */
 export function isGlobalVariable(
 	node: ts.Expression,
