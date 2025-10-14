@@ -12,6 +12,7 @@ import emptyDestructures from "./rules/emptyDestructures.js";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
 import forInArrays from "./rules/forInArrays.js";
+import functionAssignments from "./rules/functionAssignments.js";
 import generatorFunctionYields from "./rules/generatorFunctionYields.js";
 import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import negativeZeroComparisons from "./rules/negativeZeroComparisons.js";
@@ -45,6 +46,7 @@ export const ts = createPlugin({
 		emptyStaticBlocks,
 		exceptionAssignments,
 		forInArrays,
+		functionAssignments,
 		generatorFunctionYields,
 		namespaceDeclarations,
 		negativeZeroComparisons,
