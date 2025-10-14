@@ -12,14 +12,14 @@ export default typescriptLanguage.createRule({
 	messages: {
 		emptyPattern: {
 			primary:
-				"Destructuring patterns should extract at least one value from the source.",
+				"Destructuring patterns that don't extract at least one value are unnecessary.",
 			secondary: [
 				"Empty destructuring patterns like `{}` or `[]` don't extract any values and serve no practical purpose.",
 				"These patterns are likely mistakes or leftover code from refactoring.",
 			],
 			suggestions: [
 				"Remove the empty destructuring pattern if it's not needed.",
-				"Add bindings to extract values if you intended to destructure specific properties or elements.",
+				"Add bindings to extract values if you intended to destructure specific properties.",
 			],
 		},
 	},

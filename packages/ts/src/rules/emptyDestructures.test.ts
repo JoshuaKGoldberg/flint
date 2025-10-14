@@ -10,7 +10,7 @@ const {} = object;
 			snapshot: `
 const {} = object;
       ~~
-      Destructuring patterns should extract at least one value from the source.
+      Destructuring patterns that don't extract at least one value are unnecessary.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ const [] = array;
 			snapshot: `
 const [] = array;
       ~~
-      Destructuring patterns should extract at least one value from the source.
+      Destructuring patterns that don't extract at least one value are unnecessary.
 `,
 		},
 		{
@@ -32,7 +32,7 @@ function process({}) {
 			snapshot: `
 function process({}) {
                  ~~
-                 Destructuring patterns should extract at least one value from the source.
+                 Destructuring patterns that don't extract at least one value are unnecessary.
     console.log("processed");
 }
 `,
@@ -46,7 +46,7 @@ function process([]) {
 			snapshot: `
 function process([]) {
                  ~~
-                 Destructuring patterns should extract at least one value from the source.
+                 Destructuring patterns that don't extract at least one value are unnecessary.
     console.log("processed");
 }
 `,
@@ -60,7 +60,7 @@ const process = ({}) => {
 			snapshot: `
 const process = ({}) => {
                  ~~
-                 Destructuring patterns should extract at least one value from the source.
+                 Destructuring patterns that don't extract at least one value are unnecessary.
     console.log("processed");
 };
 `,
@@ -74,7 +74,7 @@ const process = ([]) => {
 			snapshot: `
 const process = ([]) => {
                  ~~
-                 Destructuring patterns should extract at least one value from the source.
+                 Destructuring patterns that don't extract at least one value are unnecessary.
     console.log("processed");
 };
 `,
@@ -86,7 +86,7 @@ const { prop: {} } = object;
 			snapshot: `
 const { prop: {} } = object;
               ~~
-              Destructuring patterns should extract at least one value from the source.
+              Destructuring patterns that don't extract at least one value are unnecessary.
 `,
 		},
 		{
@@ -96,7 +96,7 @@ const { prop: [] } = object;
 			snapshot: `
 const { prop: [] } = object;
               ~~
-              Destructuring patterns should extract at least one value from the source.
+              Destructuring patterns that don't extract at least one value are unnecessary.
 `,
 		},
 		{
@@ -108,7 +108,7 @@ for (const {} of objects) {
 			snapshot: `
 for (const {} of objects) {
            ~~
-           Destructuring patterns should extract at least one value from the source.
+           Destructuring patterns that don't extract at least one value are unnecessary.
     console.log("iterating");
 }
 `,
@@ -122,7 +122,7 @@ for (const [] of arrays) {
 			snapshot: `
 for (const [] of arrays) {
            ~~
-           Destructuring patterns should extract at least one value from the source.
+           Destructuring patterns that don't extract at least one value are unnecessary.
     console.log("iterating");
 }
 `,
@@ -140,7 +140,7 @@ try {
     doSomething();
 } catch ({}) {
          ~~
-         Destructuring patterns should extract at least one value from the source.
+         Destructuring patterns that don't extract at least one value are unnecessary.
     console.log("error");
 }
 `,
@@ -158,7 +158,7 @@ try {
     doSomething();
 } catch ([]) {
          ~~
-         Destructuring patterns should extract at least one value from the source.
+         Destructuring patterns that don't extract at least one value are unnecessary.
     console.log("error");
 }
 `,

@@ -1,5 +1,4 @@
 {
-	"allowCompoundWords": true,
 	"dictionaries": ["npm", "node", "typescript"],
 	"ignorePaths": [
 		".all-contributorsrc",
