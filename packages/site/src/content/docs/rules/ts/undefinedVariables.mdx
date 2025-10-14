@@ -9,7 +9,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="ts" rule="undefinedVariables" />
 
-Variables must be declared before they can be used in JavaScript and TypeScript.
+Variables must be declared before they can be used in JavaScript.
 Using undefined variables will cause a ReferenceError at runtime.
 This rule helps catch typos and missing declarations early in development.
 
@@ -55,7 +55,6 @@ This rule is not configurable.
 ## When Not To Use It
 
 This rule can be safely disabled if you're using TypeScript's type checking, which will catch undefined variables through its own error reporting.
-However, keeping this rule enabled provides an additional layer of validation and can be useful in configurations where type checking might be less strict.
 
 ## Further Reading
 
