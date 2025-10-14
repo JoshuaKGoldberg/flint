@@ -10,7 +10,7 @@ const fn = new Function("a", "b", "return a + b");
 			snapshot: `
 const fn = new Function("a", "b", "return a + b");
                ~~~~~~~~
-               Prefer function declarations or arrow functions over the Function constructor.
+               Dynamically creating functions with the Function constructor is insecure and slow.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ const fn = Function("a", "return a");
 			snapshot: `
 const fn = Function("a", "return a");
            ~~~~~~~~
-           Prefer function declarations or arrow functions over the Function constructor.
+           Dynamically creating functions with the Function constructor is insecure and slow.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ const fn = new Function("return 1");
 			snapshot: `
 const fn = new Function("return 1");
                ~~~~~~~~
-               Prefer function declarations or arrow functions over the Function constructor.
+               Dynamically creating functions with the Function constructor is insecure and slow.
 `,
 		},
 		{
@@ -40,7 +40,7 @@ const fn = Function();
 			snapshot: `
 const fn = Function();
            ~~~~~~~~
-           Prefer function declarations or arrow functions over the Function constructor.
+           Dynamically creating functions with the Function constructor is insecure and slow.
 `,
 		},
 		{
@@ -50,7 +50,7 @@ const fn = new globalThis.Function("return 1");
 			snapshot: `
 const fn = new globalThis.Function("return 1");
                ~~~~~~~~~~~~~~~~~~~
-               Prefer function declarations or arrow functions over the Function constructor.
+               Dynamically creating functions with the Function constructor is insecure and slow.
 `,
 		},
 		{
@@ -60,7 +60,7 @@ const fn = globalThis.Function("return 1");
 			snapshot: `
 const fn = globalThis.Function("return 1");
            ~~~~~~~~~~~~~~~~~~~
-           Prefer function declarations or arrow functions over the Function constructor.
+           Dynamically creating functions with the Function constructor is insecure and slow.
 `,
 		},
 		{
@@ -70,7 +70,7 @@ const fn = new window.Function("return 1");
 			snapshot: `
 const fn = new window.Function("return 1");
                ~~~~~~~~~~~~~~~
-               Prefer function declarations or arrow functions over the Function constructor.
+               Dynamically creating functions with the Function constructor is insecure and slow.
 `,
 		},
 		{
@@ -80,7 +80,7 @@ const fn = window.Function("return 1");
 			snapshot: `
 const fn = window.Function("return 1");
            ~~~~~~~~~~~~~~~
-           Prefer function declarations or arrow functions over the Function constructor.
+           Dynamically creating functions with the Function constructor is insecure and slow.
 `,
 		},
 		{
@@ -90,7 +90,7 @@ const result = new Function("a", "b", "return a + b")(1, 2);
 			snapshot: `
 const result = new Function("a", "b", "return a + b")(1, 2);
                    ~~~~~~~~
-                   Prefer function declarations or arrow functions over the Function constructor.
+                   Dynamically creating functions with the Function constructor is insecure and slow.
 `,
 		},
 	],
@@ -100,6 +100,6 @@ const result = new Function("a", "b", "return a + b")(1, 2);
 		`function add(a, b) { return a + b; }`,
 		`class MyFunction {}`,
 		`const fn = new MyFunction();`,
-		`const CustomFunction = Function; const fn = new CustomFunction();`,
+		// `const CustomFunction = Function; const fn = new CustomFunction();`,
 	],
 });

@@ -2,6 +2,7 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
+import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -13,7 +14,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		noFunctionConstructor: {
 			primary:
-				"Prefer function declarations or arrow functions over the Function constructor.",
+				"Dynamically creating functions with the Function constructor is insecure and slow.",
 			secondary: [
 				"Using the `Function` constructor to create functions from strings is similar to `eval()` and introduces security risks and performance issues.",
 				"Code passed to the Function constructor is executed in the global scope, making it harder to optimize and potentially allowing arbitrary code execution if user input is involved.",
@@ -25,24 +26,33 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function isFunctionConstructor(
-			node: ts.CallExpression | ts.NewExpression,
-		): boolean {
-			const expression = node.expression;
-
-			// Check for direct `Function` identifier
-			if (ts.isIdentifier(expression) && expression.text === "Function") {
-				return true;
+		function checkNode(node: ts.CallExpression | ts.NewExpression) {
+			if (isFunctionConstructor(node)) {
+				context.report({
+					message: "noFunctionConstructor",
+					range: getTSNodeRange(node.expression, context.sourceFile),
+				});
 			}
+		}
 
-			// Check for `globalThis.Function` or `window.Function`
-			if (ts.isPropertyAccessExpression(expression)) {
-				const propertyName = expression.name.text;
+		function isFunctionConstructor(node: ts.CallExpression | ts.NewExpression) {
+			if (ts.isIdentifier(node.expression)) {
+				if (
+					node.expression.text === "Function" &&
+					isGlobalDeclaration(node.expression, context.typeChecker)
+				) {
+					return true;
+				}
+			} else if (
+				ts.isPropertyAccessExpression(node.expression) &&
+				isGlobalDeclaration(node.expression, context.typeChecker)
+			) {
+				const propertyName = node.expression.name.text;
 				if (propertyName !== "Function") {
 					return false;
 				}
 
-				const object = expression.expression;
+				const object = node.expression.expression;
 				if (ts.isIdentifier(object)) {
 					return object.text === "globalThis" || object.text === "window";
 				}
@@ -53,22 +63,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression: (node) => {
-					if (isFunctionConstructor(node)) {
-						context.report({
-							message: "noFunctionConstructor",
-							range: getTSNodeRange(node.expression, context.sourceFile),
-						});
-					}
-				},
-				NewExpression: (node) => {
-					if (isFunctionConstructor(node)) {
-						context.report({
-							message: "noFunctionConstructor",
-							range: getTSNodeRange(node.expression, context.sourceFile),
-						});
-					}
-				},
+				CallExpression: checkNode,
+				NewExpression: checkNode,
 			},
 		};
 	},
