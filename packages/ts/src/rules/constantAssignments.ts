@@ -25,18 +25,15 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function collectBindingElements(name: ts.BindingName): ts.Identifier[] {
+			if (ts.isIdentifier(name)) {
+				return [name];
+			}
+
 			const identifiers: ts.Identifier[] = [];
 
-			if (ts.isIdentifier(name)) {
-				identifiers.push(name);
-			} else if (
-				ts.isObjectBindingPattern(name) ||
-				ts.isArrayBindingPattern(name)
-			) {
-				for (const element of name.elements) {
-					if (ts.isBindingElement(element)) {
-						identifiers.push(...collectBindingElements(element.name));
-					}
+			for (const element of name.elements) {
+				if (ts.isBindingElement(element)) {
+					identifiers.push(...collectBindingElements(element.name));
 				}
 			}
 
