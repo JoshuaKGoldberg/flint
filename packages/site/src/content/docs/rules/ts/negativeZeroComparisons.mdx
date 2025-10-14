@@ -1,0 +1,85 @@
+---
+description: "Reports comparisons with -0 that may not behave as expected."
+title: "negativeZeroComparisons"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="negativeZeroComparisons" />
+
+In JavaScript, `-0` and `+0` are distinct values, but standard comparison operators (`===`, `==`, `!==`, `!=`, `<`, `<=`, `>`, `>=`) treat them as equal.
+This can lead to unexpected behavior when you need to distinguish between these values.
+
+The `Object.is()` method correctly distinguishes between `-0` and `+0`, making it the reliable choice when checking for negative zero.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function checkValue(value: number) {
+	if (value === -0) {
+		return "negative zero";
+	}
+	return "other";
+}
+
+// Also incorrect with other operators
+if (value == -0) {
+}
+if (value !== -0) {
+}
+if (value < -0) {
+}
+if (value >= -0) {
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function checkValue(value: number) {
+	if (Object.is(value, -0)) {
+		return "negative zero";
+	}
+	return "other";
+}
+
+// Regular zero comparisons are fine
+if (value === 0) {
+}
+
+// Negative one and other numbers are fine
+if (value === -1) {
+}
+
+// Using -0 in non-comparison contexts is fine
+const negativeZero = -0;
+const result = -0 + 1;
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you never need to distinguish between `-0` and `+0` in your codebase, you might choose to disable this rule.
+However, keeping it enabled helps prevent subtle bugs where the distinction matters, such as when working with mathematical calculations that produce negative zero (e.g., `-1 / Infinity` results in `-0`).
+
+## Further Reading
+
+- [MDN: Object.is()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is)
+- [MDN: Equality comparisons and sameness](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness)
+- [MDN: Signed zero](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/0#description)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="negativeZeroComparisons" />
