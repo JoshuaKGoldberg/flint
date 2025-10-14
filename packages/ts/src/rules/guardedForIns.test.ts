@@ -12,7 +12,7 @@ for (const key in object) {
 			snapshot: `
 for (const key in object) {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-For-in loops should be guarded with a filtering condition to avoid iterating over inherited properties.
+This for loop lacks a filtering condition to avoid iterating over inherited properties.
     console.log(key);
 }
 `,
@@ -26,7 +26,7 @@ for (const prop in data) {
 			snapshot: `
 for (const prop in data) {
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-For-in loops should be guarded with a filtering condition to avoid iterating over inherited properties.
+This for loop lacks a filtering condition to avoid iterating over inherited properties.
     process(prop);
 }
 `,
@@ -41,7 +41,7 @@ for (const key in object) {
 			snapshot: `
 for (const key in object) {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-For-in loops should be guarded with a filtering condition to avoid iterating over inherited properties.
+This for loop lacks a filtering condition to avoid iterating over inherited properties.
     const value = object[key];
     doSomething(value);
 }
@@ -54,7 +54,7 @@ for (const key in object) {}
 			snapshot: `
 for (const key in object) {}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-For-in loops should be guarded with a filtering condition to avoid iterating over inherited properties.
+This for loop lacks a filtering condition to avoid iterating over inherited properties.
 `,
 		},
 	],

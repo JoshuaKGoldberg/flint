@@ -7,12 +7,11 @@ export default typescriptLanguage.createRule({
 		description:
 			"Reports for-in loops that iterate over objects without a filtering condition.",
 		id: "guardedForIns",
-		preset: "untyped",
 	},
 	messages: {
 		guardForIn: {
 			primary:
-				"For-in loops should be guarded with a filtering condition to avoid iterating over inherited properties.",
+				"This for loop lacks a filtering condition to avoid iterating over inherited properties.",
 			secondary: [
 				"A for-in loop iterates over all enumerable properties of an object, including those inherited from its prototype chain.",
 				"Without a filtering condition (such as `hasOwnProperty`), the loop may process properties you did not intend to include.",
@@ -31,12 +30,10 @@ export default typescriptLanguage.createRule({
 			}
 
 			if (ts.isBlock(statement)) {
-				if (statement.statements.length === 0) {
-					return false;
-				}
-
-				const firstStatement = statement.statements[0];
-				return ts.isIfStatement(firstStatement);
+				return (
+					!!statement.statements.length &&
+					ts.isIfStatement(statement.statements[0])
+				);
 			}
 
 			return false;
