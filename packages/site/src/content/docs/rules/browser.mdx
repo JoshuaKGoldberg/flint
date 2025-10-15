@@ -3,10 +3,13 @@ description: "Browser linting rules provided by Flint."
 title: "Browser Plugin"
 ---
 
+import { PackageManagers } from "starlight-package-managers";
+
 import { RulesTable } from "~/components/RulesTable.tsx";
 
 Flint's browser plugin includes rules targeted to code that runs in browsers and browser-like environments.
-It comes provided with the `flint` npm package.
+
+<PackageManagers type="install" pkg="@flint.fyi/plugin-browser" />
 
 ## Presets
 
@@ -22,7 +25,8 @@ Flint's browser plugin provides the following presets:
 If you are just getting started with linting, Flint recommends using the [`logical`](#logical) and [`stylistic`](#stylistic) presets:
 
 ```ts title="flint.config.ts"
-import { browser, defineConfig, ts } from "flint";
+import { browser } from "@flint.fyi/browser";
+import { defineConfig, ts } from "flint";
 
 export default defineConfig({
 	use: [
@@ -37,7 +41,8 @@ export default defineConfig({
 If you are experienced with both JavaScript/TypeScript and linting, Flint recommends using the [`logicalStrict`](#logicalstrict) and [`stylisticStrict`](#stylisticstrict) presets:
 
 ```ts title="flint.config.ts"
-import { browser, defineConfig, ts } from "flint";
+import { browser } from "@flint.fyi/browser";
+import { defineConfig, ts } from "flint";
 
 export default defineConfig({
 	use: [
@@ -58,7 +63,8 @@ Coming soon: more expansive documentation on choosing and combining plugins & pr
 Rules that find bugs and enforce good browser and DOM practices for most-to-all JavaScript and TypeScript files.
 
 ```ts title="flint.config.ts"
-import { browser, defineConfig, ts } from "flint";
+import { browser } from "@flint.fyi/browser";
+import { defineConfig, ts } from "flint";
 
 export default defineConfig({
 	use: [
@@ -76,7 +82,8 @@ Additional logical rules that enforce best practices which are not always straig
 These rules are recommended for projects where a majority of developers are experienced with both JavaScript/TypeScript and using a linter.
 
 ```ts title="flint.config.ts"
-import { browser, defineConfig, ts } from "flint";
+import { browser } from "@flint.fyi/browser";
+import { defineConfig, ts } from "flint";
 
 export default defineConfig({
 	use: [
@@ -95,7 +102,8 @@ This preset's rules are a superset of those in [`logical`](#logical).
 Rules that enforce consistent styling and best stylistic practices for most-to-all JavaScript and TypeScript files dealing with browser APIs.
 
 ```ts title="flint.config.ts"
-import { browser, defineConfig, ts } from "flint";
+import { browser } from "@flint.fyi/browser";
+import { defineConfig, ts } from "flint";
 
 export default defineConfig({
 	use: [
@@ -113,7 +121,8 @@ Additional stylistic rules that enforce best practices which are not always stra
 These rules are recommended for projects where a majority of developers are experienced with both JavaScript/TypeScript and using a linter.
 
 ```ts title="flint.config.ts"
-import { browser, defineConfig, ts } from "flint";
+import { browser } from "@flint.fyi/browser";
+import { defineConfig, ts } from "flint";
 
 export default defineConfig({
 	use: [
