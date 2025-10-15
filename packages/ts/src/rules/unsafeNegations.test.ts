@@ -15,10 +15,10 @@ This negation applies before the \`in\` operator.
 		},
 		{
 			code: `
-!obj instanceof Constructor;
+!object instanceof Constructor;
 `,
 			snapshot: `
-!obj instanceof Constructor;
+!object instanceof Constructor;
 ~
 This negation applies before the \`instanceof\` operator.
 `,
@@ -35,10 +35,10 @@ This negation applies before the \`instanceof\` operator.
 		},
 		{
 			code: `
-(!obj) instanceof Constructor;
+(!object) instanceof Constructor;
 `,
 			snapshot: `
-(!obj) instanceof Constructor;
+(!object) instanceof Constructor;
  ~
  This negation applies before the \`instanceof\` operator.
 `,
@@ -56,9 +56,9 @@ const exists = !key in object;
 	],
 	valid: [
 		`!(key in object);`,
-		`!(obj instanceof Constructor);`,
+		`!(object instanceof Constructor);`,
 		`key in object;`,
-		`obj instanceof Constructor;`,
+		`object instanceof Constructor;`,
 		`!flag && key in object;`,
 	],
 });
