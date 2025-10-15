@@ -32,6 +32,7 @@ import unassignedVariables from "./rules/unassignedVariables.js";
 import undefinedVariables from "./rules/undefinedVariables.js";
 import unicodeBOMs from "./rules/unicodeBOMs.js";
 import unnecessaryCatches from "./rules/unnecessaryCatches.js";
+import unsafeNegations from "./rules/unsafeNegations.js";
 import variableDeletions from "./rules/variableDeletions.js";
 import voidOperator from "./rules/voidOperator.js";
 
@@ -73,6 +74,7 @@ export const ts = createPlugin({
 		undefinedVariables,
 		unicodeBOMs,
 		unnecessaryCatches,
+		unsafeNegations,
 		variableDeletions,
 		voidOperator,
 	],
