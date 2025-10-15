@@ -40,14 +40,9 @@ export default defineConfig({
 						items: [
 							{
 								items: [
-									{ label: "Browser", link: "/rules/browser" },
 									{ label: "JSON", link: "/rules/json" },
-									{ label: "JSX", link: "/rules/jsx" },
 									{ label: "Markdown", link: "/rules/md" },
-									{ label: "Node", link: "/rules/node" },
 									{ label: "PackageJSON", link: "/rules/package-json" },
-									{ label: "Performance", link: "/rules/performance" },
-									{ label: "Sorting", link: "/rules/sorting" },
 									{ label: "TypeScript", link: "/rules/ts" },
 									{ label: "YML", link: "/rules/yml" },
 								],
@@ -55,8 +50,13 @@ export default defineConfig({
 							},
 							{
 								items: [
+									{ label: "Browser", link: "/rules/browser" },
 									{ label: "CSpell", link: "/rules/cspell" },
 									{ label: "Flint", link: "/rules/flint" },
+									{ label: "JSX", link: "/rules/jsx" },
+									{ label: "Node", link: "/rules/node" },
+									{ label: "Performance", link: "/rules/performance" },
+									{ label: "Sorting", link: "/rules/sorting" },
 								],
 								label: "More Plugins",
 							},
