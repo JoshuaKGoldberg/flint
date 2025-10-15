@@ -14671,6 +14671,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unsafeNegations",
 			"plugin": "ts",
 			"preset": "Untyped"
