@@ -11,6 +11,7 @@
 		{ "path": "./packages/flint" },
 		{ "path": "./packages/json" },
 		{ "path": "./packages/md" },
+		{ "path": "./packages/plugin-browser" },
 		{ "path": "./packages/plugin-cspell" },
 		{ "path": "./packages/plugin-flint" },
 		{ "path": "./packages/text" },
