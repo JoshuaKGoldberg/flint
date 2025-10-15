@@ -36,7 +36,7 @@ export default defineConfig({
 					},
 					{
 						icon: "list-format",
-						id: "plugins",
+						id: "rules",
 						items: [
 							{
 								items: [

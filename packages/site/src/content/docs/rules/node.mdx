@@ -69,6 +69,43 @@ export default defineConfig({
 });
 ```
 
+### `stylistic`
+
+Rules that enforce consistent styling and best stylistic practices for most-to-all JavaScript and TypeScript files dealing with Node.js APIs.
+
+```ts title="flint.config.ts"
+import { defineConfig, node, ts } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: ts.files.all,
+			rules: node.presets.stylistic,
+		},
+	],
+});
+```
+
+### `stylisticStrict`
+
+Additional stylistic rules that enforce best practices which are not always straightforward to implement.
+These rules are recommended for projects where a majority of developers are experienced with both Node.js and using a linter.
+
+```ts title="flint.config.ts"
+import { defineConfig, node, ts } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: ts.files.all,
+			rules: node.presets.stylisticStrict,
+		},
+	],
+});
+```
+
+This preset's rules are a superset of those in [`stylistic`](#stylistic).
+
 ## Rules
 
 <RulesTable implementing plugin="node" />
