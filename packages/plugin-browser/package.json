@@ -1,11 +1,11 @@
 {
-	"name": "@flint.fyi/browser",
+	"name": "@flint.fyi/plugin-browser",
 	"version": "0.0.2",
 	"description": "[Experimental] A Flint plugin for browser code.",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/JoshuaKGoldberg/flint",
-		"directory": "packages/browser"
+		"directory": "packages/plugin-browser"
 	},
 	"license": "MIT",
 	"author": {

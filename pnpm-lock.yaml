@@ -21,6 +21,9 @@ importers:
       '@eslint/js':
         specifier: 9.37.0
         version: 9.37.0
+      '@flint.fyi/plugin-browser':
+        specifier: 'workspace:'
+        version: link:packages/plugin-browser
       '@flint.fyi/plugin-cspell':
         specifier: 'workspace:'
         version: link:packages/plugin-cspell
@@ -236,6 +239,21 @@ importers:
         specifier: 3.0.3
         version: 3.0.3
 
+  packages/plugin-browser:
+    dependencies:
+      '@flint.fyi/core':
+        specifier: 'workspace:'
+        version: link:../core
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
+      '@flint.fyi/ts':
+        specifier: 'workspace:'
+        version: link:../ts
+      '@flint.fyi/utils':
+        specifier: 'workspace:'
+        version: link:../utils
+
   packages/plugin-cspell:
     dependencies:
       '@cspell/url':
@@ -298,6 +316,12 @@ importers:
       '@flint.fyi/comparisons':
         specifier: 'workspace:'
         version: link:../comparisons
+      '@flint.fyi/plugin-browser':
+        specifier: 'workspace:'
+        version: link:../plugin-browser
+      '@flint.fyi/plugin-cspell':
+        specifier: 'workspace:'
+        version: link:../plugin-cspell
       '@flint.fyi/plugin-flint':
         specifier: 'workspace:'
         version: link:../plugin-flint

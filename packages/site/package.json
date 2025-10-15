@@ -17,6 +17,8 @@
 		"@astrojs/react": "^4.3.1",
 		"@astrojs/starlight": "^0.36.0",
 		"@flint.fyi/comparisons": "workspace:",
+		"@flint.fyi/plugin-browser": "workspace:",
+		"@flint.fyi/plugin-cspell": "workspace:",
 		"@flint.fyi/plugin-flint": "workspace:",
 		"@konami-emoji-blast/astro": "^0.1.1",
 		"@types/node": "^24.3.0",
