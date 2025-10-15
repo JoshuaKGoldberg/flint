@@ -19,8 +19,6 @@ window.alert("...");
 `,
 			snapshot: `
 window.alert("...");
-
-window.alert("...");
        ~~~~~
        The global \`alert()\` API blocks the main thread and interrupts users.
 `,
@@ -31,8 +29,6 @@ globalThis.confirm("...");
 `,
 			snapshot: `
 globalThis.confirm("...");
-
-globalThis.confirm("...");
            ~~~~~~~
            The global \`confirm()\` API blocks the main thread and interrupts users.
 `,
@@ -42,8 +38,6 @@ globalThis.confirm("...");
 self.confirm("...");
 `,
 			snapshot: `
-self.confirm("...");
-
 self.confirm("...");
      ~~~~~~~
      The global \`confirm()\` API blocks the main thread and interrupts users.
