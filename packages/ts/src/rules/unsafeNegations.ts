@@ -3,6 +3,11 @@ import * as ts from "typescript";
 import { typescriptLanguage } from "../language.js";
 import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.js";
 
+const operatorStrings = new Map([
+	[ts.SyntaxKind.InKeyword, "in"],
+	[ts.SyntaxKind.InstanceOfKeyword, "instanceof"],
+]);
+
 export default typescriptLanguage.createRule({
 	about: {
 		description:
@@ -24,11 +29,8 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				BinaryExpression: (node) => {
-					const operatorKind = node.operatorToken.kind;
-					if (
-						operatorKind !== ts.SyntaxKind.InKeyword &&
-						operatorKind !== ts.SyntaxKind.InstanceOfKeyword
-					) {
+					const operator = operatorStrings.get(node.operatorToken.kind);
+					if (!operator) {
 						return;
 					}
 
@@ -43,12 +45,7 @@ export default typescriptLanguage.createRule({
 					const begin = left.getStart(context.sourceFile);
 
 					context.report({
-						data: {
-							operator:
-								node.operatorToken.kind === ts.SyntaxKind.InKeyword
-									? "in"
-									: "instanceof",
-						},
+						data: { operator },
 						message: "preferNegatingRelation",
 						range: {
 							begin,
