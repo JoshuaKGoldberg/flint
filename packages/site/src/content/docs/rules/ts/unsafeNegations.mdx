@@ -19,15 +19,12 @@ Use `!(left in right)` or `!(left instanceof Right)` to negate the relation as i
 <TabItem label="❌ Incorrect">
 
 ```ts
-// Negates the identifier, not the relation
 if ((!key) in object) {
 }
 
-// Negates the object expression, not the relation
-if ((!obj) instanceof Ctor) {
+if ((!object) instanceof Constructor) {
 }
 
-// Parentheses around the operand still negate only the operand
 if ((!key) in object) {
 }
 ```
@@ -39,13 +36,12 @@ if ((!key) in object) {
 if (!(key in object)) {
 }
 
-if (!(obj instanceof Ctor)) {
+if (!(object instanceof Constructor)) {
 }
 
-// Non-negated relations are fine
 if (key in object) {
 }
-if (obj instanceof Ctor) {
+if (object instanceof Constructor) {
 }
 ```
 
@@ -63,8 +59,8 @@ However, keeping it enabled prevents subtle precedence mistakes that change cont
 
 ## Further Reading
 
-- [MDN: in operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in)
-- [MDN: instanceof operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
+- [MDN: `in` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in)
+- [MDN: `instanceof` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
 - [MDN: Operator precedence](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_precedence)
 
 ## Equivalents in Other Linters
