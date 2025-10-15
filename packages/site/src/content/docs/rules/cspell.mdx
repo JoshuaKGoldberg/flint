@@ -1,9 +1,9 @@
 ---
 description: "CSpell linting rules provided by Flint."
-sidebar:
-  order: 0
 title: "About"
 ---
+
+import { RulesTable } from "~/components/RulesTable.tsx";
 
 import { PackageManagers } from "starlight-package-managers";
 
@@ -29,3 +29,7 @@ export default defineConfig({
 	],
 });
 ```
+
+## Rules
+
+<RulesTable implementing plugin="cspell" />

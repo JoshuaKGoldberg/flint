@@ -1,11 +1,11 @@
 ---
 description: "CSpell linting rules provided by Flint."
-sidebar:
-  order: 0
 title: "About"
 ---
 
 import { PackageManagers } from "starlight-package-managers";
+
+import { RulesTable } from "~/components/RulesTable.tsx";
 
 Flint provides a lint plugin for developing Flint plugins and rules.
 It generally runs on JavaScript and TypeScript files alongside rules from the [TypeScript plugin](/rules/ts/about).
@@ -30,3 +30,9 @@ export default defineConfig({
 	],
 });
 ```
+
+## Rules
+
+<RulesTable implementing plugin="flint" />
+
+More rules will be noted here pending [flint#343 📝 Documentation: Add comparisons for eslint-plugin-eslint-plugin](https://github.com/JoshuaKGoldberg/flint/issues/343).
