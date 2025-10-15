@@ -54,6 +54,7 @@ export default defineConfig({
 									{ label: "CSpell", link: "/rules/cspell" },
 									{ label: "JSX", link: "/rules/jsx" },
 									{ label: "Flint", link: "/rules/flint" },
+									{ label: "JSX", link: "/rules/jsx" },
 									{ label: "Node", link: "/rules/node" },
 									{ label: "Performance", link: "/rules/performance" },
 									{ label: "Sorting", link: "/rules/sorting" },

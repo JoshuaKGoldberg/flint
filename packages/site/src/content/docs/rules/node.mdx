@@ -3,10 +3,13 @@ description: "Node.js linting rules provided by Flint."
 title: "Node.js Plugin"
 ---
 
+import { PackageManagers } from "starlight-package-managers";
+
 import { RulesTable } from "~/components/RulesTable.tsx";
 
-Flint's node plugin includes rules targeted to code that runs in Node.js and Node.js-like environments.
-It comes provided with the `flint` npm package.
+Flint's Node.js plugin includes rules targeted to code that runs in Node.js and Node.js-like environments.
+
+<PackageManagers type="install" pkg="@flint.fyi/plugin-node" />
 
 ## Presets
 
@@ -21,7 +24,8 @@ Flint's Markdown plugin provides the following presets:
 If you are just getting started with linting, Flint recommends using the [`logical`](#logical) and [`stylistic`](#stylistic) presets:
 
 ```ts title="flint.config.ts"
-import { defineConfig, node, ts } from "flint";
+import { node } from "@flint.fyi/node";
+import { defineConfig, ts } from "flint";
 
 export default defineConfig({
 	use: [
@@ -36,7 +40,8 @@ export default defineConfig({
 If you are experienced with both Markdown and linting, Flint recommends additionally using the [`stylisticStrict`](#stylisticstrict) preset:
 
 ```ts title="flint.config.ts"
-import { defineConfig, node, ts } from "flint";
+import { node } from "@flint.fyi/node";
+import { defineConfig, ts } from "flint";
 
 export default defineConfig({
 	use: [
@@ -74,7 +79,8 @@ export default defineConfig({
 Rules that enforce consistent styling and best stylistic practices for most-to-all JavaScript and TypeScript files dealing with Node.js APIs.
 
 ```ts title="flint.config.ts"
-import { defineConfig, node, ts } from "flint";
+import { node } from "@flint.fyi/node";
+import { defineConfig, ts } from "flint";
 
 export default defineConfig({
 	use: [
@@ -92,7 +98,8 @@ Additional stylistic rules that enforce best practices which are not always stra
 These rules are recommended for projects where a majority of developers are experienced with both Node.js and using a linter.
 
 ```ts title="flint.config.ts"
-import { defineConfig, node, ts } from "flint";
+import { node } from "@flint.fyi/node";
+import { defineConfig, ts } from "flint";
 
 export default defineConfig({
 	use: [
