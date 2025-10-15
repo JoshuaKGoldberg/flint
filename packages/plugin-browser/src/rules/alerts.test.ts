@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 alert("...");
 `,
-			only: true,
 			snapshot: `
 alert("...");
 ~~~~~
