@@ -23,6 +23,7 @@
 		"@types/react": "^19.1.13",
 		"@types/react-dom": "^19.1.9",
 		"astro": "^5.13.2",
+		"clsx": "^2.1.1",
 		"flint": "workspace:",
 		"konami-emoji-blast": "^0.5.9",
 		"markdown-it": "^14.1.0",
