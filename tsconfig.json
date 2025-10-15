@@ -5,6 +5,7 @@
 	"extends": "./tsconfig.base.json",
 	"include": ["./*.ts"],
 	"references": [
+		{ "path": "./packages/browser" },
 		{ "path": "./packages/comparisons" },
 		{ "path": "./packages/core" },
 		{ "path": "./packages/cli" },

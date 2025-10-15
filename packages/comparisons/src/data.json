@@ -13,6 +13,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "alerts",
 			"plugin": "browser",
 			"preset": "Logical"
