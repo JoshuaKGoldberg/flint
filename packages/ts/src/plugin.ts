@@ -13,6 +13,7 @@ import duplicateArguments from "./rules/duplicateArguments.js";
 import emptyDestructures from "./rules/emptyDestructures.js";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
+import forDirections from "./rules/forDirections.js";
 import forInArrays from "./rules/forInArrays.js";
 import functionAssignments from "./rules/functionAssignments.js";
 import generatorFunctionYields from "./rules/generatorFunctionYields.js";
@@ -56,6 +57,7 @@ export const ts = createPlugin({
 		emptyDestructures,
 		emptyStaticBlocks,
 		exceptionAssignments,
+		forDirections,
 		forInArrays,
 		functionAssignments,
 		generatorFunctionYields,

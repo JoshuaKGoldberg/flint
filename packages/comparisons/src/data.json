@@ -6887,6 +6887,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "forDirections",
 			"plugin": "ts",
 			"preset": "Stylistic"
