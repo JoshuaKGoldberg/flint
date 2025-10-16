@@ -60,11 +60,13 @@ function getUpdateDirection(update: ts.Expression) {
 		ts.isPostfixUnaryExpression(update) ||
 		ts.isPrefixUnaryExpression(update)
 	) {
-		if (update.operator === ts.SyntaxKind.PlusPlusToken) {
-			return 1;
-		}
-		if (update.operator === ts.SyntaxKind.MinusMinusToken) {
-			return -1;
+		switch (update.operator) {
+			case ts.SyntaxKind.MinusMinusToken:
+				return -1;
+			case ts.SyntaxKind.PlusPlusToken:
+				return 1;
+			default:
+				return undefined;
 		}
 	}
 
