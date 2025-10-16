@@ -26,6 +26,7 @@ import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
 import returnAssignments from "./rules/returnAssignments.js";
+import selfAssignments from "./rules/selfAssignments.js";
 import sequences from "./rules/sequences.js";
 import sparseArrays from "./rules/sparseArrays.js";
 import symbolDescriptions from "./rules/symbolDescriptions.js";
@@ -69,6 +70,7 @@ export const ts = createPlugin({
 		octalEscapes,
 		octalNumbers,
 		returnAssignments,
+		selfAssignments,
 		sequences,
 		sparseArrays,
 		symbolDescriptions,
