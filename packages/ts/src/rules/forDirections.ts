@@ -3,10 +3,7 @@ import * as ts from "typescript";
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
 
-function getConditionDirection(
-	condition: ts.Expression,
-	counterName: string,
-): number | undefined {
+function getConditionDirection(condition: ts.Expression, counterName: string) {
 	if (!ts.isBinaryExpression(condition)) {
 		return undefined;
 	}
@@ -54,14 +51,11 @@ function getConditionDirection(
 	return undefined;
 }
 
-function getCounterName(node: ts.Expression): string | undefined {
-	if (ts.isIdentifier(node)) {
-		return node.text;
-	}
-	return undefined;
+function getCounterName(node: ts.Expression) {
+	return ts.isIdentifier(node) ? node.text : undefined;
 }
 
-function getUpdateDirection(update: ts.Expression): number | undefined {
+function getUpdateDirection(update: ts.Expression) {
 	if (
 		ts.isPostfixUnaryExpression(update) ||
 		ts.isPrefixUnaryExpression(update)
