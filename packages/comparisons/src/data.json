@@ -6434,9 +6434,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "equalityOperators",
 			"plugin": "ts",
-			"preset": "Logical"
+			"preset": "Stylistic"
 		},
 		"notes": "Default ESLint's \"smart\" to true",
 		"oxlint": [

@@ -12,6 +12,7 @@ import defaultCaseLast from "./rules/defaultCaseLast.js";
 import duplicateArguments from "./rules/duplicateArguments.js";
 import emptyDestructures from "./rules/emptyDestructures.js";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.js";
+import equalityOperators from "./rules/equalityOperators.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
 import forInArrays from "./rules/forInArrays.js";
 import functionAssignments from "./rules/functionAssignments.js";
@@ -55,6 +56,7 @@ export const ts = createPlugin({
 		duplicateArguments,
 		emptyDestructures,
 		emptyStaticBlocks,
+		equalityOperators,
 		exceptionAssignments,
 		forInArrays,
 		functionAssignments,

@@ -1,0 +1,90 @@
+---
+description: "Use === and !== instead of == and != for type-safe equality checks."
+title: "equalityOperators"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="equalityOperators" />
+
+The `==` and `!=` operators perform type coercion, which can lead to unexpected and confusing results.
+For example, `[] == false`, `[] == ![]`, and `3 == "03"` are all considered true due to JavaScript's Abstract Equality Comparison Algorithm.
+The type-safe equality operators `===` and `!==` should be used instead to avoid these issues.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+if (x == 42) {
+	console.log("equal");
+}
+```
+
+```ts
+if ("" == text) {
+	process(text);
+}
+```
+
+```ts
+if (obj.getStuff() != undefined) {
+	return obj.getStuff();
+}
+```
+
+```ts
+const result = value == null;
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+if (x === 42) {
+	console.log("equal");
+}
+```
+
+```ts
+if ("" === text) {
+	process(text);
+}
+```
+
+```ts
+if (obj.getStuff() !== undefined) {
+	return obj.getStuff();
+}
+```
+
+```ts
+const result = value === null;
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+This rule should generally always be enabled.
+However, if you have a specific need for type coercion in equality checks, you can disable this rule for those cases with inline comments.
+
+## Further Reading
+
+- [MDN: Equality comparisons and sameness](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness)
+- [MDN: Strict equality (===)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality)
+- [MDN: Strict inequality (!==)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_inequality)
+- [ECMAScript: Abstract Equality Comparison Algorithm](https://tc39.es/ecma262/#sec-abstract-equality-comparison)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="equalityOperators" />
