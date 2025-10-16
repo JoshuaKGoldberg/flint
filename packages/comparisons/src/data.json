@@ -732,14 +732,15 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "accessKeys",
 			"plugin": "jsx",
 			"preset": "Logical"
 		},
 		"oxlint": [
 			{
-				"name": "eslint/no-access-key",
-				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-access-key.html"
+				"name": "jsx-a11y/no-access-key",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/jsx_a11y/no-access-key.html"
 			}
 		]
 	},

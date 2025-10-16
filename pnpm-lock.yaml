@@ -30,6 +30,9 @@ importers:
       '@flint.fyi/plugin-flint':
         specifier: 'workspace:'
         version: link:packages/plugin-flint
+      '@flint.fyi/plugin-jsx':
+        specifier: 'workspace:'
+        version: link:packages/plugin-jsx
       '@types/eslint-plugin-markdown':
         specifier: 2.0.2
         version: 2.0.2
@@ -276,6 +279,21 @@ importers:
         version: 9.2.0
 
   packages/plugin-flint:
+    dependencies:
+      '@flint.fyi/core':
+        specifier: 'workspace:'
+        version: link:../core
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
+      '@flint.fyi/ts':
+        specifier: 'workspace:'
+        version: link:../ts
+      '@flint.fyi/utils':
+        specifier: 'workspace:'
+        version: link:../utils
+
+  packages/plugin-jsx:
     dependencies:
       '@flint.fyi/core':
         specifier: 'workspace:'

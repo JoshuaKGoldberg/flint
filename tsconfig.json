@@ -14,6 +14,7 @@
 		{ "path": "./packages/plugin-browser" },
 		{ "path": "./packages/plugin-cspell" },
 		{ "path": "./packages/plugin-flint" },
+		{ "path": "./packages/plugin-jsx" },
 		{ "path": "./packages/text" },
 		{ "path": "./packages/ts" },
 		{ "path": "./packages/yml" }

@@ -44,6 +44,7 @@
 		"@flint.fyi/plugin-browser": "workspace:",
 		"@flint.fyi/plugin-cspell": "workspace:",
 		"@flint.fyi/plugin-flint": "workspace:",
+		"@flint.fyi/plugin-jsx": "workspace:",
 		"@types/eslint-plugin-markdown": "2.0.2",
 		"@types/mdast": "4.0.4",
 		"@types/node": "24.7.0",
