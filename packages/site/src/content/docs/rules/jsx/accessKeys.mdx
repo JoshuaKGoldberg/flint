@@ -1,0 +1,51 @@
+---
+description: "Disallow the use of the `accessKey` / `accesskey` attribute on JSX elements."
+title: "accessKeys"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="jsx" rule="accessKeys" />
+
+The `accesskey` attribute historically provides keyboard shortcuts but is unreliable across browsers and can conflict with assistive technologies or built-in browser shortcuts.
+Prefer application-level, well-documented keyboard shortcuts and visible UI affordances instead of embedding `accesskey` in markup.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```jsx
+<button accessKey="h">Help</button>
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```jsx
+<button>Help</button>
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you're working on an internal legacy codebase that is targeted towards specific users, it might be difficult to switch from access key props towards a more comprehensive modern solution.
+However, whenever possible for production code and libraries, prefer more predictable and discoverable keyboard handling.
+
+## Further Reading
+
+- [WebAIM: The `accesskey` Attribute](https://webaim.org/techniques/keyboard/accesskey#spec)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="jsx" ruleId="accessKeys" />
