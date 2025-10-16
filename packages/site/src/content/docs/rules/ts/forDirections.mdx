@@ -1,5 +1,5 @@
 ---
-description: "The update moves the counter in the wrong direction for this loop condition."
+description: "Reports for loops with counter variables that move in the wrong direction."
 title: "forDirections"
 topic: "rules"
 ---
@@ -80,12 +80,12 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-This rule should always be enabled.
-A for loop counter moving in the wrong direction indicates a logic error that will cause infinite loops or loops that never execute.
+If your project uses control flow structures that create confusing side effects, such as dynamic getters that modify state, you might not be able to enable this rule.
+Consider refactoring to more predictable control flow structures.
 
 ## Further Reading
 
-- [MDN: for statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for)
+- [MDN: `for` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for)
 - [MDN: Loops and iteration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration)
 
 ## Equivalents in Other Linters

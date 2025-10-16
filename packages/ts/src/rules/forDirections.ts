@@ -130,37 +130,31 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				ForStatement: (node) => {
-					if (!node.initializer || !node.condition || !node.incrementor) {
+					if (
+						!node.condition ||
+						!node.incrementor ||
+						!node.initializer ||
+						!ts.isVariableDeclarationList(node.initializer)
+					) {
 						return;
 					}
 
-					if (!ts.isVariableDeclarationList(node.initializer)) {
+					const declaration = node.initializer.declarations.at(0);
+					if (!declaration || !ts.isIdentifier(declaration.name)) {
 						return;
 					}
 
-					const [declaration] = node.initializer.declarations;
-					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-					if (!declaration) {
-						return;
-					}
-
-					if (!ts.isIdentifier(declaration.name)) {
-						return;
-					}
-
-					const counterName = declaration.name.text;
 					const updateDirection = getUpdateDirection(node.incrementor);
+					if (!updateDirection) {
+						return;
+					}
+
 					const conditionDirection = getConditionDirection(
 						node.condition,
-						counterName,
+						declaration.name.text,
 					);
 
-					if (
-						updateDirection !== undefined &&
-						conditionDirection !== undefined &&
-						updateDirection !== 0 &&
-						updateDirection !== conditionDirection
-					) {
+					if (updateDirection !== conditionDirection) {
 						context.report({
 							message: "wrongDirection",
 							range: getTSNodeRange(node.incrementor, context.sourceFile),
