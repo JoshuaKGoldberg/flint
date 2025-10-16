@@ -13659,6 +13659,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "typeofComparisons",
 			"plugin": "ts",
 			"preset": "Untyped"

@@ -29,6 +29,7 @@ import returnAssignments from "./rules/returnAssignments.js";
 import sequences from "./rules/sequences.js";
 import sparseArrays from "./rules/sparseArrays.js";
 import symbolDescriptions from "./rules/symbolDescriptions.js";
+import typeofComparisons from "./rules/typeofComparisons.js";
 import unassignedVariables from "./rules/unassignedVariables.js";
 import undefinedVariables from "./rules/undefinedVariables.js";
 import unicodeBOMs from "./rules/unicodeBOMs.js";
@@ -72,6 +73,7 @@ export const ts = createPlugin({
 		sequences,
 		sparseArrays,
 		symbolDescriptions,
+		typeofComparisons,
 		unassignedVariables,
 		undefinedVariables,
 		unicodeBOMs,

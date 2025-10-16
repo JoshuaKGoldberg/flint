@@ -1,0 +1,91 @@
+---
+description: 'Invalid typeof comparison value. Expected one of: "bigint", "boolean", "function", "number", "object", "string", "symbol", "undefined".'
+title: "typeofComparisons"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="typeofComparisons" />
+
+The `typeof` operator in JavaScript returns one of a specific set of string values: `"undefined"`, `"object"`, `"boolean"`, `"number"`, `"string"`, `"function"`, `"symbol"`, or `"bigint"`.
+Comparing the result of `typeof` to any other string literal is usually a typo and the comparison will never be true.
+This rule enforces that `typeof` expressions are only compared to valid string literals.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+if (typeof value === "strnig") {
+	processString(value);
+}
+```
+
+```ts
+if (typeof callback !== "fucntion") {
+	throw new Error("Invalid callback");
+}
+```
+
+```ts
+if (typeof data == "undefimed") {
+	initialize();
+}
+```
+
+```ts
+if (typeof count === "nunber") {
+	calculate(count);
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+if (typeof value === "string") {
+	processString(value);
+}
+```
+
+```ts
+if (typeof callback !== "function") {
+	throw new Error("Invalid callback");
+}
+```
+
+```ts
+if (typeof data == "undefined") {
+	initialize();
+}
+```
+
+```ts
+if (typeof count === "number") {
+	calculate(count);
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+This rule should always be enabled, as comparing `typeof` to invalid strings indicates a typo or misunderstanding of how `typeof` works.
+
+## Further Reading
+
+- [MDN: typeof operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof)
+- [MDN: JavaScript data types](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="typeofComparisons" />
