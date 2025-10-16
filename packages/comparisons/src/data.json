@@ -5978,6 +5978,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "elseIfDuplicates",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -12602,6 +12603,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "sequences",
 			"plugin": "ts",
 			"preset": "Untyped"
