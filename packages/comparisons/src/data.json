@@ -10266,6 +10266,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "objectPrototypeBuiltIns",
 			"plugin": "ts",
 			"preset": "Logical"

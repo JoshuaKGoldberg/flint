@@ -23,6 +23,7 @@ import negativeZeroComparisons from "./rules/negativeZeroComparisons.js";
 import newExpressions from "./rules/newExpressions.js";
 import newNativeNonConstructors from "./rules/newNativeNonConstructors.js";
 import objectProto from "./rules/objectProto.js";
+import objectPrototypeBuiltIns from "./rules/objectPrototypeBuiltIns.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
 import returnAssignments from "./rules/returnAssignments.js";
@@ -66,6 +67,7 @@ export const ts = createPlugin({
 		newExpressions,
 		newNativeNonConstructors,
 		objectProto,
+		objectPrototypeBuiltIns,
 		octalEscapes,
 		octalNumbers,
 		returnAssignments,
