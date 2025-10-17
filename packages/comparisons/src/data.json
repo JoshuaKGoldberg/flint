@@ -1565,6 +1565,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "definitionDuplicates",
 			"plugin": "md",
 			"preset": "Logical"
