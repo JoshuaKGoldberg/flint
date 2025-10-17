@@ -1,5 +1,40 @@
+import * as ts from "typescript";
+
 import { typescriptLanguage } from "../language.js";
 import { isComparisonOperator } from "./utils/operators.js";
+
+function hasSameTokens(
+	nodeA: ts.Node,
+	nodeB: ts.Node,
+	sourceFile: ts.SourceFile,
+): boolean {
+	const tokensA: ts.Node[] = [];
+	const tokensB: ts.Node[] = [];
+
+	function collectTokens(node: ts.Node, tokens: ts.Node[]) {
+		if (
+			node.kind >= ts.SyntaxKind.FirstToken &&
+			node.kind <= ts.SyntaxKind.LastToken
+		) {
+			tokens.push(node);
+		}
+		ts.forEachChild(node, (child) => {
+			collectTokens(child, tokens);
+		});
+	}
+
+	collectTokens(nodeA, tokensA);
+	collectTokens(nodeB, tokensB);
+
+	return (
+		tokensA.length === tokensB.length &&
+		tokensA.every(
+			(token, index) =>
+				token.kind === tokensB[index].kind &&
+				token.getText(sourceFile) === tokensB[index].getText(sourceFile),
+		)
+	);
+}
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -29,10 +64,7 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const leftText = node.left.getText(context.sourceFile);
-					const rightText = node.right.getText(context.sourceFile);
-
-					if (leftText !== rightText) {
+					if (!hasSameTokens(node.left, node.right, context.sourceFile)) {
 						return;
 					}
 

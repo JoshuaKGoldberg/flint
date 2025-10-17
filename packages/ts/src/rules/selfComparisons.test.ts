@@ -149,6 +149,48 @@ if (calculate() === calculate()) {
 }
 `,
 		},
+		{
+			code: `
+if (value /* comment */ === value) {
+	console.log("with comment");
+}
+`,
+			snapshot: `
+if (value /* comment */ === value) {
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Comparing a value to itself is unnecessary and likely indicates a logic error.
+	console.log("with comment");
+}
+`,
+		},
+		{
+			code: `
+if (object.property /* comment */ === object.property) {
+	console.log("with comment in property access");
+}
+`,
+			snapshot: `
+if (object.property /* comment */ === object.property) {
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Comparing a value to itself is unnecessary and likely indicates a logic error.
+	console.log("with comment in property access");
+}
+`,
+		},
+		{
+			code: `
+if (array /* comment */ [0] === array[0]) {
+	console.log("with comment in array access");
+}
+`,
+			snapshot: `
+if (array /* comment */ [0] === array[0]) {
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Comparing a value to itself is unnecessary and likely indicates a logic error.
+	console.log("with comment in array access");
+}
+`,
+		},
 	],
 	valid: [
 		`if (value1 === value2) { console.log("different values"); }`,
