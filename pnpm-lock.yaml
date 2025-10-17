@@ -222,6 +222,9 @@ importers:
       '@flint.fyi/rule-tester':
         specifier: 'workspace:'
         version: link:../rule-tester
+      github-slugger:
+        specifier: ^2.0.0
+        version: 2.0.0
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
@@ -238,6 +241,9 @@ importers:
         specifier: ^5.0.3
         version: 5.0.3
     devDependencies:
+      '@types/github-slugger':
+        specifier: ^2.0.0
+        version: 2.0.0
       '@types/unist':
         specifier: 3.0.3
         version: 3.0.3
@@ -1758,6 +1764,10 @@ packages:
 
   '@types/fontkit@2.0.8':
     resolution: {integrity: sha512-wN+8bYxIpJf+5oZdrdtaX04qUuWHcKxcDEgRS9Qm9ZClSHjzEn13SxUC+5eRM+4yXIeTYk8mTzLAWGF64847ew==}
+
+  '@types/github-slugger@2.0.0':
+    resolution: {integrity: sha512-z/FaJhjFPk5mtrsZWeqyvaJdcZKw6CVCTuynEMrcXtgyozN3yMrtL13xWv8uQV2bWtwSXkdiNM37HEKkEj9x1Q==}
+    deprecated: This is a stub types definition. github-slugger provides its own type definitions, so you do not need this installed.
 
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
@@ -6271,6 +6281,10 @@ snapshots:
   '@types/fontkit@2.0.8':
     dependencies:
       '@types/node': 24.7.0
+
+  '@types/github-slugger@2.0.0':
+    dependencies:
+      github-slugger: 2.0.0
 
   '@types/hast@3.0.4':
     dependencies:

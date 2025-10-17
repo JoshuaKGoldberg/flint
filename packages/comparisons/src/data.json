@@ -1753,6 +1753,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "linkFragments",
 			"plugin": "md",
 			"preset": "Logical"
