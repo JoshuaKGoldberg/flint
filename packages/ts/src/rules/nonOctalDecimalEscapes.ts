@@ -34,14 +34,27 @@ export default typescriptLanguage.createRule({
 			const matches = [...text.matchAll(nonOctalDecimalEscapePattern)];
 
 			for (const match of matches) {
-				const start = node.getStart(context.sourceFile) + match.index;
-				const end = start + match[0].length;
+				// Ignore escapes where the backslash itself is escaped (e.g. "\\\\8" -> literal "\\8").
+				// Count the number of consecutive backslashes immediately before the match.
+				const matchIndex = match.index;
+				let backslashesBefore = 0;
+				for (let i = matchIndex - 1; i >= 0 && text[i] === "\\"; i--) {
+					backslashesBefore++;
+				}
+
+				// If there is an odd number of backslashes before this one, the backslash is escaped
+				// and should not be treated as an escape sequence.
+				if (backslashesBefore % 2 === 1) {
+					continue;
+				}
+
+				const start = node.getStart(context.sourceFile) + matchIndex;
 
 				context.report({
 					message: "unexpectedEscape",
 					range: {
 						begin: start,
-						end,
+						end: start + match[0].length,
 					},
 				});
 			}

@@ -4,7 +4,9 @@ import { ruleTester } from "./ruleTester.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: '"\\8"',
+			code: `
+"\\8"
+`,
 			snapshot: `
 "\\8"
  ~~
@@ -12,7 +14,9 @@ ruleTester.describe(rule, {
 `,
 		},
 		{
-			code: '"\\9"',
+			code: `
+"\\9"
+`,
 			snapshot: `
 "\\9"
  ~~
@@ -20,7 +24,9 @@ ruleTester.describe(rule, {
 `,
 		},
 		{
-			code: '"w\\8less"',
+			code: `
+"w\\8less"
+`,
 			snapshot: `
 "w\\8less"
   ~~
@@ -28,7 +34,9 @@ ruleTester.describe(rule, {
 `,
 		},
 		{
-			code: '"December 1\\9"',
+			code: `
+"December 1\\9"
+`,
 			snapshot: `
 "December 1\\9"
            ~~
@@ -36,7 +44,9 @@ ruleTester.describe(rule, {
 `,
 		},
 		{
-			code: '"Don\'t use \\8 and \\9 escapes."',
+			code: `
+"Don\'t use \\8 and \\9 escapes."
+`,
 			snapshot: `
 "Don't use \\8 and \\9 escapes."
            ~~
@@ -46,7 +56,9 @@ ruleTester.describe(rule, {
 `,
 		},
 		{
-			code: '"\\0\\8"',
+			code: `
+"\\0\\8"
+`,
 			snapshot: `
 "\\0\\8"
    ~~
