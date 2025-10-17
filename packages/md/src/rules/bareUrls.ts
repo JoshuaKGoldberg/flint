@@ -3,7 +3,7 @@ import { Link } from "mdast";
 import { markdownLanguage } from "../language.js";
 import { WithPosition } from "../nodes.js";
 
-const URL_REGEX =
+const urlTester =
 	/\b(?:https?:\/\/[^\s<>[\]()]+|mailto:[^\s<>[\]()@]+@[^\s<>[\]()]+)|[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}/g;
 
 export default markdownLanguage.createRule({
@@ -27,9 +27,6 @@ export default markdownLanguage.createRule({
 		},
 	},
 	setup(context) {
-		// TODO: switch to parent link checks
-		const textInValidLinks = new Set<number>();
-
 		function report(begin: number, end: number, urlText: string) {
 			context.report({
 				message: "bareUrl",
@@ -50,25 +47,16 @@ export default markdownLanguage.createRule({
 		}
 
 		function checkTextNode(node: WithPosition<Link>) {
-			const textNode = node.children[0];
-			const textPos = textNode.position;
-			const linkPos = node.position;
+			const { position } = node.children[0];
 
 			if (
-				textPos?.start.offset === undefined ||
-				textPos.end.offset === undefined
+				position?.start.offset === undefined ||
+				position.end.offset === undefined
 			) {
 				return;
 			}
 
-			const linkLength = linkPos.end.offset - linkPos.start.offset;
-			const textLength = textPos.end.offset - textPos.start.offset;
-
-			if (linkLength > textLength) {
-				textInValidLinks.add(textPos.start.offset);
-			} else {
-				report(textPos.start.offset, textPos.end.offset, node.url);
-			}
+			report(position.start.offset, position.end.offset, node.url);
 		}
 
 		return {
@@ -80,29 +68,10 @@ export default markdownLanguage.createRule({
 						node.children[0].value === node.url
 					) {
 						checkTextNode(node);
-					} else {
-						for (const child of node.children) {
-							if (
-								child.type === "text" &&
-								child.position?.start.offset !== undefined
-							) {
-								textInValidLinks.add(child.position.start.offset);
-							}
-						}
 					}
 				},
 				text(node) {
-					if (
-						// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-						node.position == null ||
-						textInValidLinks.has(node.position.start.offset)
-					) {
-						return;
-					}
-
-					const matches = node.value.matchAll(URL_REGEX);
-
-					for (const match of matches) {
+					for (const match of node.value.matchAll(urlTester)) {
 						const { index } = match;
 
 						const begin = node.position.start.offset + index;
