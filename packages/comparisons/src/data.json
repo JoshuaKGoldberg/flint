@@ -540,6 +540,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "keyNormalization",
 			"plugin": "json",
 			"preset": "Logical"
