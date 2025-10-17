@@ -1,5 +1,12 @@
 # @flint/ts
 
+## 0.14.3
+
+### Patch Changes
+
+- 9b6b884: added browser plugin with alerts rule
+- c8bad31: feat: add JSX plugin with accessKeys rule
+
 ## 0.14.2
 
 ### Patch Changes

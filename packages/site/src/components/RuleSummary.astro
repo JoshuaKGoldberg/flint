@@ -17,8 +17,8 @@ const rule = getRuleForPlugin(Astro.props.plugin, Astro.props.rule);
 
 <blockquote>
 	✅ This rule is included in the{" "}
-	<a href={`/rules/${Astro.props.plugin}/about#${rule.about.preset}`}>
+	<a href={`/rules/${Astro.props.plugin}#${rule.about.preset}`}>
 		{Astro.props.plugin}
-		{rule.about.preset} preset</a
+		<code>{rule.about.preset}</code> preset</a
 	>.
 </blockquote>

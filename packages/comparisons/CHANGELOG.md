@@ -1,5 +1,12 @@
 # @flint.fyi/comparisons
 
+## 0.0.3
+
+### Patch Changes
+
+- c421ea3: correct constructorReturns to be untyped preset
+- c8bad31: feat: add JSX plugin with accessKeys rule
+
 ## 0.0.2
 
 ### Patch Changes
