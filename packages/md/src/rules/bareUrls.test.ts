@@ -10,8 +10,22 @@ For more info, visit https://www.example.com
 			snapshot: `
 For more info, visit https://www.example.com
                      ~~~~~~~~~~~~~~~~~~~~~~~
-                     This bare URL should be wrapped in angle brackets or formatted as a link.
+                     This bare URL is ambiguous to parsers.
 `,
+			suggestions: [
+				{
+					id: "formatAsLink",
+					updated: `
+For more info, visit [https://www.example.com](https://www.example.com)
+`,
+				},
+				{
+					id: "wrapInAngleBrackets",
+					updated: `
+For more info, visit <https://www.example.com>
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -20,8 +34,22 @@ For more info, visit https://www.example.com/
 			snapshot: `
 For more info, visit https://www.example.com/
                      ~~~~~~~~~~~~~~~~~~~~~~~~
-                     This bare URL should be wrapped in angle brackets or formatted as a link.
+                     This bare URL is ambiguous to parsers.
 `,
+			suggestions: [
+				{
+					id: "formatAsLink",
+					updated: `
+For more info, visit [https://www.example.com/](https://www.example.com/)
+`,
+				},
+				{
+					id: "wrapInAngleBrackets",
+					updated: `
+For more info, visit <https://www.example.com/>
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -30,20 +58,61 @@ Visit https://example.com for details.
 			snapshot: `
 Visit https://example.com for details.
       ~~~~~~~~~~~~~~~~~~~
-      This bare URL should be wrapped in angle brackets or formatted as a link.
+      This bare URL is ambiguous to parsers.
 `,
+			suggestions: [
+				{
+					id: "formatAsLink",
+					updated: `
+Visit [https://example.com](https://example.com) for details.
+`,
+				},
+				{
+					id: "wrapInAngleBrackets",
+					updated: `
+Visit <https://example.com> for details.
+`,
+				},
+			],
 		},
 		{
 			code: `
 Multiple links: https://first.com and https://second.com
 `,
+			only: true,
 			snapshot: `
 Multiple links: https://first.com and https://second.com
                 ~~~~~~~~~~~~~~~~~
-                This bare URL should be wrapped in angle brackets or formatted as a link.
+                This bare URL is ambiguous to parsers.
                                       ~~~~~~~~~~~~~~~~~~
-                                      This bare URL should be wrapped in angle brackets or formatted as a link.
+                                      This bare URL is ambiguous to parsers.
 `,
+			suggestions: [
+				{
+					id: "formatAsLink",
+					updated: `
+Multiple links: [https://first.com](https://first.com) and https://second.com
+`,
+				},
+				{
+					id: "wrapInAngleBrackets",
+					updated: `
+Multiple links: <https://first.com> and https://second.com
+`,
+				},
+				{
+					id: "formatAsLink",
+					updated: `
+Multiple links: https://first.com and [https://second.com](https://second.com)
+`,
+				},
+				{
+					id: "wrapInAngleBrackets",
+					updated: `
+Multiple links: https://first.com and <https://second.com>
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -52,8 +121,22 @@ Multiple links: https://first.com and https://second.com
 			snapshot: `
 # https://www.example.com/
   ~~~~~~~~~~~~~~~~~~~~~~~~
-  This bare URL should be wrapped in angle brackets or formatted as a link.
+  This bare URL is ambiguous to parsers.
 `,
+			suggestions: [
+				{
+					id: "formatAsLink",
+					updated: `
+# [https://www.example.com/](https://www.example.com/)
+`,
+				},
+				{
+					id: "wrapInAngleBrackets",
+					updated: `
+# <https://www.example.com/>
+`,
+				},
+			],
 		},
 	],
 	valid: [
