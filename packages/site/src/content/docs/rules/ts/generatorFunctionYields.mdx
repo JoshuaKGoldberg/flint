@@ -1,0 +1,89 @@
+---
+description: "Reports generator functions that do not yield values."
+title: "generatorFunctionYields"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="generatorFunctionYields" />
+
+Generator functions use the `function*` syntax to create iterators that can produce multiple values over time.
+Without a yield expression, the generator will not produce any values and behaves like an empty iterator.
+This is likely unintentional and indicates incomplete implementation or a misunderstanding of generator functions.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function* emptyGenerator() {
+	console.log("No yield here");
+}
+```
+
+```ts
+function* generatorThatReturns() {
+	return 42;
+}
+```
+
+```ts
+class Collection {
+	*iterator() {
+		this.process();
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function* numbers() {
+	yield 1;
+	yield 2;
+	yield 3;
+}
+```
+
+```ts
+function* range(start: number, end: number) {
+	for (let i = start; i < end; i++) {
+		yield i;
+	}
+}
+```
+
+```ts
+class Collection {
+	*iterator() {
+		yield* this.items;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you intentionally want to create generator functions that produce no values (empty iterators), you can disable this rule.
+However, in most cases, such functions should not be generators.
+
+## Further Reading
+
+- [MDN: function\*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*)
+- [MDN: yield](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield)
+- [MDN: Iterators and generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="generatorFunctionYields" />

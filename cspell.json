@@ -12,7 +12,9 @@
 		"tsconfig.tsbuildinfo"
 	],
 	"words": [
+		"affordances",
 		"deoptimizations",
+		"destructures",
 		"joshuakgoldberg",
 		"mdast",
 		"nord",
