@@ -3,10 +3,10 @@ import * as ts from "typescript";
 import { typescriptLanguage } from "../language.js";
 
 const restrictedNames = new Set([
-	"Infinity",
-	"NaN",
 	"arguments",
 	"eval",
+	"Infinity",
+	"NaN",
 	"undefined",
 ]);
 
@@ -19,8 +19,7 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		shadowedRestrictedName: {
-			primary:
-				"Avoid shadowing restricted names like undefined, NaN, Infinity, arguments, and eval.",
+			primary: "This variable misleadingly shadows the global {{ name }}.",
 			secondary: [
 				"JavaScript has certain built-in global identifiers that are considered restricted because shadowing them can lead to confusing or erroneous code.",
 				"When you declare a variable with a restricted name, it shadows the global identifier and can cause unexpected behavior.",
@@ -34,6 +33,9 @@ export default typescriptLanguage.createRule({
 		function checkIdentifier(node: ts.Identifier): void {
 			if (restrictedNames.has(node.text)) {
 				context.report({
+					data: {
+						name: node.text,
+					},
 					message: "shadowedRestrictedName",
 					range: {
 						begin: node.getStart(context.sourceFile),

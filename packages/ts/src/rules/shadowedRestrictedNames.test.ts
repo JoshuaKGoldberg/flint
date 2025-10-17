@@ -10,7 +10,7 @@ let undefined = 5;
 			snapshot: `
 let undefined = 5;
     ~~~~~~~~~
-    Avoid shadowing restricted names like undefined, NaN, Infinity, arguments, and eval.
+    This variable misleadingly shadows the global undefined.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ const NaN = 123;
 			snapshot: `
 const NaN = 123;
       ~~~
-      Avoid shadowing restricted names like undefined, NaN, Infinity, arguments, and eval.
+      This variable misleadingly shadows the global NaN.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ var Infinity = 100;
 			snapshot: `
 var Infinity = 100;
     ~~~~~~~~
-    Avoid shadowing restricted names like undefined, NaN, Infinity, arguments, and eval.
+    This variable misleadingly shadows the global Infinity.
 `,
 		},
 		{
@@ -42,7 +42,7 @@ function test(arguments) {
 			snapshot: `
 function test(arguments) {
               ~~~~~~~~~
-              Avoid shadowing restricted names like undefined, NaN, Infinity, arguments, and eval.
+              This variable misleadingly shadows the global arguments.
 	return arguments.length;
 }
 `,
@@ -56,7 +56,7 @@ function eval() {
 			snapshot: `
 function eval() {
          ~~~~
-         Avoid shadowing restricted names like undefined, NaN, Infinity, arguments, and eval.
+         This variable misleadingly shadows the global eval.
 	return 42;
 }
 `,
@@ -68,7 +68,7 @@ const arrowFunc = (undefined) => undefined;
 			snapshot: `
 const arrowFunc = (undefined) => undefined;
                    ~~~~~~~~~
-                   Avoid shadowing restricted names like undefined, NaN, Infinity, arguments, and eval.
+                   This variable misleadingly shadows the global undefined.
 `,
 		},
 		{
@@ -80,7 +80,7 @@ class NaN {
 			snapshot: `
 class NaN {
       ~~~
-      Avoid shadowing restricted names like undefined, NaN, Infinity, arguments, and eval.
+      This variable misleadingly shadows the global NaN.
 	constructor() {}
 }
 `,
@@ -97,7 +97,7 @@ const obj = {
 const obj = {
 	method(eval) {
         ~~~~
-        Avoid shadowing restricted names like undefined, NaN, Infinity, arguments, and eval.
+        This variable misleadingly shadows the global eval.
 		return eval;
 	}
 };
@@ -113,7 +113,7 @@ function test() {
 function test() {
 	const { undefined } = obj;
          ~~~~~~~~~
-         Avoid shadowing restricted names like undefined, NaN, Infinity, arguments, and eval.
+         This variable misleadingly shadows the global undefined.
 }
 `,
 		},
@@ -127,7 +127,7 @@ function test() {
 function test() {
 	const [NaN] = array;
         ~~~
-        Avoid shadowing restricted names like undefined, NaN, Infinity, arguments, and eval.
+        This variable misleadingly shadows the global NaN.
 }
 `,
 		},
