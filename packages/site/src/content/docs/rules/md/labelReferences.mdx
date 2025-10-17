@@ -1,0 +1,73 @@
+---
+description: "Reports missing label references."
+title: "labelReferences"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="md" rule="labelReferences" />
+
+Markdown allows you to use labels as placeholders for URLs in both links and images using square brackets.
+If a label is referenced but never defined, Markdown doesn't render a link and instead renders plain text, which is likely not the intended behavior.
+Each label reference must have a corresponding definition somewhere in the document.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```markdown
+[ESLint][eslint]
+```
+
+```markdown
+[eslint][]
+```
+
+```markdown
+[eslint]
+```
+
+```markdown
+![Logo][logo]
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```markdown
+[ESLint][eslint]
+
+[eslint]: https://eslint.org
+```
+
+```markdown
+[eslint][]
+
+[eslint]: https://eslint.org
+```
+
+```markdown
+![Logo][logo]
+
+[logo]: ./logo.png
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If you aren't concerned with missing label references or intentionally use undefined labels for some workflow purpose, you can disable this rule.
+
+## Further Reading
+
+- [Markdown Reference-Style Links](https://www.markdownguide.org/basic-syntax/#reference-style-links)
+- [MD052 - Reference links and images](https://github.com/DavidAnson/markdownlint/blob/main/doc/md052.md)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="md" ruleId="labelReferences" />

@@ -1714,6 +1714,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "labelReferences",
 			"plugin": "md",
 			"preset": "Logical"
