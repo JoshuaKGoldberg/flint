@@ -10,16 +10,19 @@ function hasLoneSurrogate(text: string): boolean {
 	for (let i = 0; i < text.length; i++) {
 		const code = text.charCodeAt(i);
 
+		if (code >= 0xdc00 && code <= 0xdfff) {
+			return true;
+		}
+
 		if (code >= 0xd800 && code <= 0xdbff) {
 			const next = text.charCodeAt(i + 1);
 			if (!(next >= 0xdc00 && next <= 0xdfff)) {
 				return true;
 			}
 			i++;
-		} else if (code >= 0xdc00 && code <= 0xdfff) {
-			return true;
 		}
 	}
+
 	return false;
 }
 
@@ -120,8 +123,8 @@ export default jsonLanguage.createRule({
 							end: node.end,
 						},
 					});
-					return;
 				}
+				return;
 			}
 
 			if (Number.isInteger(value)) {
@@ -133,8 +136,8 @@ export default jsonLanguage.createRule({
 							end: node.end,
 						},
 					});
-					return;
 				}
+				return;
 			}
 
 			if (value !== 0 && Math.abs(value) < MIN_NORMAL) {
@@ -160,24 +163,19 @@ export default jsonLanguage.createRule({
 			}
 		}
 
-		function visitNode(node: ts.Node) {
+		function checkNode(node: ts.Node) {
 			if (ts.isNumericLiteral(node)) {
 				checkNumericLiteral(node);
 			} else if (ts.isStringLiteral(node)) {
 				checkStringLiteral(node);
 			}
-
-			node.forEachChild(visitNode);
+			node.forEachChild(checkNode);
 		}
 
 		return {
 			visitors: {
-				ArrayLiteralExpression(node) {
-					node.forEachChild(visitNode);
-				},
-				ObjectLiteralExpression(node) {
-					node.forEachChild(visitNode);
-				},
+				ArrayLiteralExpression: checkNode,
+				ObjectLiteralExpression: checkNode,
 			},
 		};
 	},
