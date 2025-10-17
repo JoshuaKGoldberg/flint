@@ -63,14 +63,12 @@ Not a clickable link: `https://www.example.com/`
 
 ## When Not To Use It
 
-If your project uses control flow structures that create confusing side effects, such as an environment where GitHub Flavored Markdown autolink literals are fully supported and you prefer their simplicity, you might not be able to enable this rule.
-Consider standardizing on proper Markdown formatting for better compatibility across different parsers and renderers.
+If you know your project is only going to be used with a particular Markdown parser, and that parser supports bare URLs predictably, you might not need this rule.
 
 ## Further Reading
 
 - [Markdown Links Syntax](https://www.markdownguide.org/basic-syntax/#links)
 - [GitHub Flavored Markdown Autolinks](https://github.github.com/gfm/#autolinks)
-- [remark-lint-no-literal-urls](https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-literal-urls)
 
 ## Equivalents in Other Linters
 

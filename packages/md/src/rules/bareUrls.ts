@@ -26,6 +26,9 @@ export default markdownLanguage.createRule({
 		},
 	},
 	setup(context) {
+		// TODO: Add parent nodes to AST?
+		// That way this will be compatible with createOnce-style API in:
+		// https://github.com/JoshuaKGoldberg/flint/issues/356
 		const textInValidLinks = new Set<number>();
 
 		function report(begin: number, end: number, urlText: string) {
