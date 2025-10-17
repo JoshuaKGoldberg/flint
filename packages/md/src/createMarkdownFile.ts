@@ -3,6 +3,7 @@ import {
 	NormalizedReport,
 	RuleReport,
 } from "@flint.fyi/core";
+import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";
@@ -21,7 +22,7 @@ export function createMarkdownFile(
 		value: sourceText,
 	});
 	const fileLocation = location(virtualFile);
-	const root = unified().use(remarkParse).parse(virtualFile);
+	const root = unified().use(remarkParse).use(remarkGfm).parse(virtualFile);
 
 	const languageFile: LanguageFileDefinition = {
 		async runRule(rule, options) {
