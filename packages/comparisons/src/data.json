@@ -540,6 +540,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "keyNormalization",
 			"plugin": "json",
 			"preset": "Logical"
@@ -3532,6 +3533,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "spelling",
 			"plugin": "cspell",
 			"preset": "Logical"
