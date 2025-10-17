@@ -25,6 +25,7 @@ import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import negativeZeroComparisons from "./rules/negativeZeroComparisons.js";
 import newExpressions from "./rules/newExpressions.js";
 import newNativeNonConstructors from "./rules/newNativeNonConstructors.js";
+import nonOctalDecimalEscapes from "./rules/nonOctalDecimalEscapes.js";
 import numericLiteralParsing from "./rules/numericLiteralParsing.js";
 import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
@@ -74,6 +75,7 @@ export const ts = createPlugin({
 		negativeZeroComparisons,
 		newExpressions,
 		newNativeNonConstructors,
+		nonOctalDecimalEscapes,
 		numericLiteralParsing,
 		objectProto,
 		octalEscapes,
