@@ -1,6 +1,7 @@
 ---
-description: "Duplicate case clauses in switch statements are logic errors."
+description: "Reports switch statements with duplicate case clause test expressions."
 title: "caseDuplicates"
+topic: "rules"
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
@@ -29,7 +30,9 @@ function getStatus(code: number): string {
 			return "Success"; // This case will never be reached
 	}
 }
+```
 
+```ts
 function handleInput(value: string): void {
 	switch (value) {
 		case "start":
@@ -59,7 +62,9 @@ function getStatus(code: number): string {
 			return "Not Found";
 	}
 }
+```
 
+```ts
 function handleInput(value: string): void {
 	switch (value) {
 		case "start":
@@ -84,8 +89,8 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-There are no legitimate cases where duplicate case clauses are intentional.
-This rule should always be enabled.
+If your project uses control flow structures that create confusing side effects, such as dynamic getters that modify state, you might not be able to enable this rule.
+Consider refactoring to more predictable control flow structures.
 
 ## Further Reading
 
