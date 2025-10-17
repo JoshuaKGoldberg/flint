@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
+import { hasSameTokens } from "./utils/hasSameTokens.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -26,16 +27,18 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				SwitchStatement: (node) => {
-					const seenCaseTexts = new Set<string>();
+					const seenCases: ts.Expression[] = [];
 
 					for (const clause of node.caseBlock.clauses) {
 						if (!ts.isCaseClause(clause)) {
 							continue;
 						}
 
-						const caseText = clause.expression.getText(context.sourceFile);
+						const isDuplicate = seenCases.some((seenCase) =>
+							hasSameTokens(seenCase, clause.expression, context.sourceFile),
+						);
 
-						if (seenCaseTexts.has(caseText)) {
+						if (isDuplicate) {
 							context.report({
 								message: "duplicateCase",
 								range: {
@@ -44,7 +47,7 @@ export default typescriptLanguage.createRule({
 								},
 							});
 						} else {
-							seenCaseTexts.add(caseText);
+							seenCases.push(clause.expression);
 						}
 					}
 				},

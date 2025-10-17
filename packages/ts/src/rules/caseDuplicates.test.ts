@@ -199,6 +199,46 @@ switch (value) {
 }
 `,
 		},
+		{
+			code: `
+switch (value) {
+    case /* comment */ 1:
+        break;
+    case 1:
+        break;
+}
+`,
+			snapshot: `
+switch (value) {
+    case /* comment */ 1:
+        break;
+    case 1:
+    ~~~~~~
+    Duplicate case label. A case with an identical test expression exists.
+        break;
+}
+`,
+		},
+		{
+			code: `
+switch (value) {
+    case obj.property:
+        break;
+    case obj /* comment */ .property:
+        break;
+}
+`,
+			snapshot: `
+switch (value) {
+    case obj.property:
+        break;
+    case obj /* comment */ .property:
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Duplicate case label. A case with an identical test expression exists.
+        break;
+}
+`,
+		},
 	],
 	valid: [
 		`switch (value) { case 1: break; case 2: break; }`,
