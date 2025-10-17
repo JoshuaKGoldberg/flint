@@ -1067,6 +1067,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "distractingElements",
 			"plugin": "jsx",
 			"preset": "Logical"
