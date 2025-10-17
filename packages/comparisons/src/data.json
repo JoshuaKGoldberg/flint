@@ -12578,6 +12578,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "selfComparisons",
 			"plugin": "ts",
 			"preset": "Logical",
