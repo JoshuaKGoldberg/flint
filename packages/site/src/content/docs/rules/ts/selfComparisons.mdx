@@ -27,14 +27,20 @@ This rule reports on binary comparison expressions where both operands are ident
 if (value === value) {
 	// Always true (except for NaN)
 }
+```
 
+```ts
 if (value < value) {
 	// Always false
 }
+```
 
+```ts
 // Always true (except for NaN)
 const result = object.property === object.property;
+```
 
+```ts
 // Always false (except for NaN)
 if (array[0] !== array[0]) {
 }
@@ -48,21 +54,22 @@ if (array[0] !== array[0]) {
 if (value === otherValue) {
 	// ...
 }
+```
 
+```ts
 if (value < maxValue) {
 	// ...
 }
+```
 
+```ts
 // Compare different properties
 const result = object.property === object.otherProperty;
+```
 
+```ts
 // Compare different array elements
 if (array[0] !== array[1]) {
-	// ...
-}
-
-// Use appropriate NaN check
-if (Number.isNaN(value)) {
 	// ...
 }
 ```
