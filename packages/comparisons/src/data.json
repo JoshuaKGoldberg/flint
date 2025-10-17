@@ -278,6 +278,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "scriptUrls",
 			"plugin": "browser",
 			"preset": "Logical"
