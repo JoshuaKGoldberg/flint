@@ -1537,6 +1537,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "bareUrls",
 			"plugin": "md",
 			"preset": "Stylistic",
