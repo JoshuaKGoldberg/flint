@@ -3,54 +3,56 @@ import * as ts from "typescript";
 import { typescriptLanguage } from "../language.js";
 import { isComparisonOperator } from "./utils/operators.js";
 
-function* getTokens(node: ts.Node): Generator<ts.Node> {
-	if (
-		node.kind >= ts.SyntaxKind.FirstToken &&
-		node.kind <= ts.SyntaxKind.LastToken
-	) {
-		yield node;
-		return;
-	}
-
-	// Recursively yield tokens from children
-	const children: ts.Node[] = [];
-	ts.forEachChild(node, (child) => {
-		children.push(child);
-	});
-
-	for (const child of children) {
-		yield* getTokens(child);
-	}
-}
-
 function hasSameTokens(
 	nodeA: ts.Node,
 	nodeB: ts.Node,
 	sourceFile: ts.SourceFile,
 ): boolean {
-	const iteratorA = getTokens(nodeA);
-	const iteratorB = getTokens(nodeB);
+	const queueA: ts.Node[] = [nodeA];
+	const queueB: ts.Node[] = [nodeB];
 
-	let resultA = iteratorA.next();
-	let resultB = iteratorB.next();
+	while (queueA.length > 0 && queueB.length > 0) {
+		const currentA = queueA.shift();
+		const currentB = queueB.shift();
 
-	while (!resultA.done && !resultB.done) {
-		const tokenA = resultA.value;
-		const tokenB = resultB.value;
-
-		if (
-			tokenA.kind !== tokenB.kind ||
-			tokenA.getText(sourceFile) !== tokenB.getText(sourceFile)
-		) {
-			return false;
+		if (!currentA || !currentB) {
+			break;
 		}
 
-		resultA = iteratorA.next();
-		resultB = iteratorB.next();
+		const isTokenA =
+			currentA.kind >= ts.SyntaxKind.FirstToken &&
+			currentA.kind <= ts.SyntaxKind.LastToken;
+		const isTokenB =
+			currentB.kind >= ts.SyntaxKind.FirstToken &&
+			currentB.kind <= ts.SyntaxKind.LastToken;
+
+		if (isTokenA && isTokenB) {
+			// Both are tokens - compare them
+			if (
+				currentA.kind !== currentB.kind ||
+				currentA.getText(sourceFile) !== currentB.getText(sourceFile)
+			) {
+				return false;
+			}
+		} else if (isTokenA || isTokenB) {
+			// One is a token, the other isn't - they differ
+			return false;
+		} else {
+			// Both are non-tokens - add children to queue
+			const childrenA = currentA.getChildren(sourceFile);
+			const childrenB = currentB.getChildren(sourceFile);
+
+			if (childrenA.length !== childrenB.length) {
+				return false;
+			}
+
+			queueA.push(...childrenA);
+			queueB.push(...childrenB);
+		}
 	}
 
-	// Both iterators should be exhausted at the same time
-	return resultA.done === resultB.done;
+	// Both queues should be empty at the same time
+	return queueA.length === queueB.length;
 }
 
 export default typescriptLanguage.createRule({
