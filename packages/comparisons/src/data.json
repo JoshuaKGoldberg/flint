@@ -526,6 +526,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "keyDuplicates",
 			"plugin": "json",
 			"preset": "Logical"
@@ -539,6 +540,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "keyNormalization",
 			"plugin": "json",
 			"preset": "Logical"
@@ -719,6 +721,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "valueSafety",
 			"plugin": "json",
 			"preset": "Logical"
@@ -3530,6 +3533,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "spelling",
 			"plugin": "cspell",
 			"preset": "Logical"
@@ -4846,6 +4850,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "caseDuplicates",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -6887,6 +6892,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "forDirections",
 			"plugin": "ts",
 			"preset": "Stylistic"
@@ -12576,6 +12582,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "selfComparisons",
 			"plugin": "ts",
 			"preset": "Logical",
