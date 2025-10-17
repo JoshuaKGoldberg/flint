@@ -1,0 +1,99 @@
+---
+description: "Reports duplicate headings in the same document."
+title: "headingDuplicates"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="md" rule="headingDuplicates" />
+
+Headings in Markdown documents are often used to generate in-document links and tables of contents.
+When generating in-document links, unique headings are necessary to ensure you can navigate to specific sections.
+Duplicate headings can cause issues because generated tables of contents can only link to the first instance of a duplicate heading.
+
+This rule helps maintain unique headings throughout your document to ensure proper navigation and table of contents generation.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```markdown
+# Hello world!
+
+## Hello world!
+
+## Goodbye World!
+
+# Goodbye World!
+```
+
+```markdown
+# Introduction
+
+## Introduction
+```
+
+```markdown
+## Section One
+
+### Details
+
+## Section Two
+
+### Details
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```markdown
+# Introduction
+
+## Features
+
+## Installation
+
+## Usage
+```
+
+```markdown
+# Main Title
+
+## Section 1
+
+### Subsection 1.1
+
+## Section 2
+
+### Subsection 2.1
+```
+
+```markdown
+# Chapter One
+
+## Overview
+
+# Chapter Two
+
+## Summary
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If you aren't concerned with autolinking headings or autogenerating a table of contents, you can safely disable this rule.
+
+## Further Reading
+
+- [MD024 - Multiple headers with the same content](https://github.com/DavidAnson/markdownlint/blob/main/doc/md024.md)
+- [Markdown heading links](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#section-links)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="md" ruleId="headingDuplicates" />
