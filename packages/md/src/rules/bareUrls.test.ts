@@ -4,10 +4,23 @@ import { ruleTester } from "./ruleTester.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `For more info, visit https://www.example.com/`,
-			snapshot: `For more info, visit https://www.example.com/
-                    ~~~~~~~~~~~~~~~~~~~~~~~~
-                    This bare URL should be wrapped in angle brackets or formatted as a link.
+			code: `
+For more info, visit https://www.example.com
+`,
+			snapshot: `
+For more info, visit https://www.example.com
+                     ~~~~~~~~~~~~~~~~~~~~~~~
+                     This bare URL should be wrapped in angle brackets or formatted as a link.
+`,
+		},
+		{
+			code: `
+For more info, visit https://www.example.com/
+`,
+			snapshot: `
+For more info, visit https://www.example.com/
+                     ~~~~~~~~~~~~~~~~~~~~~~~~
+                     This bare URL should be wrapped in angle brackets or formatted as a link.
 `,
 		},
 		{
