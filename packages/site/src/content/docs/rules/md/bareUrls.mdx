@@ -1,0 +1,68 @@
+---
+description: "Reports bare URLs that should be formatted as autolinks or links."
+title: "bareUrls"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="md" rule="bareUrls" />
+
+Bare URLs without angle brackets are not universally recognized as clickable links across all Markdown processors.
+While GitHub Flavored Markdown supports bare URLs, standard Markdown requires them to be wrapped in angle brackets (`<>`) or formatted as links with descriptive text.
+Using proper formatting ensures compatibility and improves accessibility.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```markdown
+For more info, visit https://www.example.com
+```
+
+```markdown
+Contact us at user@example.com
+```
+
+```markdown
+# https://www.example.com/
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```markdown
+For more info, visit <https://www.example.com>
+For more info, visit [Example Website](https://www.example.com)
+```
+
+```markdown
+Contact us at <user@example.com>
+Contact us at [user@example.com](mailto:user@example.com)
+```
+
+```markdown
+# <https://www.example.com/>
+```
+
+```markdown
+Not a clickable link: `https://www.example.com/`
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If you know your project is only going to be used with a particular Markdown parser, and that parser supports bare URLs predictably, you might not need this rule.
+
+## Further Reading
+
+- [Markdown Links Syntax](https://www.markdownguide.org/basic-syntax/#links)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="md" ruleId="bareUrls" />
