@@ -45,7 +45,7 @@ ruleTester.describe(rule, {
 		},
 		{
 			code: `
-"Don\'t use \\8 and \\9 escapes."
+"Don't use \\8 and \\9 escapes."
 `,
 			snapshot: `
 "Don't use \\8 and \\9 escapes."
