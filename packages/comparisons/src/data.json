@@ -1779,6 +1779,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "referenceLikeUrls",
 			"plugin": "md",
 			"preset": "Logical"
