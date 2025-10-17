@@ -31,9 +31,7 @@ export default jsonLanguage.createRule({
 				"Unicode normalization form to use when checking keys. Must be one of: NFC (default), NFD, NFKC, or NFKD.",
 			),
 	},
-	setup(context, options) {
-		const normalizationForm = options.form ?? "NFC";
-
+	setup(context, { form = "NFC" }) {
 		return {
 			visitors: {
 				ObjectLiteralExpression(node) {
@@ -46,18 +44,20 @@ export default jsonLanguage.createRule({
 						}
 
 						const key = property.name.text;
-						const normalizedKey = key.normalize(normalizationForm);
+						const normalizedKey = key.normalize(form);
 
-						if (key !== normalizedKey) {
-							context.report({
-								data: { form: normalizationForm },
-								message: "unnormalizedKey",
-								range: {
-									begin: property.name.getStart(context.sourceFile),
-									end: property.name.end,
-								},
-							});
+						if (key === normalizedKey) {
+							continue;
 						}
+
+						context.report({
+							data: { form },
+							message: "unnormalizedKey",
+							range: {
+								begin: property.name.getStart(context.sourceFile),
+								end: property.name.end,
+							},
+						});
 					}
 				},
 			},

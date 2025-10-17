@@ -1,6 +1,8 @@
 import rule from "./keyNormalization.js";
 import { ruleTester } from "./ruleTester.js";
 
+// cspell:ignore café cafè naïve piñata résumé
+
 ruleTester.describe(rule, {
 	invalid: [
 		{
