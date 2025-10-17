@@ -13,7 +13,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		duplicateCase: {
 			primary:
-				"Duplicate case label. A case with an identical test expression exists.",
+				"This case duplicates a previous case, so it will never be reached.",
 			secondary: [
 				"Having duplicate case clauses in a switch statement is a logic error.",
 				"The second case clause will never be reached because the first matching case will always execute first.",

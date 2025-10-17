@@ -18,7 +18,7 @@ switch (value) {
         break;
     case 1:
     ~~~~~~
-    Duplicate case label. A case with an identical test expression exists.
+    This case duplicates a previous case, so it will never be reached.
         break;
 }
 `,
@@ -42,7 +42,7 @@ switch (value) {
         break;
     case "a":
     ~~~~~~~~
-    Duplicate case label. A case with an identical test expression exists.
+    This case duplicates a previous case, so it will never be reached.
         break;
 }
 `,
@@ -62,7 +62,7 @@ switch (value) {
         break;
     case x + 1:
     ~~~~~~~~~~
-    Duplicate case label. A case with an identical test expression exists.
+    This case duplicates a previous case, so it will never be reached.
         break;
 }
 `,
@@ -86,7 +86,7 @@ switch (value) {
         break;
     case 1:
     ~~~~~~
-    Duplicate case label. A case with an identical test expression exists.
+    This case duplicates a previous case, so it will never be reached.
         break;
 }
 `,
@@ -110,7 +110,7 @@ switch (value) {
         break;
     case true:
     ~~~~~~~~~
-    Duplicate case label. A case with an identical test expression exists.
+    This case duplicates a previous case, so it will never be reached.
         break;
 }
 `,
@@ -130,7 +130,7 @@ switch (value) {
         break;
     case obj.property:
     ~~~~~~~~~~~~~~~~~
-    Duplicate case label. A case with an identical test expression exists.
+    This case duplicates a previous case, so it will never be reached.
         break;
 }
 `,
@@ -157,7 +157,7 @@ const result = (input: number) => {
             return "two";
         case 1:
         ~~~~~~
-        Duplicate case label. A case with an identical test expression exists.
+        This case duplicates a previous case, so it will never be reached.
             return "duplicate";
     }
 };
@@ -173,7 +173,7 @@ switch (value) {
 switch (value) {
     case 1: case 1: break;
             ~~~~~~
-            Duplicate case label. A case with an identical test expression exists.
+            This case duplicates a previous case, so it will never be reached.
 }
 `,
 		},
@@ -194,7 +194,7 @@ switch (value) {
         break;
     case condition ? "a" : "b":
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Duplicate case label. A case with an identical test expression exists.
+    This case duplicates a previous case, so it will never be reached.
         break;
 }
 `,
@@ -214,7 +214,7 @@ switch (value) {
         break;
     case 1:
     ~~~~~~
-    Duplicate case label. A case with an identical test expression exists.
+    This case duplicates a previous case, so it will never be reached.
         break;
 }
 `,
@@ -234,7 +234,7 @@ switch (value) {
         break;
     case obj /* comment */ .property:
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Duplicate case label. A case with an identical test expression exists.
+    This case duplicates a previous case, so it will never be reached.
         break;
 }
 `,
