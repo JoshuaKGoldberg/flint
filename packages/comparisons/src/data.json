@@ -1661,6 +1661,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "headingsRootDuplicates",
 			"plugin": "md",
 			"preset": "Logical",
