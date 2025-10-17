@@ -1578,6 +1578,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "definitionUses",
 			"plugin": "md",
 			"preset": "Logical"
