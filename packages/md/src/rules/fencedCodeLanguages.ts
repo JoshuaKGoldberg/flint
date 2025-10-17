@@ -1,0 +1,62 @@
+import type { Code, Node, Root } from "mdast";
+
+import type { WithPosition } from "../nodes.js";
+
+import { markdownLanguage } from "../language.js";
+
+export default markdownLanguage.createRule({
+	about: {
+		description: "Reports fenced code blocks without a language specified.",
+		id: "fencedCodeLanguages",
+		preset: "stylistic",
+	},
+	messages: {
+		missingLanguage: {
+			primary: "This fenced code block is missing a language.",
+			secondary: [
+				"Fenced code blocks should specify a language for proper syntax highlighting.",
+				"Even for plain text, it's preferable to use 'text' to indicate your intention.",
+				"Specifying a language helps editors and converters properly display the code.",
+			],
+			suggestions: [
+				"Add a language after the opening backticks (e.g., ```js)",
+				"Use 'text' for plain text code blocks",
+			],
+		},
+	},
+	setup(context) {
+		return {
+			visitors: {
+				root(node: WithPosition<Root>) {
+					function visit(n: Node): void {
+						if (n.type === "code") {
+							const code = n as Code;
+							// Check if the code block has no language specified
+							if (
+								!code.lang &&
+								code.position?.start.offset !== undefined &&
+								code.position.end.offset !== undefined
+							) {
+								context.report({
+									message: "missingLanguage",
+									range: {
+										begin: code.position.start.offset,
+										end: code.position.end.offset,
+									},
+								});
+							}
+						}
+
+						if ("children" in n && Array.isArray(n.children)) {
+							for (const child of n.children as Node[]) {
+								visit(child);
+							}
+						}
+					}
+
+					visit(node);
+				},
+			},
+		};
+	},
+});

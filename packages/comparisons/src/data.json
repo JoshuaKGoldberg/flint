@@ -1604,6 +1604,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "fencedCodeLanguages",
 			"plugin": "md",
 			"preset": "Stylistic",
