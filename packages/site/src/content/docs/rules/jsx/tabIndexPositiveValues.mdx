@@ -1,0 +1,68 @@
+---
+description: "Reports positive tabIndex values."
+title: "tabIndexPositiveValues"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="jsx" rule="tabIndexPositiveValues" />
+
+Positive `tabIndex` values disrupt the natural tab order and make keyboard navigation unpredictable for users.
+Instead, use `tabIndex="0"` to include elements in the natural tab order, or `tabIndex="-1"` to make them programmatically focusable.
+
+This is required for WCAG 2.4.3 compliance.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```tsx
+<span tabIndex="5">foo</span>
+```
+
+```tsx
+<span tabIndex="1">bar</span>
+```
+
+```tsx
+<div tabIndex={3}>baz</div>
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```tsx
+<span tabIndex="0">foo</span>
+```
+
+```tsx
+<span tabIndex="-1">bar</span>
+```
+
+```tsx
+<span tabIndex={0}>baz</span>
+```
+
+```tsx
+<div>no tabIndex needed</div>
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If you have a specific, well-documented reason for using positive tabIndex values (though this is rare), you can disable this rule.
+
+## Further Reading
+
+- [WCAG 2.4.3: Focus Order](https://www.w3.org/WAI/WCAG21/Understanding/focus-order)
+- [Chrome Audit Rules: AX_FOCUS_03](https://github.com/GoogleChrome/accessibility-developer-tools/wiki/Audit-Rules#ax_focus_03)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="jsx" ruleId="tabIndexPositiveValues" />
