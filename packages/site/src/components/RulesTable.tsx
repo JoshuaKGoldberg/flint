@@ -62,7 +62,7 @@ function renderFlintName(flint: FlintRuleReference) {
 function renderImplemented(values: Comparison[]) {
 	const count = values.filter((value) => value.flint.implemented).length;
 
-	return (
+	return count === values.length ? null : (
 		<>
 			Implemented: {count} of {values.length} (
 			{Math.trunc((count / values.length) * 1000) / 10}%)
