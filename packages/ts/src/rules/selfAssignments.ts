@@ -2,13 +2,7 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
-
-function isSameIdentifier(left: ts.Expression, right: ts.Expression): boolean {
-	if (ts.isIdentifier(left) && ts.isIdentifier(right)) {
-		return left.text === right.text;
-	}
-	return false;
-}
+import { hasSameTokens } from "../utils/hasSameTokens.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -19,10 +13,9 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		selfAssignment: {
-			primary: "Self-assignment detected.",
+			primary: "This value is being assigned to itself, which does nothing.",
 			secondary: [
 				"Self-assignments have no effect and typically indicate an incomplete refactoring or copy-paste error.",
-				"The same variable is being assigned to itself, which does nothing.",
 			],
 			suggestions: [
 				"Review the assignment and ensure you're assigning the correct value.",
@@ -44,7 +37,7 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					if (isSameIdentifier(node.left, node.right)) {
+					if (hasSameTokens(node.left, node.right, context.sourceFile)) {
 						context.report({
 							message: "selfAssignment",
 							range: getTSNodeRange(node, context.sourceFile),

@@ -1,5 +1,5 @@
 ---
-description: "Self-assignment detected."
+description: "Reports self-assignments which have no effect and are likely errors."
 title: "selfAssignments"
 topic: "rules"
 ---
@@ -27,7 +27,7 @@ count &&= count;
 ```
 
 ```ts
-flag ||= flag;
+flags.value ||= flags.value;
 ```
 
 ```ts

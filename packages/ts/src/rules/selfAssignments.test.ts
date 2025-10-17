@@ -10,7 +10,7 @@ value = value;
 			snapshot: `
 value = value;
 ~~~~~~~~~~~~~
-Self-assignment detected.
+This value is being assigned to itself, which does nothing.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ count &&= count;
 			snapshot: `
 count &&= count;
 ~~~~~~~~~~~~~~~
-Self-assignment detected.
+This value is being assigned to itself, which does nothing.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ flag ||= flag;
 			snapshot: `
 flag ||= flag;
 ~~~~~~~~~~~~~
-Self-assignment detected.
+This value is being assigned to itself, which does nothing.
 `,
 		},
 		{
@@ -40,7 +40,17 @@ data ??= data;
 			snapshot: `
 data ??= data;
 ~~~~~~~~~~~~~
-Self-assignment detected.
+This value is being assigned to itself, which does nothing.
+`,
+		},
+		{
+			code: `
+a.b ??= a.b;
+`,
+			snapshot: `
+a.b ??= a.b;
+~~~~~~~~~~~
+This value is being assigned to itself, which does nothing.
 `,
 		},
 	],
@@ -51,5 +61,7 @@ Self-assignment detected.
 		`const data = data;`,
 		`value += value;`,
 		`count -= count;`,
+		`a ||= b;`,
+		`a.b ||= a.c;`,
 	],
 });
