@@ -1688,6 +1688,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "imageAltTexts",
 			"plugin": "md",
 			"preset": "Logical"
