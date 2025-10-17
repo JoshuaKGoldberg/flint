@@ -1,5 +1,5 @@
 ---
-description: "Use numeric literals instead of parseInt with radix 2, 8, or 16."
+description: "Reports parseInt calls with binary, hexadecimal, or octal strings that can be replaced with numeric literals."
 title: "numericLiteralParsing"
 topic: "rules"
 ---
@@ -62,8 +62,7 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-If you need to dynamically parse strings with different radixes at runtime, or if the string value is not known at compile time, you should continue using `parseInt()`.
-This rule only flags cases where both the string and radix are literal values that could be replaced with a numeric literal.
+If your project heavily deals with literals and you want to be consistent with their parsing, this rule might not be useful for you.
 
 ## Further Reading
 

@@ -2,46 +2,50 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
+import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
 
 function convertToLiteral(value: string, radix: number): string {
-	const num = Number.parseInt(value, radix);
-	if (Number.isNaN(num)) {
+	const parsed = Number.parseInt(value, radix);
+	if (Number.isNaN(parsed)) {
 		return value;
 	}
 
 	switch (radix) {
 		case 2:
-			return `0b${num.toString(2)}`;
+			return `0b${parsed.toString(2)}`;
 		case 8:
-			return `0o${num.toString(8)}`;
+			return `0o${parsed.toString(8)}`;
 		case 16:
-			return `0x${num.toString(16).toUpperCase()}`;
+			return `0x${parsed.toString(16).toUpperCase()}`;
 		default:
 			return value;
 	}
 }
 
 function getRadixValue(node: ts.Expression): number | undefined {
-	if (ts.isNumericLiteral(node)) {
-		const value = Number(node.text);
-		if (value === 2 || value === 8 || value === 16) {
-			return value;
-		}
+	if (!ts.isNumericLiteral(node)) {
+		return undefined;
 	}
-	return undefined;
+
+	const value = Number(node.text);
+	if (![2, 8, 16].includes(value)) {
+		return undefined;
+	}
+
+	return value;
 }
 
+// TODO: Use a util like getStaticValue
 function getStringValue(node: ts.Expression): string | undefined {
-	if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
-		return node.text;
-	}
-	return undefined;
+	return ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)
+		? node.text
+		: undefined;
 }
 
 export default typescriptLanguage.createRule({
 	about: {
 		description:
-			"Reports parseInt calls with binary, octal, or hexadecimal strings that can be replaced with numeric literals.",
+			"Reports parseInt calls with binary, hexadecimal, or octal strings that can be replaced with numeric literals.",
 		id: "numericLiteralParsing",
 		preset: "stylistic",
 	},
@@ -61,19 +65,19 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			const [stringArg, radixArg] = node.arguments;
-			const stringValue = getStringValue(stringArg);
-			const radixValue = getRadixValue(radixArg);
-
-			if (!stringValue || !radixValue) {
+			const stringValue = getStringValue(node.arguments[0]);
+			if (!stringValue) {
 				return;
 			}
 
-			const literal = convertToLiteral(stringValue, radixValue);
+			const radixValue = getRadixValue(node.arguments[1]);
+			if (!radixValue) {
+				return;
+			}
 
 			context.report({
 				data: {
-					literal,
+					literal: convertToLiteral(stringValue, radixValue),
 					radix: String(radixValue),
 				},
 				message: "preferLiteral",
@@ -85,7 +89,10 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				CallExpression: (node) => {
 					if (ts.isIdentifier(node.expression)) {
-						if (node.expression.text === "parseInt") {
+						if (
+							node.expression.text === "parseInt" &&
+							isGlobalDeclaration(node.expression, context.typeChecker)
+						) {
 							checkParseIntCall(node);
 						}
 					} else if (ts.isPropertyAccessExpression(node.expression)) {
@@ -93,7 +100,11 @@ export default typescriptLanguage.createRule({
 							ts.isIdentifier(node.expression.expression) &&
 							node.expression.expression.text === "Number" &&
 							ts.isIdentifier(node.expression.name) &&
-							node.expression.name.text === "parseInt"
+							node.expression.name.text === "parseInt" &&
+							isGlobalDeclaration(
+								node.expression.expression,
+								context.typeChecker,
+							)
 						) {
 							checkParseIntCall(node);
 						}

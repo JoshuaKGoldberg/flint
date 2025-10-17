@@ -86,5 +86,15 @@ const value = parseInt(\`111110111\`, 2);
 		`const single = parseInt("111");`,
 		`Number.parseInt("123");`,
 		`Number.parseInt("123", 10);`,
+		`
+			function parseInt(...values: unknown[]) {}
+			parseInt("1", 2);
+			export {};
+		`,
+		`
+			const Number = { parseInt(...values: unknown[]) {} };
+			Number.parseInt("1", 2);
+			export {};
+		`,
 	],
 });
