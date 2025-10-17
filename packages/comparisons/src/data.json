@@ -3532,6 +3532,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "spelling",
 			"plugin": "cspell",
 			"preset": "Logical"
