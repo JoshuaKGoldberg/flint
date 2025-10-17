@@ -168,8 +168,9 @@ export default jsonLanguage.createRule({
 				checkNumericLiteral(node);
 			} else if (ts.isStringLiteral(node)) {
 				checkStringLiteral(node);
+			} else {
+				node.forEachChild(checkNode);
 			}
-			node.forEachChild(checkNode);
 		}
 
 		return {
