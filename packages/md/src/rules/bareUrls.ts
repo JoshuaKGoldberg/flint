@@ -3,8 +3,7 @@ import { Link } from "mdast";
 import { markdownLanguage } from "../language.js";
 import { WithPosition } from "../nodes.js";
 
-const urlTester =
-	/\b(?:https?:\/\/[^\s<>[\]()]+|mailto:[^\s<>[\]()@]+@[^\s<>[\]()]+)|[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}/g;
+const urlTester = /(?:https?:\/\/|mailto:)\S+|[\w.+-]+@[\w.-]+\.\w+/gi;
 
 export default markdownLanguage.createRule({
 	about: {
