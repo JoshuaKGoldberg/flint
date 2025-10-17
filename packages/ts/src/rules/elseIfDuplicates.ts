@@ -2,6 +2,7 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
+import { hasSameTokens } from "../utils/hasSameTokens.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -25,30 +26,30 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkIfStatement(node: ts.IfStatement) {
-			const conditions = new Map<string, ts.Expression>();
+			const seen: ts.Expression[] = [];
 			let current: ts.IfStatement = node;
 
 			while (true) {
-				const conditionText = current.expression.getText(context.sourceFile);
-
-				if (conditions.has(conditionText)) {
+				if (
+					seen.some((previous) =>
+						hasSameTokens(previous, current.expression, context.sourceFile),
+					)
+				) {
 					context.report({
 						message: "duplicateCondition",
 						range: getTSNodeRange(current.expression, context.sourceFile),
 					});
-				} else {
-					conditions.set(conditionText, current.expression);
 				}
 
-				if (!current.elseStatement) {
+				if (
+					!current.elseStatement ||
+					!ts.isIfStatement(current.elseStatement)
+				) {
 					break;
 				}
 
-				if (ts.isIfStatement(current.elseStatement)) {
-					current = current.elseStatement;
-				} else {
-					break;
-				}
+				seen.push(current.expression);
+				current = current.elseStatement;
 			}
 		}
 

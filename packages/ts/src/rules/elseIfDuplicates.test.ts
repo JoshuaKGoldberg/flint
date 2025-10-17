@@ -23,6 +23,24 @@ if (isSomething(value)) {
 		},
 		{
 			code: `
+if (isSomething /* ... */ (value)) {
+    doFirst();
+} else if (isSomething(value /* ... */)) {
+    doSecond();
+}
+`,
+			snapshot: `
+if (isSomething /* ... */ (value)) {
+    doFirst();
+} else if (isSomething(value /* ... */)) {
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           This condition is identical to a previous condition in the if-else-if chain.
+    doSecond();
+}
+`,
+		},
+		{
+			code: `
 if (first) {
     handleFirst();
 } else if (second) {
