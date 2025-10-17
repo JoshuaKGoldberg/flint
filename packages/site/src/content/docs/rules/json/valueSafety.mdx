@@ -86,15 +86,15 @@ This rule detects the following unsafe values:
 
 ## When Not To Use It
 
-If your project uses control flow structures that create confusing side effects, such as legacy systems that rely on these potentially problematic values for specific functionality, you might not be able to enable this rule.
-Consider refactoring to use safer value representations or thoroughly testing handling of these edge cases in your controlled environment.
+If your project intentionally uses a mix of JSON levels of safety, such as systems that manually manipulate strings, this rule might not reflect your project's needs.
+Consider refactoring to use safer value representations.
 
 ## Further Reading
 
-- [UTF-16 Surrogates (Wikipedia)](https://en.wikipedia.org/wiki/UTF-16)
-- [Subnormal Numbers (Wikipedia)](https://en.wikipedia.org/wiki/Subnormal_number)
-- [Number.MAX_SAFE_INTEGER - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER)
-- [Number.MIN_SAFE_INTEGER - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER)
+- [MDN: Number.MAX_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER)
+- [MDN: Number.MIN_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER)
+- [Wikipedia: UTF-16 Surrogates](https://en.wikipedia.org/wiki/UTF-16)
+- [Wikipedia: Subnormal Numbers](https://en.wikipedia.org/wiki/Subnormal_number)
 
 ## Equivalents in Other Linters
 
