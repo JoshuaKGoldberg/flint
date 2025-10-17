@@ -10027,9 +10027,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "numericLiteralParsing",
 			"plugin": "ts",
-			"preset": "Logical"
+			"preset": "Stylistic"
 		},
 		"oxlint": [
 			{
