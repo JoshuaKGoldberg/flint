@@ -79,7 +79,6 @@ Visit <https://example.com> for details.
 			code: `
 Multiple links: https://first.com and https://second.com
 `,
-			only: true,
 			snapshot: `
 Multiple links: https://first.com and https://second.com
                 ~~~~~~~~~~~~~~~~~

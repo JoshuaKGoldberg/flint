@@ -26,6 +26,8 @@ export default markdownLanguage.createRule({
 		},
 	},
 	setup(context) {
+		const textInValidLinks = new Set<number>();
+
 		function report(begin: number, end: number, urlText: string) {
 			context.report({
 				message: "bareUrl",
@@ -46,30 +48,51 @@ export default markdownLanguage.createRule({
 		}
 
 		function checkTextNode(node: WithPosition<Link>) {
-			const { position } = node.children[0];
+			const textNode = node.children[0];
+			const textPosition = textNode.position;
 
 			if (
-				position?.start.offset === undefined ||
-				position.end.offset === undefined
+				textPosition?.start.offset === undefined ||
+				textPosition.end.offset === undefined
 			) {
 				return;
 			}
 
-			report(position.start.offset, position.end.offset, node.url);
+			const linkPosition = node.position;
+			const linkLength = linkPosition.end.offset - linkPosition.start.offset;
+			const textLength = textPosition.end.offset - textPosition.start.offset;
+
+			if (linkLength > textLength) {
+				textInValidLinks.add(textPosition.start.offset);
+			} else {
+				report(textPosition.start.offset, textPosition.end.offset, node.url);
+			}
 		}
 
 		return {
 			visitors: {
 				link(node) {
 					if (
-						node.children.length === 1 &&
 						node.children[0].type === "text" &&
 						node.children[0].value === node.url
 					) {
 						checkTextNode(node);
+					} else {
+						for (const child of node.children) {
+							if (
+								child.type === "text" &&
+								child.position?.start.offset !== undefined
+							) {
+								textInValidLinks.add(child.position.start.offset);
+							}
+						}
 					}
 				},
 				text(node) {
+					if (textInValidLinks.has(node.position.start.offset)) {
+						return;
+					}
+
 					for (const match of node.value.matchAll(urlTester)) {
 						const { index } = match;
 
