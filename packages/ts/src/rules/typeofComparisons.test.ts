@@ -5,70 +5,42 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-if (typeof value === "strnig") {
+if (typeof value === "") {
     process();
 }
 `,
 			snapshot: `
-if (typeof value === "strnig") {
-                     ~~~~~~~~
-                     Invalid typeof comparison value. Expected one of: "bigint", "boolean", "function", "number", "object", "string", "symbol", "undefined".
+if (typeof value === "") {
+                     ~~
+                     This string literal is not one that the typeof operator will ever produce.
     process();
 }
 `,
 		},
 		{
 			code: `
-if (typeof variable == "undefimed") {
-    handle();
-}
-`,
-			snapshot: `
-if (typeof variable == "undefimed") {
-                       ~~~~~~~~~~~
-                       Invalid typeof comparison value. Expected one of: "bigint", "boolean", "function", "number", "object", "string", "symbol", "undefined".
-    handle();
-}
-`,
-		},
-		{
-			code: `
-if (typeof data != "nunber") {
+if (typeof data != "invalid") {
     reject();
 }
 `,
 			snapshot: `
-if (typeof data != "nunber") {
-                   ~~~~~~~~
-                   Invalid typeof comparison value. Expected one of: "bigint", "boolean", "function", "number", "object", "string", "symbol", "undefined".
+if (typeof data != "invalid") {
+                   ~~~~~~~~~
+                   This string literal is not one that the typeof operator will ever produce.
     reject();
 }
 `,
 		},
 		{
 			code: `
-if (typeof callback !== "fucntion") {
-    throw new Error("Invalid callback");
-}
-`,
-			snapshot: `
-if (typeof callback !== "fucntion") {
-                        ~~~~~~~~~~
-                        Invalid typeof comparison value. Expected one of: "bigint", "boolean", "function", "number", "object", "string", "symbol", "undefined".
-    throw new Error("Invalid callback");
-}
-`,
-		},
-		{
-			code: `
-if ("bolean" === typeof flag) {
+if ("invalid" === typeof flag) {
     toggle();
 }
 `,
 			snapshot: `
-if ("bolean" === typeof flag) {
-    ~~~~~~~~
-    Invalid typeof comparison value. Expected one of: "bigint", "boolean", "function", "number", "object", "string", "symbol", "undefined".
+if ("invalid" === typeof flag) {
+    ~~~~~~~~~
+    This string literal is not one that the typeof operator will ever produce.
     toggle();
 }
 `,
@@ -82,7 +54,7 @@ if (typeof value === "String") {
 			snapshot: `
 if (typeof value === "String") {
                      ~~~~~~~~
-                     Invalid typeof comparison value. Expected one of: "bigint", "boolean", "function", "number", "object", "string", "symbol", "undefined".
+                     This string literal is not one that the typeof operator will ever produce.
     process();
 }
 `,
@@ -94,7 +66,7 @@ const isValid = typeof input !== "array";
 			snapshot: `
 const isValid = typeof input !== "array";
                                  ~~~~~~~
-                                 Invalid typeof comparison value. Expected one of: "bigint", "boolean", "function", "number", "object", "string", "symbol", "undefined".
+                                 This string literal is not one that the typeof operator will ever produce.
 `,
 		},
 	],

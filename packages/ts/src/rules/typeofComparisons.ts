@@ -14,34 +14,32 @@ const validTypeofValues = new Set([
 	"undefined",
 ]);
 
-function getStringValue(node: ts.Expression): string | undefined {
-	if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
-		return node.text;
-	}
-	return undefined;
+// TODO: Reuse a shared getStaticValue-style utility?
+function getStringValue(node: ts.Expression) {
+	return ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)
+		? node.text
+		: undefined;
 }
 
-function getTypeofOperand(node: ts.Expression): ts.Expression | undefined {
-	if (ts.isTypeOfExpression(node)) {
-		return node.expression;
-	}
-	return undefined;
+function getTypeofOperand(node: ts.Expression) {
+	return ts.isTypeOfExpression(node) && node.expression;
 }
 
 export default typescriptLanguage.createRule({
 	about: {
 		description:
-			"Reports typeof expressions compared to invalid string literals.",
+			"Reports typeof expressions that compare impossible string literals.",
 		id: "typeofComparisons",
 		preset: "untyped",
 	},
 	messages: {
 		invalidValue: {
 			primary:
-				'Invalid typeof comparison value. Expected one of: "bigint", "boolean", "function", "number", "object", "string", "symbol", "undefined".',
+				"This string literal is not one that the typeof operator will ever produce.",
 			secondary: [
 				"The typeof operator returns one of a specific set of string values.",
 				"Comparing typeof to an invalid string is usually a typo and will never match.",
+				'The only valid values are: "bigint", "boolean", "function", "number", "object", "string", "symbol", and "undefined".',
 			],
 			suggestions: [
 				"Check for typos and use one of the valid typeof return values.",
@@ -58,14 +56,12 @@ export default typescriptLanguage.createRule({
 				comparisonValue = node.right;
 			} else if (rightTypeofOperand) {
 				comparisonValue = node.left;
-			}
-
-			if (!comparisonValue) {
+			} else {
 				return;
 			}
 
 			const stringValue = getStringValue(comparisonValue);
-			if (stringValue && !validTypeofValues.has(stringValue)) {
+			if (stringValue != null && !validTypeofValues.has(stringValue)) {
 				context.report({
 					message: "invalidValue",
 					range: getTSNodeRange(comparisonValue, context.sourceFile),
