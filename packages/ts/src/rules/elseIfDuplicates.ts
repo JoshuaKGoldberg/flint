@@ -7,7 +7,7 @@ import { hasSameTokens } from "../utils/hasSameTokens.js";
 export default typescriptLanguage.createRule({
 	about: {
 		description:
-			"Reports duplicate conditions in if-else-if chains that make the code unreachable.",
+			"Reports duplicate conditions in if-else-if chains that make code unreachable.",
 		id: "elseIfDuplicates",
 		preset: "logical",
 	},
