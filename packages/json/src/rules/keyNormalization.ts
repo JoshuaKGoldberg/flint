@@ -57,6 +57,16 @@ export default jsonLanguage.createRule({
 								begin: property.name.getStart(context.sourceFile),
 								end: property.name.end,
 							},
+							suggestions: [
+								{
+									id: "normalizeKey",
+									range: {
+										begin: property.name.getStart(context.sourceFile) + 1,
+										end: property.name.end - 1,
+									},
+									text: normalizedKey,
+								},
+							],
 						});
 					}
 				},

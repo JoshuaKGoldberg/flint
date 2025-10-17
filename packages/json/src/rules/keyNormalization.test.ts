@@ -18,6 +18,16 @@ ruleTester.describe(rule, {
     This key is not normalized using the NFC normalization form.
 }
 `,
+			suggestions: [
+				{
+					id: "normalizeKey",
+					updated: `
+{
+    "café": "value"
+}
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -34,6 +44,17 @@ ruleTester.describe(rule, {
     This key is not normalized using the NFC normalization form.
 }
 `,
+			suggestions: [
+				{
+					id: "normalizeKey",
+					updated: `
+{
+    "résumé": "document",
+    "café": "latte"
+}
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -51,6 +72,16 @@ ruleTester.describe(rule, {
     This key is not normalized using the NFD normalization form.
 }
 `,
+			suggestions: [
+				{
+					id: "normalizeKey",
+					updated: `
+{
+    "cafe\u0301": "value"
+}
+`,
+				},
+			],
 		},
 		{
 			code: `
@@ -72,6 +103,26 @@ ruleTester.describe(rule, {
     This key is not normalized using the NFD normalization form.
 }
 `,
+			suggestions: [
+				{
+					id: "normalizeKey",
+					updated: `
+{
+    "cafe\u0301": "espresso",
+    "naïve": "approach"
+}
+`,
+				},
+				{
+					id: "normalizeKey",
+					updated: `
+{
+    "café": "espresso",
+    "nai\u0308ve": "approach"
+}
+`,
+				},
+			],
 		},
 	],
 	valid: [
