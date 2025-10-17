@@ -526,6 +526,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "keyDuplicates",
 			"plugin": "json",
 			"preset": "Logical"
