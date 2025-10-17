@@ -720,6 +720,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "valueSafety",
 			"plugin": "json",
 			"preset": "Logical"
