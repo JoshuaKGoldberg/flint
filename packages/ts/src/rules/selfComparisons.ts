@@ -11,7 +11,7 @@ function hasSameTokens(
 	const queueA: ts.Node[] = [nodeA];
 	const queueB: ts.Node[] = [nodeB];
 
-	while (queueA.length > 0 && queueB.length > 0) {
+	while (true) {
 		const currentA = queueA.shift();
 		const currentB = queueB.shift();
 
@@ -19,26 +19,19 @@ function hasSameTokens(
 			break;
 		}
 
-		const isTokenA =
+		if (currentA.kind !== currentB.kind) {
+			return false;
+		}
+
+		const isToken =
 			currentA.kind >= ts.SyntaxKind.FirstToken &&
 			currentA.kind <= ts.SyntaxKind.LastToken;
-		const isTokenB =
-			currentB.kind >= ts.SyntaxKind.FirstToken &&
-			currentB.kind <= ts.SyntaxKind.LastToken;
 
-		if (isTokenA && isTokenB) {
-			// Both are tokens - compare them
-			if (
-				currentA.kind !== currentB.kind ||
-				currentA.getText(sourceFile) !== currentB.getText(sourceFile)
-			) {
+		if (isToken) {
+			if (currentA.getText(sourceFile) !== currentB.getText(sourceFile)) {
 				return false;
 			}
-		} else if (isTokenA || isTokenB) {
-			// One is a token, the other isn't - they differ
-			return false;
 		} else {
-			// Both are non-tokens - add children to queue
 			const childrenA = currentA.getChildren(sourceFile);
 			const childrenB = currentB.getChildren(sourceFile);
 
@@ -51,7 +44,6 @@ function hasSameTokens(
 		}
 	}
 
-	// Both queues should be empty at the same time
 	return queueA.length === queueB.length;
 }
 
@@ -79,23 +71,18 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				BinaryExpression: (node) => {
-					if (!isComparisonOperator(node.operatorToken)) {
-						return;
+					if (
+						isComparisonOperator(node.operatorToken) &&
+						hasSameTokens(node.left, node.right, context.sourceFile)
+					) {
+						context.report({
+							message: "noSelfComparison",
+							range: {
+								begin: node.getStart(context.sourceFile),
+								end: node.getEnd(),
+							},
+						});
 					}
-
-					if (!hasSameTokens(node.left, node.right, context.sourceFile)) {
-						return;
-					}
-
-					const range = {
-						begin: node.getStart(context.sourceFile),
-						end: node.getEnd(),
-					};
-
-					context.report({
-						message: "noSelfComparison",
-						range,
-					});
 				},
 			},
 		};
