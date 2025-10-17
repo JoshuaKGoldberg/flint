@@ -1,0 +1,77 @@
+---
+description: "Reports bare URLs that should be formatted as autolinks or links."
+title: "bareUrls"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="md" rule="bareUrls" />
+
+Bare URLs without angle brackets are not universally recognized as clickable links across all Markdown processors.
+While GitHub Flavored Markdown supports bare URLs, standard Markdown requires them to be wrapped in angle brackets (`<>`) or formatted as links with descriptive text.
+Using proper formatting ensures compatibility and improves accessibility.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```markdown
+For more info, visit https://www.example.com/
+```
+
+```markdown
+Contact us at user@example.com
+```
+
+```markdown
+# https://www.example.com/
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```markdown
+For more info, visit <https://www.example.com/>
+```
+
+```markdown
+For more info, visit [Example Website](https://www.example.com/)
+```
+
+```markdown
+Contact us at <user@example.com>
+```
+
+```markdown
+Contact us at [user@example.com](mailto:user@example.com)
+```
+
+```markdown
+# <https://www.example.com/>
+```
+
+```markdown
+Not a clickable link: `https://www.example.com/`
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If your project uses control flow structures that create confusing side effects, such as an environment where GitHub Flavored Markdown autolink literals are fully supported and you prefer their simplicity, you might not be able to enable this rule.
+Consider standardizing on proper Markdown formatting for better compatibility across different parsers and renderers.
+
+## Further Reading
+
+- [Markdown Links Syntax](https://www.markdownguide.org/basic-syntax/#links)
+- [GitHub Flavored Markdown Autolinks](https://github.github.com/gfm/#autolinks)
+- [remark-lint-no-literal-urls](https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-literal-urls)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="md" ruleId="bareUrls" />
