@@ -20,25 +20,25 @@ export function hasSameTokens(
 			return false;
 		}
 
-		const isToken =
+		if (
 			currentA.kind >= ts.SyntaxKind.FirstToken &&
-			currentA.kind <= ts.SyntaxKind.LastToken;
-
-		if (isToken) {
+			currentA.kind <= ts.SyntaxKind.LastToken
+		) {
 			if (currentA.getText(sourceFile) !== currentB.getText(sourceFile)) {
 				return false;
 			}
-		} else {
-			const childrenA = currentA.getChildren(sourceFile);
-			const childrenB = currentB.getChildren(sourceFile);
-
-			if (childrenA.length !== childrenB.length) {
-				return false;
-			}
-
-			queueA.push(...childrenA);
-			queueB.push(...childrenB);
+			continue;
 		}
+
+		const childrenA = currentA.getChildren(sourceFile);
+		const childrenB = currentB.getChildren(sourceFile);
+
+		if (childrenA.length !== childrenB.length) {
+			return false;
+		}
+
+		queueA.push(...childrenA);
+		queueB.push(...childrenB);
 	}
 
 	return queueA.length === queueB.length;
