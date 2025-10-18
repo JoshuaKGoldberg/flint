@@ -1146,6 +1146,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "iframeTitles",
 			"plugin": "jsx",
 			"preset": "Logical"
