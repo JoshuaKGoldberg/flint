@@ -1,5 +1,5 @@
 ---
-description: "Use Object.prototype methods safely instead of calling them directly on objects."
+description: "Reports direct calls to Object.prototype methods on object instances."
 title: "objectPrototypeBuiltIns"
 topic: "rules"
 ---
@@ -24,11 +24,11 @@ const hasKey = object.hasOwnProperty("key");
 ```
 
 ```ts
-const isProto = object.isPrototypeOf(other);
+const isPrototypeOf = object.isPrototypeOf(other);
 ```
 
 ```ts
-const isEnum = object.propertyIsEnumerable("prop");
+const isEnumerable = object.propertyIsEnumerable("prop");
 ```
 
 </TabItem>
@@ -39,11 +39,11 @@ const hasKey = Object.prototype.hasOwnProperty.call(object, "key");
 ```
 
 ```ts
-const isProto = Object.prototype.isPrototypeOf.call(object, other);
+const isPrototypeOf = Object.prototype.isPrototypeOf.call(object, other);
 ```
 
 ```ts
-const isEnum = {}.propertyIsEnumerable.call(object, "prop");
+const isEnumerable = {}.propertyIsEnumerable.call(object, "prop");
 ```
 
 </TabItem>
@@ -60,10 +60,10 @@ However, it's generally safer to always use the recommended pattern.
 
 ## Further Reading
 
-- [MDN: Object.prototype.hasOwnProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty)
-- [MDN: Object.prototype.isPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isPrototypeOf)
-- [MDN: Object.prototype.propertyIsEnumerable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/propertyIsEnumerable)
-- [MDN: Object.create](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create)
+- [MDN: `Object.prototype.hasOwnProperty`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty)
+- [MDN: `Object.prototype.isPrototypeOf`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isPrototypeOf)
+- [MDN: `Object.prototype.propertyIsEnumerable`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/propertyIsEnumerable)
+- [MDN: `Object.create`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create)
 
 ## Equivalents in Other Linters
 

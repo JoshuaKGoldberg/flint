@@ -26,7 +26,7 @@ export default typescriptLanguage.createRule({
 				"Always call these methods through Object.prototype to ensure they work correctly.",
 			],
 			suggestions: [
-				"Use Object.prototype.{{ method }}.call(obj, ...) to safely call the method.",
+				"Use Object.prototype.{{ method }}.call(...) to safely call the method.",
 			],
 		},
 	},
@@ -34,26 +34,55 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression: (node) => {
-					if (!ts.isPropertyAccessExpression(node.expression)) {
-						return;
-					}
-
-					if (!ts.isIdentifier(node.expression.name)) {
+					if (
+						!ts.isPropertyAccessExpression(node.expression) ||
+						!ts.isIdentifier(node.expression.name)
+					) {
 						return;
 					}
 
 					const methodName = node.expression.name.text;
-
 					if (!prototypeMethods.has(methodName)) {
 						return;
 					}
+
+					const nameRange = getTSNodeRange(
+						node.expression.name,
+						context.sourceFile,
+					);
+
+					const objectText = context.sourceFile.text.slice(
+						node.expression.expression.getStart(context.sourceFile),
+						node.expression.expression.getEnd(),
+					);
+
+					const callText = context.sourceFile.text.slice(
+						node.getStart(context.sourceFile),
+						node.getEnd(),
+					);
+
+					const parenIndex = callText.indexOf("(");
+					const argsText =
+						parenIndex >= 0 ? callText.slice(parenIndex + 1, -1) : "";
+
+					const suggestionText = `Object.prototype.${methodName}.call(${objectText}${argsText ? ", " + argsText : ""})`;
 
 					context.report({
 						data: {
 							method: methodName,
 						},
 						message: "prototypeBuiltIn",
-						range: getTSNodeRange(node.expression.name, context.sourceFile),
+						range: nameRange,
+						suggestions: [
+							{
+								id: "use-prototype-call",
+								range: {
+									begin: node.getStart(context.sourceFile),
+									end: node.getEnd(),
+								},
+								text: suggestionText,
+							},
+						],
 					});
 				},
 			},
