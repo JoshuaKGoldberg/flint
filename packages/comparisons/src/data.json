@@ -1705,6 +1705,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "imageContents",
 			"plugin": "md",
 			"preset": "Logical"
