@@ -3,7 +3,7 @@ import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
-		description: "Reports javascript: URLs.",
+		description: "Reports `javascript:` URLs that can act as a form of eval.",
 		id: "scriptUrls",
 		preset: "logical",
 	},
@@ -34,23 +34,18 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				NoSubstitutionTemplateLiteral(node: ts.NoSubstitutionTemplateLiteral) {
-					// Check if this is part of a tagged template
-					if (ts.isTaggedTemplateExpression(node.parent)) {
-						return;
+					if (!ts.isTaggedTemplateExpression(node.parent)) {
+						checkStringValue(node.text, node);
 					}
-					checkStringValue(node.text, node);
 				},
 				StringLiteral(node: ts.StringLiteral) {
 					checkStringValue(node.text, node);
 				},
 				TemplateExpression(node: ts.TemplateExpression) {
-					// Check if this template is tagged (e.g., html`...`)
-					if (ts.isTaggedTemplateExpression(node.parent)) {
-						return;
-					}
-
-					// For template expressions with substitutions, check the head
-					if (node.head.text.toLowerCase().startsWith("javascript:")) {
+					if (
+						!ts.isTaggedTemplateExpression(node.parent) &&
+						node.head.text.toLowerCase().startsWith("javascript:")
+					) {
 						context.report({
 							message: "scriptUrl",
 							range: getTSNodeRange(node, context.sourceFile),

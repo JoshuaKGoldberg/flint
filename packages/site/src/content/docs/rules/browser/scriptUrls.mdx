@@ -1,5 +1,5 @@
 ---
-description: "Reports javascript: URLs."
+description: "Reports `javascript:` URLs that can act as a form of eval."
 title: "scriptUrls"
 topic: "rules"
 ---
@@ -10,7 +10,8 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="browser" rule="scriptUrls" />
 
-Using `javascript:` URLs is a form of `eval`. Code passed in `javascript:` URLs is parsed and evaluated by the browser in the same way that `eval` is processed.
+Using `javascript:` URLs is a form of `eval`.
+Code passed in `javascript:` URLs is parsed and evaluated by the browser in the same way that `eval` is processed.
 This can lead to security vulnerabilities and is generally considered bad practice.
 
 Use event handlers or proper JavaScript functions instead of `javascript:` URLs.
@@ -60,11 +61,12 @@ const data = "data:text/plain;base64,SGVsbG8=";
 
 ## When Not To Use It
 
-If you have specific use cases where `javascript:` URLs are necessary (though this is rare), you can disable this rule for those cases.
+If your project is internal-facing only and already uses `javascript:` URLs as a core design pattern, it might be difficult to enable this rule.
 
 ## Further Reading
 
-- [ESLint no-script-url](https://eslint.org/docs/latest/rules/no-script-url)
+- [MDN: eval](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval)
+- [MDN: javascript: URLs](https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Schemes/javascript)
 - [OWASP: Avoid eval and javascript: URLs](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
 
 ## Equivalents in Other Linters
