@@ -18,6 +18,7 @@ import exceptionAssignments from "./rules/exceptionAssignments.js";
 import forDirections from "./rules/forDirections.js";
 import forInArrays from "./rules/forInArrays.js";
 import functionAssignments from "./rules/functionAssignments.js";
+import functionNewCalls from "./rules/functionNewCalls.js";
 import generatorFunctionYields from "./rules/generatorFunctionYields.js";
 import globalAssignments from "./rules/globalAssignments.js";
 import globalObjectCalls from "./rules/globalObjectCalls.js";
@@ -69,6 +70,7 @@ export const ts = createPlugin({
 		forDirections,
 		forInArrays,
 		functionAssignments,
+		functionNewCalls,
 		generatorFunctionYields,
 		globalAssignments,
 		globalObjectCalls,
