@@ -10,8 +10,10 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="md" rule="imageAltTexts" />
 
-Providing alternative text for images is essential for accessibility.
+Providing alternative text for images is essential for both accessibility and SEO.
 Without alternative text, users who rely on screen readers or other assistive technologies won't be able to understand the content of images.
+Search engine crawlers are also unable to understand images without alt text or other labels.
+
 This rule helps catch cases where alternative text is missing or contains only whitespace.
 
 ## Examples
@@ -55,7 +57,7 @@ This rule helps catch cases where alternative text is missing or contains only w
 
 ## When Not To Use It
 
-If you aren't concerned with image accessibility or if your images are purely decorative and don't convey meaningful content, you can disable this rule. However, for decorative images, it's better practice to use explicit techniques (like empty alt text in HTML) rather than omitting alt text entirely.
+If your images are automatically given alt text by frameworks, then this rule will report false positives.
 
 ## Further Reading
 

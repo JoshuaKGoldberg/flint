@@ -1,4 +1,7 @@
+import { Image, ImageReference } from "mdast";
+
 import { markdownLanguage } from "../language.js";
+import { WithPosition } from "../nodes.js";
 
 export default markdownLanguage.createRule({
 	about: {
@@ -33,46 +36,30 @@ export default markdownLanguage.createRule({
 		},
 	},
 	setup(context) {
+		function checkNode(node: WithPosition<Image | ImageReference>) {
+			if (!node.alt) {
+				context.report({
+					message: "missingAlt",
+					range: {
+						begin: node.position.start.offset,
+						end: node.position.end.offset,
+					},
+				});
+			} else if (node.alt.trim() === "") {
+				context.report({
+					message: "whitespaceAlt",
+					range: {
+						begin: node.position.start.offset,
+						end: node.position.end.offset,
+					},
+				});
+			}
+		}
+
 		return {
 			visitors: {
-				image(node) {
-					if (!node.alt) {
-						context.report({
-							message: "missingAlt",
-							range: {
-								begin: node.position.start.offset,
-								end: node.position.end.offset,
-							},
-						});
-					} else if (node.alt.trim() === "") {
-						context.report({
-							message: "whitespaceAlt",
-							range: {
-								begin: node.position.start.offset,
-								end: node.position.end.offset,
-							},
-						});
-					}
-				},
-				imageReference(node) {
-					if (!node.alt) {
-						context.report({
-							message: "missingAlt",
-							range: {
-								begin: node.position.start.offset,
-								end: node.position.end.offset,
-							},
-						});
-					} else if (node.alt.trim() === "") {
-						context.report({
-							message: "whitespaceAlt",
-							range: {
-								begin: node.position.start.offset,
-								end: node.position.end.offset,
-							},
-						});
-					}
-				},
+				image: checkNode,
+				imageReference: checkNode,
 			},
 		};
 	},

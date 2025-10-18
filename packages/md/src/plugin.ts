@@ -1,6 +1,7 @@
 import { createPlugin } from "@flint.fyi/core";
 
 import bareUrls from "./rules/bareUrls.js";
+import fencedCodeLanguages from "./rules/fencedCodeLanguages.js";
 import headingIncrements from "./rules/headingIncrements.js";
 import imageAltTexts from "./rules/imageAltTexts.js";
 
@@ -9,5 +10,5 @@ export const md = createPlugin({
 		all: ["**/*.md"],
 	},
 	name: "md",
-	rules: [bareUrls, headingIncrements, imageAltTexts],
+	rules: [bareUrls, fencedCodeLanguages, headingIncrements, imageAltTexts],
 });
