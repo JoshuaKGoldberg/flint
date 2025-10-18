@@ -25,28 +25,16 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					// Only check <html> elements (case-sensitive - only lowercase html)
-					if (!ts.isIdentifier(node.tagName)) {
-						return;
-					}
-
-					if (node.tagName.text !== "html") {
-						return;
-					}
-
-					// Check if lang attribute exists
-					const hasLangAttribute = node.attributes.properties.some((attr) => {
-						if (!ts.isJsxAttribute(attr)) {
-							return false;
-						}
-
-						return (
-							ts.isIdentifier(attr.name) &&
-							attr.name.text.toLowerCase() === "lang"
-						);
-					});
-
-					if (!hasLangAttribute) {
+					if (
+						ts.isIdentifier(node.tagName) &&
+						node.tagName.text === "html" &&
+						!node.attributes.properties.some(
+							(property) =>
+								ts.isJsxAttribute(property) &&
+								ts.isIdentifier(property.name) &&
+								property.name.text.toLowerCase() === "lang",
+						)
+					) {
 						context.report({
 							message: "missingLang",
 							range: getTSNodeRange(node.tagName, context.sourceFile),
