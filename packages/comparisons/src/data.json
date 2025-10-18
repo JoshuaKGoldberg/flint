@@ -1746,6 +1746,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "linkContents",
 			"plugin": "md",
 			"preset": "Logical"

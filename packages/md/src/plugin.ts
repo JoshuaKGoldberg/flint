@@ -5,6 +5,7 @@ import fencedCodeLanguages from "./rules/fencedCodeLanguages.js";
 import headingIncrements from "./rules/headingIncrements.js";
 import imageAltTexts from "./rules/imageAltTexts.js";
 import imageContents from "./rules/imageContents.js";
+import linkContents from "./rules/linkContents.js";
 
 export const md = createPlugin({
 	files: {
@@ -17,5 +18,6 @@ export const md = createPlugin({
 		headingIncrements,
 		imageAltTexts,
 		imageContents,
+		linkContents,
 	],
 });
