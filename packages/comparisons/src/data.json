@@ -1296,6 +1296,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "mouseEventKeyEvents",
 			"plugin": "jsx",
 			"preset": "Logical"
