@@ -9819,9 +9819,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nonOctalDecimalEscapes",
 			"plugin": "ts",
-			"preset": "Untyped"
+			"preset": "Logical"
 		},
 		"oxlint": [
 			{
@@ -12554,6 +12555,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "selfAssignments",
 			"plugin": "ts",
 			"preset": "Logical"
