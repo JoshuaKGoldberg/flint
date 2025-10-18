@@ -1126,6 +1126,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "htmlLangs",
 			"plugin": "jsx",
 			"preset": "Logical"
