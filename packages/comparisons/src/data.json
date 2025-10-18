@@ -1263,6 +1263,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "mediaCaptions",
 			"plugin": "jsx",
 			"preset": "Logical"
