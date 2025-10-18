@@ -12,6 +12,8 @@
 		"tsconfig.tsbuildinfo"
 	],
 	"words": [
+		"affordances",
+		"autolinks",
 		"deoptimizations",
 		"destructures",
 		"joshuakgoldberg",

@@ -1,11 +1,11 @@
 ---
 description: "CSpell linting rules provided by Flint."
-sidebar:
-  order: 0
 title: "About"
 ---
 
 import { PackageManagers } from "starlight-package-managers";
+
+import { RulesTable } from "~/components/RulesTable.tsx";
 
 Flint's CSpell plugin supports running the [CSpell spell checker](https://cspell.org) on any source file.
 
@@ -29,3 +29,7 @@ export default defineConfig({
 	],
 });
 ```
+
+## Rules
+
+<RulesTable implementing plugin="cspell" />

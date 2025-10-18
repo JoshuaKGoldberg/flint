@@ -13,7 +13,8 @@
 			}
 		],
 		"flint": {
-			"name": "browserAlerts",
+			"implemented": true,
+			"name": "alerts",
 			"plugin": "browser",
 			"preset": "Logical"
 		},
@@ -34,8 +35,7 @@
 		"flint": {
 			"name": "classListToggles",
 			"plugin": "browser",
-			"preset": "Stylistic",
-			"strictness": "Strict"
+			"preset": "Stylistic"
 		}
 	},
 	{
@@ -526,6 +526,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "keyDuplicates",
 			"plugin": "json",
 			"preset": "Logical"
@@ -539,6 +540,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "keyNormalization",
 			"plugin": "json",
 			"preset": "Logical"
@@ -719,6 +721,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "valueSafety",
 			"plugin": "json",
 			"preset": "Logical"
@@ -732,14 +735,15 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "accessKeys",
 			"plugin": "jsx",
 			"preset": "Logical"
 		},
 		"oxlint": [
 			{
-				"name": "eslint/no-access-key",
-				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-access-key.html"
+				"name": "jsx-a11y/no-access-key",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/jsx_a11y/no-access-key.html"
 			}
 		]
 	},
@@ -1533,6 +1537,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "bareUrls",
 			"plugin": "md",
 			"preset": "Stylistic",
@@ -3529,6 +3534,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "spelling",
 			"plugin": "cspell",
 			"preset": "Logical"
@@ -4845,6 +4851,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "caseDuplicates",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -5015,8 +5022,7 @@
 		"flint": {
 			"name": "classFieldDeclarations",
 			"plugin": "ts",
-			"preset": "Untyped",
-			"strictness": "Strict"
+			"preset": "Untyped"
 		}
 	},
 	{
@@ -5978,6 +5984,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "elseIfDuplicates",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -6886,6 +6893,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "forDirections",
 			"plugin": "ts",
 			"preset": "Stylistic"
@@ -7244,6 +7252,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "globalAssignments",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -7275,6 +7284,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "globalObjectCalls",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -9809,9 +9819,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nonOctalDecimalEscapes",
 			"plugin": "ts",
-			"preset": "Untyped"
+			"preset": "Logical"
 		},
 		"oxlint": [
 			{
@@ -10018,9 +10029,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "numericLiteralParsing",
 			"plugin": "ts",
-			"preset": "Logical"
+			"preset": "Stylistic"
 		},
 		"oxlint": [
 			{
@@ -12543,6 +12555,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "selfAssignments",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -12574,6 +12587,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "selfComparisons",
 			"plugin": "ts",
 			"preset": "Logical",
@@ -12601,6 +12615,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "sequences",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -13656,6 +13671,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "typeofComparisons",
 			"plugin": "ts",
 			"preset": "Untyped"
@@ -14672,6 +14688,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unsafeNegations",
 			"plugin": "ts",
 			"preset": "Untyped"

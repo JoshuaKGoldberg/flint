@@ -1,18 +1,34 @@
 .rulesTable {
-	font-size: 70%;
+	font-size: var(--tableFontSize);
 	table-layout: fixed;
 }
 
-.rulesTable td:nth-child(3),
-.rulesTable td:nth-child(4),
-.rulesTable td:nth-child(5),
-.rulesTable td:nth-child(6) {
-	width: 14%;
+.rulesTable.small {
+	--tableFontSize: 70%;
+}
+
+.rulesTable.normal {
+	--tableFontSize: 85%;
+}
+
+.rulesTable td.rulesWithPlugin {
+	--tableRuleCellWidth: 14%;
+}
+
+.rulesTable td.rulesWithoutPlugin {
+	--tableRuleCellWidth: 20%;
+}
+
+.rulesTable td:not(:empty) {
+	width: var(--tableRuleCellWidth);
 }
 
 .rulesTable code {
-	font-size: 70%;
 	word-wrap: normal;
+}
+
+.small code {
+	font-size: var(--tableFontSize);
 }
 
 .rulesTable td,
@@ -27,8 +43,4 @@
 
 .rulesTable td a:has(code) {
 	display: block;
-}
-
-.rulesTable td code {
-	padding: 0.125rem 0.2rem;
 }
