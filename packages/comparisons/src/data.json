@@ -278,6 +278,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "scriptUrls",
 			"plugin": "browser",
 			"preset": "Logical"
@@ -1126,6 +1127,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "htmlLangs",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1145,6 +1147,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "iframeTitles",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1605,6 +1608,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "fencedCodeLanguages",
 			"plugin": "md",
 			"preset": "Stylistic",
@@ -1689,6 +1693,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "imageAltTexts",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1702,6 +1707,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "imageContents",
 			"plugin": "md",
 			"preset": "Logical"
