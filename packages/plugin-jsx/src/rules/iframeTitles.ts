@@ -26,27 +26,22 @@ export default typescriptLanguage.createRule({
 			tagName: ts.JsxTagNameExpression,
 			attributes: ts.JsxAttributes,
 		) {
-			// Only check <iframe> elements
-			if (!ts.isIdentifier(tagName)) {
+			if (
+				!ts.isIdentifier(tagName) ||
+				tagName.text.toLowerCase() !== "iframe"
+			) {
 				return;
 			}
 
-			if (tagName.text.toLowerCase() !== "iframe") {
-				return;
-			}
-
-			// Check if title attribute exists and has a non-empty value
-			const titleAttr = attributes.properties.find((attr) => {
-				if (!ts.isJsxAttribute(attr)) {
-					return false;
-				}
-
+			const titleAttribute = attributes.properties.find((property) => {
 				return (
-					ts.isIdentifier(attr.name) && attr.name.text.toLowerCase() === "title"
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text.toLowerCase() === "title"
 				);
 			});
 
-			if (!titleAttr || !ts.isJsxAttribute(titleAttr)) {
+			if (!titleAttribute || !ts.isJsxAttribute(titleAttribute)) {
 				context.report({
 					message: "missingTitle",
 					range: getTSNodeRange(tagName, context.sourceFile),
@@ -54,8 +49,7 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			// Check if title has a value
-			if (!titleAttr.initializer) {
+			if (!titleAttribute.initializer) {
 				context.report({
 					message: "missingTitle",
 					range: getTSNodeRange(tagName, context.sourceFile),
@@ -63,27 +57,24 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			// Check for empty string literals
-			if (ts.isStringLiteral(titleAttr.initializer)) {
-				if (titleAttr.initializer.text === "") {
+			if (ts.isStringLiteral(titleAttribute.initializer)) {
+				if (titleAttribute.initializer.text === "") {
 					context.report({
 						message: "missingTitle",
 						range: getTSNodeRange(tagName, context.sourceFile),
 					});
 				}
-			}
-			// Check for JSX expressions with empty values
-			else if (ts.isJsxExpression(titleAttr.initializer)) {
-				const expr = titleAttr.initializer.expression;
-				if (!expr) {
+			} else if (ts.isJsxExpression(titleAttribute.initializer)) {
+				const { expression } = titleAttribute.initializer;
+				if (!expression) {
 					return;
 				}
 
-				// Check for empty string, empty template, undefined
 				if (
-					(ts.isStringLiteral(expr) && expr.text === "") ||
-					(ts.isNoSubstitutionTemplateLiteral(expr) && expr.text === "") ||
-					(ts.isIdentifier(expr) && expr.text === "undefined")
+					(ts.isStringLiteral(expression) && expression.text === "") ||
+					(ts.isNoSubstitutionTemplateLiteral(expression) &&
+						expression.text === "") ||
+					(ts.isIdentifier(expression) && expression.text === "undefined")
 				) {
 					context.report({
 						message: "missingTitle",
