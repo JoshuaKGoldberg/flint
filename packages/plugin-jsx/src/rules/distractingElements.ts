@@ -24,12 +24,15 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(tagName: ts.JsxTagNameExpression) {
+		function checkElement({
+			tagName,
+		}: ts.JsxOpeningElement | ts.JsxSelfClosingElement) {
 			if (!ts.isIdentifier(tagName)) {
 				return;
 			}
 
 			const elementName = tagName.text.toLowerCase();
+
 			if (distractingElements.has(elementName)) {
 				context.report({
 					data: { element: elementName },
@@ -41,12 +44,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkElement(node.tagName);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkElement(node.tagName);
-				},
+				JsxOpeningElement: checkElement,
+				JsxSelfClosingElement: checkElement,
 			},
 		};
 	},
