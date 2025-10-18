@@ -12,7 +12,7 @@ export default markdownLanguage.createRule({
 	},
 	messages: {
 		missingLanguage: {
-			primary: "This fenced code block is missing a language.",
+			primary: "This fenced code block's language is ambiguous.",
 			secondary: [
 				"Fenced code blocks should specify a language for proper syntax highlighting.",
 				"Even for plain text, it's preferable to use 'text' to indicate your intention.",
@@ -28,27 +28,26 @@ export default markdownLanguage.createRule({
 		return {
 			visitors: {
 				root(node: WithPosition<Root>) {
-					function visit(n: Node): void {
-						if (n.type === "code") {
-							const code = n as Code;
-							// Check if the code block has no language specified
+					function visit(node: Node): void {
+						if (node.type === "code") {
 							if (
-								!code.lang &&
-								code.position?.start.offset !== undefined &&
-								code.position.end.offset !== undefined
+								!(node as Code).lang &&
+								node.position?.start.offset !== undefined &&
+								node.position.end.offset !== undefined
 							) {
 								context.report({
 									message: "missingLanguage",
 									range: {
-										begin: code.position.start.offset,
-										end: code.position.end.offset,
+										begin: node.position.start.offset,
+										end: node.position.end.offset,
 									},
 								});
+								return;
 							}
 						}
 
-						if ("children" in n && Array.isArray(n.children)) {
-							for (const child of n.children as Node[]) {
+						if ("children" in node && Array.isArray(node.children)) {
+							for (const child of node.children as Node[]) {
 								visit(child);
 							}
 						}

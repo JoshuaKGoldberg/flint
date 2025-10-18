@@ -13,7 +13,7 @@ console.log(message);
 			snapshot: `
 \`\`\`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This fenced code block is missing a language.
+This fenced code block's language is ambiguous.
 const message = "Hello, world!";
 console.log(message);
 \`\`\`
@@ -32,7 +32,7 @@ Some text.
 
 \`\`\`
 ~~~~~~~~~~~~~~~~~~~~~~~
-This fenced code block is missing a language.
+This fenced code block's language is ambiguous.
 plain text here
 \`\`\`
 `,
@@ -52,7 +52,7 @@ More content.
 
 \`\`\`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This fenced code block is missing a language.
+This fenced code block's language is ambiguous.
 code without language
 \`\`\`
 
@@ -72,13 +72,13 @@ second block
 			snapshot: `
 \`\`\`
 ~~~~~~~~~~~~~~~~~~~
-This fenced code block is missing a language.
+This fenced code block's language is ambiguous.
 first block
 \`\`\`
 
 \`\`\`
 ~~~~~~~~~~~~~~~~~~~~
-This fenced code block is missing a language.
+This fenced code block's language is ambiguous.
 second block
 \`\`\`
 `,
