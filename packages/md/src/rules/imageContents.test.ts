@@ -15,11 +15,11 @@ This image has an empty URL.
 		},
 		{
 			code: `
-![ESLint Logo]()
+![Flint Logo]()
 `,
 			snapshot: `
-![ESLint Logo]()
-~~~~~~~~~~~~~~~~
+![Flint Logo]()
+~~~~~~~~~~~~~~~
 This image has an empty URL.
 `,
 		},
