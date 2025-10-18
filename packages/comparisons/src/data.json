@@ -960,6 +960,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "autoFocusProps",
 			"plugin": "jsx",
 			"preset": "Logical"
