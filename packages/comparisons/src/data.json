@@ -756,6 +756,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "altText",
 			"plugin": "jsx",
 			"preset": "Logical"
