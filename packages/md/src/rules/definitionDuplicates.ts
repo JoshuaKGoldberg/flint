@@ -36,7 +36,7 @@ export default markdownLanguage.createRule({
 
 					const normalizedIdentifier = node.identifier.toLowerCase();
 					const begin = node.position.start.offset;
-					const end = node.position.end.offset;
+					const end = begin + node.identifier.length + 2;
 
 					if (seenIdentifiers.has(normalizedIdentifier)) {
 						context.report({
