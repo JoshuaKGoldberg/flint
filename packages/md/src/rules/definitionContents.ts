@@ -24,7 +24,6 @@ export default markdownLanguage.createRule({
 		return {
 			visitors: {
 				definition(node) {
-					// Allow comment-style definitions like [//]:
 					if (node.identifier === "//") {
 						return;
 					}
