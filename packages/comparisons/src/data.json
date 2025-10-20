@@ -278,6 +278,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "scriptUrls",
 			"plugin": "browser",
 			"preset": "Logical"
@@ -1067,6 +1068,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "distractingElements",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1125,6 +1127,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "htmlLangs",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1144,6 +1147,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "iframeTitles",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1552,6 +1556,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "definitionContents",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1565,6 +1570,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "definitionDuplicates",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1578,6 +1584,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "definitionUses",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1604,6 +1611,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "fencedCodeLanguages",
 			"plugin": "md",
 			"preset": "Stylistic",
@@ -1688,6 +1696,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "imageAltTexts",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1701,6 +1710,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "imageContents",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1714,6 +1724,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "labelReferences",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1727,6 +1738,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "labelReferenceValidity",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1740,6 +1752,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "linkContents",
 			"plugin": "md",
 			"preset": "Logical"
@@ -7064,6 +7077,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "functionNewCalls",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -9819,9 +9833,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nonOctalDecimalEscapes",
 			"plugin": "ts",
-			"preset": "Untyped"
+			"preset": "Logical"
 		},
 		"oxlint": [
 			{
@@ -10028,9 +10043,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "numericLiteralParsing",
 			"plugin": "ts",
-			"preset": "Logical"
+			"preset": "Stylistic"
 		},
 		"oxlint": [
 			{
@@ -12553,6 +12569,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "selfAssignments",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -13668,6 +13685,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "typeofComparisons",
 			"plugin": "ts",
 			"preset": "Untyped"

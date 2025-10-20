@@ -42,73 +42,73 @@ export default markdownLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				root(node: WithPosition<Root>) {
+				root(root: WithPosition<Root>) {
 					const definitionIdentifiers = new Set<string>();
 
-					// Collect all definition identifiers
-					function collectDefinitions(n: Node): void {
-						if (n.type === "definition") {
-							const def = n as Definition;
-							// Identifiers are case-insensitive in Markdown
-							definitionIdentifiers.add(def.identifier.toLowerCase());
+					function collectDefinitions(node: Node) {
+						if (node.type === "definition") {
+							definitionIdentifiers.add(
+								(node as Definition).identifier.toLowerCase(),
+							);
 						}
 
-						if ("children" in n && Array.isArray(n.children)) {
-							for (const child of n.children as Node[]) {
+						if ("children" in node && Array.isArray(node.children)) {
+							for (const child of node.children as Node[]) {
 								collectDefinitions(child);
 							}
 						}
 					}
 
-					// Check for resource links/images that use definition identifiers as URLs
-					function checkNodes(n: Node): void {
-						if (n.type === "link") {
-							const link = n as Link;
-							// Check if the URL matches a definition identifier
-							const urlLower = link.url.toLowerCase();
-							if (
-								definitionIdentifiers.has(urlLower) &&
-								link.position?.start.offset !== undefined &&
-								link.position.end.offset !== undefined
-							) {
-								context.report({
-									data: { url: link.url },
-									message: "linkReferenceLike",
-									range: {
-										begin: link.position.start.offset,
-										end: link.position.end.offset,
-									},
-								});
-							}
-						} else if (n.type === "image") {
-							const image = n as Image;
-							// Check if the URL matches a definition identifier
-							const urlLower = image.url.toLowerCase();
-							if (
-								definitionIdentifiers.has(urlLower) &&
-								image.position?.start.offset !== undefined &&
-								image.position.end.offset !== undefined
-							) {
-								context.report({
-									data: { url: image.url },
-									message: "imageReferenceLike",
-									range: {
-										begin: image.position.start.offset,
-										end: image.position.end.offset,
-									},
-								});
-							}
+					function checkLink(node: Link) {
+						const urlLower = node.url.toLowerCase();
+						if (
+							definitionIdentifiers.has(urlLower) &&
+							node.position?.start.offset !== undefined &&
+							node.position.end.offset !== undefined
+						) {
+							context.report({
+								data: { url: node.url },
+								message: "linkReferenceLike",
+								range: {
+									begin: node.position.start.offset,
+									end: node.position.end.offset,
+								},
+							});
 						}
+					}
 
-						if ("children" in n && Array.isArray(n.children)) {
-							for (const child of n.children as Node[]) {
+					function checkImage(image: Image) {
+						const urlLower = image.url.toLowerCase();
+						if (
+							definitionIdentifiers.has(urlLower) &&
+							image.position?.start.offset !== undefined &&
+							image.position.end.offset !== undefined
+						) {
+							context.report({
+								data: { url: image.url },
+								message: "imageReferenceLike",
+								range: {
+									begin: image.position.start.offset,
+									end: image.position.end.offset,
+								},
+							});
+						}
+					}
+
+					function checkNodes(node: Node) {
+						if (node.type === "link") {
+							checkLink(node as Link);
+						} else if (node.type === "image") {
+							checkImage(node as Image);
+						} else if ("children" in node && Array.isArray(node.children)) {
+							for (const child of node.children as Node[]) {
 								checkNodes(child);
 							}
 						}
 					}
 
-					collectDefinitions(node);
-					checkNodes(node);
+					collectDefinitions(root);
+					checkNodes(root);
 				},
 			},
 		};
