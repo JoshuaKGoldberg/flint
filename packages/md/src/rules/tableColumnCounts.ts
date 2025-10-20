@@ -29,55 +29,54 @@ export default markdownLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				root(node: WithPosition<Root>) {
-					function visit(n: Node): void {
-						if (n.type === "table") {
-							const table = n as Table;
+				root(root: WithPosition<Root>) {
+					function visitTable(table: Table) {
+						if (table.children.length === 0) {
+							return;
+						}
 
-							// A table should have at least a header row
-							if (table.children.length === 0) {
-								return;
-							}
+						const headerRow = table.children[0];
+						const headerCellCount = headerRow.children.length;
 
-							// First row is the header
-							const headerRow = table.children[0];
-							const headerCellCount = headerRow.children.length;
+						for (let i = 1; i < table.children.length; i += 1) {
+							const dataRow = table.children[i];
+							const dataCellCount = dataRow.children.length;
 
-							// Check all subsequent rows (data rows)
-							for (let i = 1; i < table.children.length; i++) {
-								const dataRow = table.children[i];
-								const dataCellCount = dataRow.children.length;
-
-								// Report if data row has MORE cells than header
-								if (dataCellCount > headerCellCount) {
-									if (
-										dataRow.position?.start.offset !== undefined &&
-										dataRow.position.end.offset !== undefined
-									) {
-										context.report({
-											data: {
-												actual: String(dataCellCount),
-												expected: String(headerCellCount),
-											},
-											message: "tooManyCells",
-											range: {
-												begin: dataRow.position.start.offset,
-												end: dataRow.position.end.offset,
-											},
-										});
-									}
+							// Report if data row has MORE cells than header
+							if (dataCellCount > headerCellCount) {
+								if (
+									dataRow.position?.start.offset !== undefined &&
+									dataRow.position.end.offset !== undefined
+								) {
+									context.report({
+										data: {
+											actual: String(dataCellCount),
+											expected: String(headerCellCount),
+										},
+										message: "tooManyCells",
+										range: {
+											begin: dataRow.position.start.offset,
+											end: dataRow.position.end.offset,
+										},
+									});
 								}
 							}
 						}
+					}
 
-						if ("children" in n && Array.isArray(n.children)) {
-							for (const child of n.children as Node[]) {
+					function visit(node: Node) {
+						if (node.type === "table") {
+							visitTable(node as Table);
+						}
+
+						if ("children" in node && Array.isArray(node.children)) {
+							for (const child of node.children as Node[]) {
 								visit(child);
 							}
 						}
 					}
 
-					visit(node);
+					visit(root);
 				},
 			},
 		};
