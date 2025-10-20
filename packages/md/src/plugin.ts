@@ -3,6 +3,7 @@ import { createPlugin } from "@flint.fyi/core";
 import bareUrls from "./rules/bareUrls.js";
 import definitionContents from "./rules/definitionContents.js";
 import definitionDuplicates from "./rules/definitionDuplicates.js";
+import definitionUses from "./rules/definitionUses.js";
 import fencedCodeLanguages from "./rules/fencedCodeLanguages.js";
 import headingIncrements from "./rules/headingIncrements.js";
 import imageAltTexts from "./rules/imageAltTexts.js";
@@ -18,6 +19,7 @@ export const md = createPlugin({
 		bareUrls,
 		definitionDuplicates,
 		definitionContents,
+		definitionUses,
 		fencedCodeLanguages,
 		headingIncrements,
 		imageAltTexts,
