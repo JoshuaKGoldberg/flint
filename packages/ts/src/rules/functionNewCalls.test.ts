@@ -93,6 +93,18 @@ const result = new Function("a", "b", "return a + b")(1, 2);
                    Dynamically creating functions with the Function constructor is insecure and slow.
 `,
 		},
+		{
+			code: `
+const CustomFunction = Function;
+const fn = new CustomFunction();
+`,
+			snapshot: `
+const CustomFunction = Function;
+const fn = new CustomFunction();
+               ~~~~~~~~~~~~~~
+               Dynamically creating functions with the Function constructor is insecure and slow.
+`,
+		},
 	],
 	valid: [
 		`const fn = function(a, b) { return a + b; };`,
@@ -100,6 +112,5 @@ const result = new Function("a", "b", "return a + b")(1, 2);
 		`function add(a, b) { return a + b; }`,
 		`class MyFunction {}`,
 		`const fn = new MyFunction();`,
-		// `const CustomFunction = Function; const fn = new CustomFunction();`,
 	],
 });

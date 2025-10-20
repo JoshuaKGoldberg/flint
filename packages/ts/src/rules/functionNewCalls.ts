@@ -3,6 +3,7 @@ import * as ts from "typescript";
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
 import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
+import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -38,8 +39,11 @@ export default typescriptLanguage.createRule({
 		function isFunctionConstructor(node: ts.CallExpression | ts.NewExpression) {
 			if (ts.isIdentifier(node.expression)) {
 				if (
-					node.expression.text === "Function" &&
-					isGlobalDeclaration(node.expression, context.typeChecker)
+					isGlobalDeclarationOfName(
+						node.expression,
+						"Function",
+						context.typeChecker,
+					)
 				) {
 					return true;
 				}
