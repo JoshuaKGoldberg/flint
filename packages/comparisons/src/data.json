@@ -1556,6 +1556,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "definitionContents",
 			"plugin": "md",
 			"preset": "Logical"
