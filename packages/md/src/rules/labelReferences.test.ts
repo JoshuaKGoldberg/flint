@@ -5,32 +5,22 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-[ESLint][eslint]
+[Flint][flint]
 `,
 			snapshot: `
-[ESLint][eslint]
- ~~~~~~
- This label reference 'eslint' has no definition.
+[Flint][flint]
+ ~~~~~
+ This label reference 'flint' has no definition.
 `,
 		},
 		{
 			code: `
-[eslint][]
+[flint][]
 `,
 			snapshot: `
-[eslint][]
- ~~~~~~
- This label reference 'eslint' has no definition.
-`,
-		},
-		{
-			code: `
-[eslint]
-`,
-			snapshot: `
-[eslint]
- ~~~~~~
- This label reference 'eslint' has no definition.
+[flint][]
+ ~~~~~
+ This label reference 'flint' has no definition.
 `,
 		},
 		{
@@ -64,19 +54,19 @@ ruleTester.describe(rule, {
 	],
 	valid: [
 		`
-[ESLint][eslint]
+[Flint][flint]
 
-[eslint]: https://eslint.org
+[flint]: https://eslint.org
 `,
 		`
-[eslint][]
+[flint][]
 
-[eslint]: https://eslint.org
+[flint]: https://eslint.org
 `,
 		`
-[eslint]
+[flint]
 
-[eslint]: https://eslint.org
+[flint]: https://eslint.org
 `,
 		`
 ![Logo][logo]
@@ -95,6 +85,9 @@ Check out [this link][ref] and ![this image][img].
 
 [ref]: https://example.com
 [img]: image.png
+`,
+		`
+- List Item [abc123]
 `,
 	],
 });

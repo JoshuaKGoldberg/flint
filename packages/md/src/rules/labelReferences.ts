@@ -6,7 +6,7 @@ import { markdownLanguage } from "../language.js";
 
 // Pattern to match label references: ![text][label], [text][label], [label][], or [label]
 // Includes optional ! for images
-const labelPattern = /!?\[(?<left>[^[\]\\]*)\](?:\[(?<right>[^\]\\]*)\])?/g;
+const labelPattern = /!?\[(?<left>[^[\]\\]*)\]\[(?<right>[^\]\\]*)\]/g;
 
 export default markdownLanguage.createRule({
 	about: {
