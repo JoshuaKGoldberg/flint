@@ -345,7 +345,7 @@ importers:
         version: link:../plugin-flint
       '@konami-emoji-blast/astro':
         specifier: ^0.1.1
-        version: 0.1.1(astro@5.13.2(@types/node@24.7.0)(jiti@2.6.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))(konami-emoji-blast@0.5.9)
+        version: 0.1.1(astro@5.13.2(@types/node@24.7.0)(jiti@2.6.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))(konami-emoji-blast@0.6.0)
       '@types/node':
         specifier: ^24.3.0
         version: 24.7.0
@@ -365,8 +365,8 @@ importers:
         specifier: 'workspace:'
         version: link:../flint
       konami-emoji-blast:
-        specifier: ^0.5.9
-        version: 0.5.9
+        specifier: ^0.6.0
+        version: 0.6.0
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -3207,8 +3207,8 @@ packages:
   konami-code-js@0.8.3:
     resolution: {integrity: sha512-TDiZMsSWTPCZVClclyU7HTZC/3Ql972HhvT/D33evd3+8FgR1DZcCVe84kKsSSvDqzJII0R4m74WASZDlcpIoQ==}
 
-  konami-emoji-blast@0.5.9:
-    resolution: {integrity: sha512-iFXd/V/hsOG4W/Oh7L0voKCJjFjJjTyB3nrc1eqr9tT8fkLpRFy5aqXtmEBLt5RKsJDbe6VOtH0lAHdvZmLv9g==}
+  konami-emoji-blast@0.6.0:
+    resolution: {integrity: sha512-+DXeB2quuLE4DQ6C/vth9CB575x8Xg+4YO8ZqaDciWWlS3ek9etMPti4xXRzKZT5/hd7IgkuRITzQ3vNLMbNdg==}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -5949,10 +5949,10 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@konami-emoji-blast/astro@0.1.1(astro@5.13.2(@types/node@24.7.0)(jiti@2.6.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))(konami-emoji-blast@0.5.9)':
+  '@konami-emoji-blast/astro@0.1.1(astro@5.13.2(@types/node@24.7.0)(jiti@2.6.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))(konami-emoji-blast@0.6.0)':
     dependencies:
       astro: 5.13.2(@types/node@24.7.0)(jiti@2.6.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)
-      konami-emoji-blast: 0.5.9
+      konami-emoji-blast: 0.6.0
 
   '@manypkg/find-root@1.1.0':
     dependencies:
@@ -8027,7 +8027,7 @@ snapshots:
 
   konami-code-js@0.8.3: {}
 
-  konami-emoji-blast@0.5.9:
+  konami-emoji-blast@0.6.0:
     dependencies:
       emoji-blast: 0.11.0
       konami-code-js: 0.8.3
