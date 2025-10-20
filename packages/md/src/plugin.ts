@@ -8,6 +8,7 @@ import fencedCodeLanguages from "./rules/fencedCodeLanguages.js";
 import headingIncrements from "./rules/headingIncrements.js";
 import imageAltTexts from "./rules/imageAltTexts.js";
 import imageContents from "./rules/imageContents.js";
+import labelReferences from "./rules/labelReferences.js";
 import linkContents from "./rules/linkContents.js";
 
 export const md = createPlugin({
@@ -21,6 +22,7 @@ export const md = createPlugin({
 		definitionContents,
 		definitionUses,
 		fencedCodeLanguages,
+		labelReferences,
 		headingIncrements,
 		imageAltTexts,
 		imageContents,
