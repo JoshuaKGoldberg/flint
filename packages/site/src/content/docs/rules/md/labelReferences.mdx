@@ -20,15 +20,15 @@ Each label reference must have a corresponding definition somewhere in the docum
 <TabItem label="❌ Incorrect">
 
 ```markdown
-[ESLint][eslint]
+[Flint][flint]
 ```
 
 ```markdown
-[eslint][]
+[flint][]
 ```
 
 ```markdown
-[eslint]
+[flint]
 ```
 
 ```markdown
@@ -39,15 +39,15 @@ Each label reference must have a corresponding definition somewhere in the docum
 <TabItem label="✅ Correct">
 
 ```markdown
-[ESLint][eslint]
+[Flint][flint]
 
-[eslint]: https://eslint.org
+[flint]: https://flint.fyi
 ```
 
 ```markdown
-[eslint][]
+[flint][]
 
-[eslint]: https://eslint.org
+[flint]: https://flint.fyi
 ```
 
 ```markdown
@@ -61,12 +61,11 @@ Each label reference must have a corresponding definition somewhere in the docum
 
 ## When Not To Use It
 
-If you aren't concerned with missing label references or intentionally use undefined labels for some workflow purpose, you can disable this rule.
+If you use a framework or other workflow that fills in labels for you, you can disable this rule.
 
 ## Further Reading
 
 - [Markdown Reference-Style Links](https://www.markdownguide.org/basic-syntax/#reference-style-links)
-- [MD052 - Reference links and images](https://github.com/DavidAnson/markdownlint/blob/main/doc/md052.md)
 
 ## Equivalents in Other Linters
 

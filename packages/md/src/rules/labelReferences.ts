@@ -4,6 +4,10 @@ import type { WithPosition } from "../nodes.js";
 
 import { markdownLanguage } from "../language.js";
 
+// Pattern to match label references: ![text][label], [text][label], [label][], or [label]
+// Includes optional ! for images
+const labelPattern = /!?\[(?<left>[^[\]\\]*)\](?:\[(?<right>[^\]\\]*)\])?/g;
+
 export default markdownLanguage.createRule({
 	about: {
 		description: "Reports missing label references.",
@@ -27,96 +31,81 @@ export default markdownLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				root(node: WithPosition<Root>) {
+				root(root: WithPosition<Root>) {
 					const definitions = new Set<string>();
-					const missingReferences: {
+					const references: {
 						begin: number;
 						end: number;
 						identifier: string;
 					}[] = [];
 
-					// Pattern to match label references: ![text][label], [text][label], [label][], or [label]
-					// Includes optional ! for images
-					const labelPattern =
-						/!?\[(?<left>[^[\]\\]*)\](?:\[(?<right>[^\]\\]*)\])?/g;
-
-					// Traverse the tree to collect definitions and text nodes
-					function visit(n: Node): void {
-						if (n.type === "definition") {
-							const def = n as Definition;
-							definitions.add(def.identifier.toLowerCase());
-						} else if (n.type === "text") {
-							const textNode = n as Text;
-							if (
-								textNode.position?.start.offset === undefined ||
-								textNode.position.end.offset === undefined
-							) {
-								return;
-							}
-
-							let match: null | RegExpExecArray;
-
-							while ((match = labelPattern.exec(textNode.value))) {
-								const { left, right } = match.groups as {
-									left: string;
-									right?: string;
-								};
-
-								// Skip empty references like [][]
-								if (!left && !right) {
-									continue;
-								}
-
-								// Determine the label: use right if it exists (even if empty), otherwise left
-								let identifier: string;
-								if (right !== undefined) {
-									// [text][label] or [label][]
-									identifier = right.trim() || left.trim();
-								} else {
-									// [label]
-									identifier = left.trim();
-								}
-
-								if (!identifier) {
-									continue;
-								}
-
-								const startOffset =
-									textNode.position.start.offset + match.index;
-								const endOffset = startOffset + match[0].length;
-
-								missingReferences.push({
-									begin: startOffset,
-									end: endOffset,
-									identifier,
-								});
-							}
+					function visitTextNode(node: Text) {
+						if (
+							node.position?.start.offset === undefined ||
+							node.position.end.offset === undefined
+						) {
+							return;
 						}
 
-						if ("children" in n && Array.isArray(n.children)) {
-							for (const child of n.children as Node[]) {
+						let match: null | RegExpExecArray;
+
+						while ((match = labelPattern.exec(node.value))) {
+							if (!match.groups) {
+								break;
+							}
+							const { left, right } = match.groups;
+
+							// Skip empty references like [][]
+							if (!left && !right) {
+								continue;
+							}
+
+							const identifier = right
+								? right.trim() || left.trim()
+								: left.trim();
+
+							if (!identifier) {
+								continue;
+							}
+
+							const begin =
+								node.position.start.offset +
+								match.index +
+								(node.value.startsWith("!") ? 2 : 1);
+							const end = begin + identifier.length;
+
+							references.push({ begin, end, identifier });
+						}
+					}
+
+					function visit(node: Node): void {
+						if (node.type === "definition") {
+							definitions.add((node as Definition).identifier.toLowerCase());
+						} else if (node.type === "text") {
+							visitTextNode(node as Text);
+						}
+
+						if ("children" in node && Array.isArray(node.children)) {
+							for (const child of node.children as Node[]) {
 								visit(child);
 							}
 						}
 					}
 
-					visit(node);
+					// TODO: Add :exit selectors, so this rule can report after traversal?
+					visit(root);
 
-					// Filter out references that have definitions
-					const actuallyMissing = missingReferences.filter(
-						(ref) => !definitions.has(ref.identifier.toLowerCase()),
-					);
-
-					// Report missing label references
-					for (const reference of actuallyMissing) {
-						context.report({
-							data: { identifier: reference.identifier },
-							message: "missingLabel",
-							range: {
-								begin: reference.begin,
-								end: reference.end,
-							},
-						});
+					for (const reference of references) {
+						if (!definitions.has(reference.identifier.toLowerCase())) {
+							context.report({
+								data: { identifier: reference.identifier },
+								message: "missingLabel",
+								range: {
+									begin: reference.begin,
+									end: reference.end,
+								},
+							});
+						}
 					}
 				},
 			},

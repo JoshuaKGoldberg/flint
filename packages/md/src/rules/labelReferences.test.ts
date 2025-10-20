@@ -9,8 +9,8 @@ ruleTester.describe(rule, {
 `,
 			snapshot: `
 [ESLint][eslint]
-~~~~~~~~~~~~~~~~
-This label reference 'eslint' has no definition.
+ ~~~~~~
+ This label reference 'eslint' has no definition.
 `,
 		},
 		{
@@ -19,8 +19,8 @@ This label reference 'eslint' has no definition.
 `,
 			snapshot: `
 [eslint][]
-~~~~~~~~~~
-This label reference 'eslint' has no definition.
+ ~~~~~~
+ This label reference 'eslint' has no definition.
 `,
 		},
 		{
@@ -29,8 +29,8 @@ This label reference 'eslint' has no definition.
 `,
 			snapshot: `
 [eslint]
-~~~~~~~~
-This label reference 'eslint' has no definition.
+ ~~~~~~
+ This label reference 'eslint' has no definition.
 `,
 		},
 		{
@@ -39,8 +39,8 @@ This label reference 'eslint' has no definition.
 `,
 			snapshot: `
 ![Logo][logo]
-~~~~~~~~~~~~~
-This label reference 'logo' has no definition.
+  ~~~~
+  This label reference 'logo' has no definition.
 `,
 		},
 		{
@@ -57,8 +57,8 @@ This label reference 'logo' has no definition.
 [valid]: https://example.com
 
 [Missing link][missing]
-~~~~~~~~~~~~~~~~~~~~~~~
-This label reference 'missing' has no definition.
+ ~~~~~~~
+ This label reference 'missing' has no definition.
 `,
 		},
 	],
