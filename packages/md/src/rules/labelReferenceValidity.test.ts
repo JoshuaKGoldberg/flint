@@ -5,22 +5,22 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-[eslint][ ]
+[flint][ ]
 `,
 			snapshot: `
-[eslint][ ]
-~~~~~~~~~~~
+[flint][ ]
+~~~~~~~~~~
 This label reference has invalid whitespace between brackets.
 `,
 		},
 		{
 			code: `
-[eslint][
+[flint][
 ]
 `,
 			snapshot: `
-[eslint][
-~~~~~~~~~~~
+[flint][
+~~~~~~~~~~
 This label reference has invalid whitespace between brackets.
 ]
 `,
@@ -37,22 +37,22 @@ This label reference has invalid whitespace between brackets.
 		},
 		{
 			code: `
-Check out [ESLint][ ] for more info.
+Check out [Flint][ ] for more info.
 `,
 			snapshot: `
-Check out [ESLint][ ] for more info.
-          ~~~~~~~~~~~
+Check out [Flint][ ] for more info.
+          ~~~~~~~~~~
           This label reference has invalid whitespace between brackets.
 `,
 		},
 	],
 	valid: [
-		`[eslint][]`,
-		`[eslint][eslint]`,
+		`[flint][]`,
+		`[flint][flint]`,
 		`
-[eslint][]
+[flint][]
 
-[eslint]: https://eslint.org
+[flint]: https://eslint.org
 `,
 		`
 [link][ref]
@@ -60,9 +60,9 @@ Check out [ESLint][ ] for more info.
 [ref]: https://example.com
 `,
 		`
-Check out [ESLint][] for more info.
+Check out [fLint][] for more info.
 
-[eslint]: https://eslint.org
+[flint]: https://eslint.org
 `,
 		`[valid]`,
 	],

@@ -4,6 +4,8 @@ import type { WithPosition } from "../nodes.js";
 
 import { markdownLanguage } from "../language.js";
 
+const invalidPattern = /\[[^\]]+\]\[\s+\]/g;
+
 export default markdownLanguage.createRule({
 	about: {
 		description: "Reports invalid label references with whitespace.",
@@ -27,46 +29,44 @@ export default markdownLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				root(node: WithPosition<Root>) {
-					// Pattern to match shorthand label references with whitespace: [label][ ] or [label][\n]
-					const invalidPattern = /\[[^\]]+\]\[\s+\]/g;
-
-					// Traverse the tree to find text nodes
-					function visit(n: Node): void {
-						if (n.type === "text") {
-							const textNode = n as Text;
-							if (
-								textNode.position?.start.offset === undefined ||
-								textNode.position.end.offset === undefined
-							) {
-								return;
-							}
-
-							let match: null | RegExpExecArray;
-
-							while ((match = invalidPattern.exec(textNode.value))) {
-								const startOffset =
-									textNode.position.start.offset + match.index;
-								const endOffset = startOffset + match[0].length;
-
-								context.report({
-									message: "invalidWhitespace",
-									range: {
-										begin: startOffset,
-										end: endOffset,
-									},
-								});
-							}
+				root(root: WithPosition<Root>) {
+					function visitText(node: Text) {
+						if (
+							node.position?.start.offset === undefined ||
+							node.position.end.offset === undefined
+						) {
+							return;
 						}
 
-						if ("children" in n && Array.isArray(n.children)) {
-							for (const child of n.children as Node[]) {
+						let match: null | RegExpExecArray;
+
+						while ((match = invalidPattern.exec(node.value))) {
+							const begin = node.position.start.offset + match.index;
+							const end = begin + match[0].length;
+
+							context.report({
+								message: "invalidWhitespace",
+								range: {
+									begin,
+									end,
+								},
+							});
+						}
+					}
+
+					// Traverse the tree to find text nodes
+					function visit(node: Node): void {
+						if (node.type === "text") {
+							visitText(node as Text);
+						} else if ("children" in node && Array.isArray(node.children)) {
+							for (const child of node.children as Node[]) {
 								visit(child);
 							}
 						}
 					}
 
-					visit(node);
+					// TODO: Add :exit selectors, so this rule can report after traversal?
+					visit(root);
 				},
 			},
 		};
