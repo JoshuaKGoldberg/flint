@@ -11,6 +11,7 @@ import imageContents from "./rules/imageContents.js";
 import labelReferences from "./rules/labelReferences.js";
 import labelReferenceValidity from "./rules/labelReferenceValidity.js";
 import linkContents from "./rules/linkContents.js";
+import referenceLikeUrls from "./rules/referenceLikeUrls.js";
 
 export const md = createPlugin({
 	files: {
@@ -25,6 +26,7 @@ export const md = createPlugin({
 		definitionUses,
 		fencedCodeLanguages,
 		labelReferences,
+		referenceLikeUrls,
 		headingIncrements,
 		imageAltTexts,
 		imageContents,
