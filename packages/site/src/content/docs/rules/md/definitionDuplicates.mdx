@@ -20,33 +20,33 @@ Definition identifiers are case-insensitive, so `earth` and `Earth` are treated 
 <TabItem label="❌ Incorrect">
 
 ```markdown
-[mercury]: https://example.com/mercury/
-[mercury]: https://example.com/venus/
+[mercury]: https://example.com/mercury
+[mercury]: https://example.com/venus
 ```
 
 ```markdown
-[earth]: https://example.com/earth/
-[Earth]: https://example.com/mars/
+[earth]: https://example.com/earth
+[Earth]: https://example.com/mars
 ```
 
 ```markdown
-[venus]: https://example.com/venus/
-[mars]: https://example.com/mars/
-[venus]: https://example.com/jupiter/
+[venus]: https://example.com/venus
+[mars]: https://example.com/mars
+[venus]: https://example.com/jupiter
 ```
 
 </TabItem>
 <TabItem label="✅ Correct">
 
 ```markdown
-[mercury]: https://example.com/mercury/
-[venus]: https://example.com/venus/
+[mercury]: https://example.com/mercury
+[venus]: https://example.com/venus
 ```
 
 ```markdown
-[earth]: https://example.com/earth/
-[mars]: https://example.com/mars/
-[jupiter]: https://example.com/jupiter/
+[earth]: https://example.com/earth
+[mars]: https://example.com/mars
+[jupiter]: https://example.com/jupiter
 ```
 
 ```markdown
@@ -60,7 +60,7 @@ Definition identifiers are case-insensitive, so `earth` and `Earth` are treated 
 
 ## When Not To Use It
 
-If you are using a custom Markdown processor that handles duplicate definitions differently, or intentionally use duplicate definitions for a specific purpose, you might want to disable this rule.
+If you are using a custom Markdown processor that handles duplicate definitions differently, or intentionally use duplicate definitions for an unusual framework or workflow, you might want to disable this rule.
 
 ## Further Reading
 

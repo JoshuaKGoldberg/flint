@@ -30,26 +30,24 @@ export default markdownLanguage.createRule({
 		return {
 			visitors: {
 				definition(node) {
-					// Allow comment-style definitions like [//]:
 					if (node.identifier === "//") {
 						return;
 					}
 
 					const normalizedIdentifier = node.identifier.toLowerCase();
+					const begin = node.position.start.offset;
+					const end = node.position.end.offset;
 
 					if (seenIdentifiers.has(normalizedIdentifier)) {
 						context.report({
 							data: { identifier: node.identifier },
 							message: "duplicateDefinition",
-							range: {
-								begin: node.position.start.offset,
-								end: node.position.end.offset,
-							},
+							range: { begin, end },
 						});
 					} else {
 						seenIdentifiers.set(normalizedIdentifier, {
-							begin: node.position.start.offset,
-							end: node.position.end.offset,
+							begin,
+							end,
 							identifier: node.identifier,
 						});
 					}
