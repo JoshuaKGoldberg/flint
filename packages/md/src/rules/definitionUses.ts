@@ -1,10 +1,4 @@
-import type {
-	Definition,
-	ImageReference,
-	LinkReference,
-	Node,
-	Root,
-} from "mdast";
+import type { Definition, ImageReference, Node, Root } from "mdast";
 
 import type { WithPosition } from "../nodes.js";
 
@@ -33,48 +27,55 @@ export default markdownLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				root(node: WithPosition<Root>) {
+				root(root: WithPosition<Root>) {
 					const definitions = new Map<
 						string,
 						{ begin: number; end: number; identifier: string }
 					>();
 					const usedIdentifiers = new Set<string>();
 
-					// Traverse the tree to collect definitions and references
-					function visit(n: Node): void {
-						if (n.type === "definition") {
-							const def = n as Definition;
-							// Allow comment-style definitions like [//]:
-							if (
-								def.identifier !== "//" &&
-								def.position?.start.offset !== undefined &&
-								def.position.end.offset !== undefined
-							) {
-								const normalizedIdentifier = def.identifier.toLowerCase();
-								definitions.set(normalizedIdentifier, {
-									begin: def.position.start.offset,
-									end: def.position.end.offset,
-									identifier: def.identifier,
-								});
-							}
-						} else if (n.type === "imageReference") {
-							const ref = n as ImageReference;
-							usedIdentifiers.add(ref.identifier.toLowerCase());
-						} else if (n.type === "linkReference") {
-							const ref = n as LinkReference;
-							usedIdentifiers.add(ref.identifier.toLowerCase());
+					function visitDefinition(node: Definition) {
+						if (
+							node.identifier === "//" ||
+							node.position?.start.offset === undefined ||
+							node.position.end.offset === undefined
+						) {
+							return;
 						}
 
-						if ("children" in n && Array.isArray(n.children)) {
-							for (const child of n.children as Node[]) {
+						const begin = node.position.start.offset;
+						const end = begin + node.identifier.length + 2;
+
+						definitions.set(node.identifier.toLowerCase(), {
+							begin,
+							end,
+							identifier: node.identifier,
+						});
+					}
+
+					function visit(node: Node): void {
+						switch (node.type) {
+							case "definition":
+								visitDefinition(node as Definition);
+								break;
+							case "imageReference":
+							case "linkReference":
+								usedIdentifiers.add(
+									(node as ImageReference).identifier.toLowerCase(),
+								);
+								break;
+						}
+
+						if ("children" in node && Array.isArray(node.children)) {
+							for (const child of node.children as Node[]) {
 								visit(child);
 							}
 						}
 					}
 
-					visit(node);
+					// TODO: Add :exit selectors, so this rule can report after traversal?
+					visit(root);
 
-					// Report unused definitions
 					for (const [normalizedIdentifier, definition] of definitions) {
 						if (!usedIdentifiers.has(normalizedIdentifier)) {
 							context.report({

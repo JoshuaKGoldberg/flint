@@ -5,11 +5,11 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-[mercury]: https://example.com/mercury/
+[mercury]: https://example.com/mercury
 `,
 			snapshot: `
-[mercury]: https://example.com/mercury/
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[mercury]: https://example.com/mercury
+~~~~~~~~~
 This definition 'mercury' is never used.
 `,
 		},
@@ -19,25 +19,25 @@ This definition 'mercury' is never used.
 `,
 			snapshot: `
 [venus]: https://example.com/venus.jpg
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
 This definition 'venus' is never used.
 `,
 		},
 		{
 			code: `
-[mercury]: https://example.com/mercury/
+[mercury]: https://example.com/mercury
 
 [Mercury][mercury]
 
-[venus]: https://example.com/venus/
+[venus]: https://example.com/venus
 `,
 			snapshot: `
-[mercury]: https://example.com/mercury/
+[mercury]: https://example.com/mercury
 
 [Mercury][mercury]
 
-[venus]: https://example.com/venus/
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[venus]: https://example.com/venus
+~~~~~~~
 This definition 'venus' is never used.
 `,
 		},
@@ -53,7 +53,7 @@ This definition 'venus' is never used.
 
 [earth]: https://example.com/earth.jpg
 [mars]: https://example.com/mars.jpg
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~
 This definition 'mars' is never used.
 `,
 		},
@@ -62,7 +62,7 @@ This definition 'mars' is never used.
 		`
 [Mercury][mercury]
 
-[mercury]: https://example.com/mercury/
+[mercury]: https://example.com/mercury
 `,
 		`
 ![Venus Image][venus]
@@ -72,7 +72,7 @@ This definition 'mars' is never used.
 		`
 [Mercury][mercury]
 
-[mercury]: https://example.com/mercury/
+[mercury]: https://example.com/mercury
 
 ![Venus Image][venus]
 
@@ -89,7 +89,7 @@ See [docs][] and [guide][].
 		`
 Check out [Earth][earth] and ![Mars][mars].
 
-[earth]: https://example.com/earth/
+[earth]: https://example.com/earth
 [mars]: https://example.com/mars.jpg
 `,
 	],
