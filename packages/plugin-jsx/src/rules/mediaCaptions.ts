@@ -9,7 +9,7 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		missingCaptions: {
-			primary: "Media elements must have captions via a <track> element.",
+			primary: "This media element is missing <track> element captions.",
 			secondary: [
 				"Captions are essential for deaf users to follow along with media content.",
 				"The <track> element with kind='captions' provides this accessibility feature.",
@@ -40,62 +40,21 @@ export default typescriptLanguage.createRule({
 				? node.openingElement.attributes
 				: node.attributes;
 
-			// Check if media has muted attribute
-			const hasMuted = attributes.properties.some(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "muted",
-			);
-
-			if (hasMuted) {
-				return; // Muted media doesn't need captions
+			if (
+				attributes.properties.some(
+					(properties) =>
+						ts.isJsxAttribute(properties) &&
+						ts.isIdentifier(properties.name) &&
+						properties.name.text === "muted",
+				)
+			) {
+				return;
 			}
 
-			// Check if media has track children with kind="captions"
-			if (ts.isJsxElement(node)) {
-				const hasCaption = node.children.some((child) => {
-					if (!ts.isJsxElement(child) && !ts.isJsxSelfClosingElement(child)) {
-						return false;
-					}
-
-					const childTagName = ts.isJsxElement(child)
-						? child.openingElement.tagName
-						: child.tagName;
-
-					if (!ts.isIdentifier(childTagName) || childTagName.text !== "track") {
-						return false;
-					}
-
-					// Check if track has kind="captions"
-					const childAttrs = ts.isJsxElement(child)
-						? child.openingElement.attributes
-						: child.attributes;
-
-					return childAttrs.properties.some((attr) => {
-						if (!ts.isJsxAttribute(attr) || !ts.isIdentifier(attr.name)) {
-							return false;
-						}
-
-						if (attr.name.text !== "kind") {
-							return false;
-						}
-
-						// Check if kind value is "captions"
-						if (attr.initializer && ts.isStringLiteral(attr.initializer)) {
-							return attr.initializer.text === "captions";
-						}
-
-						return false;
-					});
-				});
-
-				if (hasCaption) {
-					return;
-				}
+			if (ts.isJsxElement(node) && node.children.some(isCaptionsTrack)) {
+				return;
 			}
 
-			// Report missing captions
 			context.report({
 				message: "missingCaptions",
 				range: getTSNodeRange(tagName, context.sourceFile),
@@ -114,3 +73,37 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+function isCaptionsTrack(node: ts.Node) {
+	if (!ts.isJsxElement(node) && !ts.isJsxSelfClosingElement(node)) {
+		return false;
+	}
+
+	const childTagName = ts.isJsxElement(node)
+		? node.openingElement.tagName
+		: node.tagName;
+
+	if (!ts.isIdentifier(childTagName) || childTagName.text !== "track") {
+		return false;
+	}
+
+	const childAttributes = ts.isJsxElement(node)
+		? node.openingElement.attributes
+		: node.attributes;
+
+	return childAttributes.properties.some((property) => {
+		if (
+			!ts.isJsxAttribute(property) ||
+			!ts.isIdentifier(property.name) ||
+			property.name.text !== "kind"
+		) {
+			return false;
+		}
+
+		if (property.initializer && ts.isStringLiteral(property.initializer)) {
+			return property.initializer.text === "captions";
+		}
+
+		return false;
+	});
+}

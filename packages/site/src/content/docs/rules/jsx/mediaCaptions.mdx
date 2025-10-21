@@ -10,9 +10,11 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="jsx" rule="mediaCaptions" />
 
-Providing captions for media is essential for deaf users to follow along. Captions should be a transcription or translation of the dialogue, sound effects, and other relevant audio information.
+Providing captions for media is essential for deaf users to follow along.
+Captions should be a transcription or translation of the dialogue, sound effects, and other relevant audio information.
 
-Media elements (`<audio>` and `<video>`) must include a `<track>` element with `kind="captions"` to provide this accessibility feature. Muted media does not require captions.
+Media elements (`<audio>` and `<video>`) should include a `<track>` element with `kind="captions"` to provide this accessibility feature.
+The only exception is that muted media does not require captions.
 
 This is required for WCAG 1.2.2 and 1.2.3 compliance.
 

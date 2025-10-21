@@ -27,7 +27,7 @@
 		"astro": "^5.13.2",
 		"clsx": "^2.1.1",
 		"flint": "workspace:",
-		"konami-emoji-blast": "^0.5.9",
+		"konami-emoji-blast": "^0.6.0",
 		"markdown-it": "^14.1.0",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
