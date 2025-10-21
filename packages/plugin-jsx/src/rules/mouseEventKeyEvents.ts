@@ -1,10 +1,10 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-const mouseToKeyboardMap: Record<string, string> = {
-	onMouseOut: "onBlur",
-	onMouseOver: "onFocus",
-};
+const mouseNamesToKeyboardNames = new Map([
+	["onMouseOut", "onBlur"],
+	["onMouseOver", "onFocus"],
+]);
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -15,10 +15,10 @@ export default typescriptLanguage.createRule({
 	messages: {
 		missingKeyEvent: {
 			primary:
-				"`{{ mouseEvent }}` must be accompanied by `{{ keyEvent }}` for keyboard accessibility.",
+				"`{{ mouseEvent }}` is missing an accompanying `{{ keyEvent }}` for keyboard accessibility.",
 			secondary: [
 				"Mouse events should have keyboard equivalents for users who cannot use a mouse.",
-				"This is important for users with physical disabilities and screen reader users.",
+				"This ensures that functionality is accessible to all users, such as those with limited hardware or personal disabilities.",
 				"Required for WCAG 2.1.1 compliance.",
 			],
 			suggestions: [
@@ -28,30 +28,31 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkMouseEvents(attributes: ts.JsxAttributes) {
+		function checkMouseEvents(
+			node: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+		) {
+			const { attributes } = node;
 			const presentAttributes = new Set<string>();
 
-			// Collect all present attributes
-			for (const attr of attributes.properties) {
-				if (ts.isJsxAttribute(attr) && ts.isIdentifier(attr.name)) {
-					presentAttributes.add(attr.name.text);
+			for (const property of attributes.properties) {
+				if (ts.isJsxAttribute(property) && ts.isIdentifier(property.name)) {
+					presentAttributes.add(property.name.text);
 				}
 			}
 
-			// Check each mouse event for its keyboard equivalent
-			for (const attr of attributes.properties) {
-				if (!ts.isJsxAttribute(attr) || !ts.isIdentifier(attr.name)) {
+			for (const property of attributes.properties) {
+				if (!ts.isJsxAttribute(property) || !ts.isIdentifier(property.name)) {
 					continue;
 				}
 
-				const attrName = attr.name.text;
-				const requiredKeyEvent = mouseToKeyboardMap[attrName];
+				const mouseEvent = property.name.text;
+				const keyEvent = mouseNamesToKeyboardNames.get(mouseEvent);
 
-				if (requiredKeyEvent && !presentAttributes.has(requiredKeyEvent)) {
+				if (keyEvent && !presentAttributes.has(keyEvent)) {
 					context.report({
-						data: { keyEvent: requiredKeyEvent, mouseEvent: attrName },
+						data: { keyEvent, mouseEvent },
 						message: "missingKeyEvent",
-						range: getTSNodeRange(attr, context.sourceFile),
+						range: getTSNodeRange(property.name, context.sourceFile),
 					});
 				}
 			}
@@ -59,12 +60,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkMouseEvents(node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkMouseEvents(node.attributes);
-				},
+				JsxOpeningElement: checkMouseEvents,
+				JsxSelfClosingElement: checkMouseEvents,
 			},
 		};
 	},

@@ -10,9 +10,13 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="jsx" rule="mouseEventKeyEvents" />
 
-Mouse events should have keyboard equivalents for users who cannot use a mouse. This ensures that functionality is accessible to users with physical disabilities, AT compatibility, and screen reader users.
+Mouse events should have keyboard equivalents for users who cannot use a mouse.
+This ensures that functionality is accessible to all users, such as those with limited hardware or personal disabilities.
 
-`onMouseOver` must be paired with `onFocus`, and `onMouseOut` must be paired with `onBlur`.
+Specifically:
+
+- `onMouseOver` must be paired with `onFocus`
+- `onMouseOut` must be paired with `onBlur`
 
 This is required for WCAG 2.1.1 compliance.
 
@@ -22,22 +26,22 @@ This is required for WCAG 2.1.1 compliance.
 <TabItem label="❌ Incorrect">
 
 ```tsx
-<div onMouseOver={() => void 0} />
+<div onMouseOver={() => {}} />
 ```
 
 ```tsx
-<div onMouseOut={() => void 0} />
+<div onMouseOut={() => {}} />
 ```
 
 </TabItem>
 <TabItem label="✅ Correct">
 
 ```tsx
-<div onMouseOver={() => void 0} onFocus={() => void 0} />
+<div onMouseOver={() => {}} onFocus={() => {}} />
 ```
 
 ```tsx
-<div onMouseOut={() => void 0} onBlur={() => void 0} />
+<div onMouseOut={() => {}} onBlur={() => {}} />
 ```
 
 </TabItem>
@@ -45,7 +49,7 @@ This is required for WCAG 2.1.1 compliance.
 
 ## When Not To Use It
 
-If your application doesn't use mouse event handlers, you can disable this rule.
+If your application doesn't use mouse event handlers, or if you use a framework that automatically injects key event handlers for equivalent mouse event handlers, you can disable this rule.
 
 ## Further Reading
 
