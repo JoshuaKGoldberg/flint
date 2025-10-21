@@ -1,6 +1,7 @@
 import { createPlugin } from "@flint.fyi/core";
 
 import accessKeys from "./rules/accessKeys.js";
+import altTexts from "./rules/altTexts.js";
 import distractingElements from "./rules/distractingElements.js";
 import htmlLangs from "./rules/htmlLangs.js";
 import iframeTitles from "./rules/iframeTitles.js";
@@ -10,6 +11,10 @@ export const jsx = createPlugin({
 	name: "jsx",
 	rules: [
 		accessKeys,
+		altTexts,
+		distractingElements,
+		htmlLangs,
+		iframeTitles,
 		distractingElements,
 		htmlLangs,
 		iframeTitles,
