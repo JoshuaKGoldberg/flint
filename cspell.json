@@ -12,8 +12,9 @@
 		"tsconfig.tsbuildinfo"
 	],
 	"words": [
-		"aria-labelledby",
 		"affordances",
+		"aria-activedescendant",
+		"aria-labelledby",
 		"autolinks",
 		"deoptimizations",
 		"destructures",

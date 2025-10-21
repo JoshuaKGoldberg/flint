@@ -834,6 +834,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "ariaActiveDescendantTabIndex",
 			"plugin": "jsx",
 			"preset": "Logical"
