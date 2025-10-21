@@ -10,7 +10,8 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="jsx" rule="ariaActiveDescendantTabIndex" />
 
-`aria-activedescendant` is used to manage focus within a composite widget. The element with this attribute must be tabbable, either through an inherent tabIndex (like `<input>`) or an explicit `tabIndex` attribute.
+`aria-activedescendant` is used to manage focus within a composite widget.
+Elements with this attribute should be tabbable, either through an inherent `tabIndex` (like `<input>`) or an explicit `tabIndex` attribute.
 
 Without proper tabIndex, keyboard users cannot reach the element to interact with it.
 

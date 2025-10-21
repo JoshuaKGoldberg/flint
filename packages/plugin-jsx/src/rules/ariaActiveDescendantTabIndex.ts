@@ -1,8 +1,6 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// cspell:disable -- activedescendant is correct spelling
-// Elements that are inherently tabbable
 const inherentlyTabbableElements = new Set([
 	"a",
 	"area",
@@ -22,7 +20,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		missingTabIndex: {
 			primary:
-				"Elements with `aria-activedescendant` must have a `tabIndex` attribute.",
+				"This element with `aria-activedescendant` is missing a `tabIndex` attribute to manage focus state.",
 			secondary: [
 				"aria-activedescendant is used to manage focus within a composite widget.",
 				"The element must be tabbable, either with an inherent tabIndex or explicit tabIndex attribute.",
@@ -39,59 +37,53 @@ export default typescriptLanguage.createRule({
 			tagName: ts.JsxTagNameExpression,
 			attributes: ts.JsxAttributes,
 		) {
-			// Skip custom components (start with uppercase)
 			if (ts.isIdentifier(tagName)) {
-				const firstChar = tagName.text.charAt(0);
+				const firstCharacter = tagName.text.charAt(0);
 				if (
-					firstChar === firstChar.toUpperCase() &&
-					firstChar !== firstChar.toLowerCase()
+					firstCharacter === firstCharacter.toUpperCase() &&
+					firstCharacter !== firstCharacter.toLowerCase()
 				) {
 					return;
 				}
 			}
 
-			// Check if element has aria-activedescendant
-			const hasAriaActiveDescendant = attributes.properties.some(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "aria-activedescendant" &&
-					attr.initializer,
-			);
-
-			if (!hasAriaActiveDescendant) {
+			if (
+				!attributes.properties.some(
+					(property) =>
+						ts.isJsxAttribute(property) &&
+						ts.isIdentifier(property.name) &&
+						property.name.text === "aria-activedescendant" &&
+						property.initializer,
+				)
+			) {
 				return;
 			}
 
-			// Check if it's an inherently tabbable element
 			if (ts.isIdentifier(tagName)) {
-				const elementName = tagName.text.toLowerCase();
-				if (inherentlyTabbableElements.has(elementName)) {
+				if (inherentlyTabbableElements.has(tagName.text.toLowerCase())) {
 					return;
 				}
 			}
 
-			// Check if element has explicit tabIndex
 			const hasTabIndex = attributes.properties.some(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text.toLowerCase() === "tabindex",
+				(property) =>
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text.toLowerCase() === "tabindex",
 			);
 
 			if (!hasTabIndex) {
-				// Find the aria-activedescendant attribute to report on
-				const ariaAttr = attributes.properties.find(
-					(attr) =>
-						ts.isJsxAttribute(attr) &&
-						ts.isIdentifier(attr.name) &&
-						attr.name.text === "aria-activedescendant",
+				const ariaProperty = attributes.properties.find(
+					(property) =>
+						ts.isJsxAttribute(property) &&
+						ts.isIdentifier(property.name) &&
+						property.name.text === "aria-activedescendant",
 				);
 
-				if (ariaAttr && ts.isJsxAttribute(ariaAttr)) {
+				if (ariaProperty && ts.isJsxAttribute(ariaProperty)) {
 					context.report({
 						message: "missingTabIndex",
-						range: getTSNodeRange(ariaAttr, context.sourceFile),
+						range: getTSNodeRange(ariaProperty, context.sourceFile),
 					});
 				}
 			}

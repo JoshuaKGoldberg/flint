@@ -4,27 +4,36 @@ import { ruleTester } from "./ruleTester.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `const el = <html></html>;`,
+			code: `
+const el = <html></html>;
+`,
 			fileName: "file.tsx",
-			snapshot: `const el = <html></html>;
-           ~~~~
-           This <html> element is missing a \`lang\` prop.
+			snapshot: `
+const el = <html></html>;
+            ~~~~
+            This <html> element is missing a \`lang\` prop.
 `,
 		},
 		{
-			code: `const el = <html className="root"></html>;`,
+			code: `
+const el = <html className="root"></html>;
+`,
 			fileName: "file.tsx",
-			snapshot: `const el = <html className="root"></html>;
-           ~~~~
-           This <html> element is missing a \`lang\` prop.
+			snapshot: `
+const el = <html className="root"></html>;
+            ~~~~
+            This <html> element is missing a \`lang\` prop.
 `,
 		},
 		{
-			code: `function App() { return <html><body>Content</body></html>; }`,
+			code: `
+function App() { return <html><body>Content</body></html>; }
+`,
 			fileName: "file.tsx",
-			snapshot: `function App() { return <html><body>Content</body></html>; }
-                        ~~~~
-                        This <html> element is missing a \`lang\` prop.
+			snapshot: `
+function App() { return <html><body>Content</body></html>; }
+                         ~~~~
+                         This <html> element is missing a \`lang\` prop.
 `,
 		},
 	],

@@ -756,7 +756,8 @@
 			}
 		],
 		"flint": {
-			"name": "altText",
+			"implemented": true,
+			"name": "altTexts",
 			"plugin": "jsx",
 			"preset": "Logical"
 		},
@@ -1069,6 +1070,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "distractingElements",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1264,6 +1266,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "mediaCaptions",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1296,6 +1299,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "mouseEventKeyEvents",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1556,6 +1560,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "definitionContents",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1569,6 +1574,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "definitionDuplicates",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1582,6 +1588,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "definitionUses",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1721,6 +1728,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "labelReferences",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1734,6 +1742,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "labelReferenceValidity",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1747,6 +1756,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "linkContents",
 			"plugin": "md",
 			"preset": "Logical"
@@ -7070,6 +7080,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "functionNewCalls",
 			"plugin": "ts",
 			"preset": "Logical"
