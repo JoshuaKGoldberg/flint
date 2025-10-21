@@ -59,8 +59,8 @@ This image has an empty URL.
 		},
 	],
 	valid: [
-		`![](https://eslint.org/image.png)`,
-		`![ESLint Logo](https://eslint.org/image.png)`,
+		`![](https://flint.fyi/image.png)`,
+		`![Flint Logo](https://flint.fyi/logo.png)`,
 		`![Mountains](mountains.jpg)`,
 		`![Logo](./logo.png)`,
 		`
