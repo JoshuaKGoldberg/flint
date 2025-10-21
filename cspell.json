@@ -12,6 +12,7 @@
 		"tsconfig.tsbuildinfo"
 	],
 	"words": [
+		"aria-labelledby",
 		"affordances",
 		"autolinks",
 		"deoptimizations",

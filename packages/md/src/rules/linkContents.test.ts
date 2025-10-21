@@ -5,11 +5,11 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-[ESLint]()
+[Flint]()
 `,
 			snapshot: `
-[ESLint]()
-~~~~~~~~~~
+[Flint]()
+~~~~~~~~~
 This link has an empty URL.
 `,
 		},
@@ -59,7 +59,7 @@ This link has an empty URL.
 		},
 	],
 	valid: [
-		`[ESLint](https://eslint.org)`,
+		`[Flint](https://flint.fyi)`,
 		`[Skip to Content](#content)`,
 		`[Link](./page.html)`,
 		`[Relative](../docs/guide.md)`,

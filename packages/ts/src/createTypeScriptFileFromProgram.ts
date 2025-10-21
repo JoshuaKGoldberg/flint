@@ -49,6 +49,7 @@ export function createTypeScriptFileFromProgram(
 			const reports: NormalizedReport[] = [];
 
 			const context = {
+				program,
 				report: (report: RuleReport) => {
 					reports.push({
 						...report,

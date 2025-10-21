@@ -1,4 +1,4 @@
-import rule from "./altText.js";
+import rule from "./altTexts.js";
 import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
@@ -8,7 +8,7 @@ ruleTester.describe(rule, {
 			fileName: "file.tsx",
 			snapshot: `<img src="foo.jpg" />
 ~~~
-img elements must have an alt attribute.
+img element is missing alt text for non-visual users.
 `,
 		},
 		{
@@ -16,7 +16,7 @@ img elements must have an alt attribute.
 			fileName: "file.tsx",
 			snapshot: `<img src="foo.jpg" alt />
 ~~~
-img elements must have an alt attribute.
+img element is missing alt text for non-visual users.
 `,
 		},
 		{
@@ -24,7 +24,7 @@ img elements must have an alt attribute.
 			fileName: "file.tsx",
 			snapshot: `<img src="foo.jpg" alt={undefined} />
 ~~~
-img elements must have an alt attribute.
+img element is missing alt text for non-visual users.
 `,
 		},
 		{
@@ -32,7 +32,7 @@ img elements must have an alt attribute.
 			fileName: "file.tsx",
 			snapshot: `<area href="#" />
 ~~~~
-area elements must have an alt attribute.
+area element is missing alt text for non-visual users.
 `,
 		},
 		{
@@ -40,7 +40,7 @@ area elements must have an alt attribute.
 			fileName: "file.tsx",
 			snapshot: `<input type="image" src="submit.png" />
 ~~~~~
-input[type='image'] elements must have an alt attribute.
+input[type='image'] element is missing alt text for non-visual users.
 `,
 		},
 		{
@@ -48,14 +48,14 @@ input[type='image'] elements must have an alt attribute.
 			fileName: "file.tsx",
 			snapshot: `<object data="movie.mp4" />
 ~~~~~~
-object elements must have an alt attribute.
+object element is missing alt text for non-visual users.
 `,
 		},
 	],
 	valid: [
 		{ code: `<img src="foo.jpg" alt="A foo" />`, fileName: "file.tsx" },
 		{ code: `<img src="foo.jpg" alt="" />`, fileName: "file.tsx" },
-		{ code: `<img src="foo.jpg" alt={altText} />`, fileName: "file.tsx" },
+		{ code: `<img src="foo.jpg" alt={altTexts} />`, fileName: "file.tsx" },
 		{ code: `<img src="foo.jpg" aria-label="Foo" />`, fileName: "file.tsx" },
 		{ code: `<area alt="Click here" href="#" />`, fileName: "file.tsx" },
 		{ code: `<input type="image" alt="Submit" />`, fileName: "file.tsx" },

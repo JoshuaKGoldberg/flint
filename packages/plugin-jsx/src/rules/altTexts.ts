@@ -1,16 +1,18 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// cspell:disable -- aria-labelledby is correct spelling
+const alternateProperties = new Set(["aria-label", "aria-labelledby", "title"]);
+
 export default typescriptLanguage.createRule({
 	about: {
 		description: "Reports elements that require alt text but are missing it.",
-		id: "altText",
+		id: "altTexts",
 		preset: "logical",
 	},
 	messages: {
 		missingAlt: {
-			primary: "{{ element }} elements must have an alt attribute.",
+			primary:
+				"{{ element }} element is missing alt text for non-visual users.",
 			secondary: [
 				"Alternative text provides a textual description for images and other media.",
 				"Screen readers use this text to describe the element to users who cannot see it.",
@@ -24,56 +26,35 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(
-			tagName: ts.JsxTagNameExpression,
-			attributes: ts.JsxAttributes,
-		) {
+		function checkNode(node: ts.JsxOpeningElement | ts.JsxSelfClosingElement) {
+			const { attributes, tagName } = node;
 			if (!ts.isIdentifier(tagName)) {
 				return;
 			}
 
 			const elementName = tagName.text.toLowerCase();
 
-			// Check img, area, and input[type="image"]
 			if (elementName === "img" || elementName === "area") {
-				checkAltAttribute(tagName, attributes, elementName);
+				checkAltAttribute(attributes, tagName, elementName);
 			} else if (elementName === "input") {
-				// Check if it's type="image"
-				const typeAttr = attributes.properties.find(
-					(attr) =>
-						ts.isJsxAttribute(attr) &&
-						ts.isIdentifier(attr.name) &&
-						attr.name.text === "type",
-				);
-
-				if (typeAttr && ts.isJsxAttribute(typeAttr)) {
-					if (
-						typeAttr.initializer &&
-						ts.isStringLiteral(typeAttr.initializer) &&
-						typeAttr.initializer.text === "image"
-					) {
-						checkAltAttribute(tagName, attributes, "input[type='image']");
-					}
-				}
+				checkInputElement(attributes, tagName);
 			} else if (elementName === "object") {
-				checkObjectAccessibility(tagName, attributes);
+				checkObjectAccessibility(attributes, tagName);
 			}
 		}
 
 		function checkAltAttribute(
-			tagName: ts.JsxTagNameExpression,
 			attributes: ts.JsxAttributes,
+			tagName: ts.JsxTagNameExpression,
 			elementName: string,
 		) {
-			// Check if element has alt attribute
-			const altAttr = attributes.properties.find(
+			const properties = attributes.properties.find(
 				(attr) =>
 					ts.isJsxAttribute(attr) &&
 					ts.isIdentifier(attr.name) &&
 					attr.name.text === "alt",
 			);
 
-			// Also check for aria-label or aria-labelledby as alternatives
 			const hasAriaLabel = attributes.properties.some(
 				(attr) =>
 					ts.isJsxAttribute(attr) &&
@@ -84,10 +65,10 @@ export default typescriptLanguage.createRule({
 			);
 
 			if (hasAriaLabel) {
-				return; // aria-label/labelledby is acceptable
+				return;
 			}
 
-			if (!altAttr) {
+			if (!properties) {
 				context.report({
 					data: { element: elementName },
 					message: "missingAlt",
@@ -96,19 +77,20 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			// Check if alt has a value (not undefined or empty expression)
-			if (ts.isJsxAttribute(altAttr)) {
-				if (!altAttr.initializer) {
-					// alt with no value (just `alt`)
+			if (ts.isJsxAttribute(properties)) {
+				if (!properties.initializer) {
 					context.report({
 						data: { element: elementName },
 						message: "missingAlt",
 						range: getTSNodeRange(tagName, context.sourceFile),
 					});
-				} else if (ts.isJsxExpression(altAttr.initializer)) {
-					const expr = altAttr.initializer.expression;
-					// Check for undefined
-					if (expr && ts.isIdentifier(expr) && expr.text === "undefined") {
+				} else if (ts.isJsxExpression(properties.initializer)) {
+					const { expression } = properties.initializer;
+					if (
+						expression &&
+						ts.isIdentifier(expression) &&
+						expression.text === "undefined"
+					) {
 						context.report({
 							data: { element: elementName },
 							message: "missingAlt",
@@ -119,22 +101,41 @@ export default typescriptLanguage.createRule({
 			}
 		}
 
-		function checkObjectAccessibility(
-			tagName: ts.JsxTagNameExpression,
+		function checkInputElement(
 			attributes: ts.JsxAttributes,
+			tagName: ts.JsxTagNameExpression,
 		) {
-			// object needs aria-label, aria-labelledby, title, or meaningful children
-			const hasLabel = attributes.properties.some(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					(attr.name.text === "aria-label" ||
-						attr.name.text === "aria-labelledby" ||
-						attr.name.text === "title") &&
-					attr.initializer,
+			const typeAttribute = attributes.properties.find(
+				(properties) =>
+					ts.isJsxAttribute(properties) &&
+					ts.isIdentifier(properties.name) &&
+					properties.name.text === "type",
 			);
 
-			if (!hasLabel) {
+			if (typeAttribute && ts.isJsxAttribute(typeAttribute)) {
+				if (
+					typeAttribute.initializer &&
+					ts.isStringLiteral(typeAttribute.initializer) &&
+					typeAttribute.initializer.text === "image"
+				) {
+					checkAltAttribute(attributes, tagName, "input[type='image']");
+				}
+			}
+		}
+
+		function checkObjectAccessibility(
+			attributes: ts.JsxAttributes,
+			tagName: ts.JsxTagNameExpression,
+		) {
+			if (
+				!attributes.properties.some(
+					(property) =>
+						ts.isJsxAttribute(property) &&
+						ts.isIdentifier(property.name) &&
+						alternateProperties.has(property.name.text) &&
+						property.initializer,
+				)
+			) {
 				context.report({
 					data: { element: "object" },
 					message: "missingAlt",
@@ -145,12 +146,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkElement(node.tagName, node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkElement(node.tagName, node.attributes);
-				},
+				JsxOpeningElement: checkNode,
+				JsxSelfClosingElement: checkNode,
 			},
 		};
 	},

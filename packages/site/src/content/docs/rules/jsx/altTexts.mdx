@@ -1,6 +1,6 @@
 ---
 description: "Reports elements that require alt text but are missing it."
-title: "altText"
+title: "altTexts"
 topic: "rules"
 ---
 
@@ -8,9 +8,10 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="jsx" rule="altText" />
+<RuleSummary plugin="jsx" rule="altTexts" />
 
-Alternative text provides a textual description for images and other media. Screen readers use this text to describe the element to users who cannot see it.
+Alternative text provides a textual description for images and other media.
+Search engine crawlers and screen readers use this text to describe the element to users who cannot see it.
 
 Elements like `<img>`, `<area>`, `<input type="image">`, and `<object>` must have appropriate alternative text through `alt`, `aria-label`, `aria-labelledby`, or `title` attributes.
 
@@ -73,13 +74,13 @@ This is required for WCAG 1.1.1 compliance.
 
 ## When Not To Use It
 
-If you're not working with images or media elements, you can disable this rule.
+If you're not working with images or media elements, or if you use a framework that automatically injects known good alt text for those elements, you can disable this rule.
 
 ## Further Reading
 
 - [WCAG 1.1.1: Non-text Content](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html)
-- [WebAIM: Alternative Text](https://webaim.org/techniques/alttext/)
+- [WebAIM: Alternative Text](https://webaim.org/techniques/alttext)
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="jsx" ruleId="altText" />
+<RuleEquivalents pluginId="jsx" ruleId="altTexts" />

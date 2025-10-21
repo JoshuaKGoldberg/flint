@@ -4,38 +4,53 @@ import rule from "./scriptUrls.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `location.href = "javascript:void(0)";`,
-			snapshot: `location.href = "javascript:void(0)";
-               ~~~~~~~~~~~~~~~~~~~~
-               This \`javascript:\` URL is a form of eval.
+			code: `
+location.href = "javascript:void(0)";
+`,
+			snapshot: `
+location.href = "javascript:void(0)";
+                ~~~~~~~~~~~~~~~~~~~~
+                This \`javascript:\` URL is a form of eval.
 `,
 		},
 		{
-			code: `const url = "javascript:alert('XSS')";`,
-			snapshot: `const url = "javascript:alert('XSS')";
-           ~~~~~~~~~~~~~~~~~~~~~~~~~
-           This \`javascript:\` URL is a form of eval.
+			code: `
+const url = "javascript:alert('XSS')";
 `,
-		},
-		{
-			code: `const link = \`javascript:void(0)\`;`,
-			snapshot: `const link = \`javascript:void(0)\`;
-            ~~~~~~~~~~~~~~~~~~~~
+			snapshot: `
+const url = "javascript:alert('XSS')";
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
             This \`javascript:\` URL is a form of eval.
 `,
 		},
 		{
-			code: `const href = "JavaScript:void(0)";`,
-			snapshot: `const href = "JavaScript:void(0)";
-            ~~~~~~~~~~~~~~~~~~~~
-            This \`javascript:\` URL is a form of eval.
+			code: `
+const link = \`javascript:void(0)\`;
+`,
+			snapshot: `
+const link = \`javascript:void(0)\`;
+             ~~~~~~~~~~~~~~~~~~~~
+             This \`javascript:\` URL is a form of eval.
 `,
 		},
 		{
-			code: `const url = "JAVASCRIPT:doSomething()";`,
-			snapshot: `const url = "JAVASCRIPT:doSomething()";
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~
-           This \`javascript:\` URL is a form of eval.
+			code: `
+const href = "JavaScript:void(0)";
+`,
+			snapshot: `
+const href = "JavaScript:void(0)";
+             ~~~~~~~~~~~~~~~~~~~~
+             This \`javascript:\` URL is a form of eval.
+`,
+		},
+		{
+			code: `
+const url = "JAVASCRIPT:doSomething()";
+`,
+			snapshot: `
+const url = "JAVASCRIPT:doSomething()";
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            This \`javascript:\` URL is a form of eval.
 `,
 		},
 		{
@@ -46,10 +61,13 @@ ruleTester.describe(rule, {
 `,
 		},
 		{
-			code: `const evil = \`javascript:\${code}\`;`,
-			snapshot: `const evil = \`javascript:\${code}\`;
-            ~~~~~~~~~~~~~~~~~~~~
-            This \`javascript:\` URL is a form of eval.
+			code: `
+const evil = \`javascript:\${code}\`;
+`,
+			snapshot: `
+const evil = \`javascript:\${code}\`;
+             ~~~~~~~~~~~~~~~~~~~~
+             This \`javascript:\` URL is a form of eval.
 `,
 		},
 	],
