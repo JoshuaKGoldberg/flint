@@ -3687,6 +3687,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "anyReturns",
 			"plugin": "ts",
 			"preset": "Logical"
