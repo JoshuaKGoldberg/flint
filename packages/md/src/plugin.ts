@@ -11,6 +11,7 @@ import imageContents from "./rules/imageContents.js";
 import labelReferences from "./rules/labelReferences.js";
 import labelReferenceValidity from "./rules/labelReferenceValidity.js";
 import linkContents from "./rules/linkContents.js";
+import mediaSyntaxReversals from "./rules/mediaSyntaxReversals.js";
 
 export const md = createPlugin({
 	files: {
@@ -19,15 +20,18 @@ export const md = createPlugin({
 	name: "md",
 	rules: [
 		bareUrls,
-		definitionDuplicates,
+		bareUrls,
 		definitionContents,
-		labelReferenceValidity,
+		definitionDuplicates,
 		definitionUses,
 		fencedCodeLanguages,
-		labelReferences,
+		headingIncrements,
 		headingIncrements,
 		imageAltTexts,
 		imageContents,
+		labelReferences,
+		labelReferenceValidity,
 		linkContents,
+		mediaSyntaxReversals,
 	],
 });

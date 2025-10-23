@@ -1790,6 +1790,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "mediaSyntaxReversals",
 			"plugin": "md",
 			"preset": "Stylistic"
