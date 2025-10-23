@@ -13,7 +13,7 @@ import { createReportSnapshot } from "./createReportSnapshot.js";
 import { normalizeTestCase } from "./normalizeTestCase.js";
 import { resolveReportedSuggestions } from "./resolveReportedSuggestions.js";
 import { runTestCaseRule } from "./runTestCaseRule.js";
-import { InvalidTestCase, ValidTestCase } from "./types.js";
+import { InvalidTestCase, TestCase, ValidTestCase } from "./types.js";
 
 export interface RuleTesterOptions {
 	describe?: TesterSetupDescribe;
@@ -102,19 +102,7 @@ export class RuleTester {
 	) {
 		const testCaseNormalized = normalizeTestCase(testCase);
 
-		let test = testCase.only
-			? this.#testerOptions.only
-			: this.#testerOptions.it;
-
-		if (testCase.skip) {
-			if ("skip" in test && typeof test.skip === "function") {
-				test = test.skip as TesterSetupIt;
-			} else {
-				test = this.#testerOptions.skip;
-			}
-		}
-
-		test(testCase.code, async () => {
+		this.#itTestCase(testCaseNormalized, async () => {
 			const reports = await runTestCaseRule(
 				this.#fileFactories,
 				{
@@ -136,6 +124,22 @@ export class RuleTester {
 		});
 	}
 
+	#itTestCase(testCase: TestCase, setup: () => Promise<void>) {
+		let test = testCase.only
+			? this.#testerOptions.only
+			: this.#testerOptions.it;
+
+		if (testCase.skip) {
+			if ("skip" in test && typeof test.skip === "function") {
+				test = test.skip as TesterSetupIt;
+			} else {
+				test = this.#testerOptions.skip;
+			}
+		}
+
+		test(testCase.code, setup);
+	}
+
 	#itValidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
 		rule: AnyRule<RuleAbout, OptionsSchema>,
 		testCaseRaw: ValidTestCase<InferredObject<OptionsSchema>>,
@@ -144,7 +148,7 @@ export class RuleTester {
 			typeof testCaseRaw === "string" ? { code: testCaseRaw } : testCaseRaw;
 		const testCaseNormalized = normalizeTestCase(testCase);
 
-		this.#testerOptions.it(testCase.code, async () => {
+		this.#itTestCase(testCaseNormalized, async () => {
 			const reports = await runTestCaseRule(
 				this.#fileFactories,
 				{
