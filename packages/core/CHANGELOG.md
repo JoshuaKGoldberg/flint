@@ -1,5 +1,11 @@
 # @flint/core
 
+## 0.15.1
+
+### Patch Changes
+
+- 3d19082: fix: use 0-indexed column and line across codebase
+
 ## 0.15.0
 
 ### Minor Changes

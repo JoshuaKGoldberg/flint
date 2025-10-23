@@ -13,6 +13,8 @@
 	],
 	"words": [
 		"affordances",
+		"aria-activedescendant",
+		"aria-labelledby",
 		"autolinks",
 		"deoptimizations",
 		"destructures",
@@ -21,6 +23,7 @@
 		"nord",
 		"Oxlint",
 		"shiki",
-		"shikijs"
+		"shikijs",
+		"WHATWG"
 	]
 }

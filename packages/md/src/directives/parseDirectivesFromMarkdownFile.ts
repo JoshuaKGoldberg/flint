@@ -29,14 +29,14 @@ export function parseDirectivesFromMarkdownFile(
 			collector.add(
 				{
 					begin: {
-						column: position.start.column,
-						line: position.start.line,
+						column: position.start.column - 1,
+						line: position.start.line - 1,
 						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 						raw: position.start.offset!,
 					},
 					end: {
-						column: position.end.column,
-						line: position.end.line,
+						column: position.end.column - 1,
+						line: position.end.line - 1,
 						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 						raw: position.end.offset!,
 					},
