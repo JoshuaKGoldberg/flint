@@ -925,6 +925,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "ariaUnsupportedElements",
 			"plugin": "jsx",
 			"preset": "Logical"
