@@ -11,7 +11,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 <RuleSummary plugin="jsx" rule="headingContents" />
 
 Heading elements (`h1` through `h6`) must have content that is accessible to screen readers.
-Empty headings provide no value and can confuse users navigating with assistive technologies.
+Empty headings provide no value and are misleading to search engine crawlers and users navigating with assistive technologies.
 
 This is required for WCAG 2.4.6 compliance.
 
@@ -46,11 +46,7 @@ This is required for WCAG 2.4.6 compliance.
 ```
 
 ```tsx
-<h3 dangerouslySetInnerHTML={{ __html: "foo" }} />
-```
-
-```tsx
-<h4 aria-label="Heading" />
+<h3 aria-label="Heading" />
 ```
 
 </TabItem>
@@ -58,7 +54,7 @@ This is required for WCAG 2.4.6 compliance.
 
 ## When Not To Use It
 
-If you have heading elements that are purely decorative (though this is rare and generally not recommended), you may want to disable this rule.
+If you use a framework that automatically injects known good contents for heading elements, you can disable this rule.
 
 ## Further Reading
 
