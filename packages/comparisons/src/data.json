@@ -1117,6 +1117,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "headingContents",
 			"plugin": "jsx",
 			"preset": "Logical"

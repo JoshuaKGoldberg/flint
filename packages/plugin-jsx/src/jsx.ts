@@ -5,6 +5,7 @@ import altTexts from "./rules/altTexts.js";
 import ariaActiveDescendantTabIndex from "./rules/ariaActiveDescendantTabIndex.js";
 import ariaUnsupportedElements from "./rules/ariaUnsupportedElements.js";
 import distractingElements from "./rules/distractingElements.js";
+import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
 import iframeTitles from "./rules/iframeTitles.js";
 import mediaCaptions from "./rules/mediaCaptions.js";
@@ -18,6 +19,7 @@ export const jsx = createPlugin({
 		ariaActiveDescendantTabIndex,
 		ariaUnsupportedElements,
 		distractingElements,
+		headingContents,
 		htmlLangs,
 		iframeTitles,
 		mediaCaptions,
