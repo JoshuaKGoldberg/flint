@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      zod:
-        specifier: ^4.1.12
-        version: 4.1.12
     devDependencies:
       '@changesets/cli':
         specifier: 2.29.7
@@ -123,6 +119,9 @@ importers:
       vitest:
         specifier: 4.0.2
         version: 4.0.2(@types/debug@4.1.12)(@types/node@24.9.1)(jiti@2.6.1)(yaml@2.8.1)
+      zod:
+        specifier: ^4.1.12
+        version: 4.1.12
 
   packages/cli:
     dependencies:
