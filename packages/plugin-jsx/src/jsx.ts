@@ -4,6 +4,7 @@ import accessKeys from "./rules/accessKeys.js";
 import altTexts from "./rules/altTexts.js";
 import ariaActiveDescendantTabIndex from "./rules/ariaActiveDescendantTabIndex.js";
 import ariaUnsupportedElements from "./rules/ariaUnsupportedElements.js";
+import autoFocusProps from "./rules/autoFocusProps.js";
 import distractingElements from "./rules/distractingElements.js";
 import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
@@ -18,6 +19,7 @@ export const jsx = createPlugin({
 		altTexts,
 		ariaActiveDescendantTabIndex,
 		ariaUnsupportedElements,
+		autoFocusProps,
 		distractingElements,
 		headingContents,
 		htmlLangs,
