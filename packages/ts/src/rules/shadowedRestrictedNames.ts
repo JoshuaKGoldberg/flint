@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
 
 const restrictedNames = new Set([
@@ -37,10 +38,7 @@ export default typescriptLanguage.createRule({
 						name: node.text,
 					},
 					message: "shadowedRestrictedName",
-					range: {
-						begin: node.getStart(context.sourceFile),
-						end: node.getEnd(),
-					},
+					range: getTSNodeRange(node, context.sourceFile),
 				});
 			}
 		}
