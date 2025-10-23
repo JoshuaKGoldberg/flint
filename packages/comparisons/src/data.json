@@ -8841,8 +8841,8 @@
 		],
 		"flint": {
 			"name": "loopFunctions",
-			"plugin": "ts",
-			"preset": "None"
+			"plugin": "performance",
+			"preset": "logical"
 		}
 	},
 	{
