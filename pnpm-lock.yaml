@@ -307,6 +307,24 @@ importers:
         specifier: 'workspace:'
         version: link:../utils
 
+  packages/plugin-performance:
+    dependencies:
+      '@flint.fyi/core':
+        specifier: 'workspace:'
+        version: link:../core
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
+      '@flint.fyi/ts':
+        specifier: 'workspace:'
+        version: link:../ts
+      '@flint.fyi/utils':
+        specifier: 'workspace:'
+        version: link:../utils
+      ts-api-utils:
+        specifier: ^2.1.0
+        version: 2.1.0(typescript@5.9.3)
+
   packages/rule-tester:
     dependencies:
       '@flint.fyi/core':
@@ -342,6 +360,9 @@ importers:
       '@flint.fyi/plugin-flint':
         specifier: 'workspace:'
         version: link:../plugin-flint
+      '@flint.fyi/plugin-performance':
+        specifier: 'workspace:'
+        version: link:../plugin-performance
       '@konami-emoji-blast/astro':
         specifier: ^0.1.1
         version: 0.1.1(astro@5.15.1(@types/node@24.9.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1))(konami-emoji-blast@0.6.0)
