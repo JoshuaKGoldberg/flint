@@ -41,7 +41,7 @@ export function createMarkdownFile(
 						range: {
 							begin: {
 								column: positionBegin.column - 1,
-								line: positionEnd.line - 1,
+								line: positionBegin.line - 1,
 								raw: report.range.begin,
 							},
 							end: {
