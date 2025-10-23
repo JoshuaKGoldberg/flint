@@ -9,7 +9,7 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		invalidScope: {
-			primary: "The `scope` prop should only be used on <th> elements.",
+			primary: "The `scope` prop only has an effect on <th> elements.",
 			secondary: [
 				"The scope attribute defines whether a table header is a column header or row header.",
 				"Using it on non-<th> elements has no semantic meaning and may confuse assistive technologies.",
@@ -22,47 +22,36 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(
-			tagName: ts.JsxTagNameExpression,
-			attributes: ts.JsxAttributes,
-		) {
-			if (!ts.isIdentifier(tagName)) {
+		function checkElement(node: ts.JsxOpeningLikeElement) {
+			if (
+				!ts.isIdentifier(node.tagName) ||
+				node.tagName.text.toLowerCase() === "th"
+			) {
 				return;
 			}
 
-			// Check if element has a scope attribute
-			const scopeAttr = attributes.properties.find((attr) => {
-				if (!ts.isJsxAttribute(attr)) {
-					return false;
-				}
-
+			const scopeProperty = node.attributes.properties.find((property) => {
 				return (
-					ts.isIdentifier(attr.name) && attr.name.text.toLowerCase() === "scope"
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text.toLowerCase() === "scope"
 				);
 			});
 
-			if (!scopeAttr) {
+			if (!scopeProperty) {
 				return;
 			}
 
-			// Report if element is not a th
-			const elementName = tagName.text.toLowerCase();
-			if (elementName !== "th") {
-				context.report({
-					message: "invalidScope",
-					range: getTSNodeRange(scopeAttr, context.sourceFile),
-				});
-			}
+			context.report({
+				message: "invalidScope",
+				range: getTSNodeRange(scopeProperty, context.sourceFile),
+			});
 		}
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkElement(node.tagName, node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkElement(node.tagName, node.attributes);
-				},
+				JsxOpeningElement: checkElement,
+				JsxSelfClosingElement: checkElement,
 			},
 		};
 	},

@@ -4,35 +4,47 @@ import rule from "./scopeProps.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `<div scope />`,
+			code: `
+<div scope />
+`,
 			fileName: "file.tsx",
-			snapshot: `<div scope />
-    ~~~~~
-    The \`scope\` prop should only be used on <th> elements.
+			snapshot: `
+<div scope />
+     ~~~~~
+     The \`scope\` prop only has an effect on <th> elements.
 `,
 		},
 		{
-			code: `<div scope="col" />`,
+			code: `
+<div scope="col" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<div scope="col" />
+			snapshot: `
+<div scope="col" />
+     ~~~~~~~~~~~
+     The \`scope\` prop only has an effect on <th> elements.
+`,
+		},
+		{
+			code: `
+<td scope="row" />
+`,
+			fileName: "file.tsx",
+			snapshot: `
+<td scope="row" />
     ~~~~~~~~~~~
-    The \`scope\` prop should only be used on <th> elements.
+    The \`scope\` prop only has an effect on <th> elements.
 `,
 		},
 		{
-			code: `<td scope="row" />`,
-			fileName: "file.tsx",
-			snapshot: `<td scope="row" />
-   ~~~~~~~~~~~
-   The \`scope\` prop should only be used on <th> elements.
+			code: `
+<span scope={scope} />
 `,
-		},
-		{
-			code: `<span scope={scope} />`,
 			fileName: "file.tsx",
-			snapshot: `<span scope={scope} />
-     ~~~~~~~~~~~~~
-     The \`scope\` prop should only be used on <th> elements.
+			snapshot: `
+<span scope={scope} />
+      ~~~~~~~~~~~~~
+      The \`scope\` prop only has an effect on <th> elements.
 `,
 		},
 	],
