@@ -307,6 +307,24 @@ importers:
         specifier: 'workspace:'
         version: link:../utils
 
+  packages/plugin-performance:
+    dependencies:
+      '@flint.fyi/core':
+        specifier: 'workspace:'
+        version: link:../core
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
+      '@flint.fyi/ts':
+        specifier: 'workspace:'
+        version: link:../ts
+      '@flint.fyi/utils':
+        specifier: 'workspace:'
+        version: link:../utils
+      ts-api-utils:
+        specifier: ^2.1.0
+        version: 2.1.0(typescript@5.9.3)
+
   packages/rule-tester:
     dependencies:
       '@flint.fyi/core':

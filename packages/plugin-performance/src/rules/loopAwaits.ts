@@ -1,7 +1,6 @@
+import { typescriptLanguage } from "@flint.fyi/ts";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
-
-import { typescriptLanguage } from "../language.js";
 
 export default typescriptLanguage.createRule({
 	about: {

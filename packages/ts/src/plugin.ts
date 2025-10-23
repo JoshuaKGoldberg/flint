@@ -46,7 +46,6 @@ import unnecessaryCatches from "./rules/unnecessaryCatches.js";
 import unsafeNegations from "./rules/unsafeNegations.js";
 import variableDeletions from "./rules/variableDeletions.js";
 import voidOperator from "./rules/voidOperator.js";
-import loopAwaits from "./rules/loopAwaits.js";
 
 export const ts = createPlugin({
 	files: {
@@ -76,7 +75,6 @@ export const ts = createPlugin({
 		functionNewCalls,
 		generatorFunctionYields,
 		globalAssignments,
-		loopAwaits,
 		globalObjectCalls,
 		namespaceDeclarations,
 		negativeZeroComparisons,
