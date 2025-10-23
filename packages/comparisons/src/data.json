@@ -874,6 +874,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "ariaProps",
 			"plugin": "jsx",
 			"preset": "Logical"
