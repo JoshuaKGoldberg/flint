@@ -10,8 +10,8 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="jsx" rule="ariaUnsupportedElements" />
 
-Certain reserved DOM elements do not support ARIA roles, states, and properties.
-This is often because they are not visible (like `meta`, `script`, `style`) or have specific semantic meaning.
+Specific reserved DOM elements do not support ARIA roles, states, and properties.
+Those elements generally are either not visible (like `meta`, `script`, `style`) or have specific semantic meaning (like `body` or `html`).
 
 This is required for WCAG 4.1.2 compliance.
 
