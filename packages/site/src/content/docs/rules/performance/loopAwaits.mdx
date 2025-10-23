@@ -34,7 +34,7 @@ async function updateRecords(ids: number[]) {
 	let i = 0;
 	while (i < ids.length) {
 		await database.update(ids[i]);
-		i++;
+		i += 1;
 	}
 }
 ```
@@ -64,7 +64,8 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-If your asynchronous operations must be executed sequentially (for example, if each operation depends on the result of the previous one, or if you need to avoid overwhelming a rate-limited API), you should disable this rule for those specific cases.
+If your asynchronous operations must be executed sequentially you may wish to disable this rule for those specific cases.
+For example, if each operation depends on the result of the previous one, or if you need to avoid overwhelming a rate-limited API, parallel calls may not be an option.
 
 ## Further Reading
 
