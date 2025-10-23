@@ -5,27 +5,36 @@ import { ruleTester } from "./ruleTester.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `<input aria-labeledby="address_label" />`,
+			code: `
+<input aria-labeledby="address_label" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<input aria-labeledby="address_label" />
-      ~~~~~~~~~~~~~~
-      Invalid ARIA property: \`aria-labeledby\`.
+			snapshot: `
+<input aria-labeledby="address_label" />
+       ~~~~~~~~~~~~~~
+       Invalid ARIA property: \`aria-labeledby\`.
 `,
 		},
 		{
-			code: `<div aria-invalid-prop="true" />`,
+			code: `
+<div aria-invalid-prop="true" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<div aria-invalid-prop="true" />
-    ~~~~~~~~~~~~~~~~~
-    Invalid ARIA property: \`aria-invalid-prop\`.
+			snapshot: `
+<div aria-invalid-prop="true" />
+     ~~~~~~~~~~~~~~~~~
+     Invalid ARIA property: \`aria-invalid-prop\`.
 `,
 		},
 		{
-			code: `<button aria-labelled="Submit" />`,
+			code: `
+<button aria-labelled="Submit" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<button aria-labelled="Submit" />
-       ~~~~~~~~~~~~~
-       Invalid ARIA property: \`aria-labelled\`.
+			snapshot: `
+<button aria-labelled="Submit" />
+        ~~~~~~~~~~~~~
+        Invalid ARIA property: \`aria-labelled\`.
 `,
 		},
 	],

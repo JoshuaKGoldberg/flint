@@ -10,7 +10,10 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="jsx" rule="ariaProps" />
 
-Elements cannot use invalid ARIA attributes. Only properties listed in the WAI-ARIA States and Properties specification are valid.
+{/* cspell:disable */}
+
+If a DOM property begins with `aria-`, it can only be valid if it's listed in the WAI-ARIA States and Properties specification.
+Any other property beginning with `aria-` is considered invalid and will not be handled propertly by a browser.
 
 Common mistakes include misspelling property names, such as `aria-labeledby` instead of `aria-labelledby`.
 

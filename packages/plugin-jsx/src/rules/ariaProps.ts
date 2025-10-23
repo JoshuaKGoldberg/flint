@@ -1,9 +1,6 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// Valid ARIA attributes from WAI-ARIA 1.2 spec
-// https://www.w3.org/TR/wai-aria-1.2/#state_prop_def
-// cspell:disable -- ARIA attribute names from WAI-ARIA spec
 const validAriaProps = new Set([
 	"aria-activedescendant",
 	"aria-atomic",
@@ -54,7 +51,6 @@ const validAriaProps = new Set([
 	"aria-valuenow",
 	"aria-valuetext",
 ]);
-// cspell:enable
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -70,31 +66,26 @@ export default typescriptLanguage.createRule({
 				"Check the spelling of the property name.",
 				"This is required for WCAG 4.1.2 compliance.",
 			],
-			suggestions: [
-				"Check the WAI-ARIA spec for valid property names",
-				// cspell:disable-next-line -- Showing common typo
-				"Common typos: aria-labeledby (should be aria-labelledby)",
-			],
+			suggestions: ["Use a valid property from the WAI-ARIA specification."],
 		},
 	},
 	setup(context) {
-		function checkElement(attributes: ts.JsxAttributes) {
-			for (const attr of attributes.properties) {
-				if (!ts.isJsxAttribute(attr) || !ts.isIdentifier(attr.name)) {
+		function checkElement(node: ts.JsxOpeningLikeElement) {
+			for (const property of node.attributes.properties) {
+				if (!ts.isJsxAttribute(property) || !ts.isIdentifier(property.name)) {
 					continue;
 				}
 
-				const propName = attr.name.text;
-				if (!propName.startsWith("aria-")) {
+				const propertyName = property.name.text;
+				if (!propertyName.startsWith("aria-")) {
 					continue;
 				}
 
-				const lowerPropName = propName.toLowerCase();
-				if (!validAriaProps.has(lowerPropName)) {
+				if (!validAriaProps.has(propertyName.toLowerCase())) {
 					context.report({
-						data: { prop: propName },
+						data: { prop: propertyName },
 						message: "invalidAriaProp",
-						range: getTSNodeRange(attr.name, context.sourceFile),
+						range: getTSNodeRange(property.name, context.sourceFile),
 					});
 				}
 			}
@@ -102,12 +93,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkElement(node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkElement(node.attributes);
-				},
+				JsxOpeningElement: checkElement,
+				JsxSelfClosingElement: checkElement,
 			},
 		};
 	},
