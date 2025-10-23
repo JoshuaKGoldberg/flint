@@ -756,7 +756,8 @@
 			}
 		],
 		"flint": {
-			"name": "altText",
+			"implemented": true,
+			"name": "altTexts",
 			"plugin": "jsx",
 			"preset": "Logical"
 		},
@@ -833,6 +834,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "ariaActiveDescendantTabIndex",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1069,6 +1071,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "distractingElements",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1264,6 +1267,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "mediaCaptions",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1296,6 +1300,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "mouseEventKeyEvents",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1556,6 +1561,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "definitionContents",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1569,6 +1575,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "definitionDuplicates",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1582,6 +1589,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "definitionUses",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1721,6 +1729,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "labelReferences",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1734,6 +1743,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "labelReferenceValidity",
 			"plugin": "md",
 			"preset": "Logical"
@@ -1747,6 +1757,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "linkContents",
 			"plugin": "md",
 			"preset": "Logical"
@@ -3677,6 +3688,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "anyReturns",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -7070,6 +7082,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "functionNewCalls",
 			"plugin": "ts",
 			"preset": "Logical"
@@ -7377,9 +7390,9 @@
 			}
 		],
 		"flint": {
-			"name": "guardedForIns",
+			"name": "forInGuards",
 			"plugin": "ts",
-			"preset": "Untyped"
+			"preset": "Not implementing"
 		},
 		"oxlint": [
 			{
@@ -8819,9 +8832,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "loopAwaits",
-			"plugin": "ts",
-			"preset": "None"
+			"plugin": "performance",
+			"preset": "Logical"
 		},
 		"oxlint": [
 			{
@@ -8856,8 +8870,8 @@
 		],
 		"flint": {
 			"name": "loopFunctions",
-			"plugin": "ts",
-			"preset": "None"
+			"plugin": "performance",
+			"preset": "Logical"
 		}
 	},
 	{
@@ -12718,6 +12732,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "shadowedRestrictedNames",
 			"plugin": "ts",
 			"preset": "Untyped"
