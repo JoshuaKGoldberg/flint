@@ -1,4 +1,4 @@
-import type { Node, Root, Text } from "mdast";
+import type { Text } from "mdast";
 
 import type { WithPosition } from "../nodes.js";
 
