@@ -21,30 +21,30 @@ This is required for WCAG 2.4.3 compliance.
 <TabItem label="❌ Incorrect">
 
 ```tsx
-<span tabIndex="5">foo</span>
+<span tabIndex="5">content</span>
 ```
 
 ```tsx
-<span tabIndex="1">bar</span>
+<span tabIndex="1">content</span>
 ```
 
 ```tsx
-<div tabIndex={3}>baz</div>
+<div tabIndex={3}>content</div>
 ```
 
 </TabItem>
 <TabItem label="✅ Correct">
 
 ```tsx
-<span tabIndex="0">foo</span>
+<span tabIndex="0">content</span>
 ```
 
 ```tsx
-<span tabIndex="-1">bar</span>
+<span tabIndex="-1">content</span>
 ```
 
 ```tsx
-<span tabIndex={0}>baz</span>
+<span tabIndex={0}>content</span>
 ```
 
 ```tsx
@@ -56,12 +56,12 @@ This is required for WCAG 2.4.3 compliance.
 
 ## When Not To Use It
 
-If you have a specific, well-documented reason for using positive tabIndex values (though this is rare), you can disable this rule.
+If you are managing tab orders with a well-defined focus management system that handles positive `tabIndex` values well, this rule may not be applicable.
 
 ## Further Reading
 
 - [WCAG 2.4.3: Focus Order](https://www.w3.org/WAI/WCAG21/Understanding/focus-order)
-- [Chrome Audit Rules: AX_FOCUS_03](https://github.com/GoogleChrome/accessibility-developer-tools/wiki/Audit-Rules#ax_focus_03)
+- [Avoid Using Tabindex with Positive Numbers](https://dequeuniversity.com/tips/tabindex-positive-numbers)
 
 ## Equivalents in Other Linters
 

@@ -9,9 +9,10 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		noPositiveTabIndex: {
-			primary: "Avoid positive `tabIndex` values.",
+			primary:
+				"Positive `tabIndex` values disrupt tab order and make keyboard navigation unpredictable.",
 			secondary: [
-				"Positive tabIndex values disrupt the natural tab order and make keyboard navigation unpredictable.",
+				"Injecting elements on top of the default tab order with positive `tabIndex` values changes from the intuitive order for users.",
 				'Use tabIndex="0" to include elements in the natural tab order, or tabIndex="-1" to make them programmatically focusable.',
 				"This is required for WCAG 2.4.3 compliance.",
 			],
@@ -26,34 +27,15 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				JsxAttribute(node: ts.JsxAttribute) {
-					if (!ts.isIdentifier(node.name)) {
+					if (
+						!ts.isIdentifier(node.name) ||
+						node.name.text.toLowerCase() !== "tabindex" ||
+						!node.initializer
+					) {
 						return;
 					}
 
-					if (node.name.text.toLowerCase() !== "tabindex") {
-						return;
-					}
-
-					if (!node.initializer) {
-						return;
-					}
-
-					let value: number | undefined;
-
-					// Handle string literal: tabIndex="1"
-					if (ts.isStringLiteral(node.initializer)) {
-						const parsed = Number(node.initializer.text);
-						if (!isNaN(parsed)) {
-							value = parsed;
-						}
-					}
-					// Handle JSX expression: tabIndex={1}
-					else if (ts.isJsxExpression(node.initializer)) {
-						const expr = node.initializer.expression;
-						if (expr && ts.isNumericLiteral(expr)) {
-							value = Number(expr.text);
-						}
-					}
+					const value = getInitializerValue(node.initializer);
 
 					if (value !== undefined && value > 0) {
 						context.report({
@@ -66,3 +48,19 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+function getInitializerValue(initializer: ts.JsxAttributeValue) {
+	if (ts.isStringLiteral(initializer)) {
+		const parsed = Number(initializer.text);
+
+		return isNaN(parsed) ? undefined : parsed;
+	}
+
+	if (ts.isJsxExpression(initializer)) {
+		return initializer.expression && ts.isNumericLiteral(initializer.expression)
+			? Number(initializer.expression.text)
+			: undefined;
+	}
+
+	return undefined;
+}
