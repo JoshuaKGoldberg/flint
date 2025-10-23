@@ -8833,8 +8833,8 @@
 		"flint": {
 			"implemented": true,
 			"name": "loopAwaits",
-			"plugin": "ts",
-			"preset": "None"
+			"plugin": "performance",
+			"preset": "Logical"
 		},
 		"oxlint": [
 			{
@@ -8870,7 +8870,7 @@
 		"flint": {
 			"name": "loopFunctions",
 			"plugin": "performance",
-			"preset": "logical"
+			"preset": "Logical"
 		}
 	},
 	{
