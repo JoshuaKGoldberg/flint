@@ -854,6 +854,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "ariaHiddenFocusables",
 			"plugin": "jsx",
 			"preset": "Logical",
