@@ -1445,6 +1445,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "scopeProps",
 			"plugin": "jsx",
 			"preset": "Logical"

@@ -12,6 +12,7 @@ import htmlLangs from "./rules/htmlLangs.js";
 import iframeTitles from "./rules/iframeTitles.js";
 import mediaCaptions from "./rules/mediaCaptions.js";
 import mouseEventKeyEvents from "./rules/mouseEventKeyEvents.js";
+import scopeProps from "./rules/scopeProps.js";
 
 export const jsx = createPlugin({
 	name: "jsx",
@@ -28,5 +29,6 @@ export const jsx = createPlugin({
 		iframeTitles,
 		mediaCaptions,
 		mouseEventKeyEvents,
+		scopeProps,
 	],
 });
