@@ -10,8 +10,8 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="jsx" rule="autoFocusProps" />
 
-Auto-focusing elements can cause usability issues for both sighted and non-sighted users.
-It can be disruptive to users who rely on screen readers or keyboard navigation, as it moves focus unexpectedly.
+Auto-focusing elements automatically grab the user's focus, which is generally disruptive behavior.
+It can be particularly disruptive to users who rely on screen readers and/or keyboard navigation.
 
 Consider letting users focus elements manually instead.
 
@@ -53,6 +53,7 @@ Consider letting users focus elements manually instead.
 ## When Not To Use It
 
 If you have specific use cases where auto-focus is necessary for user experience (such as modal dialogs), you may want to disable this rule for those specific cases.
+Auto-focusing elements should only sparingly be used when explicitly triggered by users.
 
 ## Further Reading
 

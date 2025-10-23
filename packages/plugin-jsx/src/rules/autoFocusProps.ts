@@ -9,7 +9,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		noAutoFocus: {
-			primary: "Avoid using the `autoFocus` prop.",
+			primary:
+				"The `autoFocus` prop disruptively forces unintuitive focus behavior.",
 			secondary: [
 				"Auto-focusing elements can cause usability issues for sighted and non-sighted users.",
 				"It can be disruptive to users who rely on screen readers or keyboard navigation.",
@@ -22,35 +23,36 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(attributes: ts.JsxAttributes) {
-			for (const attr of attributes.properties) {
-				if (!ts.isJsxAttribute(attr) || !ts.isIdentifier(attr.name)) {
-					continue;
-				}
+		function isSetToFalse(property: ts.JsxAttribute) {
+			if (!property.initializer) {
+				return false;
+			}
 
-				const propName = attr.name.text;
-				if (propName.toLowerCase() !== "autofocus") {
-					continue;
-				}
+			if (ts.isStringLiteral(property.initializer)) {
+				return property.initializer.text === "false";
+			}
 
-				// Check if autoFocus is set to false
-				let isFalse = false;
-				if (attr.initializer) {
-					if (ts.isStringLiteral(attr.initializer)) {
-						isFalse = attr.initializer.text === "false";
-					} else if (ts.isJsxExpression(attr.initializer)) {
-						const expr = attr.initializer.expression;
-						if (expr && expr.kind === ts.SyntaxKind.FalseKeyword) {
-							isFalse = true;
-						}
-					}
+			if (ts.isJsxExpression(property.initializer)) {
+				const expr = property.initializer.expression;
+				if (expr && expr.kind === ts.SyntaxKind.FalseKeyword) {
+					return true;
 				}
+			}
 
-				// Report if autoFocus is not explicitly false
-				if (!isFalse) {
+			return false;
+		}
+
+		function checkElement(node: ts.JsxOpeningLikeElement) {
+			for (const property of node.attributes.properties) {
+				if (
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text.toLowerCase() === "autofocus" &&
+					!isSetToFalse(property)
+				) {
 					context.report({
 						message: "noAutoFocus",
-						range: getTSNodeRange(attr, context.sourceFile),
+						range: getTSNodeRange(property, context.sourceFile),
 					});
 				}
 			}
@@ -58,12 +60,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkElement(node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkElement(node.attributes);
-				},
+				JsxOpeningElement: checkElement,
+				JsxSelfClosingElement: checkElement,
 			},
 		};
 	},

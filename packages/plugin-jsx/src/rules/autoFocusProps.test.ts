@@ -4,35 +4,47 @@ import { ruleTester } from "./ruleTester.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `<div autoFocus />`,
+			code: `
+<div autoFocus />
+`,
 			fileName: "file.tsx",
-			snapshot: `<div autoFocus />
-    ~~~~~~~~~
-    Avoid using the \`autoFocus\` prop.
+			snapshot: `
+<div autoFocus />
+     ~~~~~~~~~
+     The \`autoFocus\` prop disruptively forces unintuitive focus behavior.
 `,
 		},
 		{
-			code: `<div autoFocus="true" />`,
+			code: `
+<div autoFocus="true" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<div autoFocus="true" />
-    ~~~~~~~~~~~~~~~~
-    Avoid using the \`autoFocus\` prop.
+			snapshot: `
+<div autoFocus="true" />
+     ~~~~~~~~~~~~~~~~
+     The \`autoFocus\` prop disruptively forces unintuitive focus behavior.
 `,
 		},
 		{
-			code: `<div autoFocus={true} />`,
+			code: `
+<div autoFocus={true} />
+`,
 			fileName: "file.tsx",
-			snapshot: `<div autoFocus={true} />
-    ~~~~~~~~~~~~~~~~
-    Avoid using the \`autoFocus\` prop.
+			snapshot: `
+<div autoFocus={true} />
+     ~~~~~~~~~~~~~~~~
+     The \`autoFocus\` prop disruptively forces unintuitive focus behavior.
 `,
 		},
 		{
-			code: `<input autoFocus={undefined} />`,
+			code: `
+<input autoFocus={undefined} />
+`,
 			fileName: "file.tsx",
-			snapshot: `<input autoFocus={undefined} />
-      ~~~~~~~~~~~~~~~~~~~~~
-      Avoid using the \`autoFocus\` prop.
+			snapshot: `
+<input autoFocus={undefined} />
+       ~~~~~~~~~~~~~~~~~~~~~
+       The \`autoFocus\` prop disruptively forces unintuitive focus behavior.
 `,
 		},
 	],
