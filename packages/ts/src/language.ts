@@ -19,6 +19,7 @@ const log = debugForFile(import.meta.filename);
 const projectRoot = path.join(import.meta.dirname, "../..");
 
 export interface TypeScriptServices {
+	program: ts.Program;
 	sourceFile: ts.SourceFile;
 	typeChecker: ts.TypeChecker;
 }
