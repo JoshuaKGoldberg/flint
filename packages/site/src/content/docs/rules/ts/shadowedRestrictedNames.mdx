@@ -10,9 +10,10 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="ts" rule="shadowedRestrictedNames" />
 
-JavaScript has certain built-in global identifiers that are considered restricted because shadowing them can lead to confusing or erroneous code.
-When you declare a variable, function, or class with one of these names, it shadows the global identifier and can cause unexpected behavior or make code harder to understand.
-These restricted names are:
+JavaScript provides a set of built-in global identifiers with well-known names.
+When you declare a variable, function, or class with one of these names, it "shadows" the global identifier and can cause unexpected behavior or make code harder to understand.
+
+This rule reports shadowing of the most common global names that developers sometimes unintentionally shadow:
 
 - `arguments`
 - `eval`
