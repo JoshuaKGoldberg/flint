@@ -7389,9 +7389,9 @@
 			}
 		],
 		"flint": {
-			"name": "guardedForIns",
+			"name": "forInGuards",
 			"plugin": "ts",
-			"preset": "Untyped"
+			"preset": "Not implementing"
 		},
 		"oxlint": [
 			{
