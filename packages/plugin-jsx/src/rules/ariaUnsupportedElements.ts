@@ -1,7 +1,6 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// Elements that don't support ARIA roles, states, or properties
 const unsupportedElements = new Set([
 	"base",
 	"body",
@@ -66,46 +65,38 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(
-			tagName: ts.JsxTagNameExpression,
-			attributes: ts.JsxAttributes,
-		) {
-			if (!ts.isIdentifier(tagName)) {
+		function checkElement(node: ts.JsxOpeningLikeElement) {
+			if (!ts.isIdentifier(node.tagName)) {
 				return;
 			}
 
-			const elementName = tagName.text.toLowerCase();
+			const elementName = node.tagName.text.toLowerCase();
 			if (!unsupportedElements.has(elementName)) {
 				return;
 			}
 
-			// Check if element has any aria-* attributes or role attribute
-			const hasAriaOrRole = attributes.properties.some((attr) => {
-				if (!ts.isJsxAttribute(attr) || !ts.isIdentifier(attr.name)) {
-					return false;
-				}
+			if (
+				node.attributes.properties.some((property) => {
+					if (!ts.isJsxAttribute(property) || !ts.isIdentifier(property.name)) {
+						return false;
+					}
 
-				const attrName = attr.name.text.toLowerCase();
-				return attrName === "role" || attrName.startsWith("aria-");
-			});
-
-			if (hasAriaOrRole) {
+					const attributeName = property.name.text.toLowerCase();
+					return attributeName === "role" || attributeName.startsWith("aria-");
+				})
+			) {
 				context.report({
 					data: { element: elementName },
 					message: "unsupportedElement",
-					range: getTSNodeRange(tagName, context.sourceFile),
+					range: getTSNodeRange(node.tagName, context.sourceFile),
 				});
 			}
 		}
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkElement(node.tagName, node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkElement(node.tagName, node.attributes);
-				},
+				JsxOpeningElement: checkElement,
+				JsxSelfClosingElement: checkElement,
 			},
 		};
 	},
