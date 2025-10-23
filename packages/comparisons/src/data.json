@@ -1492,6 +1492,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "tabIndexPositiveValues",
 			"plugin": "jsx",
 			"preset": "Logical"
