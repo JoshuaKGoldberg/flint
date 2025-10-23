@@ -13,6 +13,8 @@ import RuleSummary from "~/components/RuleSummary.astro";
 Elements with `aria-hidden="true"` should not be reachable via keyboard navigation.
 When users can focus elements they cannot perceive with a screen reader, it creates confusion and unexpected behavior.
 
+This rule reports on any element that is focusable -either inherently or via `tabIndex`- and has `aria-hidden="true"`.
+
 ## Examples
 
 <Tabs>
@@ -58,7 +60,7 @@ When users can focus elements they cannot perceive with a screen reader, it crea
 
 ## When Not To Use It
 
-If you have specific use cases where aria-hidden elements need to be focusable (though this is rare and generally not recommended), you can disable this rule.
+If you separately use a framework that manages focus state for you such that focusable elements with `aria-hidden="true"` are never focused, you may prefer to disable this rule.
 
 ## Further Reading
 

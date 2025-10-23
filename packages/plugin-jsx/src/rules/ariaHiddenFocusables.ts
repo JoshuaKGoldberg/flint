@@ -14,18 +14,16 @@ const focusableElements = new Set([
 export default typescriptLanguage.createRule({
 	about: {
 		description: "Reports elements with aria-hidden='true' that are focusable.",
-		// cspell:disable-next-line -- ariaHiddenFocusables is the rule name
 		id: "ariaHiddenFocusables",
 		preset: "logical",
 	},
 	messages: {
 		ariaHiddenFocusable: {
 			primary:
-				'This element has `aria-hidden="true"` but is focusable, which can confuse screen reader users.',
+				'This element has `aria-hidden="true"` but is focusable, which is misleading to users navigating with keyboards.',
 			secondary: [
 				"Elements with aria-hidden='true' should not be reachable via keyboard navigation.",
 				"This creates confusion when users can focus elements they cannot perceive with a screen reader.",
-				'Remove aria-hidden, make the element non-focusable (tabIndex="-1"), or restructure your component.',
 			],
 			suggestions: [
 				'Remove aria-hidden="true"',
@@ -35,107 +33,93 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(
-			tagName: ts.JsxTagNameExpression,
-			attributes: ts.JsxAttributes,
-		) {
+		function checkElement(node: ts.JsxOpeningLikeElement) {
+			const { attributes, tagName } = node;
 			if (!ts.isIdentifier(tagName)) {
 				return;
 			}
 
-			// Check if element has aria-hidden="true"
-			const ariaHiddenAttr = attributes.properties.find((attr) => {
-				if (!ts.isJsxAttribute(attr)) {
-					return false;
-				}
+			const ariaHiddenProperty = attributes.properties.find(
+				(property) =>
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text.toLowerCase() === "aria-hidden",
+			);
 
-				return (
-					ts.isIdentifier(attr.name) &&
-					attr.name.text.toLowerCase() === "aria-hidden"
-				);
-			});
-
-			if (!ariaHiddenAttr || !ts.isJsxAttribute(ariaHiddenAttr)) {
+			if (
+				!ariaHiddenProperty ||
+				!ts.isJsxAttribute(ariaHiddenProperty) ||
+				!isAriaHiddenTrue(ariaHiddenProperty)
+			) {
 				return;
 			}
 
-			// Check if aria-hidden is set to "true"
-			let isAriaHiddenTrue = false;
-			if (ariaHiddenAttr.initializer) {
-				if (ts.isStringLiteral(ariaHiddenAttr.initializer)) {
-					isAriaHiddenTrue = ariaHiddenAttr.initializer.text === "true";
-				} else if (ts.isJsxExpression(ariaHiddenAttr.initializer)) {
-					const expr = ariaHiddenAttr.initializer.expression;
-					if (expr && expr.kind === ts.SyntaxKind.TrueKeyword) {
-						isAriaHiddenTrue = true;
-					}
-				}
-			}
-
-			if (!isAriaHiddenTrue) {
-				return;
-			}
-
-			// Check if element is focusable
-			const elementName = tagName.text.toLowerCase();
-
-			// Check for tabIndex
-			const tabIndexAttr = attributes.properties.find((attr) => {
-				if (!ts.isJsxAttribute(attr)) {
-					return false;
-				}
-
-				return (
-					ts.isIdentifier(attr.name) &&
-					attr.name.text.toLowerCase() === "tabindex"
-				);
-			});
-
-			let tabIndexValue: number | undefined;
-			if (tabIndexAttr && ts.isJsxAttribute(tabIndexAttr)) {
-				if (
-					tabIndexAttr.initializer &&
-					ts.isStringLiteral(tabIndexAttr.initializer)
-				) {
-					tabIndexValue = Number(tabIndexAttr.initializer.text);
-				} else if (
-					tabIndexAttr.initializer &&
-					ts.isJsxExpression(tabIndexAttr.initializer)
-				) {
-					const expr = tabIndexAttr.initializer.expression;
-					if (expr && ts.isNumericLiteral(expr)) {
-						tabIndexValue = Number(expr.text);
-					}
-				}
-			}
-
-			// If tabIndex is -1, element is not in focus order, so it's OK
+			const tabIndexValue = findTabIndexValue(node);
 			if (tabIndexValue === -1) {
 				return;
 			}
 
-			// Check if element is inherently focusable or has positive tabIndex
-			const isInherentlyFocusable = focusableElements.has(elementName);
-			const hasPositiveTabIndex =
-				tabIndexValue !== undefined && tabIndexValue >= 0;
-
-			if (isInherentlyFocusable || hasPositiveTabIndex) {
+			if (
+				focusableElements.has(tagName.text.toLowerCase()) ||
+				(tabIndexValue !== undefined && tabIndexValue >= 0)
+			) {
 				context.report({
 					message: "ariaHiddenFocusable",
-					range: getTSNodeRange(ariaHiddenAttr, context.sourceFile),
+					range: getTSNodeRange(ariaHiddenProperty, context.sourceFile),
 				});
 			}
 		}
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkElement(node.tagName, node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkElement(node.tagName, node.attributes);
-				},
+				JsxOpeningElement: checkElement,
+				JsxSelfClosingElement: checkElement,
 			},
 		};
 	},
 });
+
+function findTabIndexValue(node: ts.JsxOpeningLikeElement) {
+	const tabIndexProperty = node.attributes.properties.find(
+		(property): property is ts.JsxAttribute =>
+			ts.isJsxAttribute(property) &&
+			ts.isIdentifier(property.name) &&
+			property.name.text.toLowerCase() === "tabindex",
+	);
+
+	if (!tabIndexProperty?.initializer) {
+		return undefined;
+	}
+
+	if (ts.isJsxExpression(tabIndexProperty.initializer)) {
+		const expression = tabIndexProperty.initializer.expression;
+		if (expression && ts.isNumericLiteral(expression)) {
+			return Number(expression.text);
+		}
+	}
+
+	if (ts.isStringLiteral(tabIndexProperty.initializer)) {
+		return Number(tabIndexProperty.initializer.text);
+	}
+
+	return undefined;
+}
+
+function isAriaHiddenTrue(ariaHiddenProperty: ts.JsxAttribute) {
+	if (!ariaHiddenProperty.initializer) {
+		return false;
+	}
+
+	if (ts.isStringLiteral(ariaHiddenProperty.initializer)) {
+		return ariaHiddenProperty.initializer.text === "true";
+	}
+
+	if (ts.isJsxExpression(ariaHiddenProperty.initializer)) {
+		const expression = ariaHiddenProperty.initializer.expression;
+		if (expression && expression.kind === ts.SyntaxKind.TrueKeyword) {
+			return true;
+		}
+	}
+
+	return false;
+}
