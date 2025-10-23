@@ -1,0 +1,101 @@
+---
+description: "Reports JSON values that are unsafe for data interchange."
+title: "valueSafety"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="json" rule="valueSafety" />
+
+JSON is widely used for data interchange between systems, but certain values can cause interoperability issues when transferred between different parsers and environments.
+This rule detects values that are unsafe for interchange, preventing data corruption, silent failures, or inconsistent behavior across different platforms and languages.
+
+## Unsafe Values
+
+This rule detects the following unsafe values:
+
+- **Lone surrogates in strings**: Incomplete Unicode character pairs that can cause encoding/decoding failures
+- **Numbers that evaluate to Infinity**: Values like `1e400` that exceed JavaScript's number range
+- **Unintentional zeros**: Very small numbers (e.g., `1e-400`) that silently evaluate to zero due to precision limitations
+- **Unsafe integers**: Numbers outside JavaScript's safe integer range (`±2^53-1`) that lose precision
+- **Subnormal numbers**: Very small floating point values that may be handled differently across systems
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```json
+[2e308]
+```
+
+```json
+{
+	"value": "\ud83d"
+}
+```
+
+```json
+[1e-400]
+```
+
+```json
+{
+	"id": 9007199254740992
+}
+```
+
+```json
+[2.2250738585072009e-308]
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```json
+[123, 1234, 12345]
+```
+
+```json
+{
+	"emoji": "🔥"
+}
+```
+
+```json
+{
+	"emoji": "\ud83d\udd25"
+}
+```
+
+```json
+[0, 0.0, 0]
+```
+
+```json
+{
+	"id": 9007199254740991
+}
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If your project intentionally uses a mix of JSON levels of safety, such as systems that manually manipulate strings, this rule might not reflect your project's needs.
+Consider refactoring to use safer value representations.
+
+## Further Reading
+
+- [MDN: Number.MAX_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER)
+- [MDN: Number.MIN_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER)
+- [Wikipedia: UTF-16 Surrogates](https://en.wikipedia.org/wiki/UTF-16)
+- [Wikipedia: Subnormal Numbers](https://en.wikipedia.org/wiki/Subnormal_number)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="json" ruleId="valueSafety" />

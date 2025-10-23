@@ -35,3 +35,8 @@
 :root {
 	--sl-content-width: 63rem;
 }
+
+table code {
+	background: none;
+	padding: 0;
+}

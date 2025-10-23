@@ -1,5 +1,15 @@
 # @flint/md
 
+## 0.14.1
+
+### Patch Changes
+
+- 3d19082: fix: use 0-indexed column and line across codebase
+- Updated dependencies [3d19082]
+- Updated dependencies [a3f9043]
+  - @flint.fyi/core@0.15.1
+  - @flint.fyi/rule-tester@0.14.2
+
 ## 0.14.0
 
 ### Minor Changes

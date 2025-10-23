@@ -1,5 +1,13 @@
 # @flint/rule-tester
 
+## 0.14.2
+
+### Patch Changes
+
+- a3f9043: fix: respect \`only\` and \`skip\` options in valid RuleTester cases
+- Updated dependencies [3d19082]
+  - @flint.fyi/core@0.15.1
+
 ## 0.14.1
 
 ### Patch Changes
