@@ -27,8 +27,8 @@ export default markdownLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				root(node: WithPosition<Root>) {
-					const headingTextMap = new Map<
+				root(root: WithPosition<Root>) {
+					const headingTexts = new Map<
 						string,
 						{
 							begin: number;
@@ -36,55 +36,51 @@ export default markdownLanguage.createRule({
 						}[]
 					>();
 
-					// Collect text content from a node tree
-					function collectText(n: Node): string {
-						if (n.type === "text") {
-							return (n as Text).value;
+					function collectText(node: Node): string {
+						if (node.type === "text") {
+							return (node as Text).value;
 						}
-						if ("children" in n && Array.isArray(n.children)) {
-							return (n.children as Node[]).map(collectText).join("");
+						if ("children" in node && Array.isArray(node.children)) {
+							return (node.children as Node[]).map(collectText).join("");
 						}
 						return "";
 					}
 
-					function visit(n: Node): void {
-						if (n.type === "heading") {
-							const heading = n as Heading;
-							const headingText = collectText(heading).trim().toLowerCase();
+					function visitHeading(node: WithPosition<Heading>) {
+						const headingText = collectText(node).trim().toLowerCase();
 
-							if (
-								headingText &&
-								heading.position?.start.offset !== undefined &&
-								heading.position.end.offset !== undefined
-							) {
-								const existing = headingTextMap.get(headingText);
-								if (existing) {
-									existing.push({
-										begin: heading.position.start.offset,
-										end: heading.position.end.offset,
-									});
-								} else {
-									headingTextMap.set(headingText, [
-										{
-											begin: heading.position.start.offset,
-											end: heading.position.end.offset,
-										},
-									]);
-								}
-							}
+						const existing = headingTexts.get(headingText);
+						if (existing) {
+							existing.push({
+								begin: node.position.start.offset,
+								end: node.position.end.offset,
+							});
+						} else {
+							headingTexts.set(headingText, [
+								{
+									begin: node.position.start.offset,
+									end: node.position.end.offset,
+								},
+							]);
+						}
+					}
+
+					function visit(node: Node) {
+						if (node.type === "heading") {
+							visitHeading(node as WithPosition<Heading>);
 						}
 
-						if ("children" in n && Array.isArray(n.children)) {
-							for (const child of n.children as Node[]) {
+						if ("children" in node && Array.isArray(node.children)) {
+							for (const child of node.children as Node[]) {
 								visit(child);
 							}
 						}
 					}
 
-					visit(node);
+					// TODO: Add :exit selectors, so this rule can report after traversal?
+					visit(root);
 
-					// Report all headings that have duplicates
-					for (const [text, occurrences] of headingTextMap) {
+					for (const [text, occurrences] of headingTexts) {
 						if (occurrences.length > 1) {
 							for (const occurrence of occurrences) {
 								context.report({
