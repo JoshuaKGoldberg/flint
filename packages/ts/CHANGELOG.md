@@ -1,5 +1,22 @@
 # @flint/ts
 
+## 0.14.4
+
+### Patch Changes
+
+- 158b542: expose \`program\` in TS rules context
+- Updated dependencies [3d19082]
+- Updated dependencies [a3f9043]
+  - @flint.fyi/core@0.15.1
+  - @flint.fyi/rule-tester@0.14.2
+
+## 0.14.3
+
+### Patch Changes
+
+- 9b6b884: added browser plugin with alerts rule
+- c8bad31: feat: add JSX plugin with accessKeys rule
+
 ## 0.14.2
 
 ### Patch Changes

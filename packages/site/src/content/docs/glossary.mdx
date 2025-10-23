@@ -3,19 +3,26 @@ description: "Glossary of terms for linting with Flint."
 title: Glossary
 ---
 
-:::danger
-This glossary is very incomplete.
-Many more terms will be added soon.
-:::
-
 This glossary defines the common linting terms as used by Flint.
 
 :::note
 Other linters refer to some definitions using different terms.
-See [Terminology Comparison](#terminology-comparison) for a comparison of how Flint's terms compare to those used by other linters.
+See [Terminology Comparison](#terminology-comparison) for a table of equivalents.
 :::
 
 ## Linting Terms
+
+### Abstract Syntax Tree (AST)
+
+A representation of the contents of a source file.
+Lint rules and other forms of static analysis receive an AST to describe the code they analyze.
+
+ASTs are "trees" in that each node, or area of file, may have child nodes.
+For example, the CallExpression `console.log("Hello, world!")` has two children: a MemberExpression for `console.log` and a Literal for `"Hello, world!"`.
+
+:::tip
+The [typescript-eslint playground](https://typescript-eslint.io/play#showAST=ts&fileType=.tsx&code=MYewdgziA2CmB00QHMAUAiAEraSA0ABAO4gBO0AJgIToCUA3EA&eslintrc=N4KABGBEBOCuA2BTAzpAXGYBfEWg&tsconfig=N4KABGBEDGD2C2AHAlgGwKYCcDyiAuysAdgM6QBcYoEEkJemy0eAcgK6qoDCAFutAGsylBm3TgwAXxCSgA) provides a handy AST viewer for exploring the AST nodes generated for source code.
+:::
 
 ### Change
 
@@ -62,9 +69,30 @@ Formatters are generally very fast, as they only have to parse code and apply ch
 
 A tool that runs a set of [rules](#rule) on code in order to detect potential issues.
 
+### Plugin
+
+A standalone package that adds rules, presets, or other functionality for use with a linter.
+Plugins are generally single-purpose: they often add rules for a one area of technology, such as a specific framework.
+
 ### Preset
 
 A set of predefined [rules](#rule) and configuration options that may be used in a [configuration](#configuration).
+
+### Presenter
+
+Logic that takes in the results of linting and outputs it to the user.
+
+:::note
+This is typically called a _"formatter"_ by other linters, such as ESLint.
+Flint refers to it as a _"presenter"_ to disambiguate from standalone [formatters](#formatter).
+:::
+
+### Processor
+
+A hook that parses out additional information from files for linting.
+
+Processors are most commonly used to extract nested files from existing source files.
+For example, a Markdown processor might parse <code>```</code> code blocks from files and create corresponding virtual files to be linted.
 
 ### Report
 
@@ -78,15 +106,6 @@ They may also be created by the running [linter](#linter), such as when an inval
 A check for a specific pattern in code that may indicate a problem.
 
 When a rule finds that problem in code, it will issue a [report](#report).
-
-### Presenter
-
-Logic that takes in the results of linting and outputs it to the user.
-
-:::note
-This is typically called a _"formatter"_ by other linters, such as ESLint.
-Flint refers to it as a _"presenter"_ to disambiguate from standalone [formatters](#formatter).
-:::
 
 ### Stylistic
 
@@ -140,7 +159,7 @@ TypeScript provides APIs that are used to inform [type-aware linting](#type-awar
 
 Most concepts are referred to by the same terms by most linters.
 However, some linters use different terms for other concepts.
-This table shows how each plugin refers to concepts whose terminology is not standardized.
+This table shows how each linter refers to concepts whose terminology is not standardized.
 
 | Flint Term        | Biome                | Deno Lint | ESLint                        | Oxlint                        |
 | ----------------- | -------------------- | --------- | ----------------------------- | ----------------------------- |
