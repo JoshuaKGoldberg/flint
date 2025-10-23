@@ -12,7 +12,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <input aria-labeledby="address_label" />
        ~~~~~~~~~~~~~~
-       Invalid ARIA property: \`aria-labeledby\`.
+       \`aria-labeledby\` is not a valid ARIA property and so has no effect on the browser.
 `,
 		},
 		{
@@ -23,7 +23,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div aria-invalid-prop="true" />
      ~~~~~~~~~~~~~~~~~
-     Invalid ARIA property: \`aria-invalid-prop\`.
+     \`aria-invalid-prop\` is not a valid ARIA property and so has no effect on the browser.
 `,
 		},
 		{
@@ -34,7 +34,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <button aria-labelled="Submit" />
         ~~~~~~~~~~~~~
-        Invalid ARIA property: \`aria-labelled\`.
+        \`aria-labelled\` is not a valid ARIA property and so has no effect on the browser.
 `,
 		},
 	],

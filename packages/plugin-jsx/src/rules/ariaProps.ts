@@ -60,7 +60,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		invalidAriaProp: {
-			primary: "Invalid ARIA property: `{{ prop }}`.",
+			primary:
+				"`{{ prop }}` is not a valid ARIA property and so has no effect on the browser.",
 			secondary: [
 				"This aria-* attribute is not a valid ARIA property according to the WAI-ARIA spec.",
 				"Check the spelling of the property name.",
