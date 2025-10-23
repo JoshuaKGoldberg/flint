@@ -20,7 +20,7 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		shadowedRestrictedName: {
-			primary: "This variable misleadingly shadows the global {{ name }}.",
+			primary: "This variable misleadingly shadows the global `{{ name }}`.",
 			secondary: [
 				"JavaScript has certain built-in global identifiers that are considered restricted because shadowing them can lead to confusing or erroneous code.",
 				"When you declare a variable with a restricted name, it shadows the global identifier and can cause unexpected behavior.",
