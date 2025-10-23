@@ -36,28 +36,28 @@ var Infinity = 100;
 		{
 			code: `
 function test(arguments) {
-	return arguments.length;
+    return arguments.length;
 }
 `,
 			snapshot: `
 function test(arguments) {
               ~~~~~~~~~
               This variable misleadingly shadows the global \`arguments\`.
-	return arguments.length;
+    return arguments.length;
 }
 `,
 		},
 		{
 			code: `
 function eval() {
-	return 42;
+    return 42;
 }
 `,
 			snapshot: `
 function eval() {
          ~~~~
          This variable misleadingly shadows the global \`eval\`.
-	return 42;
+    return 42;
 }
 `,
 		},
@@ -74,60 +74,60 @@ const arrowFunc = (undefined) => undefined;
 		{
 			code: `
 class NaN {
-	constructor() {}
+    constructor() {}
 }
 `,
 			snapshot: `
 class NaN {
       ~~~
       This variable misleadingly shadows the global \`NaN\`.
-	constructor() {}
+    constructor() {}
 }
 `,
 		},
 		{
 			code: `
 const obj = {
-	method(eval) {
-		return eval;
-	}
+    method(eval) {
+        return eval;
+    }
 };
 `,
 			snapshot: `
 const obj = {
-	method(eval) {
-        ~~~~
-        This variable misleadingly shadows the global \`eval\`.
-		return eval;
-	}
+    method(eval) {
+           ~~~~
+           This variable misleadingly shadows the global \`eval\`.
+        return eval;
+    }
 };
 `,
 		},
 		{
 			code: `
 function test() {
-	const { undefined } = obj;
+    const { undefined } = obj;
 }
 `,
 			snapshot: `
 function test() {
-	const { undefined } = obj;
-         ~~~~~~~~~
-         This variable misleadingly shadows the global \`undefined\`.
+    const { undefined } = obj;
+            ~~~~~~~~~
+            This variable misleadingly shadows the global \`undefined\`.
 }
 `,
 		},
 		{
 			code: `
 function test() {
-	const [NaN] = array;
+    const [NaN] = array;
 }
 `,
 			snapshot: `
 function test() {
-	const [NaN] = array;
-        ~~~
-        This variable misleadingly shadows the global \`NaN\`.
+    const [NaN] = array;
+           ~~~
+           This variable misleadingly shadows the global \`NaN\`.
 }
 `,
 		},
