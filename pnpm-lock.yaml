@@ -360,6 +360,9 @@ importers:
       '@flint.fyi/plugin-flint':
         specifier: 'workspace:'
         version: link:../plugin-flint
+      '@flint.fyi/plugin-performance':
+        specifier: 'workspace:'
+        version: link:../plugin-performance
       '@konami-emoji-blast/astro':
         specifier: ^0.1.1
         version: 0.1.1(astro@5.15.1(@types/node@24.9.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1))(konami-emoji-blast@0.6.0)
