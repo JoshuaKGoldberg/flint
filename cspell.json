@@ -13,6 +13,24 @@
 	],
 	"words": [
 		"affordances",
+		"aria-activedescendant",
+		"aria-colcount",
+		"aria-colindex",
+		"aria-describedby",
+		"aria-dropeffect",
+		"aria-flowto",
+		"aria-haspopup",
+		"aria-keyshortcuts",
+		"aria-labelledby",
+		"aria-multiselectable",
+		"aria-posinset",
+		"aria-roledescription",
+		"aria-rowcount",
+		"aria-rowindex",
+		"aria-rowspan",
+		"aria-setsize",
+		"aria-valuenow",
+		"aria-valuetext",
 		"autolinks",
 		"deoptimizations",
 		"destructures",
@@ -21,6 +39,7 @@
 		"nord",
 		"Oxlint",
 		"shiki",
-		"shikijs"
+		"shikijs",
+		"WHATWG"
 	]
 }
