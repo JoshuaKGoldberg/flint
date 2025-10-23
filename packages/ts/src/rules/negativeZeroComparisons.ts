@@ -1,30 +1,11 @@
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
-
-const comparisonOperators = new Set([
-	ts.SyntaxKind.EqualsEqualsEqualsToken,
-	ts.SyntaxKind.EqualsEqualsToken,
-	ts.SyntaxKind.ExclamationEqualsEqualsToken,
-	ts.SyntaxKind.ExclamationEqualsToken,
-	ts.SyntaxKind.GreaterThanEqualsToken,
-	ts.SyntaxKind.GreaterThanToken,
-	ts.SyntaxKind.LessThanEqualsToken,
-	ts.SyntaxKind.LessThanToken,
-]);
-
-function isEqualityOperator(operator: string) {
-	return (
-		operator === "===" ||
-		operator === "==" ||
-		operator === "!==" ||
-		operator === "!="
-	);
-}
-
-function isNegatedEqualityOperator(operator: string) {
-	return operator === "!==" || operator === "!=";
-}
+import {
+	isComparisonOperator,
+	isEqualityOperator,
+	isNegatedEqualityOperator,
+} from "./utils/operators.js";
 
 function isNegativeZero(node: ts.Node): boolean {
 	return (
@@ -68,7 +49,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				BinaryExpression: (node) => {
 					if (
-						!comparisonOperators.has(node.operatorToken.kind) ||
+						!isComparisonOperator(node.operatorToken) ||
 						(!isNegativeZero(node.left) && !isNegativeZero(node.right))
 					) {
 						return;
@@ -86,14 +67,14 @@ export default typescriptLanguage.createRule({
 						},
 						message: "unexpectedNegativeZeroComparison",
 						range,
-						suggestions: isEqualityOperator(operator)
+						suggestions: isEqualityOperator(node.operatorToken)
 							? [
 									{
 										id: "useObjectIs",
 										range,
 										text: generateObjectIsText(
 											node,
-											isNegatedEqualityOperator(operator),
+											isNegatedEqualityOperator(node.operatorToken),
 										),
 									},
 								]

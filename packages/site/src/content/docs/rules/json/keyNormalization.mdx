@@ -1,0 +1,125 @@
+---
+description: "Reports object keys that are not normalized using Unicode normalization forms."
+title: "keyNormalization"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+{/* cspell:ignore café cafè naïve piñata résumé */}
+
+<RuleSummary plugin="json" rule="keyNormalization" />
+
+Unicode characters can sometimes have multiple representations that look identical but are technically different character sequences.
+For example, the character "é" can be represented as a single code point (U+00E9) or as an "e" followed by a combining accent (U+0065 + U+0301).
+This can lead to confusion, comparison issues, and unexpected behavior when working with JSON data.
+
+Using normalized Unicode ensures consistent representation of text, which is important for key comparison, sorting, and searching operations.
+When keys are properly normalized, operations like key lookups and equality checks will work as expected across different systems and platforms.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```json
+{
+	"cafe\u0301": "value"
+}
+```
+
+```json
+{
+	"cafè": "espresso",
+	"cafe\u0300": "latte"
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```json
+{
+	"café": "value"
+}
+```
+
+```json
+{
+	"résumé": "document",
+	"naïve": "approach",
+	"piñata": "party"
+}
+```
+
+```json
+{
+	"simple": "value",
+	"no_special_chars": true
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+### `form`
+
+> Type: `"NFC" | "NFD" | "NFKC" | "NFKD"`
+>
+> Default: `"NFC"`
+
+Unicode normalization form to use when checking keys.
+
+Each normalization form has specific characteristics:
+
+- **NFC**: Canonical Decomposition followed by Canonical Composition (default)
+- **NFD**: Canonical Decomposition
+- **NFKC**: Compatibility Decomposition followed by Canonical Composition
+- **NFKD**: Compatibility Decomposition
+
+```ts
+json.rules({
+	keyNormalization: {
+		form: "NFD",
+	},
+});
+```
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```json
+{
+	"café": "value"
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```json
+{
+	"cafe\u0301": "value"
+}
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If your project intentionally uses a mix of JSON normalization forms, such as systems that manually manipulate strings, this rule might not reflect your project's needs.
+Consider refactoring to use safer string representations.
+
+## Further Reading
+
+- [Unicode Normalization Forms (Unicode.org)](https://unicode.org/reports/tr15/)
+- [MDN: String.prototype.normalize()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="json" ruleId="keyNormalization" />
