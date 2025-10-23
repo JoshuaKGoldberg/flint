@@ -12,7 +12,7 @@ export default markdownLanguage.createRule({
 	},
 	messages: {
 		reversedImage: {
-			primary: "This image syntax is reversed.",
+			primary: "This image syntax is reversed and will not render as an image.",
 			secondary: [
 				"Image syntax requires exclamation mark, square brackets, then parentheses: ![alt](url).",
 				"The syntax !(text)[url] is invalid and won't render correctly.",
@@ -24,7 +24,7 @@ export default markdownLanguage.createRule({
 			],
 		},
 		reversedLink: {
-			primary: "This link syntax is reversed.",
+			primary: "This link syntax is reversed and will not render as an image.",
 			secondary: [
 				"Link syntax requires square brackets followed by parentheses: [text](url).",
 				"The syntax (text)[url] is invalid and won't render correctly.",
@@ -39,62 +39,23 @@ export default markdownLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				root(node: WithPosition<Root>) {
-					function visit(n: Node): void {
-						if (n.type === "text") {
-							const textNode = n as Text;
-							const text = textNode.value;
+				text(node: WithPosition<Text>) {
+					for (const [message, pattern] of [
+						["reversedImage", /!\([^)]+\)\[[^\]]+\]/g],
+						["reversedLink", /(?<!!)\([^)]+\)\[[^\]]+\]/g],
+					] as const) {
+						let match: null | RegExpExecArray;
 
-							// Pattern for reversed image: !(text)[url]
-							const reversedImagePattern = /!\([^)]+\)\[[^\]]+\]/g;
-							// Pattern for reversed link: (text)[url]
-							const reversedLinkPattern = /(?<!!)\([^)]+\)\[[^\]]+\]/g;
+						while ((match = pattern.exec(node.value)) !== null) {
+							const begin = node.position.start.offset + match.index;
+							const end = begin + match[0].length;
 
-							let match: null | RegExpExecArray;
-
-							// Check for reversed images
-							while ((match = reversedImagePattern.exec(text)) !== null) {
-								if (textNode.position?.start.offset !== undefined) {
-									const matchStart =
-										textNode.position.start.offset + match.index;
-									const matchEnd = matchStart + match[0].length;
-
-									context.report({
-										message: "reversedImage",
-										range: {
-											begin: matchStart,
-											end: matchEnd,
-										},
-									});
-								}
-							}
-
-							// Check for reversed links
-							while ((match = reversedLinkPattern.exec(text)) !== null) {
-								if (textNode.position?.start.offset !== undefined) {
-									const matchStart =
-										textNode.position.start.offset + match.index;
-									const matchEnd = matchStart + match[0].length;
-
-									context.report({
-										message: "reversedLink",
-										range: {
-											begin: matchStart,
-											end: matchEnd,
-										},
-									});
-								}
-							}
-						}
-
-						if ("children" in n && Array.isArray(n.children)) {
-							for (const child of n.children as Node[]) {
-								visit(child);
-							}
+							context.report({
+								message,
+								range: { begin, end },
+							});
 						}
 					}
-
-					visit(node);
 				},
 			},
 		};

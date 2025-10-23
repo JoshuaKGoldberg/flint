@@ -5,12 +5,12 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-(ESLint)[https://eslint.org/]
+(Flint)[https://flint.fyi]
 `,
 			snapshot: `
-(ESLint)[https://eslint.org/]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This link syntax is reversed.
+(Flint)[https://flint.fyi]
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+This link syntax is reversed and will not render as an image.
 `,
 		},
 		{
@@ -20,17 +20,17 @@ This link syntax is reversed.
 			snapshot: `
 !(A beautiful sunset)[sunset.png]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This image syntax is reversed.
+This image syntax is reversed and will not render as an image.
 `,
 		},
 		{
 			code: `
-# (ESLint)[https://eslint.org/]
+# (Flint)[https://flint.fyi]
 `,
 			snapshot: `
-# (ESLint)[https://eslint.org/]
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  This link syntax is reversed.
+# (Flint)[https://flint.fyi]
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  This link syntax is reversed and will not render as an image.
 `,
 		},
 		{
@@ -40,7 +40,7 @@ This image syntax is reversed.
 			snapshot: `
 # !(A beautiful sunset)[sunset.png]
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  This image syntax is reversed.
+  This image syntax is reversed and will not render as an image.
 `,
 		},
 		{
@@ -50,7 +50,7 @@ Check out (this link)[https://example.com] for more info.
 			snapshot: `
 Check out (this link)[https://example.com] for more info.
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          This link syntax is reversed.
+          This link syntax is reversed and will not render as an image.
 `,
 		},
 		{
@@ -60,21 +60,21 @@ Both (link)[url] and !(image)[path] are wrong.
 			snapshot: `
 Both (link)[url] and !(image)[path] are wrong.
                      ~~~~~~~~~~~~~~
-                     This image syntax is reversed.
+                     This image syntax is reversed and will not render as an image.
      ~~~~~~~~~~~
-     This link syntax is reversed.
+     This link syntax is reversed and will not render as an image.
 `,
 		},
 	],
 	valid: [
 		`
-[ESLint](https://eslint.org/)
+[Flint](https://flint.fyi)
 `,
 		`
 ![A beautiful sunset](sunset.png)
 `,
 		`
-# [ESLint](https://eslint.org/)
+# [Flint](https://flint.fyi)
 `,
 		`
 # ![A beautiful sunset](sunset.png)

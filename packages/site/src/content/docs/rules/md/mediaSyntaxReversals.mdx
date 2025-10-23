@@ -22,7 +22,7 @@ This rule detects when the brackets and parentheses are in the wrong order and h
 <TabItem label="❌ Incorrect">
 
 ```markdown
-(ESLint)[https://eslint.org/]
+(Flint)[https://flint.fyi]
 ```
 
 ```markdown
@@ -30,7 +30,7 @@ This rule detects when the brackets and parentheses are in the wrong order and h
 ```
 
 ```markdown
-# (ESLint)[https://eslint.org/]
+# (Flint)[https://flint.fyi]
 ```
 
 ```markdown
@@ -41,7 +41,7 @@ Check out (this link)[https://example.com] for more info.
 <TabItem label="✅ Correct">
 
 ```markdown
-[ESLint](https://eslint.org/)
+[Flint](https://flint.fyi)
 ```
 
 ```markdown
@@ -49,7 +49,7 @@ Check out (this link)[https://example.com] for more info.
 ```
 
 ```markdown
-# [ESLint](https://eslint.org/)
+# [Flint](https://flint.fyi)
 ```
 
 ```markdown
@@ -61,11 +61,10 @@ Check out [this link](https://example.com) for more info.
 
 ## When Not To Use It
 
-If you don't need to enforce correct link and image syntax, you can safely disable this rule.
+If you are using a non-standard Markdown parser that allows reversed media syntax, you can safely disable this rule.
 
 ## Further Reading
 
-- [MD011 - Reversed link syntax](https://github.com/DavidAnson/markdownlint/blob/main/doc/md011.md)
 - [Markdown Links](https://www.markdownguide.org/basic-syntax/#links)
 - [Markdown Images](https://www.markdownguide.org/basic-syntax/#images-1)
 
