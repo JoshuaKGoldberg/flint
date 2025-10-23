@@ -1,5 +1,6 @@
 import { createPlugin } from "@flint.fyi/core";
 
+import anyReturns from "./rules/anyReturns.js";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.js";
 import caseDeclarations from "./rules/caseDeclarations.js";
 import caseDuplicates from "./rules/caseDuplicates.js";
@@ -18,6 +19,7 @@ import exceptionAssignments from "./rules/exceptionAssignments.js";
 import forDirections from "./rules/forDirections.js";
 import forInArrays from "./rules/forInArrays.js";
 import functionAssignments from "./rules/functionAssignments.js";
+import functionNewCalls from "./rules/functionNewCalls.js";
 import generatorFunctionYields from "./rules/generatorFunctionYields.js";
 import globalAssignments from "./rules/globalAssignments.js";
 import globalObjectCalls from "./rules/globalObjectCalls.js";
@@ -25,14 +27,19 @@ import namespaceDeclarations from "./rules/namespaceDeclarations.js";
 import negativeZeroComparisons from "./rules/negativeZeroComparisons.js";
 import newExpressions from "./rules/newExpressions.js";
 import newNativeNonConstructors from "./rules/newNativeNonConstructors.js";
+import nonOctalDecimalEscapes from "./rules/nonOctalDecimalEscapes.js";
+import numericLiteralParsing from "./rules/numericLiteralParsing.js";
 import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
 import returnAssignments from "./rules/returnAssignments.js";
+import selfAssignments from "./rules/selfAssignments.js";
 import selfComparisons from "./rules/selfComparisons.js";
 import sequences from "./rules/sequences.js";
+import shadowedRestrictedNames from "./rules/shadowedRestrictedNames.js";
 import sparseArrays from "./rules/sparseArrays.js";
 import symbolDescriptions from "./rules/symbolDescriptions.js";
+import typeofComparisons from "./rules/typeofComparisons.js";
 import unassignedVariables from "./rules/unassignedVariables.js";
 import undefinedVariables from "./rules/undefinedVariables.js";
 import unicodeBOMs from "./rules/unicodeBOMs.js";
@@ -47,6 +54,7 @@ export const ts = createPlugin({
 	},
 	name: "ts",
 	rules: [
+		anyReturns,
 		asyncPromiseExecutors,
 		caseDeclarations,
 		caseDuplicates,
@@ -65,6 +73,7 @@ export const ts = createPlugin({
 		forDirections,
 		forInArrays,
 		functionAssignments,
+		functionNewCalls,
 		generatorFunctionYields,
 		globalAssignments,
 		globalObjectCalls,
@@ -72,14 +81,19 @@ export const ts = createPlugin({
 		negativeZeroComparisons,
 		newExpressions,
 		newNativeNonConstructors,
+		nonOctalDecimalEscapes,
+		numericLiteralParsing,
 		objectProto,
 		octalEscapes,
 		octalNumbers,
-		selfComparisons,
 		returnAssignments,
+		selfAssignments,
+		selfComparisons,
 		sequences,
+		shadowedRestrictedNames,
 		sparseArrays,
 		symbolDescriptions,
+		typeofComparisons,
 		unassignedVariables,
 		undefinedVariables,
 		unicodeBOMs,
