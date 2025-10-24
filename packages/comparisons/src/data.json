@@ -1818,6 +1818,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "tableColumnCounts",
 			"plugin": "md",
 			"preset": "Logical"
