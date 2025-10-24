@@ -9,7 +9,7 @@ export default typescriptLanguage.createRule({
 	about: {
 		description:
 			"Reports test cases that are identical to previous test cases.",
-		id: "duplicateTestCases",
+		id: "testCaseDuplicates",
 		preset: "logical",
 	},
 	messages: {

@@ -1,4 +1,4 @@
-import rule from "./duplicateTestCases.js";
+import rule from "./testCaseDuplicates.js";
 import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
