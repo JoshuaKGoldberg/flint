@@ -54,11 +54,14 @@ const url = "JAVASCRIPT:doSomething()";
 `,
 		},
 		{
-			code: `window.location = "javascript:void(0)";`,
-			snapshot: `window.location = "javascript:void(0)";
-                 ~~~~~~~~~~~~~~~~~~~~
-                 This \`javascript:\` URL is a form of eval.
-`,
+			code: `
+window.location = "javascript:void(0)";
+			`,
+			snapshot: `
+window.location = "javascript:void(0)";
+                  ~~~~~~~~~~~~~~~~~~~~
+                  This \`javascript:\` URL is a form of eval.
+			`,
 		},
 		{
 			code: `

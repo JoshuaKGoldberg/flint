@@ -44,8 +44,8 @@ function createSymbol() {
 			snapshot: `
 function createSymbol() {
 	return Symbol();
-        ~~~~~~~~
-        Symbols without descriptions are more difficult to debug or reason about.
+	       ~~~~~~~~
+	       Symbols without descriptions are more difficult to debug or reason about.
 }
 `,
 		},
@@ -58,8 +58,8 @@ const obj = {
 			snapshot: `
 const obj = {
 	key: Symbol(),
-      ~~~~~~~~
-      Symbols without descriptions are more difficult to debug or reason about.
+	     ~~~~~~~~
+	     Symbols without descriptions are more difficult to debug or reason about.
 };
 `,
 		},
