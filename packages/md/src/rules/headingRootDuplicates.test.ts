@@ -1,4 +1,4 @@
-import rule from "./headingsRootDuplicates.js";
+import rule from "./headingRootDuplicates.js";
 import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
@@ -11,30 +11,10 @@ ruleTester.describe(rule, {
 `,
 			snapshot: `
 # Heading 1
-~~~~~~~~~~~
-This document has multiple H1 headings.
 
 # Another H1 heading
 ~~~~~~~~~~~~~~~~~~~~
-This document has multiple H1 headings.
-`,
-		},
-		{
-			code: `
-# Heading 1
-
-Another H1 heading
-==================
-`,
-			snapshot: `
-# Heading 1
-~~~~~~~~~~~
-This document has multiple H1 headings.
-
-Another H1 heading
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This document has multiple H1 headings.
-==================
+This element is an invalid additional H1 heading after the document's first.
 `,
 		},
 		{
@@ -45,12 +25,10 @@ This document has multiple H1 headings.
 `,
 			snapshot: `
 <h1>First Heading</h1>
-~~~~~~~~~~~~~~~~~~~~~~
-This document has multiple H1 headings.
 
 <h1>Second Heading</h1>
 ~~~~~~~~~~~~~~~~~~~~~~~
-This document has multiple H1 headings.
+This element is an invalid additional H1 heading after the document's first.
 `,
 		},
 		{
@@ -63,14 +41,12 @@ This document has multiple H1 headings.
 `,
 			snapshot: `
 # First H1
-~~~~~~~~~~
-This document has multiple H1 headings.
 
 ## H2 Section
 
 # Second H1
 ~~~~~~~~~~~
-This document has multiple H1 headings.
+This element is an invalid additional H1 heading after the document's first.
 `,
 		},
 		{
@@ -81,12 +57,10 @@ This document has multiple H1 headings.
 `,
 			snapshot: `
 # Markdown H1
-~~~~~~~~~~~~~
-This document has multiple H1 headings.
 
 <h1>HTML H1</h1>
 ~~~~~~~~~~~~~~~~
-This document has multiple H1 headings.
+This element is an invalid additional H1 heading after the document's first.
 `,
 		},
 	],

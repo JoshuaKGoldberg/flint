@@ -1681,7 +1681,7 @@
 		],
 		"flint": {
 			"implemented": true,
-			"name": "headingsRootDuplicates",
+			"name": "headingRootDuplicates",
 			"plugin": "md",
 			"preset": "Logical",
 			"strictness": "Strict"

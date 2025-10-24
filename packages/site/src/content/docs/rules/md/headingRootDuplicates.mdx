@@ -1,6 +1,6 @@
 ---
 description: "Reports multiple H1 headings in the same document."
-title: "headingsRootDuplicates"
+title: "headingRootDuplicates"
 topic: "rules"
 ---
 
@@ -8,11 +8,11 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="md" rule="headingsRootDuplicates" />
+<RuleSummary plugin="md" rule="headingRootDuplicates" />
 
 An H1 heading is meant to define the main heading of a page, providing important structural information for both users and assistive technologies.
 Using more than one H1 heading per page can cause confusion for screen readers, dilute SEO signals, and break the logical content hierarchy.
-Best practice is to use a single H1 heading to ensure clarity and accessibility.
+It's best to use a single H1 heading per document.
 
 ## Examples
 
@@ -79,4 +79,4 @@ However, this is not recommended for general content as it breaks accessibility 
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="md" ruleId="headingsRootDuplicates" />
+<RuleEquivalents pluginId="md" ruleId="headingRootDuplicates" />
