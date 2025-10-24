@@ -6,6 +6,7 @@ import definitionDuplicates from "./rules/definitionDuplicates.js";
 import definitionUses from "./rules/definitionUses.js";
 import fencedCodeLanguages from "./rules/fencedCodeLanguages.js";
 import headingIncrements from "./rules/headingIncrements.js";
+import headingRootDuplicates from "./rules/headingRootDuplicates.js";
 import imageAltTexts from "./rules/imageAltTexts.js";
 import imageContents from "./rules/imageContents.js";
 import labelReferences from "./rules/labelReferences.js";
@@ -20,13 +21,12 @@ export const md = createPlugin({
 	name: "md",
 	rules: [
 		bareUrls,
-		bareUrls,
 		definitionContents,
 		definitionDuplicates,
 		definitionUses,
 		fencedCodeLanguages,
 		headingIncrements,
-		headingIncrements,
+		headingRootDuplicates,
 		imageAltTexts,
 		imageContents,
 		labelReferences,

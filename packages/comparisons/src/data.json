@@ -1680,7 +1680,8 @@
 			}
 		],
 		"flint": {
-			"name": "headingsRootDuplicates",
+			"implemented": true,
+			"name": "headingRootDuplicates",
 			"plugin": "md",
 			"preset": "Logical",
 			"strictness": "Strict"
