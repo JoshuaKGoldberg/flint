@@ -36,13 +36,13 @@ export function createYmlFile(filePathAbsolute: string, sourceText: string) {
 						message: rule.messages[report.message],
 						range: {
 							begin: {
-								column: positionBegin.column,
-								line: positionEnd.line,
+								column: positionBegin.column - 1,
+								line: positionBegin.line - 1,
 								raw: report.range.begin,
 							},
 							end: {
-								column: positionEnd.column,
-								line: positionEnd.line,
+								column: positionEnd.column - 1,
+								line: positionEnd.line - 1,
 								raw: report.range.end,
 							},
 						},

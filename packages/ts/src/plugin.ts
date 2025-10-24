@@ -1,5 +1,6 @@
 import { createPlugin } from "@flint.fyi/core";
 
+import anyReturns from "./rules/anyReturns.js";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.js";
 import caseDeclarations from "./rules/caseDeclarations.js";
 import caseDuplicates from "./rules/caseDuplicates.js";
@@ -35,6 +36,7 @@ import returnAssignments from "./rules/returnAssignments.js";
 import selfAssignments from "./rules/selfAssignments.js";
 import selfComparisons from "./rules/selfComparisons.js";
 import sequences from "./rules/sequences.js";
+import shadowedRestrictedNames from "./rules/shadowedRestrictedNames.js";
 import sparseArrays from "./rules/sparseArrays.js";
 import symbolDescriptions from "./rules/symbolDescriptions.js";
 import typeofComparisons from "./rules/typeofComparisons.js";
@@ -52,6 +54,7 @@ export const ts = createPlugin({
 	},
 	name: "ts",
 	rules: [
+		anyReturns,
 		asyncPromiseExecutors,
 		caseDeclarations,
 		caseDuplicates,
@@ -87,6 +90,7 @@ export const ts = createPlugin({
 		selfAssignments,
 		selfComparisons,
 		sequences,
+		shadowedRestrictedNames,
 		sparseArrays,
 		symbolDescriptions,
 		typeofComparisons,

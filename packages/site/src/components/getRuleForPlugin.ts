@@ -2,9 +2,10 @@ import { browser } from "@flint.fyi/plugin-browser";
 import { cspell } from "@flint.fyi/plugin-cspell";
 import { flint } from "@flint.fyi/plugin-flint";
 import { jsx } from "@flint.fyi/plugin-jsx";
+import { performance } from "@flint.fyi/plugin-performance";
 import { type AnyRule, json, md, ts, yml } from "flint";
 
-const plugins = { browser, cspell, flint, json, jsx, md, ts, yml };
+const plugins = { browser, cspell, flint, json, jsx, md, performance, ts, yml };
 
 export function getRuleForPlugin(pluginId: string, ruleId: string): AnyRule {
 	if (!(pluginId in plugins)) {

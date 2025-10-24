@@ -6,11 +6,13 @@ import definitionDuplicates from "./rules/definitionDuplicates.js";
 import definitionUses from "./rules/definitionUses.js";
 import fencedCodeLanguages from "./rules/fencedCodeLanguages.js";
 import headingIncrements from "./rules/headingIncrements.js";
+import headingRootDuplicates from "./rules/headingRootDuplicates.js";
 import imageAltTexts from "./rules/imageAltTexts.js";
 import imageContents from "./rules/imageContents.js";
 import labelReferences from "./rules/labelReferences.js";
 import labelReferenceValidity from "./rules/labelReferenceValidity.js";
 import linkContents from "./rules/linkContents.js";
+import mediaSyntaxReversals from "./rules/mediaSyntaxReversals.js";
 import tableColumnCounts from "./rules/tableColumnCounts.js";
 
 export const md = createPlugin({
@@ -20,16 +22,18 @@ export const md = createPlugin({
 	name: "md",
 	rules: [
 		bareUrls,
-		definitionDuplicates,
 		definitionContents,
-		labelReferenceValidity,
-		tableColumnCounts,
+		definitionDuplicates,
 		definitionUses,
 		fencedCodeLanguages,
-		labelReferences,
 		headingIncrements,
+		headingRootDuplicates,
 		imageAltTexts,
 		imageContents,
+		labelReferences,
+		labelReferenceValidity,
 		linkContents,
+		mediaSyntaxReversals,
+		tableColumnCounts,
 	],
 });
