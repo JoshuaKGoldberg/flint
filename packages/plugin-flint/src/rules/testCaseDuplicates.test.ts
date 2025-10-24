@@ -1,5 +1,5 @@
-import rule from "./duplicateTestCases.js";
 import { ruleTester } from "./ruleTester.js";
+import rule from "./testCaseDuplicates.js";
 
 ruleTester.describe(rule, {
 	invalid: [

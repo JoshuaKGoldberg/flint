@@ -6380,14 +6380,431 @@
 	{
 		"eslint": [
 			{
-				"name": "eslint-plugin/no-identical-tests",
-				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/no-identical-tests.md"
+				"name": "eslint-plugin-eslint-plugin/fixer-return",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/fixer-return"
 			}
 		],
 		"flint": {
-			"name": "duplicateTestCases",
+			"name": "fixerReturns",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/meta-property-ordering",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/meta-property-ordering"
+			}
+		],
+		"flint": {
+			"name": "propertyOrdering",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-deprecated-context-methods",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-deprecated-context-methods"
+			}
+		],
+		"flint": {
+			"name": "deprecatedContextMethods",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-deprecated-report-api",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-deprecated-report-api"
+			}
+		],
+		"flint": {
+			"name": "deprecatedReportAPIs",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-meta-replaced-by",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-meta-replaced-by"
+			}
+		],
+		"flint": {
+			"name": "deprecatedReplacedBy",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-meta-schema-default",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-meta-schema-default"
+			}
+		],
+		"flint": {
+			"name": "deprecatedSchemaDefaults",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-missing-message-ids",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-missing-message-ids"
+			}
+		],
+		"flint": {
+			"name": "messageIdMismatches",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-missing-placeholders",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-missing-placeholders"
+			}
+		],
+		"flint": {
+			"name": "missingPlaceholders",
 			"plugin": "flint",
 			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-property-in-node",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-property-in-node"
+			}
+		],
+		"flint": {
+			"name": "nodePropertyInChecks",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-unused-message-ids",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-unused-message-ids"
+			}
+		],
+		"flint": {
+			"name": "unusedMessageIds",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-unused-placeholders",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-unused-placeholders"
+			}
+		],
+		"flint": {
+			"name": "unusedPlaceholders",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-useless-token-range",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-useless-token-range"
+			}
+		],
+		"flint": {
+			"name": "unnecessaryTokenRanges",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/prefer-message-ids",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-message-ids"
+			}
+		],
+		"flint": {
+			"name": "deprecatedMessageStrings",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/prefer-object-rule",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-object-rule"
+			}
+		],
+		"flint": {
+			"name": "deprecatedRuleFunctions",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/prefer-placeholders",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-placeholders"
+			}
+		],
+		"flint": {
+			"name": "deprecatedMessagePlaceholders",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/prefer-replace-text",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-replace-text"
+			}
+		],
+		"flint": {
+			"name": "deprecatedTextReplacements",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/report-message-format",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/report-message-format"
+			}
+		],
+		"flint": {
+			"name": "messagePhrases",
+			"plugin": "flint",
+			"preset": "Logical",
+			"strictness": "Strict"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-default-options",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-default-options"
+			}
+		],
+		"flint": {
+			"name": "optionDefaults",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-docs-description",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-docs-description"
+			}
+		],
+		"flint": {
+			"name": "ruleDescriptions",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-docs-recommended",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-docs-recommended"
+			}
+		],
+		"flint": {
+			"name": "rulePresets",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-docs-url",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-docs-url"
+			}
+		],
+		"flint": {
+			"name": "ruleURLs",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-fixable",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-fixable"
+			}
+		],
+		"flint": {
+			"name": "ruleAboutChangers",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-has-suggestions",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-has-suggestions"
+			}
+		],
+		"flint": {
+			"name": "aboutSuggestions",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-schema",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-schema"
+			}
+		],
+		"flint": {
+			"name": "aboutSchemas",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-schema-description",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-schema-description"
+			}
+		],
+		"flint": {
+			"name": "aboutSchemaDescriptions",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-type",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-type"
+			}
+		],
+		"flint": {
+			"name": "aboutTypes",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/consistent-output",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/consistent-output"
+			}
+		],
+		"flint": {
+			"name": "testOutputs",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-identical-tests",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-identical-tests"
+			}
+		],
+		"flint": {
+			"name": "testCaseDuplicates",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-only-tests",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-only-tests"
+			}
+		],
+		"flint": {
+			"name": "testCaseOnlines",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/prefer-output-null",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-output-null"
+			}
+		],
+		"flint": {
+			"name": "testOutputNulls",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-test-case-name",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-test-case-name"
+			}
+		],
+		"flint": {
+			"name": "testNames",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/test-case-property-ordering",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/test-case-property-ordering"
+			}
+		],
+		"flint": {
+			"name": "testPropertyOrders",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/test-case-shorthand-strings",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/test-case-shorthand-strings"
+			}
+		],
+		"flint": {
+			"name": "testShorthands",
+			"plugin": "flint",
+			"preset": "Stylistic"
 		}
 	},
 	{
