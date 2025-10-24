@@ -7,49 +7,43 @@ ruleTester.describe(rule, {
 			code: `<iframe />`,
 			fileName: "file.tsx",
 			snapshot: `<iframe />
-~~~~~~
-This <iframe> element is missing a \`title\` prop.
-`,
+ ~~~~~~
+ This <iframe> element is missing a \`title\` prop.`,
 		},
 		{
 			code: `<iframe src="https://example.com" />`,
 			fileName: "file.tsx",
 			snapshot: `<iframe src="https://example.com" />
-~~~~~~
-This <iframe> element is missing a \`title\` prop.
-`,
+ ~~~~~~
+ This <iframe> element is missing a \`title\` prop.`,
 		},
 		{
 			code: `<iframe title="" />`,
 			fileName: "file.tsx",
 			snapshot: `<iframe title="" />
-~~~~~~
-This <iframe> element is missing a \`title\` prop.
-`,
+ ~~~~~~
+ This <iframe> element is missing a \`title\` prop.`,
 		},
 		{
 			code: `<iframe title={''} />`,
 			fileName: "file.tsx",
 			snapshot: `<iframe title={''} />
-~~~~~~
-This <iframe> element is missing a \`title\` prop.
-`,
+ ~~~~~~
+ This <iframe> element is missing a \`title\` prop.`,
 		},
 		{
 			code: `<iframe title={\`\`} />`,
 			fileName: "file.tsx",
 			snapshot: `<iframe title={\`\`} />
-~~~~~~
-This <iframe> element is missing a \`title\` prop.
-`,
+ ~~~~~~
+ This <iframe> element is missing a \`title\` prop.`,
 		},
 		{
 			code: `<iframe title={undefined} />`,
 			fileName: "file.tsx",
 			snapshot: `<iframe title={undefined} />
-~~~~~~
-This <iframe> element is missing a \`title\` prop.
-`,
+ ~~~~~~
+ This <iframe> element is missing a \`title\` prop.`,
 		},
 	],
 	valid: [

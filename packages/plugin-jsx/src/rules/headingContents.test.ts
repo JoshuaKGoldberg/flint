@@ -7,25 +7,22 @@ ruleTester.describe(rule, {
 			code: `<h1 />`,
 			fileName: "file.tsx",
 			snapshot: `<h1 />
-~~
-This heading element is missing accessible content.
-`,
+ ~~
+ This heading element is missing accessible content.`,
 		},
 		{
 			code: `<h2></h2>`,
 			fileName: "file.tsx",
 			snapshot: `<h2></h2>
-~~
-This heading element is missing accessible content.
-`,
+ ~~
+ This heading element is missing accessible content.`,
 		},
 		{
 			code: `<h3>  </h3>`,
 			fileName: "file.tsx",
 			snapshot: `<h3>  </h3>
-~~
-This heading element is missing accessible content.
-`,
+ ~~
+ This heading element is missing accessible content.`,
 		},
 	],
 	valid: [

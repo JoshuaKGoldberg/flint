@@ -7,49 +7,43 @@ ruleTester.describe(rule, {
 			code: `<img src="foo.jpg" />`,
 			fileName: "file.tsx",
 			snapshot: `<img src="foo.jpg" />
-~~~
-img element is missing alt text for non-visual users.
-`,
+ ~~~
+ img element is missing alt text for non-visual users.`,
 		},
 		{
 			code: `<img src="foo.jpg" alt />`,
 			fileName: "file.tsx",
 			snapshot: `<img src="foo.jpg" alt />
-~~~
-img element is missing alt text for non-visual users.
-`,
+ ~~~
+ img element is missing alt text for non-visual users.`,
 		},
 		{
 			code: `<img src="foo.jpg" alt={undefined} />`,
 			fileName: "file.tsx",
 			snapshot: `<img src="foo.jpg" alt={undefined} />
-~~~
-img element is missing alt text for non-visual users.
-`,
+ ~~~
+ img element is missing alt text for non-visual users.`,
 		},
 		{
 			code: `<area href="#" />`,
 			fileName: "file.tsx",
 			snapshot: `<area href="#" />
-~~~~
-area element is missing alt text for non-visual users.
-`,
+ ~~~~
+ area element is missing alt text for non-visual users.`,
 		},
 		{
 			code: `<input type="image" src="submit.png" />`,
 			fileName: "file.tsx",
 			snapshot: `<input type="image" src="submit.png" />
-~~~~~
-input[type='image'] element is missing alt text for non-visual users.
-`,
+ ~~~~~
+ input[type='image'] element is missing alt text for non-visual users.`,
 		},
 		{
 			code: `<object data="movie.mp4" />`,
 			fileName: "file.tsx",
 			snapshot: `<object data="movie.mp4" />
-~~~~~~
-object element is missing alt text for non-visual users.
-`,
+ ~~~~~~
+ object element is missing alt text for non-visual users.`,
 		},
 	],
 	valid: [

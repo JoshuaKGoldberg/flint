@@ -7,33 +7,29 @@ ruleTester.describe(rule, {
 			code: `<marquee />`,
 			fileName: "file.tsx",
 			snapshot: `<marquee />
-~~~~~~~
-The <marquee> element is distracting and deprecated.
-`,
+ ~~~~~~~
+ The <marquee> element is distracting and deprecated.`,
 		},
 		{
 			code: `<blink />`,
 			fileName: "file.tsx",
 			snapshot: `<blink />
-~~~~~
-The <blink> element is distracting and deprecated.
-`,
+ ~~~~~
+ The <blink> element is distracting and deprecated.`,
 		},
 		{
 			code: `<marquee>Hello</marquee>`,
 			fileName: "file.tsx",
 			snapshot: `<marquee>Hello</marquee>
-~~~~~~~
-The <marquee> element is distracting and deprecated.
-`,
+ ~~~~~~~
+ The <marquee> element is distracting and deprecated.`,
 		},
 		{
 			code: `<BLINK>Alert!</BLINK>`,
 			fileName: "file.tsx",
 			snapshot: `<BLINK>Alert!</BLINK>
-~~~~~
-The <blink> element is distracting and deprecated.
-`,
+ ~~~~~
+ The <blink> element is distracting and deprecated.`,
 		},
 	],
 	valid: [
