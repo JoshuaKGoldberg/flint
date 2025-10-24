@@ -4,23 +4,29 @@ import { ruleTester } from "./ruleTester.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `<h1 />`,
+			code: `
+<h1 />`,
 			fileName: "file.tsx",
-			snapshot: `<h1 />
+			snapshot: `
+<h1 />
  ~~
  This heading element is missing accessible content.`,
 		},
 		{
-			code: `<h2></h2>`,
+			code: `
+<h2></h2>`,
 			fileName: "file.tsx",
-			snapshot: `<h2></h2>
+			snapshot: `
+<h2></h2>
  ~~
  This heading element is missing accessible content.`,
 		},
 		{
-			code: `<h3>  </h3>`,
+			code: `
+<h3>  </h3>`,
 			fileName: "file.tsx",
-			snapshot: `<h3>  </h3>
+			snapshot: `
+<h3>  </h3>
  ~~
  This heading element is missing accessible content.`,
 		},

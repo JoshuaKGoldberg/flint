@@ -10,7 +10,7 @@ export interface FileReport extends NormalizedReport {
 }
 
 export interface FileReportWithFix extends FileReport {
-	fix: Fix;
+	fix: Fix[];
 }
 
 export interface NormalizedReportRangeObject {
@@ -29,14 +29,14 @@ export interface NormalizedReport {
 	 */
 	dependencies?: string[];
 
-	fix?: Fix;
+	fix?: Fix[];
 	message: ReportMessageData;
 	range: NormalizedReportRangeObject;
 	suggestions?: Suggestion[];
 }
 
 export interface NormalizedRuleReportWithFix extends NormalizedReport {
-	fix: Fix;
+	fix: Fix[];
 }
 
 export type ReportInterpolationData = Record<string, boolean | number | string>;
@@ -52,7 +52,7 @@ export interface RuleReport<Message extends string = string> {
 	 */
 	dependencies?: string[];
 
-	fix?: Fix;
+	fix?: Fix | Fix[];
 	message: Message;
 	suggestions?: Suggestion[];
 
