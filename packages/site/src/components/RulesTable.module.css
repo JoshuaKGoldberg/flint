@@ -1,10 +1,11 @@
 .rulesTable {
 	font-size: var(--tableFontSize);
 	table-layout: fixed;
+	width: 100%;
 }
 
 .rulesTable.small {
-	--tableFontSize: 70%;
+	--tableFontSize: 60%;
 }
 
 .rulesTable.normal {
@@ -12,11 +13,11 @@
 }
 
 .rulesTable td.rulesWithPlugin {
-	--tableRuleCellWidth: 14%;
+	--tableRuleCellWidth: 10%;
 }
 
 .rulesTable td.rulesWithoutPlugin {
-	--tableRuleCellWidth: 20%;
+	--tableRuleCellWidth: 30%;
 }
 
 .rulesTable td:not(:empty) {
