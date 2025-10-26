@@ -9,7 +9,10 @@ export default defineConfig({
 				include: ["**/src/**/*.test.ts"],
 				name,
 				root: `./packages/${name}`,
-				setupFiles: ["console-fail-test/setup"],
+				setupFiles: [
+					"console-fail-test/setup",
+					...(name === "vue" ? ["./src/setup-tests.ts"] : []),
+				],
 				testTimeout: 10_000,
 			},
 		})),

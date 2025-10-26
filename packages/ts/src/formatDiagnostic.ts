@@ -5,19 +5,31 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import ts, {
-	flattenDiagnosticMessageText,
+import ts, { flattenDiagnosticMessageText } from "typescript";
+import {
 	getLineAndCharacterOfPosition,
 	getPositionOfLineAndCharacter,
-	type SourceFile,
-} from "typescript";
+	SourceFileLikeLoose,
+} from "./normalizeRange.js";
 
+export interface SourceFileLikeLooseWithName extends SourceFileLikeLoose {
+	fileName: string;
+}
+
+export interface RawDiagnosticRelatedInformation {
+	category: ts.DiagnosticCategory;
+	code: number;
+	file: SourceFileLikeLooseWithName | undefined;
+	start: number | undefined;
+	length: number | undefined;
+	messageText: string | ts.DiagnosticMessageChain;
+}
 export interface RawDiagnostic {
-	file?: ts.SourceFile;
+	file?: SourceFileLikeLooseWithName;
 	length: number;
 	message: string;
 	name: string;
-	relatedInformation?: ts.DiagnosticRelatedInformation[];
+	relatedInformation?: RawDiagnosticRelatedInformation[];
 	start: number;
 }
 
@@ -49,7 +61,7 @@ export function formatDiagnostic(diagnostic: RawDiagnostic) {
 			messageText,
 			start,
 		} of diagnostic.relatedInformation) {
-			const indent = "  ";
+			const indent = "	";
 			if (file) {
 				output += "\n";
 				output += " " + formatLocation(file, start!);
@@ -87,7 +99,7 @@ function displayFilename(name: string) {
 }
 
 function formatCodeSpan(
-	file: SourceFile,
+	file: SourceFileLikeLoose,
 	start: number,
 	length: number,
 	indent: string,
@@ -153,7 +165,10 @@ function formatCodeSpan(
 	return context;
 }
 
-function formatLocation(file: SourceFile, start: number): string {
+function formatLocation(
+	file: SourceFileLikeLooseWithName,
+	start: number,
+): string {
 	const { character, line } = getLineAndCharacterOfPosition(file, start);
 	const relativeFileName = displayFilename(file.fileName);
 	let output = "";
