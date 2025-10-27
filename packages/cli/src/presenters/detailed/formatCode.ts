@@ -9,7 +9,7 @@ import { ColorCodes, indenter } from "./constants.js";
 const leftWidth = 7;
 
 export async function formatCode(report: FileReport, sourceFileText: string) {
-	const start = `${report.range.begin.line}:${report.range.begin.column}`;
+	const start = `${report.range.begin.line + 1}:${report.range.begin.column + 1}`;
 	const sourceFileLines = sourceFileText.split("\n");
 	const source = sourceFileLines
 		.slice(report.range.begin.line, report.range.end.line + 1)
