@@ -13,6 +13,7 @@ import debuggerStatements from "./rules/debuggerStatements.js";
 import defaultCaseLast from "./rules/defaultCaseLast.js";
 import duplicateArguments from "./rules/duplicateArguments.js";
 import elseIfDuplicates from "./rules/elseIfDuplicates.js";
+import emptyBlocks from "./rules/emptyBlocks.js";
 import emptyDestructures from "./rules/emptyDestructures.js";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
@@ -69,6 +70,7 @@ export const ts = createPlugin({
 		defaultCaseLast,
 		duplicateArguments,
 		elseIfDuplicates,
+		emptyBlocks,
 		emptyDestructures,
 		emptyStaticBlocks,
 		exceptionAssignments,

@@ -6711,6 +6711,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "emptyBlocks",
 			"plugin": "ts",
 			"preset": "Stylistic"
