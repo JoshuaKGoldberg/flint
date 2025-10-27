@@ -1407,6 +1407,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "roleTags",
 			"plugin": "jsx",
 			"preset": "Logical",
