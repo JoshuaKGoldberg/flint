@@ -1174,6 +1174,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "imageAltRedundancy",
 			"plugin": "jsx",
 			"preset": "Logical"

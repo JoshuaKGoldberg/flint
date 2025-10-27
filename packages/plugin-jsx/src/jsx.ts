@@ -11,6 +11,7 @@ import distractingElements from "./rules/distractingElements.js";
 import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
 import iframeTitles from "./rules/iframeTitles.js";
+import imageAltRedundancy from "./rules/imageAltRedundancy.js";
 import mediaCaptions from "./rules/mediaCaptions.js";
 import mouseEventKeyEvents from "./rules/mouseEventKeyEvents.js";
 import scopeProps from "./rules/scopeProps.js";
@@ -30,6 +31,7 @@ export const jsx = createPlugin({
 		headingContents,
 		htmlLangs,
 		iframeTitles,
+		imageAltRedundancy,
 		mediaCaptions,
 		mouseEventKeyEvents,
 		scopeProps,

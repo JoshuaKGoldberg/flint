@@ -1,0 +1,62 @@
+---
+description: "Reports img alt text containing redundant words like 'image' or 'photo'."
+title: "imageAltRedundancy"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="jsx" rule="imageAltRedundancy" />
+
+Screen readers already announce `img` elements as images. Using words like "image", "photo", or "picture" in alt text is redundant and provides no additional value to users.
+
+Focus on describing what the image shows rather than stating that it is an image.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```tsx
+<img src="foo.jpg" alt="Photo of foo" />
+```
+
+```tsx
+<img src="bar.jpg" alt="Image of bar" />
+```
+
+```tsx
+<img src="baz.jpg" alt="Picture of baz" />
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```tsx
+<img src="foo.jpg" alt="Foo eating a sandwich" />
+```
+
+```tsx
+<img src="bar.jpg" alt="Bar at the beach" />
+```
+
+```tsx
+<img src="pic.jpg" aria-hidden alt="Picture of something" />
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If you need to use these words in a different language or context, you can disable this rule.
+
+## Further Reading
+
+- [WebAIM: Alternative Text](https://webaim.org/techniques/alttext/)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="jsx" ruleId="imageAltRedundancy" />
