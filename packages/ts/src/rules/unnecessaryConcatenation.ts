@@ -13,7 +13,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		unnecessaryConcatenation: {
 			primary:
-				"Combine consecutive string literals instead of using the + operator.",
+				"This string concatenation can be streamlined into a single string literal.",
 			secondary: [
 				"Concatenating string literals with the + operator is unnecessary and reduces code readability.",
 				"String literals can be combined into a single literal, which is clearer and potentially more performant.",
@@ -27,21 +27,16 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				BinaryExpression: (node) => {
-					if (node.operatorToken.kind !== ts.SyntaxKind.PlusToken) {
-						return;
+					if (
+						node.operatorToken.kind === ts.SyntaxKind.PlusToken &&
+						ts.isStringLiteral(node.left) &&
+						ts.isStringLiteral(node.right)
+					) {
+						context.report({
+							message: "unnecessaryConcatenation",
+							range: getTSNodeRange(node.operatorToken, context.sourceFile),
+						});
 					}
-
-					const left = node.left;
-					const right = node.right;
-
-					if (!ts.isStringLiteral(left) || !ts.isStringLiteral(right)) {
-						return;
-					}
-
-					context.report({
-						message: "unnecessaryConcatenation",
-						range: getTSNodeRange(node.operatorToken, context.sourceFile),
-					});
 				},
 			},
 		};

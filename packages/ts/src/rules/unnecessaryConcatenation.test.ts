@@ -10,7 +10,7 @@ const message = "Hello" + "World";
 			snapshot: `
 const message = "Hello" + "World";
                         ~
-                        Combine consecutive string literals instead of using the + operator.
+                        This string concatenation can be streamlined into a single string literal.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ const path = 'foo' + 'bar';
 			snapshot: `
 const path = 'foo' + 'bar';
                    ~
-                   Combine consecutive string literals instead of using the + operator.
+                   This string concatenation can be streamlined into a single string literal.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ const result = "abc" + "def" + "ghi";
 			snapshot: `
 const result = "abc" + "def" + "ghi";
                      ~
-                     Combine consecutive string literals instead of using the + operator.
+                     This string concatenation can be streamlined into a single string literal.
 `,
 		},
 		{
@@ -40,7 +40,7 @@ const text = "first" + "second";
 			snapshot: `
 const text = "first" + "second";
                      ~
-                     Combine consecutive string literals instead of using the + operator.
+                     This string concatenation can be streamlined into a single string literal.
 `,
 		},
 		{
@@ -50,7 +50,7 @@ const mixed = 'single' + "double";
 			snapshot: `
 const mixed = 'single' + "double";
                        ~
-                       Combine consecutive string literals instead of using the + operator.
+                       This string concatenation can be streamlined into a single string literal.
 `,
 		},
 		{
@@ -60,7 +60,7 @@ const withSpace = "Hello " + "World";
 			snapshot: `
 const withSpace = "Hello " + "World";
                            ~
-                           Combine consecutive string literals instead of using the + operator.
+                           This string concatenation can be streamlined into a single string literal.
 `,
 		},
 		{
@@ -71,7 +71,7 @@ const longString = "This is a very long string that " +
 			snapshot: `
 const longString = "This is a very long string that " +
                                                       ~
-                                                      Combine consecutive string literals instead of using the + operator.
+                                                      This string concatenation can be streamlined into a single string literal.
     "continues on the next line";
 `,
 		},
