@@ -10106,6 +10106,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "objectCalls",
 			"plugin": "ts",
 			"preset": "Logical"

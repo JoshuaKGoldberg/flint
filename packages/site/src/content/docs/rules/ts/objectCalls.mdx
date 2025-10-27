@@ -1,0 +1,73 @@
+---
+description: "Use object literal notation {} or Object.create instead of calling Object as a constructor."
+title: "objectCalls"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="objectCalls" />
+
+Calling `Object` as a constructor with `new Object()` is unnecessarily verbose and less idiomatic than using object literal syntax.
+Object literal notation `{}` is the preferred and more concise way to create plain objects in JavaScript and TypeScript.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+// Using new Object() constructor
+const emptyObject = new Object();
+
+// With arguments
+const config = new Object({ key: "value" });
+
+function createEmpty() {
+	return new Object();
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+// Using object literal notation
+const emptyObject = {};
+
+// With properties
+const config = { key: "value" };
+
+function createEmpty() {
+	return {};
+}
+
+// For objects without a prototype
+const objectWithoutPrototype = Object.create(null);
+
+// For copying objects, use Object.assign
+const copy = Object.assign({}, source);
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+There are no common scenarios where calling `Object` as a constructor is preferred over object literal notation.
+Object literals are more concise, more readable, and equally performant.
+
+## Further Reading
+
+- [MDN: Object initializer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer)
+- [MDN: Object() constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/Object)
+- [MDN: Object.create()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="objectCalls" />
