@@ -57,6 +57,62 @@ ruleTester.describe(rule, {
     valid: ['a', 'a'],
     invalid: [
       {
+        code: \`console.log(
+);\`,
+        snapshot: \`console.log(
+);
+~
+Rule report message.
+\`,
+      }
+    ],
+});
+`,
+			output: `
+ruleTester.describe(rule, {
+    valid: ['a', 'a'],
+    invalid: [
+      {
+        code: \`
+console.log(
+);
+\`,
+        snapshot: \`
+console.log(
+);
+~
+Rule report message.
+\`,
+      }
+    ],
+});
+`,
+			snapshot: `
+ruleTester.describe(rule, {
+    valid: ['a', 'a'],
+    invalid: [
+      {
+        code: \`console.log(
+              ~~~~~~~~~~~~~
+              This code block should be formatted across multiple lines for more readable reports.
+);\`,
+~~~
+        snapshot: \`console.log(
+);
+~
+Rule report message.
+\`,
+      }
+    ],
+});
+`,
+		},
+		{
+			code: `
+ruleTester.describe(rule, {
+    valid: ['a', 'a'],
+    invalid: [
+      {
         code: \`console.log();\`,
         snapshot: \`console.log();
 ~~~~~~~~~~~~
@@ -107,7 +163,7 @@ Rule report message.
                 valid: [],
                 invalid: []
             });
-        `,
+    `,
 		`
             ruleTester.describe(rule, {
                 valid: [],
@@ -121,7 +177,7 @@ Rule report message.
     }
                 ],
             });
-        `,
+    `,
 		`
             ruleTester.describe(rule, {
                 valid: [],
@@ -137,6 +193,6 @@ Rule report message.
     }
                 ],
             });
-        `,
+    `,
 	],
 });

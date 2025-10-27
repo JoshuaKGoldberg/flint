@@ -28,7 +28,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkTestCase(testCase: ParsedTestCaseInvalid) {
-			if (!testCase.startsWith("\n")) {
+			if (!testCase.code.startsWith("\n")) {
 				context.report({
 					fix: [createFixForCode(testCase), createFixForSnapshot(testCase)],
 					message: "singleLineTest",
