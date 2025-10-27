@@ -1,0 +1,72 @@
+---
+description: "Reports non-interactive elements with interactive ARIA roles."
+title: "nonInteractiveElementInteractiveRoles"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="jsx" rule="nonInteractiveElementInteractiveRoles" />
+
+Non-interactive HTML elements should not be converted to interactive controls using ARIA roles. Use native interactive elements instead.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```tsx
+<h1 role="button" />
+```
+
+```tsx
+<div role="link" />
+```
+
+```tsx
+<img role="checkbox" />
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```tsx
+<button />
+```
+
+```tsx
+<a href="/" />
+```
+
+```tsx
+<input type="checkbox" />
+```
+
+```tsx
+<ul role="menu" />
+```
+
+```tsx
+<li role="menuitem" />
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If you have specific requirements for custom interactive widgets that require non-interactive elements, you may need to disable this rule.
+
+## Further Reading
+
+- [WCAG 4.1.2 - Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value)
+- [WAI-ARIA Roles](https://www.w3.org/TR/wai-aria-1.1/#usage_intro)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents
+	pluginId="jsx"
+	ruleId="nonInteractiveElementInteractiveRoles"
+/>
