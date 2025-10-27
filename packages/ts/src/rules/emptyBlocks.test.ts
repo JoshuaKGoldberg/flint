@@ -20,9 +20,10 @@ if (condition) {
 `,
 			snapshot: `
 if (condition) {
-               ~~~
+               ~
                Empty block statements should be removed or contain code.
 } else {}
+~
        ~~
        Empty block statements should be removed or contain code.
 `,

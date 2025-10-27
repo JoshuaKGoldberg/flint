@@ -1,6 +1,18 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
+
+const allowedParents = new Set([
+	ts.SyntaxKind.ArrowFunction,
+	ts.SyntaxKind.CatchClause,
+	ts.SyntaxKind.Constructor,
+	ts.SyntaxKind.FunctionDeclaration,
+	ts.SyntaxKind.FunctionExpression,
+	ts.SyntaxKind.GetAccessor,
+	ts.SyntaxKind.MethodDeclaration,
+	ts.SyntaxKind.SetAccessor,
+]);
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -22,18 +34,15 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function hasComments(block: ts.Block): boolean {
-			const sourceFile = context.sourceFile;
-			const fullText = sourceFile.getFullText();
+			const fullText = context.sourceFile.getFullText();
 
-			// Get the text between the opening and closing braces
-			const openBrace = block.getStart(sourceFile);
+			const openBrace = block.getStart(context.sourceFile);
 			const closeBrace = block.getEnd();
 			const innerText = fullText.substring(openBrace + 1, closeBrace - 1);
 
 			// Check if there are any non-whitespace characters (which would be comments)
 			// since we already know there are no statements
-			const trimmed = innerText.trim();
-			return trimmed.length > 0;
+			return /\S+/.test(innerText.trim());
 		}
 
 		function isEmptyBlock(block: ts.Block): boolean {
@@ -43,42 +52,18 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				Block: (node) => {
-					// Don't report empty function/method/accessor blocks
-					if (
-						node.parent.kind === ts.SyntaxKind.CatchClause ||
-						node.parent.kind === ts.SyntaxKind.FunctionDeclaration ||
-						node.parent.kind === ts.SyntaxKind.FunctionExpression ||
-						node.parent.kind === ts.SyntaxKind.ArrowFunction ||
-						node.parent.kind === ts.SyntaxKind.MethodDeclaration ||
-						node.parent.kind === ts.SyntaxKind.Constructor ||
-						node.parent.kind === ts.SyntaxKind.GetAccessor ||
-						node.parent.kind === ts.SyntaxKind.SetAccessor
-					) {
-						return;
-					}
-
-					if (isEmptyBlock(node)) {
-						const range = {
-							begin: node.getStart(context.sourceFile),
-							end: node.getEnd(),
-						};
-
+					if (!allowedParents.has(node.parent.kind) && isEmptyBlock(node)) {
 						context.report({
 							message: "emptyBlock",
-							range,
+							range: getTSNodeRange(node, context.sourceFile),
 						});
 					}
 				},
 				CaseBlock: (node) => {
 					if (node.clauses.length === 0) {
-						const range = {
-							begin: node.getStart(context.sourceFile),
-							end: node.getEnd(),
-						};
-
 						context.report({
 							message: "emptyBlock",
-							range,
+							range: getTSNodeRange(node, context.sourceFile),
 						});
 					}
 				},
