@@ -1557,7 +1557,13 @@
 			"plugin": "md",
 			"preset": "Stylistic",
 			"strictness": "Strict"
-		}
+		},
+		"markdownlint": [
+			{
+				"name": "no-bare-urls",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md034.md"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -1599,7 +1605,13 @@
 			"name": "definitionUses",
 			"plugin": "md",
 			"preset": "Logical"
-		}
+		},
+		"markdownlint": [
+			{
+				"name": "link-image-reference-definitions",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md053.md"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -1627,7 +1639,13 @@
 			"plugin": "md",
 			"preset": "Stylistic",
 			"strictness": "Strict"
-		}
+		},
+		"markdownlint": [
+			{
+				"name": "fenced-code-language",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md040.md"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -1642,6 +1660,12 @@
 			"preset": "Stylistic",
 			"strictness": "Strict"
 		},
+		"markdownlint": [
+			{
+				"name": "no-duplicate-heading",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md024.md"
+			}
+		],
 		"notes": "Enable with Markdownlint's siblings_only equivalent"
 	},
 	{
@@ -1656,7 +1680,13 @@
 			"name": "headingIncrements",
 			"plugin": "md",
 			"preset": "Logical"
-		}
+		},
+		"markdownlint": [
+			{
+				"name": "heading-increment",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md001.md"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -1685,7 +1715,28 @@
 			"plugin": "md",
 			"preset": "Logical",
 			"strictness": "Strict"
-		}
+		},
+		"markdownlint": [
+			{
+				"name": "single-h1",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md025.md"
+			}
+		]
+	},
+	{
+		"flint": {
+			"implemented": true,
+			"name": "headingRootPresence",
+			"plugin": "md",
+			"preset": "Logical",
+			"strictness": "Strict"
+		},
+		"markdownlint": [
+			{
+				"name": "first-line-h1",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md041.md"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -1698,7 +1749,13 @@
 			"name": "html",
 			"plugin": "md",
 			"preset": "Not implementing"
-		}
+		},
+		"markdownlint": [
+			{
+				"name": "no-inline-html",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md033.md"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -1712,7 +1769,13 @@
 			"name": "imageAltTexts",
 			"plugin": "md",
 			"preset": "Logical"
-		}
+		},
+		"markdownlint": [
+			{
+				"name": "no-alt-text",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md045.md"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -1740,7 +1803,13 @@
 			"name": "labelReferences",
 			"plugin": "md",
 			"preset": "Logical"
-		}
+		},
+		"markdownlint": [
+			{
+				"name": "reference-links-images",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md052.md"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -1768,7 +1837,28 @@
 			"name": "linkContents",
 			"plugin": "md",
 			"preset": "Logical"
-		}
+		},
+		"markdownlint": [
+			{
+				"name": "no-empty-links",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md042.md"
+			}
+		]
+	},
+	{
+		"flint": {
+			"implemented": true,
+			"name": "linkDescriptions",
+			"plugin": "md",
+			"preset": "Logical",
+			"strictness": "Strict"
+		},
+		"markdownlint": [
+			{
+				"name": "descriptive-link-text",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md059.md"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -1781,7 +1871,13 @@
 			"name": "linkFragments",
 			"plugin": "md",
 			"preset": "Logical"
-		}
+		},
+		"markdownlint": [
+			{
+				"name": "link-fragments",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md051.md"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -1795,7 +1891,13 @@
 			"name": "mediaSyntaxReversals",
 			"plugin": "md",
 			"preset": "Stylistic"
-		}
+		},
+		"markdownlint": [
+			{
+				"name": "no-reversed-links",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md011.md"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -1821,7 +1923,547 @@
 			"name": "tableColumnCounts",
 			"plugin": "md",
 			"preset": "Logical"
-		}
+		},
+		"markdownlint": [
+			{
+				"name": "table-column-count",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md056.md"
+			}
+		]
+	},
+	{
+		"flint": {
+			"name": "blankLineMultiples",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "no-multiple-blanks",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md012.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "blockquoteSpaces",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "no-multiple-space-blockquote",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md027.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "codeblockBlankLines",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "blanks-around-fences",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md031.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "codeBlockStyles",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "code-block-style",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md046.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "codeFenceStyles",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "code-fence-style",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md048.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "codeSpaces",
+			"plugin": "md",
+			"preset": "Stylistic"
+		},
+		"markdownlint": [
+			{
+				"name": "no-space-in-code",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md038.md"
+			}
+		]
+	},
+	{
+		"flint": {
+			"name": "commandOutputs",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "commands-show-output",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md014.md"
+			}
+		],
+		"notes": "Overly opinionated"
+	},
+	{
+		"flint": {
+			"name": "emphasisSpaces",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "no-space-in-emphasis",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md037.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "emphasisStyles",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "emphasis-style",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md049.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "fileTrailingNewlines",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "single-trailing-newline",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md047.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "hardTabs",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "no-hard-tabs",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md010.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "headingBlankLines",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "blanks-around-headings",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md022.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "headingClosingSpaceMultiples",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "no-multiple-space-closed-atx",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md021.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "headingClosingSpaceMultiples",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "no-multiple-space-atx",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md019.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "headingIndents",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "heading-start-left",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md023.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "headingMissingSpaces",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "no-missing-space-atx",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md018.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "headingTrailingPunctuation",
+			"plugin": "md",
+			"preset": "Stylistic",
+			"strictness": "Strict"
+		},
+		"markdownlint": [
+			{
+				"name": "no-trailing-punctuation",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md026.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "blockquoteBlankLineMultiples",
+			"plugin": "md",
+			"preset": "Stylistic",
+			"strictness": "Strict"
+		},
+		"markdownlint": [
+			{
+				"name": "no-blanks-blockquote",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md028.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "olPrefixes",
+			"plugin": "md",
+			"preset": "Stylistic",
+			"strictness": "Strict"
+		},
+		"markdownlint": [
+			{
+				"name": "ol-prefix",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md029.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "headingEmphasisEquivalents",
+			"plugin": "md",
+			"preset": "Stylistic",
+			"strictness": "Strict"
+		},
+		"markdownlint": [
+			{
+				"name": "no-emphasis-as-heading",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md036.md"
+			}
+		],
+		"notes": "Overly opinionated"
+	},
+	{
+		"flint": {
+			"name": "headingClosingSpaces",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "no-missing-space-closed-atx",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md020.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "headingPresence",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "required-headings",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md043.md"
+			}
+		],
+		"notes": "Overly opinionated"
+	},
+	{
+		"flint": {
+			"name": "headingStyles",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "heading-style",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md003.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "hrStyles",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "hr-style",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md035.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "lineLengths",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "line-length",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md013.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "linkImageStyles",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "link-image-style",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md054.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "linkSpaces",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "no-space-in-links",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md039.md"
+			}
+		]
+	},
+	{
+		"flint": {
+			"name": "linkBlankLines",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "blanks-around-lists",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md032.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "liIndents",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "list-indent",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md005.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "listMarkerSpaces",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "list-marker-space",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md030.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "listStyles",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "ul-style",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md004.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "properNames",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "proper-names",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md044.md"
+			}
+		],
+		"notes": "Superseded by cspell"
+	},
+	{
+		"flint": {
+			"name": "strongStyles",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "strong-style",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md050.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "tableBlankLines",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "blanks-around-tables",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md058.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "tableColumnStyles",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "table-column-style",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md060.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "tablePipeStyles",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "table-pipe-style",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md055.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "trailingSpaces",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "no-trailing-spaces",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md009.md"
+			}
+		],
+		"notes": "Formatting rule"
+	},
+	{
+		"flint": {
+			"name": "ulIndents",
+			"plugin": "md",
+			"preset": "Not implementing"
+		},
+		"markdownlint": [
+			{
+				"name": "ul-indent",
+				"url": "https://github.com/DavidAnson/markdownlint/blob/main/doc/md007.md"
+			}
+		],
+		"notes": "Formatting rule"
 	},
 	{
 		"biome": [
@@ -6380,14 +7022,431 @@
 	{
 		"eslint": [
 			{
-				"name": "eslint-plugin/no-identical-tests",
-				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/no-identical-tests.md"
+				"name": "eslint-plugin-eslint-plugin/fixer-return",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/fixer-return"
 			}
 		],
 		"flint": {
-			"name": "duplicateTestCases",
+			"name": "fixerReturns",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/meta-property-ordering",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/meta-property-ordering"
+			}
+		],
+		"flint": {
+			"name": "propertyOrdering",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-deprecated-context-methods",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-deprecated-context-methods"
+			}
+		],
+		"flint": {
+			"name": "deprecatedContextMethods",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-deprecated-report-api",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-deprecated-report-api"
+			}
+		],
+		"flint": {
+			"name": "deprecatedReportAPIs",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-meta-replaced-by",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-meta-replaced-by"
+			}
+		],
+		"flint": {
+			"name": "deprecatedReplacedBy",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-meta-schema-default",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-meta-schema-default"
+			}
+		],
+		"flint": {
+			"name": "deprecatedSchemaDefaults",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-missing-message-ids",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-missing-message-ids"
+			}
+		],
+		"flint": {
+			"name": "messageIdMismatches",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-missing-placeholders",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-missing-placeholders"
+			}
+		],
+		"flint": {
+			"name": "missingPlaceholders",
 			"plugin": "flint",
 			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-property-in-node",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-property-in-node"
+			}
+		],
+		"flint": {
+			"name": "nodePropertyInChecks",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-unused-message-ids",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-unused-message-ids"
+			}
+		],
+		"flint": {
+			"name": "unusedMessageIds",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-unused-placeholders",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-unused-placeholders"
+			}
+		],
+		"flint": {
+			"name": "unusedPlaceholders",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-useless-token-range",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-useless-token-range"
+			}
+		],
+		"flint": {
+			"name": "unnecessaryTokenRanges",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/prefer-message-ids",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-message-ids"
+			}
+		],
+		"flint": {
+			"name": "deprecatedMessageStrings",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/prefer-object-rule",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-object-rule"
+			}
+		],
+		"flint": {
+			"name": "deprecatedRuleFunctions",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/prefer-placeholders",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-placeholders"
+			}
+		],
+		"flint": {
+			"name": "deprecatedMessagePlaceholders",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/prefer-replace-text",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-replace-text"
+			}
+		],
+		"flint": {
+			"name": "deprecatedTextReplacements",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/report-message-format",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/report-message-format"
+			}
+		],
+		"flint": {
+			"name": "messagePhrases",
+			"plugin": "flint",
+			"preset": "Logical",
+			"strictness": "Strict"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-default-options",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-default-options"
+			}
+		],
+		"flint": {
+			"name": "optionDefaults",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-docs-description",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-docs-description"
+			}
+		],
+		"flint": {
+			"name": "ruleDescriptions",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-docs-recommended",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-docs-recommended"
+			}
+		],
+		"flint": {
+			"name": "rulePresets",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-docs-url",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-docs-url"
+			}
+		],
+		"flint": {
+			"name": "ruleURLs",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-fixable",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-fixable"
+			}
+		],
+		"flint": {
+			"name": "ruleAboutChangers",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-has-suggestions",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-has-suggestions"
+			}
+		],
+		"flint": {
+			"name": "aboutSuggestions",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-schema",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-schema"
+			}
+		],
+		"flint": {
+			"name": "aboutSchemas",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-schema-description",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-schema-description"
+			}
+		],
+		"flint": {
+			"name": "aboutSchemaDescriptions",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-meta-type",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-type"
+			}
+		],
+		"flint": {
+			"name": "aboutTypes",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/consistent-output",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/consistent-output"
+			}
+		],
+		"flint": {
+			"name": "testOutputs",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-identical-tests",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-identical-tests"
+			}
+		],
+		"flint": {
+			"name": "testCaseDuplicates",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/no-only-tests",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/no-only-tests"
+			}
+		],
+		"flint": {
+			"name": "testCaseOnlines",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/prefer-output-null",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-output-null"
+			}
+		],
+		"flint": {
+			"name": "testOutputNulls",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/require-test-case-name",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-test-case-name"
+			}
+		],
+		"flint": {
+			"name": "testNames",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/test-case-property-ordering",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/test-case-property-ordering"
+			}
+		],
+		"flint": {
+			"name": "testPropertyOrders",
+			"plugin": "flint",
+			"preset": "Not implementing"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "eslint-plugin-eslint-plugin/test-case-shorthand-strings",
+				"url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/test-case-shorthand-strings"
+			}
+		],
+		"flint": {
+			"name": "testShorthands",
+			"plugin": "flint",
+			"preset": "Stylistic"
 		}
 	},
 	{
@@ -11446,7 +12505,7 @@
 			"name": "regexExecutors",
 			"plugin": "ts",
 			"preset": "Stylistic",
-			"strictness": "strict"
+			"strictness": "Strict"
 		}
 	},
 	{

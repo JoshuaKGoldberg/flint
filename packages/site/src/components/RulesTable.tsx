@@ -47,6 +47,7 @@ export interface RulesTableProps {
 	implementing: boolean;
 	plugin?: string;
 	small?: boolean;
+	hidePreset?: boolean;
 }
 
 function renderFlintName(flint: FlintRuleReference) {
@@ -70,7 +71,19 @@ function renderImplemented(values: Comparison[]) {
 	);
 }
 
-export function RulesTable({ implementing, plugin, small }: RulesTableProps) {
+export function RulesTable({
+	implementing,
+	hidePreset,
+	plugin,
+	small,
+}: RulesTableProps) {
+	const foundLinters = {
+		biome: false,
+		deno: false,
+		eslint: false,
+		markdownlint: false,
+		oxlint: false,
+	};
 	const values = comparisons
 		.filter((comparison) => {
 			if ((comparison.flint.preset !== "Not implementing") !== implementing) {
@@ -79,6 +92,12 @@ export function RulesTable({ implementing, plugin, small }: RulesTableProps) {
 
 			if (plugin && comparison.flint.plugin !== plugin) {
 				return false;
+			}
+
+			for (const linter in linterNames) {
+				if (comparison[linter as Linter]) {
+					foundLinters[linter as Linter] = true;
+				}
 			}
 
 			return true;
@@ -107,11 +126,13 @@ export function RulesTable({ implementing, plugin, small }: RulesTableProps) {
 				<thead>
 					<th>Flint Name</th>
 					{!plugin && <th>Plugin</th>}
-					{implementing && <th>Preset</th>}
-					<th>Biome Rule(s)</th>
-					<th>Deno Lint Rule(s)</th>
-					<th>ESLint Rule(s)</th>
-					<th>Oxlint Rule(s)</th>
+					{!hidePreset && implementing && <th>Preset</th>}
+					{Object.entries(linterNames).map(
+						([linter, linterName]) =>
+							foundLinters[linter as Linter] && (
+								<th key={linterName}>{linterName}</th>
+							),
+					)}
 					{!implementing && <th>Notes</th>}
 				</thead>
 				<tbody>
@@ -121,17 +142,22 @@ export function RulesTable({ implementing, plugin, small }: RulesTableProps) {
 								<code>{renderFlintName(comparison.flint)}</code>
 							</td>
 							{!plugin && <td>{pluginNames[comparison.flint.plugin]}</td>}
-							{implementing && <td>{renderFlintPreset(comparison.flint)}</td>}
-							{(Object.keys(linterNames) as Linter[]).map((linter) => (
-								<td className={rulesClassName} key={linter}>
-									{comparison[linter] && (
-										<RuleEquivalentLinks
-											comparison={comparison}
-											linter={linter}
-										/>
-									)}
-								</td>
-							))}
+							{!hidePreset && implementing && (
+								<td>{renderFlintPreset(comparison.flint)}</td>
+							)}
+							{(Object.keys(linterNames) as Linter[]).map(
+								(linter) =>
+									foundLinters[linter] && (
+										<td className={rulesClassName} key={linter}>
+											{comparison[linter] && (
+												<RuleEquivalentLinks
+													comparison={comparison}
+													linter={linter}
+												/>
+											)}
+										</td>
+									),
+							)}
 							{!implementing && <td>{comparison.notes}</td>}
 						</tr>
 					))}

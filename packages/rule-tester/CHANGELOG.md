@@ -1,5 +1,11 @@
 # @flint/rule-tester
 
+## 0.14.3
+
+### Patch Changes
+
+- 738fe36: fix: support multiline error ranges in RuleTester
+
 ## 0.14.2
 
 ### Patch Changes

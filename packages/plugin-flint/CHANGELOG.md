@@ -1,5 +1,16 @@
 # @flint.fyi/plugin-flint
 
+## 0.1.0
+
+### Minor Changes
+
+- d89c480: feat(comparisons): add eslint-plugin-eslint-plugin comparisons
+
+### Patch Changes
+
+- Updated dependencies [738fe36]
+  - @flint.fyi/rule-tester@0.14.3
+
 ## 0.0.2
 
 ### Patch Changes
