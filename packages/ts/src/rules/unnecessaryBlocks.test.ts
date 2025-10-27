@@ -12,7 +12,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 {
 ~
-This standalone block statement is unnecessary and adds no value.
+This standalone block statement is unnecessary and doesn't change any variable scopes.
     const x = 1;
 }
 `,
@@ -29,7 +29,7 @@ function test() {
 function test() {
     {
     ~
-    This standalone block statement is unnecessary and adds no value.
+    This standalone block statement is unnecessary and doesn't change any variable scopes.
         const y = 2;
     }
 }
@@ -49,7 +49,7 @@ if (condition) {
     doSomething();
     {
     ~
-    This standalone block statement is unnecessary and adds no value.
+    This standalone block statement is unnecessary and doesn't change any variable scopes.
         const nested = true;
     }
 }
@@ -64,7 +64,7 @@ if (condition) {
 			snapshot: `
 {
 ~
-This standalone block statement is unnecessary and adds no value.
+This standalone block statement is unnecessary and doesn't change any variable scopes.
     console.log("standalone");
 }
 `,
@@ -84,12 +84,12 @@ function outer() {
 function outer() {
     {
     ~
-    This standalone block statement is unnecessary and adds no value.
+    This standalone block statement is unnecessary and doesn't change any variable scopes.
         console.log("inner");
     }
     {
     ~
-    This standalone block statement is unnecessary and adds no value.
+    This standalone block statement is unnecessary and doesn't change any variable scopes.
         console.log("another");
     }
 }

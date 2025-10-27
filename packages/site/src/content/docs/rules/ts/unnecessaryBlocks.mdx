@@ -1,6 +1,7 @@
 ---
 description: "This standalone block statement is unnecessary and adds no value."
 title: "unnecessaryBlocks"
+topic: "rules"
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
@@ -9,7 +10,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="ts" rule="unnecessaryBlocks" />
 
-Standalone block statements that aren't part of control flow structures (if/else, loops, switch) or don't create a meaningful lexical scope can make code harder to understand.
+Standalone block statements that aren't part of control flow structures (if/else, loops, switch, etc.) or don't create a meaningful lexical scope can make code harder to understand.
 In modern JavaScript and TypeScript, blocks primarily serve to create lexical scope for `let` and `const` variables, but using standalone blocks for this purpose is often confusing compared to other patterns like functions or modules.
 
 ## Examples
@@ -80,8 +81,8 @@ However, consider whether extracting to functions or using other scoping mechani
 
 ## Further Reading
 
-- [MDN documentation on block statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block)
-- [MDN documentation on let and const scoping](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)
+- [MDN: Block statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block)
+- [MDN: `let` and `const` scoping](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)
 
 ## Equivalents in Other Linters
 

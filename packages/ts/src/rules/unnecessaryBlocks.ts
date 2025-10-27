@@ -12,7 +12,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		unnecessaryBlock: {
 			primary:
-				"This standalone block statement is unnecessary and adds no value.",
+				"This standalone block statement is unnecessary and doesn't change any variable scopes.",
 			secondary: [
 				"Standalone block statements that aren't part of control flow (if/else, loops, switch) or don't create a meaningful lexical scope can be confusing and should be avoided.",
 				"In modern JavaScript and TypeScript, blocks primarily serve to create lexical scope for `let` and `const` variables, but this is often better achieved through other means.",
@@ -74,14 +74,12 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				Block: (node) => {
 					if (!isValidBlock(node)) {
-						const range = {
-							begin: node.getStart(context.sourceFile),
-							end: node.getStart(context.sourceFile) + 1,
-						};
-
 						context.report({
 							message: "unnecessaryBlock",
-							range,
+							range: {
+								begin: node.getStart(context.sourceFile),
+								end: node.getStart(context.sourceFile) + 1,
+							},
 						});
 					}
 				},
