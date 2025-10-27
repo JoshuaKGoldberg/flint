@@ -1,0 +1,70 @@
+---
+description: "Variables should be assigned a value before being used."
+title: "unassignedVariables"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="unassignedVariables" />
+
+Variables declared without an initializer and never assigned a value will always be `undefined`.
+This is often a mistake, such as forgetting to initialize a variable or assign to it before use.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+let value;
+console.log(value);
+
+function calculate() {
+	let result;
+	return result;
+}
+
+var unassigned: number;
+processValue(unassigned);
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+let value = 42;
+console.log(value);
+
+function calculate() {
+	let result = 0;
+	return result;
+}
+
+let assigned: number;
+assigned = 10;
+processValue(assigned);
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you intentionally want to work with unassigned variables that default to `undefined`, you might want to disable this rule.
+However, it's generally better to explicitly assign `undefined` to make the intent clear.
+
+## Further Reading
+
+- [MDN documentation on variable declarations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)
+- [MDN documentation on `undefined`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="unassignedVariables" />

@@ -1,0 +1,66 @@
+---
+description: "Avoid using the blocking browser dialog APIs alert, confirm, and prompt."
+title: "alerts"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="browser" rule="alerts" />
+
+The legacy browser dialog APIs `alert`, `confirm`, and `prompt` are synchronous, blocking, and provide a poor user experience in modern web applications.
+They should be avoided in production code in favor of non-blocking UI patterns (for example, custom modals) or other mechanisms for collecting user input or showing messages.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```js
+alert("Hello, world!");
+
+if (!confirm("Are you sure?")) {
+	return;
+}
+
+const name = prompt("What's your name?");
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```js
+console.log("Hello, world!");
+
+if (!(await myCustomModal("Are you sure?"))) {
+	return;
+}
+
+const name = await myCustomInput("What's your name?");
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you're writing quick temporary debugging snippets that never ship to users, or an internal-only page where the user experience does not matter, you might accept using `alert`/`confirm`/`prompt` locally.
+For production code and libraries, prefer non-blocking alternatives.
+
+## Further Reading
+
+- [MDN: `window.alert()`](https://developer.mozilla.org/en-US/docs/Web/API/Window/alert)
+- [MDN: `window.confirm()`](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm)
+- [MDN: `window.prompt()`](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="browser" ruleId="alerts" />
+````
