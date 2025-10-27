@@ -1,0 +1,64 @@
+---
+description: "Reports onClick without keyboard event handlers."
+title: "clickEventKeyEvents"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="jsx" rule="clickEventKeyEvents" />
+
+Elements with `onClick` handlers must also have keyboard event handlers for accessibility. Users with physical disabilities who cannot use a mouse, AT users, and screen reader users rely on keyboard navigation.
+
+Interactive elements like `<button>` and `<input>` are already keyboard accessible and don't require additional handlers.
+
+This is required for WCAG 2.1.1 compliance.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```tsx
+<div onClick={() => {}} />
+```
+
+```tsx
+<span onClick={handler} />
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```tsx
+<div onClick={() => {}} onKeyDown={handler} />
+```
+
+```tsx
+<div onClick={() => {}} onKeyUp={handler} />
+```
+
+```tsx
+<button onClick={() => {}} />
+```
+
+```tsx
+<div onClick={() => {}} aria-hidden="true" />
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If you're not using onClick handlers or always use semantic HTML elements, you can disable this rule.
+
+## Further Reading
+
+- [WCAG 2.1.1: Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="jsx" ruleId="clickEventKeyEvents" />
