@@ -20,7 +20,7 @@ This rule reports cases where two string literals are concatenated using the + o
 
 ```ts
 const message = "Hello" + "World";
-const path = "foo" + "bar";
+const path = "directory" + "/" + "file.txt";
 const multiLine =
 	"This is a very long string that " + "continues on the next line";
 ```
@@ -30,13 +30,17 @@ const multiLine =
 
 ```ts
 const message = "HelloWorld";
-const path = "foobar";
+const path = "directory/file.txt";
 const multiLine = "This is a very long string that continues on the next line";
+```
 
+```ts
 // Concatenating with variables is allowed
 const greeting = "Hello" + name;
 const fullPath = basePath + "/file.txt";
+```
 
+```ts
 // Template literals are a better choice for string interpolation
 const template = `Hello ${name}`;
 ```
