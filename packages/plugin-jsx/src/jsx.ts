@@ -2,6 +2,7 @@ import { createPlugin } from "@flint.fyi/core";
 
 import accessKeys from "./rules/accessKeys.js";
 import altTexts from "./rules/altTexts.js";
+import anchorContent from "./rules/anchorContent.js";
 import ariaActiveDescendantTabIndex from "./rules/ariaActiveDescendantTabIndex.js";
 import ariaHiddenFocusables from "./rules/ariaHiddenFocusables.js";
 import ariaProps from "./rules/ariaProps.js";
@@ -21,6 +22,7 @@ export const jsx = createPlugin({
 	rules: [
 		accessKeys,
 		altTexts,
+		anchorContent,
 		ariaActiveDescendantTabIndex,
 		ariaHiddenFocusables,
 		ariaProps,
