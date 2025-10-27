@@ -1,0 +1,52 @@
+---
+description: "Prefer separate expressions instead of using the comma operator."
+title: "sequences"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="sequences" />
+
+The comma operator evaluates each of its operands and returns the value of the last operand.
+It can hide side effects and make code harder to read.
+Prefer writing separate expressions or statements instead.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const result = (doSideEffect(), computeValue());
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+doSideEffect();
+const result = computeValue();
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+Some developers prefer the succinct style of sequences and find it more readable.
+If you explicitly prefer sequences then you can disable this rule.
+
+## Further Reading
+
+- [MDN: Comma operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comma_Operator)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="sequences" />

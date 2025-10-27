@@ -24,6 +24,10 @@ export function createTypeScriptJsonFile(
 				report: (report: RuleReport) => {
 					reports.push({
 						...report,
+						fix:
+							report.fix && !Array.isArray(report.fix)
+								? [report.fix]
+								: report.fix,
 						message: rule.messages[report.message],
 						range: normalizeRange(report.range, sourceFile),
 					});

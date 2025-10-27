@@ -1,0 +1,108 @@
+---
+description: "Variables declared in case clauses without braces leak into the surrounding scope."
+title: "caseDeclarations"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="caseDeclarations" />
+
+Lexical declarations (`let`, `const`, `function`, `class`) in `case` and `default` clauses are scoped to the entire `switch` statement block, not just to the individual clause where they appear.
+This can lead to unexpected behavior when multiple clauses attempt to declare variables with the same name, resulting in syntax errors or unintended variable shadowing.
+Wrapping the contents of case clauses in curly braces creates a proper block scope, preventing these issues.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function processValue(value: number): string {
+	switch (value) {
+		case 1:
+			let result = "one";
+			return result;
+		case 2:
+			let result = "two";
+			return result;
+		default:
+			let result = "other";
+			return result;
+	}
+}
+
+function handleType(type: string): void {
+	switch (type) {
+		case "user":
+			const data = fetchUserData();
+			processData(data);
+			break;
+		case "admin":
+			const data = fetchAdminData();
+			processData(data);
+			break;
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function processValue(value: number): string {
+	switch (value) {
+		case 1: {
+			let result = "one";
+			return result;
+		}
+		case 2: {
+			let result = "two";
+			return result;
+		}
+		default: {
+			let result = "other";
+			return result;
+		}
+	}
+}
+
+function handleType(type: string): void {
+	switch (type) {
+		case "user": {
+			const data = fetchUserData();
+			processData(data);
+			break;
+		}
+		case "admin": {
+			const data = fetchAdminData();
+			processData(data);
+			break;
+		}
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you are certain that you will never have variable name conflicts between case clauses and you understand the scoping implications, you might choose to disable this rule.
+However, using block scopes in case clauses is a best practice that prevents potential bugs and makes the code's intent clearer.
+
+## Further Reading
+
+- [MDN: switch statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch)
+- [MDN: let](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)
+- [MDN: const](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="caseDeclarations" />

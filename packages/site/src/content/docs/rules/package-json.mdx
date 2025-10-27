@@ -1,0 +1,63 @@
+---
+description: "package.json linting rules provided by Flint."
+title: "PackageJSON Plugin"
+---
+
+import { RulesTable } from "~/components/RulesTable.tsx";
+
+Flint's package.json plugin includes rules targeted to package.json files.
+It comes provided with the `flint` npm package.
+
+## Presets
+
+Flint's package.json plugin provides the following preset:
+
+| Preset                    | Recommended | Description                                                             |
+| ------------------------- | ----------- | ----------------------------------------------------------------------- |
+| **[`logical`](#logical)** | ✅ Always   | Common rules for finding bugs and good practices in package.json files. |
+
+Flint recommends using the [`logical`](#logical) preset:
+
+```ts title="flint.config.ts"
+import { defineConfig, packageJson } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: packageJson.files.all,
+			rules: [packageJson.presets.logical],
+		},
+	],
+});
+```
+
+:::note
+Coming soon: more expansive documentation on choosing and combining plugins & presets with Flint.
+:::
+
+### `logical`
+
+Rules that find bugs and enforce best practices and prevent common pitfalls for most-to-all package.json files.
+
+```ts title="flint.config.ts"
+import { defineConfig, packageJson } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: packageJson.files.all,
+			rules: packageJson.presets.logical,
+		},
+	],
+});
+```
+
+## Rules
+
+<RulesTable implementing plugin="packageJson" />
+
+## Selectors
+
+Flint's package.json plugin will provide the following files selector:
+
+- `all`: `**/package.json`
