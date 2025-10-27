@@ -18,13 +18,13 @@ export function parseDirectivesFromYmlFile(
 		collector.add(
 			{
 				begin: {
-					column: comment.position.start.column,
-					line: comment.position.start.line,
+					column: comment.position.start.column - 1,
+					line: comment.position.start.line - 1,
 					raw: comment.position.start.offset,
 				},
 				end: {
-					column: comment.position.end.column,
-					line: comment.position.end.line,
+					column: comment.position.end.column - 1,
+					line: comment.position.end.line - 1,
 					raw: comment.position.end.offset,
 				},
 			},
