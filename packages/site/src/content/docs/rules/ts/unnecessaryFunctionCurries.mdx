@@ -1,0 +1,69 @@
+---
+description: "Remove unnecessary .call() and .apply() with null or undefined context."
+title: "unnecessaryFunctionCurries"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="unnecessaryFunctionCurries" />
+
+Using `.call()` or `.apply()` with `null` or `undefined` as the context (first argument) provides no benefit over calling the function directly.
+This adds unnecessary complexity and reduces code readability without any practical advantage.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function add(a: number, b: number) {
+	return a + b;
+}
+
+const result1 = add.call(undefined, 1, 2);
+const result2 = add.call(null, 5, 10);
+const result3 = add.apply(undefined, [3, 4]);
+const result4 = add.apply(null, [7, 8]);
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function add(a: number, b: number) {
+	return a + b;
+}
+
+const result = add(1, 2);
+
+// Using .call() with a meaningful context
+const obj = { value: 10 };
+function getValue() {
+	return this.value;
+}
+const contextResult = getValue.call(obj);
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have a specific coding pattern that requires explicit use of `.call()` or `.apply()` for consistency, even when the context is `null` or `undefined`, you might choose to disable this rule.
+However, in most cases, direct function calls improve code clarity and maintainability.
+
+## Further Reading
+
+- [MDN: Function.prototype.call()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call)
+- [MDN: Function.prototype.apply()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="unnecessaryFunctionCurries" />

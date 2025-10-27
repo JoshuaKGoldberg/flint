@@ -15232,6 +15232,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unnecessaryFunctionCurries",
 			"plugin": "ts",
 			"preset": "Logical"
