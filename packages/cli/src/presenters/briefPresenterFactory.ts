@@ -36,7 +36,7 @@ export const briefPresenterFactory: PresenterFactory = {
 						.map((report) => [
 							styleText(
 								"gray",
-								`  ${report.range.begin.line}:${report.range.begin.column}`,
+								`  ${report.range.begin.line + 1}:${report.range.begin.column + 1}`,
 							),
 							formatReportPrimary(report),
 							styleText("yellow", report.about.id),

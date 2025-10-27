@@ -75,7 +75,7 @@ Same with other TypeScript APIs that optionally take in a sourceFile.
 ### Lint Rule Unit Tests
 
 > Tip: to re-run just the tests for a rule, run `pnpm run test run <rulename>`.
-> Example: to rerun tests for the `unnecessaryCatches` rule, run `pnpm test unnecessaryCatches`.
+> Example: to rerun tests for the `unnecessaryCatches` rule, run `pnpm run test run unnecessaryCatches`.
 
 Look at other rule tests and try to mirror their layouts and styles as much as possible.
 
@@ -97,7 +97,7 @@ Use succinct descriptive ones instead.
 Example: instead of `let foo;` use `let value;`.
 Instead of `foo-.-bar` use `before-.-after`.
 
-If a rule has fixer and/or suggestions, those should be tested in unit tests.
+If a rule has fixes and/or suggestions, those should be tested in unit tests.
 
 ## Pull Requests
 
@@ -122,7 +122,7 @@ Use this repository's `.github/PULL_REQUEST_TEMPLATE.md` pull request template f
 
 Don't exhaustively list everything you do in the PR description > Overview.
 1-2 sentences is fine.
-If there important differences between this rule and other linter implementation(s), you can briefly mention them.
+If there are important differences between this rule and other linter implementation(s), you can briefly mention them.
 
 ### PR Title
 
