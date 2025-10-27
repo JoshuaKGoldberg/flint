@@ -815,6 +815,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "anchorValidity",
 			"plugin": "jsx",
 			"preset": "Logical"
