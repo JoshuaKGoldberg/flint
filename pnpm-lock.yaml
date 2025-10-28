@@ -311,7 +311,7 @@ importers:
         version: 2.1.0
     devDependencies:
       '@types/language-tags':
-        specifier: ^1.0.4
+        specifier: 1.0.4
         version: 1.0.4
 
   packages/plugin-performance:
