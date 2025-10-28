@@ -159,6 +159,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeDatasetAttributes",
 			"plugin": "browser",
 			"preset": "Logical",
