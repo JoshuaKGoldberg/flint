@@ -4,30 +4,38 @@ import { ruleTester } from "./ruleTester.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `<marquee />`,
+			code: `
+<marquee />`,
 			fileName: "file.tsx",
-			snapshot: `<marquee />
+			snapshot: `
+<marquee />
  ~~~~~~~
  The <marquee> element is distracting and deprecated.`,
 		},
 		{
-			code: `<blink />`,
+			code: `
+<blink />`,
 			fileName: "file.tsx",
-			snapshot: `<blink />
+			snapshot: `
+<blink />
  ~~~~~
  The <blink> element is distracting and deprecated.`,
 		},
 		{
-			code: `<marquee>Hello</marquee>`,
+			code: `
+<marquee>Hello</marquee>`,
 			fileName: "file.tsx",
-			snapshot: `<marquee>Hello</marquee>
+			snapshot: `
+<marquee>Hello</marquee>
  ~~~~~~~
  The <marquee> element is distracting and deprecated.`,
 		},
 		{
-			code: `<BLINK>Alert!</BLINK>`,
+			code: `
+<BLINK>Alert!</BLINK>`,
 			fileName: "file.tsx",
-			snapshot: `<BLINK>Alert!</BLINK>
+			snapshot: `
+<BLINK>Alert!</BLINK>
  ~~~~~
  The <blink> element is distracting and deprecated.`,
 		},
