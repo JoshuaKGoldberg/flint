@@ -1,6 +1,6 @@
 ---
 description: "Reports invalid or abstract ARIA roles."
-title: "ariaRoles"
+title: "ariaRoleValidity"
 topic: "rules"
 ---
 
@@ -8,9 +8,11 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="jsx" rule="ariaRoles" />
+<RuleSummary plugin="jsx" rule="ariaRoleValidity" />
 
-ARIA roles must be valid according to the WAI-ARIA specification. Abstract roles and invalid role values cannot be used, as they have no meaning to assistive technologies.
+ARIA roles must be valid according to the WAI-ARIA specification.
+Abstract roles and invalid role values cannot be used, as they have no meaning to assistive technologies.
+This rule reports on any DOM element given a JSX `role` attribute with an invalid value.
 
 This is required for WCAG 4.1.2 compliance.
 
@@ -64,4 +66,4 @@ If you're using custom ARIA roles or working with experimental features, you may
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="jsx" ruleId="ariaRoles" />
+<RuleEquivalents pluginId="jsx" ruleId="ariaRoleValidity" />

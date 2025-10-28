@@ -1,9 +1,7 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// cspell:disable -- ARIA role names are correct
-// Valid non-abstract ARIA roles from WAI-ARIA 1.2
-const validAriaRoles = new Set([
+const validariaRoleValidity = new Set([
 	"alert",
 	"alertdialog",
 	"application",
@@ -79,7 +77,7 @@ const validAriaRoles = new Set([
 export default typescriptLanguage.createRule({
 	about: {
 		description: "Reports invalid or abstract ARIA roles.",
-		id: "ariaRoles",
+		id: "ariaRoleValidity",
 		preset: "logical",
 	},
 	messages: {
@@ -98,40 +96,41 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkRole(attributes: ts.JsxAttributes) {
-			const roleAttr = attributes.properties.find(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "role",
-			);
-
-			if (!roleAttr || !ts.isJsxAttribute(roleAttr)) {
+		function checkRole(node: ts.JsxOpeningLikeElement) {
+			if (
+				!ts.isIdentifier(node.tagName) ||
+				node.tagName.text.toLowerCase() !== node.tagName.text
+			) {
 				return;
 			}
 
-			// Only check string literal values
-			if (roleAttr.initializer && ts.isStringLiteral(roleAttr.initializer)) {
-				const role = roleAttr.initializer.text.trim();
+			const roleProperty = node.attributes.properties.find(
+				(property): property is ts.JsxAttribute =>
+					ts.isJsxAttribute(property) && ts.isIdentifier(property.name),
+			);
 
-				if (!role || !validAriaRoles.has(role)) {
-					context.report({
-						data: { role: role || "(empty)" },
-						message: "invalidRole",
-						range: getTSNodeRange(roleAttr, context.sourceFile),
-					});
-				}
+			if (
+				!roleProperty?.initializer ||
+				!ts.isStringLiteral(roleProperty.initializer)
+			) {
+				return;
+			}
+
+			const role = roleProperty.initializer.text.trim();
+
+			if (!role || !validariaRoleValidity.has(role)) {
+				context.report({
+					data: { role: role || "(empty)" },
+					message: "invalidRole",
+					range: getTSNodeRange(roleProperty, context.sourceFile),
+				});
 			}
 		}
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkRole(node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkRole(node.attributes);
-				},
+				JsxOpeningElement: checkRole,
+				JsxSelfClosingElement: checkRole,
 			},
 		};
 	},
