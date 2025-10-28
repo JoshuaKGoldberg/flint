@@ -25,14 +25,18 @@ function isValidLanguageCode(lang: string): boolean {
 	}
 
 	// BCP 47 language tag pattern (simplified but strict enough)
-	// Matches the primary language subtag (2-8 letters)
-	// Followed by optional subtags:
-	// - extlang: 3 letters (up to 3 times)
-	// - script: 4 letters
-	// - region: 2 letters or 3 digits
-	// - variant: 5-8 alphanumeric OR 4 starting with digit
-	// - extension: single char + 2-8 alphanumeric (repeated)
-	// - private use: x- followed by 1-8 alphanumeric (repeated)
+	// This regex validates the most common BCP 47 language tag structures.
+	// Full BCP 47 is more complex, but this covers typical use cases.
+	//
+	// Pattern breakdown:
+	// ^[a-z]{2,8} - Primary language (2-8 letters, e.g., "en", "zh")
+	// (?:-[a-z]{3}){0,3} - Optional extlang (3 letters, up to 3, e.g., "cmn" in "zh-cmn")
+	// (?:-[a-z]{4})? - Optional script (4 letters, e.g., "Hans" in "zh-Hans")
+	// (?:-(?:[a-z]{2}|\d{3}))? - Optional region (2 letters or 3 digits, e.g., "US", "419")
+	// (?:-(?:[\da-z]{5,8}|\d[\da-z]{3}))* - Optional variants (5-8 chars or digit+3 chars)
+	// (?:-[0-9a-wyz](?:-[\da-z]{2,8})+)* - Optional extensions
+	// (?:-x(?:-[\da-z]{1,8})+)?$ - Optional private use (x- prefix)
+	// /i - Case insensitive
 	const bcp47Pattern =
 		/^[a-z]{2,8}(?:-[a-z]{3}){0,3}(?:-[a-z]{4})?(?:-(?:[a-z]{2}|\d{3}))?(?:-(?:[\da-z]{5,8}|\d[\da-z]{3}))*(?:-[0-9a-wyz](?:-[\da-z]{2,8})+)*(?:-x(?:-[\da-z]{1,8})+)?$/i;
 
