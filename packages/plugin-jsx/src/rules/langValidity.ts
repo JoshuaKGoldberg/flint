@@ -3,14 +3,15 @@ import * as ts from "typescript";
 
 /**
  * Validates if a language code follows the BCP 47 format.
- * BCP 47 language tags consist of:
- * - Primary language subtag (2-3 letters, or 4-8 letters for extended language subtags)
- * - Optional extlang subtag (3 letters, can have up to 3)
- * - Optional script subtag (4 letters)
- * - Optional region subtag (2 letters or 3 digits)
- * - Optional variant, extension, and private use subtags
  *
- * Examples: "en", "en-US", "zh-Hans", "zh-Hans-CN", "en-GB-oxendict"
+ * BCP 47 language tags consist of:
+ * - Primary language subtag (2-3 letters, or 4-8 letters for extended language subtags).
+ * - Optional extlang subtag (3 letters, can have up to 3).
+ * - Optional script subtag (4 letters).
+ * - Optional region subtag (2 letters or 3 digits).
+ * - Optional variant, extension, and private use subtags.
+ * @example
+ * "en", "en-US", "zh-Hans", "zh-Hans-CN", "en-GB-oxendict"
  */
 function isValidLanguageCode(lang: string): boolean {
 	if (!lang || typeof lang !== "string") {
@@ -33,7 +34,7 @@ function isValidLanguageCode(lang: string): boolean {
 	// - extension: single char + 2-8 alphanumeric (repeated)
 	// - private use: x- followed by 1-8 alphanumeric (repeated)
 	const bcp47Pattern =
-		/^[a-z]{2,8}(?:-[a-z]{3}){0,3}(?:-[a-z]{4})?(?:-(?:[a-z]{2}|\d{3}))?(?:-(?:[a-z\d]{5,8}|\d[a-z\d]{3}))*(?:-[0-9a-wy-z](?:-[a-z\d]{2,8})+)*(?:-x(?:-[a-z\d]{1,8})+)?$/i;
+		/^[a-z]{2,8}(?:-[a-z]{3}){0,3}(?:-[a-z]{4})?(?:-(?:[a-z]{2}|\d{3}))?(?:-(?:[\da-z]{5,8}|\d[\da-z]{3}))*(?:-[0-9a-wyz](?:-[\da-z]{2,8})+)*(?:-x(?:-[\da-z]{1,8})+)?$/i;
 
 	return bcp47Pattern.test(trimmedLang);
 }
