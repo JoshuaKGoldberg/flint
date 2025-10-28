@@ -776,6 +776,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "anchorAmbiguousText",
 			"plugin": "jsx",
 			"preset": "Logical",
