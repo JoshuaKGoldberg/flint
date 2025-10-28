@@ -65,7 +65,6 @@ export default typescriptLanguage.createRule({
 					if (ts.isExternalModuleReference(moduleReference)) {
 						const expression = moduleReference.expression;
 						if (
-							expression &&
 							ts.isStringLiteral(expression) &&
 							(expression.text === "events" ||
 								expression.text === "node:events")
