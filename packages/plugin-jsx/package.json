@@ -18,7 +18,11 @@
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/rule-tester": "workspace:",
 		"@flint.fyi/ts": "workspace:",
-		"@flint.fyi/utils": "workspace:"
+		"@flint.fyi/utils": "workspace:",
+		"language-tags": "^2.1.0"
+	},
+	"devDependencies": {
+		"@types/language-tags": "1.0.4"
 	},
 	"engines": {
 		"node": ">=24.0.0"
