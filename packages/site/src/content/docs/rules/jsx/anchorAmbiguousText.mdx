@@ -1,0 +1,89 @@
+---
+description: "Reports anchor elements with ambiguous text like 'click here' or 'learn more'."
+title: "anchorAmbiguousText"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="jsx" rule="anchorAmbiguousText" />
+
+Screen readers announce elements as links automatically, so using ambiguous descriptions like "click here", "here", "link", "a link", or "learn more" does not provide sufficient context about where the link leads or what action it performs.
+Descriptive anchor text improves accessibility for all users, especially those using assistive technologies like screen readers.
+
+This rule disallows exact matches for these ambiguous phrases (case-insensitive, with whitespace trimmed and certain punctuation ignored):
+
+- "click here"
+- "here"
+- "link"
+- "a link"
+- "learn more"
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```tsx
+<a>here</a>
+```
+
+```tsx
+<a>click here</a>
+```
+
+```tsx
+<a>learn more</a>
+```
+
+```tsx
+<a>a link</a>
+```
+
+```tsx
+<a aria-label="click here">something</a>
+```
+
+```tsx
+<a>
+	<img alt="click here" />
+</a>
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```tsx
+<a>read this tutorial</a>
+```
+
+```tsx
+<a>Learn more about accessibility</a>
+```
+
+```tsx
+<a aria-label="tutorial on using Flint">click here</a>
+```
+
+```tsx
+<a>View documentation</a>
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If your application provides sufficient context through surrounding text or other means that make the link destination clear, you might choose to disable this rule.
+However, it is generally recommended to use descriptive link text for better accessibility.
+
+## Further Reading
+
+- [WebAIM: Hyperlinks](https://webaim.org/techniques/hypertext/)
+- [Deque University: Link Checklist](https://dequeuniversity.com/checklists/web/links)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="jsx" ruleId="anchorAmbiguousText" />
