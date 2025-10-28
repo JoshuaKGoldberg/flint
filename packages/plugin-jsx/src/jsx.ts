@@ -5,6 +5,7 @@ import altTexts from "./rules/altTexts.js";
 import ariaActiveDescendantTabIndex from "./rules/ariaActiveDescendantTabIndex.js";
 import ariaHiddenFocusables from "./rules/ariaHiddenFocusables.js";
 import ariaProps from "./rules/ariaProps.js";
+import ariaRoleValidity from "./rules/ariaRoleValidity.js";
 import ariaUnsupportedElements from "./rules/ariaUnsupportedElements.js";
 import autoFocusProps from "./rules/autoFocusProps.js";
 import clickEventKeyEvents from "./rules/clickEventKeyEvents.js";
@@ -27,6 +28,7 @@ export const jsx = createPlugin({
 		ariaActiveDescendantTabIndex,
 		ariaHiddenFocusables,
 		ariaProps,
+		ariaRoleValidity,
 		ariaUnsupportedElements,
 		autoFocusProps,
 		clickEventKeyEvents,
