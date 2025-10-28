@@ -22,13 +22,7 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function getClassListMethodCall(node: ts.Node):
-			| undefined
-			| {
-					className: string;
-					method: "add" | "remove";
-					methodNode: ts.Identifier;
-			  } {
+		function getClassListMethodCall(node: ts.Node) {
 			if (!ts.isExpressionStatement(node)) {
 				return undefined;
 			}
@@ -81,9 +75,7 @@ export default typescriptLanguage.createRule({
 			};
 		}
 
-		function getObjectAndClassName(
-			node: ts.Node,
-		): undefined | { className: string; object: string } {
+		function getObjectAndClassName(node: ts.Node) {
 			const call = getClassListMethodCall(node);
 			if (!call) {
 				return undefined;
@@ -130,11 +122,11 @@ export default typescriptLanguage.createRule({
 					const thenCall = getClassListMethodCall(thenBlock[0]);
 					const elseCall = getClassListMethodCall(elseBlock[0]);
 
-					if (!thenCall || !elseCall) {
-						return;
-					}
-
-					if (thenCall.className !== elseCall.className) {
+					if (
+						!thenCall ||
+						!elseCall ||
+						thenCall.className !== elseCall.className
+					) {
 						return;
 					}
 
@@ -143,9 +135,12 @@ export default typescriptLanguage.createRule({
 						(thenCall.method === "remove" && elseCall.method === "add")
 					) {
 						const thenInfo = getObjectAndClassName(thenBlock[0]);
-						const elseInfo = getObjectAndClassName(elseBlock[0]);
+						if (!thenInfo) {
+							return;
+						}
 
-						if (!thenInfo || !elseInfo || thenInfo.object !== elseInfo.object) {
+						const elseInfo = getObjectAndClassName(elseBlock[0]);
+						if (!elseInfo || thenInfo.object !== elseInfo.object) {
 							return;
 						}
 

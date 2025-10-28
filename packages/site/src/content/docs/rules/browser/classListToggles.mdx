@@ -11,8 +11,10 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="browser" rule="classListToggles" />
 
-The `classList.toggle()` method provides a more concise and expressive way to conditionally add or remove a CSS class.
+The `classList.toggle()` method provides a concise and expressive way to conditionally add or remove a CSS class.
 Using conditional logic with `classList.add()` and `classList.remove()` creates unnecessary code duplication and makes the intent less clear.
+
+This rule suggests replacing any `if`/`else` used to toggle a class name from a list with the equivalent `toggle()`.
 
 ## Examples
 
