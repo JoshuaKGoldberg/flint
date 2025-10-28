@@ -12,13 +12,14 @@ export default typescriptLanguage.createRule({
 	messages: {
 		unsafeFinally: {
 			primary:
-				"Avoid using control flow statements in finally blocks, as they can override control flow from try/catch blocks.",
+				"This control flow statement can override any returned value from try/catch blocks.",
 			secondary: [
-				"Control flow statements like return, throw, break, and continue in finally blocks can override control flow statements in the try or catch blocks.",
-				"This can lead to unexpected behavior, as the finally block will execute regardless of what happens in try/catch, and its control flow takes precedence.",
+				"Control flow statements like `break`, `continue`, `return`, and `throw` in finally blocks can override control flow statements in the try or catch blocks.",
+				"This can lead to unexpected behavior, as the `finally` block will execute regardless of what happens in `try`/`catch`, and its control flow takes precedence.",
 			],
 			suggestions: [
-				"Move the control flow statement out of the finally block or remove it if the finally block is only used for cleanup operations.",
+				"Move the control flow statement out of the `finally` block",
+				"Remove the control flow statement if the `finally` block is only used for cleanup operations.",
 			],
 		},
 	},
@@ -42,16 +43,14 @@ export default typescriptLanguage.createRule({
 								return;
 							}
 
-							const range = {
-								begin: statement.getStart(context.sourceFile),
-								end:
-									statement.getStart(context.sourceFile) +
-									firstToken.getText().length,
-							};
-
 							context.report({
 								message: "unsafeFinally",
-								range,
+								range: {
+									begin: statement.getStart(context.sourceFile),
+									end:
+										statement.getStart(context.sourceFile) +
+										firstToken.getText().length,
+								},
 							});
 						}
 

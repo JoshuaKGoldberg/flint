@@ -17,7 +17,7 @@ try {
 } finally {
     return 1;
     ~~~~~~
-    Avoid using control flow statements in finally blocks, as they can override control flow from try/catch blocks.
+    This control flow statement can override any returned value from try/catch blocks.
 }
 `,
 		},
@@ -39,7 +39,7 @@ try {
 } finally {
     return;
     ~~~~~~
-    Avoid using control flow statements in finally blocks, as they can override control flow from try/catch blocks.
+    This control flow statement can override any returned value from try/catch blocks.
 }
 `,
 		},
@@ -57,7 +57,7 @@ try {
 } finally {
     throw new Error("Error");
     ~~~~~
-    Avoid using control flow statements in finally blocks, as they can override control flow from try/catch blocks.
+    This control flow statement can override any returned value from try/catch blocks.
 }
 `,
 		},
@@ -78,7 +78,7 @@ while (condition) {
     } finally {
         break;
         ~~~~~
-        Avoid using control flow statements in finally blocks, as they can override control flow from try/catch blocks.
+        This control flow statement can override any returned value from try/catch blocks.
     }
 }
 `,
@@ -100,7 +100,7 @@ for (let i = 0; i < 10; i++) {
     } finally {
         continue;
         ~~~~~~~~
-        Avoid using control flow statements in finally blocks, as they can override control flow from try/catch blocks.
+        This control flow statement can override any returned value from try/catch blocks.
     }
 }
 `,
@@ -124,7 +124,7 @@ function test() {
     } finally {
         return "override";
         ~~~~~~
-        Avoid using control flow statements in finally blocks, as they can override control flow from try/catch blocks.
+        This control flow statement can override any returned value from try/catch blocks.
     }
 }
 `,
@@ -146,7 +146,7 @@ try {
     if (condition) {
         return;
         ~~~~~~
-        Avoid using control flow statements in finally blocks, as they can override control flow from try/catch blocks.
+        This control flow statement can override any returned value from try/catch blocks.
     }
 }
 `,
@@ -168,7 +168,7 @@ try {
     while (condition) {
         break;
         ~~~~~
-        Avoid using control flow statements in finally blocks, as they can override control flow from try/catch blocks.
+        This control flow statement can override any returned value from try/catch blocks.
     }
 }
 `,
@@ -190,7 +190,7 @@ try {
     for (let i = 0; i < 10; i++) {
         continue;
         ~~~~~~~~
-        Avoid using control flow statements in finally blocks, as they can override control flow from try/catch blocks.
+        This control flow statement can override any returned value from try/catch blocks.
     }
 }
 `,
@@ -214,7 +214,7 @@ try {
         case 1:
             return;
             ~~~~~~
-            Avoid using control flow statements in finally blocks, as they can override control flow from try/catch blocks.
+            This control flow statement can override any returned value from try/catch blocks.
     }
 }
 `,
@@ -236,7 +236,7 @@ try {
     label: {
         break label;
         ~~~~~
-        Avoid using control flow statements in finally blocks, as they can override control flow from try/catch blocks.
+        This control flow statement can override any returned value from try/catch blocks.
     }
 }
 `,
