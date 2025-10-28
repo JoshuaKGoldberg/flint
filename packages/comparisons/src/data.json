@@ -1042,6 +1042,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "clickEventKeyEvents",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -6712,6 +6713,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "emptyBlocks",
 			"plugin": "ts",
 			"preset": "Stylistic"
@@ -15012,6 +15014,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unnecessaryBlocks",
 			"plugin": "ts",
 			"preset": "Stylistic"
@@ -15130,7 +15133,8 @@
 			}
 		],
 		"flint": {
-			"name": "unnecessaryConcatentation",
+			"implemented": true,
+			"name": "unnecessaryConcatenation",
 			"plugin": "ts",
 			"preset": "Stylistic"
 		},

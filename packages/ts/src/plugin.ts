@@ -13,6 +13,7 @@ import debuggerStatements from "./rules/debuggerStatements.js";
 import defaultCaseLast from "./rules/defaultCaseLast.js";
 import duplicateArguments from "./rules/duplicateArguments.js";
 import elseIfDuplicates from "./rules/elseIfDuplicates.js";
+import emptyBlocks from "./rules/emptyBlocks.js";
 import emptyDestructures from "./rules/emptyDestructures.js";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
@@ -43,7 +44,9 @@ import typeofComparisons from "./rules/typeofComparisons.js";
 import unassignedVariables from "./rules/unassignedVariables.js";
 import undefinedVariables from "./rules/undefinedVariables.js";
 import unicodeBOMs from "./rules/unicodeBOMs.js";
+import unnecessaryBlocks from "./rules/unnecessaryBlocks.js";
 import unnecessaryCatches from "./rules/unnecessaryCatches.js";
+import unnecessaryConcatenation from "./rules/unnecessaryConcatenation.js";
 import unsafeNegations from "./rules/unsafeNegations.js";
 import variableDeletions from "./rules/variableDeletions.js";
 import voidOperator from "./rules/voidOperator.js";
@@ -67,6 +70,7 @@ export const ts = createPlugin({
 		defaultCaseLast,
 		duplicateArguments,
 		elseIfDuplicates,
+		emptyBlocks,
 		emptyDestructures,
 		emptyStaticBlocks,
 		exceptionAssignments,
@@ -97,7 +101,9 @@ export const ts = createPlugin({
 		unassignedVariables,
 		undefinedVariables,
 		unicodeBOMs,
+		unnecessaryBlocks,
 		unnecessaryCatches,
+		unnecessaryConcatenation,
 		unsafeNegations,
 		variableDeletions,
 		voidOperator,

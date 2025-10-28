@@ -7,6 +7,7 @@ import ariaHiddenFocusables from "./rules/ariaHiddenFocusables.js";
 import ariaProps from "./rules/ariaProps.js";
 import ariaUnsupportedElements from "./rules/ariaUnsupportedElements.js";
 import autoFocusProps from "./rules/autoFocusProps.js";
+import clickEventKeyEvents from "./rules/clickEventKeyEvents.js";
 import distractingElements from "./rules/distractingElements.js";
 import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
@@ -27,6 +28,7 @@ export const jsx = createPlugin({
 		ariaProps,
 		ariaUnsupportedElements,
 		autoFocusProps,
+		clickEventKeyEvents,
 		distractingElements,
 		headingContents,
 		htmlLangs,
