@@ -12,7 +12,7 @@ type AriaPropertyType =
 	| "token"
 	| "tristate";
 
-const ariaPropertyTypes: Record<string, AriaPropertyType> = {
+const ariaPropertyTypes: Partial<Record<string, AriaPropertyType>> = {
 	"aria-activedescendant": "id",
 	"aria-atomic": "boolean",
 	"aria-autocomplete": "token",
@@ -63,7 +63,7 @@ const ariaPropertyTypes: Record<string, AriaPropertyType> = {
 	"aria-valuetext": "string",
 };
 
-const tokenValues: Record<string, Set<string>> = {
+const tokenValues: Partial<Record<string, Set<string>>> = {
 	"aria-autocomplete": new Set(["both", "inline", "list", "none"]),
 	"aria-current": new Set([
 		"date",
@@ -165,7 +165,7 @@ function getExpectedValueDescription(
 			return "a string";
 
 		case "token": {
-			const validTokens = tokenValues[propertyName] as Set<string> | undefined;
+			const validTokens = tokenValues[propertyName];
 			if (validTokens !== undefined) {
 				const tokens = Array.from(validTokens).sort();
 				return tokens.length > 4
@@ -231,7 +231,7 @@ function validatePropertyValue(
 			if (typeof value !== "string") {
 				return false;
 			}
-			const validTokens = tokenValues[propertyName] as Set<string> | undefined;
+			const validTokens = tokenValues[propertyName];
 			return validTokens !== undefined
 				? validTokens.has(value.toLowerCase())
 				: true;
@@ -282,9 +282,7 @@ export default typescriptLanguage.createRule({
 					continue;
 				}
 
-				const expectedType = ariaPropertyTypes[propertyName] as
-					| AriaPropertyType
-					| undefined;
+				const expectedType = ariaPropertyTypes[propertyName];
 				if (expectedType === undefined) {
 					continue;
 				}
