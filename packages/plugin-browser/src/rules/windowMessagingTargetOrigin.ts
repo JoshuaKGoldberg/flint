@@ -42,7 +42,7 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression(node: ts.CallExpression) {
-					const { expression, arguments: args } = node;
+					const { arguments: args, expression } = node;
 
 					// Check if this is a property access like window.postMessage
 					if (!ts.isPropertyAccessExpression(expression)) {
