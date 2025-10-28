@@ -114,7 +114,7 @@ export default typescriptLanguage.createRule({
 				methodName === "insertAdjacentText"
 			) {
 				const firstArgument = node.arguments[0];
-				if (!firstArgument || !ts.isStringLiteral(firstArgument)) {
+				if (!ts.isStringLiteral(firstArgument)) {
 					return;
 				}
 
