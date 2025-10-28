@@ -1025,9 +1025,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "buttonTypes",
 			"plugin": "jsx",
-			"preset": "Not implementing"
+			"preset": "logical"
 		}
 	},
 	{
