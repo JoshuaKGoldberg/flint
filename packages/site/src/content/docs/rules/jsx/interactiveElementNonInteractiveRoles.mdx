@@ -1,0 +1,75 @@
+---
+description: "Reports interactive elements with non-interactive ARIA roles."
+title: "interactiveElementNonInteractiveRoles"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="jsx" rule="interactiveElementNonInteractiveRoles" />
+
+Interactive HTML elements such as `<button>` and `<a>` are given interactions such as <kbd>Tab</kbd> focus and keyboard activation by browsers.
+Giving an interactive element a non-interactive role removes those interactions, causing accessibility issues for users who rely on keyboard navigation or assistive technology.
+It's generally more accessible to use native element semantics instead.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```tsx
+<button role="article" />
+```
+
+```tsx
+<a role="presentation" />
+```
+
+```tsx
+<input role="none" />
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```tsx
+<button />
+```
+
+```tsx
+<button role="button" />
+```
+
+```tsx
+<a href="/" />
+```
+
+```tsx
+<input type="text" />
+```
+
+```tsx
+<div role="article" />
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If you are intentionally removing the interactive semantics from an element (for example, to create a custom control with different semantics), you can disable this rule for that element.
+However, this is rarely the correct approach and can create significant accessibility issues.
+
+## Further Reading
+
+- [WCAG 4.1.2 - Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value)
+- [WAI-ARIA Roles](https://www.w3.org/TR/wai-aria-1.1/#usage_intro)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents
+	pluginId="jsx"
+	ruleId="interactiveElementNonInteractiveRoles"
+/>

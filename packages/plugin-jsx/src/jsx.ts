@@ -15,6 +15,7 @@ import distractingElements from "./rules/distractingElements.js";
 import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
 import iframeTitles from "./rules/iframeTitles.js";
+import interactiveElementNonInteractiveRoles from "./rules/interactiveElementNonInteractiveRoles.js";
 import langValidity from "./rules/langValidity.js";
 import mediaCaptions from "./rules/mediaCaptions.js";
 import mouseEventKeyEvents from "./rules/mouseEventKeyEvents.js";
@@ -46,6 +47,7 @@ export const jsx = createPlugin({
 		headingContents,
 		htmlLangs,
 		iframeTitles,
+		interactiveElementNonInteractiveRoles,
 		langValidity,
 		mediaCaptions,
 		mouseEventKeyEvents,
