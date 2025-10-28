@@ -1074,7 +1074,7 @@
 			"implemented": true,
 			"name": "commentTextNodes",
 			"plugin": "jsx",
-			"preset": "logical"
+			"preset": "Logical"
 		}
 	},
 	{

@@ -37,21 +37,17 @@ ruleTester.describe(rule, {
 		},
 		{
 			code: `
-<div>Some text // followed by comment</div>`,
+<p>
+    /* inline comment */
+</p>`,
 			fileName: "file.tsx",
 			snapshot: `
-<div>Some text // followed by comment</div>
-     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     This text looks like a comment but will be rendered as text in the JSX output.`,
-		},
-		{
-			code: `
-<p>Text /* inline comment */ more text</p>`,
-			fileName: "file.tsx",
-			snapshot: `
-<p>Text /* inline comment */ more text</p>
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   This text looks like a comment but will be rendered as text in the JSX output.`,
+<p>
+    /* inline comment */
+    ~~~~~~~~~~~~~~~~~~~~
+    This text looks like a comment but will be rendered as text in the JSX output.
+</p>
+`,
 		},
 	],
 	valid: [
@@ -70,6 +66,18 @@ ruleTester.describe(rule, {
     {// Single line comment in expression
     }
 </div>`,
+			fileName: "file.tsx",
+		},
+		{
+			code: `<a href="https://example.com">Link</a>`,
+			fileName: "file.tsx",
+		},
+		{
+			code: `<div>Text before // comment syntax</div>`,
+			fileName: "file.tsx",
+		},
+		{
+			code: `<div>Text before /* comment */ syntax</div>`,
 			fileName: "file.tsx",
 		},
 	],
