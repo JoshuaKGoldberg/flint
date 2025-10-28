@@ -53,33 +53,33 @@ export default typescriptLanguage.createRule({
 			return text;
 		}
 
-		function isAmbiguous(text: string): boolean {
-			const normalizedText = text.toLowerCase().trim();
-			return ambiguousWords.has(normalizedText);
-		}
-
 		return {
 			visitors: {
 				JsxElement(node: ts.JsxElement) {
-					const openingElement = node.openingElement;
 					if (
-						ts.isIdentifier(openingElement.tagName) &&
-						openingElement.tagName.text === "a"
+						!ts.isIdentifier(node.openingElement.tagName) ||
+						node.openingElement.tagName.text !== "a"
 					) {
-						const textContent = getTextContent(node);
-						if (isAmbiguous(textContent)) {
-							const textNodes = node.children.filter(
-								(child) => ts.isJsxText(child) && child.text.trim(),
-							);
-							const rangeNode = textNodes[0] || openingElement;
-
-							context.report({
-								data: { text: textContent.trim() },
-								message: "ambiguousText",
-								range: getTSNodeRange(rangeNode, context.sourceFile),
-							});
-						}
+						return;
 					}
+
+					const textContent = getTextContent(node);
+					if (!ambiguousWords.has(textContent.toLowerCase().trim())) {
+						return;
+					}
+
+					const textNodes = node.children.filter(
+						(child) => ts.isJsxText(child) && child.text.trim(),
+					);
+
+					context.report({
+						data: { text: textContent.trim() },
+						message: "ambiguousText",
+						range: getTSNodeRange(
+							textNodes[0] || node.openingElement,
+							context.sourceFile,
+						),
+					});
 				},
 			},
 		};
