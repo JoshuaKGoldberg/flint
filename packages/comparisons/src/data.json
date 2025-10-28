@@ -144,6 +144,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeAppendMethods",
 			"plugin": "browser",
 			"preset": "Logical",
