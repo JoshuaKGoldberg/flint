@@ -1,4 +1,4 @@
-import rule from "./ruleSupportedAriaProps.js";
+import rule from "./roleSupportedAriaProps.js";
 import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {

@@ -358,18 +358,17 @@ const implicitRoles: Record<string, string> = {
 };
 
 function getSupportedPropsForRole(role: string): Set<string> {
-	const roleProps = roleToSupportedProps[role];
-	if (roleProps) {
-		return new Set([...globalAriaProperties, ...roleProps]);
-	}
-	return new Set(globalAriaProperties);
+	return new Set([
+		...(roleToSupportedProps[role] ?? []),
+		...globalAriaProperties,
+	]);
 }
 
 export default typescriptLanguage.createRule({
 	about: {
 		description:
 			"Reports ARIA properties that are not supported by an element's role.",
-		id: "ruleSupportedAriaProps",
+		id: "roleSupportedAriaProps",
 		preset: "logical",
 	},
 	messages: {
@@ -393,7 +392,6 @@ export default typescriptLanguage.createRule({
 			}
 
 			const elementName = node.tagName.text.toLowerCase();
-			let role: string | undefined;
 
 			const roleProperty = node.attributes.properties.find(
 				(property) =>
@@ -402,16 +400,13 @@ export default typescriptLanguage.createRule({
 					property.name.text === "role",
 			);
 
-			if (
+			const role =
 				roleProperty &&
 				ts.isJsxAttribute(roleProperty) &&
 				roleProperty.initializer &&
 				ts.isStringLiteral(roleProperty.initializer)
-			) {
-				role = roleProperty.initializer.text.toLowerCase();
-			} else {
-				role = implicitRoles[elementName];
-			}
+					? roleProperty.initializer.text.toLowerCase()
+					: implicitRoles[elementName];
 
 			if (!role) {
 				return;
@@ -425,17 +420,18 @@ export default typescriptLanguage.createRule({
 				}
 
 				const propertyName = property.name.text.toLowerCase();
-				if (!propertyName.startsWith("aria-")) {
+				if (
+					!propertyName.startsWith("aria-") ||
+					supportedProps.has(propertyName)
+				) {
 					continue;
 				}
 
-				if (!supportedProps.has(propertyName)) {
-					context.report({
-						data: { prop: propertyName, role },
-						message: "unsupportedProp",
-						range: getTSNodeRange(property.name, context.sourceFile),
-					});
-				}
+				context.report({
+					data: { prop: propertyName, role },
+					message: "unsupportedProp",
+					range: getTSNodeRange(property.name, context.sourceFile),
+				});
 			}
 		}
 

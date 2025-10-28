@@ -1,6 +1,6 @@
 ---
 description: "Reports ARIA properties that are not supported by an element's role."
-title: "ruleSupportedAriaProps"
+title: "roleSupportedAriaProps"
 topic: "rules"
 ---
 
@@ -8,7 +8,7 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="jsx" rule="ruleSupportedAriaProps" />
+<RuleSummary plugin="jsx" rule="roleSupportedAriaProps" />
 
 Elements with ARIA roles should only use ARIA properties that are supported by that role.
 Each ARIA role has a specific set of supported properties defined in the WAI-ARIA specification.
@@ -56,7 +56,7 @@ This is required for WCAG 4.1.2 compliance.
 
 ## When Not To Use It
 
-You should always use this rule to ensure ARIA properties are used correctly with their corresponding roles.
+If you use a framework that automatically changes ARIA properties from custom invalid ones to correct roles, you might need to disable this rule.
 
 ## Further Reading
 
@@ -66,4 +66,4 @@ You should always use this rule to ensure ARIA properties are used correctly wit
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="jsx" ruleId="ruleSupportedAriaProps" />
+<RuleEquivalents pluginId="jsx" ruleId="roleSupportedAriaProps" />

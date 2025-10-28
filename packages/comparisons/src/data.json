@@ -796,6 +796,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "anchorContent",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -815,6 +816,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "anchorValidity",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -908,7 +910,8 @@
 			}
 		],
 		"flint": {
-			"name": "ariaRoles",
+			"implemented": true,
+			"name": "ariaRoleValidity",
 			"plugin": "jsx",
 			"preset": "Logical"
 		},
@@ -1177,7 +1180,7 @@
 		"flint": {
 			"name": "imageAltRedundancy",
 			"plugin": "jsx",
-			"preset": "Logical"
+			"preset": "Not implementing"
 		},
 		"oxlint": [
 			{
@@ -1338,7 +1341,8 @@
 			}
 		],
 		"flint": {
-			"name": "nonInteractiveElementInteractiveRoles",
+			"implemented": true,
+			"name": "nonInteractiveElementRoles",
 			"plugin": "jsx",
 			"preset": "Logical"
 		}
@@ -1351,6 +1355,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nonInteractiveElementTabIndexes",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1409,6 +1414,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "roleTags",
 			"plugin": "jsx",
 			"preset": "Logical",
@@ -1430,7 +1436,7 @@
 		],
 		"flint": {
 			"implemented": true,
-			"name": "ruleSupportedAriaProps",
+			"name": "roleSupportedAriaProps",
 			"plugin": "jsx",
 			"preset": "Logical"
 		},
