@@ -1,10 +1,8 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// cspell:disable -- ARIA role names are correct
-// Map of HTML elements to their implicit ARIA roles
 const implicitRoles: Record<string, string> = {
-	a: "link", // when href is present
+	a: "link",
 	article: "article",
 	aside: "complementary",
 	button: "button",
@@ -20,7 +18,7 @@ const implicitRoles: Record<string, string> = {
 	header: "banner",
 	hr: "separator",
 	img: "img",
-	input: "textbox", // varies by type
+	input: "textbox",
 	li: "listitem",
 	main: "main",
 	nav: "navigation",
@@ -41,64 +39,64 @@ export default typescriptLanguage.createRule({
 	messages: {
 		redundantRole: {
 			primary:
-				"Redundant role '{{ role }}' on <{{ element }}>. This element already has an implicit role.",
+				"`<{{ element }}>` elements already implicitly have a role of `{{ role }}`. This explicit role is unnecessary.",
 			secondary: [
 				"HTML elements have default semantics implemented by the browser.",
-				"Setting an explicit role that matches the implicit role is unnecessary.",
-				"Remove the redundant role attribute.",
+				"Setting an explicit role that matches the implicit role is redundant and doesn't provide any benefit.",
 			],
 			suggestions: ["Remove the redundant role attribute"],
 		},
 	},
 	setup(context) {
-		function checkRedundantRole(
-			tagName: ts.JsxTagNameExpression,
-			attributes: ts.JsxAttributes,
-		) {
-			if (!ts.isIdentifier(tagName)) {
+		function checkRedundantRole(node: ts.JsxOpeningLikeElement) {
+			if (!ts.isIdentifier(node.tagName)) {
 				return;
 			}
 
-			const elementName = tagName.text.toLowerCase();
-			const implicitRole = implicitRoles[elementName];
+			const element = node.tagName.text.toLowerCase();
+			const implicitRole = implicitRoles[element];
 
 			if (!implicitRole) {
-				return; // No implicit role for this element
-			}
-
-			const roleAttr = attributes.properties.find(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "role",
-			);
-
-			if (!roleAttr || !ts.isJsxAttribute(roleAttr)) {
 				return;
 			}
 
-			// Check if role value matches implicit role
-			if (roleAttr.initializer && ts.isStringLiteral(roleAttr.initializer)) {
-				const explicitRole = roleAttr.initializer.text;
+			const roleProperty = node.attributes.properties.find(
+				(property) =>
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text === "role",
+			);
 
-				if (explicitRole === implicitRole) {
-					context.report({
-						data: { element: elementName, role: explicitRole },
-						message: "redundantRole",
-						range: getTSNodeRange(roleAttr, context.sourceFile),
-					});
-				}
+			if (
+				roleProperty &&
+				ts.isJsxAttribute(roleProperty) &&
+				roleProperty.initializer &&
+				ts.isStringLiteral(roleProperty.initializer) &&
+				roleProperty.initializer.text === implicitRole
+			) {
+				const range = getTSNodeRange(roleProperty, context.sourceFile);
+				context.report({
+					data: {
+						element,
+						role: roleProperty.initializer.text,
+					},
+					message: "redundantRole",
+					range,
+					suggestions: [
+						{
+							id: "removeRole",
+							range,
+							text: "",
+						},
+					],
+				});
 			}
 		}
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkRedundantRole(node.tagName, node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkRedundantRole(node.tagName, node.attributes);
-				},
+				JsxOpeningElement: checkRedundantRole,
+				JsxSelfClosingElement: checkRedundantRole,
 			},
 		};
 	},

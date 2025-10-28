@@ -4,39 +4,87 @@ import { ruleTester } from "./ruleTester.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `<button role="button" />`,
+			code: `
+<button role="button" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<button role="button" />
+			snapshot: `
+<button role="button" />
         ~~~~~~~~~~~~~
-        Redundant role 'button' on <button>. This element already has an implicit role.`,
+        \`<button>\` elements already implicitly have a role of \`button\`. This explicit role is unnecessary.
+`,
+			suggestions: [
+				{
+					id: "removeRole",
+					updated: `
+<button  />
+`,
+				},
+			],
 		},
 		{
-			code: `<img role="img" src="foo.jpg" />`,
+			code: `
+<img role="img" src="/image.jpg" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<img role="img" src="foo.jpg" />
+			snapshot: `
+<img role="img" src="/image.jpg" />
      ~~~~~~~~~~
-     Redundant role 'img' on <img>. This element already has an implicit role.`,
+     \`<img>\` elements already implicitly have a role of \`img\`. This explicit role is unnecessary.
+`,
+			suggestions: [
+				{
+					id: "removeRole",
+					updated: `
+<img  src="/image.jpg" />
+`,
+				},
+			],
 		},
 		{
-			code: `<nav role="navigation" />`,
+			code: `
+<nav role="navigation" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<nav role="navigation" />
+			snapshot: `
+<nav role="navigation" />
      ~~~~~~~~~~~~~~~~~
-     Redundant role 'navigation' on <nav>. This element already has an implicit role.`,
+     \`<nav>\` elements already implicitly have a role of \`navigation\`. This explicit role is unnecessary.
+`,
+			suggestions: [
+				{
+					id: "removeRole",
+					updated: `
+<nav  />
+`,
+				},
+			],
 		},
 		{
-			code: `<main role="main" />`,
+			code: `
+<main role="main" style="" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<main role="main" />
+			snapshot: `
+<main role="main" style="" />
       ~~~~~~~~~~~
-      Redundant role 'main' on <main>. This element already has an implicit role.`,
+      \`<main>\` elements already implicitly have a role of \`main\`. This explicit role is unnecessary.
+`,
+			suggestions: [
+				{
+					id: "removeRole",
+					updated: `
+<main  style="" />
+`,
+				},
+			],
 		},
 	],
 	valid: [
 		{ code: `<div />`, fileName: "file.tsx" },
 		{ code: `<button role="presentation" />`, fileName: "file.tsx" },
 		{ code: `<div role="button" />`, fileName: "file.tsx" },
-		{ code: `<img src="foo.jpg" />`, fileName: "file.tsx" },
+		{ code: `<img src="/image.jpg" />`, fileName: "file.tsx" },
 		{ code: `<nav />`, fileName: "file.tsx" },
 		{ code: `<button />`, fileName: "file.tsx" },
 	],
