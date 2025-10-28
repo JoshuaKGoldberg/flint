@@ -1,11 +1,6 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-const methodMappings = new Map([
-	["appendChild", "append"],
-	["insertBefore", "prepend"],
-]);
-
 export default typescriptLanguage.createRule({
 	about: {
 		description:
@@ -15,16 +10,34 @@ export default typescriptLanguage.createRule({
 		strictness: "strict",
 	},
 	messages: {
-		preferModernMethod: {
-			primary: "Prefer `{{ preferred }}()` over `{{ method }}()`.",
+		preferAppend: {
+			primary: "Prefer `append()` over `{{ method }}()`.",
 			secondary: [
-				"The modern `append()` and `prepend()` methods are more flexible and readable.",
-				"They accept multiple nodes and strings, while the legacy methods only accept a single Node.",
+				"The modern `append()` method is more flexible and readable.",
+				"It accepts multiple nodes and strings, while the legacy method only accepts a single Node.",
 			],
-			suggestions: ["Use `{{ preferred }}()` instead of `{{ method }}()`."],
+			suggestions: ["Use `append()` instead of `{{ method }}()`."],
+		},
+		preferPrepend: {
+			primary: "Prefer `prepend()` over `insertBefore()`.",
+			secondary: [
+				"The modern `prepend()` method is more flexible and readable.",
+				"It accepts multiple nodes and strings, while `insertBefore()` only accepts a single Node.",
+			],
+			suggestions: [
+				"Use `prepend()` instead of `insertBefore()` when inserting at the beginning.",
+			],
 		},
 	},
 	setup(context) {
+		function isFirstChildAccess(node: ts.Expression): boolean {
+			if (!ts.isPropertyAccessExpression(node)) {
+				return false;
+			}
+
+			return ts.isIdentifier(node.name) && node.name.text === "firstChild";
+		}
+
 		return {
 			visitors: {
 				CallExpression(node: ts.CallExpression) {
@@ -38,16 +51,36 @@ export default typescriptLanguage.createRule({
 					}
 
 					const methodName = name.text;
-					const preferred = methodMappings.get(methodName);
-					if (preferred === undefined) {
+
+					if (methodName === "appendChild") {
+						context.report({
+							data: { method: "appendChild" },
+							message: "preferAppend",
+							range: getTSNodeRange(name, context.sourceFile),
+						});
 						return;
 					}
 
-					context.report({
-						data: { method: methodName, preferred },
-						message: "preferModernMethod",
-						range: getTSNodeRange(name, context.sourceFile),
-					});
+					if (methodName === "insertBefore" && node.arguments.length >= 2) {
+						const secondArg = node.arguments[1];
+						// insertBefore(node, null) is equivalent to appendChild
+						if (
+							secondArg.kind === ts.SyntaxKind.NullKeyword ||
+							isFirstChildAccess(secondArg)
+						) {
+							context.report({
+								data:
+									secondArg.kind === ts.SyntaxKind.NullKeyword
+										? { method: "insertBefore" }
+										: {},
+								message:
+									secondArg.kind === ts.SyntaxKind.NullKeyword
+										? "preferAppend"
+										: "preferPrepend",
+								range: getTSNodeRange(name, context.sourceFile),
+							});
+						}
+					}
 				},
 			},
 		};

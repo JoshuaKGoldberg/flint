@@ -15,12 +15,22 @@ element.appendChild(child);
 		},
 		{
 			code: `
-node.insertBefore(newNode, referenceNode);
+parent.insertBefore(child, null);
 `,
 			snapshot: `
-node.insertBefore(newNode, referenceNode);
-     ~~~~~~~~~~~~
-     Prefer \`prepend()\` over \`insertBefore()\`.
+parent.insertBefore(child, null);
+       ~~~~~~~~~~~~
+       Prefer \`append()\` over \`insertBefore()\`.
+`,
+		},
+		{
+			code: `
+parent.insertBefore(child, parent.firstChild);
+`,
+			snapshot: `
+parent.insertBefore(child, parent.firstChild);
+       ~~~~~~~~~~~~
+       Prefer \`prepend()\` over \`insertBefore()\`.
 `,
 		},
 		{
@@ -33,16 +43,6 @@ document.body.appendChild(element);
               Prefer \`append()\` over \`appendChild()\`.
 `,
 		},
-		{
-			code: `
-parent.insertBefore(child, null);
-`,
-			snapshot: `
-parent.insertBefore(child, null);
-       ~~~~~~~~~~~~
-       Prefer \`prepend()\` over \`insertBefore()\`.
-`,
-		},
 	],
 	valid: [
 		`element.append(child);`,
@@ -51,5 +51,6 @@ parent.insertBefore(child, null);
 		`element.append("text");`,
 		`parent.append(child);`,
 		`other.method();`,
+		`parent.insertBefore(child, referenceNode);`,
 	],
 });
