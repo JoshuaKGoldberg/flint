@@ -96,10 +96,12 @@ ruleTester.describe(rule, {
 		},
 		{ code: `<input type="text" autocomplete />`, fileName: "file.tsx" },
 		{
+			// cspell:disable-next-line -- test variable name
 			code: `<input type="text" autocomplete={autocompl} />`,
 			fileName: "file.tsx",
 		},
 		{
+			// cspell:disable-next-line -- test variable name
 			code: `<input type="text" autocomplete={autocompl || "name"} />`,
 			fileName: "file.tsx",
 		},

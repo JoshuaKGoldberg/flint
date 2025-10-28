@@ -1,6 +1,7 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
+// cspell:disable -- HTML autocomplete tokens from spec
 const validAutocompleteValues = new Set([
 	"address-level1",
 	"address-level2",
@@ -66,6 +67,7 @@ const billingAndShippingValues = new Set([
 	"postal-code",
 	"street-address",
 ]);
+// cspell:enable
 
 function isValidAutocompleteValue(value: string): boolean {
 	const parts = value.trim().split(/\s+/);
