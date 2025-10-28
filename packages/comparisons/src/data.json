@@ -796,6 +796,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "anchorContent",
 			"plugin": "jsx",
 			"preset": "Logical"
