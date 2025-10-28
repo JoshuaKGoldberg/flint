@@ -21,6 +21,8 @@ import mouseEventKeyEvents from "./rules/mouseEventKeyEvents.js";
 import nonInteractiveElementRoles from "./rules/nonInteractiveElementRoles.js";
 import nonInteractiveElementTabIndexes from "./rules/nonInteractiveElementTabIndexes.js";
 import roleRedundancies from "./rules/roleRedundancies.js";
+import roleRequiredAriaProps from "./rules/roleRequiredAriaProps.js";
+import roleSupportedAriaProps from "./rules/roleSupportedAriaProps.js";
 import roleTags from "./rules/roleTags.js";
 import scopeProps from "./rules/scopeProps.js";
 import staticElementInteractions from "./rules/staticElementInteractions.js";
@@ -50,6 +52,8 @@ export const jsx = createPlugin({
 		nonInteractiveElementRoles,
 		nonInteractiveElementTabIndexes,
 		roleRedundancies,
+		roleRequiredAriaProps,
+		roleSupportedAriaProps,
 		roleTags,
 		scopeProps,
 		staticElementInteractions,
