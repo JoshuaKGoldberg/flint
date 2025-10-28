@@ -1,6 +1,6 @@
 ---
 description: "Reports non-interactive elements with interactive ARIA roles."
-title: "nonInteractiveElementInteractiveRoles"
+title: "nonInteractiveElementRoles"
 topic: "rules"
 ---
 
@@ -8,9 +8,11 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="jsx" rule="nonInteractiveElementInteractiveRoles" />
+<RuleSummary plugin="jsx" rule="nonInteractiveElementRoles" />
 
-Non-interactive HTML elements should not be converted to interactive controls using ARIA roles. Use native interactive elements instead.
+Non-interactive HTML elements such as `<div>` and `<span>` are not given interactions such as <kbd>Tab</kbd> focus by browsers.
+Giving a non-interactive HTMl element an interactive role will not fill in those interactions, and so causes accessibility issues on pages that do so.
+It's generally more accessible to use native interactive elements instead.
 
 ## Examples
 
@@ -57,7 +59,9 @@ Non-interactive HTML elements should not be converted to interactive controls us
 
 ## When Not To Use It
 
-If you have specific requirements for custom interactive widgets that require non-interactive elements, you may need to disable this rule.
+If you are using a framework that fully recreates browser interaction events for elements, you can safely disable this rule.
+However, native browser interactions are exceedingly difficult to fully recreate.
+It is strongly recommended to use native interactive elements instead.
 
 ## Further Reading
 
@@ -66,7 +70,4 @@ If you have specific requirements for custom interactive widgets that require no
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents
-	pluginId="jsx"
-	ruleId="nonInteractiveElementInteractiveRoles"
-/>
+<RuleEquivalents pluginId="jsx" ruleId="nonInteractiveElementRoles" />

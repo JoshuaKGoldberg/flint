@@ -1,8 +1,6 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// cspell:disable -- ARIA role names are correct
-// Non-interactive HTML elements
 const nonInteractiveElements = new Set([
 	"article",
 	"aside",
@@ -31,7 +29,6 @@ const nonInteractiveElements = new Set([
 	"ul",
 ]);
 
-// Interactive ARIA roles
 const interactiveRoles = new Set([
 	"button",
 	"checkbox",
@@ -49,8 +46,7 @@ const interactiveRoles = new Set([
 	"textbox",
 ]);
 
-// Allowed role exceptions for specific elements
-const allowedExceptions: Record<string, Set<string>> = {
+const allowedExceptions: Record<string, Set<string> | undefined> = {
 	li: new Set(["menuitem", "option", "row", "tab", "treeitem"]),
 	ol: new Set([
 		"listbox",
@@ -78,13 +74,13 @@ export default typescriptLanguage.createRule({
 	about: {
 		description:
 			"Reports non-interactive elements with interactive ARIA roles.",
-		id: "nonInteractiveElementInteractiveRoles",
+		id: "nonInteractiveElementRoles",
 		preset: "logical",
 	},
 	messages: {
 		invalidRole: {
 			primary:
-				"Non-interactive element <{{ element }}> cannot have interactive role '{{ role }}'.",
+				"Non-interactive element <{{ element }}> should not have the interactive role `'{{ role }}'`.",
 			secondary: [
 				"Non-interactive elements should not be converted to interactive controls using ARIA roles.",
 				"Use native interactive elements like <button> or <a> instead.",
@@ -105,40 +101,36 @@ export default typescriptLanguage.createRule({
 			}
 
 			const elementName = element.tagName.text.toLowerCase();
-
 			if (!nonInteractiveElements.has(elementName)) {
 				return;
 			}
 
-			// Find role attribute
-			const roleAttr = element.attributes.properties.find(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "role",
+			const roleProperty = element.attributes.properties.find(
+				(property) =>
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text === "role",
 			);
 
-			if (!roleAttr || !ts.isJsxAttribute(roleAttr)) {
+			if (
+				!roleProperty ||
+				!ts.isJsxAttribute(roleProperty) ||
+				!roleProperty.initializer ||
+				!ts.isStringLiteral(roleProperty.initializer)
+			) {
 				return;
 			}
 
-			if (roleAttr.initializer && ts.isStringLiteral(roleAttr.initializer)) {
-				const role = roleAttr.initializer.text;
+			const role = roleProperty.initializer.text;
 
-				// Check if role is interactive
-				if (!interactiveRoles.has(role)) {
-					return;
-				}
-
-				// Check if this is an allowed exception
-				if (allowedExceptions[elementName]?.has(role)) {
-					return;
-				}
-
+			if (
+				interactiveRoles.has(role) &&
+				!allowedExceptions[elementName]?.has(role)
+			) {
 				context.report({
 					data: { element: elementName, role },
 					message: "invalidRole",
-					range: getTSNodeRange(roleAttr, context.sourceFile),
+					range: getTSNodeRange(roleProperty, context.sourceFile),
 				});
 			}
 		}
