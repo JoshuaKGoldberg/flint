@@ -1,7 +1,10 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	isGlobalDeclaration,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// Common DOM event handler properties that should use addEventListener instead
 const eventHandlerProperties = new Set([
 	"onabort",
 	"onanimationcancel",
@@ -107,14 +110,14 @@ export default typescriptLanguage.createRule({
 	messages: {
 		preferAddEventListener: {
 			primary:
-				"Prefer addEventListener over assigning to the `{{ property }}` property.",
+				"Prefer the multi-use `addEventListener` over assigning to the single-use `{{ property }}` property.",
 			secondary: [
-				"Using addEventListener provides more flexibility and follows modern DOM event handling practices.",
+				"Using `addEventListener` provides more flexibility and follows modern DOM event handling practices.",
 				"Event handler properties can only hold one function at a time, overwriting previous handlers.",
-				"addEventListener allows multiple listeners for the same event and provides options for capture phase and passive listeners.",
+				"`addEventListener` allows multiple listeners for the same event and provides options for capture phase and passive listeners.",
 			],
 			suggestions: [
-				"Replace with addEventListener('{{ eventType }}', handler) for better control and flexibility.",
+				"Replace with `addEventListener('{{ eventType }}', handler)` for better control and flexibility.",
 			],
 		},
 	},
@@ -122,28 +125,19 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				BinaryExpression(node: ts.BinaryExpression) {
-					// Check if this is an assignment
-					if (node.operatorToken.kind !== ts.SyntaxKind.EqualsToken) {
+					if (
+						node.operatorToken.kind !== ts.SyntaxKind.EqualsToken ||
+						!ts.isPropertyAccessExpression(node.left) ||
+						!eventHandlerProperties.has(node.left.name.text.toLowerCase()) ||
+						!isGlobalDeclaration(node.left, context.typeChecker)
+					) {
 						return;
 					}
 
-					// Check if the left side is a property access
-					if (!ts.isPropertyAccessExpression(node.left)) {
-						return;
-					}
-
-					const propertyName = node.left.name.text;
-
-					// Check if it's an event handler property
-					if (!eventHandlerProperties.has(propertyName)) {
-						return;
-					}
-
-					// Extract event type (remove 'on' prefix)
-					const eventType = propertyName.slice(2);
+					const eventType = node.left.name.text.slice(2);
 
 					context.report({
-						data: { eventType, property: propertyName },
+						data: { eventType, property: node.left.name.text },
 						message: "preferAddEventListener",
 						range: getTSNodeRange(node.left.name, context.sourceFile),
 					});

@@ -5,98 +5,114 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
+declare const element: HTMLElement;
 element.onclick = handler;
 `,
 			snapshot: `
+declare const element: HTMLElement;
 element.onclick = handler;
         ~~~~~~~
-        Prefer addEventListener over assigning to the \`onclick\` property.
+        Prefer the multi-use \`addEventListener\` over assigning to the single-use \`onclick\` property.
 `,
 		},
 		{
 			code: `
+declare const button: HTMLElement;
 button.onmousedown = function () {
     console.log("clicked");
 };
 `,
 			snapshot: `
+declare const button: HTMLElement;
 button.onmousedown = function () {
        ~~~~~~~~~~~
-       Prefer addEventListener over assigning to the \`onmousedown\` property.
+       Prefer the multi-use \`addEventListener\` over assigning to the single-use \`onmousedown\` property.
     console.log("clicked");
 };
 `,
 		},
 		{
 			code: `
+declare const window: HTMLElement;
 window.onload = () => {
     console.log("loaded");
 };
 `,
 			snapshot: `
+declare const window: HTMLElement;
 window.onload = () => {
        ~~~~~~
-       Prefer addEventListener over assigning to the \`onload\` property.
+       Prefer the multi-use \`addEventListener\` over assigning to the single-use \`onload\` property.
     console.log("loaded");
 };
 `,
 		},
 		{
 			code: `
+declare const document: HTMLElement;
 document.body.onkeypress = handleKeypress;
 `,
 			snapshot: `
+declare const document: HTMLElement;
 document.body.onkeypress = handleKeypress;
               ~~~~~~~~~~
-              Prefer addEventListener over assigning to the \`onkeypress\` property.
+              Prefer the multi-use \`addEventListener\` over assigning to the single-use \`onkeypress\` property.
 `,
 		},
 		{
 			code: `
+declare const form: HTMLElement;
 form.onsubmit = (event) => {
     event.preventDefault();
 };
 `,
 			snapshot: `
+declare const form: HTMLElement;
 form.onsubmit = (event) => {
      ~~~~~~~~
-     Prefer addEventListener over assigning to the \`onsubmit\` property.
+     Prefer the multi-use \`addEventListener\` over assigning to the single-use \`onsubmit\` property.
     event.preventDefault();
 };
 `,
 		},
 		{
 			code: `
+declare const video: HTMLElement;
 video.onpause = () => console.log("paused");
 `,
 			snapshot: `
+declare const video: HTMLElement;
 video.onpause = () => console.log("paused");
       ~~~~~~~
-      Prefer addEventListener over assigning to the \`onpause\` property.
+      Prefer the multi-use \`addEventListener\` over assigning to the single-use \`onpause\` property.
 `,
 		},
 		{
 			code: `
+declare const input: HTMLElement;
 input.oninput = function (event) {
     validate(event.target.value);
 };
 `,
 			snapshot: `
+declare const input: HTMLElement;
 input.oninput = function (event) {
       ~~~~~~~
-      Prefer addEventListener over assigning to the \`oninput\` property.
+      Prefer the multi-use \`addEventListener\` over assigning to the single-use \`oninput\` property.
     validate(event.target.value);
 };
 `,
 		},
 		{
 			code: `
+declare const element: HTMLElement;
 element.onmouseover = handler;
 `,
 			snapshot: `
+declare const element: HTMLElement;
 element.onmouseover = handler;
         ~~~~~~~~~~~
-        Prefer addEventListener over assigning to the \`onmouseover\` property.
+        Prefer the multi-use \`addEventListener\` over assigning to the single-use \`onmouseover\` property.
 `,
 		},
 	],
