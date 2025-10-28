@@ -7,28 +7,28 @@ ruleTester.describe(rule, {
 			code: `
 import { EventEmitter } from "events";
 
-class Foo extends EventEmitter {}
+class Derived extends EventEmitter {}
 `,
 			snapshot: `
 import { EventEmitter } from "events";
 
-class Foo extends EventEmitter {}
-                  ~~~~~~~~~~~~
-                  Prefer \`EventTarget\` over \`EventEmitter\`.
+class Derived extends EventEmitter {}
+                      ~~~~~~~~~~~~
+                      Prefer the cross-platform \`EventTarget\` over the Node.js-specific \`EventEmitter\`.
 `,
 		},
 		{
 			code: `
 import { EventEmitter } from "node:events";
 
-class Bar extends EventEmitter {}
+class Derived extends EventEmitter {}
 `,
 			snapshot: `
 import { EventEmitter } from "node:events";
 
-class Bar extends EventEmitter {}
-                  ~~~~~~~~~~~~
-                  Prefer \`EventTarget\` over \`EventEmitter\`.
+class Derived extends EventEmitter {}
+                      ~~~~~~~~~~~~
+                      Prefer the cross-platform \`EventTarget\` over the Node.js-specific \`EventEmitter\`.
 `,
 		},
 		{
@@ -42,7 +42,7 @@ import { EventEmitter } from "events";
 
 const emitter = new EventEmitter();
                     ~~~~~~~~~~~~
-                    Prefer \`EventTarget\` over \`EventEmitter\`.
+                    Prefer the cross-platform \`EventTarget\` over the Node.js-specific \`EventEmitter\`.
 `,
 		},
 		{
@@ -56,7 +56,7 @@ import { EventEmitter } from "node:events";
 
 const emitter = new EventEmitter();
                     ~~~~~~~~~~~~
-                    Prefer \`EventTarget\` over \`EventEmitter\`.
+                    Prefer the cross-platform \`EventTarget\` over the Node.js-specific \`EventEmitter\`.
 `,
 		},
 		{
@@ -70,7 +70,7 @@ import { EventEmitter as EE } from "events";
 
 class MyClass extends EE {}
                       ~~
-                      Prefer \`EventTarget\` over \`EventEmitter\`.
+                      Prefer the cross-platform \`EventTarget\` over the Node.js-specific \`EventEmitter\`.
 `,
 		},
 		{
@@ -84,16 +84,16 @@ import { EventEmitter as EE } from "events";
 
 const instance = new EE();
                      ~~
-                     Prefer \`EventTarget\` over \`EventEmitter\`.
+                     Prefer the cross-platform \`EventTarget\` over the Node.js-specific \`EventEmitter\`.
 `,
 		},
 	],
 	valid: [
-		`class Foo extends EventTarget {}`,
+		`class Derived extends EventTarget {}`,
 		`const target = new EventTarget();`,
 		`
 			import { EventEmitter } from "./custom-emitter";
-			class Foo extends EventEmitter {}
+			class Derived extends EventEmitter {}
 		`,
 		`
 			import { EventEmitter } from "./custom-emitter";
@@ -101,7 +101,7 @@ const instance = new EE();
 		`,
 		`
 			class EventEmitter {}
-			class Foo extends EventEmitter {}
+			class Derived extends EventEmitter {}
 		`,
 		`
 			class EventEmitter {}
@@ -109,7 +109,7 @@ const instance = new EE();
 		`,
 		`
 			import { EventTarget } from "events";
-			class Foo extends EventTarget {}
+			class Derived extends EventTarget {}
 		`,
 	],
 });
