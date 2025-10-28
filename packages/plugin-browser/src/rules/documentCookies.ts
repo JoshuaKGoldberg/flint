@@ -26,21 +26,18 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
-					const { expression, name } = node;
 					if (
-						!ts.isIdentifier(name) ||
-						name.text !== "cookie" ||
-						!ts.isIdentifier(expression) ||
-						expression.text !== "document" ||
-						!isGlobalDeclaration(expression, context.typeChecker)
+						ts.isIdentifier(node.name) &&
+						node.name.text === "cookie" &&
+						ts.isIdentifier(node.expression) &&
+						node.expression.text === "document" &&
+						isGlobalDeclaration(node.expression, context.typeChecker)
 					) {
-						return;
+						context.report({
+							message: "noCookie",
+							range: getTSNodeRange(node.name, context.sourceFile),
+						});
 					}
-
-					context.report({
-						message: "noCookie",
-						range: getTSNodeRange(name, context.sourceFile),
-					});
 				},
 			},
 		};
