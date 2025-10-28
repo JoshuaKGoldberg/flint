@@ -10,7 +10,7 @@ ruleTester.describe(rule, {
 			fileName: "file.tsx",
 			snapshot: `
 <div onClick={() => {}} />
-     ~~~~~~~~~~~~~~~~~~
+     ~~~~~~~
      This \`onClick\` is missing accompanying \`onKeyUp\`, \`onKeyDown\`, and/or \`onKeyPress\` keyboard events.
 `,
 		},
@@ -21,7 +21,7 @@ ruleTester.describe(rule, {
 			fileName: "file.tsx",
 			snapshot: `
 <span onClick={handler} />
-      ~~~~~~~~~~~~~~~~~
+      ~~~~~~~
       This \`onClick\` is missing accompanying \`onKeyUp\`, \`onKeyDown\`, and/or \`onKeyPress\` keyboard events.
 `,
 		},

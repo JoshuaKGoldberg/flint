@@ -44,7 +44,7 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			let onClickProperty: ts.JsxAttributeLike | undefined;
+			let onClickName: ts.JsxAttributeName | undefined;
 
 			for (const property of node.attributes.properties) {
 				if (ts.isJsxAttribute(property) && ts.isIdentifier(property.name)) {
@@ -56,16 +56,16 @@ export default typescriptLanguage.createRule({
 							return;
 
 						case "onClick":
-							onClickProperty = property;
+							onClickName = property.name;
 							break;
 					}
 				}
 			}
 
-			if (onClickProperty) {
+			if (onClickName) {
 				context.report({
 					message: "missingKeyEvent",
-					range: getTSNodeRange(onClickProperty, context.sourceFile),
+					range: getTSNodeRange(onClickName, context.sourceFile),
 				});
 			}
 		}
