@@ -97,7 +97,8 @@
 			"name": "eventListenerSubscriptions",
 			"plugin": "browser",
 			"preset": "Logical",
-			"strictness": "Strict"
+			"strictness": "Strict",
+			"implemented": true
 		},
 		"oxlint": [
 			{
