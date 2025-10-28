@@ -1435,7 +1435,8 @@
 			}
 		],
 		"flint": {
-			"name": "ruleSupportedAriaProps",
+			"implemented": true,
+			"name": "roleSupportedAriaProps",
 			"plugin": "jsx",
 			"preset": "Logical"
 		},
