@@ -1,15 +1,16 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
+// cspell:ignore idlist
 type AriaPropertyType =
 	| "boolean"
-	| "tristate"
+	| "id"
+	| "idlist"
 	| "integer"
 	| "number"
 	| "string"
 	| "token"
-	| "idlist"
-	| "id";
+	| "tristate";
 
 const ariaPropertyTypes: Record<string, AriaPropertyType> = {
 	"aria-activedescendant": "id",
@@ -63,15 +64,15 @@ const ariaPropertyTypes: Record<string, AriaPropertyType> = {
 };
 
 const tokenValues: Record<string, Set<string>> = {
-	"aria-autocomplete": new Set(["inline", "list", "both", "none"]),
+	"aria-autocomplete": new Set(["both", "inline", "list", "none"]),
 	"aria-current": new Set([
+		"date",
+		"false",
+		"location",
 		"page",
 		"step",
-		"location",
-		"date",
 		"time",
 		"true",
-		"false",
 	]),
 	"aria-dropeffect": new Set([
 		"copy",
@@ -82,15 +83,15 @@ const tokenValues: Record<string, Set<string>> = {
 		"popup",
 	]),
 	"aria-haspopup": new Set([
-		"false",
-		"true",
-		"menu",
-		"listbox",
-		"tree",
-		"grid",
 		"dialog",
+		"false",
+		"grid",
+		"listbox",
+		"menu",
+		"tree",
+		"true",
 	]),
-	"aria-invalid": new Set(["grammar", "false", "spelling", "true"]),
+	"aria-invalid": new Set(["false", "grammar", "spelling", "true"]),
 	"aria-live": new Set(["assertive", "off", "polite"]),
 	"aria-orientation": new Set(["horizontal", "undefined", "vertical"]),
 	"aria-relevant": new Set([
@@ -105,7 +106,7 @@ const tokenValues: Record<string, Set<string>> = {
 
 function getAttributeValue(
 	property: ts.JsxAttribute,
-): string | boolean | number | undefined {
+): boolean | number | string | undefined {
 	if (!property.initializer) {
 		return true;
 	}
@@ -140,9 +141,51 @@ function getAttributeValue(
 	return undefined;
 }
 
+function getExpectedValueDescription(
+	propertyName: string,
+	expectedType: AriaPropertyType,
+): string {
+	switch (expectedType) {
+		case "boolean":
+			return "true or false";
+
+		case "id":
+			return "an ID reference";
+
+		case "idlist":
+			return "a space-separated list of IDs";
+
+		case "integer":
+			return "an integer";
+
+		case "number":
+			return "a number";
+
+		case "string":
+			return "a string";
+
+		case "token": {
+			const validTokens = tokenValues[propertyName] as Set<string> | undefined;
+			if (validTokens !== undefined) {
+				const tokens = Array.from(validTokens).sort();
+				return tokens.length > 4
+					? `one of: ${tokens.slice(0, 4).join(", ")}, ...`
+					: `one of: ${tokens.join(", ")}`;
+			}
+			return "a valid token value";
+		}
+
+		case "tristate":
+			return "true, false, or mixed";
+
+		default:
+			return "a valid value";
+	}
+}
+
 function validatePropertyValue(
 	propertyName: string,
-	value: string | boolean | number | undefined,
+	value: boolean | number | string | undefined,
 	expectedType: AriaPropertyType,
 ): boolean {
 	if (value === undefined) {
@@ -155,13 +198,11 @@ function validatePropertyValue(
 				value === "true" || value === "false" || typeof value === "boolean"
 			);
 
-		case "tristate":
-			return (
-				value === "true" ||
-				value === "false" ||
-				value === "mixed" ||
-				typeof value === "boolean"
-			);
+		case "id":
+			return typeof value === "string" && value.length > 0;
+
+		case "idlist":
+			return typeof value === "string" && value.trim().length > 0;
 
 		case "integer":
 			if (typeof value === "number") {
@@ -190,52 +231,22 @@ function validatePropertyValue(
 			if (typeof value !== "string") {
 				return false;
 			}
-			const validTokens = tokenValues[propertyName];
-			return validTokens ? validTokens.has(value.toLowerCase()) : true;
+			const validTokens = tokenValues[propertyName] as Set<string> | undefined;
+			return validTokens !== undefined
+				? validTokens.has(value.toLowerCase())
+				: true;
 		}
 
-		case "id":
-			return typeof value === "string" && value.length > 0;
-
-		case "idlist":
-			return typeof value === "string" && value.trim().length > 0;
+		case "tristate":
+			return (
+				value === "true" ||
+				value === "false" ||
+				value === "mixed" ||
+				typeof value === "boolean"
+			);
 
 		default:
 			return true;
-	}
-}
-
-function getExpectedValueDescription(
-	propertyName: string,
-	expectedType: AriaPropertyType,
-): string {
-	switch (expectedType) {
-		case "boolean":
-			return "true or false";
-		case "tristate":
-			return "true, false, or mixed";
-		case "integer":
-			return "an integer";
-		case "number":
-			return "a number";
-		case "string":
-			return "a string";
-		case "token": {
-			const validTokens = tokenValues[propertyName];
-			if (validTokens) {
-				const tokens = Array.from(validTokens).sort();
-				return tokens.length > 4
-					? `one of: ${tokens.slice(0, 4).join(", ")}, ...`
-					: `one of: ${tokens.join(", ")}`;
-			}
-			return "a valid token value";
-		}
-		case "id":
-			return "an ID reference";
-		case "idlist":
-			return "a space-separated list of IDs";
-		default:
-			return "a valid value";
 	}
 }
 
@@ -271,8 +282,10 @@ export default typescriptLanguage.createRule({
 					continue;
 				}
 
-				const expectedType = ariaPropertyTypes[propertyName];
-				if (!expectedType) {
+				const expectedType = ariaPropertyTypes[propertyName] as
+					| AriaPropertyType
+					| undefined;
+				if (expectedType === undefined) {
 					continue;
 				}
 
