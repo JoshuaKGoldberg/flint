@@ -15,6 +15,7 @@ import htmlLangs from "./rules/htmlLangs.js";
 import iframeTitles from "./rules/iframeTitles.js";
 import mediaCaptions from "./rules/mediaCaptions.js";
 import mouseEventKeyEvents from "./rules/mouseEventKeyEvents.js";
+import roleRedundancies from "./rules/roleRedundancies.js";
 import scopeProps from "./rules/scopeProps.js";
 import staticElementInteractions from "./rules/staticElementInteractions.js";
 import tabIndexPositiveValues from "./rules/tabIndexPositiveValues.js";
@@ -37,6 +38,7 @@ export const jsx = createPlugin({
 		iframeTitles,
 		mediaCaptions,
 		mouseEventKeyEvents,
+		roleRedundancies,
 		scopeProps,
 		staticElementInteractions,
 		tabIndexPositiveValues,
