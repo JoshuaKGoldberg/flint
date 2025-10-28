@@ -1,9 +1,8 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 
-import {
-	getRuleTesterDescribedCases,
-	ParsedTestCase,
-} from "./getRuleTesterDescribedCases.js";
+import type { ParsedTestCase } from "../types.js";
+
+import { getRuleTesterDescribedCases } from "../getRuleTesterDescribedCases.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -39,7 +38,7 @@ export default typescriptLanguage.createRule({
 				if (seen.has(key)) {
 					context.report({
 						message: "duplicateTest",
-						range: getTSNodeRange(testCase.node, context.sourceFile),
+						range: getTSNodeRange(testCase.nodes.case, context.sourceFile),
 					});
 				} else {
 					seen.add(key);
