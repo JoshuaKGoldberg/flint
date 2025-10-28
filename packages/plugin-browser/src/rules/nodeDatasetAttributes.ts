@@ -13,7 +13,9 @@ function convertDataAttributeToDatasetKey(
 		return undefined;
 	}
 
-	return suffix.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+	return suffix.replace(/-([a-z])/g, (_match, letter: string) =>
+		letter.toUpperCase(),
+	);
 }
 
 function getMethodDetails(node: ts.CallExpression) {
@@ -80,12 +82,11 @@ export default typescriptLanguage.createRule({
 
 					const { expression, methodName, methodNode } = details;
 
-					const [firstArg, secondArg] = node.arguments;
-					if (!firstArg) {
+					if (node.arguments.length === 0) {
 						return;
 					}
 
-					const attributeName = getStringLiteralValue(firstArg);
+					const attributeName = getStringLiteralValue(node.arguments[0]);
 					if (!attributeName) {
 						return;
 					}
@@ -100,15 +101,14 @@ export default typescriptLanguage.createRule({
 					const symbol = type.getSymbol();
 					if (symbol) {
 						const declarations = symbol.getDeclarations();
-						if (
-							declarations &&
-							declarations.length > 0 &&
-							!declarations.some((decl) => {
+						if (declarations) {
+							const hasDomDeclaration = declarations.some((decl) => {
 								const sourceFile = decl.getSourceFile();
 								return sourceFile.fileName.includes("lib.dom");
-							})
-						) {
-							return;
+							});
+							if (!hasDomDeclaration) {
+								return;
+							}
 						}
 					}
 
@@ -117,26 +117,22 @@ export default typescriptLanguage.createRule({
 					let current: string;
 					let suggestion: string;
 
-					switch (methodName) {
-						case "getAttribute":
-							current = `${elementText}.getAttribute('${attributeName}')`;
-							suggestion = `${elementText}.dataset.${datasetKey}`;
-							break;
-						case "setAttribute":
-							if (!secondArg) {
-								return;
-							}
-							current = `${elementText}.setAttribute('${attributeName}', ...)`;
-							suggestion = `${elementText}.dataset.${datasetKey} = ...`;
-							break;
-						case "removeAttribute":
-							current = `${elementText}.removeAttribute('${attributeName}')`;
-							suggestion = `delete ${elementText}.dataset.${datasetKey}`;
-							break;
-						case "hasAttribute":
-							current = `${elementText}.hasAttribute('${attributeName}')`;
-							suggestion = `'${datasetKey}' in ${elementText}.dataset`;
-							break;
+					if (methodName === "getAttribute") {
+						current = `${elementText}.getAttribute('${attributeName}')`;
+						suggestion = `${elementText}.dataset.${datasetKey}`;
+					} else if (methodName === "hasAttribute") {
+						current = `${elementText}.hasAttribute('${attributeName}')`;
+						suggestion = `'${datasetKey}' in ${elementText}.dataset`;
+					} else if (methodName === "removeAttribute") {
+						current = `${elementText}.removeAttribute('${attributeName}')`;
+						suggestion = `delete ${elementText}.dataset.${datasetKey}`;
+					} else {
+						// setAttribute
+						if (node.arguments.length < 2) {
+							return;
+						}
+						current = `${elementText}.setAttribute('${attributeName}', ...)`;
+						suggestion = `${elementText}.dataset.${datasetKey} = ...`;
 					}
 
 					context.report({
