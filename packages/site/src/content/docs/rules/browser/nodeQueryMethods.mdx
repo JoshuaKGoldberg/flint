@@ -54,7 +54,8 @@ const divs = document.querySelectorAll("div");
 ```
 
 ```typescript
-const elements = document.querySelectorAll("div");
+// For namespaced elements, use attribute selectors or specific namespaced query methods
+const svgElements = document.querySelectorAll('svg, [xmlns*="svg"]');
 ```
 
 </TabItem>
