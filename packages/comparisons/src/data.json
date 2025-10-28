@@ -112,6 +112,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "implicitGlobals",
 			"plugin": "browser",
 			"preset": "Logical"

@@ -1,0 +1,78 @@
+---
+description: "Disallow declarations in the global scope that implicitly create properties on the global object."
+title: "implicitGlobals"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="browser" rule="implicitGlobals" />
+
+In browser scripts (non-modules), top-level `var` declarations and function declarations create properties on the global object (window).
+This can lead to naming conflicts, makes code harder to maintain, and pollutes the global namespace.
+
+Modern JavaScript code should use ES modules or other patterns to avoid creating implicit globals.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```js
+var globalVariable = 42;
+
+var x = 1,
+	y = 2;
+
+function globalFunction() {
+	return "This becomes window.globalFunction";
+}
+
+var { a, b } = object;
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```js
+// Use const or let (they don't create global properties)
+const localConstant = 42;
+let localVariable = 42;
+
+// Use modules
+export const moduleVariable = 42;
+
+// Use an IIFE
+(function () {
+	var privateVariable = 42;
+})();
+
+// In a module context (with any export)
+var moduleScoped = 42;
+export {};
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you are working in a legacy codebase that intentionally uses global variables, or if you are writing code that must run as a script (not a module) and needs to expose globals, you might disable this rule.
+For modern applications, prefer using modules and explicit exports.
+
+## Further Reading
+
+- [MDN: `var`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var)
+- [MDN: JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
+- [MDN: Global object](https://developer.mozilla.org/en-US/docs/Glossary/Global_object)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="browser" ruleId="implicitGlobals" />
