@@ -1,0 +1,64 @@
+---
+description: "Prefer modern DOM append/prepend methods over appendChild/insertBefore."
+title: "nodeAppendMethods"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="browser" rule="nodeAppendMethods" />
+
+The legacy DOM methods `appendChild()` and `insertBefore()` have been superseded by the more modern and flexible `append()` and `prepend()` methods.
+The modern methods accept multiple nodes and strings, making them more versatile and readable, while the legacy methods only accept a single Node.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```js
+element.appendChild(child);
+
+parent.insertBefore(newNode, referenceNode);
+
+document.body.appendChild(element);
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```js
+element.append(child);
+
+parent.prepend(newNode);
+
+document.body.append(element);
+
+// Modern methods can accept multiple nodes and strings
+element.append(child1, child2, "text");
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you need to support very old browsers that do not implement `append()` and `prepend()` (Internet Explorer 11 and older), you may need to continue using the legacy methods or use a polyfill.
+
+## Further Reading
+
+- [MDN: `Element.append()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/append)
+- [MDN: `Element.prepend()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/prepend)
+- [MDN: `Node.appendChild()`](https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild)
+- [MDN: `Node.insertBefore()`](https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="browser" ruleId="nodeAppendMethods" />
