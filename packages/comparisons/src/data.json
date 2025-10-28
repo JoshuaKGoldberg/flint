@@ -796,6 +796,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "anchorContent",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -909,7 +910,8 @@
 			}
 		],
 		"flint": {
-			"name": "ariaRoles",
+			"implemented": true,
+			"name": "ariaRoleValidity",
 			"plugin": "jsx",
 			"preset": "Logical"
 		},
@@ -1043,6 +1045,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "clickEventKeyEvents",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1351,6 +1354,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nonInteractiveElementTabIndexes",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1370,6 +1374,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "roleRedundancies",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1408,6 +1413,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "roleTags",
 			"plugin": "jsx",
 			"preset": "Logical",
@@ -1467,6 +1473,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "staticElementInteractions",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -6712,6 +6719,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "emptyBlocks",
 			"plugin": "ts",
 			"preset": "Stylistic"
@@ -15012,6 +15020,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unnecessaryBlocks",
 			"plugin": "ts",
 			"preset": "Stylistic"
@@ -15130,7 +15139,8 @@
 			}
 		],
 		"flint": {
-			"name": "unnecessaryConcatentation",
+			"implemented": true,
+			"name": "unnecessaryConcatenation",
 			"plugin": "ts",
 			"preset": "Stylistic"
 		},
