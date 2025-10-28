@@ -43,104 +43,70 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function getHrefValue(
-			attributes: ts.JsxAttributes,
-		): null | string | undefined {
-			const hrefAttr = attributes.properties.find(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "href",
+		function getHrefValue(attributes: ts.JsxAttributes) {
+			const hrefProperty = attributes.properties.find(
+				(property) =>
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text === "href",
 			);
 
-			if (!hrefAttr || !ts.isJsxAttribute(hrefAttr)) {
-				return undefined; // No href attribute
+			if (!hrefProperty || !ts.isJsxAttribute(hrefProperty)) {
+				return undefined;
 			}
 
-			if (!hrefAttr.initializer) {
-				return null; // href with no value
+			if (
+				hrefProperty.initializer &&
+				ts.isStringLiteral(hrefProperty.initializer)
+			) {
+				return hrefProperty.initializer.text;
 			}
 
-			if (ts.isStringLiteral(hrefAttr.initializer)) {
-				return hrefAttr.initializer.text;
-			}
-
-			// JSX expression - we can't determine the value
-			return null;
+			return "";
 		}
 
-		function hasOnClick(attributes: ts.JsxAttributes): boolean {
+		function hasOnClick(attributes: ts.JsxAttributes) {
 			return attributes.properties.some(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "onClick",
+				(property) =>
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text === "onClick",
 			);
 		}
 
-		function isInvalidHref(href: string): boolean {
-			return (
-				href === "#" ||
-				href === "javascript:void(0)" ||
-				href === "javascript:void(0);" ||
-				href.startsWith("javascript:")
-			);
+		function isInvalidHref(href: string) {
+			return href === "#" || href.startsWith("javascript:");
 		}
 
-		function checkAnchor(
-			element: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
-		) {
-			if (!ts.isIdentifier(element.tagName) || element.tagName.text !== "a") {
+		function checkAnchor(node: ts.JsxOpeningLikeElement) {
+			if (!ts.isIdentifier(node.tagName) || node.tagName.text !== "a") {
 				return;
 			}
 
-			const href = getHrefValue(element.attributes);
-			const hasClick = hasOnClick(element.attributes);
+			const href = getHrefValue(node.attributes);
+			const hasClick = hasOnClick(node.attributes);
 
-			// No href attribute
 			if (href === undefined) {
-				if (hasClick) {
-					context.report({
-						message: "shouldBeButton",
-						range: getTSNodeRange(element, context.sourceFile),
-					});
-				} else {
-					context.report({
-						message: "missingHref",
-						range: getTSNodeRange(element, context.sourceFile),
-					});
-				}
+				context.report({
+					message: hasClick ? "shouldBeButton" : "missingHref",
+					range: getTSNodeRange(node, context.sourceFile),
+				});
 				return;
 			}
 
-			// href exists and is a string literal
-			if (typeof href === "string") {
-				if (isInvalidHref(href)) {
-					if (hasClick) {
-						context.report({
-							data: { href },
-							message: "shouldBeButton",
-							range: getTSNodeRange(element, context.sourceFile),
-						});
-					} else {
-						context.report({
-							data: { href },
-							message: "invalidHref",
-							range: getTSNodeRange(element, context.sourceFile),
-						});
-					}
-				}
+			if (typeof href === "string" && isInvalidHref(href)) {
+				context.report({
+					data: { href },
+					message: hasClick ? "shouldBeButton" : "invalidHref",
+					range: getTSNodeRange(node, context.sourceFile),
+				});
 			}
 		}
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkAnchor(node);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkAnchor(node);
-				},
+				JsxOpeningElement: checkAnchor,
+				JsxSelfClosingElement: checkAnchor,
 			},
 		};
 	},

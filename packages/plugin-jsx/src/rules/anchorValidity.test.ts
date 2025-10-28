@@ -4,39 +4,59 @@ import { ruleTester } from "./ruleTester.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `<a />`,
+			code: `
+<a />
+`,
 			fileName: "file.tsx",
-			snapshot: `<a />
+			snapshot: `
+<a />
 ~~~~~
-Anchor element is missing an href attribute.`,
+Anchor element is missing an href attribute.
+`,
 		},
 		{
-			code: `<a href="#" />`,
+			code: `
+<a href="#" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<a href="#" />
+			snapshot: `
+<a href="#" />
 ~~~~~~~~~~~~~~
-Anchor has an invalid href value '#'.`,
+Anchor has an invalid href value '#'.
+`,
 		},
 		{
-			code: `<a href="javascript:void(0)" />`,
+			code: `
+<a href="javascript:void(0)" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<a href="javascript:void(0)" />
+			snapshot: `
+<a href="javascript:void(0)" />
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Anchor has an invalid href value 'javascript:void(0)'.`,
+Anchor has an invalid href value 'javascript:void(0)'.
+`,
 		},
 		{
-			code: `<a onClick={() => {}} />`,
+			code: `
+<a onClick={() => {}} />
+`,
 			fileName: "file.tsx",
-			snapshot: `<a onClick={() => {}} />
+			snapshot: `
+<a onClick={() => {}} />
 ~~~~~~~~~~~~~~~~~~~~~~~~
-Anchor with onClick handler should be a button.`,
+Anchor with onClick handler should be a button.
+`,
 		},
 		{
-			code: `<a href="#" onClick={() => {}} />`,
+			code: `
+<a href="#" onClick={() => {}} />
+`,
 			fileName: "file.tsx",
-			snapshot: `<a href="#" onClick={() => {}} />
+			snapshot: `
+<a href="#" onClick={() => {}} />
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Anchor with onClick handler should be a button.`,
+Anchor with onClick handler should be a button.
+`,
 		},
 	],
 	valid: [
@@ -49,5 +69,6 @@ Anchor with onClick handler should be a button.`,
 			fileName: "file.tsx",
 		},
 		{ code: `<a href={someVariable} />`, fileName: "file.tsx" },
+		{ code: `<CustomElement href={false} />`, fileName: "file.tsx" },
 	],
 });
