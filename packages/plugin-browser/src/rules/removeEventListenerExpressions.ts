@@ -36,6 +36,7 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
+					// removeEventListener requires at least 2 arguments: event type and listener
 					if (node.arguments.length < 2) {
 						return;
 					}
