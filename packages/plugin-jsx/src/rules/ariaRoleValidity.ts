@@ -1,7 +1,7 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-const validariaRoleValidity = new Set([
+const validAriaRoles = new Set([
 	"alert",
 	"alertdialog",
 	"application",
@@ -118,7 +118,7 @@ export default typescriptLanguage.createRule({
 
 			const role = roleProperty.initializer.text.trim();
 
-			if (!role || !validariaRoleValidity.has(role)) {
+			if (!role || !validAriaRoles.has(role)) {
 				context.report({
 					data: { role: role || "(empty)" },
 					message: "invalidRole",
