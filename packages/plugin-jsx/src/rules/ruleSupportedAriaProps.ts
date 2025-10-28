@@ -25,7 +25,7 @@ const globalAriaProperties = new Set([
 	"aria-roledescription",
 ]);
 
-const roleToSupportedProps: Record<string, Set<string>> = {
+const roleToSupportedProps: Partial<Record<string, Set<string>>> = {
 	alert: new Set(["aria-expanded"]),
 	alertdialog: new Set(["aria-expanded", "aria-modal"]),
 	application: new Set(["aria-activedescendant", "aria-expanded"]),
@@ -358,8 +358,11 @@ const implicitRoles: Record<string, string> = {
 };
 
 function getSupportedPropsForRole(role: string): Set<string> {
-	const roleProps = roleToSupportedProps[role] || new Set<string>();
-	return new Set([...globalAriaProperties, ...roleProps]);
+	const roleProps = roleToSupportedProps[role];
+	if (roleProps) {
+		return new Set([...globalAriaProperties, ...roleProps]);
+	}
+	return new Set(globalAriaProperties);
 }
 
 export default typescriptLanguage.createRule({

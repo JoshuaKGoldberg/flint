@@ -38,10 +38,16 @@
 		"Focusables",
 		"joshuakgoldberg",
 		"mdast",
+		"menuitemcheckbox",
+		"menuitemradio",
 		"nord",
 		"Oxlint",
+		"roletype",
+		"sectionhead",
 		"shiki",
 		"shikijs",
+		"spinbutton",
+		"treegrid",
 		"WHATWG"
 	]
 }
