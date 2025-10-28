@@ -1071,9 +1071,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "commentTextNodes",
 			"plugin": "jsx",
-			"preset": "Not implementing"
+			"preset": "logical"
 		}
 	},
 	{
