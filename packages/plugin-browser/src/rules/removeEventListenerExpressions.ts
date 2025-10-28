@@ -36,11 +36,14 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
+					if (node.arguments.length < 2) {
+						return;
+					}
+
 					const listener = node.arguments[1];
 					if (
-						listener === undefined ||
-						(!ts.isArrowFunction(listener) &&
-							!ts.isFunctionExpression(listener))
+						!ts.isArrowFunction(listener) &&
+						!ts.isFunctionExpression(listener)
 					) {
 						return;
 					}
