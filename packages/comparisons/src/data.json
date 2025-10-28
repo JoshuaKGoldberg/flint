@@ -72,6 +72,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "eventClasses",
 			"plugin": "browser",
 			"preset": "Logical",
