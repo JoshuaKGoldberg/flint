@@ -1429,6 +1429,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "ruleSupportedAriaProps",
 			"plugin": "jsx",
 			"preset": "Logical"
