@@ -4,44 +4,56 @@ import { ruleTester } from "./ruleTester.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `<img src="foo.jpg" />`,
+			code: `
+<img src="foo.jpg" />`,
 			fileName: "file.tsx",
-			snapshot: `<img src="foo.jpg" />
+			snapshot: `
+<img src="foo.jpg" />
  ~~~
  img element is missing alt text for non-visual users.`,
 		},
 		{
-			code: `<img src="foo.jpg" alt />`,
+			code: `
+<img src="foo.jpg" alt />`,
 			fileName: "file.tsx",
-			snapshot: `<img src="foo.jpg" alt />
+			snapshot: `
+<img src="foo.jpg" alt />
  ~~~
  img element is missing alt text for non-visual users.`,
 		},
 		{
-			code: `<img src="foo.jpg" alt={undefined} />`,
+			code: `
+<img src="foo.jpg" alt={undefined} />`,
 			fileName: "file.tsx",
-			snapshot: `<img src="foo.jpg" alt={undefined} />
+			snapshot: `
+<img src="foo.jpg" alt={undefined} />
  ~~~
  img element is missing alt text for non-visual users.`,
 		},
 		{
-			code: `<area href="#" />`,
+			code: `
+<area href="#" />`,
 			fileName: "file.tsx",
-			snapshot: `<area href="#" />
+			snapshot: `
+<area href="#" />
  ~~~~
  area element is missing alt text for non-visual users.`,
 		},
 		{
-			code: `<input type="image" src="submit.png" />`,
+			code: `
+<input type="image" src="submit.png" />`,
 			fileName: "file.tsx",
-			snapshot: `<input type="image" src="submit.png" />
+			snapshot: `
+<input type="image" src="submit.png" />
  ~~~~~
  input[type='image'] element is missing alt text for non-visual users.`,
 		},
 		{
-			code: `<object data="movie.mp4" />`,
+			code: `
+<object data="movie.mp4" />`,
 			fileName: "file.tsx",
-			snapshot: `<object data="movie.mp4" />
+			snapshot: `
+<object data="movie.mp4" />
  ~~~~~~
  object element is missing alt text for non-visual users.`,
 		},
