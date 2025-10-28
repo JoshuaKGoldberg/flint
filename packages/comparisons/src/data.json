@@ -1255,6 +1255,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "langValidity",
 			"plugin": "jsx",
 			"preset": "Logical",
