@@ -38,7 +38,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		preferSemanticElement: {
 			primary:
-				"<{{ currentElement }}> with role='{{ role }}' is a less-accessible equivalent of <{{ semanticElement }}>.",
+				"<{{ currentElement }}> with role='{{ role }}' is a less-accessible equivalent to <{{ semanticElement }}>.",
 			secondary: [
 				"Semantic HTML elements have built-in accessibility features.",
 				"Using native elements is more maintainable than ARIA roles.",

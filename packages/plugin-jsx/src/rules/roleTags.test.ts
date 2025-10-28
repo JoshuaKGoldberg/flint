@@ -11,7 +11,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="button" />
      ~~~~~~~~~~~~~
-     <div> with role='button' is a less-accessible equivalent of <button>.
+     <div> with role='button' is a less-accessible equivalent to <button>.
 `,
 		},
 		{
@@ -22,7 +22,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="img" />
      ~~~~~~~~~~
-     <div> with role='img' is a less-accessible equivalent of <img>.
+     <div> with role='img' is a less-accessible equivalent to <img>.
 `,
 		},
 		{
@@ -33,7 +33,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <span role="link" />
       ~~~~~~~~~~~
-      <span> with role='link' is a less-accessible equivalent of <a>.
+      <span> with role='link' is a less-accessible equivalent to <a>.
 `,
 		},
 		{
@@ -44,7 +44,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="navigation" />
      ~~~~~~~~~~~~~~~~~
-     <div> with role='navigation' is a less-accessible equivalent of <nav>.
+     <div> with role='navigation' is a less-accessible equivalent to <nav>.
 `,
 		},
 	],
