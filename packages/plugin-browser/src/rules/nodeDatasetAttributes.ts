@@ -102,11 +102,11 @@ export default typescriptLanguage.createRule({
 					if (symbol) {
 						const declarations = symbol.getDeclarations();
 						if (declarations) {
-							const hasDomDeclaration = declarations.some((decl) => {
-								const sourceFile = decl.getSourceFile();
-								return sourceFile.fileName.includes("lib.dom");
-							});
-							if (!hasDomDeclaration) {
+							if (
+								!declarations.some((decl) =>
+									decl.getSourceFile().fileName.includes("lib.dom"),
+								)
+							) {
 								return;
 							}
 						}
