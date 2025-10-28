@@ -1331,6 +1331,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nonInteractiveElementInteractions",
 			"plugin": "jsx",
 			"preset": "Logical"
