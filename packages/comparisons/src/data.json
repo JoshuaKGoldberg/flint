@@ -33,6 +33,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "classListToggles",
 			"plugin": "browser",
 			"preset": "Stylistic"
