@@ -82,10 +82,8 @@ export default typescriptLanguage.createRule({
 					}
 
 					// Only flag 'var' declarations, not 'let' or 'const'
-					if (
-						!(node.declarationList.flags & ts.NodeFlags.Let) &&
-						!(node.declarationList.flags & ts.NodeFlags.Const)
-					) {
+					// BlockScoped includes both Let and Const flags
+					if (!(node.declarationList.flags & ts.NodeFlags.BlockScoped)) {
 						// Report each variable declaration
 						for (const declaration of node.declarationList.declarations) {
 							if (ts.isIdentifier(declaration.name)) {
