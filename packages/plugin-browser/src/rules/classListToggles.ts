@@ -23,12 +23,12 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function getClassListMethodCall(node: ts.Node):
+			| undefined
 			| {
 					className: string;
 					method: "add" | "remove";
 					methodNode: ts.Identifier;
-			  }
-			| undefined {
+			  } {
 			if (!ts.isExpressionStatement(node)) {
 				return undefined;
 			}
@@ -76,14 +76,14 @@ export default typescriptLanguage.createRule({
 
 			return {
 				className: arg.text,
-				method: method.text as "add" | "remove",
+				method: method.text,
 				methodNode: method,
 			};
 		}
 
 		function getObjectAndClassName(
 			node: ts.Node,
-		): { object: string; className: string } | undefined {
+		): undefined | { className: string; object: string } {
 			const call = getClassListMethodCall(node);
 			if (!call) {
 				return undefined;
