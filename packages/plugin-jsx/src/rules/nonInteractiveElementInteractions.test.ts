@@ -71,13 +71,13 @@ ruleTester.describe(rule, {
 		},
 		{
 			code: `
-<div onClick={handler} role="article" />
+<section onClick={handler} role="article" />
 `,
 			fileName: "file.tsx",
 			snapshot: `
-<div onClick={handler} role="article" />
- ~~~
- Non-interactive element <div> should not have interactive event handlers.
+<section onClick={handler} role="article" />
+ ~~~~~~~
+ Non-interactive element <section> should not have interactive event handlers.
 `,
 		},
 	],
