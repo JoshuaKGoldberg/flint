@@ -7,6 +7,7 @@ import anchorValidity from "./rules/anchorValidity.js";
 import ariaActiveDescendantTabIndex from "./rules/ariaActiveDescendantTabIndex.js";
 import ariaHiddenFocusables from "./rules/ariaHiddenFocusables.js";
 import ariaProps from "./rules/ariaProps.js";
+import ariaPropTypes from "./rules/ariaPropTypes.js";
 import ariaRoleValidity from "./rules/ariaRoleValidity.js";
 import ariaUnsupportedElements from "./rules/ariaUnsupportedElements.js";
 import autoFocusProps from "./rules/autoFocusProps.js";
@@ -38,6 +39,7 @@ export const jsx = createPlugin({
 		ariaActiveDescendantTabIndex,
 		ariaHiddenFocusables,
 		ariaProps,
+		ariaPropTypes,
 		ariaRoleValidity,
 		ariaUnsupportedElements,
 		autoFocusProps,
