@@ -1,8 +1,6 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// cspell:disable -- ARIA role names are correct
-// Non-interactive elements that should not have positive/zero tabIndex
 const nonInteractiveElements = new Set([
 	"article",
 	"aside",
@@ -30,7 +28,6 @@ const nonInteractiveElements = new Set([
 	"ul",
 ]);
 
-// Interactive roles that can have tabIndex
 const interactiveRoles = new Set([
 	"button",
 	"checkbox",
@@ -58,7 +55,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		nonInteractiveTabIndex: {
 			primary:
-				"Non-interactive element <{{ element }}> should not have a tabIndex of {{ tabIndex }}.",
+				"Non-interactive element `<{{ element }}>` should not have an explicit, non-negative `tabIndex`.",
 			secondary: [
 				"Tab navigation should be limited to interactive elements.",
 				"Non-interactive elements with tabIndex add unnecessary stops in the tab order.",
@@ -72,102 +69,89 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function getTabIndexValue(attr: ts.JsxAttribute): null | number {
+		function getTabIndexValue(attr: ts.JsxAttribute) {
 			if (!attr.initializer) {
-				return null;
+				return undefined;
 			}
 
-			// String literal: tabIndex="0"
 			if (ts.isStringLiteral(attr.initializer)) {
 				const value = parseInt(attr.initializer.text, 10);
-				return isNaN(value) ? null : value;
+				return isNaN(value) ? undefined : value;
 			}
 
-			// JSX expression: tabIndex={0}
 			if (ts.isJsxExpression(attr.initializer)) {
 				const expr = attr.initializer.expression;
 				if (expr && ts.isNumericLiteral(expr)) {
 					const value = parseInt(expr.text, 10);
-					return isNaN(value) ? null : value;
+					return isNaN(value) ? undefined : value;
 				}
 			}
 
-			return null;
+			return undefined;
 		}
 
-		function getRoleValue(attributes: ts.JsxAttributes): null | string {
-			const roleAttr = attributes.properties.find(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "role",
+		function getRoleValue(attributes: ts.JsxAttributes) {
+			const roleProperty = attributes.properties.find(
+				(property) =>
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text === "role",
 			);
 
 			if (
-				roleAttr &&
-				ts.isJsxAttribute(roleAttr) &&
-				roleAttr.initializer &&
-				ts.isStringLiteral(roleAttr.initializer)
+				roleProperty &&
+				ts.isJsxAttribute(roleProperty) &&
+				roleProperty.initializer &&
+				ts.isStringLiteral(roleProperty.initializer)
 			) {
-				return roleAttr.initializer.text;
+				return roleProperty.initializer.text;
 			}
 
-			return null;
+			return undefined;
 		}
 
-		function checkTabIndex(
-			tagName: ts.JsxTagNameExpression,
-			attributes: ts.JsxAttributes,
-		) {
-			if (!ts.isIdentifier(tagName)) {
+		function checkTabIndex(node: ts.JsxOpeningLikeElement) {
+			if (!ts.isIdentifier(node.tagName)) {
 				return;
 			}
 
-			const elementName = tagName.text.toLowerCase();
+			const elementName = node.tagName.text.toLowerCase();
 
-			// Skip if not a non-interactive element
 			if (!nonInteractiveElements.has(elementName)) {
 				return;
 			}
 
-			// Check if element has an interactive role
-			const role = getRoleValue(attributes);
+			const role = getRoleValue(node.attributes);
 			if (role && interactiveRoles.has(role)) {
-				return; // Interactive role makes it okay
-			}
-
-			// Find tabIndex attribute
-			const tabIndexAttr = attributes.properties.find(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "tabIndex",
-			);
-
-			if (!tabIndexAttr || !ts.isJsxAttribute(tabIndexAttr)) {
 				return;
 			}
 
-			const tabIndexValue = getTabIndexValue(tabIndexAttr);
+			const tabIndexProperty = node.attributes.properties.find(
+				(property) =>
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text === "tabIndex",
+			);
 
-			// Report if tabIndex is 0 or positive
-			if (tabIndexValue !== null && tabIndexValue >= 0) {
+			if (!tabIndexProperty || !ts.isJsxAttribute(tabIndexProperty)) {
+				return;
+			}
+
+			const tabIndexValue = getTabIndexValue(tabIndexProperty);
+
+			if (tabIndexValue !== undefined && tabIndexValue >= 0) {
 				context.report({
-					data: { element: elementName, tabIndex: String(tabIndexValue) },
+					data: { element: elementName },
 					message: "nonInteractiveTabIndex",
-					range: getTSNodeRange(tabIndexAttr, context.sourceFile),
+					range: getTSNodeRange(tabIndexProperty, context.sourceFile),
 				});
 			}
 		}
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkTabIndex(node.tagName, node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkTabIndex(node.tagName, node.attributes);
-				},
+				JsxOpeningElement: checkTabIndex,
+				JsxSelfClosingElement: checkTabIndex,
 			},
 		};
 	},
