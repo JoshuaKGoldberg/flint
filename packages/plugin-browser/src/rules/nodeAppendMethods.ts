@@ -11,11 +11,10 @@ export default typescriptLanguage.createRule({
 			"Prefer modern DOM append/prepend methods over appendChild/insertBefore.",
 		id: "nodeAppendMethods",
 		preset: "logical",
-		strictness: "strict",
 	},
 	messages: {
 		preferAppend: {
-			primary: "Prefer `append()` over `{{ method }}()`.",
+			primary: "`append()` is more modern and flexible than `{{ method }}()`.",
 			secondary: [
 				"The modern `append()` method is more flexible and readable.",
 				"It accepts multiple nodes and strings, while the legacy method only accepts a single Node.",
@@ -23,7 +22,7 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Use `append()` instead of `{{ method }}()`."],
 		},
 		preferPrepend: {
-			primary: "Prefer `prepend()` over `insertBefore()`.",
+			primary: "`prepend()` is more modern and flexible than `insertBefore()`.",
 			secondary: [
 				"The modern `prepend()` method is more flexible and readable.",
 				"It accepts multiple nodes and strings, while `insertBefore()` only accepts a single Node.",

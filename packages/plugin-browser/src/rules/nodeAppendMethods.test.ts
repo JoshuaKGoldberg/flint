@@ -12,7 +12,7 @@ element.appendChild(child);
 declare const element: HTMLElement;
 element.appendChild(child);
         ~~~~~~~~~~~
-        Prefer \`append()\` over \`appendChild()\`.
+        \`append()\` is more modern and flexible than \`appendChild()\`.
 `,
 		},
 		{
@@ -24,7 +24,7 @@ node.insertBefore(child, null);
 declare const node: HTMLElement;
 node.insertBefore(child, null);
      ~~~~~~~~~~~~
-     Prefer \`append()\` over \`insertBefore()\`.
+     \`append()\` is more modern and flexible than \`insertBefore()\`.
 `,
 		},
 		{
@@ -36,7 +36,7 @@ node.insertBefore(child, parent.firstChild);
 declare const node: HTMLElement;
 node.insertBefore(child, parent.firstChild);
      ~~~~~~~~~~~~
-     Prefer \`prepend()\` over \`insertBefore()\`.
+     \`prepend()\` is more modern and flexible than \`insertBefore()\`.
 `,
 		},
 		{
@@ -46,7 +46,7 @@ document.body.appendChild(element);
 			snapshot: `
 document.body.appendChild(element);
               ~~~~~~~~~~~
-              Prefer \`append()\` over \`appendChild()\`.
+              \`append()\` is more modern and flexible than \`appendChild()\`.
 `,
 		},
 	],
