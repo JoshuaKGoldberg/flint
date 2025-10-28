@@ -1467,6 +1467,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "staticElementInteractions",
 			"plugin": "jsx",
 			"preset": "Logical"

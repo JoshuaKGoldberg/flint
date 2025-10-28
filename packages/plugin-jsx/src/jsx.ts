@@ -15,6 +15,7 @@ import iframeTitles from "./rules/iframeTitles.js";
 import mediaCaptions from "./rules/mediaCaptions.js";
 import mouseEventKeyEvents from "./rules/mouseEventKeyEvents.js";
 import scopeProps from "./rules/scopeProps.js";
+import staticElementInteractions from "./rules/staticElementInteractions.js";
 import tabIndexPositiveValues from "./rules/tabIndexPositiveValues.js";
 
 export const jsx = createPlugin({
@@ -35,6 +36,7 @@ export const jsx = createPlugin({
 		mediaCaptions,
 		mouseEventKeyEvents,
 		scopeProps,
+		staticElementInteractions,
 		tabIndexPositiveValues,
 	],
 });
