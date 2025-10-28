@@ -28,71 +28,60 @@ export default typescriptLanguage.createRule({
 	messages: {
 		missingRole: {
 			primary:
-				"Static elements with event handlers must have a role attribute.",
+				"This static element that handles events is missing a role attribute.",
 			secondary: [
 				"Static HTML elements like <div> and <span> have no semantic meaning.",
-				"Interactive handlers require a role to convey purpose to assistive technology.",
+				"Interactive handlers require a role to convey purpose to assistive technology and search engine crawlers.",
 				"Required for WCAG 4.1.2 compliance.",
 			],
 			suggestions: [
-				"Add a role attribute (e.g., role='button')",
-				"Use a semantic HTML element instead (e.g., <button>)",
+				"Add a role attribute (e.g. `role='button'`)",
+				"Use a semantic HTML element instead (e.g. `<button>`)",
 			],
 		},
 	},
 	setup(context) {
-		function checkElement(
-			tagName: ts.JsxTagNameExpression,
-			attributes: ts.JsxAttributes,
-		) {
-			// Skip non-identifier tags (e.g., member expressions)
-			if (!ts.isIdentifier(tagName)) {
+		function checkElement(node: ts.JsxOpeningLikeElement) {
+			if (
+				!ts.isIdentifier(node.tagName) ||
+				node.tagName.text.toLowerCase() !== node.tagName.text
+			) {
 				return;
 			}
 
-			const elementName = tagName.text.toLowerCase();
-
-			// Skip interactive elements
+			const elementName = node.tagName.text.toLowerCase();
 			if (interactiveElements.has(elementName)) {
 				return;
 			}
 
-			// Check if element has event handlers
-			const hasEventHandler = attributes.properties.some((attr) => {
-				if (!ts.isJsxAttribute(attr) || !ts.isIdentifier(attr.name)) {
-					return false;
-				}
-				return interactiveHandlers.includes(attr.name.text);
-			});
+			let hadInteractiveHandler = false;
 
-			if (!hasEventHandler) {
+			for (const property of node.attributes.properties) {
+				if (ts.isJsxAttribute(property) && ts.isIdentifier(property.name)) {
+					if (property.name.text === "role") {
+						return;
+					}
+
+					if (interactiveHandlers.includes(property.name.text)) {
+						hadInteractiveHandler = true;
+					}
+				}
+			}
+
+			if (!hadInteractiveHandler) {
 				return;
 			}
 
-			// Check if element has role attribute
-			const hasRole = attributes.properties.some(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "role",
-			);
-
-			if (!hasRole) {
-				context.report({
-					message: "missingRole",
-					range: getTSNodeRange(tagName, context.sourceFile),
-				});
-			}
+			context.report({
+				message: "missingRole",
+				range: getTSNodeRange(node.tagName, context.sourceFile),
+			});
 		}
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkElement(node.tagName, node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkElement(node.tagName, node.attributes);
-				},
+				JsxOpeningElement: checkElement,
+				JsxSelfClosingElement: checkElement,
 			},
 		};
 	},

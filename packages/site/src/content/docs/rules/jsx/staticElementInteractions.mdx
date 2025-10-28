@@ -10,7 +10,8 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="jsx" rule="staticElementInteractions" />
 
-Static HTML elements like `<div>` and `<span>` have no semantic meaning in the accessibility layer. When adding interactive event handlers to these elements, you must provide a role attribute to convey their purpose to assistive technology.
+Static HTML elements like `<div>` and `<span>` have no semantic meaning.
+When adding interactive event handlers to these elements, you should provide a role attribute to convey their purpose to screen readers, search engine crawlers, and other technologies that rely on semantic elements.
 
 Semantic HTML elements like `<button>` already have appropriate roles and don't need additional attributes.
 
@@ -49,7 +50,7 @@ This is required for WCAG 4.1.2 compliance.
 
 ## When Not To Use It
 
-If you always use semantic HTML elements for interactive content, you can disable this rule.
+If you are using a framework that automatically assigns element roles, you can disable this rule.
 
 ## Further Reading
 
