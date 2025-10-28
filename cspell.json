@@ -32,15 +32,20 @@
 		"aria-valuenow",
 		"aria-valuetext",
 		"autolinks",
+		"contentinfo",
 		"deoptimizations",
 		"destructures",
 		"Focusables",
 		"joshuakgoldberg",
 		"mdast",
+		"menuitemcheckbox",
+		"menuitemradio",
 		"nord",
 		"Oxlint",
 		"shiki",
 		"shikijs",
+		"spinbutton",
+		"treegrid",
 		"WHATWG"
 	]
 }

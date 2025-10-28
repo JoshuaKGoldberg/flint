@@ -15,7 +15,7 @@ export async function resolveChangesByFile(
 
 	function collectReportFix(absoluteFilePath: string, report: FileReport) {
 		if (report.fix) {
-			changesByFile.get(absoluteFilePath).push(report.fix);
+			changesByFile.get(absoluteFilePath).push(...report.fix);
 		}
 	}
 
