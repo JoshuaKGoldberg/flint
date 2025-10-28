@@ -49,24 +49,18 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
-					if (!ts.isIdentifier(node.name)) {
-						return;
-					}
-
-					const property = node.name.text;
 					if (
-						!deprecatedProperties.has(property) ||
-						!isKeyboardEvent(node.expression) ||
-						!isKeyboardEventProperty(node.name)
+						ts.isIdentifier(node.name) &&
+						deprecatedProperties.has(node.name.text) &&
+						isKeyboardEvent(node.expression) &&
+						isKeyboardEventProperty(node.name)
 					) {
-						return;
+						context.report({
+							data: { property: node.name.text },
+							message: "preferKey",
+							range: getTSNodeRange(node.name, context.sourceFile),
+						});
 					}
-
-					context.report({
-						data: { property },
-						message: "preferKey",
-						range: getTSNodeRange(node.name, context.sourceFile),
-					});
 				},
 			},
 		};
