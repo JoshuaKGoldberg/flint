@@ -79,8 +79,8 @@ export default typescriptLanguage.createRule({
 					// Only flag var declarations (const/let don't create global properties)
 					const declaration = node.declarationList;
 					if (
-						!(declaration.flags & ts.NodeFlags.Let) &&
-						!(declaration.flags & ts.NodeFlags.Const)
+						(declaration.flags & (ts.NodeFlags.Let | ts.NodeFlags.Const)) ===
+						0
 					) {
 						for (const varDeclaration of declaration.declarations) {
 							if (ts.isIdentifier(varDeclaration.name)) {
