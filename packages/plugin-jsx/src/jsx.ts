@@ -29,8 +29,8 @@ export const jsx = createPlugin({
 	rules: [
 		accessKeys,
 		altTexts,
-		anchorValidity,
 		anchorContent,
+		anchorValidity,
 		ariaActiveDescendantTabIndex,
 		ariaHiddenFocusables,
 		ariaProps,
