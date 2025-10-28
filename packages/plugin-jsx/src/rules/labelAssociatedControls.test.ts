@@ -47,6 +47,50 @@ ruleTester.describe(rule, {
  This <label> element is missing an associated control element.
 `,
 		},
+		{
+			code: `
+<label htmlFor={''} />
+`,
+			fileName: "file.tsx",
+			snapshot: `
+<label htmlFor={''} />
+ ~~~~~
+ This <label> element is missing an associated control element.
+`,
+		},
+		{
+			code: `
+<label htmlFor={\`\`} />
+`,
+			fileName: "file.tsx",
+			snapshot: `
+<label htmlFor={\`\`} />
+ ~~~~~
+ This <label> element is missing an associated control element.
+`,
+		},
+		{
+			code: `
+<label htmlFor={undefined} />
+`,
+			fileName: "file.tsx",
+			snapshot: `
+<label htmlFor={undefined} />
+ ~~~~~
+ This <label> element is missing an associated control element.
+`,
+		},
+		{
+			code: `
+<label htmlFor={null} />
+`,
+			fileName: "file.tsx",
+			snapshot: `
+<label htmlFor={null} />
+ ~~~~~
+ This <label> element is missing an associated control element.
+`,
+		},
 	],
 	valid: [
 		{ code: `<label htmlFor="name">Name</label>`, fileName: "file.tsx" },

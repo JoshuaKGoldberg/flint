@@ -46,6 +46,23 @@ export default typescriptLanguage.createRule({
 					return property.initializer.text !== "";
 				}
 
+				if (ts.isJsxExpression(property.initializer)) {
+					const { expression } = property.initializer;
+					if (!expression) {
+						return false;
+					}
+
+					if (
+						(ts.isStringLiteral(expression) && expression.text === "") ||
+						(ts.isNoSubstitutionTemplateLiteral(expression) &&
+							expression.text === "") ||
+						(ts.isIdentifier(expression) && expression.text === "undefined") ||
+						expression.kind === ts.SyntaxKind.NullKeyword
+					) {
+						return false;
+					}
+				}
+
 				return true;
 			});
 		}
