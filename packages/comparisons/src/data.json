@@ -1042,6 +1042,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "clickEventKeyEvents",
 			"plugin": "jsx",
 			"preset": "Logical"
