@@ -1352,6 +1352,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nonInteractiveElementTabIndexes",
 			"plugin": "jsx",
 			"preset": "Logical"
