@@ -1370,6 +1370,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "roleRedundancies",
 			"plugin": "jsx",
 			"preset": "Logical"
