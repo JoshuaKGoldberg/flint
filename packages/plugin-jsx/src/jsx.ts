@@ -11,6 +11,7 @@ import ariaProps from "./rules/ariaProps.js";
 import ariaRoleValidity from "./rules/ariaRoleValidity.js";
 import ariaUnsupportedElements from "./rules/ariaUnsupportedElements.js";
 import autoFocusProps from "./rules/autoFocusProps.js";
+import bracedStatements from "./rules/bracedStatements.js";
 import clickEventKeyEvents from "./rules/clickEventKeyEvents.js";
 import distractingElements from "./rules/distractingElements.js";
 import headingContents from "./rules/headingContents.js";
@@ -43,6 +44,7 @@ export const jsx = createPlugin({
 		ariaRoleValidity,
 		ariaUnsupportedElements,
 		autoFocusProps,
+		bracedStatements,
 		clickEventKeyEvents,
 		distractingElements,
 		headingContents,

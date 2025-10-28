@@ -1008,6 +1008,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "bracedStatements",
 			"plugin": "jsx",
 			"preset": "Stylistic"
