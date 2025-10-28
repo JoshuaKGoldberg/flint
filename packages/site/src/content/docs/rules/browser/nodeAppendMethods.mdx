@@ -27,9 +27,13 @@ This rule reports:
 
 ```js
 element.appendChild(child);
+```
 
+```js
 parent.insertBefore(child, null);
+```
 
+```js
 parent.insertBefore(child, parent.firstChild);
 ```
 
@@ -38,11 +42,17 @@ parent.insertBefore(child, parent.firstChild);
 
 ```js
 element.append(child);
+```
 
+```js
 parent.append(child);
+```
 
+```js
 parent.prepend(child);
+```
 
+```js
 // Modern methods can accept multiple nodes and strings
 element.append(child1, child2, "text");
 ```

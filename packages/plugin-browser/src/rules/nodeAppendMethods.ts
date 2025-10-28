@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	isGlobalDeclaration,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -31,53 +35,56 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function isFirstChildAccess(node: ts.Expression): boolean {
-			if (!ts.isPropertyAccessExpression(node)) {
-				return false;
-			}
-
-			return ts.isIdentifier(node.name) && node.name.text === "firstChild";
+			return (
+				ts.isPropertyAccessExpression(node) &&
+				ts.isIdentifier(node.name) &&
+				node.name.text === "firstChild"
+			);
 		}
 
 		return {
 			visitors: {
 				CallExpression(node: ts.CallExpression) {
-					if (!ts.isPropertyAccessExpression(node.expression)) {
+					if (
+						!ts.isPropertyAccessExpression(node.expression) ||
+						!ts.isIdentifier(node.expression.name) ||
+						!isGlobalDeclaration(node.expression.name, context.typeChecker)
+					) {
 						return;
 					}
 
-					const { name } = node.expression;
-					if (!ts.isIdentifier(name)) {
-						return;
-					}
+					switch (node.expression.name.text) {
+						case "appendChild":
+							context.report({
+								data: { method: "appendChild" },
+								message: "preferAppend",
+								range: getTSNodeRange(node.expression.name, context.sourceFile),
+							});
+							break;
 
-					const methodName = name.text;
+						case "insertBefore": {
+							if (node.arguments.length < 2) {
+								break;
+							}
 
-					if (methodName === "appendChild") {
-						context.report({
-							data: { method: "appendChild" },
-							message: "preferAppend",
-							range: getTSNodeRange(name, context.sourceFile),
-						});
-						return;
-					}
+							const secondArgument = node.arguments[1];
+							if (
+								secondArgument.kind !== ts.SyntaxKind.NullKeyword &&
+								!isFirstChildAccess(secondArgument)
+							) {
+								break;
+							}
 
-					if (methodName === "insertBefore" && node.arguments.length >= 2) {
-						const secondArg = node.arguments[1];
-						// insertBefore(node, null) is equivalent to appendChild
-						if (
-							secondArg.kind === ts.SyntaxKind.NullKeyword ||
-							isFirstChildAccess(secondArg)
-						) {
 							context.report({
 								data:
-									secondArg.kind === ts.SyntaxKind.NullKeyword
+									secondArgument.kind === ts.SyntaxKind.NullKeyword
 										? { method: "insertBefore" }
 										: {},
 								message:
-									secondArg.kind === ts.SyntaxKind.NullKeyword
+									secondArgument.kind === ts.SyntaxKind.NullKeyword
 										? "preferAppend"
 										: "preferPrepend",
-								range: getTSNodeRange(name, context.sourceFile),
+								range: getTSNodeRange(node.expression.name, context.sourceFile),
 							});
 						}
 					}

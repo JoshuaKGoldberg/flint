@@ -5,9 +5,11 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
+declare const element: HTMLElement;
 element.appendChild(child);
 `,
 			snapshot: `
+declare const element: HTMLElement;
 element.appendChild(child);
         ~~~~~~~~~~~
         Prefer \`append()\` over \`appendChild()\`.
@@ -15,22 +17,26 @@ element.appendChild(child);
 		},
 		{
 			code: `
-parent.insertBefore(child, null);
+declare const node: HTMLElement;
+node.insertBefore(child, null);
 `,
 			snapshot: `
-parent.insertBefore(child, null);
-       ~~~~~~~~~~~~
-       Prefer \`append()\` over \`insertBefore()\`.
+declare const node: HTMLElement;
+node.insertBefore(child, null);
+     ~~~~~~~~~~~~
+     Prefer \`append()\` over \`insertBefore()\`.
 `,
 		},
 		{
 			code: `
-parent.insertBefore(child, parent.firstChild);
+declare const node: HTMLElement;
+node.insertBefore(child, parent.firstChild);
 `,
 			snapshot: `
-parent.insertBefore(child, parent.firstChild);
-       ~~~~~~~~~~~~
-       Prefer \`prepend()\` over \`insertBefore()\`.
+declare const node: HTMLElement;
+node.insertBefore(child, parent.firstChild);
+     ~~~~~~~~~~~~
+     Prefer \`prepend()\` over \`insertBefore()\`.
 `,
 		},
 		{
@@ -45,12 +51,37 @@ document.body.appendChild(element);
 		},
 	],
 	valid: [
-		`element.append(child);`,
-		`node.prepend(newNode);`,
-		`element.append(child1, child2);`,
-		`element.append("text");`,
-		`parent.append(child);`,
-		`other.method();`,
-		`parent.insertBefore(child, referenceNode);`,
+		`
+declare const element: HTMLElement;
+element.append(child);
+`,
+		`
+declare const node: HTMLElement;
+node.prepend(newNode);
+`,
+		`
+declare const element: HTMLElement;
+element.append(child1, child2);
+`,
+		`
+declare const element: HTMLElement;
+element.append("text");
+`,
+		`
+declare const node: HTMLElement;
+node.append(child);
+`,
+		`
+declare const other: { appendChild: () => void };
+other.appendChild();
+`,
+		`
+declare const element: { method: () => void };
+element.method();
+`,
+		`
+declare const node: HTMLElement;
+node.insertBefore(child, referenceNode);
+`,
 	],
 });
