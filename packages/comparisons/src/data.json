@@ -1238,6 +1238,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "labelAssociatedControls",
 			"plugin": "jsx",
 			"preset": "Logical"
