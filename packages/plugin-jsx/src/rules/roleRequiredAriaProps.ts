@@ -1,12 +1,11 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-const requiredAriaPropsForRole: Record<string, string[]> = {
+// cspell:words menuitemcheckbox menuitemradio spinbutton
+const requiredAriaPropsForRole: Partial<Record<string, string[]>> = {
 	checkbox: ["aria-checked"],
 	combobox: ["aria-controls", "aria-expanded"],
-	gridcell: [],
 	heading: ["aria-level"],
-	link: [],
 	menuitemcheckbox: ["aria-checked"],
 	menuitemradio: ["aria-checked"],
 	option: ["aria-selected"],
@@ -17,15 +16,9 @@ const requiredAriaPropsForRole: Record<string, string[]> = {
 		"aria-valuemax",
 		"aria-valuemin",
 	],
-	searchbox: [],
-	separator: [],
 	slider: ["aria-valuenow", "aria-valuemax", "aria-valuemin"],
 	spinbutton: ["aria-valuenow", "aria-valuemax", "aria-valuemin"],
 	switch: ["aria-checked"],
-	tab: [],
-	tabpanel: [],
-	textbox: [],
-	treeitem: [],
 };
 
 export default typescriptLanguage.createRule({
@@ -67,7 +60,7 @@ export default typescriptLanguage.createRule({
 			const role = roleAttribute.initializer.text.toLowerCase();
 			const requiredProps = requiredAriaPropsForRole[role];
 
-			if (!requiredProps || requiredProps.length === 0) {
+			if (!requiredProps) {
 				return;
 			}
 

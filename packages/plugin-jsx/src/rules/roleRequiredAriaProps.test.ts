@@ -1,6 +1,7 @@
 import rule from "./roleRequiredAriaProps.js";
 import { ruleTester } from "./ruleTester.js";
 
+// cspell:words menuitemcheckbox menuitemradio spinbutton
 ruleTester.describe(rule, {
 	invalid: [
 		{
