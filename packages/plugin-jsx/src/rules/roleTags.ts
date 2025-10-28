@@ -1,8 +1,6 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// cspell:disable -- ARIA role names are correct
-// Map of ARIA roles to their semantic HTML element equivalents
 const roleToElement: Record<string, string> = {
 	article: "article",
 	banner: "header",
@@ -24,7 +22,7 @@ const roleToElement: Record<string, string> = {
 	radio: "input[type='radio']",
 	region: "section",
 	row: "tr",
-	rowgroup: "thead/tbody/tfoot",
+	rowgroup: "tbody/tfoot/thead",
 	table: "table",
 	term: "dt",
 	textbox: "input[type='text']/textarea",
@@ -40,7 +38,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		preferSemanticElement: {
 			primary:
-				"Use <{{ element }}> instead of <{{ currentElement }}> with role='{{ role }}'.",
+				"<{{ currentElement }}> with role='{{ role }}' is a less-accessible equivalent of <{{ semanticElement }}>.",
 			secondary: [
 				"Semantic HTML elements have built-in accessibility features.",
 				"Using native elements is more maintainable than ARIA roles.",
@@ -50,55 +48,50 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkRole(
-			tagName: ts.JsxTagNameExpression,
-			attributes: ts.JsxAttributes,
-		) {
-			if (!ts.isIdentifier(tagName)) {
+		function checkRole(node: ts.JsxOpeningLikeElement) {
+			if (
+				!ts.isIdentifier(node.tagName) ||
+				node.tagName.text.toLowerCase() !== node.tagName.text
+			) {
 				return;
 			}
 
-			const currentElement = tagName.text.toLowerCase();
-
-			// Find role attribute
-			const roleAttr = attributes.properties.find(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "role",
+			const roleProperty = node.attributes.properties.find(
+				(property) =>
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text === "role",
 			);
 
-			if (!roleAttr || !ts.isJsxAttribute(roleAttr)) {
+			if (
+				!roleProperty ||
+				!ts.isJsxAttribute(roleProperty) ||
+				!roleProperty.initializer ||
+				!ts.isStringLiteral(roleProperty.initializer)
+			) {
 				return;
 			}
 
-			// Check if role value has a semantic equivalent
-			if (roleAttr.initializer && ts.isStringLiteral(roleAttr.initializer)) {
-				const role = roleAttr.initializer.text;
-				const semanticElement = roleToElement[role];
+			const role = roleProperty.initializer.text;
+			const semanticElement = roleToElement[role];
 
-				if (semanticElement) {
-					context.report({
-						data: {
-							currentElement,
-							element: semanticElement,
-							role,
-						},
-						message: "preferSemanticElement",
-						range: getTSNodeRange(roleAttr, context.sourceFile),
-					});
-				}
+			if (semanticElement) {
+				context.report({
+					data: {
+						currentElement: node.tagName.text,
+						role,
+						semanticElement,
+					},
+					message: "preferSemanticElement",
+					range: getTSNodeRange(roleProperty, context.sourceFile),
+				});
 			}
 		}
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkRole(node.tagName, node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkRole(node.tagName, node.attributes);
-				},
+				JsxOpeningElement: checkRole,
+				JsxSelfClosingElement: checkRole,
 			},
 		};
 	},

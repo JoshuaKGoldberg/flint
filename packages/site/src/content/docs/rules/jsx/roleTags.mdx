@@ -10,7 +10,8 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="jsx" rule="roleTags" />
 
-Semantic HTML elements have built-in accessibility features and better browser support than generic elements with ARIA roles. Use native HTML elements when available instead of generic elements with role attributes.
+Semantic HTML elements have built-in accessibility features and better browser support than generic elements with ARIA roles.
+Use native HTML elements when available instead of generic elements with role attributes.
 
 ## Examples
 
@@ -53,7 +54,7 @@ Semantic HTML elements have built-in accessibility features and better browser s
 
 ## When Not To Use It
 
-If you have specific styling or behavioral requirements that prevent using semantic elements, you may need to disable this rule.
+If you are using a framework that automatically manages element interactions and/or swaps elements to their semantic counterparts, you might be able to safely disable this rule.
 
 ## Further Reading
 
