@@ -1180,7 +1180,7 @@
 		"flint": {
 			"name": "imageAltRedundancy",
 			"plugin": "jsx",
-			"preset": "Logical"
+			"preset": "Not implementing"
 		},
 		"oxlint": [
 			{
