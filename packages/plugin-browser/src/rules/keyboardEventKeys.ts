@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getDeclarationsIfGlobal,
+	getTSNodeRange,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const deprecatedProperties = new Set(["charCode", "keyCode", "which"]);
@@ -22,6 +26,26 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
+		function isKeyboardEvent(expression: ts.LeftHandSideExpression) {
+			return (
+				context.typeChecker.getTypeAtLocation(expression).getSymbol()?.name ===
+				"KeyboardEvent"
+			);
+		}
+
+		function isKeyboardEventProperty(name: ts.Identifier) {
+			const declarations = getDeclarationsIfGlobal(name, context.typeChecker);
+			if (!declarations) {
+				return;
+			}
+
+			return (
+				declarations.length === 1 &&
+				ts.isInterfaceDeclaration(declarations[0].parent) &&
+				["KeyboardEvent", "UIEvent"].includes(declarations[0].parent.name.text)
+			);
+		}
+
 		return {
 			visitors: {
 				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
@@ -29,28 +53,17 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const propertyName = node.name.text;
-					if (!deprecatedProperties.has(propertyName)) {
-						return;
-					}
-
-					const type = context.typeChecker.getTypeAtLocation(node.expression);
-					const symbol = type.getSymbol();
-					if (!symbol) {
-						return;
-					}
-
-					// Check if the type is KeyboardEvent or has KeyboardEvent in its heritage
-					const typeName = context.typeChecker.typeToString(type);
+					const property = node.name.text;
 					if (
-						!typeName.includes("KeyboardEvent") &&
-						symbol.getName() !== "KeyboardEvent"
+						!deprecatedProperties.has(property) ||
+						!isKeyboardEvent(node.expression) ||
+						!isKeyboardEventProperty(node.name)
 					) {
 						return;
 					}
 
 					context.report({
-						data: { property: propertyName },
+						data: { property },
 						message: "preferKey",
 						range: getTSNodeRange(node.name, context.sourceFile),
 					});

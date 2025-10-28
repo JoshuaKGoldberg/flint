@@ -19,6 +19,22 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
 		},
 		{
 			code: `
+declare const unrelated: { addEventListener: (...args: unknown[]) => void };
+unrelated.addEventListener("keydown", (event: KeyboardEvent) => {
+    console.log(event.keyCode);
+});
+`,
+			snapshot: `
+declare const unrelated: { addEventListener: (...args: unknown[]) => void };
+unrelated.addEventListener("keydown", (event: KeyboardEvent) => {
+    console.log(event.keyCode);
+                      ~~~~~~~
+                      Prefer \`KeyboardEvent.key\` over the deprecated \`keyCode\` property.
+});
+`,
+		},
+		{
+			code: `
 window.addEventListener("keydown", (event: KeyboardEvent) => {
     if (event.keyCode === 13) {
         console.log("Enter pressed");
@@ -55,6 +71,7 @@ document.addEventListener("keyup", (event: KeyboardEvent) => {
     console.log(event.which);
 });
 `,
+			// only: true,
 			snapshot: `
 document.addEventListener("keyup", (event: KeyboardEvent) => {
     console.log(event.which);
@@ -69,6 +86,7 @@ function handleKeyDown(event: KeyboardEvent) {
     return event.keyCode === 8;
 }
 `,
+			// only: true,
 			snapshot: `
 function handleKeyDown(event: KeyboardEvent) {
     return event.keyCode === 8;
@@ -79,6 +97,12 @@ function handleKeyDown(event: KeyboardEvent) {
 		},
 	],
 	valid: [
+		`
+declare const unrelated: { addEventListener: (...args: unknown[]) => void };
+unrelated.addEventListener("keydown", (event: { keyCode: string }) => {
+    console.log(event.keyCode);
+});
+`,
 		`
 window.addEventListener("keydown", (event: KeyboardEvent) => {
     console.log(event.key);
