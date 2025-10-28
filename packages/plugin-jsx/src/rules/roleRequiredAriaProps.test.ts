@@ -1,7 +1,6 @@
 import rule from "./roleRequiredAriaProps.js";
 import { ruleTester } from "./ruleTester.js";
 
-// cspell:words menuitemcheckbox menuitemradio spinbutton
 ruleTester.describe(rule, {
 	invalid: [
 		{
@@ -12,7 +11,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="checkbox" />
      ~~~~~~~~~~~~~~~
-     Elements with ARIA role \`checkbox\` must have the following ARIA properties defined: aria-checked.
+     Elements with ARIA role \`checkbox\` must have the following ARIA property(s) defined: aria-checked.
 `,
 		},
 		{
@@ -23,7 +22,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <span role="combobox" />
       ~~~~~~~~~~~~~~~
-      Elements with ARIA role \`combobox\` must have the following ARIA properties defined: aria-controls, aria-expanded.
+      Elements with ARIA role \`combobox\` must have the following ARIA property(s) defined: aria-controls, aria-expanded.
 `,
 		},
 		{
@@ -34,7 +33,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="heading" />
      ~~~~~~~~~~~~~~
-     Elements with ARIA role \`heading\` must have the following ARIA properties defined: aria-level.
+     Elements with ARIA role \`heading\` must have the following ARIA property(s) defined: aria-level.
 `,
 		},
 		{
@@ -45,7 +44,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="menuitemcheckbox" />
      ~~~~~~~~~~~~~~~~~~~~~~~
-     Elements with ARIA role \`menuitemcheckbox\` must have the following ARIA properties defined: aria-checked.
+     Elements with ARIA role \`menuitemcheckbox\` must have the following ARIA property(s) defined: aria-checked.
 `,
 		},
 		{
@@ -56,7 +55,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="menuitemradio" />
      ~~~~~~~~~~~~~~~~~~~~
-     Elements with ARIA role \`menuitemradio\` must have the following ARIA properties defined: aria-checked.
+     Elements with ARIA role \`menuitemradio\` must have the following ARIA property(s) defined: aria-checked.
 `,
 		},
 		{
@@ -67,7 +66,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="option" />
      ~~~~~~~~~~~~~
-     Elements with ARIA role \`option\` must have the following ARIA properties defined: aria-selected.
+     Elements with ARIA role \`option\` must have the following ARIA property(s) defined: aria-selected.
 `,
 		},
 		{
@@ -78,7 +77,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="radio" />
      ~~~~~~~~~~~~
-     Elements with ARIA role \`radio\` must have the following ARIA properties defined: aria-checked.
+     Elements with ARIA role \`radio\` must have the following ARIA property(s) defined: aria-checked.
 `,
 		},
 		{
@@ -89,7 +88,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="scrollbar" />
      ~~~~~~~~~~~~~~~~
-     Elements with ARIA role \`scrollbar\` must have the following ARIA properties defined: aria-controls, aria-valuenow, aria-valuemax, aria-valuemin.
+     Elements with ARIA role \`scrollbar\` must have the following ARIA property(s) defined: aria-controls, aria-valuenow, aria-valuemax, aria-valuemin.
 `,
 		},
 		{
@@ -100,7 +99,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="slider" />
      ~~~~~~~~~~~~~
-     Elements with ARIA role \`slider\` must have the following ARIA properties defined: aria-valuenow, aria-valuemax, aria-valuemin.
+     Elements with ARIA role \`slider\` must have the following ARIA property(s) defined: aria-valuenow, aria-valuemax, aria-valuemin.
 `,
 		},
 		{
@@ -111,7 +110,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="spinbutton" />
      ~~~~~~~~~~~~~~~~~
-     Elements with ARIA role \`spinbutton\` must have the following ARIA properties defined: aria-valuenow, aria-valuemax, aria-valuemin.
+     Elements with ARIA role \`spinbutton\` must have the following ARIA property(s) defined: aria-valuenow, aria-valuemax, aria-valuemin.
 `,
 		},
 		{
@@ -122,7 +121,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <button role="switch" />
         ~~~~~~~~~~~~~
-        Elements with ARIA role \`switch\` must have the following ARIA properties defined: aria-checked.
+        Elements with ARIA role \`switch\` must have the following ARIA property(s) defined: aria-checked.
 `,
 		},
 		{
@@ -133,7 +132,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="checkbox" aria-label="Accept terms" />
      ~~~~~~~~~~~~~~~
-     Elements with ARIA role \`checkbox\` must have the following ARIA properties defined: aria-checked.
+     Elements with ARIA role \`checkbox\` must have the following ARIA property(s) defined: aria-checked.
 `,
 		},
 		{
@@ -144,7 +143,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="slider" aria-valuenow="5" />
      ~~~~~~~~~~~~~
-     Elements with ARIA role \`slider\` must have the following ARIA properties defined: aria-valuemax, aria-valuemin.
+     Elements with ARIA role \`slider\` must have the following ARIA property(s) defined: aria-valuemax, aria-valuemin.
 `,
 		},
 	],
@@ -198,5 +197,6 @@ ruleTester.describe(rule, {
 		{ code: `<div role="treeitem" />`, fileName: "file.tsx" },
 		{ code: `<div />`, fileName: "file.tsx" },
 		{ code: `<button />`, fileName: "file.tsx" },
+		{ code: `<CustomElement />`, fileName: "file.tsx" },
 	],
 });

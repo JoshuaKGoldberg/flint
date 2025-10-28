@@ -1,7 +1,6 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// cspell:words menuitemcheckbox menuitemradio spinbutton
 const requiredAriaPropsForRole: Partial<Record<string, string[]>> = {
 	checkbox: ["aria-checked"],
 	combobox: ["aria-controls", "aria-expanded"],
@@ -30,7 +29,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		missingRequiredProps: {
 			primary:
-				"Elements with ARIA role `{{ role }}` must have the following ARIA properties defined: {{ props }}.",
+				"Elements with ARIA role `{{ role }}` must have the following ARIA property(s) defined: {{ props }}.",
 			secondary: [
 				"ARIA roles define how elements are exposed to assistive technologies.",
 				"Some roles require specific ARIA properties to function correctly.",
@@ -80,7 +79,7 @@ export default typescriptLanguage.createRule({
 				(prop) => !existingProps.has(prop),
 			);
 
-			if (missingProps.length > 0) {
+			if (missingProps.length) {
 				context.report({
 					data: {
 						props: missingProps.join(", "),
