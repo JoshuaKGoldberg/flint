@@ -1,7 +1,7 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-const deprecatedProperties = new Set(["keyCode", "charCode", "which"]);
+const deprecatedProperties = new Set(["charCode", "keyCode", "which"]);
 
 export default typescriptLanguage.createRule({
 	about: {
