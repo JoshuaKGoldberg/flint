@@ -1390,6 +1390,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "roleRequiredAriaProps",
 			"plugin": "jsx",
 			"preset": "Logical"
