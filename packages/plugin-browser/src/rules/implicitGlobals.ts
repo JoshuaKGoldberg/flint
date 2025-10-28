@@ -25,7 +25,6 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		// Check if this is a module (has any import/export statements)
 		const isModule = context.sourceFile.statements.some(
 			(statement) =>
 				ts.isImportDeclaration(statement) ||
@@ -43,56 +42,53 @@ export default typescriptLanguage.createRule({
 						false)),
 		);
 
-		// If it's a module, don't report anything
 		if (isModule) {
-			return { visitors: {} };
+			return {
+				visitors: {},
+			};
+		}
+
+		function checkFunctionDeclaration(node: ts.FunctionDeclaration) {
+			if (!node.name) {
+				return;
+			}
+
+			context.report({
+				data: { declarationType: "function declaration" },
+				message: "implicitGlobal",
+				range: getTSNodeRange(node.name, context.sourceFile),
+			});
+		}
+
+		function checkVariableStatement(node: ts.VariableStatement) {
+			if (
+				node.modifiers?.some(
+					(modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
+				) ||
+				node.declarationList.flags & ts.NodeFlags.BlockScoped
+			) {
+				return;
+			}
+
+			for (const declaration of node.declarationList.declarations) {
+				if (ts.isIdentifier(declaration.name)) {
+					context.report({
+						data: { declarationType: "var declaration" },
+						message: "implicitGlobal",
+						range: getTSNodeRange(declaration.name, context.sourceFile),
+					});
+				}
+			}
 		}
 
 		return {
 			visitors: {
-				FunctionDeclaration(node: ts.FunctionDeclaration) {
-					// Only report top-level function declarations
-					if (
-						node.parent !== context.sourceFile ||
-						!node.name ||
-						// Don't report if it has export modifier
-						node.modifiers?.some(
-							(modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
-						)
-					) {
-						return;
-					}
-
-					context.report({
-						data: { declarationType: "function declaration" },
-						message: "implicitGlobal",
-						range: getTSNodeRange(node.name, context.sourceFile),
-					});
-				},
-				VariableStatement(node: ts.VariableStatement) {
-					// Only report top-level var declarations
-					if (
-						node.parent !== context.sourceFile ||
-						// Don't report if it has export modifier
-						node.modifiers?.some(
-							(modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
-						)
-					) {
-						return;
-					}
-
-					// Only flag 'var' declarations, not 'let' or 'const'
-					// BlockScoped includes both Let and Const flags
-					if (!(node.declarationList.flags & ts.NodeFlags.BlockScoped)) {
-						// Report each variable declaration
-						for (const declaration of node.declarationList.declarations) {
-							if (ts.isIdentifier(declaration.name)) {
-								context.report({
-									data: { declarationType: "var declaration" },
-									message: "implicitGlobal",
-									range: getTSNodeRange(declaration.name, context.sourceFile),
-								});
-							}
+				SourceFile(node) {
+					for (const statement of node.statements) {
+						if (ts.isFunctionDeclaration(statement)) {
+							checkFunctionDeclaration(statement);
+						} else if (ts.isVariableStatement(statement)) {
+							checkVariableStatement(statement);
 						}
 					}
 				},
