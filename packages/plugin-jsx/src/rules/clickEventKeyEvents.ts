@@ -1,7 +1,6 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-const keyboardEvents = ["onKeyDown", "onKeyPress", "onKeyUp"];
 const interactiveElements = new Set([
 	"a",
 	"button",
@@ -19,88 +18,62 @@ export default typescriptLanguage.createRule({
 	messages: {
 		missingKeyEvent: {
 			primary:
-				"`onClick` must be accompanied by at least one of: `onKeyUp`, `onKeyDown`, `onKeyPress`.",
+				"This `onClick` is missing accompanying `onKeyUp`, `onKeyDown`, and/or `onKeyPress` keyboard events.",
 			secondary: [
 				"Click events should have keyboard equivalents for users who cannot use a mouse.",
 				"This is important for users with physical disabilities and screen reader users.",
 				"Required for WCAG 2.1.1 compliance.",
 			],
 			suggestions: [
-				"Add onKeyDown, onKeyUp, or onKeyPress handler",
+				"Add onKeyDown, onKeyUp, and/or onKeyPress handlers",
 				"Use a button element which is inherently keyboard accessible",
 			],
 		},
 	},
 	setup(context) {
-		function checkClickEvent(
-			tagName: ts.JsxTagNameExpression,
-			attributes: ts.JsxAttributes,
-		) {
-			// Skip interactive elements (they're already keyboard accessible)
-			if (ts.isIdentifier(tagName)) {
-				const elementName = tagName.text.toLowerCase();
-				if (interactiveElements.has(elementName)) {
-					return;
-				}
-			}
-
-			// Check if element has aria-hidden
-			const hasAriaHidden = attributes.properties.some((attr) => {
-				if (!ts.isJsxAttribute(attr) || !ts.isIdentifier(attr.name)) {
-					return false;
-				}
-				return attr.name.text === "aria-hidden";
-			});
-
-			if (hasAriaHidden) {
-				return; // Hidden elements don't need keyboard handlers
-			}
-
-			// Check if element has onClick
-			const hasOnClick = attributes.properties.some(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "onClick",
-			);
-
-			if (!hasOnClick) {
+		function checkClickEvent(node: ts.JsxOpeningLikeElement) {
+			if (
+				!ts.isIdentifier(node.tagName) ||
+				node.tagName.text.toLowerCase() !== node.tagName.text
+			) {
 				return;
 			}
 
-			// Check if element has keyboard event handler
-			const hasKeyboardEvent = attributes.properties.some((attr) => {
-				if (!ts.isJsxAttribute(attr) || !ts.isIdentifier(attr.name)) {
-					return false;
-				}
-				return keyboardEvents.includes(attr.name.text);
-			});
+			const elementName = node.tagName.text.toLowerCase();
+			if (interactiveElements.has(elementName)) {
+				return;
+			}
 
-			if (!hasKeyboardEvent) {
-				const onClickAttr = attributes.properties.find(
-					(attr) =>
-						ts.isJsxAttribute(attr) &&
-						ts.isIdentifier(attr.name) &&
-						attr.name.text === "onClick",
-				);
+			let onClickProperty: ts.JsxAttributeLike | undefined;
 
-				if (onClickAttr) {
-					context.report({
-						message: "missingKeyEvent",
-						range: getTSNodeRange(onClickAttr, context.sourceFile),
-					});
+			for (const property of node.attributes.properties) {
+				if (ts.isJsxAttribute(property) && ts.isIdentifier(property.name)) {
+					switch (property.name.text) {
+						case "aria-hidden":
+						case "onKeyDown":
+						case "onKeyPress":
+						case "onKeyUp":
+							return;
+
+						case "onClick":
+							onClickProperty = property;
+							break;
+					}
 				}
+			}
+
+			if (onClickProperty) {
+				context.report({
+					message: "missingKeyEvent",
+					range: getTSNodeRange(onClickProperty, context.sourceFile),
+				});
 			}
 		}
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkClickEvent(node.tagName, node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkClickEvent(node.tagName, node.attributes);
-				},
+				JsxOpeningElement: checkClickEvent,
+				JsxSelfClosingElement: checkClickEvent,
 			},
 		};
 	},
