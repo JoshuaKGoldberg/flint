@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	isGlobalDeclaration,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -11,7 +15,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		invalidRemoveEventListener: {
 			primary:
-				"Inline function expressions in `removeEventListener` calls will not remove the listener.",
+				"Inline function expressions in `removeEventListener` calls will not remove the original listener.",
 			secondary: [
 				"The removeEventListener method requires the exact same function reference that was passed to addEventListener.",
 				"Inline arrow functions and function expressions create new function instances each time, so they cannot match the original listener.",
@@ -31,13 +35,12 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const { name } = node.expression;
-					if (!ts.isIdentifier(name) || name.text !== "removeEventListener") {
-						return;
-					}
-
-					// removeEventListener requires at least 2 arguments: event type and listener
-					if (node.arguments.length < 2) {
+					if (
+						!ts.isIdentifier(node.expression.name) ||
+						node.expression.name.text !== "removeEventListener" ||
+						node.arguments.length < 2 ||
+						!isGlobalDeclaration(node.expression, context.typeChecker)
+					) {
 						return;
 					}
 
