@@ -306,6 +306,13 @@ importers:
       '@flint.fyi/utils':
         specifier: 'workspace:'
         version: link:../utils
+      language-tags:
+        specifier: ^2.1.0
+        version: 2.1.0
+    devDependencies:
+      '@types/language-tags':
+        specifier: ^1.0.4
+        version: 1.0.4
 
   packages/plugin-performance:
     dependencies:
@@ -1723,6 +1730,9 @@ packages:
   '@types/katex@0.16.7':
     resolution: {integrity: sha512-HMwFiRujE5PjrgwHQ25+bsLJgowjGjm5Z8FVSf0N6PwgJrwxH0QxzHYDcKsTfV3wva0vzrpqMTJS2jXPr5BMEQ==}
 
+  '@types/language-tags@1.0.4':
+    resolution: {integrity: sha512-20PQbifv3v/djCT+KlXybv0KqO5ofoR1qD1wkinN59kfggTPVTWGmPFgL/1yWuDyRcsQP/POvkqK+fnl5nOwTg==}
+
   '@types/linkify-it@5.0.0':
     resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
 
@@ -3123,6 +3133,13 @@ packages:
 
   konami-emoji-blast@0.6.0:
     resolution: {integrity: sha512-+DXeB2quuLE4DQ6C/vth9CB575x8Xg+4YO8ZqaDciWWlS3ek9etMPti4xXRzKZT5/hd7IgkuRITzQ3vNLMbNdg==}
+
+  language-subtag-registry@0.3.23:
+    resolution: {integrity: sha512-0K65Lea881pHotoGEa5gDlMxt3pctLi2RplBb7Ezh4rRdLEOtgi7n4EwK9lamnUCkKBqaeKRVebTq6BAxSkpXQ==}
+
+  language-tags@2.1.0:
+    resolution: {integrity: sha512-D4CgpyCt+61f6z2jHjJS1OmZPviAWM57iJ9OKdFFWSNgS7Udj9QVWqyGs/cveVNF57XpZmhSvMdVIV5mjLA7Vg==}
+    engines: {node: '>=22'}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -6112,6 +6129,8 @@ snapshots:
 
   '@types/katex@0.16.7': {}
 
+  '@types/language-tags@1.0.4': {}
+
   '@types/linkify-it@5.0.0': {}
 
   '@types/markdown-it@14.1.2':
@@ -7815,6 +7834,12 @@ snapshots:
     dependencies:
       emoji-blast: 0.11.0
       konami-code-js: 0.8.3
+
+  language-subtag-registry@0.3.23: {}
+
+  language-tags@2.1.0:
+    dependencies:
+      language-subtag-registry: 0.3.23
 
   levn@0.4.1:
     dependencies:

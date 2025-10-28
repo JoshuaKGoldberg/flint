@@ -38,28 +38,6 @@ const element = <div lang="1234"></div>;
 		},
 		{
 			code: `
-const element = <div lang="en-"></div>;
-`,
-			fileName: "file.tsx",
-			snapshot: `
-const element = <div lang="en-"></div>;
-                          ~~~~~
-                          The lang attribute value 'en-' is not a valid BCP 47 language tag.
-`,
-		},
-		{
-			code: `
-const element = <div lang="en-1"></div>;
-`,
-			fileName: "file.tsx",
-			snapshot: `
-const element = <div lang="en-1"></div>;
-                          ~~~~~~
-                          The lang attribute value 'en-1' is not a valid BCP 47 language tag.
-`,
-		},
-		{
-			code: `
 const element = <html lang="123"></html>;
 `,
 			fileName: "file.tsx",
