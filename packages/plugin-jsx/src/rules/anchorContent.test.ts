@@ -4,25 +4,37 @@ import { ruleTester } from "./ruleTester.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `<a />`,
+			code: `
+<a />
+`,
 			fileName: "file.tsx",
-			snapshot: `<a />
+			snapshot: `
+<a />
 ~~~~~
-Anchor elements must have accessible content.`,
+This anchor element is missing accessible content.
+`,
 		},
 		{
-			code: `<a></a>`,
+			code: `
+<a></a>
+`,
 			fileName: "file.tsx",
-			snapshot: `<a></a>
+			snapshot: `
+<a></a>
 ~~~
-Anchor elements must have accessible content.`,
+This anchor element is missing accessible content.
+`,
 		},
 		{
-			code: `<a><span aria-hidden /></a>`,
+			code: `
+<a><span aria-hidden /></a>
+`,
 			fileName: "file.tsx",
-			snapshot: `<a><span aria-hidden /></a>
+			snapshot: `
+<a><span aria-hidden /></a>
 ~~~
-Anchor elements must have accessible content.`,
+This anchor element is missing accessible content.
+`,
 		},
 	],
 	valid: [
@@ -31,10 +43,7 @@ Anchor elements must have accessible content.`,
 		{ code: `<a aria-label="Link" />`, fileName: "file.tsx" },
 		{ code: `<a aria-labelledby="label-id" />`, fileName: "file.tsx" },
 		{ code: `<a title="Link title" />`, fileName: "file.tsx" },
-		{
-			code: `<a dangerouslySetInnerHTML={{ __html: 'foo' }} />`,
-			fileName: "file.tsx",
-		},
 		{ code: `<a>{variable}</a>`, fileName: "file.tsx" },
+		{ code: `<CustomElement></CustomElement>`, fileName: "file.tsx" },
 	],
 });

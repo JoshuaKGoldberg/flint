@@ -10,7 +10,10 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="jsx" rule="anchorContent" />
 
-Anchor elements must have content that is accessible to screen readers. Empty anchors or anchors with only hidden content cannot be properly announced.
+Automated tools such as screen readers and search engine crawlers rely on anchors (links) having contents to understand those links.
+If anchor is missing accessible content, then it will not be properly understood.
+
+This rule checks that all anchors either have child content or an ARIA property describing the anchor.
 
 ## Examples
 
@@ -46,16 +49,12 @@ Anchor elements must have content that is accessible to screen readers. Empty an
 <a title="Link title" />
 ```
 
-```tsx
-<a dangerouslySetInnerHTML={{ __html: "foo" }} />
-```
-
 </TabItem>
 </Tabs>
 
 ## When Not To Use It
 
-If you are not concerned with accessibility, you can disable this rule.
+If you are using a framework that automatically generates accessible content for anchors, you can safely disable this rule.
 
 ## Further Reading
 
