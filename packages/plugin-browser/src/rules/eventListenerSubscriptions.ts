@@ -114,7 +114,7 @@ export default typescriptLanguage.createRule({
 				"addEventListener allows multiple listeners for the same event and provides options for capture phase and passive listeners.",
 			],
 			suggestions: [
-				"Replace with element.addEventListener('{{ eventType }}', handler) for better control and flexibility.",
+				"Replace with addEventListener('{{ eventType }}', handler) for better control and flexibility.",
 			],
 		},
 	},
