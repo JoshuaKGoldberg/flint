@@ -7,6 +7,7 @@ import ariaHiddenFocusables from "./rules/ariaHiddenFocusables.js";
 import ariaProps from "./rules/ariaProps.js";
 import ariaUnsupportedElements from "./rules/ariaUnsupportedElements.js";
 import autoFocusProps from "./rules/autoFocusProps.js";
+import clickEventKeyEvents from "./rules/clickEventKeyEvents.js";
 import distractingElements from "./rules/distractingElements.js";
 import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
@@ -15,6 +16,7 @@ import mediaCaptions from "./rules/mediaCaptions.js";
 import mouseEventKeyEvents from "./rules/mouseEventKeyEvents.js";
 import roleRedundancies from "./rules/roleRedundancies.js";
 import scopeProps from "./rules/scopeProps.js";
+import staticElementInteractions from "./rules/staticElementInteractions.js";
 import tabIndexPositiveValues from "./rules/tabIndexPositiveValues.js";
 
 export const jsx = createPlugin({
@@ -27,6 +29,7 @@ export const jsx = createPlugin({
 		ariaProps,
 		ariaUnsupportedElements,
 		autoFocusProps,
+		clickEventKeyEvents,
 		distractingElements,
 		headingContents,
 		htmlLangs,
@@ -35,6 +38,7 @@ export const jsx = createPlugin({
 		mouseEventKeyEvents,
 		roleRedundancies,
 		scopeProps,
+		staticElementInteractions,
 		tabIndexPositiveValues,
 	],
 });
