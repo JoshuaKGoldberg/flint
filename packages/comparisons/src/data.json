@@ -129,9 +129,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "keyboardEventKeys",
 			"plugin": "browser",
-			"preset": "Not implementing"
+			"preset": "logical"
 		},
 		"notes": "Superseded by deprecated"
 	},
