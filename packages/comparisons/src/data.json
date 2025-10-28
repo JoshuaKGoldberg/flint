@@ -53,6 +53,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "documentCookies",
 			"plugin": "browser",
 			"preset": "Logical",
