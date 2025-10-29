@@ -20,6 +20,7 @@ import childrenProps from "./rules/childrenProps.js";
 import clickEventKeyEvents from "./rules/clickEventKeyEvents.js";
 import commentTextNodes from "./rules/commentTextNodes.js";
 import distractingElements from "./rules/distractingElements.js";
+import duplicateProps from "./rules/duplicateProps.js";
 import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
 import iframeTitles from "./rules/iframeTitles.js";
@@ -61,6 +62,7 @@ export const jsx = createPlugin({
 		clickEventKeyEvents,
 		commentTextNodes,
 		distractingElements,
+		duplicateProps,
 		headingContents,
 		htmlLangs,
 		iframeTitles,
