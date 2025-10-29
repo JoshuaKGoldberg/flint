@@ -2,22 +2,6 @@ import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 import { z } from "zod";
 
-function getFirstParameterName(
-	parameters: ts.NodeArray<ts.ParameterDeclaration>,
-): string | undefined {
-	if (parameters.length === 0) {
-		return undefined;
-	}
-
-	const firstParameter = parameters[0];
-
-	if (ts.isIdentifier(firstParameter.name)) {
-		return firstParameter.name.text;
-	}
-
-	return undefined;
-}
-
 function isParameterReferenced(
 	parameterName: string,
 	functionBody: ts.Node | undefined,
@@ -45,21 +29,6 @@ function isParameterReferenced(
 	return isReferenced;
 }
 
-function isPattern(errorArgument: string): boolean {
-	return errorArgument.startsWith("^");
-}
-
-function matchesConfiguredErrorName(
-	name: string,
-	errorArgument: string,
-): boolean {
-	if (isPattern(errorArgument)) {
-		const regexp = new RegExp(errorArgument, "u");
-		return regexp.test(name);
-	}
-	return name === errorArgument;
-}
-
 export default typescriptLanguage.createRule({
 	about: {
 		description:
@@ -69,7 +38,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		expectedErrorHandling: {
-			primary: "Expected error to be handled in callback function.",
+			primary:
+				"This error is not handled in the callback, which may indicate missing error handling logic.",
 			secondary: [
 				"Callback functions should handle error parameters to prevent silent failures.",
 				"If the error is intentionally ignored, consider explicitly handling it or renaming the parameter to indicate it's unused (e.g., `_err`).",
@@ -83,28 +53,28 @@ export default typescriptLanguage.createRule({
 	options: {
 		errorArgument: z
 			.string()
-			.default("err")
+			.default("^err|error$")
 			.describe(
-				"The name or pattern of the error parameter to check. Defaults to 'err'. Patterns starting with '^' are treated as regular expressions.",
+				"Regular expression contents to check for error parameter names.",
 			),
 	},
 	setup(context, options) {
-		const errorArgument = options.errorArgument ?? "err";
+		// TODO: apply defaults from the Zod schemas
+		const errorMatcher = new RegExp(options.errorArgument ?? "^err|error$");
 
 		function checkFunction(
 			node: ts.ArrowFunction | ts.FunctionDeclaration | ts.FunctionExpression,
 		) {
-			const firstParameterName = getFirstParameterName(node.parameters);
+			const firstParameterName =
+				node.parameters.length &&
+				ts.isIdentifier(node.parameters[0].name) &&
+				node.parameters[0].name.text;
 
 			if (
-				!firstParameterName ||
-				!matchesConfiguredErrorName(firstParameterName, errorArgument) ||
-				isParameterReferenced(firstParameterName, node.body)
+				firstParameterName &&
+				errorMatcher.test(firstParameterName) &&
+				!isParameterReferenced(firstParameterName, node.body)
 			) {
-				return;
-			}
-
-			if (!isParameterReferenced(firstParameterName, node.body)) {
 				context.report({
 					message: "expectedErrorHandling",
 					range: getTSNodeRange(node.parameters[0], context.sourceFile),
