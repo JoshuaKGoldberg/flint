@@ -1494,6 +1494,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "svgTitles",
 			"plugin": "jsx",
 			"preset": "Logical"
