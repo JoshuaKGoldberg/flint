@@ -228,6 +228,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeRemoveMethods",
 			"plugin": "browser",
 			"preset": "Logical",
