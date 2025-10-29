@@ -11,7 +11,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div>{"Hello"}</div>
      ~~~~~~~~~
-     Prefer removing unnecessary curly braces around string literals.
+     Curly braces are unnecessary around string literals.
 `,
 		},
 		{
@@ -22,7 +22,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div>{<span>Content</span>}</div>
      ~~~~~~~~~~~~~~~~~~~~~~
-     Prefer removing unnecessary curly braces around JSX elements.
+     Curly braces are unnecessary around JSX elements.
 `,
 		},
 		{
@@ -33,7 +33,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div>{<Component />}</div>
      ~~~~~~~~~~~~~~~
-     Prefer removing unnecessary curly braces around JSX elements.
+     Curly braces are unnecessary around JSX elements.
 `,
 		},
 		{
@@ -44,7 +44,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <Component>{<></>}</Component>
            ~~~~~~~
-           Prefer removing unnecessary curly braces around JSX elements.
+           Curly braces are unnecessary around JSX elements.
 `,
 		},
 	],
