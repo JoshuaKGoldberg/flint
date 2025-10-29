@@ -28,9 +28,8 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				JsxText(node: ts.JsxText) {
 					const text = node.text;
-					const trimmed = text.trim();
 
-					if (trimmed.startsWith("//") || trimmed.startsWith("/*")) {
+					if (/^\s*\/\/|\/\*/.test(text)) {
 						context.report({
 							message: "commentAsText",
 							range: getTSNodeRange(node, context.sourceFile),
