@@ -29,7 +29,7 @@ export default typescriptLanguage.createRule({
 				JsxText(node: ts.JsxText) {
 					const text = node.text;
 
-					if (/^\s*\/\/|\/\*/.test(text)) {
+					if (/^\s*(?:\/\/|\/\*)/.test(text)) {
 						context.report({
 							message: "commentAsText",
 							range: getTSNodeRange(node, context.sourceFile),
