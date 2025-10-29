@@ -38,6 +38,7 @@ import roleSupportedAriaProps from "./rules/roleSupportedAriaProps.js";
 import roleTags from "./rules/roleTags.js";
 import scopeProps from "./rules/scopeProps.js";
 import staticElementInteractions from "./rules/staticElementInteractions.js";
+import svgTitles from "./rules/svgTitles.js";
 import tabIndexPositiveValues from "./rules/tabIndexPositiveValues.js";
 import validElementChildren from "./rules/validElementChildren.js";
 
@@ -82,6 +83,7 @@ export const jsx = createPlugin({
 		roleTags,
 		scopeProps,
 		staticElementInteractions,
+		svgTitles,
 		tabIndexPositiveValues,
 		validElementChildren,
 	],
