@@ -186,6 +186,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeModificationMethods",
 			"plugin": "browser",
 			"preset": "Logical",

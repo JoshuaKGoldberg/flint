@@ -8,6 +8,7 @@ import implicitGlobals from "./rules/implicitGlobals.js";
 import keyboardEventKeys from "./rules/keyboardEventKeys.js";
 import nodeAppendMethods from "./rules/nodeAppendMethods.js";
 import nodeDatasetAttributes from "./rules/nodeDatasetAttributes.js";
+import nodeModificationMethods from "./rules/nodeModificationMethods.js";
 import scriptUrls from "./rules/scriptUrls.js";
 
 export const browser = createPlugin({
@@ -21,6 +22,7 @@ export const browser = createPlugin({
 		keyboardEventKeys,
 		nodeAppendMethods,
 		nodeDatasetAttributes,
+		nodeModificationMethods,
 		scriptUrls,
 	],
 });
