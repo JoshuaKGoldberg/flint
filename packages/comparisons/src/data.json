@@ -1208,6 +1208,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "interactiveElementsFocusable",
 			"plugin": "jsx",
 			"preset": "Logical"
