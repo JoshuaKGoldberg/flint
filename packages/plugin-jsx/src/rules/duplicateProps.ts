@@ -20,7 +20,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkElement(node: ts.JsxOpeningLikeElement) {
-			const seenProps = new Map<string, ts.JsxAttribute>();
+			const seenProps = new Set<string>();
 
 			for (const property of node.attributes.properties) {
 				if (!ts.isJsxAttribute(property) || !ts.isIdentifier(property.name)) {
@@ -28,16 +28,15 @@ export default typescriptLanguage.createRule({
 				}
 
 				const propName = property.name.text;
-				const existing = seenProps.get(propName);
 
-				if (existing !== undefined) {
+				if (seenProps.has(propName)) {
 					context.report({
 						data: { propName },
 						message: "duplicateProp",
 						range: getTSNodeRange(property.name, context.sourceFile),
 					});
 				} else {
-					seenProps.set(propName, property);
+					seenProps.add(propName);
 				}
 			}
 		}
