@@ -1,13 +1,21 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-function isUtf8EncodingString(value: unknown): boolean {
-	if (typeof value !== "string") {
+function isReadFileCall(node: ts.Expression): node is ts.CallExpression {
+	if (!ts.isCallExpression(node)) {
 		return false;
 	}
 
-	const normalized = value.toLowerCase();
-	return normalized === "utf8" || normalized === "utf-8";
+	if (!ts.isPropertyAccessExpression(node.expression)) {
+		return false;
+	}
+
+	if (!ts.isIdentifier(node.expression.name)) {
+		return false;
+	}
+
+	const methodName = node.expression.name.text;
+	return methodName === "readFile" || methodName === "readFileSync";
 }
 
 function isUtf8Encoding(node: ts.Expression): boolean {
@@ -37,40 +45,20 @@ function isUtf8Encoding(node: ts.Expression): boolean {
 	return false;
 }
 
-function getReadFileCall(
-	node: ts.Expression,
-	visited: Set<ts.Node>,
-): ts.CallExpression | undefined {
-	if (visited.has(node)) {
-		return undefined;
-	}
-	visited.add(node);
-
-	if (ts.isAwaitExpression(node)) {
-		return getReadFileCall(node.expression, visited);
+function isUtf8EncodingString(value: unknown): boolean {
+	if (typeof value !== "string") {
+		return false;
 	}
 
-	if (ts.isCallExpression(node)) {
-		return node;
+	const normalized = value.toLowerCase();
+	return normalized === "utf8" || normalized === "utf-8";
+}
+
+function unwrapAwaitExpression(node: ts.Expression): ts.Expression {
+	while (ts.isAwaitExpression(node)) {
+		node = node.expression;
 	}
-
-	if (ts.isIdentifier(node)) {
-		const symbol = node
-			.getSourceFile()
-			.locals?.get(node.escapedText as ts.__String);
-		if (!symbol || !symbol.valueDeclaration) {
-			return undefined;
-		}
-
-		if (ts.isVariableDeclaration(symbol.valueDeclaration)) {
-			const initializer = symbol.valueDeclaration.initializer;
-			if (initializer) {
-				return getReadFileCall(initializer, visited);
-			}
-		}
-	}
-
-	return undefined;
+	return node;
 }
 
 export default typescriptLanguage.createRule({
@@ -106,32 +94,22 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const argument = node.arguments[0];
-					if (!argument || ts.isSpreadElement(argument)) {
+					const [argument] = node.arguments;
+					if (ts.isSpreadElement(argument)) {
 						return;
 					}
 
-					const visited = new Set<ts.Node>();
-					const readFileCall = getReadFileCall(argument, visited);
-					if (
-						!readFileCall ||
-						!ts.isPropertyAccessExpression(readFileCall.expression) ||
-						!ts.isIdentifier(readFileCall.expression.name)
-					) {
+					const unwrapped = unwrapAwaitExpression(argument);
+					if (!isReadFileCall(unwrapped)) {
 						return;
 					}
 
-					const methodName = readFileCall.expression.name.text;
-					if (methodName !== "readFile" && methodName !== "readFileSync") {
+					if (unwrapped.arguments.length !== 2) {
 						return;
 					}
 
-					if (readFileCall.arguments.length !== 2) {
-						return;
-					}
-
-					const encodingArg = readFileCall.arguments[1];
-					if (!encodingArg || ts.isSpreadElement(encodingArg)) {
+					const encodingArg = unwrapped.arguments[1];
+					if (ts.isSpreadElement(encodingArg)) {
 						return;
 					}
 
