@@ -24,10 +24,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		const loopNodeMap = new Map<ts.Node, Set<string>>();
+		const loopVariableNames = new Map<ts.Node, Set<string>>();
 
-		function getLoopVariables(loopNode: ts.Node): Set<string> {
-			const existing = loopNodeMap.get(loopNode);
+		function getLoopVariables(loopNode: ts.Node) {
+			const existing = loopVariableNames.get(loopNode);
 			if (existing) {
 				return existing;
 			}
@@ -45,7 +45,7 @@ export default typescriptLanguage.createRule({
 				collectVariableNames(loopNode.initializer, variables);
 			}
 
-			loopNodeMap.set(loopNode, variables);
+			loopVariableNames.set(loopNode, variables);
 			return variables;
 		}
 
@@ -84,31 +84,22 @@ export default typescriptLanguage.createRule({
 			node: ts.Node,
 			loopVariables: Set<string>,
 			currentLoopNode: ts.Node,
-		): boolean {
+		): boolean | undefined {
 			if (ts.isIdentifier(node) && loopVariables.has(node.text)) {
 				return true;
 			}
 
-			let found = false;
-			ts.forEachChild(node, (child) => {
-				if (tsutils.isFunctionScopeBoundary(child)) {
-					return;
-				}
-				if (
-					ts.isDoStatement(child) ||
-					ts.isForInStatement(child) ||
-					ts.isForOfStatement(child) ||
-					ts.isForStatement(child) ||
-					ts.isWhileStatement(child)
-				) {
-					return;
-				}
-				if (referencesLoopVariable(child, loopVariables, currentLoopNode)) {
-					found = true;
-				}
+			return ts.forEachChild(node, (child) => {
+				return (
+					!tsutils.isFunctionScopeBoundary(child) &&
+					!ts.isDoStatement(child) &&
+					!ts.isForInStatement(child) &&
+					!ts.isForOfStatement(child) &&
+					!ts.isForStatement(child) &&
+					!ts.isWhileStatement(child) &&
+					referencesLoopVariable(child, loopVariables, currentLoopNode)
+				);
 			});
-
-			return found;
 		}
 
 		function checkFunctionInLoop(
