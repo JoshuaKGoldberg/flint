@@ -2,6 +2,7 @@ import { createPlugin } from "@flint.fyi/core";
 
 import accessKeys from "./rules/accessKeys.js";
 import altTexts from "./rules/altTexts.js";
+import anchorAmbiguousText from "./rules/anchorAmbiguousText.js";
 import anchorContent from "./rules/anchorContent.js";
 import anchorValidity from "./rules/anchorValidity.js";
 import ariaActiveDescendantTabIndex from "./rules/ariaActiveDescendantTabIndex.js";
@@ -9,6 +10,7 @@ import ariaHiddenFocusables from "./rules/ariaHiddenFocusables.js";
 import ariaProps from "./rules/ariaProps.js";
 import ariaRoleValidity from "./rules/ariaRoleValidity.js";
 import ariaUnsupportedElements from "./rules/ariaUnsupportedElements.js";
+import autocomplete from "./rules/autocomplete.js";
 import autoFocusProps from "./rules/autoFocusProps.js";
 import clickEventKeyEvents from "./rules/clickEventKeyEvents.js";
 import distractingElements from "./rules/distractingElements.js";
@@ -34,6 +36,7 @@ export const jsx = createPlugin({
 	rules: [
 		accessKeys,
 		altTexts,
+		anchorAmbiguousText,
 		anchorContent,
 		anchorValidity,
 		ariaActiveDescendantTabIndex,
@@ -41,6 +44,7 @@ export const jsx = createPlugin({
 		ariaProps,
 		ariaRoleValidity,
 		ariaUnsupportedElements,
+		autocomplete,
 		autoFocusProps,
 		clickEventKeyEvents,
 		distractingElements,
