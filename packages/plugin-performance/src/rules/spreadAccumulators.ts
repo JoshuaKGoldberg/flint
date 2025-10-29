@@ -23,59 +23,31 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function getIdentifierName(node: ts.Node): string | undefined {
-			if (ts.isIdentifier(node)) {
-				return node.text;
-			}
-			return undefined;
+		function getIdentifierName(node: ts.Node) {
+			return ts.isIdentifier(node) ? node.text : undefined;
 		}
 
 		function hasSpreadOfIdentifier(
 			node: ts.Node,
 			identifierName: string,
-		): boolean {
+		): boolean | undefined {
 			if (ts.isSpreadElement(node) || ts.isSpreadAssignment(node)) {
-				const spreadName = getIdentifierName(node.expression);
-				if (spreadName === identifierName) {
+				if (identifierName === getIdentifierName(node.expression)) {
 					return true;
 				}
 			}
 
-			let found = false;
-			ts.forEachChild(node, (child) => {
-				if (hasSpreadOfIdentifier(child, identifierName)) {
-					found = true;
-				}
+			return ts.forEachChild(node, (child) => {
+				return hasSpreadOfIdentifier(child, identifierName);
 			});
-
-			return found;
 		}
 
-		function checkAssignmentInLoop(node: ts.Node): void {
+		function checkAssignmentInLoop(node: ts.Node) {
 			if (
 				ts.isBinaryExpression(node) &&
 				node.operatorToken.kind === ts.SyntaxKind.EqualsToken
 			) {
-				const leftName = getIdentifierName(node.left);
-				if (leftName && hasSpreadOfIdentifier(node.right, leftName)) {
-					const spreadNode = findSpreadElement(node.right, leftName);
-					if (spreadNode) {
-						const firstToken = spreadNode.getFirstToken(context.sourceFile);
-						if (
-							firstToken &&
-							firstToken.kind === ts.SyntaxKind.DotDotDotToken
-						) {
-							const start = firstToken.getStart(context.sourceFile);
-							context.report({
-								message: "noAccumulatingSpread",
-								range: {
-									begin: start,
-									end: start + "...".length,
-								},
-							});
-						}
-					}
-				}
+				checkBinaryEqualsExpression(node);
 			}
 
 			ts.forEachChild(node, (child) => {
@@ -90,6 +62,32 @@ export default typescriptLanguage.createRule({
 					return;
 				}
 				checkAssignmentInLoop(child);
+			});
+		}
+
+		function checkBinaryEqualsExpression(node: ts.BinaryExpression) {
+			const leftName = getIdentifierName(node.left);
+			if (!leftName || !hasSpreadOfIdentifier(node.right, leftName)) {
+				return;
+			}
+
+			const spreadNode = findSpreadElement(node.right, leftName);
+			if (!spreadNode) {
+				return;
+			}
+
+			const firstToken = spreadNode.getFirstToken(context.sourceFile);
+			if (firstToken?.kind !== ts.SyntaxKind.DotDotDotToken) {
+				return;
+			}
+
+			const start = firstToken.getStart(context.sourceFile);
+			context.report({
+				message: "noAccumulatingSpread",
+				range: {
+					begin: start,
+					end: start + "...".length,
+				},
 			});
 		}
 
