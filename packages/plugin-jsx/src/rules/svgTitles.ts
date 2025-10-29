@@ -22,6 +22,53 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
+		function hasValidAriaLabel(attributes: ts.JsxAttributes): boolean {
+			return attributes.properties.some((property) => {
+				if (
+					!ts.isJsxAttribute(property) ||
+					!ts.isIdentifier(property.name) ||
+					(property.name.text !== "aria-label" &&
+						property.name.text !== "aria-labelledby")
+				) {
+					return false;
+				}
+
+				if (!property.initializer) {
+					return false;
+				}
+
+				if (ts.isStringLiteral(property.initializer)) {
+					return property.initializer.text !== "";
+				}
+
+				if (ts.isJsxExpression(property.initializer)) {
+					const { expression } = property.initializer;
+					if (!expression) {
+						return false;
+					}
+
+					if (ts.isStringLiteral(expression) && expression.text === "") {
+						return false;
+					}
+
+					if (
+						ts.isNoSubstitutionTemplateLiteral(expression) &&
+						expression.text === ""
+					) {
+						return false;
+					}
+
+					if (ts.isIdentifier(expression) && expression.text === "undefined") {
+						return false;
+					}
+
+					return true;
+				}
+
+				return false;
+			});
+		}
+
 		function checkSvgElement(node: ts.JsxElement | ts.JsxSelfClosingElement) {
 			const tagName = ts.isJsxElement(node)
 				? node.openingElement.tagName
@@ -35,16 +82,7 @@ export default typescriptLanguage.createRule({
 				? node.openingElement.attributes
 				: node.attributes;
 
-			if (
-				attributes.properties.some(
-					(property) =>
-						ts.isJsxAttribute(property) &&
-						ts.isIdentifier(property.name) &&
-						(property.name.text === "aria-label" ||
-							property.name.text === "aria-labelledby") &&
-						property.initializer,
-				)
-			) {
+			if (hasValidAriaLabel(attributes)) {
 				return;
 			}
 

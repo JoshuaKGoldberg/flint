@@ -47,6 +47,41 @@ ruleTester.describe(rule, {
     <desc>Description only</desc>
 </svg>`,
 		},
+		{
+			code: `<svg aria-label="" />`,
+			fileName: "file.tsx",
+			snapshot: `<svg aria-label="" />
+ ~~~
+ This <svg> element is missing a <title> child element.`,
+		},
+		{
+			code: `<svg aria-label={""} />`,
+			fileName: "file.tsx",
+			snapshot: `<svg aria-label={""} />
+ ~~~
+ This <svg> element is missing a <title> child element.`,
+		},
+		{
+			code: `<svg aria-label={\`\`} />`,
+			fileName: "file.tsx",
+			snapshot: `<svg aria-label={\`\`} />
+ ~~~
+ This <svg> element is missing a <title> child element.`,
+		},
+		{
+			code: `<svg aria-label={undefined} />`,
+			fileName: "file.tsx",
+			snapshot: `<svg aria-label={undefined} />
+ ~~~
+ This <svg> element is missing a <title> child element.`,
+		},
+		{
+			code: `<svg aria-labelledby="" />`,
+			fileName: "file.tsx",
+			snapshot: `<svg aria-labelledby="" />
+ ~~~
+ This <svg> element is missing a <title> child element.`,
+		},
 	],
 	valid: [
 		{
