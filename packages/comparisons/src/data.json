@@ -998,6 +998,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "bracedStatements",
 			"plugin": "jsx",
 			"preset": "Stylistic"
@@ -1015,9 +1016,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "buttonTypes",
 			"plugin": "jsx",
-			"preset": "Not implementing"
+			"preset": "logical"
 		}
 	},
 	{
@@ -1193,7 +1195,7 @@
 			}
 		],
 		"flint": {
-			"name": "interactiveElementNonInteractiveRoles",
+			"name": "interactiveElementRoles",
 			"plugin": "jsx",
 			"preset": "Logical"
 		}
