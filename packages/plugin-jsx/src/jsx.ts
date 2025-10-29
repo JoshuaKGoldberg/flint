@@ -40,6 +40,7 @@ import scopeProps from "./rules/scopeProps.js";
 import staticElementInteractions from "./rules/staticElementInteractions.js";
 import svgTitles from "./rules/svgTitles.js";
 import tabIndexPositiveValues from "./rules/tabIndexPositiveValues.js";
+import unescapedEntities from "./rules/unescapedEntities.js";
 import validElementChildren from "./rules/validElementChildren.js";
 
 export const jsx = createPlugin({
@@ -85,6 +86,7 @@ export const jsx = createPlugin({
 		staticElementInteractions,
 		svgTitles,
 		tabIndexPositiveValues,
+		unescapedEntities,
 		validElementChildren,
 	],
 });
