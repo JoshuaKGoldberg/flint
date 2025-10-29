@@ -11,7 +11,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div children="Hello" />
      ~~~~~~~~~~~~~~~~
-     Pass children as content between opening and closing tags, not as a \`children\` prop.
+     Prefer providing children as content between opening and closing tags, not as a \`children\` prop.
 `,
 		},
 		{
@@ -22,7 +22,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <Component children={<span>Test</span>} />
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           Pass children as content between opening and closing tags, not as a \`children\` prop.
+           Prefer providing children as content between opening and closing tags, not as a \`children\` prop.
 `,
 		},
 		{
@@ -33,7 +33,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <button children={["Click me"]} />
         ~~~~~~~~~~~~~~~~~~~~~~~
-        Pass children as content between opening and closing tags, not as a \`children\` prop.
+        Prefer providing children as content between opening and closing tags, not as a \`children\` prop.
 `,
 		},
 		{
@@ -44,7 +44,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div children={value} />
      ~~~~~~~~~~~~~~~~
-     Pass children as content between opening and closing tags, not as a \`children\` prop.
+     Prefer providing children as content between opening and closing tags, not as a \`children\` prop.
 `,
 		},
 	],

@@ -1033,7 +1033,7 @@
 			"implemented": true,
 			"name": "childrenProps",
 			"plugin": "jsx",
-			"preset": "logical"
+			"preset": "Stylistic"
 		}
 	},
 	{

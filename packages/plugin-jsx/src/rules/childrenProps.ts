@@ -5,12 +5,12 @@ export default typescriptLanguage.createRule({
 	about: {
 		description: "Reports usage of the children prop.",
 		id: "childrenProps",
-		preset: "logical",
+		preset: "stylistic",
 	},
 	messages: {
 		noChildrenProp: {
 			primary:
-				"Pass children as content between opening and closing tags, not as a `children` prop.",
+				"Prefer providing children as content between opening and closing tags, not as a `children` prop.",
 			secondary: [
 				"Using the `children` prop is not idiomatic in JSX.",
 				"Pass children as content between opening and closing tags instead.",
@@ -33,6 +33,7 @@ export default typescriptLanguage.createRule({
 						message: "noChildrenProp",
 						range: getTSNodeRange(property, context.sourceFile),
 					});
+					return;
 				}
 			}
 		}
