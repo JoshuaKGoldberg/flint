@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	isGlobalDeclaration,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -23,22 +27,20 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression(node: ts.CallExpression) {
-					// Check if this is a removeChild call
 					if (
 						!ts.isPropertyAccessExpression(node.expression) ||
 						!ts.isIdentifier(node.expression.name) ||
 						node.expression.name.text !== "removeChild" ||
-						node.arguments.length !== 1
+						node.arguments.length !== 1 ||
+						!isGlobalDeclaration(node.expression, context.typeChecker)
 					) {
 						return;
 					}
 
-					const parent = node.expression.expression;
-					const child = node.arguments[0];
-
-					// Get text representations
-					const parentText = parent.getText(context.sourceFile);
-					const childText = child.getText(context.sourceFile);
+					const parentText = node.expression.expression.getText(
+						context.sourceFile,
+					);
+					const childText = node.arguments[0].getText(context.sourceFile);
 
 					context.report({
 						data: {

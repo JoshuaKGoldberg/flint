@@ -5,9 +5,18 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
+declare const parentNode: HTMLElement;
+declare const childNode: HTMLElement;
 parentNode.removeChild(childNode);
 `,
+			output: `
+declare const parentNode: HTMLElement;
+declare const childNode: HTMLElement;
+childNode.remove();
+			`,
 			snapshot: `
+declare const parentNode: HTMLElement;
+declare const childNode: HTMLElement;
 parentNode.removeChild(childNode);
            ~~~~~~~~~~~
            Prefer the modern \`childNode.remove()\` over \`parentNode.removeChild(childNode)\`.
@@ -15,9 +24,15 @@ parentNode.removeChild(childNode);
 		},
 		{
 			code: `
+declare const element: HTMLElement;
 element.parentNode.removeChild(element);
 `,
+			output: `
+declare const element: HTMLElement;
+element.remove();
+			`,
 			snapshot: `
+declare const element: HTMLElement;
 element.parentNode.removeChild(element);
                    ~~~~~~~~~~~
                    Prefer the modern \`element.remove()\` over \`element.parentNode.removeChild(element)\`.
@@ -25,9 +40,15 @@ element.parentNode.removeChild(element);
 		},
 		{
 			code: `
+declare const node: HTMLElement;
 node.parentElement.removeChild(node);
 `,
+			output: `
+declare const node: HTMLElement;
+node.remove();
+`,
 			snapshot: `
+declare const node: HTMLElement;
 node.parentElement.removeChild(node);
                    ~~~~~~~~~~~
                    Prefer the modern \`node.remove()\` over \`node.parentElement.removeChild(node)\`.
@@ -35,17 +56,10 @@ node.parentElement.removeChild(node);
 		},
 		{
 			code: `
-this.parentNode.removeChild(this);
-`,
-			snapshot: `
-this.parentNode.removeChild(this);
-                ~~~~~~~~~~~
-                Prefer the modern \`this.remove()\` over \`this.parentNode.removeChild(this)\`.
-`,
-		},
-		{
-			code: `
 document.body.removeChild(footer);
+`,
+			output: `
+footer.remove();
 `,
 			snapshot: `
 document.body.removeChild(footer);
@@ -55,12 +69,35 @@ document.body.removeChild(footer);
 		},
 	],
 	valid: [
-		`element.remove();`,
-		`node.remove();`,
-		`this.remove();`,
-		`child.parentNode.appendChild(child);`,
-		`parent.replaceChild(newChild, oldChild);`,
-		`other.removeChild();`,
-		`removeChild(node);`,
+		`
+declare const parentNode: { removeChild: (child: HTMLElement): void };
+declare const childNode: HTMLElement;
+parentNode.removeChild(childNode);
+`,
+		`
+declare const element: HTMLElement;
+element.remove();
+`,
+		`
+declare const node: HTMLElement;
+node.remove();
+`,
+		`
+declare const child: HTMLElement;
+child.parentNode.appendChild(child);
+`,
+		`
+declare const parent: HTMLElement;
+parent.replaceChild(newChild, oldChild);
+`,
+		`
+declare const other: HTMLElement;
+other.removeChild();
+`,
+		`
+declare const node: HTMLElement;
+declare function removeChild(child: HTMLElement): void;
+removeChild(node);
+`,
 	],
 });
