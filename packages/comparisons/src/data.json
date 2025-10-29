@@ -69,26 +69,6 @@
 	{
 		"eslint": [
 			{
-				"name": "unicorn/prefer-event-target",
-				"url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/HEAD/docs/rules/prefer-event-target.md"
-			}
-		],
-		"flint": {
-			"name": "eventClasses",
-			"plugin": "browser",
-			"preset": "Logical",
-			"strictness": "Strict"
-		},
-		"oxlint": [
-			{
-				"name": "unicorn/prefer-event-target",
-				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/prefer-event-target.html"
-			}
-		]
-	},
-	{
-		"eslint": [
-			{
 				"name": "unicorn/prefer-add-event-listener",
 				"url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/HEAD/docs/rules/prefer-add-event-listener.md"
 			}
@@ -132,9 +112,8 @@
 			"implemented": true,
 			"name": "keyboardEventKeys",
 			"plugin": "browser",
-			"preset": "logical"
-		},
-		"notes": "Superseded by deprecated"
+			"preset": "Logical"
+		}
 	},
 	{
 		"eslint": [
@@ -144,6 +123,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeAppendMethods",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -164,6 +144,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeDatasetAttributes",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -184,6 +165,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeModificationMethods",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -207,7 +189,8 @@
 			"name": "nodeQueryMethods",
 			"plugin": "browser",
 			"preset": "Stylistic",
-			"strictness": "Strict"
+			"strictness": "Strict",
+			"implemented": true
 		},
 		"oxlint": [
 			{
@@ -224,6 +207,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeRemoveMethods",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -244,6 +228,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeTextContents",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -264,6 +249,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "removeEventListenerExpressions",
 			"plugin": "browser",
 			"preset": "Logical"
@@ -303,9 +289,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "windowMessagingTargetOrigin",
 			"plugin": "browser",
-			"preset": "Not implementing"
+			"preset": "Logical"
 		},
 		"oxlint": [
 			{
@@ -903,6 +890,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "ariaPropTypes",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -956,6 +944,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "autocomplete",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1243,6 +1232,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "labelAssociatedControls",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1336,6 +1326,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nonInteractiveElementInteractions",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -2492,9 +2483,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "assertStrict",
 			"plugin": "node",
-			"preset": "Not implementing"
+			"preset": "Logical"
 		}
 	},
 	{
@@ -2505,6 +2497,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "assertStyles",
 			"plugin": "node",
 			"preset": "Stylistic"
@@ -2632,6 +2625,27 @@
 			"preset": "Not implementing"
 		},
 		"notes": "Superseded by deprecated"
+	},
+	{
+		"eslint": [
+			{
+				"name": "unicorn/prefer-event-target",
+				"url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/HEAD/docs/rules/prefer-event-target.md"
+			}
+		],
+		"flint": {
+			"implemented": true,
+			"name": "eventClasses",
+			"plugin": "node",
+			"preset": "Logical",
+			"strictness": "Strict"
+		},
+		"oxlint": [
+			{
+				"name": "unicorn/prefer-event-target",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/prefer-event-target.html"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -3870,6 +3884,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "importedNamespaceDynamicAccesses",
 			"plugin": "performance",
 			"preset": "Logical"
