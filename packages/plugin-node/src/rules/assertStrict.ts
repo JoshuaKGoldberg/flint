@@ -41,11 +41,10 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				ImportDeclaration(node: ts.ImportDeclaration) {
-					if (isStrictAssertImport(node.moduleSpecifier)) {
-						return;
-					}
-
-					if (!isImportFromNodeAssert(node.moduleSpecifier)) {
+					if (
+						isStrictAssertImport(node.moduleSpecifier) ||
+						!isImportFromNodeAssert(node.moduleSpecifier)
+					) {
 						return;
 					}
 
