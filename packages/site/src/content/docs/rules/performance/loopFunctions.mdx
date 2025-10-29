@@ -32,9 +32,10 @@ for (let i = 0; i < 5; i++) {
 ```
 
 ```ts
-for (const item of items) {
+const items = ["a", "b", "c"];
+for (let i = 0; i < items.length; i++) {
 	button.addEventListener("click", () => {
-		console.log(item);
+		console.log(items[i]);
 	});
 }
 ```
@@ -62,8 +63,9 @@ function createHandler(item: string) {
 	};
 }
 
-for (const item of items) {
-	button.addEventListener("click", createHandler(item));
+const items = ["a", "b", "c"];
+for (let i = 0; i < items.length; i++) {
+	button.addEventListener("click", createHandler(items[i]));
 }
 ```
 
