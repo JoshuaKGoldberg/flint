@@ -1,5 +1,5 @@
-import rule from "./spreadAccumulators.js";
 import { ruleTester } from "./ruleTester.js";
+import rule from "./spreadAccumulators.js";
 
 ruleTester.describe(rule, {
 	invalid: [

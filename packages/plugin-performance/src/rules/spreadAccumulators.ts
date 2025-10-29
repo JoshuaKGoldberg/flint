@@ -106,9 +106,7 @@ export default typescriptLanguage.createRule({
 
 			let result: ts.Node | undefined = undefined;
 			ts.forEachChild(node, (child) => {
-				if (!result) {
-					result = findSpreadElement(child, identifierName);
-				}
+				result ??= findSpreadElement(child, identifierName);
 			});
 
 			return result;
