@@ -261,8 +261,8 @@ export default typescriptLanguage.createRule({
 			}
 
 			const isInteractive =
-				(role && interactiveRoles.has(role)) ||
-				(!role && !nonInteractiveElements.has(elementName));
+				(role !== undefined && interactiveRoles.has(role)) ||
+				(role === undefined && !nonInteractiveElements.has(elementName));
 
 			if (!isInteractive) {
 				return;
@@ -278,7 +278,7 @@ export default typescriptLanguage.createRule({
 			const hasFocusableTabIndex = tabIndex !== undefined;
 
 			if (!hasInherentFocus && !hasFocusableTabIndex) {
-				const displayRole = role || elementName;
+				const displayRole = role ?? elementName;
 				context.report({
 					data: { role: displayRole },
 					message: "notFocusable",
