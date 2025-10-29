@@ -2743,6 +2743,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "fileReadJSONBuffers",
 			"plugin": "node",
 			"preset": "Stylistic",
