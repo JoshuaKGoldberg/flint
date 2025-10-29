@@ -2539,6 +2539,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "bufferAllocators",
 			"plugin": "node",
 			"preset": "Logical"
