@@ -38,6 +38,7 @@ import roleTags from "./rules/roleTags.js";
 import scopeProps from "./rules/scopeProps.js";
 import staticElementInteractions from "./rules/staticElementInteractions.js";
 import tabIndexPositiveValues from "./rules/tabIndexPositiveValues.js";
+import unescapedEntities from "./rules/unescapedEntities.js";
 
 export const jsx = createPlugin({
 	name: "jsx",
@@ -80,5 +81,6 @@ export const jsx = createPlugin({
 		scopeProps,
 		staticElementInteractions,
 		tabIndexPositiveValues,
+		unescapedEntities,
 	],
 });

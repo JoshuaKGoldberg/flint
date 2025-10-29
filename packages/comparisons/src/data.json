@@ -1527,6 +1527,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unescapedEntities",
 			"plugin": "jsx",
 			"preset": "Stylistic"
