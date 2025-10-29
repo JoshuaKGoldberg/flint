@@ -19,7 +19,7 @@ importers:
         version: 9.38.0
       '@flint.fyi/plugin-browser':
         specifier: workspace:^
-        version: link:packages/plugin-browser
+        version: link:packages/plugin-node
       '@flint.fyi/plugin-cspell':
         specifier: workspace:^
         version: link:packages/plugin-cspell
@@ -314,6 +314,21 @@ importers:
         specifier: 1.0.4
         version: 1.0.4
 
+  packages/plugin-node:
+    dependencies:
+      '@flint.fyi/core':
+        specifier: 'workspace:'
+        version: link:../core
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
+      '@flint.fyi/ts':
+        specifier: 'workspace:'
+        version: link:../ts
+      '@flint.fyi/utils':
+        specifier: 'workspace:'
+        version: link:../utils
+
   packages/plugin-performance:
     dependencies:
       '@flint.fyi/core':
@@ -360,7 +375,7 @@ importers:
         version: link:../comparisons
       '@flint.fyi/plugin-browser':
         specifier: 'workspace:'
-        version: link:../plugin-browser
+        version: link:../plugin-node
       '@flint.fyi/plugin-cspell':
         specifier: 'workspace:'
         version: link:../plugin-cspell

@@ -9,10 +9,10 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="browser" rule="eventClasses" />
+<RuleSummary plugin="node" rule="eventClasses" />
 
 While `EventEmitter` is only available in Node.js, `EventTarget` is available in browsers, Deno, and modern Node.js (v14.5+).
-Using `EventTarget` makes code more cross-platform friendly and can reduce bundle size in browser environments.
+Using `EventTarget` makes code more cross-platform friendly and can reduce bundle size in built packages.
 
 ## Examples
 
@@ -55,4 +55,4 @@ If your code exclusively targets Node.js environments and you specifically need 
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="browser" ruleId="eventClasses" />
+<RuleEquivalents pluginId="node" ruleId="eventClasses" />
