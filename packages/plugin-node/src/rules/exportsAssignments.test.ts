@@ -10,7 +10,7 @@ exports = {};
 			snapshot: `
 exports = {};
 ~~~~~~~
-Unexpected assignment to \`exports\`. Use \`module.exports\` instead.
+Assigning to \`exports\` rather than \`module.exports\` may break references to \`module.exports\`.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ exports = { foo: 1 };
 			snapshot: `
 exports = { foo: 1 };
 ~~~~~~~
-Unexpected assignment to \`exports\`. Use \`module.exports\` instead.
+Assigning to \`exports\` rather than \`module.exports\` may break references to \`module.exports\`.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ exports = somethingElse;
 			snapshot: `
 exports = somethingElse;
 ~~~~~~~
-Unexpected assignment to \`exports\`. Use \`module.exports\` instead.
+Assigning to \`exports\` rather than \`module.exports\` may break references to \`module.exports\`.
 `,
 		},
 	],

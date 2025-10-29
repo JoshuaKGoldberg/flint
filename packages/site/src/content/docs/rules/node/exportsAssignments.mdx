@@ -53,7 +53,8 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-If you are not using CommonJS modules (for example, if you exclusively use ES modules with `import`/`export`), this rule is not applicable.
+If you use an unusual code pattern that intentionally needs to remove the original reference to `exports`, this rule may not be for you.
+However, doing so may make it harder to understand your code or migrate it to the more modern ECMAScript Modules (ESM) syntax.
 
 ## Further Reading
 
