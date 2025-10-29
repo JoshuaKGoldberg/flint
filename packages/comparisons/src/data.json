@@ -2575,9 +2575,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "callbackErrorLiterals",
 			"plugin": "node",
-			"preset": "Not implementing"
+			"preset": "Logical"
 		}
 	},
 	{

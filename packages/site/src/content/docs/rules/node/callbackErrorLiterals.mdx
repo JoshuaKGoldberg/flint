@@ -1,0 +1,71 @@
+---
+description: "Prefer Error instances over literal values when invoking error-first callbacks."
+title: "callbackErrorLiterals"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="node" rule="callbackErrorLiterals" />
+
+In Node.js, error-first callbacks follow a convention where the first parameter is reserved for an error object (or `null`/`undefined` if there's no error).
+Passing literal values like strings, numbers, or booleans as the first argument breaks this convention and makes error handling inconsistent and harder to debug.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+callback('error message');
+
+cb(404);
+
+next('route');
+
+done(true);
+
+callback({ message: 'error' });
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+callback(null, data);
+
+callback(undefined, data);
+
+callback(new Error('error message'));
+
+callback(error);
+
+cb(null, result);
+
+next();
+
+next(error);
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you're working with callback APIs that don't follow the Node.js error-first callback convention, or if you have custom callback patterns that intentionally accept literal values as the first argument, you might choose not to enable this rule.
+
+## Further Reading
+
+- [Node.js Error-First Callbacks](https://nodejs.org/api/errors.html)
+- [The Node.js Way - Understanding Error-First Callbacks](https://fredkschott.com/post/2014/03/understanding-error-first-callbacks-in-node-js/)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="node" ruleId="callbackErrorLiterals" />
