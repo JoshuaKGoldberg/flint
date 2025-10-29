@@ -11,6 +11,7 @@ import nodeDatasetAttributes from "./rules/nodeDatasetAttributes.js";
 import nodeModificationMethods from "./rules/nodeModificationMethods.js";
 import nodeQueryMethods from "./rules/nodeQueryMethods.js";
 import nodeRemoveMethods from "./rules/nodeRemoveMethods.js";
+import nodeTextContents from "./rules/nodeTextContents.js";
 import scriptUrls from "./rules/scriptUrls.js";
 
 export const browser = createPlugin({
@@ -27,6 +28,7 @@ export const browser = createPlugin({
 		nodeModificationMethods,
 		nodeQueryMethods,
 		nodeRemoveMethods,
+		nodeTextContents,
 		scriptUrls,
 	],
 });

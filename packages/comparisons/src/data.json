@@ -249,6 +249,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeTextContents",
 			"plugin": "browser",
 			"preset": "Logical",
