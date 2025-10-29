@@ -10,7 +10,7 @@ export default typescriptLanguage.createRule({
 			primary:
 				"Using the delete operator prevents optimizations in JavaScript engines.",
 			secondary: [
-				"The delete operator modifies object shape, causing deoptimization in modern JavaScript engines.",
+				"The delete operator modifies object shape, causing deoptimizations in modern JavaScript engines.",
 				"This can significantly impact performance in performance-critical code paths.",
 			],
 			suggestions: [
