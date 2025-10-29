@@ -34,11 +34,12 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function hasHtmlForAttribute(attributes: ts.JsxAttributes): boolean {
 			return attributes.properties.some((property) => {
-				if (!ts.isJsxAttribute(property) || !ts.isIdentifier(property.name)) {
-					return false;
-				}
-
-				if (property.name.text !== "htmlFor" || !property.initializer) {
+				if (
+					!ts.isJsxAttribute(property) ||
+					!ts.isIdentifier(property.name) ||
+					property.name.text !== "htmlFor" ||
+					!property.initializer
+				) {
 					return false;
 				}
 
@@ -68,31 +69,32 @@ export default typescriptLanguage.createRule({
 		}
 
 		function hasNestedControl(children: ts.NodeArray<ts.JsxChild>): boolean {
-			for (const child of children) {
+			return children.some((child) => {
 				if (ts.isJsxElement(child)) {
-					const childTagName = child.openingElement.tagName;
-					if (
-						ts.isIdentifier(childTagName) &&
-						controlElements.has(childTagName.text.toLowerCase())
-					) {
-						return true;
-					}
-					if (hasNestedControl(child.children)) {
-						return true;
-					}
-				} else if (ts.isJsxSelfClosingElement(child)) {
-					if (
+					const { tagName } = child.openingElement;
+					return (
+						(ts.isIdentifier(tagName) &&
+							controlElements.has(tagName.text.toLowerCase())) ||
+						hasNestedControl(child.children)
+					);
+				}
+
+				if (ts.isJsxSelfClosingElement(child)) {
+					return (
 						ts.isIdentifier(child.tagName) &&
 						controlElements.has(child.tagName.text.toLowerCase())
-					) {
-						return true;
-					}
+					);
 				}
-			}
-			return false;
+
+				return false;
+			});
 		}
 
 		function checkLabel(node: ts.JsxElement | ts.JsxSelfClosingElement) {
+			if (ts.isJsxElement(node) && hasNestedControl(node.children)) {
+				return;
+			}
+
 			const tagName = ts.isJsxElement(node)
 				? node.openingElement.tagName
 				: node.tagName;
@@ -106,10 +108,6 @@ export default typescriptLanguage.createRule({
 				: node.attributes;
 
 			if (hasHtmlForAttribute(attributes)) {
-				return;
-			}
-
-			if (ts.isJsxElement(node) && hasNestedControl(node.children)) {
 				return;
 			}
 
