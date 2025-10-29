@@ -26,12 +26,12 @@ export default typescriptLanguage.createRule({
 		// Characters that should be escaped in JSX text content
 		const problematicEntities: Record<
 			string,
-			{ htmlEntity: string; braceEntity: string }
+			{ braceEntity: string; htmlEntity: string }
 		> = {
-			">": { htmlEntity: "&gt;", braceEntity: "{'>'}" },
-			'"': { htmlEntity: "&quot;", braceEntity: '{"\\""}' },
-			"'": { htmlEntity: "&apos;", braceEntity: '{"\'"}' },
-			"}": { htmlEntity: "&#125;", braceEntity: "{'}'}" },
+			'"': { braceEntity: '{"\\""}', htmlEntity: "&quot;" },
+			"'": { braceEntity: '{"\'"}', htmlEntity: "&#39;" },
+			">": { braceEntity: "{'>'}", htmlEntity: "&gt;" },
+			"}": { braceEntity: "{'}'}", htmlEntity: "&#125;" },
 		};
 
 		return {
@@ -39,22 +39,29 @@ export default typescriptLanguage.createRule({
 				JsxText(node: ts.JsxText) {
 					const text = node.text;
 
-					for (const [entity, escapedForms] of Object.entries(
-						problematicEntities,
-					)) {
-						if (text.includes(entity)) {
-							context.report({
-								data: {
-									braceEntity: escapedForms.braceEntity,
-									entity,
-									htmlEntity: escapedForms.htmlEntity,
-								},
-								message: "unescapedEntity",
-								range: getTSNodeRange(node, context.sourceFile),
-							});
-							// Report once per text node, not for each character
-							break;
+					// Find the first problematic entity in the text
+					let firstEntity: string | undefined;
+					let firstIndex = Infinity;
+
+					for (const entity of Object.keys(problematicEntities)) {
+						const index = text.indexOf(entity);
+						if (index !== -1 && index < firstIndex) {
+							firstIndex = index;
+							firstEntity = entity;
 						}
+					}
+
+					if (firstEntity) {
+						const escapedForms = problematicEntities[firstEntity];
+						context.report({
+							data: {
+								braceEntity: escapedForms.braceEntity,
+								entity: firstEntity,
+								htmlEntity: escapedForms.htmlEntity,
+							},
+							message: "unescapedEntity",
+							range: getTSNodeRange(node, context.sourceFile),
+						});
 					}
 				},
 			},

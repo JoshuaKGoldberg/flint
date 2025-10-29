@@ -1,5 +1,5 @@
-import rule from "./unescapedEntities.js";
 import { ruleTester } from "./ruleTester.js";
+import rule from "./unescapedEntities.js";
 
 ruleTester.describe(rule, {
 	invalid: [
@@ -28,7 +28,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <p>Single 'quote' example</p>
    ~~~~~~~~~~~~~~~~~~~~~~
-   Unescaped entity \`'\` found in JSX text. Use HTML entity (&apos;) or wrap in braces ({"'"}).`,
+   Unescaped entity \`'\` found in JSX text. Use HTML entity (&#39;) or wrap in braces ({"'"}).`,
 		},
 		{
 			code: `
@@ -53,7 +53,7 @@ ruleTester.describe(rule, {
 		{ code: `<div>Regular text</div>`, fileName: "file.tsx" },
 		{ code: `<div>Text with &gt; entity</div>`, fileName: "file.tsx" },
 		{ code: `<div>Text with &quot; entity</div>`, fileName: "file.tsx" },
-		{ code: `<div>Text with &apos; entity</div>`, fileName: "file.tsx" },
+		{ code: `<div>Text with &#39; entity</div>`, fileName: "file.tsx" },
 		{ code: `<div>Text with &#125; entity</div>`, fileName: "file.tsx" },
 		{ code: `<div>{'>'}{'<'}</div>`, fileName: "file.tsx" },
 		{ code: `<div>{'"'}</div>`, fileName: "file.tsx" },
