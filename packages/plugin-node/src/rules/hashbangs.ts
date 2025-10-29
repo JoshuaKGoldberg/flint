@@ -1,10 +1,9 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import fs from "node:fs";
 import path from "node:path";
-import * as ts from "typescript";
 
 interface PackageJson {
-	bin?: string | Record<string, string>;
+	bin?: Record<string, string> | string;
 }
 
 function findPackageJson(startDir: string): string | undefined {
@@ -119,6 +118,7 @@ export default typescriptLanguage.createRule({
 
 			if (!hasHashbang) {
 				const firstStatement = sourceFile.statements[0];
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- first statement may not exist in empty files
 				if (firstStatement) {
 					context.report({
 						message: "missingHashbang",
@@ -148,6 +148,6 @@ export default typescriptLanguage.createRule({
 			});
 		}
 
-		return;
+		return undefined;
 	},
 });

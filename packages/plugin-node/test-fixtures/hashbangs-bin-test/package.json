@@ -1,6 +1,9 @@
 {
 	"name": "test-fixture-hashbangs",
 	"version": "1.0.0",
+	"description": "Test fixture for hashbangs rule",
+	"license": "MIT",
+	"type": "module",
 	"bin": {
 		"cli": "./bin/cli.ts"
 	}
