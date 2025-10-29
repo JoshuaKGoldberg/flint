@@ -17,11 +17,15 @@ import autoFocusProps from "./rules/autoFocusProps.js";
 import booleanValues from "./rules/booleanValues.js";
 import bracedStatements from "./rules/bracedStatements.js";
 import buttonTypes from "./rules/buttonTypes.js";
+import childrenProps from "./rules/childrenProps.js";
 import clickEventKeyEvents from "./rules/clickEventKeyEvents.js";
+import commentTextNodes from "./rules/commentTextNodes.js";
 import distractingElements from "./rules/distractingElements.js";
+import duplicateProps from "./rules/duplicateProps.js";
 import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
 import iframeTitles from "./rules/iframeTitles.js";
+import interactiveElementsFocusable from "./rules/interactiveElementsFocusable.js";
 import labelAssociatedControls from "./rules/labelAssociatedControls.js";
 import langValidity from "./rules/langValidity.js";
 import mediaCaptions from "./rules/mediaCaptions.js";
@@ -57,11 +61,15 @@ export const jsx = createPlugin({
 		booleanValues,
 		bracedStatements,
 		buttonTypes,
+		childrenProps,
 		clickEventKeyEvents,
+		commentTextNodes,
 		distractingElements,
+		duplicateProps,
 		headingContents,
 		htmlLangs,
 		iframeTitles,
+		interactiveElementsFocusable,
 		labelAssociatedControls,
 		langValidity,
 		mediaCaptions,

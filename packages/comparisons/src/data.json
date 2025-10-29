@@ -1030,9 +1030,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "childrenProps",
 			"plugin": "jsx",
-			"preset": "Not implementing"
+			"preset": "Stylistic"
 		}
 	},
 	{
@@ -1063,9 +1064,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "commentTextNodes",
 			"plugin": "jsx",
-			"preset": "Not implementing"
+			"preset": "Logical"
 		}
 	},
 	{
@@ -1096,6 +1098,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "duplicateProps",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1111,7 +1114,7 @@
 		"flint": {
 			"name": "duplicateSpreads",
 			"plugin": "jsx",
-			"preset": "Logical"
+			"preset": "Not implementing"
 		}
 	},
 	{
@@ -1208,6 +1211,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "interactiveElementsFocusable",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -2539,6 +2543,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "bufferAllocators",
 			"plugin": "node",
 			"preset": "Logical"
