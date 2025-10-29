@@ -15,10 +15,10 @@ Assigning to \`exports\` rather than \`module.exports\` may break references to 
 		},
 		{
 			code: `
-exports = { foo: 1 };
+exports = { value: 1 };
 `,
 			snapshot: `
-exports = { foo: 1 };
+exports = { value: 1 };
 ~~~~~~~
 Assigning to \`exports\` rather than \`module.exports\` may break references to \`module.exports\`.
 `,
@@ -35,7 +35,7 @@ Assigning to \`exports\` rather than \`module.exports\` may break references to 
 		},
 	],
 	valid: [
-		`module.exports.foo = 1;`,
+		`module.exports.value = 1;`,
 		`exports.bar = 2;`,
 		`module.exports = {};`,
 		`module.exports = exports = {};`,
