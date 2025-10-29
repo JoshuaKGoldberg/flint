@@ -3864,6 +3864,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "deletes",
 			"plugin": "performance",
 			"preset": "Logical"
