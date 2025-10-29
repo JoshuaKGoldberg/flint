@@ -5,22 +5,12 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-console.log(" test");
-`,
-			snapshot: `
-console.log(" test");
-            ~~~~~~~
-            Avoid leading or trailing spaces in console method arguments.
-`,
-		},
-		{
-			code: `
 console.log("test ");
 `,
 			snapshot: `
 console.log("test ");
             ~~~~~~~
-            Avoid leading or trailing spaces in console method arguments.
+            This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -30,7 +20,9 @@ console.log(" test ");
 			snapshot: `
 console.log(" test ");
             ~~~~~~~~
-            Avoid leading or trailing spaces in console method arguments.
+            This leading space is unnecessary as Node.js console outputs already include spaces.
+            ~~~~~~~~
+            This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -40,7 +32,7 @@ console.error(" error message");
 			snapshot: `
 console.error(" error message");
               ~~~~~~~~~~~~~~~~
-              Avoid leading or trailing spaces in console method arguments.
+              This leading space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -50,7 +42,7 @@ console.warn("warning ");
 			snapshot: `
 console.warn("warning ");
              ~~~~~~~~~~
-             Avoid leading or trailing spaces in console method arguments.
+             This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -60,7 +52,9 @@ console.info(" info ");
 			snapshot: `
 console.info(" info ");
              ~~~~~~~~
-             Avoid leading or trailing spaces in console method arguments.
+             This leading space is unnecessary as Node.js console outputs already include spaces.
+             ~~~~~~~~
+             This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -70,7 +64,7 @@ console.debug(" debug");
 			snapshot: `
 console.debug(" debug");
               ~~~~~~~~
-              Avoid leading or trailing spaces in console method arguments.
+              This leading space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -80,7 +74,7 @@ console.log("valid", " invalid");
 			snapshot: `
 console.log("valid", " invalid");
                      ~~~~~~~~~~
-                     Avoid leading or trailing spaces in console method arguments.
+                     This leading space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -90,7 +84,9 @@ console.trace(" trace ");
 			snapshot: `
 console.trace(" trace ");
               ~~~~~~~~~
-              Avoid leading or trailing spaces in console method arguments.
+              This leading space is unnecessary as Node.js console outputs already include spaces.
+              ~~~~~~~~~
+              This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -100,7 +96,7 @@ console.group(" group");
 			snapshot: `
 console.group(" group");
               ~~~~~~~~
-              Avoid leading or trailing spaces in console method arguments.
+              This leading space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -110,17 +106,9 @@ console.groupCollapsed(" collapsed ");
 			snapshot: `
 console.groupCollapsed(" collapsed ");
                        ~~~~~~~~~~~~~
-                       Avoid leading or trailing spaces in console method arguments.
-`,
-		},
-		{
-			code: `
-console.log(" ");
-`,
-			snapshot: `
-console.log(" ");
-            ~~~
-            Avoid leading or trailing spaces in console method arguments.
+                       This leading space is unnecessary as Node.js console outputs already include spaces.
+                       ~~~~~~~~~~~~~
+                       This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 	],
@@ -146,5 +134,7 @@ console.log(" ");
 		`console.count("counter");`,
 		`console.dir({});`,
 		`console.log("");`,
+		`console.log("  intentionally indented");`,
+		`console.log("  intentionally indented", "more");`,
 	],
 });
