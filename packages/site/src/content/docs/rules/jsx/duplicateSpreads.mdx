@@ -1,0 +1,69 @@
+---
+description: "Reports JSX elements with multiple spread attributes on the same element."
+title: "duplicateSpreads"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="jsx" rule="duplicateSpreads" />
+
+Using multiple spread attributes on the same JSX element can lead to confusion about which properties take precedence.
+When multiple spreads are used, properties from later spreads override those from earlier ones, which may not be immediately obvious to readers.
+
+Merge spread objects into a single object or use explicit props to make the code's intent clearer.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```tsx
+<Component {...props1} {...props2} />
+```
+
+```tsx
+<div {...defaultProps} {...customProps} />
+```
+
+```tsx
+<button {...baseProps} {...additionalProps} {...overrideProps} />
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```tsx
+<Component {...props} />
+```
+
+```tsx
+<div {...{ ...defaultProps, ...customProps }} />
+```
+
+```tsx
+<button {...mergedProps} />
+```
+
+```tsx
+<div className="test" {...props} />
+```
+
+</TabItem>
+</Tabs>
+
+## When Not To Use It
+
+If your codebase intentionally uses multiple spreads for prop composition patterns and the team understands the precedence rules, you may want to disable this rule.
+However, consider whether merging the objects would make the code more maintainable.
+
+## Further Reading
+
+- [MDN: Spread syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+- [React Documentation: Spreading Props](https://react.dev/learn/passing-props-to-a-component#forwarding-props-with-the-jsx-spread-syntax)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="jsx" ruleId="duplicateSpreads" />

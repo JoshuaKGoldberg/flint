@@ -1119,6 +1119,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "duplicateSpreads",
 			"plugin": "jsx",
 			"preset": "Logical"
