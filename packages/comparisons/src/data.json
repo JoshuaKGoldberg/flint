@@ -3027,6 +3027,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "processExists",
 			"plugin": "node",
 			"preset": "Logical"
