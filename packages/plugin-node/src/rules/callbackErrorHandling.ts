@@ -1,5 +1,49 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
+import { z } from "zod";
+
+function getFirstParameterName(
+	parameters: ts.NodeArray<ts.ParameterDeclaration>,
+): string | undefined {
+	if (parameters.length === 0) {
+		return undefined;
+	}
+
+	const firstParameter = parameters[0];
+
+	if (ts.isIdentifier(firstParameter.name)) {
+		return firstParameter.name.text;
+	}
+
+	return undefined;
+}
+
+function isParameterReferenced(
+	parameterName: string,
+	functionBody: ts.Node | undefined,
+): boolean {
+	if (!functionBody) {
+		return false;
+	}
+
+	let isReferenced = false;
+
+	function visit(node: ts.Node) {
+		if (ts.isIdentifier(node) && node.text === parameterName) {
+			const parent = node.parent;
+			if (!ts.isParameter(parent) || parent.name !== node) {
+				isReferenced = true;
+			}
+		}
+
+		if (!isReferenced) {
+			ts.forEachChild(node, visit);
+		}
+	}
+
+	visit(functionBody);
+	return isReferenced;
+}
 
 function isPattern(errorArgument: string): boolean {
 	return errorArgument.startsWith("^");
@@ -14,50 +58,6 @@ function matchesConfiguredErrorName(
 		return regexp.test(name);
 	}
 	return name === errorArgument;
-}
-
-function getFirstParameterName(
-	parameters: ts.NodeArray<ts.ParameterDeclaration>,
-): string | undefined {
-	const firstParameter = parameters[0];
-	if (!firstParameter) {
-		return undefined;
-	}
-
-	if (ts.isIdentifier(firstParameter.name)) {
-		return firstParameter.name.text;
-	}
-
-	return undefined;
-}
-
-function isParameterReferenced(
-	parameterName: string,
-	functionBody: ts.Node | undefined,
-	sourceFile: ts.SourceFile,
-): boolean {
-	if (!functionBody) {
-		return false;
-	}
-
-	let isReferenced = false;
-
-	function visit(node: ts.Node) {
-		if (ts.isIdentifier(node) && node.text === parameterName) {
-			const parent = node.parent;
-			// Check if this is a reference and not the parameter declaration itself
-			if (!ts.isParameter(parent) || parent.name !== node) {
-				isReferenced = true;
-			}
-		}
-
-		if (!isReferenced) {
-			ts.forEachChild(node, visit);
-		}
-	}
-
-	visit(functionBody);
-	return isReferenced;
 }
 
 export default typescriptLanguage.createRule({
@@ -81,20 +81,17 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	options: {
-		type: "object",
-		properties: {
-			errorArgument: {
-				type: "string",
-				description:
-					"The name or pattern of the error parameter to check. Defaults to 'err'. Patterns starting with '^' are treated as regular expressions.",
-			},
-		},
+		errorArgument: z
+			.string()
+			.default("err")
+			.describe(
+				"The name or pattern of the error parameter to check. Defaults to 'err'. Patterns starting with '^' are treated as regular expressions.",
+			),
 	},
-	setup(context, options) {
-		const errorArgument = options?.errorArgument ?? "err";
+	setup(context, { errorArgument }) {
 
 		function checkFunction(
-			node: ts.FunctionDeclaration | ts.FunctionExpression | ts.ArrowFunction,
+			node: ts.ArrowFunction | ts.FunctionDeclaration | ts.FunctionExpression,
 		) {
 			const firstParameterName = getFirstParameterName(node.parameters);
 
@@ -110,7 +107,6 @@ export default typescriptLanguage.createRule({
 				!isParameterReferenced(
 					firstParameterName,
 					functionBody,
-					context.sourceFile,
 				)
 			) {
 				context.report({
@@ -122,9 +118,9 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
+				ArrowFunction: checkFunction,
 				FunctionDeclaration: checkFunction,
 				FunctionExpression: checkFunction,
-				ArrowFunction: checkFunction,
 			},
 		};
 	},
