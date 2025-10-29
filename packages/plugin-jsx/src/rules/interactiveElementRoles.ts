@@ -13,17 +13,14 @@ const interactiveElements = new Set([
 	"video",
 ]);
 
+// Non-interactive roles are derived from the set of all valid ARIA roles
+// minus the interactive roles defined by the ARIA specification
 const nonInteractiveRoles = new Set([
-	"alert",
-	"alertdialog",
-	"application",
 	"article",
 	"banner",
-	"cell",
 	"complementary",
 	"contentinfo",
 	"definition",
-	"dialog",
 	"directory",
 	"document",
 	"feed",
@@ -45,7 +42,6 @@ const nonInteractiveRoles = new Set([
 	"presentation",
 	"region",
 	"rowgroup",
-	"scrollbar",
 	"search",
 	"separator",
 	"status",
