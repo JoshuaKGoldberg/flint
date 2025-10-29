@@ -890,6 +890,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "ariaPropTypes",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -943,6 +944,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "autocomplete",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1229,6 +1231,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "labelAssociatedControls",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1322,6 +1325,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nonInteractiveElementInteractions",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -2478,9 +2482,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "assertStrict",
 			"plugin": "node",
-			"preset": "Not implementing"
+			"preset": "Logical"
 		}
 	},
 	{
@@ -2491,6 +2496,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "assertStyles",
 			"plugin": "node",
 			"preset": "Stylistic"
@@ -3864,6 +3870,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "deletes",
 			"plugin": "performance",
 			"preset": "Logical"
@@ -3877,6 +3884,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "importedNamespaceDynamicAccesses",
 			"plugin": "performance",
 			"preset": "Logical"
