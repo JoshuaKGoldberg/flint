@@ -1,12 +1,12 @@
 import { typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-const problematicEntities: Record<string, { brace: string; html: string }> = {
-	'"': { brace: '{"\\""}', html: "&quot;" },
-	"'": { brace: '{"\'"}', html: "&#39;" },
-	">": { brace: "{'>'}", html: "&gt;" },
-	"}": { brace: "{'}'}", html: "&#125;" },
-};
+const problematicEntities = [
+	{ entity: '"', toBrace: '{"\\""}', toHTML: "&quot;" },
+	{ entity: "'", toBrace: '{"\'"}', toHTML: "&#39;" },
+	{ entity: ">", toBrace: "{'>'}", toHTML: "&gt;" },
+	{ entity: "}", toBrace: "{'}'}", toHTML: "&#125;" },
+];
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -32,7 +32,6 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				JsxText(node: ts.JsxText) {
-					const text = node.text;
 					const nodeStart = node.getStart(context.sourceFile);
 					const reports: {
 						begin: number;
@@ -40,18 +39,15 @@ export default typescriptLanguage.createRule({
 						end: number;
 					}[] = [];
 
-					// Find all occurrences of problematic entities
-					for (const [entity, escapedForms] of Object.entries(
-						problematicEntities,
-					)) {
+					for (const { entity, toBrace, toHTML } of problematicEntities) {
 						let index = 0;
-						while ((index = text.indexOf(entity, index)) !== -1) {
+						while ((index = node.text.indexOf(entity, index)) !== -1) {
 							reports.push({
 								begin: nodeStart + index,
 								data: {
-									brace: escapedForms.brace,
+									brace: toBrace,
 									entity,
-									html: escapedForms.html,
+									html: toHTML,
 								},
 								end: nodeStart + index + entity.length,
 							});
@@ -59,11 +55,7 @@ export default typescriptLanguage.createRule({
 						}
 					}
 
-					// Sort reports by position
-					reports.sort((a, b) => a.begin - b.begin);
-
-					// Report each one
-					for (const report of reports) {
+					for (const report of reports.toSorted((a, b) => a.begin - b.begin)) {
 						context.report({
 							data: report.data,
 							message: "unescapedEntity",
