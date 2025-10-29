@@ -4,6 +4,7 @@ import assertStrict from "./rules/assertStrict.js";
 import assertStyles from "./rules/assertStyles.js";
 import blobReadingMethods from "./rules/blobReadingMethods.js";
 import bufferAllocators from "./rules/bufferAllocators.js";
+import callbackErrorHandling from "./rules/callbackErrorHandling.js";
 import eventClasses from "./rules/eventClasses.js";
 
 export const node = createPlugin({
@@ -13,6 +14,7 @@ export const node = createPlugin({
 		assertStyles,
 		blobReadingMethods,
 		bufferAllocators,
+		callbackErrorHandling,
 		eventClasses,
 	],
 });

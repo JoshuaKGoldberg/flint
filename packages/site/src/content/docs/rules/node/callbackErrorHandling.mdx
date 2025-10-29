@@ -1,0 +1,95 @@
+---
+description: "Require error handling in callback functions by checking that error parameters are used."
+title: "callbackErrorHandling"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="node" rule="callbackErrorHandling" />
+
+Callback functions in Node.js commonly follow the error-first callback pattern, where the first parameter is an error object that should be checked before proceeding.
+Failing to handle error parameters can lead to silent failures and make debugging difficult.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function callback(err) {
+	console.log("done");
+}
+
+const callback = function (err) {
+	return true;
+};
+
+const callback = (err) => {
+	doSomething();
+};
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function callback(err) {
+	if (err) throw err;
+	console.log("done");
+}
+
+const callback = function (err) {
+	console.log(err);
+	return true;
+};
+
+const callback = (err) => {
+	if (err) throw err;
+	doSomething();
+};
+
+function callback(_err) {
+	console.log("done");
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule accepts an optional configuration object:
+
+- `errorArgument` (string): The name or pattern of the error parameter to check. Defaults to `"err"`. Patterns starting with `^` are treated as regular expressions.
+
+### Examples
+
+```json
+{
+	"node/callbackErrorHandling": ["error", { "errorArgument": "error" }]
+}
+```
+
+```json
+{
+	"node/callbackErrorHandling": ["error", { "errorArgument": "^err" }]
+}
+```
+
+## When Not To Use It
+
+If you don't use error-first callbacks or have a different error handling convention in your codebase, you might choose not to enable this rule.
+Alternatively, if you intentionally ignore errors in certain callbacks, consider prefixing the parameter name with an underscore (e.g., `_err`) to indicate it's unused.
+
+## Further Reading
+
+- [Node.js: Error-first callbacks](https://nodejs.org/en/learn/asynchronous-work/javascript-asynchronous-programming-and-callbacks#handling-errors-in-callbacks)
+- [MDN: Callback function](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="node" ruleId="callbackErrorHandling" />

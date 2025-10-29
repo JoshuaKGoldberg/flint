@@ -2562,9 +2562,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "callbackErrorHandling",
 			"plugin": "node",
-			"preset": "Not implementing"
+			"preset": "logical"
 		}
 	},
 	{
