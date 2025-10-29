@@ -13,6 +13,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 Modern DOM APIs provide simpler and more intuitive ways to modify the DOM compared to their legacy counterparts.
 These newer methods can be called directly on the node being modified, accept multiple nodes or strings at once, and do not require traversing to parent nodes.
+This rule enforces calling to modern APIs over their legacy equivalents.
 
 ## Examples
 
@@ -20,26 +21,38 @@ These newer methods can be called directly on the node being modified, accept mu
 <TabItem label="❌ Incorrect">
 
 ```js
-parentNode.replaceChild(newNode, oldNode);
-
-parentNode.insertBefore(newNode, referenceNode);
-
-referenceNode.insertAdjacentText("beforebegin", "text");
-
 element.insertAdjacentElement("afterend", newNode);
+```
+
+```js
+parentNode.replaceChild(newNode, oldNode);
+```
+
+```js
+parentNode.insertBefore(newNode, referenceNode);
+```
+
+```js
+referenceNode.insertAdjacentText("beforebegin", "text");
 ```
 
 </TabItem>
 <TabItem label="✅ Correct">
 
 ```js
-oldNode.replaceWith(newNode);
-
-referenceNode.before(newNode);
-
-referenceNode.before("text");
-
 element.after(newNode);
+```
+
+```js
+oldNode.replaceWith(newNode);
+```
+
+```js
+referenceNode.before(newNode);
+```
+
+```js
+referenceNode.before("text");
 ```
 
 </TabItem>

@@ -1,31 +1,46 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-const oldMethodNames = new Set([
-	"insertAdjacentElement",
-	"insertAdjacentText",
-	"insertBefore",
-	"replaceChild",
-]);
+type ModernMethodName = "after" | "append" | "before" | "prepend";
 
-const insertAdjacentPositionMap: Record<string, string> = {
+const insertAdjacentPositionMap: Record<string, ModernMethodName> = {
 	afterbegin: "prepend",
 	afterend: "after",
 	beforebegin: "before",
 	beforeend: "append",
 };
 
-function getPropertyAccessInfo(node: ts.Expression) {
+function getModernMethodName(methodName: string, node: ts.CallExpression) {
+	switch (methodName) {
+		case "insertAdjacentElement":
+		case "insertAdjacentText": {
+			const firstArgument = node.arguments[0];
+			if (!ts.isStringLiteral(firstArgument)) {
+				return undefined;
+			}
+
+			const position = firstArgument.text.toLowerCase();
+			return insertAdjacentPositionMap[position];
+		}
+
+		case "insertBefore":
+			return "before";
+
+		case "replaceChild":
+			return "replaceWith";
+	}
+}
+
+function getPropertyNameNode(node: ts.Expression) {
 	if (!ts.isPropertyAccessExpression(node)) {
 		return undefined;
 	}
 
-	const { expression, name } = node;
-	if (!ts.isIdentifier(name)) {
+	if (!ts.isIdentifier(node.name)) {
 		return undefined;
 	}
 
-	return { expression, methodName: name.text, nameNode: name };
+	return node.name;
 }
 
 export default typescriptLanguage.createRule({
@@ -36,7 +51,7 @@ export default typescriptLanguage.createRule({
 		preset: "logical",
 	},
 	messages: {
-		preferAfter: {
+		after: {
 			primary:
 				"Prefer `.after()` over `.insertAdjacentElement('afterend', ...)` or `.insertAdjacentText('afterend', ...)`.",
 			secondary: [
@@ -45,7 +60,7 @@ export default typescriptLanguage.createRule({
 			],
 			suggestions: ["Replace with `.after()`."],
 		},
-		preferAppend: {
+		append: {
 			primary:
 				"Prefer `.append()` over `.insertAdjacentElement('beforeend', ...)` or `.insertAdjacentText('beforeend', ...)`.",
 			secondary: [
@@ -54,7 +69,7 @@ export default typescriptLanguage.createRule({
 			],
 			suggestions: ["Replace with `.append()`."],
 		},
-		preferBefore: {
+		before: {
 			primary:
 				"Prefer `.before()` over `.insertBefore()`, `.insertAdjacentElement('beforebegin', ...)`, or `.insertAdjacentText('beforebegin', ...)`.",
 			secondary: [
@@ -63,7 +78,7 @@ export default typescriptLanguage.createRule({
 			],
 			suggestions: ["Replace with `.before()`."],
 		},
-		preferPrepend: {
+		prepend: {
 			primary:
 				"Prefer `.prepend()` over `.insertAdjacentElement('afterbegin', ...)` or `.insertAdjacentText('afterbegin', ...)`.",
 			secondary: [
@@ -72,7 +87,7 @@ export default typescriptLanguage.createRule({
 			],
 			suggestions: ["Replace with `.prepend()`."],
 		},
-		preferReplaceWith: {
+		replaceWith: {
 			primary: "Prefer `.replaceWith()` over `.replaceChild()`.",
 			secondary: [
 				"The modern .replaceWith() method is simpler and called directly on the node being replaced.",
@@ -82,72 +97,24 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkCallExpression(node: ts.CallExpression) {
-			const propertyInfo = getPropertyAccessInfo(node.expression);
-			if (propertyInfo === undefined) {
-				return;
-			}
-
-			const { methodName, nameNode } = propertyInfo;
-			if (!oldMethodNames.has(methodName)) {
-				return;
-			}
-
-			if (methodName === "replaceChild") {
-				context.report({
-					message: "preferReplaceWith",
-					range: getTSNodeRange(nameNode, context.sourceFile),
-				});
-				return;
-			}
-
-			if (methodName === "insertBefore") {
-				context.report({
-					message: "preferBefore",
-					range: getTSNodeRange(nameNode, context.sourceFile),
-				});
-				return;
-			}
-
-			if (
-				methodName === "insertAdjacentElement" ||
-				methodName === "insertAdjacentText"
-			) {
-				const firstArgument = node.arguments[0];
-				if (!ts.isStringLiteral(firstArgument)) {
-					return;
-				}
-
-				const position = firstArgument.text.toLowerCase();
-				const modernMethod = insertAdjacentPositionMap[position];
-
-				if (modernMethod === "before") {
-					context.report({
-						message: "preferBefore",
-						range: getTSNodeRange(nameNode, context.sourceFile),
-					});
-				} else if (modernMethod === "after") {
-					context.report({
-						message: "preferAfter",
-						range: getTSNodeRange(nameNode, context.sourceFile),
-					});
-				} else if (modernMethod === "prepend") {
-					context.report({
-						message: "preferPrepend",
-						range: getTSNodeRange(nameNode, context.sourceFile),
-					});
-				} else if (modernMethod === "append") {
-					context.report({
-						message: "preferAppend",
-						range: getTSNodeRange(nameNode, context.sourceFile),
-					});
-				}
-			}
-		}
-
 		return {
 			visitors: {
-				CallExpression: checkCallExpression,
+				CallExpression(node) {
+					const nameNode = getPropertyNameNode(node.expression);
+					if (nameNode === undefined) {
+						return;
+					}
+
+					const modernMethod = getModernMethodName(nameNode.text, node);
+					if (!modernMethod) {
+						return undefined;
+					}
+
+					context.report({
+						message: modernMethod,
+						range: getTSNodeRange(nameNode, context.sourceFile),
+					});
+				},
 			},
 		};
 	},
