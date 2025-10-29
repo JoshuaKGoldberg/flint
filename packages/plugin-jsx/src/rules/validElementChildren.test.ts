@@ -1,5 +1,5 @@
-import rule from "./validElementChildren.js";
 import { ruleTester } from "./ruleTester.js";
+import rule from "./validElementChildren.js";
 
 ruleTester.describe(rule, {
 	invalid: [
