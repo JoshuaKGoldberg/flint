@@ -97,7 +97,8 @@
 			"name": "eventListenerSubscriptions",
 			"plugin": "browser",
 			"preset": "Logical",
-			"strictness": "Strict"
+			"strictness": "Strict",
+			"implemented": true
 		},
 		"oxlint": [
 			{
@@ -128,9 +129,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "keyboardEventKeys",
 			"plugin": "browser",
-			"preset": "Not implementing"
+			"preset": "logical"
 		},
 		"notes": "Superseded by deprecated"
 	},
@@ -142,6 +144,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeAppendMethods",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -162,6 +165,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeDatasetAttributes",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -182,6 +186,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeModificationMethods",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -205,7 +210,8 @@
 			"name": "nodeQueryMethods",
 			"plugin": "browser",
 			"preset": "Stylistic",
-			"strictness": "Strict"
+			"strictness": "Strict",
+			"implemented": true
 		},
 		"oxlint": [
 			{
@@ -222,6 +228,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeRemoveMethods",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -242,6 +249,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeTextContents",
 			"plugin": "browser",
 			"preset": "Logical",
