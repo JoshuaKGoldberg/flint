@@ -43,11 +43,11 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				CallExpression(node: ts.CallExpression) {
 					if (
+						node.arguments.length < 2 &&
 						ts.isPropertyAccessExpression(node.expression) &&
 						ts.isIdentifier(node.expression.name) &&
 						node.expression.name.text === "postMessage" &&
-						isWindowLikeIdentifier(node.expression.expression) &&
-						node.arguments.length < 2
+						isWindowLikeIdentifier(node.expression.expression)
 					) {
 						context.report({
 							message: "missingTargetOrigin",
