@@ -2729,6 +2729,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "filePathsFromImportMeta",
 			"plugin": "node",
 			"preset": "Stylistic",
