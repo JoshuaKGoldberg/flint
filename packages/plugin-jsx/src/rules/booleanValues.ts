@@ -22,28 +22,18 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkElement(node: ts.JsxOpeningLikeElement) {
 			for (const property of node.attributes.properties) {
-				if (!ts.isJsxAttribute(property)) {
-					continue;
-				}
-
-				if (!ts.isIdentifier(property.name)) {
-					continue;
-				}
-
-				const initializer = property.initializer;
-				if (!initializer) {
-					continue;
-				}
-
-				if (ts.isJsxExpression(initializer)) {
-					const expression = initializer.expression;
-					if (expression && expression.kind === ts.SyntaxKind.TrueKeyword) {
-						context.report({
-							data: { name: property.name.text },
-							message: "preferShorthand",
-							range: getTSNodeRange(property, context.sourceFile),
-						});
-					}
+				if (
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.initializer &&
+					ts.isJsxExpression(property.initializer) &&
+					property.initializer.expression?.kind === ts.SyntaxKind.TrueKeyword
+				) {
+					context.report({
+						data: { name: property.name.text },
+						message: "preferShorthand",
+						range: getTSNodeRange(property, context.sourceFile),
+					});
 				}
 			}
 		}
