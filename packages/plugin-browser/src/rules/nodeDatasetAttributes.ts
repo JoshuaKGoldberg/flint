@@ -1,57 +1,57 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	isGlobalDeclaration,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
+
+type AttributeMethodName =
+	| "getAttribute"
+	| "hasAttribute"
+	| "removeAttribute"
+	| "setAttribute";
 
 function convertDataAttributeToDatasetKey(
 	attributeName: string,
 ): string | undefined {
-	if (!attributeName.startsWith("data-")) {
-		return undefined;
-	}
-
-	const suffix = attributeName.slice(5);
-	if (suffix.length === 0) {
-		return undefined;
-	}
-
-	return suffix.replace(/-([a-z])/g, (_match, letter: string) =>
-		letter.toUpperCase(),
-	);
+	return attributeName.startsWith("data-")
+		? attributeName
+				.slice(5)
+				.replace(/-([a-z])/g, (_match, letter: string) => letter.toUpperCase())
+		: undefined;
 }
 
 function getMethodDetails(node: ts.CallExpression) {
-	if (!ts.isPropertyAccessExpression(node.expression)) {
-		return undefined;
-	}
-
-	const { expression, name } = node.expression;
-	if (!ts.isIdentifier(name)) {
-		return undefined;
-	}
-
-	const methodName = name.text;
 	if (
-		methodName !== "getAttribute" &&
-		methodName !== "setAttribute" &&
-		methodName !== "removeAttribute" &&
-		methodName !== "hasAttribute"
+		node.arguments.length === 0 ||
+		!ts.isPropertyAccessExpression(node.expression) ||
+		!ts.isIdentifier(node.expression.name)
 	) {
 		return undefined;
 	}
 
-	return { expression, methodName, methodNode: name };
+	const methodName = node.expression.name.text;
+	if (!isAttributeMethodName(methodName)) {
+		return undefined;
+	}
+
+	return {
+		methodName,
+		methodNode: node.expression.name,
+	};
 }
 
-function getStringLiteralValue(node: ts.Expression): string | undefined {
-	if (ts.isStringLiteral(node)) {
-		return node.text;
-	}
-	if (
-		ts.isNoSubstitutionTemplateLiteral(node) &&
-		!ts.isTaggedTemplateExpression(node.parent)
-	) {
-		return node.text;
-	}
-	return undefined;
+const attributeMethodNames = new Set([
+	"getAttribute",
+	"hasAttribute",
+	"removeAttribute",
+	"setAttribute",
+]);
+
+function isAttributeMethodName(
+	methodName: string,
+): methodName is AttributeMethodName {
+	return attributeMethodNames.has(methodName);
 }
 
 export default typescriptLanguage.createRule({
@@ -63,10 +63,11 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		preferDataset: {
-			primary: "Prefer `{{ suggestion }}` over `{{ current }}`.",
+			primary:
+				"Prefer using `.dataset` as a safer, more idiomatic API for accessing data-* attributes.",
 			secondary: [
-				"The `dataset` property provides a cleaner and more convenient API for accessing data-* attributes.",
-				"It automatically handles the conversion between kebab-case attribute names and camelCase property names.",
+				"The `dataset` property automatically handles the conversion between kebab-case attribute names and camelCase property names.",
+				"It is generally considered preferable and less danger-prone than legacy methods for data-* attribute manipulation.",
 			],
 			suggestions: ["Use the `dataset` property instead."],
 		},
@@ -80,12 +81,6 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const { expression, methodName, methodNode } = details;
-
-					if (node.arguments.length === 0) {
-						return;
-					}
-
 					const attributeName = getStringLiteralValue(node.arguments[0]);
 					if (!attributeName) {
 						return;
@@ -96,52 +91,33 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Check if the method is from a DOM element type
-					const type = context.typeChecker.getTypeAtLocation(expression);
-					const symbol = type.getSymbol();
-					if (symbol) {
-						const declarations = symbol.getDeclarations();
-						if (declarations) {
-							if (
-								!declarations.some((decl) =>
-									decl.getSourceFile().fileName.includes("lib.dom"),
-								)
-							) {
-								return;
-							}
-						}
-					}
-
-					const sourceFile = context.sourceFile;
-					const elementText = expression.getText(sourceFile);
-					let current: string;
-					let suggestion: string;
-
-					if (methodName === "getAttribute") {
-						current = `${elementText}.getAttribute('${attributeName}')`;
-						suggestion = `${elementText}.dataset.${datasetKey}`;
-					} else if (methodName === "hasAttribute") {
-						current = `${elementText}.hasAttribute('${attributeName}')`;
-						suggestion = `'${datasetKey}' in ${elementText}.dataset`;
-					} else if (methodName === "removeAttribute") {
-						current = `${elementText}.removeAttribute('${attributeName}')`;
-						suggestion = `delete ${elementText}.dataset.${datasetKey}`;
-					} else {
-						// setAttribute
-						if (node.arguments.length < 2) {
-							return;
-						}
-						current = `${elementText}.setAttribute('${attributeName}', ...)`;
-						suggestion = `${elementText}.dataset.${datasetKey} = ...`;
+					if (!isGlobalDeclaration(node.expression, context.typeChecker)) {
+						return;
 					}
 
 					context.report({
-						data: { current, suggestion },
 						message: "preferDataset",
-						range: getTSNodeRange(methodNode, sourceFile),
+						range: getTSNodeRange(details.methodNode, context.sourceFile),
+						// TODO: add an automated changer
 					});
 				},
 			},
 		};
 	},
 });
+
+// TODO: Use a util like getStaticValue
+function getStringLiteralValue(node: ts.Expression): string | undefined {
+	if (ts.isStringLiteral(node)) {
+		return node.text;
+	}
+
+	if (
+		ts.isNoSubstitutionTemplateLiteral(node) &&
+		!ts.isTaggedTemplateExpression(node.parent)
+	) {
+		return node.text;
+	}
+
+	return undefined;
+}
