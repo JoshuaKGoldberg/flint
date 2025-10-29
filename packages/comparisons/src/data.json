@@ -1231,6 +1231,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "labelAssociatedControls",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1324,6 +1325,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nonInteractiveElementInteractions",
 			"plugin": "jsx",
 			"preset": "Logical"
