@@ -31,11 +31,8 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression(node: ts.CallExpression) {
-					if (!ts.isPropertyAccessExpression(node.expression)) {
-						return;
-					}
-
 					if (
+						!ts.isPropertyAccessExpression(node.expression) ||
 						!ts.isIdentifier(node.expression.name) ||
 						node.expression.name.text !== "removeEventListener" ||
 						node.arguments.length < 2 ||
