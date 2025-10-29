@@ -1,4 +1,4 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const problematicEntities: Record<string, { brace: string; html: string }> = {
@@ -32,27 +32,45 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				JsxText(node: ts.JsxText) {
-					let firstEntity: string | undefined;
-					let firstIndex = Infinity;
+					const text = node.text;
+					const nodeStart = node.getStart(context.sourceFile);
+					const reports: {
+						begin: number;
+						data: { brace: string; entity: string; html: string };
+						end: number;
+					}[] = [];
 
-					for (const entity of Object.keys(problematicEntities)) {
-						const index = node.text.indexOf(entity);
-						if (index !== -1 && index < firstIndex) {
-							firstIndex = index;
-							firstEntity = entity;
+					// Find all occurrences of problematic entities
+					for (const [entity, escapedForms] of Object.entries(
+						problematicEntities,
+					)) {
+						let index = 0;
+						while ((index = text.indexOf(entity, index)) !== -1) {
+							reports.push({
+								begin: nodeStart + index,
+								data: {
+									brace: escapedForms.brace,
+									entity,
+									html: escapedForms.html,
+								},
+								end: nodeStart + index + entity.length,
+							});
+							index += entity.length;
 						}
 					}
 
-					if (firstEntity) {
-						const escapedForms = problematicEntities[firstEntity];
+					// Sort reports by position
+					reports.sort((a, b) => a.begin - b.begin);
+
+					// Report each one
+					for (const report of reports) {
 						context.report({
-							data: {
-								brace: escapedForms.brace,
-								entity: firstEntity,
-								html: escapedForms.html,
-							},
+							data: report.data,
 							message: "unescapedEntity",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: {
+								begin: report.begin,
+								end: report.end,
+							},
 						});
 					}
 				},

@@ -9,8 +9,8 @@ ruleTester.describe(rule, {
 			fileName: "file.tsx",
 			snapshot: `
 <div>Greater than > sign</div>
-     ~~~~~~~~~~~~~~~~~~~
-     This unescaped entity \`>\` may not render properly.`,
+                  ~
+                  This unescaped entity \`>\` may not render properly.`,
 		},
 		{
 			code: `
@@ -18,8 +18,10 @@ ruleTester.describe(rule, {
 			fileName: "file.tsx",
 			snapshot: `
 <span>Double "quote" example</span>
-      ~~~~~~~~~~~~~~~~~~~~~~
-      This unescaped entity \`"\` may not render properly.`,
+             ~
+             This unescaped entity \`"\` may not render properly.
+                   ~
+                   This unescaped entity \`"\` may not render properly.`,
 		},
 		{
 			code: `
@@ -27,8 +29,10 @@ ruleTester.describe(rule, {
 			fileName: "file.tsx",
 			snapshot: `
 <p>Single 'quote' example</p>
-   ~~~~~~~~~~~~~~~~~~~~~~
-   This unescaped entity \`'\` may not render properly.`,
+          ~
+          This unescaped entity \`'\` may not render properly.
+                ~
+                This unescaped entity \`'\` may not render properly.`,
 		},
 		{
 			code: `
@@ -36,8 +40,8 @@ ruleTester.describe(rule, {
 			fileName: "file.tsx",
 			snapshot: `
 <div>Closing } brace</div>
-     ~~~~~~~~~~~~~~~
-     This unescaped entity \`}\` may not render properly.`,
+             ~
+             This unescaped entity \`}\` may not render properly.`,
 		},
 		{
 			code: `
@@ -45,8 +49,21 @@ ruleTester.describe(rule, {
 			fileName: "file.tsx",
 			snapshot: `
 <Component>Text with > and "</Component>
-           ~~~~~~~~~~~~~~~~~
-           This unescaped entity \`>\` may not render properly.`,
+                     ~
+                     This unescaped entity \`>\` may not render properly.
+                           ~
+                           This unescaped entity \`"\` may not render properly.`,
+		},
+		{
+			code: `
+<div>Multiple >> problems</div>`,
+			fileName: "file.tsx",
+			snapshot: `
+<div>Multiple >> problems</div>
+              ~
+              This unescaped entity \`>\` may not render properly.
+               ~
+               This unescaped entity \`>\` may not render properly.`,
 		},
 	],
 	valid: [
