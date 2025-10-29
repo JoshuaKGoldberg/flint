@@ -1198,6 +1198,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "interactiveElementRoles",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -2668,6 +2669,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "exportsAssignments",
 			"plugin": "node",
 			"preset": "Logical"

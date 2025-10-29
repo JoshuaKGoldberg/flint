@@ -6,6 +6,7 @@ import blobReadingMethods from "./rules/blobReadingMethods.js";
 import bufferAllocators from "./rules/bufferAllocators.js";
 import consoleSpaces from "./rules/consoleSpaces.js";
 import eventClasses from "./rules/eventClasses.js";
+import exportsAssignments from "./rules/exportsAssignments.js";
 
 export const node = createPlugin({
 	name: "node",
@@ -16,5 +17,6 @@ export const node = createPlugin({
 		bufferAllocators,
 		consoleSpaces,
 		eventClasses,
+		exportsAssignments,
 	],
 });

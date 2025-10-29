@@ -137,12 +137,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkElement(node);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkElement(node);
-				},
+				JsxOpeningElement: checkElement,
+				JsxSelfClosingElement: checkElement,
 			},
 		};
 	},
