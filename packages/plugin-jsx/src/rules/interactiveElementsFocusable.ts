@@ -104,7 +104,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		notFocusable: {
 			primary:
-				"Elements with the '{{ role }}' interactive role must be focusable.",
+				"The '{{ role }}' role makes this element interactive, so it should also be focusable.",
 			secondary: [
 				"Interactive elements must be reachable via keyboard navigation.",
 				"Add a tabIndex attribute or use an inherently focusable element.",
@@ -119,33 +119,33 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function getTabIndexValue(node: ts.JsxOpeningLikeElement) {
-			const tabIndexProperty = node.attributes.properties.find(
+			const tabIndex = node.attributes.properties.find(
 				(property): property is ts.JsxAttribute =>
 					ts.isJsxAttribute(property) &&
 					ts.isIdentifier(property.name) &&
 					property.name.text === "tabIndex",
 			);
 
-			if (!tabIndexProperty?.initializer) {
+			if (!tabIndex?.initializer) {
 				return undefined;
 			}
 
-			if (ts.isJsxExpression(tabIndexProperty.initializer)) {
-				const expression = tabIndexProperty.initializer.expression;
+			if (ts.isJsxExpression(tabIndex.initializer)) {
+				const expression = tabIndex.initializer.expression;
 				if (expression && ts.isNumericLiteral(expression)) {
 					return Number(expression.text);
 				}
 			}
 
-			if (ts.isStringLiteral(tabIndexProperty.initializer)) {
-				return Number(tabIndexProperty.initializer.text);
+			if (ts.isStringLiteral(tabIndex.initializer)) {
+				return Number(tabIndex.initializer.text);
 			}
 
 			return undefined;
 		}
 
 		function getRoleValue(node: ts.JsxOpeningLikeElement) {
-			const roleProperty = node.attributes.properties.find(
+			const role = node.attributes.properties.find(
 				(property) =>
 					ts.isJsxAttribute(property) &&
 					ts.isIdentifier(property.name) &&
@@ -153,42 +153,41 @@ export default typescriptLanguage.createRule({
 			);
 
 			if (
-				roleProperty &&
-				ts.isJsxAttribute(roleProperty) &&
-				roleProperty.initializer &&
-				ts.isStringLiteral(roleProperty.initializer)
+				role &&
+				ts.isJsxAttribute(role) &&
+				role.initializer &&
+				ts.isStringLiteral(role.initializer)
 			) {
-				return roleProperty.initializer.text;
+				return role.initializer.text;
 			}
 
 			return undefined;
 		}
 
 		function isAriaHidden(node: ts.JsxOpeningLikeElement) {
-			const ariaHiddenProperty = node.attributes.properties.find(
+			const ariaHidden = node.attributes.properties.find(
 				(property) =>
 					ts.isJsxAttribute(property) &&
 					ts.isIdentifier(property.name) &&
 					property.name.text === "aria-hidden",
 			);
 
-			if (!ariaHiddenProperty || !ts.isJsxAttribute(ariaHiddenProperty)) {
+			if (
+				!ariaHidden ||
+				!ts.isJsxAttribute(ariaHidden) ||
+				!ariaHidden.initializer
+			) {
 				return false;
 			}
 
-			const { initializer } = ariaHiddenProperty;
-
-			if (!initializer) {
-				return false;
+			if (ts.isJsxExpression(ariaHidden.initializer)) {
+				return (
+					ariaHidden.initializer.expression?.kind === ts.SyntaxKind.TrueKeyword
+				);
 			}
 
-			if (ts.isStringLiteral(initializer)) {
-				return initializer.text === "true";
-			}
-
-			if (ts.isJsxExpression(initializer)) {
-				const expression = initializer.expression;
-				return expression?.kind === ts.SyntaxKind.TrueKeyword;
+			if (ts.isStringLiteral(ariaHidden.initializer)) {
+				return ariaHidden.initializer.text === "true";
 			}
 
 			return false;
@@ -220,8 +219,10 @@ export default typescriptLanguage.createRule({
 			}
 
 			if (ts.isJsxExpression(disabledProperty.initializer)) {
-				const expression = disabledProperty.initializer.expression;
-				return expression?.kind === ts.SyntaxKind.TrueKeyword;
+				return (
+					disabledProperty.initializer.expression?.kind ===
+					ts.SyntaxKind.TrueKeyword
+				);
 			}
 
 			return false;
@@ -233,29 +234,16 @@ export default typescriptLanguage.createRule({
 			}
 
 			const elementName = node.tagName.text.toLowerCase();
-			if (elementName !== node.tagName.text) {
+			if (
+				elementName !== node.tagName.text ||
+				!hasInteractiveHandler(node) ||
+				isAriaHidden(node) ||
+				isDisabled(node)
+			) {
 				return;
 			}
-
-			const hasInteractiveProps = hasInteractiveHandler(node);
-
-			if (!hasInteractiveProps) {
-				return;
-			}
-
-			if (isDisabled(node) || isAriaHidden(node)) {
-				return;
-			}
-
-			const roleProperty = node.attributes.properties.find(
-				(property) =>
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
-					property.name.text === "role",
-			);
 
 			const role = getRoleValue(node);
-
 			if (role === "presentation" || role === "none") {
 				return;
 			}
@@ -276,6 +264,12 @@ export default typescriptLanguage.createRule({
 			const hasInherentFocus = inherentlyFocusableElements.has(elementName);
 			const tabIndex = getTabIndexValue(node);
 			const hasFocusableTabIndex = tabIndex !== undefined;
+			const roleProperty = node.attributes.properties.find(
+				(property) =>
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text === "role",
+			);
 
 			if (!hasInherentFocus && !hasFocusableTabIndex) {
 				const displayRole = role ?? elementName;

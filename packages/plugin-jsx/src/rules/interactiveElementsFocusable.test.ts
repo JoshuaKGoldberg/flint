@@ -11,7 +11,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="button" onClick={() => {}} />
      ~~~~~~~~~~~~~
-     Elements with the 'button' interactive role must be focusable.
+     The 'button' role makes this element interactive, so it should also be focusable.
 `,
 		},
 		{
@@ -22,7 +22,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <span role="button" onClick={() => {}} />
       ~~~~~~~~~~~~~
-      Elements with the 'button' interactive role must be focusable.
+      The 'button' role makes this element interactive, so it should also be focusable.
 `,
 		},
 		{
@@ -33,7 +33,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="checkbox" onClick={() => {}} />
      ~~~~~~~~~~~~~~~
-     Elements with the 'checkbox' interactive role must be focusable.
+     The 'checkbox' role makes this element interactive, so it should also be focusable.
 `,
 		},
 		{
@@ -44,7 +44,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <span role="link" onClick={() => {}} />
       ~~~~~~~~~~~
-      Elements with the 'link' interactive role must be focusable.
+      The 'link' role makes this element interactive, so it should also be focusable.
 `,
 		},
 		{
@@ -55,7 +55,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="menuitem" onKeyDown={() => {}} />
      ~~~~~~~~~~~~~~~
-     Elements with the 'menuitem' interactive role must be focusable.
+     The 'menuitem' role makes this element interactive, so it should also be focusable.
 `,
 		},
 		{
@@ -66,7 +66,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="tab" onKeyPress={() => {}} />
      ~~~~~~~~~~
-     Elements with the 'tab' interactive role must be focusable.
+     The 'tab' role makes this element interactive, so it should also be focusable.
 `,
 		},
 		{
@@ -77,7 +77,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="textbox" onKeyUp={() => {}} />
      ~~~~~~~~~~~~~~
-     Elements with the 'textbox' interactive role must be focusable.
+     The 'textbox' role makes this element interactive, so it should also be focusable.
 `,
 		},
 		{
@@ -88,7 +88,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <span role="switch" onMouseDown={() => {}} />
       ~~~~~~~~~~~~~
-      Elements with the 'switch' interactive role must be focusable.
+      The 'switch' role makes this element interactive, so it should also be focusable.
 `,
 		},
 		{
@@ -99,7 +99,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div role="slider" onMouseUp={() => {}} />
      ~~~~~~~~~~~~~
-     Elements with the 'slider' interactive role must be focusable.
+     The 'slider' role makes this element interactive, so it should also be focusable.
 `,
 		},
 	],
