@@ -14,7 +14,7 @@ function hasFileExtension(path: string): boolean {
 }
 
 function isRelativePath(path: string): boolean {
-	return path.startsWith(".") || path.startsWith("..");
+	return path.startsWith("./") || path.startsWith("../");
 }
 
 function shouldCheckImportPath(moduleSpecifier: ts.Expression): boolean {

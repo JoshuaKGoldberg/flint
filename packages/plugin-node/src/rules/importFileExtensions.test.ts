@@ -101,5 +101,7 @@ import type { Type } from "./types";
 		`import value from "@scope/package";`,
 		`import value from "react";`,
 		`export { value } from "external-package";`,
+		`import value from ".env";`,
+		`import value from "..config";`,
 	],
 });
