@@ -1114,7 +1114,7 @@
 		"flint": {
 			"name": "duplicateSpreads",
 			"plugin": "jsx",
-			"preset": "Logical"
+			"preset": "Not implementing"
 		}
 	},
 	{
@@ -1211,6 +1211,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "interactiveElementsFocusable",
 			"plugin": "jsx",
 			"preset": "Logical"
