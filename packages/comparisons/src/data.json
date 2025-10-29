@@ -1198,6 +1198,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "interactiveElementRoles",
 			"plugin": "jsx",
 			"preset": "Logical"

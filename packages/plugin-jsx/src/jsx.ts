@@ -24,6 +24,7 @@ import duplicateProps from "./rules/duplicateProps.js";
 import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
 import iframeTitles from "./rules/iframeTitles.js";
+import interactiveElementRoles from "./rules/interactiveElementRoles.js";
 import interactiveElementsFocusable from "./rules/interactiveElementsFocusable.js";
 import labelAssociatedControls from "./rules/labelAssociatedControls.js";
 import langValidity from "./rules/langValidity.js";
@@ -72,6 +73,7 @@ export const jsx = createPlugin({
 		htmlLangs,
 		iframeTitles,
 		interactiveElementsFocusable,
+		interactiveElementRoles,
 		labelAssociatedControls,
 		langValidity,
 		mediaCaptions,
