@@ -7410,6 +7410,14 @@
 		}
 	},
 	{
+		"flint": {
+			"implemented": true,
+			"name": "invalidCodeLines",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
 		"eslint": [
 			{
 				"name": "eslint-plugin-eslint-plugin/consistent-output",
@@ -7430,6 +7438,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "testCaseDuplicates",
 			"plugin": "flint",
 			"preset": "Logical"
@@ -7443,7 +7452,7 @@
 			}
 		],
 		"flint": {
-			"name": "testCaseOnlines",
+			"name": "testCaseOnlies",
 			"plugin": "flint",
 			"preset": "Logical"
 		}
