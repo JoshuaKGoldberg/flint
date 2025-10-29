@@ -20,19 +20,17 @@ console.log(" test ");
 			snapshot: `
 console.log(" test ");
             ~~~~~~~~
-            This leading space is unnecessary as Node.js console outputs already include spaces.
-            ~~~~~~~~
             This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
 			code: `
-console.error(" error message");
+console.error(" error message  ");
 `,
 			snapshot: `
-console.error(" error message");
-              ~~~~~~~~~~~~~~~~
-              This leading space is unnecessary as Node.js console outputs already include spaces.
+console.error(" error message  ");
+              ~~~~~~~~~~~~~~~~~~
+              This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -52,19 +50,17 @@ console.info(" info ");
 			snapshot: `
 console.info(" info ");
              ~~~~~~~~
-             This leading space is unnecessary as Node.js console outputs already include spaces.
-             ~~~~~~~~
              This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
 			code: `
-console.debug(" debug");
+console.debug(" debug  ");
 `,
 			snapshot: `
-console.debug(" debug");
-              ~~~~~~~~
-              This leading space is unnecessary as Node.js console outputs already include spaces.
+console.debug(" debug  ");
+              ~~~~~~~~~~
+              This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -84,29 +80,15 @@ console.trace(" trace ");
 			snapshot: `
 console.trace(" trace ");
               ~~~~~~~~~
-              This leading space is unnecessary as Node.js console outputs already include spaces.
-              ~~~~~~~~~
               This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
 			code: `
-console.group(" group");
-`,
-			snapshot: `
-console.group(" group");
-              ~~~~~~~~
-              This leading space is unnecessary as Node.js console outputs already include spaces.
-`,
-		},
-		{
-			code: `
 console.groupCollapsed(" collapsed ");
 `,
 			snapshot: `
 console.groupCollapsed(" collapsed ");
-                       ~~~~~~~~~~~~~
-                       This leading space is unnecessary as Node.js console outputs already include spaces.
                        ~~~~~~~~~~~~~
                        This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,

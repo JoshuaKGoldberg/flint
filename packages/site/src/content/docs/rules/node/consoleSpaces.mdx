@@ -20,26 +20,31 @@ They can be difficult to spot in console output and may lead to confusion about 
 <TabItem label="❌ Incorrect">
 
 ```ts
-console.log(" test");
+console.log("text ");
+```
 
-console.log("test ");
-
+```ts
 console.error(" error message");
 
-console.warn("warning ");
+console.warn("warning ", "message");
 ```
 
 </TabItem>
 <TabItem label="✅ Correct">
 
 ```ts
-console.log("test");
+console.log("text");
 
-console.log("test", "message");
+// Trailing spaces on a first argument are allowed as a form of indentation
+console.log(" text");
+```
+
+```ts
+console.log("text", "message");
 
 console.error("error message");
 
-console.warn("warning");
+console.warn("warning", "message");
 ```
 
 </TabItem>
