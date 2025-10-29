@@ -1,0 +1,7 @@
+{
+	"name": "test-fixture-hashbangs",
+	"version": "1.0.0",
+	"bin": {
+		"cli": "./bin/cli.ts"
+	}
+}
