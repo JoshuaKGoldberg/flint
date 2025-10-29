@@ -132,7 +132,7 @@
 			"implemented": true,
 			"name": "keyboardEventKeys",
 			"plugin": "browser",
-			"preset": "logical"
+			"preset": "Logical"
 		},
 		"notes": "Superseded by deprecated"
 	},
