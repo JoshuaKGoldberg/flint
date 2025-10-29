@@ -133,8 +133,7 @@
 			"name": "keyboardEventKeys",
 			"plugin": "browser",
 			"preset": "Logical"
-		},
-		"notes": "Superseded by deprecated"
+		}
 	},
 	{
 		"eslint": [
