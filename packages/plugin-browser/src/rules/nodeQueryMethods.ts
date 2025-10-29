@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	isGlobalDeclaration,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const legacyMethods = new Set([
@@ -39,44 +43,21 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression(node: ts.CallExpression) {
-					if (!ts.isPropertyAccessExpression(node.expression)) {
-						return;
+					if (
+						ts.isPropertyAccessExpression(node.expression) &&
+						ts.isIdentifier(node.expression.name) &&
+						legacyMethods.has(node.expression.name.text) &&
+						isGlobalDeclaration(node.expression.name, context.typeChecker)
+					) {
+						context.report({
+							data: {
+								method: node.expression.name.text,
+								replacement: methodReplacements[node.expression.name.text],
+							},
+							message: "preferQuerySelector",
+							range: getTSNodeRange(node.expression.name, context.sourceFile),
+						});
 					}
-
-					const { name } = node.expression;
-					if (!ts.isIdentifier(name) || !legacyMethods.has(name.text)) {
-						return;
-					}
-
-					// Check if this is a call on document or an element
-					// We want to flag document.getElementById, element.getElementsByClassName, etc.
-					// But not if someone has defined their own local function with the same name
-					const typeChecker = context.typeChecker;
-					const symbol = typeChecker.getSymbolAtLocation(name);
-					if (!symbol) {
-						return;
-					}
-
-					const declarations = symbol.getDeclarations();
-					if (!declarations || declarations.length === 0) {
-						return;
-					}
-
-					// Check if this method comes from the DOM lib (document or HTMLElement)
-					const declaration = declarations[0];
-					const sourceFile = declaration.getSourceFile();
-					if (!sourceFile.fileName.includes("lib.dom.d.ts")) {
-						return;
-					}
-
-					const method = name.text;
-					const replacement = methodReplacements[method];
-
-					context.report({
-						data: { method, replacement },
-						message: "preferQuerySelector",
-						range: getTSNodeRange(name, context.sourceFile),
-					});
 				},
 			},
 		};
