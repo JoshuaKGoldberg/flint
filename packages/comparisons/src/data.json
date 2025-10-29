@@ -1543,6 +1543,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unnecessaryFragments",
 			"plugin": "jsx",
 			"preset": "Stylistic"
