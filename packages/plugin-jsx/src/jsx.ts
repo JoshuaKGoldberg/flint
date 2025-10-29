@@ -10,6 +10,7 @@ import ariaHiddenFocusables from "./rules/ariaHiddenFocusables.js";
 import ariaProps from "./rules/ariaProps.js";
 import ariaRoleValidity from "./rules/ariaRoleValidity.js";
 import ariaUnsupportedElements from "./rules/ariaUnsupportedElements.js";
+import autocomplete from "./rules/autocomplete.js";
 import autoFocusProps from "./rules/autoFocusProps.js";
 import clickEventKeyEvents from "./rules/clickEventKeyEvents.js";
 import distractingElements from "./rules/distractingElements.js";
@@ -42,6 +43,7 @@ export const jsx = createPlugin({
 		ariaProps,
 		ariaRoleValidity,
 		ariaUnsupportedElements,
+		autocomplete,
 		autoFocusProps,
 		clickEventKeyEvents,
 		distractingElements,

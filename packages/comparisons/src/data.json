@@ -943,6 +943,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "autocomplete",
 			"plugin": "jsx",
 			"preset": "Logical"
