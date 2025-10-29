@@ -37,39 +37,33 @@ export default typescriptLanguage.createRule({
 					return false;
 				}
 
-				if (ts.isStringLiteral(property.initializer)) {
-					return property.initializer.text !== "";
-				}
-
 				if (ts.isJsxExpression(property.initializer)) {
 					const { expression } = property.initializer;
 					if (!expression) {
 						return false;
 					}
 
-					if (ts.isStringLiteral(expression) && expression.text === "") {
-						return false;
-					}
-
 					if (
-						ts.isNoSubstitutionTemplateLiteral(expression) &&
-						expression.text === ""
+						ts.isStringLiteral(expression) ||
+						ts.isNoSubstitutionTemplateLiteral(expression)
 					) {
-						return false;
+						return expression.text !== "";
 					}
 
-					if (ts.isIdentifier(expression) && expression.text === "undefined") {
-						return false;
+					if (ts.isIdentifier(expression)) {
+						return expression.text !== "undefined";
 					}
+				}
 
-					return true;
+				if (ts.isStringLiteral(property.initializer)) {
+					return property.initializer.text !== "";
 				}
 
 				return false;
 			});
 		}
 
-		function checkSvgElement(node: ts.JsxElement | ts.JsxSelfClosingElement) {
+		function checkElement(node: ts.JsxElement | ts.JsxSelfClosingElement) {
 			const tagName = ts.isJsxElement(node)
 				? node.openingElement.tagName
 				: node.tagName;
@@ -98,12 +92,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxElement(node: ts.JsxElement) {
-					checkSvgElement(node);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkSvgElement(node);
-				},
+				JsxElement: checkElement,
+				JsxSelfClosingElement: checkElement,
 			},
 		};
 	},
