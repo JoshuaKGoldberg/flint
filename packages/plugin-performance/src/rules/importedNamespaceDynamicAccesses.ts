@@ -22,8 +22,6 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		const namespaceIdentifiers = new Set<string>();
-
 		function isNamespaceImportDeclaration(declaration: ts.Declaration) {
 			if (
 				ts.isNamespaceImport(declaration) &&
