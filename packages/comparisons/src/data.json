@@ -3882,6 +3882,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "importedNamespaceDynamicAccesses",
 			"plugin": "performance",
 			"preset": "Logical"
