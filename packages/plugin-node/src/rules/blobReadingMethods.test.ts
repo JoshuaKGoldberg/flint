@@ -64,5 +64,13 @@ const result = new Response(myBlob).arrayBuffer();
 		`blob.text();`,
 		`response.text();`,
 		`const data = await fetch(url).then(res => res.text());`,
+		`
+declare class Response {
+  constructor(blob: unknown);
+  text(): Promise<void>;
+}
+await new Response(blob).text();
+export {};
+		`,
 	],
 });

@@ -1,7 +1,11 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	isGlobalDeclaration,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-const blobReadingMethods = ["text", "arrayBuffer", "bytes"] as const;
+const blobReadingMethods = new Set(["arrayBuffer", "bytes", "text"]);
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -34,28 +38,22 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
+					const receiver = node.expression.expression;
+					if (
+						!ts.isNewExpression(receiver) ||
+						!ts.isIdentifier(receiver.expression) ||
+						receiver.expression.text !== "Response" ||
+						!receiver.arguments ||
+						receiver.arguments.length === 0
+					) {
+						return;
+					}
+
 					const methodName = node.expression.name.text;
 					if (
-						!blobReadingMethods.includes(
-							methodName as (typeof blobReadingMethods)[number],
-						)
+						!blobReadingMethods.has(methodName) ||
+						!isGlobalDeclaration(node.expression.name, context.typeChecker)
 					) {
-						return;
-					}
-
-					const receiver = node.expression.expression;
-					if (!ts.isNewExpression(receiver)) {
-						return;
-					}
-
-					if (
-						!ts.isIdentifier(receiver.expression) ||
-						receiver.expression.text !== "Response"
-					) {
-						return;
-					}
-
-					if (!receiver.arguments || receiver.arguments.length === 0) {
 						return;
 					}
 
