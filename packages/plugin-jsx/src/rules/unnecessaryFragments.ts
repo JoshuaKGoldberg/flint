@@ -1,3 +1,4 @@
+import { CharacterReportRange } from "@flint.fyi/core";
 import { typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -22,7 +23,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkFragment(node: ts.JsxFragment) {
+		function checkNodeChildren(
+			node: ts.JsxElement | ts.JsxFragment,
+			range: CharacterReportRange,
+		) {
 			const children = node.children.filter(
 				(child) => !ts.isJsxText(child) || child.text.trim().length > 0,
 			);
@@ -39,55 +43,31 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { childType },
 					message: "unnecessaryFragment",
-					range: {
-						begin: node.openingFragment.getStart(context.sourceFile),
-						end: node.closingFragment.getEnd(),
-					},
-				});
-			}
-		}
-
-		function checkElement(node: ts.JsxElement) {
-			if (
-				!ts.isIdentifier(node.openingElement.tagName) ||
-				node.openingElement.tagName.text !== "Fragment"
-			) {
-				return;
-			}
-
-			// If Fragment has props (like key), it's necessary
-			if (node.openingElement.attributes.properties.length > 0) {
-				return;
-			}
-
-			const children = node.children.filter(
-				(child) => !ts.isJsxText(child) || child.text.trim().length > 0,
-			);
-
-			let childType: string | undefined;
-
-			if (children.length === 0) {
-				childType = "no children";
-			} else if (children.length === 1) {
-				childType = "a single child";
-			}
-
-			if (childType) {
-				context.report({
-					data: { childType },
-					message: "unnecessaryFragment",
-					range: {
-						begin: node.openingElement.getStart(context.sourceFile),
-						end: node.closingElement.getEnd(),
-					},
+					range,
 				});
 			}
 		}
 
 		return {
 			visitors: {
-				JsxElement: checkElement,
-				JsxFragment: checkFragment,
+				JsxElement(node) {
+					if (
+						ts.isIdentifier(node.openingElement.tagName) &&
+						!node.openingElement.attributes.properties.length &&
+						node.openingElement.tagName.text === "Fragment"
+					) {
+						checkNodeChildren(node, {
+							begin: node.openingElement.getStart(context.sourceFile),
+							end: node.closingElement.getEnd(),
+						});
+					}
+				},
+				JsxFragment(node: ts.JsxFragment) {
+					checkNodeChildren(node, {
+						begin: node.openingFragment.getStart(context.sourceFile),
+						end: node.closingFragment.getEnd(),
+					});
+				},
 			},
 		};
 	},
