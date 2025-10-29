@@ -3903,6 +3903,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "spreadAccumulators",
 			"plugin": "performance",
 			"preset": "Logical"
