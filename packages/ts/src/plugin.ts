@@ -31,6 +31,7 @@ import newNativeNonConstructors from "./rules/newNativeNonConstructors.js";
 import nonOctalDecimalEscapes from "./rules/nonOctalDecimalEscapes.js";
 import numericLiteralParsing from "./rules/numericLiteralParsing.js";
 import objectProto from "./rules/objectProto.js";
+import objectPrototypeBuiltIns from "./rules/objectPrototypeBuiltIns.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
 import returnAssignments from "./rules/returnAssignments.js";
@@ -88,6 +89,7 @@ export const ts = createPlugin({
 		nonOctalDecimalEscapes,
 		numericLiteralParsing,
 		objectProto,
+		objectPrototypeBuiltIns,
 		octalEscapes,
 		octalNumbers,
 		returnAssignments,
