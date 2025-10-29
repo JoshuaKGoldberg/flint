@@ -1,7 +1,7 @@
 {
 	"name": "@flint.fyi/plugin-node",
 	"version": "0.1.0",
-	"description": "[Experimental] A Flint plugin for Node.js code.",
+	"description": "[Experimental] A Flint plugin for Node.js and Node.js-like environments.",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/JoshuaKGoldberg/flint",
