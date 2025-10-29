@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	isGlobalDeclaration,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -9,7 +13,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		preferTextContent: {
-			primary: "Prefer `textContent` over `innerText`.",
+			primary:
+				"Prefer the safer, more performant `textContent` over the legacy `innerText`.",
 			secondary: [
 				"`textContent` is more performant because it doesn't trigger a reflow.",
 				"`textContent` is more widely supported and standard across browsers.",
@@ -22,7 +27,11 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
-					if (ts.isIdentifier(node.name) && node.name.text === "innerText") {
+					if (
+						ts.isIdentifier(node.name) &&
+						node.name.text === "innerText" &&
+						isGlobalDeclaration(node.name, context.typeChecker)
+					) {
 						context.report({
 							message: "preferTextContent",
 							range: getTSNodeRange(node.name, context.sourceFile),
