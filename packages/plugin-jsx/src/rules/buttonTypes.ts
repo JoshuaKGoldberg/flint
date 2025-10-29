@@ -24,7 +24,8 @@ export default typescriptLanguage.createRule({
 			],
 		},
 		missingType: {
-			primary: "Button elements should have an explicit type attribute.",
+			primary:
+				"It is generally preferable to add an explicit `type` attribute to buttons.",
 			secondary: [
 				"Buttons without an explicit type default to 'submit', which can cause unintended form submissions.",
 				"Valid button types are 'button', 'submit', and 'reset'.",
@@ -44,23 +45,16 @@ export default typescriptLanguage.createRule({
 			}
 
 			const elementName = node.tagName.text.toLowerCase();
-
 			if (elementName !== "button") {
 				return;
 			}
 
-			let typeAttribute: ts.JsxAttribute | undefined;
-
-			for (const property of node.attributes.properties) {
-				if (
+			const typeAttribute = node.attributes.properties.find(
+				(property): property is ts.JsxAttribute =>
 					ts.isJsxAttribute(property) &&
 					ts.isIdentifier(property.name) &&
-					property.name.text.toLowerCase() === "type"
-				) {
-					typeAttribute = property;
-					break;
-				}
-			}
+					property.name.text.toLowerCase() === "type",
+			);
 
 			if (!typeAttribute) {
 				context.report({
@@ -72,32 +66,13 @@ export default typescriptLanguage.createRule({
 
 			const typeValue = getTypeValue(typeAttribute);
 
-			if (typeValue !== undefined && !validButtonTypes.has(typeValue)) {
+			if (typeValue && !validButtonTypes.has(typeValue)) {
 				context.report({
 					data: { type: typeValue },
 					message: "invalidType",
 					range: getTSNodeRange(typeAttribute, context.sourceFile),
 				});
 			}
-		}
-
-		function getTypeValue(attribute: ts.JsxAttribute): string | undefined {
-			if (!attribute.initializer) {
-				return undefined;
-			}
-
-			if (ts.isStringLiteral(attribute.initializer)) {
-				return attribute.initializer.text;
-			}
-
-			if (ts.isJsxExpression(attribute.initializer)) {
-				const expr = attribute.initializer.expression;
-				if (expr && ts.isStringLiteral(expr)) {
-					return expr.text;
-				}
-			}
-
-			return undefined;
 		}
 
 		return {
@@ -108,3 +83,23 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+// TODO: Use a util like getStaticValue
+function getTypeValue(attribute: ts.JsxAttribute): string | undefined {
+	if (!attribute.initializer) {
+		return undefined;
+	}
+
+	if (ts.isStringLiteral(attribute.initializer)) {
+		return attribute.initializer.text;
+	}
+
+	if (ts.isJsxExpression(attribute.initializer)) {
+		const expr = attribute.initializer.expression;
+		if (expr && ts.isStringLiteral(expr)) {
+			return expr.text;
+		}
+	}
+
+	return undefined;
+}

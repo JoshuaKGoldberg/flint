@@ -11,7 +11,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <button>Click me</button>
  ~~~~~~
- Button elements should have an explicit type attribute.
+ It is generally preferable to add an explicit \`type\` attribute to buttons.
 `,
 		},
 		{
@@ -22,7 +22,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <button />
  ~~~~~~
- Button elements should have an explicit type attribute.
+ It is generally preferable to add an explicit \`type\` attribute to buttons.
 `,
 		},
 		{
@@ -33,7 +33,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <button onClick={handleClick}>Submit</button>
  ~~~~~~
- Button elements should have an explicit type attribute.
+ It is generally preferable to add an explicit \`type\` attribute to buttons.
 `,
 		},
 		{
