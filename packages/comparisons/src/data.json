@@ -2494,6 +2494,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "assertStyles",
 			"plugin": "node",
 			"preset": "Stylistic"
