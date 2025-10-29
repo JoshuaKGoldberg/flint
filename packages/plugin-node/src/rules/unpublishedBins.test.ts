@@ -1,33 +1,50 @@
+import path from "node:path";
+
 import { ruleTester } from "./ruleTester.js";
 import rule from "./unpublishedBins.js";
 
-// Note: This rule requires checking actual package.json and .npmignore files.
-// The tests below are minimal to satisfy the test framework.
-// To properly test this rule, use it on a real project with:
-// - A package.json with a "bin" field
-// - Files referenced in "bin" that are either:
-//   - Not included in the "files" array, or
-//   - Excluded by .npmignore patterns
+const fixturesPath = path.resolve(import.meta.dirname, "../../../fixtures");
 
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `
-// This is a placeholder test case. 
-// In practice, this rule triggers when a file referenced in package.json's "bin" 
-// field is excluded by npm's publication rules.
-console.log("bin file");
+			code: `#!/usr/bin/env node
+console.log("Hello from CLI");
 `,
+			fileName: path.join(fixturesPath, "unpublished-bin-ignored/bin/cli.ts"),
 			snapshot: `
-// This is a placeholder test case. 
-// In practice, this rule triggers when a file referenced in package.json's "bin" 
-// field is excluded by npm's publication rules.
-console.log("bin file");
+#!/usr/bin/env node
+console.log("Hello from CLI");
+
+npm ignores 'bin/cli.ts'. Ensure it is included in the 'files' field of 'package.json' or not excluded by '.npmignore'.
+`,
+		},
+		{
+			code: `#!/usr/bin/env node
+console.log("Hello from CLI");
+`,
+			fileName: path.join(
+				fixturesPath,
+				"unpublished-bin-npmignore/bin/cli.ts",
+			),
+			snapshot: `
+#!/usr/bin/env node
+console.log("Hello from CLI");
+
+npm ignores 'bin/cli.ts'. Ensure it is included in the 'files' field of 'package.json' or not excluded by '.npmignore'.
 `,
 		},
 	],
 	valid: [
-		`console.log("regular file");`,
-		`export function main() { console.log("module"); }`,
+		{
+			code: `#!/usr/bin/env node
+console.log("Hello from CLI");
+`,
+			fileName: path.join(fixturesPath, "unpublished-bin-included/bin/cli.ts"),
+		},
+		{
+			code: `console.log("regular file");`,
+			fileName: path.join(fixturesPath, "unpublished-bin-included/lib/index.ts"),
+		},
 	],
 });
