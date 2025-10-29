@@ -1,4 +1,4 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -24,9 +24,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkFragment(node: ts.JsxFragment) {
 			const children = node.children.filter(
-				(child) =>
-					!ts.isJsxText(child) ||
-					child.text.trim().length > 0,
+				(child) => !ts.isJsxText(child) || child.text.trim().length > 0,
 			);
 
 			let childType: string | undefined;
@@ -41,7 +39,10 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { childType },
 					message: "unnecessaryFragment",
-					range: getTSNodeRange(node, context.sourceFile),
+					range: {
+						begin: node.openingFragment.getStart(context.sourceFile),
+						end: node.closingFragment.getEnd(),
+					},
 				});
 			}
 		}
@@ -60,9 +61,7 @@ export default typescriptLanguage.createRule({
 			}
 
 			const children = node.children.filter(
-				(child) =>
-					!ts.isJsxText(child) ||
-					child.text.trim().length > 0,
+				(child) => !ts.isJsxText(child) || child.text.trim().length > 0,
 			);
 
 			let childType: string | undefined;
@@ -77,7 +76,10 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { childType },
 					message: "unnecessaryFragment",
-					range: getTSNodeRange(node, context.sourceFile),
+					range: {
+						begin: node.openingElement.getStart(context.sourceFile),
+						end: node.closingElement.getEnd(),
+					},
 				});
 			}
 		}
