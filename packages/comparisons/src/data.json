@@ -1193,7 +1193,7 @@
 			}
 		],
 		"flint": {
-			"name": "interactiveElementNonInteractiveRoles",
+			"name": "interactiveElementRoles",
 			"plugin": "jsx",
 			"preset": "Logical"
 		}
