@@ -36,19 +36,14 @@ function isExecutableFile(filePath: string, packageJsonPath: string): boolean {
 
 		if (typeof packageJson.bin === "string") {
 			const binPath = path.normalize(packageJson.bin);
-			return (
-				path.normalize(relativeFilePath) === binPath ||
-				path.normalize(relativeFilePath) === path.join(binPath)
-			);
+			return path.normalize(relativeFilePath) === binPath;
 		}
 
 		const binPaths = Object.values(packageJson.bin).map((binPath) =>
 			path.normalize(binPath),
 		);
 		return binPaths.some(
-			(binPath) =>
-				path.normalize(relativeFilePath) === binPath ||
-				path.normalize(relativeFilePath) === path.join(binPath),
+			(binPath) => path.normalize(relativeFilePath) === binPath,
 		);
 	} catch {
 		return false;
