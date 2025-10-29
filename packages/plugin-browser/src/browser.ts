@@ -9,11 +9,13 @@ import keyboardEventKeys from "./rules/keyboardEventKeys.js";
 import nodeAppendMethods from "./rules/nodeAppendMethods.js";
 import nodeDatasetAttributes from "./rules/nodeDatasetAttributes.js";
 import nodeModificationMethods from "./rules/nodeModificationMethods.js";
+import nodeQueryMethods from "./rules/nodeQueryMethods.js";
 import scriptUrls from "./rules/scriptUrls.js";
 
 export const browser = createPlugin({
 	name: "browser",
 	rules: [
+		alerts,
 		alerts,
 		classListToggles,
 		documentCookies,
@@ -23,6 +25,7 @@ export const browser = createPlugin({
 		nodeAppendMethods,
 		nodeDatasetAttributes,
 		nodeModificationMethods,
+		nodeQueryMethods,
 		scriptUrls,
 	],
 });

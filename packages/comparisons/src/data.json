@@ -210,7 +210,8 @@
 			"name": "nodeQueryMethods",
 			"plugin": "browser",
 			"preset": "Stylistic",
-			"strictness": "Strict"
+			"strictness": "Strict",
+			"implemented": true
 		},
 		"oxlint": [
 			{
