@@ -22,7 +22,7 @@ const CONSOLE_METHODS = new Set([
 ]);
 
 function hasLeadingOrTrailingSpaces(text: string): boolean {
-	return text.length > 0 && (text[0] === " " || text[text.length - 1] === " ");
+	return text.length > 0 && (text.startsWith(" ") || text.endsWith(" "));
 }
 
 export default typescriptLanguage.createRule({
