@@ -314,6 +314,21 @@ importers:
         specifier: 1.0.4
         version: 1.0.4
 
+  packages/plugin-node:
+    dependencies:
+      '@flint.fyi/core':
+        specifier: 'workspace:'
+        version: link:../core
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
+      '@flint.fyi/ts':
+        specifier: 'workspace:'
+        version: link:../ts
+      '@flint.fyi/utils':
+        specifier: 'workspace:'
+        version: link:../utils
+
   packages/plugin-performance:
     dependencies:
       '@flint.fyi/core':
@@ -367,6 +382,9 @@ importers:
       '@flint.fyi/plugin-flint':
         specifier: 'workspace:'
         version: link:../plugin-flint
+      '@flint.fyi/plugin-node':
+        specifier: 'workspace:'
+        version: link:../plugin-node
       '@flint.fyi/plugin-performance':
         specifier: 'workspace:'
         version: link:../plugin-performance
