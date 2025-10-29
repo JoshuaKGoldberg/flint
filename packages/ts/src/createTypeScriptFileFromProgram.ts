@@ -78,7 +78,7 @@ export function createTypeScriptFileFromProgram(
 				node.forEachChild(visit);
 			};
 
-			sourceFile.forEachChild(visit);
+			visit(sourceFile);
 
 			return reports;
 		},

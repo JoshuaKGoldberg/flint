@@ -32,12 +32,14 @@
 		"aria-valuenow",
 		"aria-valuetext",
 		"autolinks",
+		"bday",
 		"contentinfo",
 		"deoptimizations",
 		"destructures",
 		"extlang",
 		"Focusables",
 		"idlist",
+		"impp",
 		"joshuakgoldberg",
 		"mdast",
 		"menuitemcheckbox",
@@ -53,6 +55,7 @@
 		"subtag",
 		"subtags",
 		"treegrid",
+		"webauthn",
 		"WHATWG"
 	]
 }

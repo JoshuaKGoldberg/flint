@@ -1,7 +1,6 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// cspell:ignore idlist
 type AriaPropertyType =
 	| "boolean"
 	| "id"
@@ -183,7 +182,7 @@ function getExpectedValueDescription(
 	}
 }
 
-function validatePropertyValue(
+function isValidPropertyValue(
 	propertyName: string,
 	value: boolean | number | string | undefined,
 	expectedType: AriaPropertyType,
@@ -288,30 +287,26 @@ export default typescriptLanguage.createRule({
 				}
 
 				const value = getAttributeValue(property);
-				if (!validatePropertyValue(propertyName, value, expectedType)) {
-					const expected = getExpectedValueDescription(
-						propertyName,
-						expectedType,
-					);
-					const actual =
-						value === undefined
-							? "undefined"
-							: typeof value === "string"
-								? value
-								: String(value);
-
-					context.report({
-						data: {
-							actual,
-							expected,
-							prop: propertyName,
-						},
-						message: "invalidPropType",
-						range: property.initializer
-							? getTSNodeRange(property.initializer, context.sourceFile)
-							: getTSNodeRange(property.name, context.sourceFile),
-					});
+				if (isValidPropertyValue(propertyName, value, expectedType)) {
+					return;
 				}
+
+				const expected = getExpectedValueDescription(
+					propertyName,
+					expectedType,
+				);
+
+				context.report({
+					data: {
+						actual: String(value),
+						expected,
+						prop: propertyName,
+					},
+					message: "invalidPropType",
+					range: property.initializer
+						? getTSNodeRange(property.initializer, context.sourceFile)
+						: getTSNodeRange(property.name, context.sourceFile),
+				});
 			}
 		}
 
