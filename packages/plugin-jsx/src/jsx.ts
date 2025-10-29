@@ -9,6 +9,7 @@ import ariaActiveDescendantTabIndex from "./rules/ariaActiveDescendantTabIndex.j
 import ariaHiddenFocusables from "./rules/ariaHiddenFocusables.js";
 import ariaProps from "./rules/ariaProps.js";
 import ariaPropTypes from "./rules/ariaPropTypes.js";
+import ariaRoles from "./rules/ariaRoles.js";
 import ariaRoleValidity from "./rules/ariaRoleValidity.js";
 import ariaUnsupportedElements from "./rules/ariaUnsupportedElements.js";
 import autocomplete from "./rules/autocomplete.js";
@@ -48,6 +49,7 @@ export const jsx = createPlugin({
 		ariaHiddenFocusables,
 		ariaProps,
 		ariaPropTypes,
+		ariaRoles,
 		ariaRoleValidity,
 		ariaUnsupportedElements,
 		autocomplete,

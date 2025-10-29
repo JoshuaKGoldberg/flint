@@ -905,7 +905,7 @@
 		],
 		"flint": {
 			"implemented": true,
-			"name": "ariaRoleValidity",
+			"name": "ariaRoles",
 			"plugin": "jsx",
 			"preset": "Logical"
 		},
