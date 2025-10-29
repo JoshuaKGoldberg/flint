@@ -1030,9 +1030,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "childrenProps",
 			"plugin": "jsx",
-			"preset": "Not implementing"
+			"preset": "Stylistic"
 		}
 	},
 	{
