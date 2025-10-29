@@ -11,7 +11,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <h1 onClick={() => {}} />
  ~~
- Non-interactive element <h1> should not have interactive event handlers.
+ \`<h1>\` elements are non-interactive and so should not have interactive event handlers.
 `,
 		},
 		{
@@ -22,7 +22,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <main onKeyDown={handler} />
  ~~~~
- Non-interactive element <main> should not have interactive event handlers.
+ \`<main>\` elements are non-interactive and so should not have interactive event handlers.
 `,
 		},
 		{
@@ -33,7 +33,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <p onMouseDown={() => {}} />
  ~
- Non-interactive element <p> should not have interactive event handlers.
+ \`<p>\` elements are non-interactive and so should not have interactive event handlers.
 `,
 		},
 		{
@@ -44,7 +44,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <img onClick={handler} />
  ~~~
- Non-interactive element <img> should not have interactive event handlers.
+ \`<img>\` elements are non-interactive and so should not have interactive event handlers.
 `,
 		},
 		{
@@ -55,7 +55,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <li onClick={() => {}} />
  ~~
- Non-interactive element <li> should not have interactive event handlers.
+ \`<li>\` elements are non-interactive and so should not have interactive event handlers.
 `,
 		},
 		{
@@ -66,7 +66,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <ul onKeyPress={handler} />
  ~~
- Non-interactive element <ul> should not have interactive event handlers.
+ \`<ul>\` elements are non-interactive and so should not have interactive event handlers.
 `,
 		},
 		{
@@ -77,7 +77,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <section onClick={handler} role="article" />
  ~~~~~~~
- Non-interactive element <section> should not have interactive event handlers.
+ \`<section>\` elements are non-interactive and so should not have interactive event handlers.
 `,
 		},
 	],

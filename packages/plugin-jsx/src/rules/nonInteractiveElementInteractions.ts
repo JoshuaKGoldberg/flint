@@ -60,7 +60,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		invalidHandler: {
 			primary:
-				"Non-interactive element <{{ element }}> should not have interactive event handlers.",
+				"`<{{ element }}>` elements are non-interactive and so should not have interactive event handlers.",
 			secondary: [
 				"Non-interactive elements indicate content and containers in the user interface.",
 				"Use native interactive elements like <button> or <a> instead, or add an interactive role.",
@@ -90,20 +90,16 @@ export default typescriptLanguage.createRule({
 			}
 
 			let hasInteractiveHandler = false;
-			let hasInteractiveRole = false;
 
 			for (const property of element.attributes.properties) {
 				if (ts.isJsxAttribute(property) && ts.isIdentifier(property.name)) {
-					if (property.name.text === "role") {
-						if (
-							property.initializer &&
-							ts.isStringLiteral(property.initializer)
-						) {
-							const role = property.initializer.text;
-							if (!nonInteractiveRoles.has(role)) {
-								hasInteractiveRole = true;
-							}
-						}
+					if (
+						property.name.text === "role" &&
+						property.initializer &&
+						ts.isStringLiteral(property.initializer) &&
+						!nonInteractiveRoles.has(property.initializer.text)
+					) {
+						return;
 					}
 
 					if (interactiveHandlers.includes(property.name.text)) {
@@ -112,7 +108,7 @@ export default typescriptLanguage.createRule({
 				}
 			}
 
-			if (hasInteractiveHandler && !hasInteractiveRole) {
+			if (hasInteractiveHandler) {
 				context.report({
 					data: { element: elementName },
 					message: "invalidHandler",
@@ -123,12 +119,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkElement(node);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkElement(node);
-				},
+				JsxOpeningElement: checkElement,
+				JsxSelfClosingElement: checkElement,
 			},
 		};
 	},
