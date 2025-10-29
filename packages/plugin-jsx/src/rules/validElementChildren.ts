@@ -28,7 +28,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		voidElementWithChildren: {
 			primary:
-				"The <{{ element }}> element is a void element and cannot have children.",
+				"The `<{{ element }}>` element is a void element and cannot have children.",
 			secondary: [
 				"Void elements are self-closing and cannot contain any content or children.",
 				"Remove the children or use a different element type.",
@@ -36,7 +36,7 @@ export default typescriptLanguage.createRule({
 			],
 			suggestions: [
 				"Remove the children from the element",
-				"Use a self-closing syntax: <{{ element }} />",
+				"Use a self-closing syntax: `<{{ element }} />`",
 			],
 		},
 	},
@@ -44,6 +44,10 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				JsxElement(node: ts.JsxElement) {
+					if (!node.children.length) {
+						return;
+					}
+
 					const openingElement = node.openingElement;
 					if (!ts.isIdentifier(openingElement.tagName)) {
 						return;
@@ -54,13 +58,11 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					if (node.children.length > 0) {
-						context.report({
-							data: { element: elementName },
-							message: "voidElementWithChildren",
-							range: getTSNodeRange(openingElement.tagName, context.sourceFile),
-						});
-					}
+					context.report({
+						data: { element: elementName },
+						message: "voidElementWithChildren",
+						range: getTSNodeRange(openingElement.tagName, context.sourceFile),
+					});
 				},
 			},
 		};

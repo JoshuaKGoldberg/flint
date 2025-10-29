@@ -11,7 +11,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <br>text</br>
  ~~
- The <br> element is a void element and cannot have children.
+ The \`<br>\` element is a void element and cannot have children.
 `,
 		},
 		{
@@ -22,7 +22,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <img>child content</img>
  ~~~
- The <img> element is a void element and cannot have children.
+ The \`<img>\` element is a void element and cannot have children.
 `,
 		},
 		{
@@ -33,7 +33,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <input><span>Invalid</span></input>
  ~~~~~
- The <input> element is a void element and cannot have children.
+ The \`<input>\` element is a void element and cannot have children.
 `,
 		},
 		{
@@ -44,7 +44,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <hr>{expression}</hr>
  ~~
- The <hr> element is a void element and cannot have children.
+ The \`<hr>\` element is a void element and cannot have children.
 `,
 		},
 		{
@@ -57,7 +57,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <meta>
  ~~~~
- The <meta> element is a void element and cannot have children.
+ The \`<meta>\` element is a void element and cannot have children.
     <div>Content</div>
 </meta>
 `,
@@ -70,7 +70,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <area>text content</area>
  ~~~~
- The <area> element is a void element and cannot have children.
+ The \`<area>\` element is a void element and cannot have children.
 `,
 		},
 		{
@@ -83,7 +83,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <base>
  ~~~~
- The <base> element is a void element and cannot have children.
+ The \`<base>\` element is a void element and cannot have children.
     content
 </base>
 `,
@@ -96,7 +96,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <col><td>data</td></col>
  ~~~
- The <col> element is a void element and cannot have children.
+ The \`<col>\` element is a void element and cannot have children.
 `,
 		},
 		{
@@ -107,7 +107,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <embed>child</embed>
  ~~~~~
- The <embed> element is a void element and cannot have children.
+ The \`<embed>\` element is a void element and cannot have children.
 `,
 		},
 		{
@@ -118,7 +118,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <link>content</link>
  ~~~~
- The <link> element is a void element and cannot have children.
+ The \`<link>\` element is a void element and cannot have children.
 `,
 		},
 		{
@@ -129,7 +129,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <param>value</param>
  ~~~~~
- The <param> element is a void element and cannot have children.
+ The \`<param>\` element is a void element and cannot have children.
 `,
 		},
 		{
@@ -140,7 +140,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <source>media</source>
  ~~~~~~
- The <source> element is a void element and cannot have children.
+ The \`<source>\` element is a void element and cannot have children.
 `,
 		},
 		{
@@ -151,7 +151,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <track>subtitle</track>
  ~~~~~
- The <track> element is a void element and cannot have children.
+ The \`<track>\` element is a void element and cannot have children.
 `,
 		},
 		{
@@ -162,7 +162,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <wbr>text</wbr>
  ~~~
- The <wbr> element is a void element and cannot have children.
+ The \`<wbr>\` element is a void element and cannot have children.
 `,
 		},
 	],
