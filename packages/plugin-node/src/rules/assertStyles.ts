@@ -35,6 +35,17 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
+				CallExpression(node: ts.CallExpression) {
+					if (
+						ts.isIdentifier(node.expression) &&
+						assertIdentifierNames.has(node.expression.text)
+					) {
+						context.report({
+							message: "preferAssertOk",
+							range: getTSNodeRange(node.expression, context.sourceFile),
+						});
+					}
+				},
 				ImportDeclaration(node: ts.ImportDeclaration) {
 					if (
 						!ts.isStringLiteral(node.moduleSpecifier) ||
@@ -75,17 +86,6 @@ export default typescriptLanguage.createRule({
 						isAssertImport(node.moduleReference.expression.text)
 					) {
 						assertIdentifierNames.add(node.name.text);
-					}
-				},
-				CallExpression(node: ts.CallExpression) {
-					if (
-						ts.isIdentifier(node.expression) &&
-						assertIdentifierNames.has(node.expression.text)
-					) {
-						context.report({
-							message: "preferAssertOk",
-							range: getTSNodeRange(node.expression, context.sourceFile),
-						});
 					}
 				},
 			},
