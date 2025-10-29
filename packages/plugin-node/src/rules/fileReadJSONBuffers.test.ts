@@ -55,5 +55,6 @@ const settings = JSON.parse(fs.readFileSync('./settings.json', 'utf-8'));
 		`JSON.parse('{"key": "value"}');`,
 		`const text = fs.readFileSync('./file.txt', 'utf8');`,
 		`const promise = fs.readFile('./package.json', 'utf8'); const data = JSON.parse(await promise);`,
+		`const data = JSON.parse(await customReader.readFile('./file.json', 'utf8'));`,
 	],
 });

@@ -10,6 +10,13 @@ function isReadFileCall(node: ts.Expression): node is ts.CallExpression {
 		return false;
 	}
 
+	if (
+		!ts.isIdentifier(node.expression.expression) ||
+		node.expression.expression.text !== "fs"
+	) {
+		return false;
+	}
+
 	if (!ts.isIdentifier(node.expression.name)) {
 		return false;
 	}
