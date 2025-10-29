@@ -18,6 +18,7 @@ import bracedStatements from "./rules/bracedStatements.js";
 import buttonTypes from "./rules/buttonTypes.js";
 import childrenProps from "./rules/childrenProps.js";
 import clickEventKeyEvents from "./rules/clickEventKeyEvents.js";
+import commentTextNodes from "./rules/commentTextNodes.js";
 import distractingElements from "./rules/distractingElements.js";
 import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
@@ -58,6 +59,7 @@ export const jsx = createPlugin({
 		buttonTypes,
 		childrenProps,
 		clickEventKeyEvents,
+		commentTextNodes,
 		distractingElements,
 		headingContents,
 		htmlLangs,
