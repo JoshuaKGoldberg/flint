@@ -309,9 +309,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "windowMessagingTargetOrigin",
 			"plugin": "browser",
-			"preset": "Not implementing"
+			"preset": "Logical"
 		},
 		"oxlint": [
 			{

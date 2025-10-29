@@ -14,6 +14,7 @@ import nodeRemoveMethods from "./rules/nodeRemoveMethods.js";
 import nodeTextContents from "./rules/nodeTextContents.js";
 import removeEventListenerExpressions from "./rules/removeEventListenerExpressions.js";
 import scriptUrls from "./rules/scriptUrls.js";
+import windowMessagingTargetOrigin from "./rules/windowMessagingTargetOrigin.js";
 
 export const browser = createPlugin({
 	name: "browser",
@@ -23,7 +24,6 @@ export const browser = createPlugin({
 		documentCookies,
 		eventListenerSubscriptions,
 		implicitGlobals,
-		removeEventListenerExpressions,
 		keyboardEventKeys,
 		nodeAppendMethods,
 		nodeDatasetAttributes,
@@ -31,6 +31,8 @@ export const browser = createPlugin({
 		nodeQueryMethods,
 		nodeRemoveMethods,
 		nodeTextContents,
+		removeEventListenerExpressions,
 		scriptUrls,
+		windowMessagingTargetOrigin,
 	],
 });
