@@ -2519,6 +2519,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "blobReadingMethods",
 			"plugin": "node",
 			"preset": "Stylistic"
