@@ -14,6 +14,7 @@ import ariaUnsupportedElements from "./rules/ariaUnsupportedElements.js";
 import autocomplete from "./rules/autocomplete.js";
 import autoFocusProps from "./rules/autoFocusProps.js";
 import booleanValues from "./rules/booleanValues.js";
+import bracedStatements from "./rules/bracedStatements.js";
 import clickEventKeyEvents from "./rules/clickEventKeyEvents.js";
 import distractingElements from "./rules/distractingElements.js";
 import headingContents from "./rules/headingContents.js";
@@ -51,6 +52,7 @@ export const jsx = createPlugin({
 		autocomplete,
 		autoFocusProps,
 		booleanValues,
+		bracedStatements,
 		clickEventKeyEvents,
 		distractingElements,
 		headingContents,
