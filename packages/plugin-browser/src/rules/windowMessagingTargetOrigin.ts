@@ -20,7 +20,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		missingTargetOrigin: {
 			primary:
-				"The `postMessage()` call is missing the required `targetOrigin` argument.",
+				"This `postMessage()` call is missing the required `targetOrigin` argument.",
 			secondary: [
 				"Calling window.postMessage() without a targetOrigin argument prevents the message from being received by any window.",
 				"Always specify a target origin (for example, 'https://example.com' or '*' for any origin) as the second argument.",

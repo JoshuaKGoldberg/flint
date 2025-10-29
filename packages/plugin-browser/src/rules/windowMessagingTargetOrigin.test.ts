@@ -10,7 +10,7 @@ window.postMessage("message");
 			snapshot: `
 window.postMessage("message");
        ~~~~~~~~~~~
-       The \`postMessage()\` call is missing the required \`targetOrigin\` argument.
+       This \`postMessage()\` call is missing the required \`targetOrigin\` argument.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ self.postMessage("message");
 			snapshot: `
 self.postMessage("message");
      ~~~~~~~~~~~
-     The \`postMessage()\` call is missing the required \`targetOrigin\` argument.
+     This \`postMessage()\` call is missing the required \`targetOrigin\` argument.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ globalThis.postMessage("message");
 			snapshot: `
 globalThis.postMessage("message");
            ~~~~~~~~~~~
-           The \`postMessage()\` call is missing the required \`targetOrigin\` argument.
+           This \`postMessage()\` call is missing the required \`targetOrigin\` argument.
 `,
 		},
 		{
@@ -40,7 +40,7 @@ parent.postMessage("message");
 			snapshot: `
 parent.postMessage("message");
        ~~~~~~~~~~~
-       The \`postMessage()\` call is missing the required \`targetOrigin\` argument.
+       This \`postMessage()\` call is missing the required \`targetOrigin\` argument.
 `,
 		},
 		{
@@ -50,7 +50,7 @@ top.postMessage("message");
 			snapshot: `
 top.postMessage("message");
     ~~~~~~~~~~~
-    The \`postMessage()\` call is missing the required \`targetOrigin\` argument.
+    This \`postMessage()\` call is missing the required \`targetOrigin\` argument.
 `,
 		},
 	],
