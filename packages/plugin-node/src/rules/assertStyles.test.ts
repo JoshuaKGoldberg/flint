@@ -101,16 +101,53 @@ Prefer \`assert.ok()\` over \`assert()\` for explicit intent and better readabil
 		},
 	],
 	valid: [
-		`import assert from "node:assert"; assert.ok(value);`,
-		`import assert from "node:assert/strict"; assert.ok(value);`,
-		`import assert from "assert"; assert.ok(value);`,
-		`import assert from "assert/strict"; assert.ok(value);`,
-		`import { strict as assert } from "node:assert"; assert.ok(value);`,
-		`import * as assert from "node:assert"; assert.ok(value);`,
-		`import assert from "node:assert"; assert.strictEqual(actual, expected);`,
-		`import assert from "node:assert"; assert.deepStrictEqual(actual, expected);`,
-		`const assert = require("node:assert"); assert.ok(value);`,
-		`import assert from "./custom-assert"; assert(value);`,
-		`import { ok } from "node:assert"; ok(value);`,
+		`
+import assert from "node:assert";
+assert.ok(value);
+`,
+		`
+import assert from "node:assert/strict";
+assert.ok(value);
+`,
+		`
+import assert from "assert";
+assert.ok(value);
+`,
+		`
+import assert from "assert/strict";
+assert.ok(value);
+`,
+		`
+import { strict as assert } from "node:assert";
+assert.ok(value);
+`,
+		`
+import * as assert from "node:assert";
+assert.ok(value);
+`,
+		`
+import assert from "node:assert";
+assert.strictEqual(actual, expected);
+`,
+		`
+import assert from "node:assert";
+assert.deepStrictEqual(actual, expected);
+`,
+		`
+const assert = require("node:assert");
+assert.ok(value);
+`,
+		`
+import assert from "./custom-assert";
+assert(value);
+`,
+		`
+import { ok } from "node:assert";
+ok(value);
+`,
+		`
+declare function assert(...args: unknown[]): void;
+assert(value);
+`,
 	],
 });

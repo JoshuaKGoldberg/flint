@@ -49,33 +49,29 @@ export default typescriptLanguage.createRule({
 				ImportDeclaration(node: ts.ImportDeclaration) {
 					if (
 						!ts.isStringLiteral(node.moduleSpecifier) ||
-						!isAssertImport(node.moduleSpecifier.text)
+						!isAssertImport(node.moduleSpecifier.text) ||
+						!node.importClause
 					) {
 						return;
 					}
 
-					if (node.importClause) {
-						if (node.importClause.name) {
-							assertIdentifierNames.add(node.importClause.name.text);
-						}
+					if (node.importClause.name) {
+						assertIdentifierNames.add(node.importClause.name.text);
+					}
 
-						if (node.importClause.namedBindings) {
-							if (ts.isNamedImports(node.importClause.namedBindings)) {
-								for (const element of node.importClause.namedBindings
-									.elements) {
-									const importedName =
-										element.propertyName?.text ?? element.name.text;
-									if (importedName === "strict") {
-										assertIdentifierNames.add(element.name.text);
-									}
+					if (node.importClause.namedBindings) {
+						if (ts.isNamedImports(node.importClause.namedBindings)) {
+							for (const element of node.importClause.namedBindings.elements) {
+								const importedName =
+									element.propertyName?.text ?? element.name.text;
+								if (importedName === "strict") {
+									assertIdentifierNames.add(element.name.text);
 								}
-							} else if (
-								ts.isNamespaceImport(node.importClause.namedBindings)
-							) {
-								assertIdentifierNames.add(
-									node.importClause.namedBindings.name.text,
-								);
 							}
+						} else if (ts.isNamespaceImport(node.importClause.namedBindings)) {
+							assertIdentifierNames.add(
+								node.importClause.namedBindings.name.text,
+							);
 						}
 					}
 				},
