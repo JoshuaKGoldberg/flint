@@ -88,7 +88,8 @@ export default typescriptLanguage.createRule({
 				"The name or pattern of the error parameter to check. Defaults to 'err'. Patterns starting with '^' are treated as regular expressions.",
 			),
 	},
-	setup(context, { errorArgument }) {
+	setup(context, options) {
+		const errorArgument = options.errorArgument ?? "err";
 
 		function checkFunction(
 			node: ts.ArrowFunction | ts.FunctionDeclaration | ts.FunctionExpression,
@@ -103,12 +104,7 @@ export default typescriptLanguage.createRule({
 			}
 
 			const functionBody = node.body;
-			if (
-				!isParameterReferenced(
-					firstParameterName,
-					functionBody,
-				)
-			) {
+			if (!isParameterReferenced(firstParameterName, functionBody)) {
 				context.report({
 					message: "expectedErrorHandling",
 					range: getTSNodeRange(node.parameters[0], context.sourceFile),
