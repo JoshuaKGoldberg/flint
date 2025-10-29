@@ -269,6 +269,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "removeEventListenerExpressions",
 			"plugin": "browser",
 			"preset": "Logical"

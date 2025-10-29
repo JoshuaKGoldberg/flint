@@ -12,6 +12,7 @@ import nodeModificationMethods from "./rules/nodeModificationMethods.js";
 import nodeQueryMethods from "./rules/nodeQueryMethods.js";
 import nodeRemoveMethods from "./rules/nodeRemoveMethods.js";
 import nodeTextContents from "./rules/nodeTextContents.js";
+import removeEventListenerExpressions from "./rules/removeEventListenerExpressions.js";
 import scriptUrls from "./rules/scriptUrls.js";
 
 export const browser = createPlugin({
@@ -22,6 +23,7 @@ export const browser = createPlugin({
 		documentCookies,
 		eventListenerSubscriptions,
 		implicitGlobals,
+		removeEventListenerExpressions,
 		keyboardEventKeys,
 		nodeAppendMethods,
 		nodeDatasetAttributes,
