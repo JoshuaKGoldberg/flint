@@ -13,6 +13,7 @@ import ariaUnsupportedElements from "./rules/ariaUnsupportedElements.js";
 import autoFocusProps from "./rules/autoFocusProps.js";
 import clickEventKeyEvents from "./rules/clickEventKeyEvents.js";
 import distractingElements from "./rules/distractingElements.js";
+import duplicateProps from "./rules/duplicateProps.js";
 import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
 import iframeTitles from "./rules/iframeTitles.js";
@@ -45,6 +46,7 @@ export const jsx = createPlugin({
 		autoFocusProps,
 		clickEventKeyEvents,
 		distractingElements,
+		duplicateProps,
 		headingContents,
 		htmlLangs,
 		iframeTitles,

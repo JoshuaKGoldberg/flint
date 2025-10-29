@@ -1106,6 +1106,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "duplicateProps",
 			"plugin": "jsx",
 			"preset": "Logical"
