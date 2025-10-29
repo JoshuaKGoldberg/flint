@@ -23,6 +23,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				DeleteExpression: (node) => {
 					const start = node.getStart(context.sourceFile);
+
 					context.report({
 						message: "noDelete",
 						range: {
