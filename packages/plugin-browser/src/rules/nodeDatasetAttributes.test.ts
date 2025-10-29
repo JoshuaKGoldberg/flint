@@ -5,72 +5,86 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
+declare const element: HTMLElement;
 element.getAttribute("data-foo");
 `,
 			snapshot: `
+declare const element: HTMLElement;
 element.getAttribute("data-foo");
         ~~~~~~~~~~~~
-        Prefer \`element.dataset.foo\` over \`element.getAttribute('data-foo')\`.
+        Prefer using \`.dataset\` as a safer, more idiomatic API for accessing data-* attributes.
 `,
 		},
 		{
 			code: `
+declare const element: HTMLElement;
 element.setAttribute("data-foo", "bar");
 `,
 			snapshot: `
+declare const element: HTMLElement;
 element.setAttribute("data-foo", "bar");
         ~~~~~~~~~~~~
-        Prefer \`element.dataset.foo = ...\` over \`element.setAttribute('data-foo', ...)\`.
+        Prefer using \`.dataset\` as a safer, more idiomatic API for accessing data-* attributes.
 `,
 		},
 		{
 			code: `
+declare const element: HTMLElement;
 element.removeAttribute("data-foo");
 `,
 			snapshot: `
+declare const element: HTMLElement;
 element.removeAttribute("data-foo");
         ~~~~~~~~~~~~~~~
-        Prefer \`delete element.dataset.foo\` over \`element.removeAttribute('data-foo')\`.
+        Prefer using \`.dataset\` as a safer, more idiomatic API for accessing data-* attributes.
 `,
 		},
 		{
 			code: `
+declare const element: HTMLElement;
 element.hasAttribute("data-foo");
 `,
 			snapshot: `
+declare const element: HTMLElement;
 element.hasAttribute("data-foo");
         ~~~~~~~~~~~~
-        Prefer \`'foo' in element.dataset\` over \`element.hasAttribute('data-foo')\`.
+        Prefer using \`.dataset\` as a safer, more idiomatic API for accessing data-* attributes.
 `,
 		},
 		{
 			code: `
+declare const node: HTMLElement;
 node.getAttribute("data-foo-bar");
 `,
 			snapshot: `
+declare const node: HTMLElement;
 node.getAttribute("data-foo-bar");
      ~~~~~~~~~~~~
-     Prefer \`node.dataset.fooBar\` over \`node.getAttribute('data-foo-bar')\`.
+     Prefer using \`.dataset\` as a safer, more idiomatic API for accessing data-* attributes.
 `,
 		},
 		{
 			code: `
+declare const element: HTMLElement;
 element.setAttribute("data-my-value", value);
 `,
 			snapshot: `
+declare const element: HTMLElement;
 element.setAttribute("data-my-value", value);
         ~~~~~~~~~~~~
-        Prefer \`element.dataset.myValue = ...\` over \`element.setAttribute('data-my-value', ...)\`.
+        Prefer using \`.dataset\` as a safer, more idiomatic API for accessing data-* attributes.
 `,
 		},
 		{
 			code: `
+declare const element: HTMLElement;
 element.getAttribute(\`data-foo\`);
 `,
 			snapshot: `
+declare const element: HTMLElement;
 element.getAttribute(\`data-foo\`);
         ~~~~~~~~~~~~
-        Prefer \`element.dataset.foo\` over \`element.getAttribute('data-foo')\`.
+        Prefer using \`.dataset\` as a safer, more idiomatic API for accessing data-* attributes.
 `,
 		},
 	],
