@@ -2668,6 +2668,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "exportsAssignments",
 			"plugin": "node",
 			"preset": "Logical"
