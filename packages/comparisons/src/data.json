@@ -3144,6 +3144,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unpublishedBins",
 			"plugin": "node",
 			"preset": "Logical"

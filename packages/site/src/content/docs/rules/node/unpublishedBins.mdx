@@ -1,0 +1,116 @@
+---
+description: "Prevent `bin` files from being ignored by npm during package publication."
+title: "unpublishedBins"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="node" rule="unpublishedBins" />
+
+When publishing an npm package with a `bin` field in `package.json`, the specified binary files must be included in the published package.
+npm can exclude files from publication through the `files` field in `package.json` or through `.npmignore` patterns.
+If a binary file is excluded, the package installation will fail.
+
+Ensure that all files referenced in the `bin` field are either:
+
+- Included in the `files` array in `package.json`
+- Not excluded by `.npmignore` or `.gitignore` patterns
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+With `package.json`:
+
+```json
+{
+	"name": "my-cli",
+	"bin": {
+		"my-cli": "bin/cli.js"
+	},
+	"files": ["lib/"]
+}
+```
+
+```ts
+// bin/cli.js - This file will be ignored because "bin/" is not in files array
+#!/usr/bin/env node
+console.log("Hello, world!");
+```
+
+Or with `.npmignore`:
+
+```
+bin/
+```
+
+```ts
+// bin/cli.js - This file will be ignored by .npmignore
+#!/usr/bin/env node
+console.log("Hello, world!");
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+With `package.json`:
+
+```json
+{
+	"name": "my-cli",
+	"bin": {
+		"my-cli": "bin/cli.js"
+	},
+	"files": ["bin/", "lib/"]
+}
+```
+
+```ts
+// bin/cli.js - This file will be published
+#!/usr/bin/env node
+console.log("Hello, world!");
+```
+
+Or without explicit files field (publishes everything not in .npmignore):
+
+```json
+{
+	"name": "my-cli",
+	"bin": {
+		"my-cli": "bin/cli.js"
+	}
+}
+```
+
+```ts
+// bin/cli.js - This file will be published
+#!/usr/bin/env node
+console.log("Hello, world!");
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you're using npm v10 or later, npm automatically includes bin files even if they're not explicitly listed in the `files` field.
+However, using this rule can still help catch configuration issues earlier in development.
+
+## Further Reading
+
+- [npm: package.json - bin](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#bin)
+- [npm: package.json - files](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#files)
+- [npm: .npmignore](https://docs.npmjs.com/cli/v10/using-npm/developers#keeping-files-out-of-your-package)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="node" ruleId="unpublishedBins" />
