@@ -9973,6 +9973,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "loopFunctions",
 			"plugin": "performance",
 			"preset": "Logical"
