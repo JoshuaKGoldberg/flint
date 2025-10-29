@@ -58,6 +58,39 @@ ruleTester.describe(rule, {
         Interactive element <select> should not have the non-interactive role \`'main'\`.
 `,
 		},
+		{
+			code: `
+<audio role="status" />
+`,
+			fileName: "file.tsx",
+			snapshot: `
+<audio role="status" />
+       ~~~~~~~~~~~~~
+       Interactive element <audio> should not have the non-interactive role \`'status'\`.
+`,
+		},
+		{
+			code: `
+<video role="presentation" />
+`,
+			fileName: "file.tsx",
+			snapshot: `
+<video role="presentation" />
+       ~~~~~~~~~~~~~~~~~~~
+       Interactive element <video> should not have the non-interactive role \`'presentation'\`.
+`,
+		},
+		{
+			code: `
+<details role="none" />
+`,
+			fileName: "file.tsx",
+			snapshot: `
+<details role="none" />
+         ~~~~~~~~~~~
+         Interactive element <details> should not have the non-interactive role \`'none'\`.
+`,
+		},
 	],
 	valid: [
 		{ code: `<button />`, fileName: "file.tsx" },
