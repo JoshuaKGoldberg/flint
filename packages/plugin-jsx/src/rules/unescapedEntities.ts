@@ -1,6 +1,13 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
+const problematicEntities: Record<string, { brace: string; html: string }> = {
+	'"': { brace: '{"\\""}', html: "&quot;" },
+	"'": { brace: '{"\'"}', html: "&#39;" },
+	">": { brace: "{'>'}", html: "&gt;" },
+	"}": { brace: "{'}'}", html: "&#125;" },
+};
+
 export default typescriptLanguage.createRule({
 	about: {
 		description:
@@ -10,41 +17,26 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		unescapedEntity: {
-			primary:
-				"Unescaped entity `{{ entity }}` found in JSX text. Use HTML entity ({{ htmlEntity }}) or wrap in braces ({{ braceEntity }}).",
+			primary: "This unescaped entity `{{ entity }}` may not render properly.",
 			secondary: [
 				"Certain characters like >, <, \", ', {, and } can cause issues in JSX when not properly escaped.",
 				"React may not render these characters correctly or they might break JSX syntax.",
 			],
 			suggestions: [
-				"Use HTML entities: {{ htmlEntity }}",
-				"Wrap in JSX expression: {{ braceEntity }}",
+				"Use HTML entities: {{ html }}",
+				"Wrap in JSX expression: {{ brace }}",
 			],
 		},
 	},
 	setup(context) {
-		// Characters that should be escaped in JSX text content
-		const problematicEntities: Record<
-			string,
-			{ braceEntity: string; htmlEntity: string }
-		> = {
-			'"': { braceEntity: '{"\\""}', htmlEntity: "&quot;" },
-			"'": { braceEntity: '{"\'"}', htmlEntity: "&#39;" },
-			">": { braceEntity: "{'>'}", htmlEntity: "&gt;" },
-			"}": { braceEntity: "{'}'}", htmlEntity: "&#125;" },
-		};
-
 		return {
 			visitors: {
 				JsxText(node: ts.JsxText) {
-					const text = node.text;
-
-					// Find the first problematic entity in the text
 					let firstEntity: string | undefined;
 					let firstIndex = Infinity;
 
 					for (const entity of Object.keys(problematicEntities)) {
-						const index = text.indexOf(entity);
+						const index = node.text.indexOf(entity);
 						if (index !== -1 && index < firstIndex) {
 							firstIndex = index;
 							firstEntity = entity;
@@ -55,9 +47,9 @@ export default typescriptLanguage.createRule({
 						const escapedForms = problematicEntities[firstEntity];
 						context.report({
 							data: {
-								braceEntity: escapedForms.braceEntity,
+								brace: escapedForms.brace,
 								entity: firstEntity,
-								htmlEntity: escapedForms.htmlEntity,
+								html: escapedForms.html,
 							},
 							message: "unescapedEntity",
 							range: getTSNodeRange(node, context.sourceFile),

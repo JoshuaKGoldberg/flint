@@ -10,7 +10,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div>Greater than > sign</div>
      ~~~~~~~~~~~~~~~~~~~
-     Unescaped entity \`>\` found in JSX text. Use HTML entity (&gt;) or wrap in braces ({'>'}).`,
+     This unescaped entity \`>\` may not render properly.`,
 		},
 		{
 			code: `
@@ -19,7 +19,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <span>Double "quote" example</span>
       ~~~~~~~~~~~~~~~~~~~~~~
-      Unescaped entity \`"\` found in JSX text. Use HTML entity (&quot;) or wrap in braces ({"\\""}).`,
+      This unescaped entity \`"\` may not render properly.`,
 		},
 		{
 			code: `
@@ -28,7 +28,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <p>Single 'quote' example</p>
    ~~~~~~~~~~~~~~~~~~~~~~
-   Unescaped entity \`'\` found in JSX text. Use HTML entity (&#39;) or wrap in braces ({"'"}).`,
+   This unescaped entity \`'\` may not render properly.`,
 		},
 		{
 			code: `
@@ -37,7 +37,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <div>Closing } brace</div>
      ~~~~~~~~~~~~~~~
-     Unescaped entity \`}\` found in JSX text. Use HTML entity (&#125;) or wrap in braces ({'}'}).`,
+     This unescaped entity \`}\` may not render properly.`,
 		},
 		{
 			code: `
@@ -46,7 +46,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 <Component>Text with > and "</Component>
            ~~~~~~~~~~~~~~~~~
-           Unescaped entity \`>\` found in JSX text. Use HTML entity (&gt;) or wrap in braces ({'>'}).`,
+           This unescaped entity \`>\` may not render properly.`,
 		},
 	],
 	valid: [
