@@ -2,6 +2,14 @@ import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import { isGlobalVariable } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
+const windowLikeNames = new Set([
+	"globalThis",
+	"parent",
+	"self",
+	"top",
+	"window",
+]);
+
 export default typescriptLanguage.createRule({
 	about: {
 		description:
@@ -24,17 +32,9 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function isWindowLikeIdentifier(node: ts.Expression): boolean {
-			if (!ts.isIdentifier(node)) {
-				return false;
-			}
-
-			const name = node.text;
 			return (
-				(name === "window" ||
-					name === "self" ||
-					name === "globalThis" ||
-					name === "parent" ||
-					name === "top") &&
+				ts.isIdentifier(node) &&
+				windowLikeNames.has(node.text) &&
 				isGlobalVariable(node, context.typeChecker)
 			);
 		}
@@ -42,30 +42,16 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression(node: ts.CallExpression) {
-					const { arguments: args, expression } = node;
-
-					// Check if this is a property access like window.postMessage
-					if (!ts.isPropertyAccessExpression(expression)) {
-						return;
-					}
-
-					const { expression: object, name } = expression;
-
-					// Check if the method name is postMessage
-					if (!ts.isIdentifier(name) || name.text !== "postMessage") {
-						return;
-					}
-
-					// Check if the object is a window-like global
-					if (!isWindowLikeIdentifier(object)) {
-						return;
-					}
-
-					// Check if targetOrigin argument is missing (less than 2 arguments)
-					if (args.length < 2) {
+					if (
+						ts.isPropertyAccessExpression(node.expression) &&
+						ts.isIdentifier(node.expression.name) &&
+						node.expression.name.text === "postMessage" &&
+						isWindowLikeIdentifier(node.expression.expression) &&
+						node.arguments.length < 2
+					) {
 						context.report({
 							message: "missingTargetOrigin",
-							range: getTSNodeRange(name, context.sourceFile),
+							range: getTSNodeRange(node.expression.name, context.sourceFile),
 						});
 					}
 				},

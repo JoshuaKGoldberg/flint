@@ -66,6 +66,10 @@ top.postMessage("message");
 		`broadcastChannel.postMessage("message");`,
 		`otherObject.postMessage("message");`,
 		`
+			declare const other: { postMessage(message: string): void };
+			other.postMessage("message");
+		`,
+		`
 			declare const window: { postMessage(message: string): void };
 			window.postMessage("message");
 			export {};

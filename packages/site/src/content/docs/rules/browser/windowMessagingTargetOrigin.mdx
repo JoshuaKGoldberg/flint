@@ -70,8 +70,7 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-This rule cannot distinguish between `window.postMessage()` and other calls like `Worker#postMessage()`, `MessagePort#postMessage()`, `Client#postMessage()`, and `BroadcastChannel#postMessage()`.
-If you are primarily using these other APIs and find this rule produces false positives, you may need to disable it.
+If you are developing a specialized internal application on a custom platform with unusual `postMessage` semantics, you may need to disable this rule.
 
 ## Further Reading
 
