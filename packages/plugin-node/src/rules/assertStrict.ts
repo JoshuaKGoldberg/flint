@@ -41,19 +41,15 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				ImportDeclaration(node: ts.ImportDeclaration) {
-					// Skip if already importing from assert/strict
 					if (isStrictAssertImport(node.moduleSpecifier)) {
 						return;
 					}
 
-					// Check if importing from assert or node:assert
 					if (!isImportFromNodeAssert(node.moduleSpecifier)) {
 						return;
 					}
 
-					// If there's an import clause, check if it's using strict
 					if (node.importClause) {
-						// Check named imports for { strict as ... }
 						if (node.importClause.namedBindings) {
 							if (ts.isNamedImports(node.importClause.namedBindings)) {
 								for (const element of node.importClause.namedBindings
@@ -61,14 +57,12 @@ export default typescriptLanguage.createRule({
 									const importedName =
 										element.propertyName?.text ?? element.name.text;
 									if (importedName === "strict") {
-										// This is a valid strict import
 										return;
 									}
 								}
 							}
 						}
 
-						// If we got here, it's a non-strict import
 						context.report({
 							message: "preferStrictAssert",
 							range: getTSNodeRange(node.moduleSpecifier, context.sourceFile),
@@ -76,7 +70,6 @@ export default typescriptLanguage.createRule({
 					}
 				},
 				ImportEqualsDeclaration(node: ts.ImportEqualsDeclaration) {
-					// Handle: import assert = require('assert')
 					if (
 						ts.isExternalModuleReference(node.moduleReference) &&
 						isImportFromNodeAssert(node.moduleReference.expression)
