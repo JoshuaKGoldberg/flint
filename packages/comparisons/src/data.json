@@ -1495,6 +1495,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "svgTitles",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1528,6 +1529,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unescapedEntities",
 			"plugin": "jsx",
 			"preset": "Stylistic"
@@ -1555,6 +1557,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "validElementChildren",
 			"plugin": "jsx",
 			"preset": "Logical",
