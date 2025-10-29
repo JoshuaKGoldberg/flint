@@ -19,7 +19,7 @@ importers:
         version: 9.38.0
       '@flint.fyi/plugin-browser':
         specifier: workspace:^
-        version: link:packages/plugin-node
+        version: link:packages/plugin-browser
       '@flint.fyi/plugin-cspell':
         specifier: workspace:^
         version: link:packages/plugin-cspell
@@ -375,13 +375,16 @@ importers:
         version: link:../comparisons
       '@flint.fyi/plugin-browser':
         specifier: 'workspace:'
-        version: link:../plugin-node
+        version: link:../plugin-browser
       '@flint.fyi/plugin-cspell':
         specifier: 'workspace:'
         version: link:../plugin-cspell
       '@flint.fyi/plugin-flint':
         specifier: 'workspace:'
         version: link:../plugin-flint
+      '@flint.fyi/plugin-node':
+        specifier: 'workspace:'
+        version: link:../plugin-node
       '@flint.fyi/plugin-performance':
         specifier: 'workspace:'
         version: link:../plugin-performance
