@@ -24,6 +24,7 @@ import duplicateProps from "./rules/duplicateProps.js";
 import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
 import iframeTitles from "./rules/iframeTitles.js";
+import interactiveElementsFocusable from "./rules/interactiveElementsFocusable.js";
 import labelAssociatedControls from "./rules/labelAssociatedControls.js";
 import langValidity from "./rules/langValidity.js";
 import mediaCaptions from "./rules/mediaCaptions.js";
@@ -37,7 +38,9 @@ import roleSupportedAriaProps from "./rules/roleSupportedAriaProps.js";
 import roleTags from "./rules/roleTags.js";
 import scopeProps from "./rules/scopeProps.js";
 import staticElementInteractions from "./rules/staticElementInteractions.js";
+import svgTitles from "./rules/svgTitles.js";
 import tabIndexPositiveValues from "./rules/tabIndexPositiveValues.js";
+import validElementChildren from "./rules/validElementChildren.js";
 
 export const jsx = createPlugin({
 	name: "jsx",
@@ -66,6 +69,7 @@ export const jsx = createPlugin({
 		headingContents,
 		htmlLangs,
 		iframeTitles,
+		interactiveElementsFocusable,
 		labelAssociatedControls,
 		langValidity,
 		mediaCaptions,
@@ -79,6 +83,8 @@ export const jsx = createPlugin({
 		roleTags,
 		scopeProps,
 		staticElementInteractions,
+		svgTitles,
 		tabIndexPositiveValues,
+		validElementChildren,
 	],
 });
