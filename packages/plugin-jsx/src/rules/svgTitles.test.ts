@@ -5,21 +5,25 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-<svg />`,
+<svg />
+`,
 			fileName: "file.tsx",
 			snapshot: `
 <svg />
  ~~~
- This <svg> element is missing a <title> child element.`,
+ This <svg> element is missing a <title> child element.
+`,
 		},
 		{
 			code: `
-<svg viewBox="0 0 100 100" />`,
+<svg viewBox="0 0 100 100" />
+`,
 			fileName: "file.tsx",
 			snapshot: `
 <svg viewBox="0 0 100 100" />
  ~~~
- This <svg> element is missing a <title> child element.`,
+ This <svg> element is missing a <title> child element.
+`,
 		},
 		{
 			code: `
@@ -48,39 +52,59 @@ ruleTester.describe(rule, {
 </svg>`,
 		},
 		{
-			code: `<svg aria-label="" />`,
+			code: `
+<svg aria-label="" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<svg aria-label="" />
+			snapshot: `
+<svg aria-label="" />
  ~~~
- This <svg> element is missing a <title> child element.`,
+ This <svg> element is missing a <title> child element.
+`,
 		},
 		{
-			code: `<svg aria-label={""} />`,
+			code: `
+<svg aria-label={""} />
+`,
 			fileName: "file.tsx",
-			snapshot: `<svg aria-label={""} />
+			snapshot: `
+<svg aria-label={""} />
  ~~~
- This <svg> element is missing a <title> child element.`,
+ This <svg> element is missing a <title> child element.
+`,
 		},
 		{
-			code: `<svg aria-label={\`\`} />`,
+			code: `
+<svg aria-label={\`\`} />
+`,
 			fileName: "file.tsx",
-			snapshot: `<svg aria-label={\`\`} />
+			snapshot: `
+<svg aria-label={\`\`} />
  ~~~
- This <svg> element is missing a <title> child element.`,
+ This <svg> element is missing a <title> child element.
+`,
 		},
 		{
-			code: `<svg aria-label={undefined} />`,
+			code: `
+<svg aria-label={undefined} />
+`,
 			fileName: "file.tsx",
-			snapshot: `<svg aria-label={undefined} />
+			snapshot: `
+<svg aria-label={undefined} />
  ~~~
- This <svg> element is missing a <title> child element.`,
+ This <svg> element is missing a <title> child element.
+`,
 		},
 		{
-			code: `<svg aria-labelledby="" />`,
+			code: `
+<svg aria-labelledby="" />
+`,
 			fileName: "file.tsx",
-			snapshot: `<svg aria-labelledby="" />
+			snapshot: `
+<svg aria-labelledby="" />
  ~~~
- This <svg> element is missing a <title> child element.`,
+ This <svg> element is missing a <title> child element.
+`,
 		},
 	],
 	valid: [
@@ -100,18 +124,23 @@ ruleTester.describe(rule, {
 			fileName: "file.tsx",
 		},
 		{
-			code: `<svg aria-label="Accessible label" />`,
+			code: `
+<svg aria-label="Accessible label" />
+`,
 			fileName: "file.tsx",
 		},
 		{
-			code: `<svg aria-labelledby="title-id" />`,
+			code: `
+<svg aria-labelledby="title-id" />
+`,
 			fileName: "file.tsx",
 		},
 		{
 			code: `
 <svg aria-labelledby="title-id">
     <circle cx="50" cy="50" r="40" />
-</svg>`,
+</svg>
+`,
 			fileName: "file.tsx",
 		},
 		{ code: `<div>Not an svg element</div>`, fileName: "file.tsx" },
