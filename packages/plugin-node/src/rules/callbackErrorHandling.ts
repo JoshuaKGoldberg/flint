@@ -98,13 +98,13 @@ export default typescriptLanguage.createRule({
 
 			if (
 				!firstParameterName ||
-				!matchesConfiguredErrorName(firstParameterName, errorArgument)
+				!matchesConfiguredErrorName(firstParameterName, errorArgument) ||
+				isParameterReferenced(firstParameterName, node.body)
 			) {
 				return;
 			}
 
-			const functionBody = node.body;
-			if (!isParameterReferenced(firstParameterName, functionBody)) {
+			if (!isParameterReferenced(firstParameterName, node.body)) {
 				context.report({
 					message: "expectedErrorHandling",
 					range: getTSNodeRange(node.parameters[0], context.sourceFile),
