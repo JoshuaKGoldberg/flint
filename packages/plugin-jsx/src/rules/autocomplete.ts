@@ -1,7 +1,6 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// cspell:disable -- HTML autocomplete tokens from spec
 const validAutocompleteValues = new Set([
 	"address-level1",
 	"address-level2",
@@ -67,7 +66,6 @@ const billingAndShippingValues = new Set([
 	"postal-code",
 	"street-address",
 ]);
-// cspell:enable
 
 function isValidAutocompleteValue(value: string): boolean {
 	const parts = value.trim().split(/\s+/);
@@ -94,7 +92,7 @@ export default typescriptLanguage.createRule({
 		preset: "logical",
 	},
 	messages: {
-		invalidAutocomplete: {
+		invalid: {
 			primary: "`{{ value }}` is not a valid value for autocomplete.",
 			secondary: [
 				"The autocomplete attribute must use valid tokens from the HTML specification.",
@@ -102,7 +100,7 @@ export default typescriptLanguage.createRule({
 				"This is required for WCAG 1.3.5 compliance.",
 			],
 			suggestions: [
-				"Use standard autocomplete tokens like 'name', 'email', 'tel', or 'off'",
+				"Use standard autocomplete tokens like 'email', 'name', 'off', or 'tel'",
 				"For address fields, use 'billing' or 'shipping' prefix with appropriate field tokens",
 				"Check the HTML specification for the complete list of valid autocomplete tokens",
 			],
@@ -120,43 +118,31 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			const autocompleteAttribute = attributes.properties.find(
-				(attribute) =>
-					ts.isJsxAttribute(attribute) &&
-					ts.isIdentifier(attribute.name) &&
-					attribute.name.text.toLowerCase() === "autocomplete",
+			const autocomplete = attributes.properties.find(
+				(property) =>
+					ts.isJsxAttribute(property) &&
+					ts.isIdentifier(property.name) &&
+					property.name.text.toLowerCase() === "autocomplete",
 			);
 
-			if (!autocompleteAttribute || !ts.isJsxAttribute(autocompleteAttribute)) {
+			if (
+				!autocomplete ||
+				!ts.isJsxAttribute(autocomplete) ||
+				!autocomplete.initializer
+			) {
 				return;
 			}
 
-			const { initializer, name } = autocompleteAttribute;
-			if (!initializer) {
+			const value = getStringLiteralValue(autocomplete.initializer);
+			if (value === undefined || isValidAutocompleteValue(value)) {
 				return;
 			}
 
-			let autocompleteValue: string | undefined;
-
-			if (ts.isStringLiteral(initializer)) {
-				autocompleteValue = initializer.text;
-			} else if (ts.isJsxExpression(initializer) && initializer.expression) {
-				if (ts.isStringLiteral(initializer.expression)) {
-					autocompleteValue = initializer.expression.text;
-				}
-			}
-
-			if (autocompleteValue === undefined) {
-				return;
-			}
-
-			if (!isValidAutocompleteValue(autocompleteValue)) {
-				context.report({
-					data: { value: autocompleteValue },
-					message: "invalidAutocomplete",
-					range: getTSNodeRange(name, context.sourceFile),
-				});
-			}
+			context.report({
+				data: { value },
+				message: "invalid",
+				range: getTSNodeRange(autocomplete.name, context.sourceFile),
+			});
 		}
 
 		return {
@@ -167,3 +153,19 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+// TODO: Use a util like getStaticValue
+function getStringLiteralValue(node: ts.Expression): string | undefined {
+	if (ts.isStringLiteral(node)) {
+		return node.text;
+	}
+
+	if (
+		ts.isNoSubstitutionTemplateLiteral(node) &&
+		!ts.isTaggedTemplateExpression(node.parent)
+	) {
+		return node.text;
+	}
+
+	return undefined;
+}
