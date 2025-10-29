@@ -1,0 +1,62 @@
+---
+description: "Require or disallow hashbangs in files based on their executable status."
+title: "hashbangs"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="node" rule="hashbangs" />
+
+Files listed in `package.json`'s `bin` field are meant to be executed directly and should start with a hashbang (e.g., `#!/usr/bin/env node`).
+Other files should not have hashbangs.
+This ensures executable files work correctly on Unix-like systems while keeping non-executable files clean.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+// In a file listed in package.json's bin field:
+console.log("hello");
+
+// In a regular source file:
+#!/usr/bin/env node
+console.log("hello");
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+// In a file listed in package.json's bin field:
+#!/usr/bin/env node
+console.log("hello");
+
+// In a regular source file:
+console.log("hello");
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your project doesn't use the `bin` field in `package.json` or you have a custom build process that handles hashbangs differently, you might not need this rule.
+
+## Further Reading
+
+- [Node.js: Modules - Packages](https://nodejs.org/api/packages.html#packages_bin)
+- [Wikipedia: Shebang (Unix)](<https://en.wikipedia.org/wiki/Shebang_(Unix)>)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="node" ruleId="hashbangs" />
