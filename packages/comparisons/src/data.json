@@ -984,6 +984,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "booleanValues",
 			"plugin": "jsx",
 			"preset": "Stylistic"
