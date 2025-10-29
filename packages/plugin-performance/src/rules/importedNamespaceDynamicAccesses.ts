@@ -23,14 +23,11 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function isNamespaceImportDeclaration(declaration: ts.Declaration) {
-			if (
+			return (
 				ts.isNamespaceImport(declaration) &&
 				ts.isImportClause(declaration.parent) &&
 				ts.isImportDeclaration(declaration.parent.parent)
-			) {
-				return true;
-			}
-			return false;
+			);
 		}
 
 		function isIdentifierNamespaceImport(identifier: ts.Identifier) {
