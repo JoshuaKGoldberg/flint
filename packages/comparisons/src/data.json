@@ -1555,6 +1555,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "validElementChildren",
 			"plugin": "jsx",
 			"preset": "Logical",
