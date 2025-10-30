@@ -1,5 +1,5 @@
-import rule from "./unsupportedNodeAPIs.js";
 import { ruleTester } from "./ruleTester.js";
+import rule from "./unsupportedNodeAPIs.js";
 
 ruleTester.describe(rule, {
 	invalid: [

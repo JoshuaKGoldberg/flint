@@ -3,20 +3,29 @@ import * as ts from "typescript";
 
 // A subset of Node.js APIs with their minimum required versions
 // This is a simplified implementation - full version would need comprehensive API database
-const nodeAPIVersions: Record<string, { version: string; apis: string[] }> = {
+const nodeAPIVersions: Partial<
+	Record<string, { apis: string[]; version: string }>
+> = {
 	crypto: {
-		version: "15.0.0",
 		apis: ["webcrypto"],
+		version: "15.0.0",
 	},
 	fs: {
-		version: "14.0.0",
 		apis: ["openAsBlob"],
+		version: "14.0.0",
 	},
 	stream: {
-		version: "16.0.0",
 		apis: ["Readable.toWeb", "Writable.toWeb"],
+		version: "16.0.0",
 	},
 };
+
+function getModuleName(expression: ts.Expression): string | undefined {
+	if (ts.isStringLiteral(expression)) {
+		return expression.text.replace(/^node:/, "");
+	}
+	return undefined;
+}
 
 function isNodeBuiltinModule(moduleName: string): boolean {
 	const builtins = [
@@ -56,13 +65,6 @@ function isNodeBuiltinModule(moduleName: string): boolean {
 	return builtins.includes(withoutNodePrefix);
 }
 
-function getModuleName(expression: ts.Expression): string | undefined {
-	if (ts.isStringLiteral(expression)) {
-		return expression.text.replace(/^node:/, "");
-	}
-	return undefined;
-}
-
 export default typescriptLanguage.createRule({
 	about: {
 		description:
@@ -94,7 +96,11 @@ export default typescriptLanguage.createRule({
 		) {
 			const versionInfo = nodeAPIVersions[moduleName];
 
-			if (versionInfo && versionInfo.apis.includes(apiName)) {
+			if (!versionInfo) {
+				return;
+			}
+
+			if (versionInfo.apis.includes(apiName)) {
 				context.report({
 					data: {
 						apiName,
