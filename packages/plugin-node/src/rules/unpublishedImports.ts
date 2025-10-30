@@ -100,6 +100,22 @@ function isRelativePath(moduleSpecifier: string): boolean {
 	return moduleSpecifier.startsWith("./") || moduleSpecifier.startsWith("../");
 }
 
+const packageJsonCache = new Map<string, PackageJson | undefined>();
+
+function getPackageJson(packageJsonPath: string): PackageJson | undefined {
+	if (packageJsonCache.has(packageJsonPath)) {
+		return packageJsonCache.get(packageJsonPath);
+	}
+
+	const packageJsonContent = fs.readFileSync(packageJsonPath, "utf-8");
+	const packageJson = parseJsonSafe(packageJsonContent) as
+		| PackageJson
+		| undefined;
+
+	packageJsonCache.set(packageJsonPath, packageJson);
+	return packageJson;
+}
+
 function isUnpublishedImport(
 	moduleSpecifier: string,
 	filePath: string,
@@ -113,10 +129,7 @@ function isUnpublishedImport(
 		return false;
 	}
 
-	const packageJsonContent = fs.readFileSync(packageJsonPath, "utf-8");
-	const packageJson = parseJsonSafe(packageJsonContent) as
-		| PackageJson
-		| undefined;
+	const packageJson = getPackageJson(packageJsonPath);
 
 	if (!packageJson) {
 		return false;
