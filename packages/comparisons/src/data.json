@@ -3183,6 +3183,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unsupportedGlobals",
 			"plugin": "node",
 			"preset": "Logical"
