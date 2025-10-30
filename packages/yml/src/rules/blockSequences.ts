@@ -13,7 +13,9 @@ export default ymlLanguage.createRule({
 				"Block style sequences use hyphens and are generally more readable for multi-item lists.",
 				"Flow style sequences use brackets and are more compact but less clear in most cases.",
 			],
-			suggestions: ["TODO"],
+			suggestions: [
+				"Rewrite the flow sequence using block style with each item on its own line preceded by a hyphen.",
+			],
 		},
 	},
 	setup(context) {
