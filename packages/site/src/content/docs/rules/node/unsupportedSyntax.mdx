@@ -1,0 +1,78 @@
+---
+description: "Disallow ECMAScript syntax features unsupported in the target Node.js version."
+title: "unsupportedSyntax"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="node" rule="unsupportedSyntax" />
+
+Using ECMAScript syntax features that are not supported by your target Node.js version can cause runtime errors or unexpected behavior.
+This rule helps identify when you're using features that require a newer Node.js version than your project targets, preventing deployment issues and ensuring code runs correctly across all environments.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const value = first ?? second;
+
+value ??= defaultValue;
+
+value &&= newValue;
+
+const result = object?.property;
+
+const largeNumber = 123456789n;
+
+const data = await fetch();
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const value = first !== null && first !== undefined ? first : second;
+
+if (value === undefined) {
+	value = defaultValue;
+}
+
+if (value) {
+	value = newValue;
+}
+
+const result = object && object.property;
+
+const largeNumber = 123456789;
+
+async function fetchData() {
+	const data = await fetch();
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you are certain that your code will only run on Node.js versions that support all the features you are using, or if you are using a transpiler like Babel to convert modern syntax to older syntax, you might choose not to enable this rule.
+
+## Further Reading
+
+- [Node.js Release Schedule](https://github.com/nodejs/release#release-schedule)
+- [Node.green - Node.js ECMAScript compatibility table](https://node.green/)
+- [ECMAScript compatibility table](https://compat-table.github.io/compat-table/es2016plus/)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="node" ruleId="unsupportedSyntax" />
