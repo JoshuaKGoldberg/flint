@@ -22,7 +22,7 @@ export default ymlLanguage.createRule({
 			visitors: {
 				document: (node) => {
 					const documentBody = node.children[1];
-					if (documentBody && documentBody.children.length === 0) {
+					if (documentBody.children.length === 0) {
 						// Report on the documentHead (the --- marker)
 						const documentHead = node.children[0];
 						context.report({
