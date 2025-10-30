@@ -1,4 +1,4 @@
-import { typescriptLanguage } from "@flint.fyi/ts";
+import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import fs from "node:fs";
 import path from "node:path";
 import * as ts from "typescript";
@@ -133,14 +133,14 @@ export default typescriptLanguage.createRule({
 	messages: {
 		unpublishedBin: {
 			primary:
-				"npm ignores '{{name}}'. Ensure it is included in the 'files' field of 'package.json' or not excluded by '.npmignore'.",
+				"npm ignores '{{ name }}'. Ensure it is included in the 'files' field of 'package.json' or not excluded by '.npmignore'.",
 			secondary: [
 				"npm packages with a `bin` field must ensure those files are published.",
 				"Files can be excluded by missing them from the `files` field or by `.npmignore` patterns.",
 			],
 			suggestions: [
-				"Add '{{name}}' to the 'files' field in package.json",
-				"Remove '{{name}}' from .npmignore",
+				"Add '{{ name }}' to the 'files' field in package.json",
+				"Remove '{{ name }}' from .npmignore",
 			],
 		},
 	},
@@ -193,7 +193,7 @@ export default typescriptLanguage.createRule({
 								name: relativePath,
 							},
 							message: "unpublishedBin",
-							range: { begin: 0, end: 0 },
+							range: getTSNodeRange(node, context.sourceFile),
 						});
 					}
 				},

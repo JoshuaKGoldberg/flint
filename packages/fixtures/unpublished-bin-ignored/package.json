@@ -1,7 +1,9 @@
 {
-  "name": "test-package",
-  "bin": {
-    "test-cli": "bin/cli.ts"
-  },
-  "files": ["lib/"]
+	"name": "test-package",
+	"bin": {
+		"test-cli": "bin/cli.ts"
+	},
+	"files": [
+		"lib/"
+	]
 }
