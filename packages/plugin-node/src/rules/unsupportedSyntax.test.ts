@@ -20,7 +20,7 @@ value ??= defaultValue;
 			snapshot: `
 value ??= defaultValue;
       ~~~
-      The nullish coalescing operators feature requires Node.js 14.0.0 or later.
+      The logical assignment operators feature requires Node.js 15.0.0 or later.
 `,
 		},
 		{

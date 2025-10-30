@@ -11,8 +11,7 @@ const features: FeatureSupport[] = [
 	{
 		check: (node: ts.Node) =>
 			ts.isBinaryExpression(node) &&
-			(node.operatorToken.kind === ts.SyntaxKind.QuestionQuestionToken ||
-				node.operatorToken.kind === ts.SyntaxKind.QuestionQuestionEqualsToken),
+			node.operatorToken.kind === ts.SyntaxKind.QuestionQuestionToken,
 		minVersion: "14.0.0",
 		name: "nullish coalescing operators",
 	},
