@@ -1,5 +1,6 @@
 import { createPlugin } from "@flint.fyi/core";
 
+import blockMappings from "./rules/blockMappings.js";
 import emptyMappingKeys from "./rules/emptyMappingKeys.js";
 
 export const yml = createPlugin({
@@ -7,5 +8,5 @@ export const yml = createPlugin({
 		all: ["**/*.{yaml,yml}"],
 	},
 	name: "md",
-	rules: [emptyMappingKeys],
+	rules: [blockMappings, emptyMappingKeys],
 });
