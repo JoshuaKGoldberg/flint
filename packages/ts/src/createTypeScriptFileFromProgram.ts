@@ -49,6 +49,23 @@ export function convertTypeScriptDiagnosticToLanguageFileDiagnostic(
 	};
 }
 
+export function createTypeScriptFileFromProgram(
+	program: ts.Program,
+	sourceFile: ts.SourceFile,
+): LanguageFileDefinition {
+	return {
+		cache: collectTypeScriptFileCacheImpacts(program, sourceFile),
+		getDiagnostics() {
+			return ts
+				.getPreEmitDiagnostics(program, sourceFile)
+				.map(convertTypeScriptDiagnosticToLanguageFileDiagnostic);
+		},
+		async runRule(rule, options) {
+			return runTypeScriptBasedLanguageRule(program, sourceFile, rule, options);
+		},
+	};
+}
+
 export async function runTypeScriptBasedLanguageRule<
 	OptionsSchema extends AnyOptionalSchema | undefined =
 		| AnyOptionalSchema
@@ -92,21 +109,4 @@ export async function runTypeScriptBasedLanguageRule<
 	sourceFile.forEachChild(visit);
 
 	return reports;
-}
-
-export function createTypeScriptFileFromProgram(
-	program: ts.Program,
-	sourceFile: ts.SourceFile,
-): LanguageFileDefinition {
-	return {
-		cache: collectTypeScriptFileCacheImpacts(program, sourceFile),
-		getDiagnostics() {
-			return ts
-				.getPreEmitDiagnostics(program, sourceFile)
-				.map(convertTypeScriptDiagnosticToLanguageFileDiagnostic);
-		},
-		async runRule(rule, options) {
-			return runTypeScriptBasedLanguageRule(program, sourceFile, rule, options);
-		},
-	};
 }

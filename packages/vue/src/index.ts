@@ -1,5 +1,4 @@
 import {
-	CharacterReportRange,
 	createLanguage,
 	isSuggestionForFiles,
 	NormalizedReport,
@@ -7,11 +6,11 @@ import {
 	Suggestion,
 } from "@flint.fyi/core";
 import {
-	Mapper as VolarMapper,
 	Language as VolarLanguage,
 	LanguagePlugin as VolarLanguagePlugin,
-	Mapping,
+	Mapper as VolarMapper,
 } from "@volar/language-core";
+import { RootNode } from "@vue/compiler-core";
 import {
 	createGlobalTypesWriter as createGlobalVueTypesWriter,
 	createVueLanguagePlugin,
@@ -20,33 +19,31 @@ import {
 	Sfc,
 	VueVirtualCode,
 } from "@vue/language-core";
-import { RootNode } from "@vue/compiler-core";
 // for LanguagePlugin interface augmentation
 import "@volar/typescript";
+import { RuleReporter } from "@flint.fyi/core/src/types/context.js";
 import ts from "typescript";
 import { VFile } from "vfile";
 import { location } from "vfile-location";
 
 import {
-	TypeScriptServices,
+	collectTypeScriptFileCacheImpacts,
+	convertTypeScriptDiagnosticToLanguageFileDiagnostic,
+	runTypeScriptBasedLanguageRule,
+} from "../../ts/lib/createTypeScriptFileFromProgram.js";
+import {
 	prepareTypeScriptBasedLanguage,
+	TypeScriptServices,
 } from "../../ts/lib/language.js";
 import { normalizeRange } from "../../ts/lib/normalizeRange.js";
 import { vueLanguageParseContext } from "./setup-tests.js";
-import {
-	collectTypeScriptFileCacheImpacts,
-	convertTypeScriptDiagnosticToLanguageFileDiagnostic,
-	createTypeScriptFileFromProgram,
-	runTypeScriptBasedLanguageRule,
-} from "../../ts/lib/createTypeScriptFileFromProgram.js";
-import { RuleReporter } from "@flint.fyi/core/src/types/context.js";
 
 export interface VueServices extends TypeScriptServices {
 	sfc: Sfc;
-	templateAst: RootNode | null;
+	templateAst: null | RootNode;
 	// TODO: can we type MessageId?
-	reportSfc: RuleReporter<string>;
 	map: VolarMapper;
+	reportSfc: RuleReporter<string>;
 }
 
 export const vueLanguage = createLanguage<unknown, VueServices>({
@@ -124,7 +121,7 @@ export const vueLanguage = createLanguage<unknown, VueServices>({
 					};
 				}
 
-				let templateAst = null as RootNode | null;
+				let templateAst = null as null | RootNode;
 
 				const {
 					program,
@@ -207,8 +204,6 @@ export const vueLanguage = createLanguage<unknown, VueServices>({
 								rule,
 								options,
 								{
-									sfc: virtualCode.sfc,
-									templateAst,
 									map,
 									reportSfc: (report: RuleReport) => {
 										const positionBegin = fileLocation.toPoint(
@@ -226,18 +221,20 @@ export const vueLanguage = createLanguage<unknown, VueServices>({
 											message: rule.messages[report.message],
 											range: {
 												begin: {
-													line: positionBegin.line - 1,
 													column: positionBegin.column - 1,
+													line: positionBegin.line - 1,
 													raw: report.range.begin,
 												},
 												end: {
-													line: positionEnd.line - 1,
 													column: positionEnd.column - 1,
+													line: positionEnd.line - 1,
 													raw: report.range.end,
 												},
 											},
 										});
 									},
+									sfc: virtualCode.sfc,
+									templateAst,
 								},
 							);
 
@@ -311,7 +308,7 @@ export function translateRange(
 	map: VolarMapper,
 	begin: number,
 	end: number,
-): { begin: number; end: number } | null {
+): null | { begin: number; end: number } {
 	if (end < begin) {
 		throw new Error("TODO");
 	}
@@ -322,7 +319,7 @@ export function translateRange(
 		(m) => m.sourceOffsets.length === 1 && m.lengths[0] > 0,
 	);
 
-	let sourceBegin: number | null = null;
+	let sourceBegin: null | number = null;
 
 	for (const mapping of mappings) {
 		const generatedLengths = mapping.generatedLengths ?? mapping.lengths;

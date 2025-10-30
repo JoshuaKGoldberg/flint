@@ -471,9 +471,6 @@ importers:
       '@volar/language-core':
         specifier: ^2.4.23
         version: 2.4.23
-      '@volar/source-map':
-        specifier: ^2.4.23
-        version: 2.4.23
       '@volar/typescript':
         specifier: ^2.4.23
         version: 2.4.23
@@ -499,6 +496,9 @@ importers:
       '@flint.fyi/rule-tester':
         specifier: 'workspace:'
         version: link:../rule-tester
+      '@volar/source-map':
+        specifier: ^2.4.23
+        version: 2.4.23
 
   packages/yml:
     dependencies:

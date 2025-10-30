@@ -1,18 +1,19 @@
 import path from "node:path";
-import rule from "./vForKey.js";
+
 import { ruleTester } from "./ruleTester.js";
+import rule from "./vForKey.js";
 
 const fileName = path.join(import.meta.dirname, "file.vue");
 
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			fileName,
 			code: `
 <template>
 	<template v-for="item in [1, 2]"></template>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<template v-for="item in [1, 2]"></template>
@@ -22,12 +23,12 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div v-for="item in [1, 2]"></div>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<div v-for="item in [1, 2]"></div>
@@ -37,7 +38,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div v-for="item in [1, 2]">
@@ -45,6 +45,7 @@ ruleTester.describe(rule, {
 	</div>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<div v-for="item in [1, 2]">
@@ -56,7 +57,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<template v-for="item in [1, 2]">
@@ -64,6 +64,7 @@ ruleTester.describe(rule, {
 	</template>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<template v-for="item in [1, 2]">
@@ -75,7 +76,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div>
@@ -83,6 +83,7 @@ ruleTester.describe(rule, {
 	</div>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<div>
@@ -94,7 +95,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div v-if="true">
@@ -102,6 +102,7 @@ ruleTester.describe(rule, {
 	</div>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<div v-if="true">
@@ -113,7 +114,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div v-if="true"></div>
@@ -122,6 +122,7 @@ ruleTester.describe(rule, {
 	</div>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<div v-if="true"></div>
@@ -134,7 +135,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div v-for="i in [1, 2]" :key="i">
@@ -142,6 +142,7 @@ ruleTester.describe(rule, {
 	</div>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<div v-for="i in [1, 2]" :key="i">
@@ -153,7 +154,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	declare const key: number
@@ -167,6 +167,7 @@ ruleTester.describe(rule, {
 </template>
 		},
 			`,
+			fileName,
 			snapshot: `
 <script setup lang="ts">
 	declare const key: number
@@ -184,7 +185,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div 
@@ -194,6 +194,7 @@ ruleTester.describe(rule, {
 </template>
 		},
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<div 
@@ -207,7 +208,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div 
@@ -216,6 +216,7 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<div 
@@ -228,7 +229,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div 
@@ -237,6 +237,7 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<div 
@@ -249,7 +250,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div 
@@ -258,6 +258,7 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<div 
@@ -270,7 +271,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div 
@@ -279,6 +279,7 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <template>
 	<div 
@@ -291,7 +292,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script lang="ts" setup>
 	const key = 5
@@ -304,6 +304,7 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <script lang="ts" setup>
 	const key = 5
@@ -320,7 +321,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script lang="ts" setup>
 	const key = 5
@@ -333,6 +333,7 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 			snapshot: `
 <script lang="ts" setup>
 	const key = 5
@@ -351,7 +352,6 @@ ruleTester.describe(rule, {
 	],
 	valid: [
 		{
-			fileName,
 			code: `
 <template>
 	<template
@@ -361,9 +361,9 @@ ruleTester.describe(rule, {
 	</template>
 </template>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div
@@ -373,9 +373,9 @@ ruleTester.describe(rule, {
 	</div>
 </template>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div
@@ -386,9 +386,9 @@ ruleTester.describe(rule, {
 	</div>
 </template>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<template
@@ -399,9 +399,9 @@ ruleTester.describe(rule, {
 	</template>
 </template>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div
@@ -413,9 +413,9 @@ ruleTester.describe(rule, {
 	</template>
 </template>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div 
@@ -424,9 +424,9 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div 
@@ -435,9 +435,9 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div 
@@ -446,9 +446,9 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div 
@@ -457,9 +457,9 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div
@@ -468,9 +468,9 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <template>
 	<div
@@ -479,10 +479,10 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 		},
 		// TS error
 		{
-			fileName,
 			code: `
 <template>
 	<div
@@ -491,9 +491,9 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	const key = 5
@@ -506,9 +506,9 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	const key = 5
@@ -521,6 +521,7 @@ ruleTester.describe(rule, {
 	></div>
 </template>
 			`,
+			fileName,
 		},
 	],
 });

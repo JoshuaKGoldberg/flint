@@ -1,13 +1,14 @@
-import ts from "typescript";
 import * as tsutils from "ts-api-utils";
-import { vueLanguage } from "../index.js";
+import ts from "typescript";
+
 import { isPromiseLike } from "../../../ts/lib/rules/utils/builtinSymbolLikes.js";
 import { isTypeRecursive } from "../../../ts/lib/rules/utils/isTypeRecursive.js";
+import { vueLanguage } from "../index.js";
 
 export default vueLanguage.createRule({
 	about: {
-		id: "asyncComputed",
 		description: "Reports asynchronous functions in computed properties.",
+		id: "asyncComputed",
 		preset: "logical",
 	},
 	messages: {
@@ -53,11 +54,11 @@ export default vueLanguage.createRule({
 					const reportNode = node.arguments[0] ?? node.expression;
 
 					context.report({
+						message: "async",
 						range: {
 							begin: reportNode.getStart(context.sourceFile),
 							end: reportNode.getEnd(),
 						},
-						message: "async",
 					});
 				},
 			},

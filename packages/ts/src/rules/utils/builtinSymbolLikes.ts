@@ -69,55 +69,6 @@ export function isReadonlyErrorLike(
  * //   ^ ReadonlyTypeLike
  * ```
  */
-export function isReadonlyTypeLike(
-	program: ts.Program,
-	type: ts.Type,
-	predicate?: (
-		subType: {
-			aliasSymbol: ts.Symbol;
-			aliasTypeArguments: readonly ts.Type[];
-		} & ts.Type,
-	) => boolean,
-): boolean {
-	return isBuiltinTypeAliasLike(program, type, (subtype) => {
-		return (
-			subtype.aliasSymbol.getName() === "Readonly" && !!predicate?.(subtype)
-		);
-	});
-}
-export function isBuiltinTypeAliasLike(
-	program: ts.Program,
-	type: ts.Type,
-	predicate: (
-		subType: {
-			aliasSymbol: ts.Symbol;
-			aliasTypeArguments: readonly ts.Type[];
-		} & ts.Type,
-	) => boolean,
-): boolean {
-	return isBuiltinSymbolLikeRecurser(program, type, (subtype) => {
-		const { aliasSymbol, aliasTypeArguments } = subtype;
-
-		if (!aliasSymbol || !aliasTypeArguments) {
-			return false;
-		}
-
-		if (
-			isSymbolFromDefaultLibrary(program, aliasSymbol) &&
-			predicate(
-				subtype as {
-					aliasSymbol: ts.Symbol;
-					aliasTypeArguments: readonly ts.Type[];
-				} & ts.Type,
-			)
-		) {
-			return true;
-		}
-
-		return null;
-	});
-}
-
 export function isBuiltinSymbolLike(
 	program: ts.Program,
 	type: ts.Type,
@@ -143,7 +94,6 @@ export function isBuiltinSymbolLike(
 		return null;
 	});
 }
-
 export function isBuiltinSymbolLikeRecurser(
 	program: ts.Program,
 	type: ts.Type,
@@ -187,4 +137,54 @@ export function isBuiltinSymbolLikeRecurser(
 		}
 	}
 	return false;
+}
+
+export function isBuiltinTypeAliasLike(
+	program: ts.Program,
+	type: ts.Type,
+	predicate: (
+		subType: ts.Type & {
+			aliasSymbol: ts.Symbol;
+			aliasTypeArguments: readonly ts.Type[];
+		},
+	) => boolean,
+): boolean {
+	return isBuiltinSymbolLikeRecurser(program, type, (subtype) => {
+		const { aliasSymbol, aliasTypeArguments } = subtype;
+
+		if (!aliasSymbol || !aliasTypeArguments) {
+			return false;
+		}
+
+		if (
+			isSymbolFromDefaultLibrary(program, aliasSymbol) &&
+			predicate(
+				subtype as ts.Type & {
+					aliasSymbol: ts.Symbol;
+					aliasTypeArguments: readonly ts.Type[];
+				},
+			)
+		) {
+			return true;
+		}
+
+		return null;
+	});
+}
+
+export function isReadonlyTypeLike(
+	program: ts.Program,
+	type: ts.Type,
+	predicate?: (
+		subType: ts.Type & {
+			aliasSymbol: ts.Symbol;
+			aliasTypeArguments: readonly ts.Type[];
+		},
+	) => boolean,
+): boolean {
+	return isBuiltinTypeAliasLike(program, type, (subtype) => {
+		return (
+			subtype.aliasSymbol.getName() === "Readonly" && !!predicate?.(subtype)
+		);
+	});
 }

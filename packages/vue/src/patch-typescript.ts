@@ -11,20 +11,15 @@ export type VolarLanguagePluginsGetter = (
 			setup?(language: Language<string>): void;
 	  };
 
+const volarProxyCreateProgramPath = require.resolve(
+	"@volar/typescript/lib/node/proxyCreateProgram",
+);
+
 // https://github.com/volarjs/volar.js/blob/e08f2f449641e1c59686d3454d931a3c29ddd99c/packages/typescript/lib/quickstart/runTsc.ts
 export function transformTscContent(
 	tsc: string,
 	extraSupportedExtensions: string[],
-	extraExtensionsToRemove: string[] = [],
-	proxyApiPath: string = require.resolve(
-		"@volar/typescript/lib/node/proxyCreateProgram",
-	),
-	typescriptObject = `new Proxy({}, { get(_target, p, _receiver) { return eval(p); } } )`,
 ) {
-	const neededPatchExtenstions = extraSupportedExtensions.filter(
-		(ext) => !extraExtensionsToRemove.includes(ext),
-	);
-
 	// Add allow extensions
 	if (extraSupportedExtensions.length) {
 		const extsText = extraSupportedExtensions
@@ -51,21 +46,8 @@ export function transformTscContent(
 				s +
 				`.map((group, i) => i === 0 ? group.splice(0, 0, ${extsText}) && group : group)`,
 		);
-	}
-	// Use to emit basename.xxx to basename.d.ts instead of basename.xxx.d.ts
-	if (extraExtensionsToRemove.length) {
-		const extsText = extraExtensionsToRemove
-			.map((ext) => `"${ext}"`)
-			.join(", ");
-		tsc = replace(
-			tsc,
-			/extensionsToRemove = .*(?=;)/,
-			(s) => s + `.concat([${extsText}])`,
-		);
-	}
-	// Support for basename.xxx to basename.xxx.d.ts
-	if (neededPatchExtenstions.length) {
-		const extsText = neededPatchExtenstions.map((ext) => `"${ext}"`).join(", ");
+
+		// Support for basename.xxx to basename.xxx.d.ts
 		tsc = replace(
 			tsc,
 			/function changeExtension\(/,
@@ -85,17 +67,32 @@ export function transformTscContent(
 		(s) =>
 			// proxyCreateProgram caches volar language setup,
 			// but we want it to create language on each call
-			`var createProgram = (...args) => require(${JSON.stringify(proxyApiPath)}).proxyCreateProgram(` +
+			`var createProgram = (...args) => require(${JSON.stringify(volarProxyCreateProgramPath)}).proxyCreateProgram(` +
 			[
-				typescriptObject,
-				`_createProgram`,
-				`globalThis._vueLanguageParseContext.getStore().getLanguagePlugins`,
+				"new Proxy({}, { get(_target, p, _receiver) { return eval(p); } } )",
+				"_createProgram",
+				"globalThis._flintVueLanguageParseContext.getStore().getLanguagePlugins",
 			].join(", ") +
-			`)(...args);\n` +
+			")(...args);\n" +
 			s.replace("createProgram", "_createProgram"),
 	);
 
 	return tsc;
+}
+
+export function transformVueCompilerCore(content: string): string {
+	return replace(
+		content,
+		"function baseParse(input, options) {",
+		(s) => `
+${s}
+	const ast = _baseParse(input, options)
+	globalThis._flintVueLanguageParseContext.getStore().setVueAst(ast, options)
+	return ast
+}
+
+function _baseParse(input, options) {`,
+	);
 }
 
 function replace(
@@ -110,19 +107,4 @@ function replace(
 		throw new Error("Failed to replace: " + search);
 	}
 	return after;
-}
-
-export function transformVueCompilerCore(content: string): string {
-	return replace(
-		content,
-		"function baseParse(input, options) {",
-		(s) => `
-${s}
-	const ast = _baseParse(input, options)
-	globalThis._vueLanguageParseContext.getStore().setVueAst(ast, options)
-	return ast
-}
-
-function _baseParse(input, options) {`,
-	);
 }

@@ -7,7 +7,6 @@
 		"@flint.fyi/core": "workspace:",
 		"@typescript/vfs": "^1.6.1",
 		"@volar/language-core": "^2.4.23",
-		"@volar/source-map": "^2.4.23",
 		"@volar/typescript": "^2.4.23",
 		"@vue/compiler-core": "^3.5.22",
 		"@vue/language-core": "^3.1.1",
@@ -17,6 +16,7 @@
 		"vue": "^3.5.22"
 	},
 	"devDependencies": {
-		"@flint.fyi/rule-tester": "workspace:"
+		"@flint.fyi/rule-tester": "workspace:",
+		"@volar/source-map": "^2.4.23"
 	}
 }

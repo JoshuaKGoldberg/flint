@@ -1,8 +1,4 @@
-import {
-	createLanguage,
-	LanguageFileFactoryDefinition,
-	LanguagePreparedDefinition,
-} from "@flint.fyi/core";
+import { createLanguage } from "@flint.fyi/core";
 import { createProjectService } from "@typescript-eslint/project-service";
 import {
 	createFSBackedSystem,
@@ -13,7 +9,6 @@ import { debugForFile } from "debug-for-file";
 import path from "node:path";
 import * as ts from "typescript";
 
-import { createTypeScriptFileFromProgram } from "./createTypeScriptFileFromProgram.js";
 import { createTypeScriptFileFromProjectService } from "./createTypeScriptFileFromProjectService.js";
 import { TSNodesByName } from "./nodes.js";
 import { prepareTypeScriptFile } from "./prepareTypeScriptFile.js";
@@ -22,27 +17,22 @@ const log = debugForFile(import.meta.filename);
 
 const projectRoot = path.join(import.meta.dirname, "../..");
 
-export interface TypeScriptServices {
-	program: ts.Program;
-	sourceFile: ts.SourceFile;
-	typeChecker: ts.TypeChecker;
-}
-
-export type TypeScriptBasedLanguageFileFactory = (
-	program: ts.Program,
-	sourceFile: ts.SourceFile,
-) => LanguagePreparedDefinition;
-
 export interface TypeScriptBasedLanguageFile extends Partial<Disposable> {
 	program: ts.Program;
 	sourceFile: ts.SourceFile;
 }
+
 export interface TypeScriptBasedLanguageFileFactoryDefinition {
 	createFromDisk(filePathAbsolute: string): TypeScriptBasedLanguageFile;
 	createFromVirtual(
 		filePathAbsolute: string,
 		sourceText: string,
 	): TypeScriptBasedLanguageFile;
+}
+export interface TypeScriptServices {
+	program: ts.Program;
+	sourceFile: ts.SourceFile;
+	typeChecker: ts.TypeChecker;
 }
 
 export function prepareTypeScriptBasedLanguage(): TypeScriptBasedLanguageFileFactoryDefinition {

@@ -1,4 +1,5 @@
 import path from "node:path";
+
 import rule from "./asyncComputed.js";
 import { ruleTester } from "./ruleTester.js";
 
@@ -7,7 +8,6 @@ const fileName = path.join(import.meta.dirname, "file.vue");
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -15,6 +15,7 @@ ruleTester.describe(rule, {
 	computed(async () => 'hello')
 </script>
 			`,
+			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -26,7 +27,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -38,6 +38,7 @@ ruleTester.describe(rule, {
 	})
 </script>
 			`,
+			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -53,7 +54,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -63,6 +63,7 @@ ruleTester.describe(rule, {
 	computed(foo)
 </script>
 			`,
+			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -76,7 +77,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -86,6 +86,7 @@ ruleTester.describe(rule, {
 	})
 </script>
 			`,
+			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -101,7 +102,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -112,6 +112,7 @@ ruleTester.describe(rule, {
 	computed(fn)
 </script>
 			`,
+			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -126,7 +127,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -136,6 +136,7 @@ ruleTester.describe(rule, {
 	computed(fn)
 </script>
 			`,
+			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -149,7 +150,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -160,6 +160,7 @@ ruleTester.describe(rule, {
 	})
 </script>
 			`,
+			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -177,7 +178,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -192,6 +192,7 @@ ruleTester.describe(rule, {
 	})
 </script>
 			`,
+			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -213,7 +214,6 @@ ruleTester.describe(rule, {
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -226,6 +226,7 @@ ruleTester.describe(rule, {
 	computed(getterAndSetter)
 </script>
 			`,
+			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -245,7 +246,6 @@ ruleTester.describe(rule, {
 			fileName,
 			// TODO: volar sets different ScriptKind depending on <script> lang,
 			// it doesn't work with current prepareFromVirtual
-			skip: true,
 			code: `
 <script>
 	import { computed } from 'vue'
@@ -255,6 +255,7 @@ ruleTester.describe(rule, {
 	computed(async () => 'hello')
 </script>
 			`,
+			skip: true,
 			snapshot: `
 <script>
 	import { computed } from 'vue'
@@ -271,7 +272,6 @@ ruleTester.describe(rule, {
 	valid: [
 		// invalid computed
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -279,10 +279,10 @@ ruleTester.describe(rule, {
 	computed()
 </script>
 			`,
+			fileName,
 		},
 		// invalid computed
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -290,9 +290,9 @@ ruleTester.describe(rule, {
 	computed('hello')
 </script>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -300,9 +300,9 @@ ruleTester.describe(rule, {
 	computed(() => 'hello')
 </script>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -312,9 +312,9 @@ ruleTester.describe(rule, {
 	})
 </script>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -324,9 +324,9 @@ ruleTester.describe(rule, {
 	})
 </script>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -336,9 +336,9 @@ ruleTester.describe(rule, {
 	computed(comp)
 </script>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -349,9 +349,9 @@ ruleTester.describe(rule, {
 	})
 </script>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -362,9 +362,9 @@ ruleTester.describe(rule, {
 	})
 </script>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -377,14 +377,15 @@ ruleTester.describe(rule, {
 	computed(getterAndSetter)
 </script>
 			`,
+			fileName,
 		},
 		{
-			fileName,
 			code: `
 <script setup lang="ts">
 	computed(async () => 'hello')
 </script>
 			`,
+			fileName,
 		},
 	],
 });

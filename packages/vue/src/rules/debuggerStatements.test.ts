@@ -41,6 +41,7 @@ ruleTester.describe(vueLanguage.createRule(rule), {
 </template>
 			`,
 			fileName: "file.vue",
+			only: true,
 			snapshot: `
 <template>
 	<button @click="event => {
@@ -53,7 +54,6 @@ ruleTester.describe(vueLanguage.createRule(rule), {
 	</button>
 </template>
 			`,
-			only: true,
 			suggestions: [
 				{
 					id: "removeDebugger",

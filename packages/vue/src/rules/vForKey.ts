@@ -1,27 +1,17 @@
+import { CharacterReportRange } from "@flint.fyi/core";
 import { Mapper as VolarMapper } from "@volar/language-core";
 import * as vue from "@vue/compiler-core";
 import ts from "typescript";
+
 import { vueLanguage } from "../index.js";
-import { CharacterReportRange } from "@flint.fyi/core";
 
 export default vueLanguage.createRule({
 	about: {
-		id: "vForKey",
 		description: "Reports v-for directives without a valid key binding.",
+		id: "vForKey",
 		preset: "logical",
 	},
 	messages: {
-		missingKey: {
-			primary:
-				"Elements using v-for must include a unique :key to ensure correct reactivity and DOM stability.",
-			secondary: [
-				"A missing :key can cause unpredictable updates during rendering optimizations.",
-				"Without a key, Vue may reuse or reorder elements incorrectly, which breaks expected behavior in transitions and stateful components.",
-			],
-			suggestions: [
-				"Always provide a unique :key based on the v-for item, such as an id.",
-			],
-		},
 		invalidKey: {
 			primary:
 				"The :key on this v-for element does not reference the iteration variable.",
@@ -31,6 +21,17 @@ export default vueLanguage.createRule({
 			],
 			suggestions: [
 				"Bind the :key to something derived from the v-for item, like item.id or the index if no unique identifier exists.",
+			],
+		},
+		missingKey: {
+			primary:
+				"Elements using v-for must include a unique :key to ensure correct reactivity and DOM stability.",
+			secondary: [
+				"A missing :key can cause unpredictable updates during rendering optimizations.",
+				"Without a key, Vue may reuse or reorder elements incorrectly, which breaks expected behavior in transitions and stateful components.",
+			],
+			suggestions: [
+				"Always provide a unique :key based on the v-for item, such as an id.",
 			],
 		},
 		staticKey: {
@@ -47,8 +48,8 @@ export default vueLanguage.createRule({
 	},
 	setup(context) {
 		const {
-			templateAst,
 			sfc: { template: templateTransformed },
+			templateAst,
 		} = context;
 		if (templateAst == null || templateTransformed == null) {
 			return {};
@@ -56,7 +57,7 @@ export default vueLanguage.createRule({
 		const { startTagEnd } = templateTransformed;
 
 		const propValueRange = (propValue: vue.TextNode) => {
-			let strip = propValue.loc.source === propValue.content ? 0 : 1;
+			const strip = propValue.loc.source === propValue.content ? 0 : 1;
 			return {
 				begin: propValue.loc.start.offset + strip + startTagEnd,
 				end: propValue.loc.end.offset - strip + startTagEnd,
@@ -66,15 +67,15 @@ export default vueLanguage.createRule({
 		const checkFor = (
 			forDirective: vue.DirectiveNode,
 			forParseResult: vue.ForParseResult,
-			keyProp: vue.DirectiveNode | vue.AttributeNode | null,
+			keyProp: null | vue.AttributeNode | vue.DirectiveNode,
 		) => {
 			if (keyProp == null) {
 				context.reportSfc({
+					message: "missingKey",
 					range: {
 						begin: forDirective.loc.start.offset + startTagEnd,
 						end: forDirective.loc.start.offset + startTagEnd + "v-for".length,
 					},
-					message: "missingKey",
 				});
 				return;
 			}
@@ -83,8 +84,8 @@ export default vueLanguage.createRule({
 					return; // TS error
 				}
 				context.reportSfc({
-					range: propValueRange(keyProp.value),
 					message: "staticKey",
+					range: propValueRange(keyProp.value),
 				});
 				return;
 			}
@@ -176,7 +177,7 @@ export default vueLanguage.createRule({
 					ts.isIdentifier(current)
 				) {
 					const symbol = context.typeChecker.getSymbolAtLocation(current);
-					if (symbol == null || symbol.valueDeclaration == null) {
+					if (symbol?.valueDeclaration == null) {
 						return false;
 					}
 					const declStart = symbol.valueDeclaration.getStart(
@@ -194,17 +195,17 @@ export default vueLanguage.createRule({
 
 			if (!find(context.sourceFile)) {
 				context.reportSfc({
-					range: reportRange,
 					message: "invalidKey",
+					range: reportRange,
 				});
 			}
 		};
 
 		function visitTag(node: vue.TemplateChildNode) {
 			if (node.type === vue.NodeTypes.ELEMENT) {
-				let forDirective: vue.DirectiveNode | null = null;
-				let forParseResult: vue.ForParseResult | null = null;
-				let keyProp: vue.DirectiveNode | vue.AttributeNode | null = null;
+				let forDirective: null | vue.DirectiveNode = null;
+				let forParseResult: null | vue.ForParseResult = null;
+				let keyProp: null | vue.AttributeNode | vue.DirectiveNode = null;
 
 				for (const prop of node.props) {
 					if (

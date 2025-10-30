@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
-import { translateRange } from "./index.js";
 import { SourceMap } from "@volar/source-map";
+import { describe, expect, it } from "vitest";
+
+import { translateRange } from "./index.js";
 
 describe("translateRange", () => {
 	const prefix = '<MyComponent :bar="';
@@ -21,18 +22,18 @@ describe("translateRange", () => {
 
 	const mapping = new SourceMap([
 		{
-			sourceOffsets: [prefix.length],
+			data: {},
 			generatedOffsets: [generatedPrefix.length],
 			lengths: [beforeVariable.length],
-			data: {},
+			sourceOffsets: [prefix.length],
 		},
 		{
-			sourceOffsets: [(prefix + beforeVariable).length],
+			data: {},
 			generatedOffsets: [
 				(generatedPrefix + beforeVariable + generatedBeforeVariable).length,
 			],
 			lengths: [variable.length],
-			data: {},
+			sourceOffsets: [(prefix + beforeVariable).length],
 		},
 	]);
 

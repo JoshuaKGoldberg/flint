@@ -6,24 +6,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import ts, { flattenDiagnosticMessageText } from "typescript";
+
 import {
 	getLineAndCharacterOfPosition,
 	getPositionOfLineAndCharacter,
 	SourceFileLikeLoose,
 } from "./normalizeRange.js";
 
-export interface SourceFileLikeLooseWithName extends SourceFileLikeLoose {
-	fileName: string;
-}
-
-export interface RawDiagnosticRelatedInformation {
-	category: ts.DiagnosticCategory;
-	code: number;
-	file: SourceFileLikeLooseWithName | undefined;
-	start: number | undefined;
-	length: number | undefined;
-	messageText: string | ts.DiagnosticMessageChain;
-}
 export interface RawDiagnostic {
 	file?: SourceFileLikeLooseWithName;
 	length: number;
@@ -31,6 +20,18 @@ export interface RawDiagnostic {
 	name: string;
 	relatedInformation?: RawDiagnosticRelatedInformation[];
 	start: number;
+}
+
+export interface RawDiagnosticRelatedInformation {
+	category: ts.DiagnosticCategory;
+	code: number;
+	file: SourceFileLikeLooseWithName | undefined;
+	length: number | undefined;
+	messageText: string | ts.DiagnosticMessageChain;
+	start: number | undefined;
+}
+export interface SourceFileLikeLooseWithName extends SourceFileLikeLoose {
+	fileName: string;
 }
 
 export function formatDiagnostic(diagnostic: RawDiagnostic) {
@@ -61,7 +62,7 @@ export function formatDiagnostic(diagnostic: RawDiagnostic) {
 			messageText,
 			start,
 		} of diagnostic.relatedInformation) {
-			const indent = "	";
+			const indent = "  ";
 			if (file) {
 				output += "\n";
 				output += " " + formatLocation(file, start!);

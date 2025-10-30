@@ -1,4 +1,5 @@
 import path from "node:path";
+
 import rule from "../../../ts/lib/rules/anyReturns.js";
 import { vueLanguage } from "../index.js";
 import { ruleTester } from "./ruleTester.js";

@@ -1,3 +1,4 @@
+import { ParserOptions, RootNode } from "@vue/compiler-core";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { registerHooks } from "node:module";
 
@@ -6,14 +7,13 @@ import {
 	transformVueCompilerCore,
 	VolarLanguagePluginsGetter,
 } from "./patch-typescript.js";
-import { ParserOptions, RootNode } from "@vue/compiler-core";
 
 export const vueLanguageParseContext = new AsyncLocalStorage<{
 	getLanguagePlugins: VolarLanguagePluginsGetter;
 	setVueAst: (ast: RootNode, options: ParserOptions) => void;
 }>();
 
-(global as any)._vueLanguageParseContext = vueLanguageParseContext;
+(global as any)._flintVueLanguageParseContext = vueLanguageParseContext;
 
 const typescriptUrl = import.meta.resolve("typescript");
 const vueCompilerCoreBaseUrl = import.meta.resolve("@vue/compiler-core");
