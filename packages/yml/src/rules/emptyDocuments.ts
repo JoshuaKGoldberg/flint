@@ -21,10 +21,8 @@ export default ymlLanguage.createRule({
 		return {
 			visitors: {
 				document: (node) => {
-					const documentBody = node.children[1];
+					const [documentHead, documentBody] = node.children;
 					if (documentBody.children.length === 0) {
-						// Report on the documentHead (the --- marker)
-						const documentHead = node.children[0];
 						context.report({
 							message: "emptyDocument",
 							range: {
