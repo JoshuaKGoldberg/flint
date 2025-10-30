@@ -16435,6 +16435,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "emptyDocuments",
 			"plugin": "yml",
 			"preset": "Logical"
