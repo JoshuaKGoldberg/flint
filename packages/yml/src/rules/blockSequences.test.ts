@@ -7,6 +7,12 @@ ruleTester.describe(rule, {
 			code: `
 items: [a, b, c]
 `,
+			output: `
+items:
+  - a
+  - b
+  - c
+`,
 			snapshot: `
 items: [a, b, c]
        ~~~~~~~~~
@@ -16,6 +22,12 @@ items: [a, b, c]
 		{
 			code: `
 value: [1, 2, 3]
+`,
+			output: `
+value:
+  - 1
+  - 2
+  - 3
 `,
 			snapshot: `
 value: [1, 2, 3]
@@ -27,6 +39,12 @@ value: [1, 2, 3]
 			code: `
 nested:
   items: [x, y]
+`,
+			output: `
+nested:
+  items:
+    - x
+    - y
 `,
 			snapshot: `
 nested:
@@ -39,10 +57,43 @@ nested:
 			code: `
 empty: []
 `,
+			output: `
+empty:
+`,
 			snapshot: `
 empty: []
        ~~
        Prefer block style sequences over flow style sequences.
+`,
+		},
+		{
+			code: `
+quoted: ["a", "b", "c"]
+`,
+			output: `
+quoted:
+  - "a"
+  - "b"
+  - "c"
+`,
+			snapshot: `
+quoted: ["a", "b", "c"]
+        ~~~~~~~~~~~~~~~
+        Prefer block style sequences over flow style sequences.
+`,
+		},
+		{
+			code: `
+single: [item]
+`,
+			output: `
+single:
+  - item
+`,
+			snapshot: `
+single: [item]
+        ~~~~~~
+        Prefer block style sequences over flow style sequences.
 `,
 		},
 	],
