@@ -53,6 +53,7 @@ export function createYmlFile(filePathAbsolute: string, sourceText: string) {
 					});
 				},
 				root,
+				sourceText,
 			};
 
 			const runtime = await rule.setup(context, options);

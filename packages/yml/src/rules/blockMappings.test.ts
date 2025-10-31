@@ -7,6 +7,10 @@ ruleTester.describe(rule, {
 			code: `
 key: {nested: value}
 `,
+			output: `
+key:
+  nested: value
+`,
 			snapshot: `
 key: {nested: value}
      ~~~~~~~~~~~~~~~
@@ -16,6 +20,11 @@ key: {nested: value}
 		{
 			code: `
 outer: {inner: value, another: data}
+`,
+			output: `
+outer:
+  inner: value
+  another: data
 `,
 			snapshot: `
 outer: {inner: value, another: data}
@@ -27,6 +36,11 @@ outer: {inner: value, another: data}
 			code: `
 parent:
     child: {nested: value}
+`,
+			output: `
+parent:
+    child:
+      nested: value
 `,
 			snapshot: `
 parent:
@@ -40,6 +54,13 @@ parent:
 items:
     - {name: first}
     - {name: second}
+`,
+			output: `
+items:
+    -
+      name: first
+    -
+      name: second
 `,
 			snapshot: `
 items:
