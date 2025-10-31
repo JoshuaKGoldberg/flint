@@ -7,6 +7,7 @@ ruleTester.describe(rule, {
 			code: `
 ---
 `,
+			output: ``,
 			snapshot: `
 ---
 ~~~
@@ -18,6 +19,7 @@ This document is empty and contains no content, which is often a mistake.
 ---
 ...
 `,
+			output: ``,
 			snapshot: `
 ---
 ~~~
@@ -29,6 +31,10 @@ This document is empty and contains no content, which is often a mistake.
 			code: `
 ---
 
+---
+key: value
+`,
+			output: `
 ---
 key: value
 `,
