@@ -9,6 +9,7 @@ import { prepareYmlFile } from "./prepareYmlFile.js";
 
 export interface YmlServices {
 	root: yamlParser.Root;
+	sourceText: string;
 }
 
 export const ymlLanguage = createLanguage<YmlNodesByName, YmlServices>({
