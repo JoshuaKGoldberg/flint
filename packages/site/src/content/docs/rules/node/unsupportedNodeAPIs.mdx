@@ -1,0 +1,63 @@
+---
+description: "Ensure Node.js built-in APIs are supported in the target Node.js version."
+title: "unsupportedNodeAPIs"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="node" rule="unsupportedNodeAPIs" />
+
+Using Node.js APIs that are not supported in your target Node.js version can cause runtime errors.
+This rule detects usage of Node.js built-in APIs that were introduced in newer versions and may not be available in older environments.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+import { webcrypto } from "crypto";
+
+import * as fs from "fs";
+const blob = await fs.openAsBlob("file.txt");
+
+import { Readable } from "stream";
+const webStream = Readable.toWeb(nodeStream);
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+import { randomBytes } from "crypto";
+
+import { readFile } from "fs";
+const content = await readFile("file.txt");
+
+import { Readable } from "stream";
+const nodeStream = new Readable();
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your codebase has a well-defined minimum Node.js version requirement that supports all the APIs you're using, or if you're confident that all environments where your code runs support the necessary Node.js version, you might choose not to enable this rule.
+
+## Further Reading
+
+- [Node.js API Documentation](https://nodejs.org/api/)
+- [Node.js Release Schedule](https://github.com/nodejs/release#release-schedule)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="node" ruleId="unsupportedNodeAPIs" />
