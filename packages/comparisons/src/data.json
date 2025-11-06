@@ -15789,6 +15789,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unsafeFinallyStatements",
 			"plugin": "ts",
 			"preset": "Logical"
