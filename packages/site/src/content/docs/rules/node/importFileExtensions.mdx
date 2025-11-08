@@ -1,0 +1,68 @@
+---
+description: "Require file extensions in import and export statements for local files."
+title: "importFileExtensions"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="node" rule="importFileExtensions" />
+
+Node.js ESM requires file extensions in import specifiers for local files.
+Including extensions makes imports explicit and improves compatibility with ES modules, preventing runtime errors in Node.js environments.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+import value from "./module";
+
+import { named } from "../utilities";
+
+export { value } from "./helper";
+
+export * from "./constants";
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+import value from "./module.js";
+
+import { named } from "../utilities.js";
+
+export { value } from "./helper.js";
+
+export * from "./constants.js";
+
+// Non-local imports don't need extensions
+import external from "external-package";
+
+import builtin from "node:fs";
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you are not using Node.js ESM or have a build tool that automatically adds file extensions, you might choose not to enable this rule.
+
+## Further Reading
+
+- [Node.js: ES Modules](https://nodejs.org/api/esm.html#mandatory-file-extensions)
+- [MDN: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="node" ruleId="importFileExtensions" />

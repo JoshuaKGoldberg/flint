@@ -2886,9 +2886,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "importFileExtensions",
 			"plugin": "node",
-			"preset": "None"
+			"preset": "logical"
 		},
 		"oxlint": [
 			{
