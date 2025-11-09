@@ -141,8 +141,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       debounce:
-        specifier: ^2.2.0
-        version: 2.2.0
+        specifier: ^3.0.0
+        version: 3.0.0
       debug-for-file:
         specifier: ^0.2.0
         version: 0.2.0
@@ -2331,9 +2331,9 @@ packages:
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
-  debounce@2.2.0:
-    resolution: {integrity: sha512-Xks6RUDLZFdz8LIdR6q0MTH44k7FikOmnh5xkSjMig6ch45afc8sjTjRQf3P6ax8dMgcQrYO/AR2RGWURrruqw==}
-    engines: {node: '>=18'}
+  debounce@3.0.0:
+    resolution: {integrity: sha512-64byRbF0/AirwbuHqB3/ZpMG9/nckDa6ZA0yd6UnaQNwbbemCOwvz2sL5sjXLHhZHADyiwLm0M5qMhltUUx+TA==}
+    engines: {node: '>=20'}
 
   debug-for-file@0.2.0:
     resolution: {integrity: sha512-2w8an7kqhP8LXvU+riM7azVfAV3uEzE1lOsQFhrLI1K+kQZEbCK+nigYHK5GrgUvwvVNbWnlMkUM3kLbeJ0bPA==}
@@ -6886,7 +6886,7 @@ snapshots:
 
   csstype@3.1.3: {}
 
-  debounce@2.2.0: {}
+  debounce@3.0.0: {}
 
   debug-for-file@0.2.0:
     dependencies:
