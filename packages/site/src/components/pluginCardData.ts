@@ -67,7 +67,7 @@ export const pluginCardDataById: Record<
 				squiggly: "#008000",
 			},
 			description:
-				"Rules for linting `.yaml`/`.yml` containing arbitrary data in the Yet Another Markup Language (YAML) format.",
+				"Rules for linting `.yaml`/`.yml` files containing arbitrary data in the Yet Another Markup Language (YAML) format.",
 			id: "yml",
 			name: "YML",
 		},
