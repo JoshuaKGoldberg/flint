@@ -58,7 +58,7 @@ export default defineConfig({
 									{ label: "Performance", link: "/rules/performance" },
 									{ label: "Sorting", link: "/rules/sorting" },
 								],
-								label: "More Plugins",
+								label: "Focused Plugins",
 							},
 						],
 						label: "Rules",
