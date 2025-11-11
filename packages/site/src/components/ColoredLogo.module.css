@@ -1,0 +1,7 @@
+.coloredLogo {
+	height: 4rem;
+	width: 4rem;
+
+	/* Yucky CSS hack to get lines to be less jarring in Chrome... */
+	transform: scale(0.99);
+}
