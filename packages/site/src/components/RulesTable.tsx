@@ -76,7 +76,11 @@ export function RulesTable({
 			? (a, b) => a.flint.name.localeCompare(b.flint.name)
 			: (a, b) =>
 					a.flint.preset === b.flint.preset
-						? a.flint.name.localeCompare(b.flint.name)
+						? a.flint.strictness === b.flint.strictness
+							? a.flint.name.localeCompare(b.flint.name)
+							: a.flint.strictness
+								? 1
+								: -1
 						: a.flint.preset.localeCompare(b.flint.preset);
 
 	const values = comparisons
