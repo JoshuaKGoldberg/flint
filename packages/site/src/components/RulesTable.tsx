@@ -21,7 +21,7 @@ const pluginNames: Record<string, string> = {
 	performance: "Performance",
 	sorting: "Sorting",
 	ts: "TypeScript",
-	yml: "YML",
+	yaml: "YAML",
 };
 
 function renderFlintPreset(flint: Comparison["flint"]) {

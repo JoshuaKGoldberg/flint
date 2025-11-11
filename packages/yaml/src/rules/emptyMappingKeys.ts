@@ -1,6 +1,6 @@
-import { ymlLanguage } from "../language.js";
+import { yamlLanguage } from "../language.js";
 
-export default ymlLanguage.createRule({
+export default yamlLanguage.createRule({
 	about: {
 		description: "Reports empty mapping keys.",
 		id: "emptyMappingKeys",

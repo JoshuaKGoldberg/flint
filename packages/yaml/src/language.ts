@@ -3,15 +3,15 @@ import type * as yamlParser from "yaml-unist-parser";
 import { createLanguage } from "@flint.fyi/core";
 import fsSync from "node:fs";
 
-import { createYmlFile } from "./createYmlFile.js";
-import { YmlNodesByName } from "./nodes.js";
-import { prepareYmlFile } from "./prepareYmlFile.js";
+import { createYamlFile } from "./createYamlFile.js";
+import { YamlNodesByName } from "./nodes.js";
+import { prepareYamlFile } from "./prepareYamlFile.js";
 
-export interface YmlServices {
+export interface YamlServices {
 	root: yamlParser.Root;
 }
 
-export const ymlLanguage = createLanguage<YmlNodesByName, YmlServices>({
+export const yamlLanguage = createLanguage<YamlNodesByName, YamlServices>({
 	about: {
 		name: "YAML",
 	},
@@ -19,20 +19,20 @@ export const ymlLanguage = createLanguage<YmlNodesByName, YmlServices>({
 		return {
 			prepareFromDisk: (filePathAbsolute) => {
 				const sourceText = fsSync.readFileSync(filePathAbsolute, "utf8");
-				const { languageFile, root } = createYmlFile(
+				const { languageFile, root } = createYamlFile(
 					filePathAbsolute,
 					sourceText,
 				);
 
-				return prepareYmlFile(languageFile, root, sourceText);
+				return prepareYamlFile(languageFile, root, sourceText);
 			},
 			prepareFromVirtual: (filePathAbsolute, sourceText) => {
-				const { languageFile, root } = createYmlFile(
+				const { languageFile, root } = createYamlFile(
 					filePathAbsolute,
 					sourceText,
 				);
 
-				return prepareYmlFile(languageFile, root, sourceText);
+				return prepareYamlFile(languageFile, root, sourceText);
 			},
 		};
 	},

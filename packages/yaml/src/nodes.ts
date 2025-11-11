@@ -1,5 +1,5 @@
 import type * as yaml from "yaml-unist-parser";
 
-export type YmlNodesByName = {
+export type YamlNodesByName = {
 	[Node in yaml.YamlUnistNode as Node["type"]]: Node;
 };

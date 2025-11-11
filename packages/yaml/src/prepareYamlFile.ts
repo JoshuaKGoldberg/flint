@@ -1,15 +1,15 @@
 import { LanguageFileDefinition } from "@flint.fyi/core";
 import * as yamlParser from "yaml-unist-parser";
 
-import { parseDirectivesFromYmlFile } from "./directives/parseDirectivesFromYmlFile.js";
+import { parseDirectivesFromYamlFile } from "./directives/parseDirectivesFromYamlFile.js";
 
-export function prepareYmlFile(
+export function prepareYamlFile(
 	languageFile: LanguageFileDefinition,
 	root: yamlParser.Root,
 	sourceText: string,
 ) {
 	return {
-		...parseDirectivesFromYmlFile(root, sourceText),
+		...parseDirectivesFromYamlFile(root, sourceText),
 		file: languageFile,
 	};
 }

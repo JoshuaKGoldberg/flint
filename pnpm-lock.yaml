@@ -197,9 +197,9 @@ importers:
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
-      '@flint.fyi/yml':
+      '@flint.fyi/yaml':
         specifier: 'workspace:'
-        version: link:../yml
+        version: link:../yaml
 
   packages/json:
     dependencies:
@@ -485,7 +485,7 @@ importers:
 
   packages/utils: {}
 
-  packages/yml:
+  packages/yaml:
     dependencies:
       '@flint.fyi/core':
         specifier: 'workspace:'

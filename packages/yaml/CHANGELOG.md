@@ -1,4 +1,4 @@
-# @flint/yml
+# @flint/yaml
 
 ## 0.14.1
 

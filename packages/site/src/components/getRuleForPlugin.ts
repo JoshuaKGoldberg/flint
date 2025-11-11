@@ -4,7 +4,7 @@ import { flint } from "@flint.fyi/plugin-flint";
 import { jsx } from "@flint.fyi/plugin-jsx";
 import { node } from "@flint.fyi/plugin-node";
 import { performance } from "@flint.fyi/plugin-performance";
-import { type AnyRule, json, md, ts, yml } from "flint";
+import { type AnyRule, json, md, ts, yaml } from "flint";
 
 const plugins = {
 	browser,
@@ -16,7 +16,7 @@ const plugins = {
 	node,
 	performance,
 	ts,
-	yml,
+	yaml,
 };
 
 export function getRuleForPlugin(pluginId: string, ruleId: string): AnyRule {

@@ -60,7 +60,7 @@ export const pluginCardDataById: Record<
 			id: "ts",
 			name: "TypeScript (and JavaScript)",
 		},
-		yml: {
+		yaml: {
 			colors: {
 				flame: "#CC1718",
 				heart: "#40e0d0",
@@ -68,8 +68,8 @@ export const pluginCardDataById: Record<
 			},
 			description:
 				"Rules for linting `.yaml`/`.yml` files containing arbitrary data in the Yet Another Markup Language (YAML) format.",
-			id: "yml",
-			name: "YML",
+			id: "yaml",
+			name: "YAML",
 		},
 	},
 	focused: {

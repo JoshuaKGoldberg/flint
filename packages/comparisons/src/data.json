@@ -4226,7 +4226,7 @@
 			}
 		],
 		"flint": {
-			"name": "ymlKeys",
+			"name": "yamlKeys",
 			"plugin": "sorting",
 			"preset": "Stylistic"
 		}
@@ -4239,7 +4239,7 @@
 			}
 		],
 		"flint": {
-			"name": "ymlSequenceValues",
+			"name": "yamlSequenceValues",
 			"plugin": "sorting",
 			"preset": "Stylistic"
 		}
@@ -16410,7 +16410,7 @@
 		],
 		"flint": {
 			"name": "blockMappings",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Stylistic"
 		}
 	},
@@ -16423,7 +16423,7 @@
 		],
 		"flint": {
 			"name": "blockSequences",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Stylistic"
 		}
 	},
@@ -16436,7 +16436,7 @@
 		],
 		"flint": {
 			"name": "emptyDocuments",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Logical"
 		}
 	},
@@ -16450,7 +16450,7 @@
 		"flint": {
 			"implemented": true,
 			"name": "emptyMappingKeys",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Logical"
 		}
 	},
@@ -16463,7 +16463,7 @@
 		],
 		"flint": {
 			"name": "emptyMappingValues",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Logical"
 		}
 	},
@@ -16476,7 +16476,7 @@
 		],
 		"flint": {
 			"name": "emptySequenceEntries",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Logical"
 		}
 	},
@@ -16489,7 +16489,7 @@
 		],
 		"flint": {
 			"name": "fileExtensions",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Stylistic",
 			"strictness": "Strict"
 		}
@@ -16503,7 +16503,7 @@
 		],
 		"flint": {
 			"name": "irregularWhitespace",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Stylistic"
 		}
 	},
@@ -16516,7 +16516,7 @@
 		],
 		"flint": {
 			"name": "mappingKeyCasing",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Not implementing"
 		}
 	},
@@ -16529,7 +16529,7 @@
 		],
 		"flint": {
 			"name": "numericTrailingZeros",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Stylistic",
 			"strictness": "Strict"
 		}
@@ -16543,7 +16543,7 @@
 		],
 		"flint": {
 			"name": "plainScalars",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Stylistic",
 			"strictness": "Strict"
 		}
@@ -16557,7 +16557,7 @@
 		],
 		"flint": {
 			"name": "stringMappingKeys",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Logical",
 			"strictness": "Strict"
 		}
