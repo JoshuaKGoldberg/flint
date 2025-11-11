@@ -33,3 +33,21 @@ export function getRuleForPlugin(pluginId: string, ruleId: string): AnyRule {
 
 	return rule as AnyRule;
 }
+
+export function getRuleForPluginSafe(
+	pluginId: string,
+	ruleId: string,
+): AnyRule | undefined {
+	if (!(pluginId in plugins)) {
+		return undefined;
+	}
+
+	const plugin = plugins[pluginId as keyof typeof plugins];
+	const rule = plugin.rulesById.get(ruleId);
+
+	if (!rule) {
+		return undefined;
+	}
+
+	return rule as AnyRule;
+}
