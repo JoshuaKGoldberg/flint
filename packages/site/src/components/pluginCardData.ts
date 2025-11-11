@@ -152,13 +152,3 @@ export const pluginCardDataById: Record<
 		},
 	},
 };
-
-export function getPluginCardData(pluginId: string) {
-	for (const plugins of Object.values(pluginCardDataById)) {
-		if (pluginId in plugins) {
-			return plugins[pluginId];
-		}
-	}
-
-	throw new Error(`Unknown pluginId: ${pluginId}`);
-}
