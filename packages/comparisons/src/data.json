@@ -4226,7 +4226,7 @@
 			}
 		],
 		"flint": {
-			"name": "ymlKeys",
+			"name": "yamlKeys",
 			"plugin": "sorting",
 			"preset": "Stylistic"
 		}
@@ -4239,7 +4239,7 @@
 			}
 		],
 		"flint": {
-			"name": "ymlSequenceValues",
+			"name": "yamlSequenceValues",
 			"plugin": "sorting",
 			"preset": "Stylistic"
 		}

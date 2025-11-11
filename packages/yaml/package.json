@@ -1,11 +1,11 @@
 {
-	"name": "@flint.fyi/yml",
+	"name": "@flint.fyi/yaml",
 	"version": "0.14.1",
-	"description": "[Experimental] Y(A)ML language plugin for Flint.",
+	"description": "[Experimental] YAML language plugin for Flint.",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/JoshuaKGoldberg/flint",
-		"directory": "packages/yml"
+		"directory": "packages/yaml"
 	},
 	"license": "MIT",
 	"author": {

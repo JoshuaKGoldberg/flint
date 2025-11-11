@@ -44,7 +44,7 @@ export default defineConfig({
 									{ label: "Markdown", link: "/rules/md" },
 									{ label: "PackageJSON", link: "/rules/package-json" },
 									{ label: "TypeScript", link: "/rules/ts" },
-									{ label: "YML", link: "/rules/yml" },
+									{ label: "YAML", link: "/rules/yaml" },
 								],
 								label: "Core Plugins",
 							},

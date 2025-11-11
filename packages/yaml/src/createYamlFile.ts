@@ -11,7 +11,7 @@ import * as yamlParser from "yaml-unist-parser";
 // Eventually, it might make sense to use a native speed Yaml parser...
 // However, the unist ecosystem is quite extensive and well-supported.
 // It'll be a while before we can replace it with a native parser.
-export function createYmlFile(filePathAbsolute: string, sourceText: string) {
+export function createYamlFile(filePathAbsolute: string, sourceText: string) {
 	const virtualFile = new VFile({
 		path: filePathAbsolute,
 		value: sourceText,

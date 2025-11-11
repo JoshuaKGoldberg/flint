@@ -1,7 +1,7 @@
-<h1 align="center"><code>@flint.fyi/yml</code></h1>
+<h1 align="center"><code>@flint.fyi/yaml</code></h1>
 
 <p align="center">
-	[Experimental] Y(A)ML language plugin for Flint.
+	[Experimental] YAML language plugin for Flint.
 	❤️‍🔥
 </p>
 
