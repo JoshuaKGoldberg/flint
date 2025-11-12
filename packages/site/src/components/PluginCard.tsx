@@ -1,13 +1,11 @@
-import markdownIt from "markdown-it";
 import { ColoredLogo } from "./ColoredLogo";
+import { InlineMarkdown } from "./InlineMarkdown";
 import styles from "./PluginCard.module.css";
 import type { PluginCardData } from "./pluginCardData";
 
 export interface PluginCardProps {
 	data: PluginCardData;
 }
-
-const renderer = markdownIt();
 
 export function PluginCard({
 	data: { colors, description, id, name },
@@ -19,12 +17,7 @@ export function PluginCard({
 				<span className={styles.name}>
 					<a href={`/rules/${id}`}>{name}</a>{" "}
 				</span>
-				<span
-					className={styles.description}
-					dangerouslySetInnerHTML={{
-						__html: renderer.renderInline(description),
-					}}
-				/>
+				<InlineMarkdown className={styles.description} markdown={description} />
 			</div>
 		</li>
 	);

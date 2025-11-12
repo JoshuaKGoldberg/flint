@@ -7,6 +7,7 @@ import clsx from "clsx";
 
 import styles from "./RulesTable.module.css";
 import { getRuleForPluginSafe } from "./getRuleForPlugin";
+import { InlineMarkdown } from "./InlineMarkdown";
 
 const pluginNames: Record<string, string> = {
 	browser: "Browser",
@@ -30,7 +31,11 @@ function renderFlintPreset(flint: Comparison["flint"]) {
 		? [`${hrefBase}strict`, `${flint.preset} (${flint.strictness})`]
 		: [hrefBase, flint.preset];
 
-	return <a href={href}>{text}</a>;
+	return (
+		<a className={styles.linkCell} href={href}>
+			{text}
+		</a>
+	);
 }
 
 export interface RulesTableProps {
@@ -51,7 +56,10 @@ function renderFlintName(flint: FlintRuleReference) {
 }
 
 function renderFlintRuleDescription(flint: FlintRuleReference) {
-	return getRuleForPluginSafe(flint.plugin, flint.name)?.about.description;
+	const description = getRuleForPluginSafe(flint.plugin, flint.name)?.about
+		.description;
+
+	return description ? <InlineMarkdown markdown={description} /> : null;
 }
 
 function renderImplemented(values: Comparison[]) {
@@ -126,7 +134,10 @@ export function RulesTable({
 							</td>
 							{!plugin && (
 								<td>
-									<a href={`/rules/${comparison.flint.plugin}`}>
+									<a
+										className={styles.linkCell}
+										href={`/rules/${comparison.flint.plugin}`}
+									>
 										{pluginNames[comparison.flint.plugin]}
 									</a>
 								</td>
