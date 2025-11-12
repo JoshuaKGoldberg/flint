@@ -4,9 +4,15 @@
 	display: flex;
 	gap: 1rem;
 	margin: 0;
-	max-width: calc(50% - calc(var(--plugin-cards-spacing) / 2));
-	min-width: 30%;
+	width: 100%;
 	padding: 0.25rem 1.25rem;
+}
+
+@media (width >= 1117px) {
+	.pluginCard {
+		max-width: calc(50% - calc(var(--plugin-cards-spacing) / 2));
+		min-width: 30%;
+	}
 }
 
 .pluginCard a {
