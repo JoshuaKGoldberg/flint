@@ -2607,6 +2607,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "consoleSpaces",
 			"plugin": "node",
 			"preset": "Stylistic",
