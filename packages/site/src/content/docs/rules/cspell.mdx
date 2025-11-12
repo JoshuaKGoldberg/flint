@@ -3,13 +3,12 @@ description: "CSpell linting rules provided by Flint."
 title: "CSpell Plugin"
 ---
 
-import { PackageManagers } from "starlight-package-managers";
-
 import { RulesTable } from "~/components/RulesTable.tsx";
+import PluginTop from "~/components/PluginTop.astro";
 
-Flint's CSpell plugin supports running the [CSpell spell checker](https://cspell.org) on any source file.
+<PluginTop pluginId="cspell" />
 
-<PackageManagers type="install" pkg="@flint.fyi/plugin-cspell" />
+See the [CSpell spell checker documentation](https://cspell.org) for more details on spell-checking code.
 
 ## Presets
 

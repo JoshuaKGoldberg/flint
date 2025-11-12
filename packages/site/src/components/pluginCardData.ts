@@ -27,7 +27,7 @@ export const pluginCardDataById: Record<
 			id: "json",
 			name: "JSON",
 		},
-		markdown: {
+		md: {
 			colors: {
 				flame: "#ffffff",
 				heart: "#2BA4E0",
@@ -152,3 +152,13 @@ export const pluginCardDataById: Record<
 		},
 	},
 };
+
+export function getPluginById(pluginId: string) {
+	for (const group of Object.keys(pluginCardDataById)) {
+		if (pluginId in pluginCardDataById[group]) {
+			return { group, plugin: pluginCardDataById[group][pluginId] };
+		}
+	}
+
+	throw new Error(`Unknown pluginId: ${pluginId}`);
+}
