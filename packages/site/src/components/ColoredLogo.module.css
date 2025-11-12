@@ -11,5 +11,5 @@
 }
 
 .coloredLogo.large {
-	--coloredLogoSize: clamp(5rem, 10vw, 10vw);
+	--coloredLogoSize: clamp(5rem, 10vw, 7rem);
 }
