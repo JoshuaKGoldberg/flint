@@ -135,7 +135,7 @@ export const pluginCardDataById: Record<
 				squiggly: "#F05756",
 			},
 			description:
-				'Rules for specialized code designed specifically to be run in performance-critical "hot paths" at runtime.',
+				'Rules for specialized code designed specifically to be run in performance-critical "hot paths".',
 			id: "performance",
 			name: "Performance",
 		},
