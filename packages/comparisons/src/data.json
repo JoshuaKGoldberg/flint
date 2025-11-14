@@ -2863,7 +2863,8 @@
 		"flint": {
 			"name": "hashbangs",
 			"plugin": "node",
-			"preset": "Logical"
+			"preset": "Logical",
+			"implemented": true
 		}
 	},
 	{
