@@ -11,11 +11,11 @@ export function createRuleComparator(sortBy?: RuleSortBy): RuleComparator {
 
 	return (a, b) => {
 		if (a.flint.preset !== b.flint.preset) {
-			if (a.flint.preset === "None") {
+			if (!a.flint.preset) {
 				return 1;
 			}
 
-			if (b.flint.preset === "None") {
+			if (!b.flint.preset) {
 				return -1;
 			}
 

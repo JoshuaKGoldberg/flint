@@ -10,7 +10,7 @@ interface CSpellConfigLike {
 export default textLanguage.createRule({
 	about: {
 		description: "Runs the CSpell spell checker on any source code file.",
-		id: "spelling",
+		id: "cspell",
 		preset: "logical",
 	},
 	messages: {

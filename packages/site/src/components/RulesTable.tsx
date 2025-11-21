@@ -8,34 +8,38 @@ import clsx from "clsx";
 import styles from "./RulesTable.module.css";
 import { getRuleForPluginSafe } from "./getRuleForPlugin";
 import { InlineMarkdown } from "./InlineMarkdown";
+import { getPluginData } from "~/lib/pluginData";
+import { createRuleComparator } from "./createRuleComparator";
 
-const pluginNames: Record<string, string> = {
-	browser: "Browser",
-	cspell: "CSpell",
-	deno: "Deno",
-	flint: "Flint",
-	json: "JSON",
-	jsx: "JSX",
-	md: "Markdown",
-	node: "Node",
-	packageJson: "PackageJSON",
-	performance: "Performance",
-	sorting: "Sorting",
-	ts: "TypeScript",
-	yaml: "YAML",
-};
+function renderFlintPlugin(flint: FlintRuleReference) {
+	return (
+		<td className={styles.linkCell}>
+			<a href={`/rules/${flint.plugin}`}>
+				{getPluginData(flint.plugin).plugin.name.split(" ")[0]}
+			</a>
+		</td>
+	);
+}
 
-function renderFlintPreset(flint: Comparison["flint"]) {
+function renderFlintPreset(flint: FlintRuleReference) {
+	if (!flint.preset) {
+		return <td className={styles.noneCell}>(none)</td>;
+	}
+
 	const hrefBase = `/rules/${flint.plugin}#${flint.preset.toLowerCase()}`;
 	const [href, text] = flint.strictness
 		? [`${hrefBase}strict`, `${flint.preset} (${flint.strictness})`]
 		: [hrefBase, flint.preset];
 
 	return (
-		<a className={styles.linkCell} href={href}>
-			{text}
-		</a>
+		<td className={styles.linkCell}>
+			<a href={href}>{text}</a>
+		</td>
 	);
+}
+
+function renderFlintNotes(notes: string | undefined) {
+	return <td className={styles.notesCell}>{notes}</td>;
 }
 
 export interface RulesTableProps {
@@ -46,7 +50,7 @@ export interface RulesTableProps {
 }
 
 function renderFlintName(flint: FlintRuleReference) {
-	return flint.implemented ? (
+	return flint.status === "implemented" ? (
 		<a href={`/rules/${flint.plugin}/${flint.name.toLowerCase()}`}>
 			{flint.name}
 		</a>
@@ -62,13 +66,15 @@ function renderFlintRuleDescription(flint: FlintRuleReference) {
 	return description ? <InlineMarkdown markdown={description} /> : null;
 }
 
-function renderImplemented(values: Comparison[]) {
-	const count = values.filter((value) => value.flint.implemented).length;
+function renderImplemented(comparisons: Comparison[]) {
+	const count = comparisons.filter(
+		(comparison) => comparison.flint.status === "implemented",
+	).length;
 
-	return count === values.length ? null : (
+	return count === comparisons.length ? null : (
 		<>
-			Implemented: {count} of {values.length} (
-			{Math.trunc((count / values.length) * 1000) / 10}%)
+			Implemented: {count} of {comparisons.length} (
+			{Math.trunc((count / comparisons.length) * 1000) / 10}%)
 		</>
 	);
 }
@@ -79,21 +85,11 @@ export function RulesTable({
 	plugin,
 	small,
 }: RulesTableProps) {
-	const comparator: (a: Comparison, b: Comparison) => number =
-		sortBy === "name"
-			? (a, b) => a.flint.name.localeCompare(b.flint.name)
-			: (a, b) =>
-					a.flint.preset === b.flint.preset
-						? a.flint.strictness === b.flint.strictness
-							? a.flint.name.localeCompare(b.flint.name)
-							: a.flint.strictness
-								? 1
-								: -1
-						: a.flint.preset.localeCompare(b.flint.preset);
+	const comparator = createRuleComparator(sortBy);
 
 	const values = comparisons
 		.filter((comparison) => {
-			if ((comparison.flint.preset !== "Not implementing") !== implementing) {
+			if ((comparison.flint.status === "skipped") === implementing) {
 				return false;
 			}
 
@@ -128,25 +124,20 @@ export function RulesTable({
 				<tbody>
 					{values.map((comparison) => (
 						<tr key={comparison.flint.name}>
-							<td>
+							<td
+								className={clsx(
+									styles.ruleNameCell,
+									comparison.flint.status === "implemented" &&
+										styles.implementingCell,
+								)}
+							>
 								<code>{renderFlintName(comparison.flint)}</code>
 								<small>{renderFlintRuleDescription(comparison.flint)}</small>
 							</td>
-							{!plugin && (
-								<td>
-									<a
-										className={styles.linkCell}
-										href={`/rules/${comparison.flint.plugin}`}
-									>
-										{pluginNames[comparison.flint.plugin]}
-									</a>
-								</td>
-							)}
-							<td>
-								{implementing
-									? renderFlintPreset(comparison.flint)
-									: comparison.notes}
-							</td>
+							{!plugin && renderFlintPlugin(comparison.flint)}
+							{implementing
+								? renderFlintPreset(comparison.flint)
+								: renderFlintNotes(comparison.notes)}
 						</tr>
 					))}
 				</tbody>

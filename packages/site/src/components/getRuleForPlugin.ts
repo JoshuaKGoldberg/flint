@@ -1,20 +1,20 @@
 import { browser } from "@flint.fyi/plugin-browser";
-import { cspell } from "@flint.fyi/plugin-cspell";
 import { flint } from "@flint.fyi/plugin-flint";
 import { jsx } from "@flint.fyi/plugin-jsx";
 import { node } from "@flint.fyi/plugin-node";
 import { performance } from "@flint.fyi/plugin-performance";
+import { spelling } from "@flint.fyi/plugin-spelling";
 import { type AnyRule, json, md, ts, yaml } from "flint";
 
 const plugins = {
 	browser,
-	cspell,
 	flint,
 	json,
 	jsx,
 	md,
 	node,
 	performance,
+	spelling,
 	ts,
 	yaml,
 };

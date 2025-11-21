@@ -46,7 +46,7 @@ import unnecessaryFragments from "./rules/unnecessaryFragments.js";
 import validElementChildren from "./rules/validElementChildren.js";
 
 export const jsx = createPlugin({
-	name: "jsx",
+	name: "JSX",
 	rules: [
 		accessKeys,
 		altTexts,

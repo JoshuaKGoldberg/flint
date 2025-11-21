@@ -1,6 +1,6 @@
 /* cspell:disable */
 import { ruleTester } from "./ruleTester.js";
-import rule from "./spelling.js";
+import rule from "./cspell.js";
 
 ruleTester.describe(rule, {
 	invalid: [

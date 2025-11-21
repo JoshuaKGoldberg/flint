@@ -1,4 +1,4 @@
-# @flint.fyi/plugin-cspell
+# @flint.fyi/plugin-spelling
 
 ## 0.1.2
 
