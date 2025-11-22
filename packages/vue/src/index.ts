@@ -217,6 +217,7 @@ export const vueLanguage = createLanguage<unknown, VueServices>({
 								{
 									map,
 									reportSfc: (report: RuleReport) => {
+										// TODO: avoid bringing entire dependency for such trivial task?
 										const positionBegin = fileLocation.toPoint(
 											report.range.begin,
 										);

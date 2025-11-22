@@ -26,6 +26,12 @@ function isNode(value: unknown): value is ts.Node {
 	return typeof value === "object" && value !== null && "kind" in value;
 }
 
+// TODO: vue, md, and yaml plugins use vfile-location for this trivial task.
+// That's 5 extra dependencies!!! https://npmgraph.js.org/?q=vfile-location
+// Instead, it would be nice to use getLineAndCharacterOfPosition there.
+// We can also reimplement typescript's getLineAndCharacterOfPosition
+// in Flint (it's <50 LOC) to avoid relying on unsafe assumption outlined below.
+
 // Internally, the SourceFileLike interface declares getLineAndCharacterOfPosition
 // as an optional field [1]. However, it is later made required through module augmentation[2].
 // Despite that, ts.getLineAndCharacterOfPosition never accesses sourceFile.getLineAndCharacterOfPosition [3].
