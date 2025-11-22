@@ -261,7 +261,6 @@ computed(async () => 'hello')
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script lang="ts">
 	import { computed } from 'vue'
@@ -271,6 +270,7 @@ computed(async () => 'hello')
 	computed(async () => 'hello')
 </script>
 			`,
+			fileName,
 			snapshot: `
 <script lang="ts">
 	import { computed } from 'vue'
@@ -284,7 +284,6 @@ computed(async () => 'hello')
 			`,
 		},
 		{
-			fileName,
 			code: `
 <script lang="ts">
 	import { computed } from 'vue'
@@ -295,6 +294,7 @@ computed(async () => 'hello')
 <script setup lang="ts">
 </script>
 			`,
+			fileName,
 			snapshot: `
 <script lang="ts">
 	import { computed } from 'vue'
