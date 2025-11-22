@@ -4,6 +4,7 @@ export * from "./language.js";
 // For example '@flint.fyi/ts/utils'
 export * from "./createTypeScriptFileFromProgram.js";
 export * from "./normalizeRange.js";
+export * from "./prepareTypeScriptFile.js";
 export { ts } from "./plugin.js";
 export { getDeclarationsIfGlobal } from "./utils/getDeclarationsIfGlobal.js";
 export { isGlobalDeclaration } from "./utils/isGlobalDeclaration.js";

@@ -27,6 +27,7 @@ import {
 	convertTypeScriptDiagnosticToLanguageFileDiagnostic,
 	normalizeRange,
 	prepareTypeScriptBasedLanguage,
+	prepareTypeScriptFile,
 	runTypeScriptBasedLanguageRule,
 	TypeScriptServices,
 } from "@flint.fyi/ts";
@@ -159,6 +160,13 @@ export const vueLanguage = createLanguage<unknown, VueServices>({
 				const sourceScript = volarLanguage.scripts.get(filePathAbsolute);
 				if (sourceScript == null) {
 					throw new Error("Expected sourceScript to be set");
+				}
+				if (sourceScript.languageId !== "vue") {
+					return prepareTypeScriptFile({
+						program,
+						sourceFile,
+						[Symbol.dispose]: onDispose,
+					});
 				}
 				if (sourceScript.generated == null) {
 					throw new Error("Expected sourceScript.generated to be set");

@@ -4,9 +4,27 @@ import rule from "./asyncComputed.js";
 import { ruleTester } from "./ruleTester.js";
 
 const fileName = path.join(import.meta.dirname, "file.vue");
+// TODO: the default file.ts path is packages/vfs/file.ts, so imports from
+// the vue package cannot be resolved, because vue is located in packages/vue/node_modules
+const tsFileName = path.join(import.meta.dirname, "file.ts");
 
 ruleTester.describe(rule, {
 	invalid: [
+		{
+			code: `
+import { computed } from 'vue'
+
+computed(async () => 'hello')
+			`,
+			fileName: tsFileName,
+			snapshot: `
+import { computed } from 'vue'
+
+computed(async () => 'hello')
+         ~~~~~~~~~~~~~~~~~~~
+         Asynchronous functions in computed properties can lead to loss of reactivity.
+			`,
+		},
 		{
 			code: `
 <script setup lang="ts">
@@ -239,6 +257,54 @@ ruleTester.describe(rule, {
 	computed(getterAndSetter)
 	         ~~~~~~~~~~~~~~~
 	         Asynchronous functions in computed properties can lead to loss of reactivity.
+</script>
+			`,
+		},
+		{
+			fileName,
+			code: `
+<script lang="ts">
+	import { computed } from 'vue'
+</script>
+
+<script setup lang="ts">
+	computed(async () => 'hello')
+</script>
+			`,
+			snapshot: `
+<script lang="ts">
+	import { computed } from 'vue'
+</script>
+
+<script setup lang="ts">
+	computed(async () => 'hello')
+	         ~~~~~~~~~~~~~~~~~~~
+	         Asynchronous functions in computed properties can lead to loss of reactivity.
+</script>
+			`,
+		},
+		{
+			fileName,
+			code: `
+<script lang="ts">
+	import { computed } from 'vue'
+
+	computed(async () => 'hello')
+</script>
+
+<script setup lang="ts">
+</script>
+			`,
+			snapshot: `
+<script lang="ts">
+	import { computed } from 'vue'
+
+	computed(async () => 'hello')
+	         ~~~~~~~~~~~~~~~~~~~
+	         Asynchronous functions in computed properties can lead to loss of reactivity.
+</script>
+
+<script setup lang="ts">
 </script>
 			`,
 		},
