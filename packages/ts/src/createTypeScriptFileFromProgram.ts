@@ -92,6 +92,7 @@ export async function runTypeScriptBasedLanguageRule<
 		},
 		sourceFile,
 		typeChecker: program.getTypeChecker(),
+		...extraContext,
 	};
 
 	const runtime = await rule.setup(context, options);

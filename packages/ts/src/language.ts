@@ -110,7 +110,6 @@ export function prepareTypeScriptBasedLanguage(): TypeScriptBasedLanguageFileFac
 				program,
 				sourceFile,
 			};
-			// return opts.createTypeScriptFile(program, sourceFile);
 		},
 	};
 }

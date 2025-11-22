@@ -3,6 +3,7 @@ import {
 	isSuggestionForFiles,
 	NormalizedReport,
 	RuleReport,
+	RuleReporter,
 	Suggestion,
 } from "@flint.fyi/core";
 import {
@@ -21,28 +22,25 @@ import {
 } from "@vue/language-core";
 // for LanguagePlugin interface augmentation
 import "@volar/typescript";
-import { RuleReporter } from "@flint.fyi/core/src/types/context.js";
+import {
+	collectTypeScriptFileCacheImpacts,
+	convertTypeScriptDiagnosticToLanguageFileDiagnostic,
+	normalizeRange,
+	prepareTypeScriptBasedLanguage,
+	runTypeScriptBasedLanguageRule,
+	TypeScriptServices,
+} from "@flint.fyi/ts";
 import ts from "typescript";
 import { VFile } from "vfile";
 import { location } from "vfile-location";
 
-import {
-	collectTypeScriptFileCacheImpacts,
-	convertTypeScriptDiagnosticToLanguageFileDiagnostic,
-	runTypeScriptBasedLanguageRule,
-} from "../../ts/lib/createTypeScriptFileFromProgram.js";
-import {
-	prepareTypeScriptBasedLanguage,
-	TypeScriptServices,
-} from "../../ts/lib/language.js";
-import { normalizeRange } from "../../ts/lib/normalizeRange.js";
 import { vueLanguageParseContext } from "./setup-tests.js";
 
 export interface VueServices extends TypeScriptServices {
+	map: VolarMapper;
 	sfc: Sfc;
 	templateAst: null | RootNode;
 	// TODO: can we type MessageId?
-	map: VolarMapper;
 	reportSfc: RuleReporter<string>;
 }
 
@@ -140,6 +138,10 @@ export const vueLanguage = createLanguage<unknown, VueServices>({
 							if (options.parseMode !== "html") {
 								return;
 							}
+							// TODO: Another approach is to parse the same source code second time
+							// without any transformations. We should measure how much time this
+							// would take. If it isn't be too slow, it would be the preferred
+							// solution, since we could avoid patching @vue/compiler-core at runtime.
 							templateAst = structuredClone(ast);
 						},
 					},
@@ -184,6 +186,7 @@ export const vueLanguage = createLanguage<unknown, VueServices>({
 
 				// TODO: parsing errors
 				// TODO: directives
+				// TODO: support defineComponent
 
 				return {
 					file: {
@@ -218,6 +221,10 @@ export const vueLanguage = createLanguage<unknown, VueServices>({
 										}
 										translatedReports.push({
 											...report,
+											fix:
+												report.fix && !Array.isArray(report.fix)
+													? [report.fix]
+													: report.fix,
 											message: rule.messages[report.message],
 											range: {
 												begin: {
