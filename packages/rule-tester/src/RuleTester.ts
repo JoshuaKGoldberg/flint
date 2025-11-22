@@ -7,7 +7,7 @@ import {
 	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
-import assert from "node:assert";
+import assert from "node:assert/strict";
 
 import { createReportSnapshot } from "./createReportSnapshot.js";
 import { normalizeTestCase } from "./normalizeTestCase.js";

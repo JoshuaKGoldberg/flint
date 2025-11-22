@@ -17,7 +17,7 @@ import scriptUrls from "./rules/scriptUrls.js";
 import windowMessagingTargetOrigin from "./rules/windowMessagingTargetOrigin.js";
 
 export const browser = createPlugin({
-	name: "browser",
+	name: "Browser",
 	rules: [
 		alerts,
 		classListToggles,

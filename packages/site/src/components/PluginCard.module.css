@@ -16,6 +16,7 @@
 }
 
 .pluginCard a {
+	color: var(----sl-color-accent-high);
 	font-weight: bold;
 	text-decoration: none;
 }

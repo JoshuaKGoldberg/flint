@@ -1,11 +1,11 @@
 {
-	"name": "@flint.fyi/plugin-cspell",
-	"version": "0.1.2",
-	"description": "[Experimental] A CSpell plugin for Flint.",
+	"name": "@flint.fyi/plugin-astro",
+	"version": "0.1.0",
+	"description": "[Experimental] A Flint plugin for Astro code.",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/JoshuaKGoldberg/flint",
-		"directory": "packages/plugin-cspell"
+		"directory": "packages/plugin-astro"
 	},
 	"license": "MIT",
 	"author": {
@@ -15,12 +15,11 @@
 	"type": "module",
 	"main": "./lib/index.js",
 	"dependencies": {
-		"@cspell/url": "^9.2.2",
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/rule-tester": "workspace:",
-		"@flint.fyi/text": "workspace:",
+		"@flint.fyi/ts": "workspace:",
 		"@flint.fyi/utils": "workspace:",
-		"cspell-lib": "^9.2.2"
+		"ts-api-utils": "^2.1.0"
 	},
 	"engines": {
 		"node": ">=24.0.0"

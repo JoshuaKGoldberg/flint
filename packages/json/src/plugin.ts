@@ -8,6 +8,6 @@ export const json = createPlugin({
 	files: {
 		all: ["**/*.json"],
 	},
-	name: "json",
+	name: "JSON",
 	rules: [keyDuplicates, keyNormalization, valueSafety],
 });

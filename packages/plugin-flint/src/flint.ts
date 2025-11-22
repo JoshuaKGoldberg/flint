@@ -4,6 +4,6 @@ import invalidCodeLines from "./rules/invalidCodeLines.js";
 import testCaseDuplicates from "./rules/testCaseDuplicates.js";
 
 export const flint = createPlugin({
-	name: "flint",
+	name: "Flint",
 	rules: [invalidCodeLines, testCaseDuplicates],
 });

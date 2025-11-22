@@ -1,5 +1,6 @@
-import { cspell } from "@flint.fyi/plugin-cspell";
 import { flint } from "@flint.fyi/plugin-flint";
+import { node } from "@flint.fyi/plugin-node";
+import { spelling } from "@flint.fyi/plugin-spelling";
 import { defineConfig, globs, json, md, ts, yaml } from "flint";
 
 // TODO: How to get the globs types piped through?
@@ -20,7 +21,13 @@ export default defineConfig({
 				exclude: process.env.LINT_FIXTURES ? [] : ["packages/fixtures"],
 				include: ts.files!.all,
 			},
-			rules: [flint.presets.logical, ts.presets.logical],
+			rules: [
+				flint.presets.logical,
+				node.presets.logical,
+				node.presets.stylistic,
+				ts.presets.logical,
+				ts.presets.stylistic,
+			],
 		},
 		{
 			files: {
@@ -31,7 +38,7 @@ export default defineConfig({
 		},
 		{
 			files: globs.all,
-			rules: cspell.presets.logical,
+			rules: spelling.presets.logical,
 		},
 	],
 });

@@ -1,0 +1,31 @@
+{
+	"name": "@flint.fyi/plugin-react",
+	"version": "0.1.0",
+	"description": "[Experimental] A Flint plugin for React code.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"directory": "packages/plugin-react"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"type": "module",
+	"main": "./lib/index.js",
+	"dependencies": {
+		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/rule-tester": "workspace:",
+		"@flint.fyi/ts": "workspace:",
+		"@flint.fyi/utils": "workspace:",
+		"ts-api-utils": "^2.1.0"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	}
+}

@@ -1,5 +1,5 @@
 ---
-import { getPluginById } from "./pluginCardData";
+import { getPluginData } from "../lib/pluginData";
 import { ColoredLogo } from "./ColoredLogo";
 import { PackageManagers } from "starlight-package-managers";
 import { InlineMarkdown } from "./InlineMarkdown";
@@ -8,7 +8,7 @@ export interface Props {
 	pluginId: string;
 }
 
-const { group, plugin } = getPluginById(Astro.props.pluginId);
+const { group, plugin } = getPluginData(Astro.props.pluginId);
 const npmPackage =
 	group === "core" ? `flint` : `@flint.fyi/plugin-${Astro.props.pluginId}`;
 ---

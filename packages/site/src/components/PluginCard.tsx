@@ -1,10 +1,10 @@
 import { ColoredLogo } from "./ColoredLogo";
 import { InlineMarkdown } from "./InlineMarkdown";
 import styles from "./PluginCard.module.css";
-import type { PluginCardData } from "./pluginCardData";
+import type { PluginData } from "../lib/pluginData";
 
 export interface PluginCardProps {
-	data: PluginCardData;
+	data: PluginData;
 }
 
 export function PluginCard({

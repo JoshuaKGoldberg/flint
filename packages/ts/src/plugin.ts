@@ -55,7 +55,7 @@ export const ts = createPlugin({
 	files: {
 		all: ["**/*.{cjs,js,jsx,mjs,ts,tsx}"],
 	},
-	name: "ts",
+	name: "TypeScript",
 	rules: [
 		anyReturns,
 		asyncPromiseExecutors,

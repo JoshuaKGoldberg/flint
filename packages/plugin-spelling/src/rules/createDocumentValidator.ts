@@ -27,6 +27,8 @@ export async function createDocumentValidator(fileName: string, text: string) {
 	const configFileUrlBase = pathToFileURL(configFilePath).href;
 	const configFileUrl = `${configFileUrlBase}?timestamp=${performance.now()}`;
 	const configFile = (await import(configFileUrl, {
+		// eslint-disable-next-line jsdoc/no-bad-blocks
+		/* @vite-ignore */
 		with: { type: "json" },
 	})) as { default: CSpellSettings };
 

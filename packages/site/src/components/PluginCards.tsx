@@ -1,9 +1,9 @@
-import type { PluginCardData } from "./pluginCardData";
-import { PluginCard, type PluginCardProps } from "./PluginCard";
+import type { PluginData } from "../lib/pluginData";
+import { PluginCard } from "./PluginCard";
 import styles from "./PluginCards.module.css";
 
 export interface PluginCardsProps {
-	plugins: PluginCardData[];
+	plugins: PluginData[];
 }
 
 export function PluginCards({ plugins }: PluginCardsProps) {
