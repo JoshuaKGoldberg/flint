@@ -37,6 +37,10 @@ export function createMarkdownFile(
 
 					reports.push({
 						...report,
+						fix:
+							report.fix && !Array.isArray(report.fix)
+								? [report.fix]
+								: report.fix,
 						message: rule.messages[report.message],
 						range: {
 							begin: {

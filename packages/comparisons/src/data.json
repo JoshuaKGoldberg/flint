@@ -33,6 +33,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "classListToggles",
 			"plugin": "browser",
 			"preset": "Stylistic"
@@ -52,6 +53,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "documentCookies",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -67,26 +69,6 @@
 	{
 		"eslint": [
 			{
-				"name": "unicorn/prefer-event-target",
-				"url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/HEAD/docs/rules/prefer-event-target.md"
-			}
-		],
-		"flint": {
-			"name": "eventClasses",
-			"plugin": "browser",
-			"preset": "Logical",
-			"strictness": "Strict"
-		},
-		"oxlint": [
-			{
-				"name": "unicorn/prefer-event-target",
-				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/prefer-event-target.html"
-			}
-		]
-	},
-	{
-		"eslint": [
-			{
 				"name": "unicorn/prefer-add-event-listener",
 				"url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/HEAD/docs/rules/prefer-add-event-listener.md"
 			}
@@ -95,7 +77,8 @@
 			"name": "eventListenerSubscriptions",
 			"plugin": "browser",
 			"preset": "Logical",
-			"strictness": "Strict"
+			"strictness": "Strict",
+			"implemented": true
 		},
 		"oxlint": [
 			{
@@ -112,6 +95,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "implicitGlobals",
 			"plugin": "browser",
 			"preset": "Logical"
@@ -125,11 +109,11 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "keyboardEventKeys",
 			"plugin": "browser",
-			"preset": "Not implementing"
-		},
-		"notes": "Superseded by deprecated"
+			"preset": "Logical"
+		}
 	},
 	{
 		"eslint": [
@@ -139,6 +123,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeAppendMethods",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -159,6 +144,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeDatasetAttributes",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -179,6 +165,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeModificationMethods",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -202,7 +189,8 @@
 			"name": "nodeQueryMethods",
 			"plugin": "browser",
 			"preset": "Stylistic",
-			"strictness": "Strict"
+			"strictness": "Strict",
+			"implemented": true
 		},
 		"oxlint": [
 			{
@@ -219,6 +207,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeRemoveMethods",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -239,6 +228,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeTextContents",
 			"plugin": "browser",
 			"preset": "Logical",
@@ -259,6 +249,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "removeEventListenerExpressions",
 			"plugin": "browser",
 			"preset": "Logical"
@@ -298,9 +289,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "windowMessagingTargetOrigin",
 			"plugin": "browser",
-			"preset": "Not implementing"
+			"preset": "Logical"
 		},
 		"oxlint": [
 			{
@@ -776,6 +768,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "anchorAmbiguousText",
 			"plugin": "jsx",
 			"preset": "Logical",
@@ -796,6 +789,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "anchorContent",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -815,6 +809,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "anchorValidity",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -895,6 +890,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "ariaPropTypes",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -908,7 +904,8 @@
 			}
 		],
 		"flint": {
-			"name": "ariaRoles",
+			"implemented": true,
+			"name": "ariaRoleValidity",
 			"plugin": "jsx",
 			"preset": "Logical"
 		},
@@ -947,6 +944,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "autocomplete",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -986,6 +984,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "booleanValues",
 			"plugin": "jsx",
 			"preset": "Stylistic"
@@ -999,6 +998,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "bracedStatements",
 			"plugin": "jsx",
 			"preset": "Stylistic"
@@ -1016,9 +1016,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "buttonTypes",
 			"plugin": "jsx",
-			"preset": "Not implementing"
+			"preset": "logical"
 		}
 	},
 	{
@@ -1029,9 +1030,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "childrenProps",
 			"plugin": "jsx",
-			"preset": "Not implementing"
+			"preset": "Stylistic"
 		}
 	},
 	{
@@ -1042,6 +1044,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "clickEventKeyEvents",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1061,9 +1064,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "commentTextNodes",
 			"plugin": "jsx",
-			"preset": "Not implementing"
+			"preset": "Logical"
 		}
 	},
 	{
@@ -1094,6 +1098,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "duplicateProps",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1109,7 +1114,7 @@
 		"flint": {
 			"name": "duplicateSpreads",
 			"plugin": "jsx",
-			"preset": "Logical"
+			"preset": "Not implementing"
 		}
 	},
 	{
@@ -1176,7 +1181,7 @@
 		"flint": {
 			"name": "imageAltRedundancy",
 			"plugin": "jsx",
-			"preset": "Logical"
+			"preset": "Not implementing"
 		},
 		"oxlint": [
 			{
@@ -1193,7 +1198,8 @@
 			}
 		],
 		"flint": {
-			"name": "interactiveElementNonInteractiveRoles",
+			"implemented": true,
+			"name": "interactiveElementRoles",
 			"plugin": "jsx",
 			"preset": "Logical"
 		}
@@ -1206,6 +1212,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "interactiveElementsFocusable",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1232,6 +1239,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "labelAssociatedControls",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1251,6 +1259,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "langValidity",
 			"plugin": "jsx",
 			"preset": "Logical",
@@ -1324,6 +1333,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nonInteractiveElementInteractions",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1337,7 +1347,8 @@
 			}
 		],
 		"flint": {
-			"name": "nonInteractiveElementInteractiveRoles",
+			"implemented": true,
+			"name": "nonInteractiveElementRoles",
 			"plugin": "jsx",
 			"preset": "Logical"
 		}
@@ -1350,6 +1361,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nonInteractiveElementTabIndexes",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1369,6 +1381,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "roleRedundancies",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1388,6 +1401,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "roleRequiredAriaProps",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1407,6 +1421,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "roleTags",
 			"plugin": "jsx",
 			"preset": "Logical",
@@ -1427,7 +1442,8 @@
 			}
 		],
 		"flint": {
-			"name": "ruleSupportedAriaProps",
+			"implemented": true,
+			"name": "roleSupportedAriaProps",
 			"plugin": "jsx",
 			"preset": "Logical"
 		},
@@ -1466,6 +1482,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "staticElementInteractions",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1479,6 +1496,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "svgTitles",
 			"plugin": "jsx",
 			"preset": "Logical"
@@ -1512,6 +1530,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unescapedEntities",
 			"plugin": "jsx",
 			"preset": "Stylistic"
@@ -1525,6 +1544,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unnecessaryFragments",
 			"plugin": "jsx",
 			"preset": "Stylistic"
@@ -1538,6 +1558,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "validElementChildren",
 			"plugin": "jsx",
 			"preset": "Logical",
@@ -2473,9 +2494,10 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "assertStrict",
 			"plugin": "node",
-			"preset": "Not implementing"
+			"preset": "Logical"
 		}
 	},
 	{
@@ -2486,6 +2508,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "assertStyles",
 			"plugin": "node",
 			"preset": "Stylistic"
@@ -2505,6 +2528,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "blobReadingMethods",
 			"plugin": "node",
 			"preset": "Stylistic"
@@ -2524,6 +2548,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "bufferAllocators",
 			"plugin": "node",
 			"preset": "Logical"
@@ -2617,11 +2642,33 @@
 	{
 		"eslint": [
 			{
+				"name": "unicorn/prefer-event-target",
+				"url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/HEAD/docs/rules/prefer-event-target.md"
+			}
+		],
+		"flint": {
+			"implemented": true,
+			"name": "eventClasses",
+			"plugin": "node",
+			"preset": "Logical",
+			"strictness": "Strict"
+		},
+		"oxlint": [
+			{
+				"name": "unicorn/prefer-event-target",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/prefer-event-target.html"
+			}
+		]
+	},
+	{
+		"eslint": [
+			{
 				"name": "n/no-exports-assign",
 				"url": "https://github.com/eslint-community/eslint-plugin-n/blob/HEAD/docs/rules/no-exports-assign.md"
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "exportsAssignments",
 			"plugin": "node",
 			"preset": "Logical"
@@ -3838,6 +3885,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "deletes",
 			"plugin": "performance",
 			"preset": "Logical"
@@ -3851,6 +3899,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "importedNamespaceDynamicAccesses",
 			"plugin": "performance",
 			"preset": "Logical"
@@ -3877,6 +3926,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "spreadAccumulators",
 			"plugin": "performance",
 			"preset": "Logical"
@@ -4176,7 +4226,7 @@
 			}
 		],
 		"flint": {
-			"name": "ymlKeys",
+			"name": "yamlKeys",
 			"plugin": "sorting",
 			"preset": "Stylistic"
 		}
@@ -4189,7 +4239,7 @@
 			}
 		],
 		"flint": {
-			"name": "ymlSequenceValues",
+			"name": "yamlSequenceValues",
 			"plugin": "sorting",
 			"preset": "Stylistic"
 		}
@@ -6711,6 +6761,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "emptyBlocks",
 			"plugin": "ts",
 			"preset": "Stylistic"
@@ -7359,6 +7410,14 @@
 		}
 	},
 	{
+		"flint": {
+			"implemented": true,
+			"name": "invalidCodeLines",
+			"plugin": "flint",
+			"preset": "Logical"
+		}
+	},
+	{
 		"eslint": [
 			{
 				"name": "eslint-plugin-eslint-plugin/consistent-output",
@@ -7379,6 +7438,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "testCaseDuplicates",
 			"plugin": "flint",
 			"preset": "Logical"
@@ -7392,7 +7452,7 @@
 			}
 		],
 		"flint": {
-			"name": "testCaseOnlines",
+			"name": "testCaseOnlies",
 			"plugin": "flint",
 			"preset": "Logical"
 		}
@@ -9936,6 +9996,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "loopFunctions",
 			"plugin": "performance",
 			"preset": "Logical"
@@ -15011,6 +15072,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unnecessaryBlocks",
 			"plugin": "ts",
 			"preset": "Stylistic"
@@ -15129,7 +15191,8 @@
 			}
 		],
 		"flint": {
-			"name": "unnecessaryConcatentation",
+			"implemented": true,
+			"name": "unnecessaryConcatenation",
 			"plugin": "ts",
 			"preset": "Stylistic"
 		},
@@ -16347,7 +16410,7 @@
 		],
 		"flint": {
 			"name": "blockMappings",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Stylistic"
 		}
 	},
@@ -16360,7 +16423,7 @@
 		],
 		"flint": {
 			"name": "blockSequences",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Stylistic"
 		}
 	},
@@ -16373,7 +16436,7 @@
 		],
 		"flint": {
 			"name": "emptyDocuments",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Logical"
 		}
 	},
@@ -16387,7 +16450,7 @@
 		"flint": {
 			"implemented": true,
 			"name": "emptyMappingKeys",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Logical"
 		}
 	},
@@ -16400,7 +16463,7 @@
 		],
 		"flint": {
 			"name": "emptyMappingValues",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Logical"
 		}
 	},
@@ -16413,7 +16476,7 @@
 		],
 		"flint": {
 			"name": "emptySequenceEntries",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Logical"
 		}
 	},
@@ -16426,7 +16489,7 @@
 		],
 		"flint": {
 			"name": "fileExtensions",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Stylistic",
 			"strictness": "Strict"
 		}
@@ -16440,7 +16503,7 @@
 		],
 		"flint": {
 			"name": "irregularWhitespace",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Stylistic"
 		}
 	},
@@ -16453,7 +16516,7 @@
 		],
 		"flint": {
 			"name": "mappingKeyCasing",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Not implementing"
 		}
 	},
@@ -16466,7 +16529,7 @@
 		],
 		"flint": {
 			"name": "numericTrailingZeros",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Stylistic",
 			"strictness": "Strict"
 		}
@@ -16480,7 +16543,7 @@
 		],
 		"flint": {
 			"name": "plainScalars",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Stylistic",
 			"strictness": "Strict"
 		}
@@ -16494,7 +16557,7 @@
 		],
 		"flint": {
 			"name": "stringMappingKeys",
-			"plugin": "yml",
+			"plugin": "yaml",
 			"preset": "Logical",
 			"strictness": "Strict"
 		}

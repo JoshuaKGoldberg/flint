@@ -84,13 +84,14 @@ export async function runTypeScriptBasedLanguageRule<
 		report: (report: RuleReport) => {
 			reports.push({
 				...report,
+				fix:
+					report.fix && !Array.isArray(report.fix) ? [report.fix] : report.fix,
 				message: rule.messages[report.message],
 				range: normalizeRange(report.range, sourceFile),
 			});
 		},
 		sourceFile,
 		typeChecker: program.getTypeChecker(),
-		...extraContext,
 	};
 
 	const runtime = await rule.setup(context, options);
@@ -106,7 +107,7 @@ export async function runTypeScriptBasedLanguageRule<
 		node.forEachChild(visit);
 	};
 
-	sourceFile.forEachChild(visit);
+	visit(sourceFile);
 
 	return reports;
 }

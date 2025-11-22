@@ -1,6 +1,6 @@
 import { cspell } from "@flint.fyi/plugin-cspell";
 import { flint } from "@flint.fyi/plugin-flint";
-import { defineConfig, globs, json, md, ts, yml } from "flint";
+import { defineConfig, globs, json, md, ts, yaml } from "flint";
 
 // TODO: How to get the globs types piped through?
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
@@ -25,9 +25,9 @@ export default defineConfig({
 		{
 			files: {
 				exclude: ["pnpm-lock.yaml"],
-				include: yml.files!.all,
+				include: yaml.files!.all,
 			},
-			rules: yml.presets.logical,
+			rules: yaml.presets.logical,
 		},
 		{
 			files: globs.all,
