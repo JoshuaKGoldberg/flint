@@ -1,33 +1,39 @@
-#!/usr/bin/env node
-import { enableCompileCache, registerHooks } from "node:module";
+import fs from "node:fs";
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
-enableCompileCache();
-
-const typescriptUrl = import.meta.resolve("typescript");
-
-registerHooks({
-	load(url, context, nextLoad) {
-		const next = nextLoad(url, context);
-
-		if (next.source == null) {
-			return next;
-		}
-
-		if (url === typescriptUrl) {
-			return {
-				...next,
-				source: transformTscContent(next.source.toString()),
-			};
-		}
-
-		return next;
-	},
-});
+const require = createRequire(import.meta.url);
+const typescriptPath = require.resolve("typescript");
 
 const coreCreateProxyProgramPath = fileURLToPath(
-	import.meta.resolve("@flint.fyi/core/lib/ts-patch/proxy-program.js"),
+	import.meta.resolve("./proxy-program.js"),
 );
+
+const origReadFileSync = fs.readFileSync;
+// @ts-expect-error
+fs.readFileSync = (...args) => {
+	const res = origReadFileSync(...args);
+	if (args[0] === typescriptPath) {
+		return transformTscContent(res.toString());
+	}
+	return res;
+};
+require("typescript");
+fs.readFileSync = origReadFileSync;
+
+function replaceOrThrow(
+	source: string,
+	search: RegExp | string,
+	replace: (substring: string, ...args: any[]) => string,
+): string {
+	const before = source;
+	source = source.replace(search, replace);
+	const after = source;
+	if (after === before) {
+		throw new Error("Flint bug: failed to replace: " + search.toString());
+	}
+	return after;
+}
 
 // https://github.com/volarjs/volar.js/blob/e08f2f449641e1c59686d3454d931a3c29ddd99c/packages/typescript/lib/quickstart/runTsc.ts
 function transformTscContent(source: string): string {
@@ -100,20 +106,3 @@ function _createProgram(`,
 		);
 	}
 }
-
-function replaceOrThrow(
-	source: string,
-	search: RegExp | string,
-	replace: (substring: string, ...args: any[]) => string,
-): string {
-	const before = source;
-	source = source.replace(search, replace);
-	const after = source;
-	if (after === before) {
-		throw new Error("Flint bug: failed to replace: " + search.toString());
-	}
-	return after;
-}
-
-const { runCli } = await import("@flint.fyi/cli");
-process.exitCode = await runCli(process.argv.slice(2));

@@ -4,14 +4,16 @@ import {
 	NormalizedReport,
 	RuleReport,
 	RuleReporter,
+	setTSExtraSupportedExtensions,
+	setTSProgramCreationProxy,
 	Suggestion,
 } from "@flint.fyi/core";
 import {
 	Language as VolarLanguage,
-	LanguagePlugin as VolarLanguagePlugin,
 	Mapper as VolarMapper,
 } from "@volar/language-core";
-import { RootNode } from "@vue/compiler-core";
+import { baseParse, RootNode } from "@vue/compiler-core";
+import { parserOptions as defaultParserOptions } from "@vue/compiler-dom";
 import {
 	createGlobalTypesWriter as createGlobalVueTypesWriter,
 	createVueLanguagePlugin,
@@ -31,11 +33,71 @@ import {
 	runTypeScriptBasedLanguageRule,
 	TypeScriptServices,
 } from "@flint.fyi/ts";
+import { proxyCreateProgram } from "@volar/typescript/lib/node/proxyCreateProgram.js";
 import ts from "typescript";
 import { VFile } from "vfile";
 import { location } from "vfile-location";
 
-import { vueLanguageParseContext } from "./setup-tests.js";
+setTSExtraSupportedExtensions([".vue"]);
+setTSProgramCreationProxy((ts, createProgram) => {
+	return new Proxy(function () {} as unknown as typeof createProgram, {
+		apply(target, thisArg, args) {
+			let volarLanguage = null as null | VolarLanguage<string>;
+			const proxied = proxyCreateProgram(ts, createProgram, (ts, options) => {
+				const { configFilePath } = options.options;
+				const { vueOptions } =
+					typeof configFilePath === "string"
+						? createVueParsedCommandLine(
+								ts,
+								ts.sys,
+								configFilePath.replaceAll("\\", "/"),
+							)
+						: createVueParsedCommandLineByJson(
+								ts,
+								ts.sys,
+								(options.host ?? ts.sys).getCurrentDirectory(),
+								{},
+							);
+				vueOptions.globalTypesPath = createGlobalVueTypesWriter(
+					vueOptions,
+					ts.sys.writeFile,
+				);
+				const vueLanguagePlugin = createVueLanguagePlugin<string>(
+					ts,
+					options.options,
+					vueOptions,
+					(id) => id,
+				);
+				if (vueLanguagePlugin.typescript != null) {
+					const { getServiceScript } = vueLanguagePlugin.typescript;
+					vueLanguagePlugin.typescript.getServiceScript = (root) => {
+						const script = getServiceScript(root);
+						if (script == null) {
+							return script;
+						}
+						return {
+							...script,
+							// Leading offset is useful for LanguageService [1], but we don't use it.
+							// The Vue language plugin doesn't provide preventLeadingOffset [2], so we
+							// have to provide it ourselves.
+							//
+							// [1] https://github.com/volarjs/volar.js/discussions/188
+							// [2] https://github.com/vuejs/language-tools/blob/fd05a1c92c9af63e6af1eab926084efddf7c46c3/packages/language-core/lib/languagePlugin.ts#L113-L130
+							preventLeadingOffset: true,
+						};
+					};
+				}
+				return {
+					languagePlugins: [vueLanguagePlugin],
+					setup: (lang) => (volarLanguage = lang),
+				};
+			});
+			const program = Reflect.apply(proxied, thisArg, args);
+			program.__flintVolarLanguage = volarLanguage;
+			return program;
+		},
+	});
+});
 
 export interface VueServices extends TypeScriptServices {
 	map: VolarMapper;
@@ -63,93 +125,15 @@ export const vueLanguage = createLanguage<unknown, VueServices>({
 						value: sourceText,
 					}),
 				);
-				let volarLanguage = null as null | VolarLanguage<string>;
-				function getLanguagePlugins(
-					ts: typeof import("typescript"),
-					options: ts.CreateProgramOptions,
-				): {
-					languagePlugins: VolarLanguagePlugin<string>[];
-					setup?(language: VolarLanguage<string>): void;
-				} {
-					const { configFilePath } = options.options;
-					const { vueOptions } =
-						typeof configFilePath === "string"
-							? createVueParsedCommandLine(
-									ts,
-									ts.sys,
-									configFilePath.replaceAll("\\", "/"),
-								)
-							: createVueParsedCommandLineByJson(
-									ts,
-									ts.sys,
-									(options.host ?? ts.sys).getCurrentDirectory(),
-									{},
-								);
-					vueOptions.globalTypesPath = createGlobalVueTypesWriter(
-						vueOptions,
-						ts.sys.writeFile,
-					);
-					const vueLanguagePlugin = createVueLanguagePlugin<string>(
-						ts,
-						options.options,
-						vueOptions,
-						(id) => id,
-					);
-					if (vueLanguagePlugin.typescript != null) {
-						const { getServiceScript } = vueLanguagePlugin.typescript;
-						vueLanguagePlugin.typescript.getServiceScript = (root) => {
-							const script = getServiceScript(root);
-							if (script == null) {
-								return script;
-							}
-							return {
-								...script,
-								// Leading offset is useful for LanguageService [1], but we don't use it.
-								// The Vue language plugin doesn't provide preventLeadingOffset [2], so we
-								// have to provide it ourselves.
-								//
-								// [1] https://github.com/volarjs/volar.js/discussions/188
-								// [2] https://github.com/vuejs/language-tools/blob/fd05a1c92c9af63e6af1eab926084efddf7c46c3/packages/language-core/lib/languagePlugin.ts#L113-L130
-								preventLeadingOffset: true,
-							};
-						};
-					}
-					return {
-						languagePlugins: [vueLanguagePlugin],
-						setup: (lang) => (volarLanguage = lang),
-					};
-				}
-
-				let templateAst = null as null | RootNode;
 
 				const {
 					program,
 					sourceFile,
 					[Symbol.dispose]: onDispose,
-				} = vueLanguageParseContext.run(
-					{
-						getLanguagePlugins,
-						setVueAst(ast, options) {
-							// TODO: ts plugin creates VFS environment with this empty file
-							// and later updates it
-							if (ast.source === "// ...") {
-								return;
-							}
-							// we don't interested in top-level SFC blocks parsing
-							if (options.parseMode !== "html") {
-								return;
-							}
-							// TODO: Another approach is to parse the same source code second time
-							// without any transformations. We should measure how much time this
-							// would take. If it isn't be too slow, it would be the preferred
-							// solution, since we could avoid patching @vue/compiler-core at runtime.
-							templateAst = structuredClone(ast);
-						},
-					},
-					() => {
-						return tsLang.createFromVirtual(filePathAbsolute, sourceText);
-					},
-				);
+				} = tsLang.createFromVirtual(filePathAbsolute, sourceText);
+
+				// @ts-expect-error
+				const volarLanguage: VolarLanguage = program.__flintVolarLanguage;
 
 				if (volarLanguage == null) {
 					throw new Error(
@@ -191,6 +175,42 @@ export const vueLanguage = createLanguage<unknown, VueServices>({
 				const virtualCode = sourceScript.generated.root as VueVirtualCode;
 
 				const map = volarLanguage.maps.get(serviceScript.code, sourceScript);
+
+				const templateAst =
+					virtualCode.vueSfc?.descriptor.template &&
+					baseParse(virtualCode.vueSfc.descriptor.template.content, {
+						comments: true,
+						expressionPlugins: ["typescript"],
+						onError(error) {
+							console.log("TODO: error", error);
+							process.exit(1);
+						},
+						onWarn(warning) {
+							console.log("TODO: warn", warning);
+							process.exit(1);
+						},
+						parseMode: "html",
+						// Should we parse expressions?
+						// prefixIdentifiers: true,
+						...(defaultParserOptions.isVoidTag && {
+							isVoidTag: defaultParserOptions.isVoidTag,
+						}),
+						...(defaultParserOptions.isNativeTag && {
+							isNativeTag: defaultParserOptions.isNativeTag,
+						}),
+						...(defaultParserOptions.isPreTag && {
+							isPreTag: defaultParserOptions.isPreTag,
+						}),
+						...(defaultParserOptions.isIgnoreNewlineTag && {
+							isIgnoreNewlineTag: defaultParserOptions.isIgnoreNewlineTag,
+						}),
+						...(defaultParserOptions.isBuiltInComponent && {
+							isBuiltInComponent: defaultParserOptions.isBuiltInComponent,
+						}),
+						...(defaultParserOptions.getNamespace && {
+							getNamespace: defaultParserOptions.getNamespace,
+						}),
+					});
 
 				// TODO: parsing errors
 				// TODO: directives

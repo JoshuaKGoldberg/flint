@@ -11,7 +11,7 @@ export default defineConfig({
 				root: `./packages/${name}`,
 				setupFiles: [
 					"console-fail-test/setup",
-					...(name === "vue" ? ["./src/setup-tests.ts"] : []),
+					"../core/lib/ts-patch/install-patch.js",
 				],
 				testTimeout: 10_000,
 			},

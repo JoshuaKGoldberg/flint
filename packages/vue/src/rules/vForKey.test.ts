@@ -410,7 +410,7 @@ ruleTester.describe(rule, {
 		class="foo"
 	>
 		<p></p>
-	</template>
+	</div>
 </template>
 			`,
 			fileName,
