@@ -6957,7 +6957,7 @@
 			}
 		],
 		"flint": {
-			"name": "spelling",
+			"name": "cspell",
 			"plugin": "spelling",
 			"preset": "logical",
 			"status": "implemented"
