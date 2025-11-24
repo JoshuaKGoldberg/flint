@@ -56,7 +56,7 @@
 		"eslint-plugin-yml": "1.19.0",
 		"flint": "workspace:^",
 		"husky": "9.1.7",
-		"knip": "5.67.0",
+		"knip": "5.70.1",
 		"lint-staged": "16.2.6",
 		"markdownlint": "0.39.0",
 		"markdownlint-cli": "0.45.0",
