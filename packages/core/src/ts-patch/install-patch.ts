@@ -79,8 +79,6 @@ function _changeExtension(path, newExtension)`,
 	)(...args)
 }
 
-console.log('TODO: typescript patched')
-
 function _createProgram(`,
 	);
 

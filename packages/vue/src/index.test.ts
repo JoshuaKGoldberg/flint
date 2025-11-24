@@ -1,7 +1,7 @@
 import { SourceMap } from "@volar/source-map";
 import { describe, expect, it } from "vitest";
 
-import { translateRange } from "./index.js";
+import { translateRange } from "./language.js";
 
 describe("translateRange", () => {
 	const prefix = '<MyComponent :bar="';

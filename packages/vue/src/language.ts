@@ -1,0 +1,483 @@
+import {
+	AnyLevelDeep,
+	flatten,
+	AnyRule,
+	createLanguage,
+	createPlugin,
+	isSuggestionForFiles,
+	LanguagePreparedDefinition,
+	NormalizedReport,
+	RuleReport,
+	RuleReporter,
+	setTSExtraSupportedExtensions,
+	setTSProgramCreationProxy,
+	computeRulesWithOptions,
+	Suggestion,
+	ConfigRuleDefinition,
+} from "@flint.fyi/core";
+import {
+	Language as VolarLanguage,
+	Mapper as VolarMapper,
+} from "@volar/language-core";
+import { baseParse, RootNode } from "@vue/compiler-core";
+import { parserOptions as defaultParserOptions } from "@vue/compiler-dom";
+import {
+	createGlobalTypesWriter as createGlobalVueTypesWriter,
+	createVueLanguagePlugin,
+	createParsedCommandLine as createVueParsedCommandLine,
+	createParsedCommandLineByJson as createVueParsedCommandLineByJson,
+	Sfc,
+	VueCompilerOptions,
+	VueVirtualCode,
+} from "@vue/language-core";
+// for LanguagePlugin interface augmentation
+import "@volar/typescript";
+import {
+	collectTypeScriptFileCacheImpacts,
+	convertTypeScriptDiagnosticToLanguageFileDiagnostic,
+	normalizeRange,
+	prepareTypeScriptBasedLanguage,
+	prepareTypeScriptFile,
+	runTypeScriptBasedLanguageRule,
+	TypeScriptServices,
+	ts as tsPlugin,
+	TypeScriptBasedLanguageFile,
+} from "@flint.fyi/ts";
+import { proxyCreateProgram } from "@volar/typescript/lib/node/proxyCreateProgram.js";
+import ts from "typescript";
+import { VFile } from "vfile";
+import { location } from "vfile-location";
+
+type ProxiedTSProgram = ts.Program & {
+	__flintVolarLanguage?: VolarLanguage<string> | undefined;
+};
+
+setTSExtraSupportedExtensions([".vue"]);
+setTSProgramCreationProxy(
+	(ts, createProgram) =>
+		new Proxy(function () {} as unknown as typeof createProgram, {
+			apply(target, thisArg, args) {
+				let volarLanguage = null as null | VolarLanguage<string>;
+				let vueCompilerOptions = null as null | VueCompilerOptions;
+				let globalTypesErrorForFile = null as null | string;
+				const proxied = proxyCreateProgram(ts, createProgram, (ts, options) => {
+					const { configFilePath } = options.options;
+					vueCompilerOptions = (
+						typeof configFilePath === "string"
+							? createVueParsedCommandLine(
+									ts,
+									ts.sys,
+									configFilePath.replaceAll("\\", "/"),
+								)
+							: createVueParsedCommandLineByJson(
+									ts,
+									ts.sys,
+									(options.host ?? ts.sys).getCurrentDirectory(),
+									{},
+								)
+					).vueOptions;
+					const globalTypesPath = createGlobalVueTypesWriter(
+						vueCompilerOptions,
+						ts.sys.writeFile,
+					);
+					vueCompilerOptions.globalTypesPath = (fileName) => {
+						const result = globalTypesPath(fileName);
+						if (result == null) {
+							globalTypesErrorForFile ??= fileName;
+						}
+						return result;
+					};
+					const vueLanguagePlugin = createVueLanguagePlugin<string>(
+						ts,
+						options.options,
+						vueCompilerOptions,
+						(id) => id,
+					);
+					if (vueLanguagePlugin.typescript != null) {
+						const { getServiceScript } = vueLanguagePlugin.typescript;
+						vueLanguagePlugin.typescript.getServiceScript = (root) => {
+							const script = getServiceScript(root);
+							if (script == null) {
+								return script;
+							}
+							return {
+								...script,
+								// Leading offset is useful for LanguageService [1], but we don't use it.
+								// The Vue language plugin doesn't provide preventLeadingOffset [2], so we
+								// have to provide it ourselves.
+								//
+								// [1] https://github.com/volarjs/volar.js/discussions/188
+								// [2] https://github.com/vuejs/language-tools/blob/fd05a1c92c9af63e6af1eab926084efddf7c46c3/packages/language-core/lib/languagePlugin.ts#L113-L130
+								preventLeadingOffset: true,
+							};
+						};
+					}
+					return {
+						languagePlugins: [vueLanguagePlugin],
+						setup: (lang) => (volarLanguage = lang),
+					};
+				});
+
+				const program: ProxiedTSProgram = Reflect.apply(proxied, thisArg, args);
+
+				if (volarLanguage == null) {
+					throw new Error("Flint bug: volarLanguage is not defined");
+				}
+				if (vueCompilerOptions == null) {
+					throw new Error("Flint bug: vueCompilerOptions is not defined");
+				}
+
+				if (program.__flintVolarLanguage != null) {
+					return program;
+				}
+
+				program.__flintVolarLanguage = volarLanguage;
+				const getGlobalDiagnostics = program.getGlobalDiagnostics;
+				program.getGlobalDiagnostics = (...args) => {
+					const diagnostics = [...getGlobalDiagnostics(...args)];
+
+					if (globalTypesErrorForFile != null) {
+						diagnostics.push({
+							file: undefined,
+							start: 0,
+							length: 0,
+							category: ts.DiagnosticCategory.Warning,
+							// TODO: If no Vue rules are used, the Vue language isn't prepared,
+							// and its diagnostics are not collected. In this case, the only
+							// channel to report errors is through TS program diagnostics.
+							// But this forces us to write imaginary TS error code here. Maybe
+							// a better solution would be to introduce a secondary diagnostics
+							// reporting channel, or to introduce some special _magic_ TS error
+							// code which will be handled in a special way by
+							// convertTypeScriptDiagnosticToLanguageFileDiagnostic
+							code: 99999999,
+							messageText: `
+Failed to write the global types file for '${globalTypesErrorForFile}'. Make sure that:
+
+1. 'node_modules' directory exists.
+2. '${vueCompilerOptions!.lib}' is installed as a direct dependency.
+
+Alternatively, you can manually set "vueCompilerOptions.globalTypesPath" in your "tsconfig.json" or "jsconfig.json".
+						`.trim(),
+						});
+					}
+
+					return diagnostics;
+				};
+				return program;
+			},
+		}),
+);
+
+export interface VueServices extends TypeScriptServices {
+	vueServices?: {
+		map: VolarMapper;
+		sfc: Sfc;
+		templateAst: null | RootNode;
+		// TODO: can we type MessageId?
+		reportSfc: RuleReporter<string>;
+	};
+}
+
+export const vueLanguage = createLanguage<unknown, VueServices>({
+	about: {
+		name: "Vue.js",
+	},
+	prepare: () => {
+		const tsLang = prepareTypeScriptBasedLanguage();
+
+		return {
+			prepareFromDisk: (filePathAbsolute) => {
+				return prepareVueFile(
+					filePathAbsolute,
+					tsLang.createFromDisk(filePathAbsolute),
+				);
+			},
+			prepareFromVirtual: (filePathAbsolute, sourceText) => {
+				return prepareVueFile(
+					filePathAbsolute,
+					tsLang.createFromVirtual(filePathAbsolute, sourceText),
+				);
+			},
+		};
+	},
+});
+
+export function vueWrapRules(
+	...rules: AnyLevelDeep<ConfigRuleDefinition>[]
+): AnyRule[] {
+	// @ts-expect-error
+	return Array.from(
+		computeRulesWithOptions(flatten(rules))
+			.keys()
+			.map((rule) => vueLanguage.createRule(rule)),
+	);
+}
+
+function prepareVueFile(
+	filePathAbsolute: string,
+	tsFile: TypeScriptBasedLanguageFile,
+): LanguagePreparedDefinition {
+	const { program, sourceFile, [Symbol.dispose]: onDispose } = tsFile;
+
+	// @ts-expect-error
+	const volarLanguage: VolarLanguage = program.__flintVolarLanguage;
+
+	if (volarLanguage == null) {
+		throw new Error(
+			"'typescript' package wasn't properly patched. Make sure you don't import 'typescript' before Flint.",
+		);
+	}
+
+	const sourceScript = volarLanguage.scripts.get(filePathAbsolute);
+	if (sourceScript == null) {
+		throw new Error("Expected sourceScript to be set");
+	}
+	if (sourceScript.languageId !== "vue") {
+		return prepareTypeScriptFile({
+			program,
+			sourceFile,
+			[Symbol.dispose]: onDispose,
+		});
+	}
+	if (sourceScript.generated == null) {
+		throw new Error("Expected sourceScript.generated to be set");
+	}
+	if (sourceScript.snapshot == null) {
+		throw new Error("Expected sourceScript.snapshot to be set");
+	}
+	if (sourceScript.generated.languagePlugin.typescript == null) {
+		throw new Error(
+			"Expected sourceScript.generated.languagePlugin.typescript to be set",
+		);
+	}
+
+	const sourceText = sourceScript.snapshot.getText(
+		0,
+		sourceScript.snapshot.getLength(),
+	);
+	const fileLocation = location(
+		new VFile({
+			path: filePathAbsolute,
+			value: sourceText,
+		}),
+	);
+
+	const serviceScript =
+		sourceScript.generated.languagePlugin.typescript.getServiceScript(
+			sourceScript.generated.root,
+		);
+	if (serviceScript == null) {
+		throw new Error("Expected serviceScript to exist");
+	}
+
+	const serviceText = serviceScript.code.snapshot.getText(
+		0,
+		serviceScript.code.snapshot.getLength(),
+	);
+
+	const virtualCode = sourceScript.generated.root as VueVirtualCode;
+
+	const map = volarLanguage.maps.get(serviceScript.code, sourceScript);
+
+	const templateAst =
+		virtualCode.vueSfc?.descriptor.template &&
+		baseParse(virtualCode.vueSfc.descriptor.template.content, {
+			comments: true,
+			expressionPlugins: ["typescript"],
+			onError(error) {
+				console.log("TODO: error", error);
+				process.exit(1);
+			},
+			onWarn(warning) {
+				console.log("TODO: warn", warning);
+				process.exit(1);
+			},
+			parseMode: "html",
+			// Should we parse expressions?
+			// prefixIdentifiers: true,
+			...(defaultParserOptions.isVoidTag && {
+				isVoidTag: defaultParserOptions.isVoidTag,
+			}),
+			...(defaultParserOptions.isNativeTag && {
+				isNativeTag: defaultParserOptions.isNativeTag,
+			}),
+			...(defaultParserOptions.isPreTag && {
+				isPreTag: defaultParserOptions.isPreTag,
+			}),
+			...(defaultParserOptions.isIgnoreNewlineTag && {
+				isIgnoreNewlineTag: defaultParserOptions.isIgnoreNewlineTag,
+			}),
+			...(defaultParserOptions.isBuiltInComponent && {
+				isBuiltInComponent: defaultParserOptions.isBuiltInComponent,
+			}),
+			...(defaultParserOptions.getNamespace && {
+				getNamespace: defaultParserOptions.getNamespace,
+			}),
+		});
+
+	// TODO: parsing errors
+	// TODO: directives
+	// TODO: support defineComponent
+
+	return {
+		file: {
+			...(onDispose != null && { [Symbol.dispose]: onDispose }),
+			cache: collectTypeScriptFileCacheImpacts(program, sourceFile),
+			getDiagnostics() {
+				// TODO: report parse errors
+				// TODO: transform ranges
+				return ts
+					.getPreEmitDiagnostics(program, sourceFile)
+					.map(convertTypeScriptDiagnosticToLanguageFileDiagnostic);
+			},
+			async runRule(rule, options) {
+				const translatedReports: NormalizedReport[] = [];
+				const reports = await runTypeScriptBasedLanguageRule(
+					program,
+					sourceFile,
+					rule,
+					options,
+					{
+						vueServices: {
+							map,
+							reportSfc: (report: RuleReport) => {
+								// TODO: avoid bringing entire dependency for such trivial task?
+								const positionBegin = fileLocation.toPoint(report.range.begin);
+								if (positionBegin == null) {
+									throw new Error("Invalid report.range.begin");
+								}
+								const positionEnd = fileLocation.toPoint(report.range.end);
+								if (positionEnd == null) {
+									throw new Error("Invalid report.range.begin");
+								}
+								translatedReports.push({
+									...report,
+									fix:
+										report.fix && !Array.isArray(report.fix)
+											? [report.fix]
+											: report.fix,
+									message: rule.messages[report.message],
+									range: {
+										begin: {
+											column: positionBegin.column - 1,
+											line: positionBegin.line - 1,
+											raw: report.range.begin,
+										},
+										end: {
+											column: positionEnd.column - 1,
+											line: positionEnd.line - 1,
+											raw: report.range.end,
+										},
+									},
+								});
+							},
+							sfc: virtualCode.sfc,
+							templateAst,
+						},
+					},
+				);
+
+				for (const report of reports) {
+					const reportRange = translateRange(
+						serviceText,
+						map,
+						report.range.begin.raw,
+						report.range.end.raw,
+					);
+					if (reportRange == null) {
+						continue;
+					}
+
+					const translatedReport: NormalizedReport = {
+						...report,
+						range: normalizeRange(reportRange, {
+							text: sourceText,
+						}),
+					};
+					if (report.suggestions != null) {
+						translatedReport.suggestions = report.suggestions.map<Suggestion>(
+							(suggestion) => {
+								if (isSuggestionForFiles(suggestion)) {
+									throw new Error(
+										"TODO: vue - suggestions for multiple files are not yet supported",
+									);
+								}
+								const range = translateRange(
+									serviceText,
+									map,
+									suggestion.range.begin,
+									suggestion.range.end,
+								);
+								if (range == null) {
+									// TODO: maybe we should filter out these suggestions intead of erroring?
+									throw new Error(
+										"Suggestion range overlaps with virtual code",
+									);
+								}
+								return {
+									...suggestion,
+									range,
+								};
+							},
+						);
+					}
+
+					translatedReports.push(translatedReport);
+				}
+
+				return translatedReports;
+			},
+		},
+	};
+}
+
+export function translateRange(
+	generated: string,
+	map: VolarMapper,
+	begin: number,
+	end: number,
+): null | { begin: number; end: number } {
+	if (end < begin) {
+		throw new Error("TODO");
+	}
+	// TODO(perf): binary search?
+
+	// we don't care about mappings with two positions (are we right?)
+	const mappings = map.mappings.filter(
+		(m) => m.sourceOffsets.length === 1 && m.lengths[0] > 0,
+	);
+
+	let sourceBegin: null | number = null;
+
+	for (const mapping of mappings) {
+		const generatedLengths = mapping.generatedLengths ?? mapping.lengths;
+
+		if (begin < mapping.generatedOffsets[0]) {
+			// TODO: __VLS_dollars
+			const a = "__VLS_ctx.";
+			if (generated.slice(begin, mapping.generatedOffsets[0]) !== a) {
+				return null;
+			}
+			if (end <= mapping.generatedOffsets[0]) {
+				return null;
+			}
+			sourceBegin ??= mapping.sourceOffsets[0];
+		} else if (begin < mapping.generatedOffsets[0] + generatedLengths[0]) {
+			sourceBegin ??=
+				mapping.sourceOffsets[0] + (begin - mapping.generatedOffsets[0]);
+		} else {
+			continue;
+		}
+
+		if (end <= mapping.generatedOffsets[0] + generatedLengths[0]) {
+			return {
+				begin: sourceBegin,
+				end: mapping.sourceOffsets[0] + (end - mapping.generatedOffsets[0]),
+			};
+		}
+		begin = mapping.generatedOffsets[0] + generatedLengths[0];
+	}
+
+	return null;
+}

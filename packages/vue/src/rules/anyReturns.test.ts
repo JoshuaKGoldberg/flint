@@ -1,7 +1,7 @@
 import path from "node:path";
 
 import rule from "../../../ts/lib/rules/anyReturns.js";
-import { vueLanguage } from "../index.js";
+import { vueLanguage } from "../language.js";
 import { ruleTester } from "./ruleTester.js";
 
 const fileName = path.join(import.meta.dirname, "file.vue");

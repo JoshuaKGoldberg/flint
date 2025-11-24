@@ -3,7 +3,7 @@ import { Mapper as VolarMapper } from "@volar/language-core";
 import * as vue from "@vue/compiler-core";
 import ts from "typescript";
 
-import { vueLanguage } from "../index.js";
+import { vueLanguage } from "../language.js";
 
 export default vueLanguage.createRule({
 	about: {
@@ -47,10 +47,14 @@ export default vueLanguage.createRule({
 		},
 	},
 	setup(context) {
+		const { vueServices } = context;
+		if (vueServices == null) {
+			return {};
+		}
 		const {
 			sfc: { template: templateTransformed },
 			templateAst,
-		} = context;
+		} = vueServices;
 		if (templateAst == null || templateTransformed == null) {
 			return {};
 		}
@@ -70,7 +74,7 @@ export default vueLanguage.createRule({
 			keyProp: null | vue.AttributeNode | vue.DirectiveNode,
 		) => {
 			if (keyProp == null) {
-				context.reportSfc({
+				vueServices.reportSfc({
 					message: "missingKey",
 					range: {
 						begin: forDirective.loc.start.offset + startTagEnd,
@@ -83,7 +87,7 @@ export default vueLanguage.createRule({
 				if (keyProp.value == null) {
 					return; // TS error
 				}
-				context.reportSfc({
+				vueServices.reportSfc({
 					message: "staticKey",
 					range: propValueRange(keyProp.value),
 				});
@@ -104,7 +108,7 @@ export default vueLanguage.createRule({
 					end: keyProp.loc.end.offset + startTagEnd,
 				};
 				const generatedLocations = Array.from(
-					context.map.toGeneratedLocation(
+					vueServices.map.toGeneratedLocation(
 						keyProp.arg.loc.start.offset + startTagEnd,
 					),
 				).filter(([, m]) => m.lengths[0] > 0);
@@ -126,7 +130,7 @@ export default vueLanguage.createRule({
 				};
 
 				const valueBegin = toGeneratedLocation(
-					context.map,
+					vueServices.map,
 					keyProp.exp.loc.start.offset + startTagEnd,
 				);
 				if (valueBegin == null) {
@@ -140,7 +144,7 @@ export default vueLanguage.createRule({
 				valueRange = {
 					begin: valueBegin,
 					end: toGeneratedLocationOrThrow(
-						context.map,
+						vueServices.map,
 						keyProp.exp.loc.end.offset + startTagEnd,
 					),
 				};
@@ -154,11 +158,11 @@ export default vueLanguage.createRule({
 				.filter((v) => v != null)
 				.map((v) => ({
 					begin: toGeneratedLocationOrThrow(
-						context.map,
+						vueServices.map,
 						v.loc.start.offset + startTagEnd,
 					),
 					end: toGeneratedLocationOrThrow(
-						context.map,
+						vueServices.map,
 						v.loc.end.offset + startTagEnd,
 					),
 				}));
@@ -194,7 +198,7 @@ export default vueLanguage.createRule({
 			};
 
 			if (!find(context.sourceFile)) {
-				context.reportSfc({
+				vueServices.reportSfc({
 					message: "invalidKey",
 					range: reportRange,
 				});

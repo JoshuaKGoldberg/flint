@@ -1,6 +1,9 @@
+import path from "node:path";
 import rule from "../../../ts/lib/rules/debuggerStatements.js";
-import { vueLanguage } from "../index.js";
+import { vueLanguage } from "../language.js";
 import { ruleTester } from "./ruleTester.js";
+
+const fileName = path.join(import.meta.dirname, "file.vue");
 
 ruleTester.describe(vueLanguage.createRule(rule), {
 	invalid: [
@@ -10,7 +13,7 @@ ruleTester.describe(vueLanguage.createRule(rule), {
 	debugger;
 </script>
 			`,
-			fileName: "file.vue",
+			fileName,
 			snapshot: `
 <script lang="ts" setup>
 	debugger;
@@ -40,8 +43,7 @@ ruleTester.describe(vueLanguage.createRule(rule), {
 	</button>
 </template>
 			`,
-			fileName: "file.vue",
-			only: true,
+			fileName,
 			snapshot: `
 <template>
 	<button @click="event => {
@@ -78,7 +80,7 @@ ruleTester.describe(vueLanguage.createRule(rule), {
 	hello
 </script>
 			`,
-			fileName: "file.vue",
+			fileName,
 		},
 	],
 });

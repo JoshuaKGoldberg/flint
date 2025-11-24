@@ -3,7 +3,7 @@ import ts from "typescript";
 
 import { isPromiseLike } from "../../../ts/lib/rules/utils/builtinSymbolLikes.js";
 import { isTypeRecursive } from "../../../ts/lib/rules/utils/isTypeRecursive.js";
-import { vueLanguage } from "../index.js";
+import { vueLanguage } from "../language.js";
 
 export default vueLanguage.createRule({
 	about: {
