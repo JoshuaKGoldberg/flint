@@ -1,5 +1,6 @@
 import {
 	createLanguage,
+	createPlugin,
 	isSuggestionForFiles,
 	NormalizedReport,
 	RuleReport,
@@ -20,6 +21,7 @@ import {
 	createParsedCommandLine as createVueParsedCommandLine,
 	createParsedCommandLineByJson as createVueParsedCommandLineByJson,
 	Sfc,
+	VueCompilerOptions,
 	VueVirtualCode,
 } from "@vue/language-core";
 // for LanguagePlugin interface augmentation
@@ -32,72 +34,133 @@ import {
 	prepareTypeScriptFile,
 	runTypeScriptBasedLanguageRule,
 	TypeScriptServices,
+	ts as tsPlugin,
 } from "@flint.fyi/ts";
 import { proxyCreateProgram } from "@volar/typescript/lib/node/proxyCreateProgram.js";
 import ts from "typescript";
 import { VFile } from "vfile";
 import { location } from "vfile-location";
 
+type ProxiedTSProgram = ts.Program & {
+	__flintVolarLanguage?: VolarLanguage<string> | undefined;
+};
+
 setTSExtraSupportedExtensions([".vue"]);
-setTSProgramCreationProxy((ts, createProgram) => {
-	return new Proxy(function () {} as unknown as typeof createProgram, {
-		apply(target, thisArg, args) {
-			let volarLanguage = null as null | VolarLanguage<string>;
-			const proxied = proxyCreateProgram(ts, createProgram, (ts, options) => {
-				const { configFilePath } = options.options;
-				const { vueOptions } =
-					typeof configFilePath === "string"
-						? createVueParsedCommandLine(
-								ts,
-								ts.sys,
-								configFilePath.replaceAll("\\", "/"),
-							)
-						: createVueParsedCommandLineByJson(
-								ts,
-								ts.sys,
-								(options.host ?? ts.sys).getCurrentDirectory(),
-								{},
-							);
-				vueOptions.globalTypesPath = createGlobalVueTypesWriter(
-					vueOptions,
-					ts.sys.writeFile,
-				);
-				const vueLanguagePlugin = createVueLanguagePlugin<string>(
-					ts,
-					options.options,
-					vueOptions,
-					(id) => id,
-				);
-				if (vueLanguagePlugin.typescript != null) {
-					const { getServiceScript } = vueLanguagePlugin.typescript;
-					vueLanguagePlugin.typescript.getServiceScript = (root) => {
-						const script = getServiceScript(root);
-						if (script == null) {
-							return script;
+setTSProgramCreationProxy(
+	(ts, createProgram) =>
+		new Proxy(function () {} as unknown as typeof createProgram, {
+			apply(target, thisArg, args) {
+				let volarLanguage = null as null | VolarLanguage<string>;
+				let vueCompilerOptions = null as null | VueCompilerOptions;
+				let globalTypesErrorForFile = null as null | string;
+				const proxied = proxyCreateProgram(ts, createProgram, (ts, options) => {
+					const { configFilePath } = options.options;
+					vueCompilerOptions = (
+						typeof configFilePath === "string"
+							? createVueParsedCommandLine(
+									ts,
+									ts.sys,
+									configFilePath.replaceAll("\\", "/"),
+								)
+							: createVueParsedCommandLineByJson(
+									ts,
+									ts.sys,
+									(options.host ?? ts.sys).getCurrentDirectory(),
+									{},
+								)
+					).vueOptions;
+					const globalTypesPath = createGlobalVueTypesWriter(
+						vueCompilerOptions,
+						ts.sys.writeFile,
+					);
+					vueCompilerOptions.globalTypesPath = (fileName) => {
+						const result = globalTypesPath(fileName);
+						if (result == null) {
+							globalTypesErrorForFile ??= fileName;
 						}
-						return {
-							...script,
-							// Leading offset is useful for LanguageService [1], but we don't use it.
-							// The Vue language plugin doesn't provide preventLeadingOffset [2], so we
-							// have to provide it ourselves.
-							//
-							// [1] https://github.com/volarjs/volar.js/discussions/188
-							// [2] https://github.com/vuejs/language-tools/blob/fd05a1c92c9af63e6af1eab926084efddf7c46c3/packages/language-core/lib/languagePlugin.ts#L113-L130
-							preventLeadingOffset: true,
-						};
+						return result;
 					};
+					const vueLanguagePlugin = createVueLanguagePlugin<string>(
+						ts,
+						options.options,
+						vueCompilerOptions,
+						(id) => id,
+					);
+					if (vueLanguagePlugin.typescript != null) {
+						const { getServiceScript } = vueLanguagePlugin.typescript;
+						vueLanguagePlugin.typescript.getServiceScript = (root) => {
+							const script = getServiceScript(root);
+							if (script == null) {
+								return script;
+							}
+							return {
+								...script,
+								// Leading offset is useful for LanguageService [1], but we don't use it.
+								// The Vue language plugin doesn't provide preventLeadingOffset [2], so we
+								// have to provide it ourselves.
+								//
+								// [1] https://github.com/volarjs/volar.js/discussions/188
+								// [2] https://github.com/vuejs/language-tools/blob/fd05a1c92c9af63e6af1eab926084efddf7c46c3/packages/language-core/lib/languagePlugin.ts#L113-L130
+								preventLeadingOffset: true,
+							};
+						};
+					}
+					return {
+						languagePlugins: [vueLanguagePlugin],
+						setup: (lang) => (volarLanguage = lang),
+					};
+				});
+
+				const program: ProxiedTSProgram = Reflect.apply(proxied, thisArg, args);
+
+				if (volarLanguage == null) {
+					throw new Error("Flint bug: volarLanguage is not defined");
 				}
-				return {
-					languagePlugins: [vueLanguagePlugin],
-					setup: (lang) => (volarLanguage = lang),
+				if (vueCompilerOptions == null) {
+					throw new Error("Flint bug: vueCompilerOptions is not defined");
+				}
+
+				if (program.__flintVolarLanguage != null) {
+					return program;
+				}
+
+				program.__flintVolarLanguage = volarLanguage;
+				const getGlobalDiagnostics = program.getGlobalDiagnostics;
+				program.getGlobalDiagnostics = (...args) => {
+					const diagnostics = [...getGlobalDiagnostics(...args)];
+
+					if (globalTypesErrorForFile != null) {
+						diagnostics.push({
+							file: undefined,
+							start: 0,
+							length: 0,
+							category: ts.DiagnosticCategory.Warning,
+							// TODO: If no Vue rules are used, the Vue language isn't prepared,
+							// and its diagnostics are not collected. In this case, the only
+							// channel to report errors is through TS program diagnostics.
+							// But this forces us to write imaginary TS error code here. Maybe
+							// a better solution would be to introduce a secondary diagnostics
+							// reporting channel, or to introduce some special _magic_ TS error
+							// code which will be handled in a special way by
+							// convertTypeScriptDiagnosticToLanguageFileDiagnostic
+							code: 99999999,
+							messageText: `
+Failed to write the global types file for '${globalTypesErrorForFile}'. Make sure that:
+
+1. 'node_modules' directory exists.
+2. '${vueCompilerOptions!.lib}' is installed as a direct dependency.
+
+Alternatively, you can manually set "vueCompilerOptions.globalTypesPath" in your "tsconfig.json" or "jsconfig.json".
+						`.trim(),
+						});
+					}
+
+					return diagnostics;
 				};
-			});
-			const program = Reflect.apply(proxied, thisArg, args);
-			program.__flintVolarLanguage = volarLanguage;
-			return program;
-		},
-	});
-});
+				return program;
+			},
+		}),
+);
 
 export interface VueServices extends TypeScriptServices {
 	map: VolarMapper;
@@ -388,3 +451,11 @@ export function translateRange(
 
 	return null;
 }
+
+export const vue = createPlugin({
+	files: {
+		all: [tsPlugin.files.all, "**/*.vue"],
+	},
+	name: "vue",
+	rules: [],
+});

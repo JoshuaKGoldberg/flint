@@ -3,6 +3,7 @@
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
+	"main": "./lib/index.js",
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/ts": "workspace:",
@@ -20,7 +21,6 @@
 	},
 	"peerDependencies": {
 		"@vue/compiler-core": "~3.5.0",
-		"@vue/compiler-dom": "~3.5.0",
-		"vue": "~3.5.0"
+		"@vue/compiler-dom": "~3.5.0"
 	}
 }
