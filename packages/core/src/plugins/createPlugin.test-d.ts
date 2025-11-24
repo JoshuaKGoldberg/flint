@@ -51,4 +51,16 @@ describe(createPlugin, () => {
 		// @ts-expect-error property doesn't exist
 		assertType(plugin.files.third);
 	});
+
+	it("should allow deeply nested files array", () => {
+		const plugin = createPlugin({
+			files: {
+				first: [[[[[[""]]]]]],
+			},
+			name: "test",
+			rules: [],
+		});
+
+		expectTypeOf(plugin.files.first).toEqualTypeOf<FilesValue>();
+	});
 });
