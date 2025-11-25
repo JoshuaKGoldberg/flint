@@ -19,7 +19,11 @@ import {
 	Language as VolarLanguage,
 	Mapper as VolarMapper,
 } from "@volar/language-core";
-import { baseParse, RootNode } from "@vue/compiler-core";
+import {
+	baseParse,
+	RootNode,
+	CompilerError as VueCompilerError,
+} from "@vue/compiler-core";
 import { parserOptions as defaultParserOptions } from "@vue/compiler-dom";
 import {
 	createGlobalTypesWriter as createGlobalVueTypesWriter,
@@ -285,15 +289,13 @@ function prepareVueFile(
 		baseParse(virtualCode.vueSfc.descriptor.template.content, {
 			comments: true,
 			expressionPlugins: ["typescript"],
-			onError(error) {
-				console.log("TODO: error", error);
-				process.exit(1);
-			},
-			onWarn(warning) {
-				console.log("TODO: warn", warning);
-				process.exit(1);
-			},
 			parseMode: "html",
+			// We ignore errors because virtual code already provides them,
+			// and it also provides them with sourceText-based locations,
+			// so we don't have to remap them. Oh, and it also contains errors from
+			// other blocks rather than only <template> as well.
+			// If we don't provide this callback, @vue/compiler-core will throw.
+			onError: () => {},
 			// Should we parse expressions?
 			// prefixIdentifiers: true,
 			...(defaultParserOptions.isVoidTag && {
@@ -316,7 +318,6 @@ function prepareVueFile(
 			}),
 		});
 
-	// TODO: parsing errors
 	// TODO: directives
 	// TODO: support defineComponent
 
@@ -325,11 +326,40 @@ function prepareVueFile(
 			...(onDispose != null && { [Symbol.dispose]: onDispose }),
 			cache: collectTypeScriptFileCacheImpacts(program, sourceFile),
 			getDiagnostics() {
-				// TODO: report parse errors
-				// TODO: transform ranges
-				return ts
-					.getPreEmitDiagnostics(program, sourceFile)
-					.map(convertTypeScriptDiagnosticToLanguageFileDiagnostic);
+				return [
+					...ts.getPreEmitDiagnostics(program, sourceFile).map((diagnostic) =>
+						convertTypeScriptDiagnosticToLanguageFileDiagnostic({
+							...diagnostic,
+							// For some unknown reason, Volar doesn't set file.text to sourceText
+							// when preventLeadingOffset is true, so we have to do it ourselves
+							// https://github.com/volarjs/volar.js/blob/4a9d25d797d08d9c149bebf0f52ac5e172f4757d/packages/typescript/lib/node/transform.ts#L102
+							file: diagnostic.file
+								? {
+										fileName: diagnostic.file.fileName,
+										text: sourceText,
+									}
+								: diagnostic.file,
+						}),
+					),
+					...(virtualCode.vueSfc?.errors ?? []).map((e) => {
+						const fileName = sourceFile.fileName.startsWith("./")
+							? sourceFile.fileName.slice(2)
+							: sourceFile.fileName.slice(process.cwd().length + 1);
+						let code = "VUE";
+						let loc = "";
+						if ("code" in e) {
+							code += e.code.toString();
+							loc =
+								e.loc != null
+									? `:${e.loc?.start.line}:${e.loc?.start.column}`
+									: "";
+						}
+						return {
+							code,
+							text: `${fileName}${loc} - ${code}: ${e.name} - ${e.message}`,
+						};
+					}),
+				];
 			},
 			async runRule(rule, options) {
 				const translatedReports: NormalizedReport[] = [];

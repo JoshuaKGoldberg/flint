@@ -11,7 +11,11 @@ import {
 import * as ts from "typescript";
 
 import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
-import { formatDiagnostic } from "./formatDiagnostic.js";
+import {
+	formatDiagnostic,
+	RawDiagnostic,
+	SourceFileLikeLooseWithName,
+} from "./formatDiagnostic.js";
 import { getFirstEnumValues } from "./getFirstEnumValues.js";
 import { normalizeRange } from "./normalizeRange.js";
 
@@ -32,8 +36,17 @@ export function collectTypeScriptFileCacheImpacts(
 	};
 }
 
+export interface TSDiagnosticRelatedInformationLoose
+	extends Omit<ts.DiagnosticRelatedInformation, "file"> {
+	file: SourceFileLikeLooseWithName | undefined;
+}
+
+export interface TSDiagnosticLoose
+	extends Omit<ts.Diagnostic, "file">,
+		TSDiagnosticRelatedInformationLoose {}
+
 export function convertTypeScriptDiagnosticToLanguageFileDiagnostic(
-	diagnostic: ts.Diagnostic,
+	diagnostic: TSDiagnosticLoose,
 ): LanguageFileDiagnostic {
 	return {
 		code: `TS${diagnostic.code}`,
