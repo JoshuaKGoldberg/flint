@@ -7,7 +7,9 @@ export interface Plugin<
 	FilesKey extends string | undefined,
 	Rules extends AnyRule<About>[],
 > {
-	files: FilesKey extends string ? Record<FilesKey, FilesValue> : undefined;
+	files: undefined extends FilesKey
+		? undefined
+		: Record<FilesKey & string, FilesValue>;
 	name: string;
 	presets: PluginPresets<About, Rules[number]["about"]["preset"]>;
 	rules: PluginRulesFactory<Rules>;

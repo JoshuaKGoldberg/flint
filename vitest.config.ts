@@ -14,6 +14,9 @@ export default defineConfig({
 					"../core/lib/ts-patch/install-patch.js",
 				],
 				testTimeout: 10_000,
+				typecheck: {
+					enabled: true,
+				},
 			},
 		})),
 	},
