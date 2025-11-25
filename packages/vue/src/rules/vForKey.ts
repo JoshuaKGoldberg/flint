@@ -51,20 +51,20 @@ export default vueLanguage.createRule({
 		if (vueServices == null) {
 			return {};
 		}
-		const {
-			sfc: { template: templateTransformed },
-			templateAst,
-		} = vueServices;
-		if (templateAst == null || templateTransformed == null) {
+		const { sfc } = vueServices;
+		const templateBlock = sfc.children.find(
+			(c): c is vue.ElementNode =>
+				c.type === vue.NodeTypes.ELEMENT && c.tag === "template",
+		);
+		if (templateBlock == null) {
 			return {};
 		}
-		const { startTagEnd } = templateTransformed;
 
 		const propValueRange = (propValue: vue.TextNode) => {
 			const strip = propValue.loc.source === propValue.content ? 0 : 1;
 			return {
-				begin: propValue.loc.start.offset + strip + startTagEnd,
-				end: propValue.loc.end.offset - strip + startTagEnd,
+				begin: propValue.loc.start.offset + strip,
+				end: propValue.loc.end.offset - strip,
 			};
 		};
 
@@ -77,8 +77,8 @@ export default vueLanguage.createRule({
 				vueServices.reportSfc({
 					message: "missingKey",
 					range: {
-						begin: forDirective.loc.start.offset + startTagEnd,
-						end: forDirective.loc.start.offset + startTagEnd + "v-for".length,
+						begin: forDirective.loc.start.offset,
+						end: forDirective.loc.start.offset + "v-for".length,
 					},
 				});
 				return;
@@ -104,13 +104,11 @@ export default vueLanguage.createRule({
 			if (keyProp.exp == null) {
 				// :key
 				reportRange = {
-					begin: keyProp.loc.start.offset + startTagEnd,
-					end: keyProp.loc.end.offset + startTagEnd,
+					begin: keyProp.loc.start.offset,
+					end: keyProp.loc.end.offset,
 				};
 				const generatedLocations = Array.from(
-					vueServices.map.toGeneratedLocation(
-						keyProp.arg.loc.start.offset + startTagEnd,
-					),
+					vueServices.map.toGeneratedLocation(keyProp.arg.loc.start.offset),
 				).filter(([, m]) => m.lengths[0] > 0);
 
 				// |key|: |key|
@@ -125,13 +123,13 @@ export default vueLanguage.createRule({
 				};
 			} else {
 				reportRange = {
-					begin: keyProp.exp.loc.start.offset + startTagEnd,
-					end: keyProp.exp.loc.end.offset + startTagEnd,
+					begin: keyProp.exp.loc.start.offset,
+					end: keyProp.exp.loc.end.offset,
 				};
 
 				const valueBegin = toGeneratedLocation(
 					vueServices.map,
-					keyProp.exp.loc.start.offset + startTagEnd,
+					keyProp.exp.loc.start.offset,
 				);
 				if (valueBegin == null) {
 					// Bug in vue/language-tools: virtual code is not generated for <template :key="">
@@ -145,7 +143,7 @@ export default vueLanguage.createRule({
 					begin: valueBegin,
 					end: toGeneratedLocationOrThrow(
 						vueServices.map,
-						keyProp.exp.loc.end.offset + startTagEnd,
+						keyProp.exp.loc.end.offset,
 					),
 				};
 			}
@@ -159,12 +157,9 @@ export default vueLanguage.createRule({
 				.map((v) => ({
 					begin: toGeneratedLocationOrThrow(
 						vueServices.map,
-						v.loc.start.offset + startTagEnd,
+						v.loc.start.offset,
 					),
-					end: toGeneratedLocationOrThrow(
-						vueServices.map,
-						v.loc.end.offset + startTagEnd,
-					),
+					end: toGeneratedLocationOrThrow(vueServices.map, v.loc.end.offset),
 				}));
 
 			// TODO(perf): use ScopeManager instead
@@ -240,7 +235,7 @@ export default vueLanguage.createRule({
 				node.children.forEach(visitTag);
 			}
 		}
-		templateAst.children.forEach(visitTag);
+		templateBlock.children.forEach(visitTag);
 
 		return {};
 	},

@@ -3,7 +3,6 @@ import {
 	flatten,
 	AnyRule,
 	createLanguage,
-	createPlugin,
 	isSuggestionForFiles,
 	LanguagePreparedDefinition,
 	NormalizedReport,
@@ -14,17 +13,15 @@ import {
 	computeRulesWithOptions,
 	Suggestion,
 	ConfigRuleDefinition,
+	DirectivesCollector,
+	NormalizedReportRangeObject,
 } from "@flint.fyi/core";
 import {
 	Language as VolarLanguage,
 	Mapper as VolarMapper,
 } from "@volar/language-core";
-import {
-	baseParse,
-	RootNode,
-	CompilerError as VueCompilerError,
-} from "@vue/compiler-core";
-import { parserOptions as defaultParserOptions } from "@vue/compiler-dom";
+import { RootNode, NodeTypes, TemplateChildNode } from "@vue/compiler-core";
+import { parse as vueParse } from "@vue/compiler-dom";
 import {
 	createGlobalTypesWriter as createGlobalVueTypesWriter,
 	createVueLanguagePlugin,
@@ -46,6 +43,7 @@ import {
 	TypeScriptServices,
 	ts as tsPlugin,
 	TypeScriptBasedLanguageFile,
+	extractDirectivesFromTypeScriptFile,
 } from "@flint.fyi/ts";
 import { proxyCreateProgram } from "@volar/typescript/lib/node/proxyCreateProgram.js";
 import ts from "typescript";
@@ -55,6 +53,8 @@ import { location } from "vfile-location";
 type ProxiedTSProgram = ts.Program & {
 	__flintVolarLanguage?: VolarLanguage<string> | undefined;
 };
+
+// TODO: css
 
 setTSExtraSupportedExtensions([".vue"]);
 setTSProgramCreationProxy(
@@ -176,8 +176,7 @@ Alternatively, you can manually set "vueCompilerOptions.globalTypesPath" in your
 export interface VueServices extends TypeScriptServices {
 	vueServices?: {
 		map: VolarMapper;
-		sfc: Sfc;
-		templateAst: null | RootNode;
+		sfc: RootNode;
 		// TODO: can we type MessageId?
 		reportSfc: RuleReporter<string>;
 	};
@@ -284,44 +283,100 @@ function prepareVueFile(
 
 	const map = volarLanguage.maps.get(serviceScript.code, sourceScript);
 
-	const templateAst =
-		virtualCode.vueSfc?.descriptor.template &&
-		baseParse(virtualCode.vueSfc.descriptor.template.content, {
-			comments: true,
-			expressionPlugins: ["typescript"],
-			parseMode: "html",
-			// We ignore errors because virtual code already provides them,
-			// and it also provides them with sourceText-based locations,
-			// so we don't have to remap them. Oh, and it also contains errors from
-			// other blocks rather than only <template> as well.
-			// If we don't provide this callback, @vue/compiler-core will throw.
-			onError: () => {},
-			// Should we parse expressions?
-			// prefixIdentifiers: true,
-			...(defaultParserOptions.isVoidTag && {
-				isVoidTag: defaultParserOptions.isVoidTag,
-			}),
-			...(defaultParserOptions.isNativeTag && {
-				isNativeTag: defaultParserOptions.isNativeTag,
-			}),
-			...(defaultParserOptions.isPreTag && {
-				isPreTag: defaultParserOptions.isPreTag,
-			}),
-			...(defaultParserOptions.isIgnoreNewlineTag && {
-				isIgnoreNewlineTag: defaultParserOptions.isIgnoreNewlineTag,
-			}),
-			...(defaultParserOptions.isBuiltInComponent && {
-				isBuiltInComponent: defaultParserOptions.isBuiltInComponent,
-			}),
-			...(defaultParserOptions.getNamespace && {
-				getNamespace: defaultParserOptions.getNamespace,
-			}),
-		});
+	const sfcAst = vueParse(sourceText, {
+		comments: true,
+		expressionPlugins: ["typescript"],
+		parseMode: "html",
+		// We ignore errors because virtual code already provides them,
+		// and it also provides them with sourceText-based locations,
+		// so we don't have to remap them. Oh, and it also contains errors from
+		// other blocks rather than only <template> as well.
+		// If we don't provide this callback, @vue/compiler-core will throw.
+		onError: () => {},
+		// Should we parse expressions?
+		// prefixIdentifiers: true,
+	});
 
 	// TODO: directives
 	// TODO: support defineComponent
 
+	// const directivesCollector = new DirectivesCollector()
+
+	// TODO: extract directives from other blocks too
+
+	const directives: {
+		range: NormalizedReportRangeObject;
+		selection: string;
+		type: string;
+	}[] = [];
+	function visitTemplate(elem: TemplateChildNode) {
+		if (elem.type === NodeTypes.ELEMENT) {
+			elem.children.forEach(visitTemplate);
+			return;
+		}
+		if (elem.type !== NodeTypes.COMMENT) {
+			return;
+		}
+		const match = /\s*flint-(\S+)(?:\s+(.+))?/.exec(elem.content);
+		if (match == null) {
+			return;
+		}
+		const [, type, selection] = match;
+		directives.push({
+			range: {
+				begin: {
+					line: elem.loc.start.line - 1,
+					column: elem.loc.start.column - 1,
+					raw: elem.loc.start.offset,
+				},
+				end: {
+					line: elem.loc.end.line - 1,
+					column: elem.loc.end.column - 1,
+					raw: elem.loc.end.offset,
+				},
+			},
+			selection,
+			type,
+		});
+	}
+	sfcAst.children.forEach(visitTemplate);
+
+	for (const d of extractDirectivesFromTypeScriptFile(sourceFile)) {
+		directives.push(mapRange(d));
+	}
+
+	function mapRange<T extends { range: NormalizedReportRangeObject }>(
+		obj: T,
+	): T {
+		const sourceRange = map
+			.toSourceRange(obj.range.begin.raw, obj.range.end.raw, true)
+			.next();
+		if (sourceRange.done) {
+			return obj;
+		}
+		const [sourceStart, sourceEnd] = sourceRange.value;
+		return {
+			...obj,
+			range: normalizeRange(
+				{ begin: sourceStart, end: sourceEnd },
+				{
+					text: sourceText,
+				},
+			),
+		};
+	}
+
+	const directivesCollector = new DirectivesCollector(
+		sfcAst.children.find((c) => c.type !== NodeTypes.COMMENT)?.loc.start
+			.offset ?? sourceText.length,
+	);
+	directives.sort((a, b) => a.range.begin.raw - b.range.begin.raw);
+	for (const { range, selection, type } of directives) {
+		directivesCollector.add(range, selection, type);
+	}
+
 	return {
+		...directivesCollector.collect(),
 		file: {
 			...(onDispose != null && { [Symbol.dispose]: onDispose }),
 			cache: collectTypeScriptFileCacheImpacts(program, sourceFile),
@@ -402,10 +457,9 @@ function prepareVueFile(
 									},
 								});
 							},
-							sfc: virtualCode.sfc,
-							templateAst,
+							sfc: sfcAst,
 						},
-					},
+					} satisfies Omit<VueServices, keyof TypeScriptServices>,
 				);
 
 				for (const report of reports) {
