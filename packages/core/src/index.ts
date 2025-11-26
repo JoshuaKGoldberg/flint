@@ -10,8 +10,8 @@ export { globs } from "./globs/index.js";
 export { createLanguage } from "./languages/createLanguage.js";
 export { createPlugin } from "./plugins/createPlugin.js";
 export { formatReportPrimary } from "./reporting/formatReportPrimary.js";
-export { lintFixing } from "./running/lintFixing.js";
 export { computeRulesWithOptions } from "./running/computeRulesWithOptions.js";
+export { lintFixing } from "./running/lintFixing.js";
 export { lintOnce } from "./running/lintOnce.js";
 export {
 	setTSExtraSupportedExtensions,
@@ -33,5 +33,5 @@ export * from "./types/ranges.js";
 export * from "./types/reports.js";
 export * from "./types/rules.js";
 export * from "./types/shapes.js";
-export * from "./utils/predicates.js";
 export * from "./utils/arrays.js";
+export * from "./utils/predicates.js";

@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import { createRequire } from "node:module";
+
 import { transformTscContent } from "./shared.js";
 
 const require = createRequire(import.meta.url);

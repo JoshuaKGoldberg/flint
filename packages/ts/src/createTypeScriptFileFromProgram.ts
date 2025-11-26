@@ -21,6 +21,15 @@ import { normalizeRange } from "./normalizeRange.js";
 
 export const NodeSyntaxKinds = getFirstEnumValues(ts.SyntaxKind);
 
+export interface TSDiagnosticLoose
+	extends Omit<ts.Diagnostic, "file">,
+		TSDiagnosticRelatedInformationLoose {}
+
+export interface TSDiagnosticRelatedInformationLoose
+	extends Omit<ts.DiagnosticRelatedInformation, "file"> {
+	file: SourceFileLikeLooseWithName | undefined;
+}
+
 export function collectTypeScriptFileCacheImpacts(
 	program: ts.Program,
 	sourceFile: ts.SourceFile,
@@ -35,15 +44,6 @@ export function collectTypeScriptFileCacheImpacts(
 		],
 	};
 }
-
-export interface TSDiagnosticRelatedInformationLoose
-	extends Omit<ts.DiagnosticRelatedInformation, "file"> {
-	file: SourceFileLikeLooseWithName | undefined;
-}
-
-export interface TSDiagnosticLoose
-	extends Omit<ts.Diagnostic, "file">,
-		TSDiagnosticRelatedInformationLoose {}
 
 export function convertTypeScriptDiagnosticToLanguageFileDiagnostic(
 	diagnostic: TSDiagnosticLoose,

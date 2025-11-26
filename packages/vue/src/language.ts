@@ -1,26 +1,27 @@
 import {
 	AnyLevelDeep,
-	flatten,
 	AnyRule,
+	computeRulesWithOptions,
+	ConfigRuleDefinition,
 	createLanguage,
+	DirectivesCollector,
+	flatten,
 	isSuggestionForFiles,
 	LanguagePreparedDefinition,
 	NormalizedReport,
+	NormalizedReportRangeObject,
 	RuleReport,
 	RuleReporter,
 	setTSExtraSupportedExtensions,
 	setTSProgramCreationProxy,
-	computeRulesWithOptions,
 	Suggestion,
-	ConfigRuleDefinition,
-	DirectivesCollector,
-	NormalizedReportRangeObject,
 } from "@flint.fyi/core";
 import {
+	VirtualCode,
 	Language as VolarLanguage,
 	Mapper as VolarMapper,
 } from "@volar/language-core";
-import { RootNode, NodeTypes, TemplateChildNode } from "@vue/compiler-core";
+import { NodeTypes, RootNode, TemplateChildNode } from "@vue/compiler-core";
 import { parse as vueParse } from "@vue/compiler-dom";
 import {
 	createGlobalTypesWriter as createGlobalVueTypesWriter,
@@ -28,6 +29,7 @@ import {
 	createParsedCommandLine as createVueParsedCommandLine,
 	createParsedCommandLineByJson as createVueParsedCommandLineByJson,
 	Sfc,
+	tsCodegen,
 	VueCompilerOptions,
 	VueVirtualCode,
 } from "@vue/language-core";
@@ -36,14 +38,15 @@ import "@volar/typescript";
 import {
 	collectTypeScriptFileCacheImpacts,
 	convertTypeScriptDiagnosticToLanguageFileDiagnostic,
+	extractDirectivesFromTypeScriptFile,
 	normalizeRange,
 	prepareTypeScriptBasedLanguage,
 	prepareTypeScriptFile,
 	runTypeScriptBasedLanguageRule,
-	TypeScriptServices,
+	TSNodesByName,
 	ts as tsPlugin,
 	TypeScriptBasedLanguageFile,
-	extractDirectivesFromTypeScriptFile,
+	TypeScriptServices,
 } from "@flint.fyi/ts";
 import { proxyCreateProgram } from "@volar/typescript/lib/node/proxyCreateProgram.js";
 import ts from "typescript";
@@ -51,7 +54,7 @@ import { VFile } from "vfile";
 import { location } from "vfile-location";
 
 type ProxiedTSProgram = ts.Program & {
-	__flintVolarLanguage?: VolarLanguage<string> | undefined;
+	__flintVolarLanguage?: undefined | VolarLanguage<string>;
 };
 
 // TODO: css
@@ -142,10 +145,10 @@ setTSProgramCreationProxy(
 
 					if (globalTypesErrorForFile != null) {
 						diagnostics.push({
-							file: undefined,
-							start: 0,
-							length: 0,
 							category: ts.DiagnosticCategory.Warning,
+							file: undefined,
+							length: 0,
+							start: 0,
 							// TODO: If no Vue rules are used, the Vue language isn't prepared,
 							// and its diagnostics are not collected. In this case, the only
 							// channel to report errors is through TS program diagnostics.
@@ -175,14 +178,18 @@ Alternatively, you can manually set "vueCompilerOptions.globalTypesPath" in your
 
 export interface VueServices extends TypeScriptServices {
 	vueServices?: {
+		codegen: VueCodegen;
 		map: VolarMapper;
 		sfc: RootNode;
+		virtualCode: VueVirtualCode;
 		// TODO: can we type MessageId?
 		reportSfc: RuleReporter<string>;
 	};
 }
 
-export const vueLanguage = createLanguage<unknown, VueServices>({
+type VueCodegen = typeof tsCodegen extends WeakMap<any, infer V> ? V : never;
+
+export const vueLanguage = createLanguage<TSNodesByName, VueServices>({
 	about: {
 		name: "Vue.js",
 	},
@@ -205,6 +212,56 @@ export const vueLanguage = createLanguage<unknown, VueServices>({
 		};
 	},
 });
+
+export function translateRange(
+	generated: string,
+	map: VolarMapper,
+	begin: number,
+	end: number,
+): null | { begin: number; end: number } {
+	if (end < begin) {
+		throw new Error("TODO");
+	}
+	// TODO(perf): binary search?
+
+	// we don't care about mappings with two positions (are we right?)
+	const mappings = map.mappings.filter(
+		(m) => m.sourceOffsets.length === 1 && m.lengths[0] > 0,
+	);
+
+	let sourceBegin: null | number = null;
+
+	for (const mapping of mappings) {
+		const generatedLengths = mapping.generatedLengths ?? mapping.lengths;
+
+		if (begin < mapping.generatedOffsets[0]) {
+			// TODO: __VLS_dollars
+			const a = "__VLS_ctx.";
+			if (generated.slice(begin, mapping.generatedOffsets[0]) !== a) {
+				return null;
+			}
+			if (end <= mapping.generatedOffsets[0]) {
+				return null;
+			}
+			sourceBegin ??= mapping.sourceOffsets[0];
+		} else if (begin < mapping.generatedOffsets[0] + generatedLengths[0]) {
+			sourceBegin ??=
+				mapping.sourceOffsets[0] + (begin - mapping.generatedOffsets[0]);
+		} else {
+			continue;
+		}
+
+		if (end <= mapping.generatedOffsets[0] + generatedLengths[0]) {
+			return {
+				begin: sourceBegin,
+				end: mapping.sourceOffsets[0] + (end - mapping.generatedOffsets[0]),
+			};
+		}
+		begin = mapping.generatedOffsets[0] + generatedLengths[0];
+	}
+
+	return null;
+}
 
 export function vueWrapRules(
 	...rules: AnyLevelDeep<ConfigRuleDefinition>[]
@@ -280,6 +337,10 @@ function prepareVueFile(
 	);
 
 	const virtualCode = sourceScript.generated.root as VueVirtualCode;
+	const codegen = tsCodegen.get(virtualCode.sfc);
+	if (codegen == null) {
+		throw new Error("Expected codegen to exist");
+	}
 
 	const map = volarLanguage.maps.get(serviceScript.code, sourceScript);
 
@@ -325,13 +386,13 @@ function prepareVueFile(
 		directives.push({
 			range: {
 				begin: {
-					line: elem.loc.start.line - 1,
 					column: elem.loc.start.column - 1,
+					line: elem.loc.start.line - 1,
 					raw: elem.loc.start.offset,
 				},
 				end: {
-					line: elem.loc.end.line - 1,
 					column: elem.loc.end.column - 1,
+					line: elem.loc.end.line - 1,
 					raw: elem.loc.end.offset,
 				},
 			},
@@ -425,6 +486,7 @@ function prepareVueFile(
 					options,
 					{
 						vueServices: {
+							codegen,
 							map,
 							reportSfc: (report: RuleReport) => {
 								// TODO: avoid bringing entire dependency for such trivial task?
@@ -458,6 +520,7 @@ function prepareVueFile(
 								});
 							},
 							sfc: sfcAst,
+							virtualCode,
 						},
 					} satisfies Omit<VueServices, keyof TypeScriptServices>,
 				);
@@ -514,54 +577,4 @@ function prepareVueFile(
 			},
 		},
 	};
-}
-
-export function translateRange(
-	generated: string,
-	map: VolarMapper,
-	begin: number,
-	end: number,
-): null | { begin: number; end: number } {
-	if (end < begin) {
-		throw new Error("TODO");
-	}
-	// TODO(perf): binary search?
-
-	// we don't care about mappings with two positions (are we right?)
-	const mappings = map.mappings.filter(
-		(m) => m.sourceOffsets.length === 1 && m.lengths[0] > 0,
-	);
-
-	let sourceBegin: null | number = null;
-
-	for (const mapping of mappings) {
-		const generatedLengths = mapping.generatedLengths ?? mapping.lengths;
-
-		if (begin < mapping.generatedOffsets[0]) {
-			// TODO: __VLS_dollars
-			const a = "__VLS_ctx.";
-			if (generated.slice(begin, mapping.generatedOffsets[0]) !== a) {
-				return null;
-			}
-			if (end <= mapping.generatedOffsets[0]) {
-				return null;
-			}
-			sourceBegin ??= mapping.sourceOffsets[0];
-		} else if (begin < mapping.generatedOffsets[0] + generatedLengths[0]) {
-			sourceBegin ??=
-				mapping.sourceOffsets[0] + (begin - mapping.generatedOffsets[0]);
-		} else {
-			continue;
-		}
-
-		if (end <= mapping.generatedOffsets[0] + generatedLengths[0]) {
-			return {
-				begin: sourceBegin,
-				end: mapping.sourceOffsets[0] + (end - mapping.generatedOffsets[0]),
-			};
-		}
-		begin = mapping.generatedOffsets[0] + generatedLengths[0];
-	}
-
-	return null;
 }

@@ -29,7 +29,7 @@ export function extractDirectivesFromTypeScriptFile(sourceFile: ts.SourceFile) {
 		const range = normalizeRange(commentRange, sourceFile);
 		const [type, selection] = match.slice(1);
 
-		directives.push({ range, type, selection });
+		directives.push({ range, selection, type });
 	});
 
 	return directives;

@@ -1,4 +1,5 @@
 import path from "node:path";
+
 import rule from "../../../ts/lib/rules/debuggerStatements.js";
 import { vueLanguage } from "../language.js";
 import { ruleTester } from "./ruleTester.js";
