@@ -20,7 +20,8 @@ export function* presentDiagnostics(filesResults: Map<string, FileResults>) {
 
 	for (const diagnostic of diagnostics) {
 		yield diagnostic.text;
+		yield "\n";
 	}
 
-	yield "\n\n";
+	yield "\n";
 }

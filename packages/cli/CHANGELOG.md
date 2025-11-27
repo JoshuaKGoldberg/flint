@@ -1,5 +1,13 @@
 # @flint/cli
 
+## 0.15.3
+
+### Patch Changes
+
+- 51aee45: fix(cli): separate multiple diagnostics by newlines in CLI output
+- Updated dependencies [5bca9c4]
+  - @flint.fyi/core@0.15.2
+
 ## 0.15.2
 
 ### Patch Changes

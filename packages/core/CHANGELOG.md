@@ -1,5 +1,11 @@
 # @flint/core
 
+## 0.15.2
+
+### Patch Changes
+
+- 5bca9c4: fix(core): make `Rule` type assignable to `AnyRule`
+
 ## 0.15.1
 
 ### Patch Changes

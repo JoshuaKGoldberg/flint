@@ -3,23 +3,20 @@ import { node } from "@flint.fyi/plugin-node";
 import { spelling } from "@flint.fyi/plugin-spelling";
 import { defineConfig, globs, json, md, ts, yaml } from "flint";
 
-// TODO: How to get the globs types piped through?
-// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 export default defineConfig({
 	use: [
 		{
-			files: json.files!.all,
+			files: json.files.all,
 			rules: json.presets.logical,
 		},
 		{
-			files: md.files!.all,
+			files: md.files.all,
 			rules: md.presets.logical,
 		},
 		{
 			files: {
 				exclude: process.env.LINT_FIXTURES ? [] : ["packages/fixtures"],
-				include: ts.files!.all,
+				include: ts.files.all,
 			},
 			rules: [
 				flint.presets.logical,
@@ -32,7 +29,7 @@ export default defineConfig({
 		{
 			files: {
 				exclude: ["pnpm-lock.yaml"],
-				include: yaml.files!.all,
+				include: yaml.files.all,
 			},
 			rules: yaml.presets.logical,
 		},
