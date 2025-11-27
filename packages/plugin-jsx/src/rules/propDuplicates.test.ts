@@ -1,4 +1,4 @@
-import rule from "./duplicateProps.js";
+import rule from "./propDuplicates.js";
 import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
