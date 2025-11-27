@@ -1,6 +1,6 @@
 ---
 description: "Disallow duplicate props in JSX elements."
-title: "duplicateProps"
+title: "propDuplicates"
 topic: "rules"
 ---
 
@@ -9,7 +9,7 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="jsx" rule="duplicateProps" />
+<RuleSummary plugin="jsx" rule="propDuplicates" />
 
 When a JSX element has multiple props with the same name, only the last occurrence takes effect.
 This can lead to unexpected behavior and makes the code harder to understand and maintain.
@@ -71,4 +71,4 @@ If your codebase uses code generation that relies on uncommon JavaScript semanti
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="jsx" ruleId="duplicateProps" />
+<RuleEquivalents pluginId="jsx" ruleId="propDuplicates" />

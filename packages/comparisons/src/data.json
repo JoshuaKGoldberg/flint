@@ -1099,7 +1099,7 @@
 		],
 		"flint": {
 			"implemented": true,
-			"name": "duplicateProps",
+			"name": "propDuplicates",
 			"plugin": "jsx",
 			"preset": "Logical"
 		}
@@ -1559,7 +1559,7 @@
 		],
 		"flint": {
 			"implemented": true,
-			"name": "validElementChildren",
+			"name": "elementChildrenValidity",
 			"plugin": "jsx",
 			"preset": "Logical",
 			"strictness": "Strict"

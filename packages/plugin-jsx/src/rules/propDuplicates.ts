@@ -4,7 +4,7 @@ import * as ts from "typescript";
 export default typescriptLanguage.createRule({
 	about: {
 		description: "Disallow duplicate props in JSX elements.",
-		id: "duplicateProps",
+		id: "propDuplicates",
 		preset: "logical",
 	},
 	messages: {
