@@ -1894,26 +1894,6 @@
 		]
 	},
 	{
-		"deno": [
-			{
-				"name": "jsx-no-duplicate-props",
-				"url": "https://docs.deno.com/lint/rules/jsx-no-duplicate-props"
-			}
-		],
-		"eslint": [
-			{
-				"name": "jsx-a11y/no-duplicate-props",
-				"url": "https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-duplicate-props.md"
-			}
-		],
-		"flint": {
-			"name": "duplicateProps",
-			"plugin": "jsx",
-			"preset": "logical",
-			"status": "implemented"
-		}
-	},
-	{
 		"eslint": [
 			{
 				"name": "react/jsx-props-no-spread-multi",
@@ -1930,6 +1910,27 @@
 			"name": "duplicateSpreads",
 			"plugin": "jsx",
 			"status": "skipped"
+		}
+	},
+	{
+		"deno": [
+			{
+				"name": "jsx-void-dom-elements-no-children",
+				"url": "https://docs.deno.com/lint/rules/jsx-void-dom-elements-no-children"
+			}
+		],
+		"eslint": [
+			{
+				"name": "react/void-dom-elements-no-children",
+				"url": "https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/void-dom-elements-no-children.md"
+			}
+		],
+		"flint": {
+			"name": "elementChildrenValidity",
+			"plugin": "jsx",
+			"preset": "logical",
+			"status": "implemented",
+			"strictness": "strict"
 		}
 	},
 	{
@@ -2397,6 +2398,26 @@
 		]
 	},
 	{
+		"deno": [
+			{
+				"name": "jsx-no-duplicate-props",
+				"url": "https://docs.deno.com/lint/rules/jsx-no-duplicate-props"
+			}
+		],
+		"eslint": [
+			{
+				"name": "jsx-a11y/no-duplicate-props",
+				"url": "https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-duplicate-props.md"
+			}
+		],
+		"flint": {
+			"name": "propDuplicates",
+			"plugin": "jsx",
+			"preset": "logical",
+			"status": "implemented"
+		}
+	},
+	{
 		"eslint": [
 			{
 				"name": "react/jsx-indent-props",
@@ -2749,27 +2770,6 @@
 			"plugin": "jsx",
 			"preset": "stylistic",
 			"status": "implemented"
-		}
-	},
-	{
-		"deno": [
-			{
-				"name": "jsx-void-dom-elements-no-children",
-				"url": "https://docs.deno.com/lint/rules/jsx-void-dom-elements-no-children"
-			}
-		],
-		"eslint": [
-			{
-				"name": "react/void-dom-elements-no-children",
-				"url": "https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/void-dom-elements-no-children.md"
-			}
-		],
-		"flint": {
-			"name": "validElementChildren",
-			"plugin": "jsx",
-			"preset": "logical",
-			"status": "implemented",
-			"strictness": "strict"
 		}
 	},
 	{

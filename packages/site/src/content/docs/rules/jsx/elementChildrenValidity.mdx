@@ -1,6 +1,6 @@
 ---
 description: "Reports void DOM elements that have children, which is invalid HTML."
-title: "validElementChildren"
+title: "elementChildrenValidity"
 topic: "rules"
 ---
 
@@ -8,7 +8,7 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="jsx" rule="validElementChildren" />
+<RuleSummary plugin="jsx" rule="elementChildrenValidity" />
 
 Void elements (also called self-closing or empty elements) are HTML elements that cannot have children.
 These elements, such as `<br>`, `<img>`, and `<input>`, are self-closing by definition and attempting to give them children violates the HTML specification.
@@ -90,4 +90,4 @@ If your application is a rare one that violates HTML standards and places invali
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="jsx" ruleId="validElementChildren" />
+<RuleEquivalents pluginId="jsx" ruleId="elementChildrenValidity" />
