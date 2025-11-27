@@ -46,7 +46,7 @@ import unescapedEntities from "./rules/unescapedEntities.js";
 import unnecessaryFragments from "./rules/unnecessaryFragments.js";
 
 export const jsx = createPlugin({
-	name: "jsx",
+	name: "JSX",
 	rules: [
 		accessKeys,
 		altTexts,

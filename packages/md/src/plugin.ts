@@ -18,7 +18,7 @@ export const md = createPlugin({
 	files: {
 		all: ["**/*.md"],
 	},
-	name: "md",
+	name: "Markdown",
 	rules: [
 		bareUrls,
 		definitionContents,

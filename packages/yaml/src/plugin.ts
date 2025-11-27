@@ -6,6 +6,6 @@ export const yaml = createPlugin({
 	files: {
 		all: ["**/*.{yaml,yml}"],
 	},
-	name: "yaml",
+	name: "YAML",
 	rules: [emptyMappingKeys],
 });
