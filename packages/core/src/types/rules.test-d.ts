@@ -59,11 +59,13 @@ describe("Rule", () => {
 	});
 
 	it("should work with AnyOptionalSchema|undefined", () => {
+		// flint-disable-lines-begin voidOperator
 		void (<T extends AnyOptionalSchema | undefined>(
 			rule: AnyRuleDefinition<T>,
 			options: InferredObject<T>,
 		) => {
 			void rule.setup({}, options);
 		});
+		// flint-disable-lines-end voidOperator
 	});
 });
