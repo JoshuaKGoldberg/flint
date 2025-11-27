@@ -1,5 +1,11 @@
 # @flint/ts
 
+## 0.14.5
+
+### Patch Changes
+
+- 7e21021: fix(ts): [chainedAssignments] allow non-assignment right-side operators
+
 ## 0.14.4
 
 ### Patch Changes
