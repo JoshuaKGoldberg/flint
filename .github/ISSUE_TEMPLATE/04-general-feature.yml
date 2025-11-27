@@ -1,15 +1,15 @@
 body:
   - attributes:
       description: If any of these required steps are not taken, we may not be able to review your issue. Help us to help you!
-      label: Documentation Report Checklist
+      label: Feature Request Checklist
       options:
-        - label: I have pulled the latest `main` branch of the repository.
+        - label: I am using the latest published version of all Flint packages.
           required: true
         - label: I have [searched for related issues](https://github.com/JoshuaKGoldberg/flint/issues?q=is%3Aissue) and found none that matched my issue.
           required: true
     type: checkboxes
   - attributes:
-      description: What would you like to report?
+      description: What did you expect to be able to do?
       label: Overview
     type: textarea
     validations:
@@ -19,11 +19,11 @@ body:
       label: Additional Info
     type: textarea
 
-description: Report a typo or missing area of documentation
+description: Request that a new non-rule-specific feature be added or an existing feature improved to Flint, its integrations, or its plugins
 
 labels:
-  - "area: documentation"
+  - "type: feature"
 
-name: 📝 Documentation
+name: 🚀 General Feature
 
-title: "📝 Documentation: <short description of the request>"
+title: "🚀 Feature: <short description of the feature>"
