@@ -11,7 +11,7 @@ export interface PluginLogoColors {
 	squiggly: string;
 }
 
-export const pluginDataById = {
+const pluginDataById = {
 	astro: {
 		colors: {
 			flame: "#D83333",
