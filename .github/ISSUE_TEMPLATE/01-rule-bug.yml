@@ -9,6 +9,13 @@ body:
           required: true
     type: checkboxes
   - attributes:
+      description: A minimal code sample which demonstrates the issue
+      label: Reproduction
+      render: TypeScript
+    type: textarea
+    validations:
+      required: true
+  - attributes:
       description: What did you expect to happen?
       label: Expected
     type: textarea
