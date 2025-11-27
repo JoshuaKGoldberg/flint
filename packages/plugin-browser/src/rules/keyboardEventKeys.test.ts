@@ -71,7 +71,6 @@ document.addEventListener("keyup", (event: KeyboardEvent) => {
     console.log(event.which);
 });
 `,
-			// only: true,
 			snapshot: `
 document.addEventListener("keyup", (event: KeyboardEvent) => {
     console.log(event.which);
@@ -86,7 +85,6 @@ function handleKeyDown(event: KeyboardEvent) {
     return event.keyCode === 8;
 }
 `,
-			// only: true,
 			snapshot: `
 function handleKeyDown(event: KeyboardEvent) {
     return event.keyCode === 8;

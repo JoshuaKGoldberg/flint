@@ -19,7 +19,7 @@
 	],
 	"scripts": {
 		"build": "tsc -b",
-		"flint": "node packages/flint/bin/index.js",
+		"flint": "flint",
 		"lint": "eslint . --max-warnings 0",
 		"lint:knip": "knip",
 		"lint:md": "markdownlint \"**/*.md\" \".github/**/*.md\" --rules sentences-per-line",

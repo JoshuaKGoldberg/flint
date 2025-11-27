@@ -7,8 +7,9 @@ import { createRendererFactory } from "./renderers/createRendererFactory.js";
 import { runCliOnce } from "./runCliOnce.js";
 import { runCliWatch } from "./runCliWatch.js";
 
-export async function runCli() {
+export async function runCli(args: string[]) {
 	const { values } = parseArgs({
+		args,
 		options,
 		strict: true,
 	});

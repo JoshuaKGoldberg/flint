@@ -19,6 +19,7 @@
 		{ "path": "./packages/plugin-performance" },
 		{ "path": "./packages/text" },
 		{ "path": "./packages/ts" },
+		{ "path": "./packages/vue" },
 		{ "path": "./packages/yaml" }
 	]
 }
