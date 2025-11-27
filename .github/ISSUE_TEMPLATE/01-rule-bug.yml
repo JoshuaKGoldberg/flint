@@ -30,6 +30,6 @@ description: Report a bug specific to a lint rule provided by Flint
 labels:
   - "type: bug"
 
-name: 🐛 Bug
+name: 🐛 Lint Rule Bug
 
 title: "🐛 Bug: [plugin.ruleName] <short description of the bug>"

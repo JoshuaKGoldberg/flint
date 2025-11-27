@@ -24,6 +24,6 @@ description: Request a feature be added to a lint rule provided by Flint
 labels:
   - "type: feature"
 
-name: 🚀 Feature
+name: 🚀 Lint Rule Feature
 
 title: "🚀 Feature: [plugin.ruleName] <short description of the feature>"
