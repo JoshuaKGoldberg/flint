@@ -1,5 +1,11 @@
 # @flint/core
 
+## 0.15.3
+
+### Patch Changes
+
+- 11abdff: fix(core): properly resolve `flint-disable-*` directives selection when comment has trailing whitespaces
+
 ## 0.15.2
 
 ### Patch Changes
