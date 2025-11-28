@@ -45,6 +45,7 @@ Don't worry if you get this wrong: you can always change the PR title after send
 Check [previously merged PRs](https://github.com/JoshuaKGoldberg/flint/pulls?q=is%3Apr+is%3Amerged+-label%3Adependencies+) for reference.
 
 Finally, if your PR includes any user-facing changes, run `pnpm changeset` to [add a proper changeset](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md).
+You can copy the exact title from the PR.
 This will allow our release automation to version packages appropriately when the next release happens.
 
 #### Draft PRs
