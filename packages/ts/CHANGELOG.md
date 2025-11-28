@@ -1,5 +1,13 @@
 # @flint/ts
 
+## 0.14.6
+
+### Patch Changes
+
+- b789918: fix(ts): [forDirections] allow multi-part conditions
+- Updated dependencies [11abdff]
+  - @flint.fyi/core@0.15.3
+
 ## 0.14.5
 
 ### Patch Changes
