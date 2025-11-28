@@ -44,6 +44,10 @@ Only PR titles need to be in that format, not individual commits.
 Don't worry if you get this wrong: you can always change the PR title after sending it.
 Check [previously merged PRs](https://github.com/JoshuaKGoldberg/flint/pulls?q=is%3Apr+is%3Amerged+-label%3Adependencies+) for reference.
 
+Finally, if your PR includes any user-facing changes, run `pnpm changeset` to [add a proper changeset](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md).
+You can copy the exact title from the PR.
+This will allow our release automation to version packages appropriately when the next release happens.
+
 #### Draft PRs
 
 If you don't think your PR is ready for review, [set it as a draft](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-stage-of-a-pull-request#converting-a-pull-request-to-a-draft).
