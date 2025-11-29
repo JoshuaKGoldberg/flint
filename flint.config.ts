@@ -1,5 +1,5 @@
-import { cspell } from "@flint.fyi/plugin-cspell";
 import { flint } from "@flint.fyi/plugin-flint";
+import { spelling } from "@flint.fyi/plugin-spelling";
 import { defineConfig, globs, json, md, ts, yaml } from "flint";
 
 export default defineConfig({
@@ -28,7 +28,7 @@ export default defineConfig({
 		},
 		{
 			files: globs.all,
-			rules: cspell.presets.logical,
+			rules: spelling.presets.logical,
 		},
 	],
 });

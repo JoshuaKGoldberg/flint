@@ -151,7 +151,7 @@ function formatCodeSpan(
 			gutterSeparator;
 		context += squiggleColor;
 		if (i === firstLine) {
-			const lastCharForLine = i === lastLine ? lastLineChar : void 0;
+			const lastCharForLine = i === lastLine ? lastLineChar : undefined;
 			context += lineContent.slice(0, firstLineChar).replace(/\S/g, " ");
 			context += lineContent
 				.slice(firstLineChar, lastCharForLine)
