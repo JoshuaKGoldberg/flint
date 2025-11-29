@@ -1,0 +1,72 @@
+---
+description: "Disallow ES built-in globals that are unsupported in older Node.js versions."
+title: "unsupportedGlobals"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="node" rule="unsupportedGlobals" />
+
+Using unsupported globals will cause runtime errors in older Node.js versions.
+This rule helps identify ES built-in globals that require newer Node.js versions, allowing you to either upgrade your target version or use polyfills.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const value = BigInt(123);
+
+const array = new BigInt64Array(10);
+
+const registry = new FinalizationRegistry(() => {});
+
+const ref = new WeakRef(target);
+
+const error = new AggregateError(errors, message);
+
+const global = globalThis;
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const value = 123n;
+
+if (typeof BigInt !== "undefined") {
+	const value = BigInt(123);
+}
+
+const custom = new CustomBigInt();
+
+const obj = { BigInt: () => {} };
+const value = obj.BigInt();
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you are targeting Node.js versions that support all modern ES features (Node.js 16+), you can safely disable this rule.
+
+## Further Reading
+
+- [Node.js ES2015+ support](https://node.green/)
+- [MDN: BigInt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
+- [MDN: globalThis](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)
+- [MDN: WeakRef](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakRef)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="node" ruleId="unsupportedGlobals" />
