@@ -238,12 +238,6 @@ importers:
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
-      vfile:
-        specifier: ^6.0.3
-        version: 6.0.3
-      vfile-location:
-        specifier: ^5.0.3
-        version: 5.0.3
     devDependencies:
       '@types/unist':
         specifier: 3.0.3
@@ -579,12 +573,6 @@ importers:
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
-      vfile:
-        specifier: ^6.0.3
-        version: 6.0.3
-      vfile-location:
-        specifier: ^5.0.3
-        version: 5.0.3
       yaml-unist-parser:
         specifier: ^2.0.5
         version: 2.0.5
