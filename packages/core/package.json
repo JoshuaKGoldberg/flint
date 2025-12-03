@@ -16,7 +16,6 @@
 	"main": "./lib/index.js",
 	"dependencies": {
 		"@flint.fyi/utils": "workspace:",
-		"@standard-schema/spec": "^1.0.0",
 		"cached-factory": "^0.1.0",
 		"debug-for-file": "^0.2.0",
 		"omit-empty": "^1.0.0",

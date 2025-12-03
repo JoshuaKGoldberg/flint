@@ -1,4 +1,4 @@
-import type { StandardSchemaV1 } from "@standard-schema/spec";
+import type { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 import { FilesValue } from "./files.js";
 import { AnyRule, Rule, RuleAbout } from "./rules.js";
@@ -22,7 +22,7 @@ export type PluginPresets<
 	Presets extends string | undefined,
 > = Record<
 	Presets extends string ? Presets : never,
-	Rule<About, object, object, string>[]
+	Rule<About, object, object, string, AnyOptionalSchema | undefined>[]
 >;
 
 export type PluginRulesFactory<Rules extends AnyRule[]> = (
@@ -32,5 +32,5 @@ export type PluginRulesFactory<Rules extends AnyRule[]> = (
 export type PluginRulesOptions<Rules extends AnyRule[]> = {
 	[Rule in Rules[number] as Rule["about"]["id"]]?: Rule["options"] extends undefined
 		? boolean
-		: StandardSchemaV1.InferInput<Rule["options"]>;
+		: boolean | InferredObject<Rule["options"]>;
 };

@@ -1,4 +1,4 @@
-import { StandardSchemaV1 } from "@standard-schema/spec";
+import type { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 import { BaseAbout } from "./about.js";
 import { RuleContext } from "./context.js";
@@ -9,11 +9,11 @@ import { ReportMessageData } from "./reports.js";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type AnyRule<
 	About extends RuleAbout = RuleAbout,
-	OptionsSchema extends StandardSchemaV1 = StandardSchemaV1,
+	OptionsSchema extends AnyOptionalSchema | undefined = any,
 > = Rule<About, any, any, string, OptionsSchema>;
 
 export type AnyRuleDefinition<
-	OptionsSchema extends StandardSchemaV1 = StandardSchemaV1,
+	OptionsSchema extends AnyOptionalSchema | undefined = any,
 > = RuleDefinition<RuleAbout, any, any, string, OptionsSchema>;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
@@ -25,7 +25,7 @@ export interface Rule<
 	AstNodesByName,
 	ContextServices extends object,
 	MessageId extends string,
-	OptionsSchema extends StandardSchemaV1 = StandardSchemaV1,
+	OptionsSchema extends AnyOptionalSchema | undefined,
 > extends RuleDefinition<
 		About,
 		AstNodesByName,
@@ -48,16 +48,16 @@ export interface RuleDefinition<
 	AstNodesByName,
 	ContextServices extends object,
 	MessageId extends string,
-	OptionsSchema extends StandardSchemaV1,
+	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
 	about: About;
 	messages: Record<MessageId, ReportMessageData>;
-	options: OptionsSchema;
+	options?: OptionsSchema;
 	setup: RuleSetup<
 		AstNodesByName,
 		ContextServices,
 		MessageId,
-		StandardSchemaV1.InferOutput<OptionsSchema>
+		InferredObject<OptionsSchema>
 	>;
 }
 

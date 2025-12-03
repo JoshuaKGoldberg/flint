@@ -25,14 +25,12 @@ export default jsonLanguage.createRule({
 			],
 		},
 	},
-	options: z
-		.object({
-			allowKeys: z
-				.array(z.string())
-				.default([])
-				.describe("Keys to allow duplicates under."),
-		})
-		.optional(),
+	options: {
+		allowKeys: z
+			.array(z.string())
+			.default([])
+			.describe("Keys to allow duplicates under."),
+	},
 	setup({ allowKeys } = {}) {
 		const allowKeysUnique = new Set(allowKeys);
 

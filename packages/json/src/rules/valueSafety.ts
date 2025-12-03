@@ -92,7 +92,6 @@ export default jsonLanguage.createRule({
 			],
 		},
 	},
-	options: z.never(),
 	setup() {
 		function checkNumericLiteral(node: ts.NumericLiteral, context: Context) {
 			const originalText = context.sourceFile.text.substring(

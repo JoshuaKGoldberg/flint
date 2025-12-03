@@ -90,9 +90,8 @@ export async function lintOnce(
 
 	// TODO: It would probably be good to group rules by language...
 	for (const [rule, options] of rulesWithOptions) {
-		const parsedOptions = await rule.options["~standard"].validate(options);
-		const runtime = await rule.setup(parsedOptions);
-		log("Running rule %s with options: %o", rule.about.id, parsedOptions);
+		const runtime = await rule.setup(options);
+		log("Running rule %s with options: %o", rule.about.id, options);
 
 		// TODO: this does an await in a for loop - should it use a queue?
 		for (const filePath of allFilePaths) {

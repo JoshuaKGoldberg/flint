@@ -1,4 +1,4 @@
-import type { StandardSchemaV1 } from "@standard-schema/spec";
+import type { AnyOptionalSchema } from "./shapes.js";
 
 import { CommentDirective } from "./directives.js";
 import { PromiseOrSync } from "./promises.js";
@@ -11,19 +11,30 @@ import { Rule, RuleAbout, RuleDefinition, type RuleRuntime } from "./rules.js";
 
 export type AnyLanguage = Language<object, object>;
 
-export type CreateRule<AstNodesByName, ContextServices extends object> = <
-	const About extends RuleAbout,
-	const MessageId extends string,
-	const OptionsSchema extends StandardSchemaV1,
->(
-	definition: RuleDefinition<
-		About,
-		AstNodesByName,
-		ContextServices,
-		MessageId,
-		OptionsSchema
-	>,
-) => Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
+export interface CreateRule<AstNodesByName, ContextServices extends object> {
+	<const About extends RuleAbout, const MessageId extends string>(
+		definition: RuleDefinition<
+			About,
+			AstNodesByName,
+			ContextServices,
+			MessageId,
+			undefined
+		>,
+	): Rule<About, AstNodesByName, ContextServices, MessageId, undefined>;
+	<
+		const About extends RuleAbout,
+		const MessageId extends string,
+		const OptionsSchema extends AnyOptionalSchema,
+	>(
+		definition: RuleDefinition<
+			About,
+			AstNodesByName,
+			ContextServices,
+			MessageId,
+			OptionsSchema
+		>,
+	): Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
+}
 
 export interface Language<AstNodesByName, ContextServices extends object>
 	extends LanguageDefinition {
@@ -77,7 +88,6 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		runtime: RuleRuntime<any, string, any>,
 		messages: Record<string, ReportMessageData>,
-		// options: InferredObject<OptionsSchema>,
 	): PromiseOrSync<NormalizedReport[]>;
 }
 

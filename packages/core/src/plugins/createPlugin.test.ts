@@ -18,7 +18,6 @@ const ruleStandalone = stubLanguage.createRule({
 		preset: "first",
 	},
 	messages: stubMessages,
-	options: z.never(),
 	setup: vi.fn(),
 });
 
@@ -29,11 +28,9 @@ const ruleWithOptionalOption = stubLanguage.createRule({
 		preset: "second",
 	},
 	messages: stubMessages,
-	options: z
-		.object({
-			value: z.string().optional(),
-		})
-		.optional(),
+	options: {
+		value: z.string().optional(),
+	},
 	setup: vi.fn(),
 });
 

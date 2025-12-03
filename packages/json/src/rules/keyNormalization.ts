@@ -23,17 +23,15 @@ export default jsonLanguage.createRule({
 			],
 		},
 	},
-	options: z
-		.object({
-			form: z
-				.enum(["NFC", "NFD", "NFKC", "NFKD"])
-				.default("NFC")
-				.describe(
-					"Unicode normalization form to use when checking keys. Must be one of: NFC (default), NFD, NFKC, or NFKD.",
-				)
-				.optional(),
-		})
-		.optional(),
+	options: {
+		form: z
+			.enum(["NFC", "NFD", "NFKC", "NFKD"])
+			.default("NFC")
+			.describe(
+				"Unicode normalization form to use when checking keys. Must be one of: NFC (default), NFD, NFKC, or NFKD.",
+			)
+			.optional(),
+	},
 	setup({ form = "NFC" } = {}) {
 		return {
 			visitors: {
