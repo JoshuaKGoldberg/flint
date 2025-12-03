@@ -30,10 +30,11 @@ export default jsonLanguage.createRule({
 				.default("NFC")
 				.describe(
 					"Unicode normalization form to use when checking keys. Must be one of: NFC (default), NFD, NFKC, or NFKD.",
-				),
+				)
+				.optional(),
 		})
 		.optional(),
-	setup({ form = "NFC" }) {
+	setup({ form = "NFC" } = {}) {
 		return {
 			visitors: {
 				ObjectLiteralExpression(node, context) {

@@ -52,7 +52,7 @@ export interface RuleDefinition<
 > {
 	about: About;
 	messages: Record<MessageId, ReportMessageData>;
-	options: StandardSchemaV1;
+	options: OptionsSchema;
 	setup: RuleSetup<
 		AstNodesByName,
 		ContextServices,

@@ -29,9 +29,11 @@ const ruleWithOptionalOption = stubLanguage.createRule({
 		preset: "second",
 	},
 	messages: stubMessages,
-	options: {
-		value: z.string().optional(),
-	},
+	options: z
+		.object({
+			value: z.string().optional(),
+		})
+		.optional(),
 	setup: vi.fn(),
 });
 
