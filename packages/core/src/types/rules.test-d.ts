@@ -53,7 +53,7 @@ describe("Rule", () => {
 			}
 		>;
 
-		const options = {} as Parameters<rule["setup"]>[1];
+		const options = {} as Parameters<rule["setup"]>[0];
 
 		expectTypeOf(options).toEqualTypeOf<{ foo?: string | undefined }>();
 	});
@@ -64,7 +64,7 @@ describe("Rule", () => {
 			rule: AnyRuleDefinition<T>,
 			options: InferredObject<T>,
 		) => {
-			void rule.setup({}, options);
+			void rule.setup(options);
 		});
 		// flint-disable-lines-end voidOperator
 	});
