@@ -16,7 +16,7 @@ export function createMarkdownFile(sourceText: string) {
 	const sourceFileText = { text: sourceText };
 
 	const languageFile: LanguageFileDefinition = {
-		async runRule(rule, options) {
+		runRule(runtime, messages) {
 			const reports: NormalizedReport[] = [];
 
 			const context = {
@@ -27,7 +27,7 @@ export function createMarkdownFile(sourceText: string) {
 							report.fix && !Array.isArray(report.fix)
 								? [report.fix]
 								: report.fix,
-						message: rule.messages[report.message],
+						message: messages[report.message],
 						range: {
 							begin: getColumnAndLineOfPosition(
 								sourceFileText,
@@ -40,15 +40,13 @@ export function createMarkdownFile(sourceText: string) {
 				root,
 			};
 
-			const runtime = await rule.setup(context, options);
-
-			if (!runtime?.visitors) {
+			if (!runtime.visitors) {
 				return reports;
 			}
 
 			const { visitors } = runtime;
 			visit(root, (node) => {
-				visitors[node.type]?.(node);
+				visitors[node.type]?.(node, context);
 			});
 
 			return reports;

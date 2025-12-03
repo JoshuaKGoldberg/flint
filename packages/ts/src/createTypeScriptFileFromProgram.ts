@@ -45,7 +45,7 @@ export function createTypeScriptFileFromProgram(
 					}),
 				}));
 		},
-		async runRule(rule, options) {
+		runRule(runtime, messages) {
 			const reports: NormalizedReport[] = [];
 
 			const context = {
@@ -57,7 +57,7 @@ export function createTypeScriptFileFromProgram(
 							report.fix && !Array.isArray(report.fix)
 								? [report.fix]
 								: report.fix,
-						message: rule.messages[report.message],
+						message: messages[report.message],
 						range: normalizeRange(report.range, sourceFile),
 					});
 				},
@@ -65,15 +65,13 @@ export function createTypeScriptFileFromProgram(
 				typeChecker: program.getTypeChecker(),
 			};
 
-			const runtime = await rule.setup(context, options);
-
-			if (!runtime?.visitors) {
+			if (!runtime.visitors) {
 				return reports;
 			}
 
 			const { visitors } = runtime;
 			const visit = (node: ts.Node) => {
-				visitors[NodeSyntaxKinds[node.kind]]?.(node);
+				visitors[NodeSyntaxKinds[node.kind]]?.(node, context);
 
 				node.forEachChild(visit);
 			};

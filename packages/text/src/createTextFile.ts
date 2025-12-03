@@ -10,7 +10,7 @@ export function createTextFile(
 	sourceText: string,
 ): LanguageFileDefinition {
 	return {
-		async runRule(rule, options) {
+		runRule(runtime, messages) {
 			const reports: NormalizedReport[] = [];
 
 			const context = {
@@ -22,7 +22,7 @@ export function createTextFile(
 							report.fix && !Array.isArray(report.fix)
 								? [report.fix]
 								: report.fix,
-						message: rule.messages[report.message],
+						message: messages[report.message],
 						range: {
 							begin: {
 								...indexToPosition(sourceText, report.range.begin),
@@ -38,15 +38,13 @@ export function createTextFile(
 				sourceText,
 			};
 
-			const runtime = await rule.setup(context, options);
-
-			if (runtime?.visitors) {
-				runtime.visitors.file?.(sourceText);
+			if (runtime.visitors) {
+				runtime.visitors.file?.(sourceText, context);
 
 				if (runtime.visitors.line) {
 					const lines = sourceText.split(/\r\n|\n|\r/);
 					for (const line of lines) {
-						runtime.visitors.line(line);
+						runtime.visitors.line(line, context);
 					}
 				}
 			}

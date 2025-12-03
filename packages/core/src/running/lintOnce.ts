@@ -17,6 +17,7 @@ import { FilesGlobObjectProcessed, FilesValue } from "../types/files.js";
 import { AnyLanguage } from "../types/languages.js";
 import { FileResults, LintResults } from "../types/linting.js";
 import { flatten } from "../utils/arrays.js";
+import { computeRulesWithOptions } from "./computeRulesWithOptions.js";
 import { lintFile } from "./lintFile.js";
 import { readGitignore } from "./readGitignore.js";
 
@@ -83,30 +84,52 @@ export async function lintOnce(
 		? undefined
 		: await readFromCache(allFilePaths, configDefinition.filePath);
 
-	// TODO: This is very slow and the whole thing should be refactored 🙌.
-	// The separate lintFile function recomputes rule options repeatedly.
-	// It'd be better to group found files together in some way.
-	// Plus, this does an await in a for loop - should it use a queue?
-	for (const filePath of allFilePaths) {
-		const { dependencies, diagnostics, reports } =
-			cached?.get(filePath) ??
-			(await lintFile(
-				makeAbsolute(filePath),
-				languageFactories,
-				useDefinitions
-					.filter((use) => use.found.has(filePath))
-					.flatMap((use) => use.rules),
-				skipDiagnostics,
-			));
+	const rulesWithOptions = computeRulesWithOptions(
+		useDefinitions.flatMap((use) => use.rules),
+	);
 
-		filesResults.set(filePath, {
-			dependencies: new Set(dependencies),
-			diagnostics: diagnostics ?? [],
-			reports: reports ?? [],
-		});
+	// TODO: It would probably be good to group rules by language...
+	for (const [rule, options] of rulesWithOptions) {
+		const parsedOptions = await rule.options["~standard"].validate(options);
+		const runtime = await rule.setup(parsedOptions);
+		log("Running rule %s with options: %o", rule.about.id, parsedOptions);
 
-		if (reports?.length) {
-			totalReports += reports.length;
+		// TODO: this does an await in a for loop - should it use a queue?
+		for (const filePath of allFilePaths) {
+			const languageFiles = new CachedFactory((language: AnyLanguage) =>
+				languageFactories.get(language).prepareFromDisk(filePathAbsolute),
+			);
+			const filePathAbsolute = makeAbsolute(filePath);
+
+			// TODO: How to make types more permissive around assignability?
+			// See AnyRule's any
+			const { file } = languageFactories
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+				.get(rule.language)
+				.prepareFromDisk(filePathAbsolute);
+
+			log("Linting: %s:", filePathAbsolute);
+
+			const { dependencies, diagnostics, reports } =
+				cached?.get(filePath) ??
+				(await lintFile(
+					filePathAbsolute,
+					file,
+					rule,
+					runtime,
+					skipDiagnostics,
+					languageFiles,
+				));
+
+			filesResults.set(filePath, {
+				dependencies: new Set(dependencies),
+				diagnostics: diagnostics ?? [],
+				reports: reports ?? [],
+			});
+
+			if (reports?.length) {
+				totalReports += reports.length;
+			}
 		}
 	}
 

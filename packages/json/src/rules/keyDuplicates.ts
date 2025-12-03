@@ -25,18 +25,20 @@ export default jsonLanguage.createRule({
 			],
 		},
 	},
-	options: {
-		allowKeys: z
-			.array(z.string())
-			.default([])
-			.describe("Keys to allow duplicates under."),
-	},
-	setup(context, { allowKeys }) {
+	options: z
+		.object({
+			allowKeys: z
+				.array(z.string())
+				.default([])
+				.describe("Keys to allow duplicates under."),
+		})
+		.optional(),
+	setup({ allowKeys }) {
 		const allowKeysUnique = new Set(allowKeys);
 
 		return {
 			visitors: {
-				ObjectLiteralExpression(node) {
+				ObjectLiteralExpression(node, context) {
 					const seenKeys = new Set<string>();
 
 					for (const property of node.properties.toReversed()) {

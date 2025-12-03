@@ -17,7 +17,7 @@ export function createTypeScriptJsonFile(
 	const sourceFile = ts.parseJsonText(filePathAbsolute, sourceText);
 
 	return {
-		async runRule(rule, options) {
+		runRule(runtime, messages) {
 			const reports: NormalizedReport[] = [];
 
 			const context = {
@@ -28,23 +28,21 @@ export function createTypeScriptJsonFile(
 							report.fix && !Array.isArray(report.fix)
 								? [report.fix]
 								: report.fix,
-						message: rule.messages[report.message],
+						message: messages[report.message],
 						range: normalizeRange(report.range, sourceFile),
 					});
 				},
 				sourceFile,
 			};
 
-			const runtime = await rule.setup(context, options);
-
-			if (!runtime?.visitors) {
+			if (!runtime.visitors) {
 				return reports;
 			}
 
 			const { visitors } = runtime;
 
 			const visit = (node: ts.Node) => {
-				visitors[ts.SyntaxKind[node.kind]]?.(node);
+				visitors[ts.SyntaxKind[node.kind]]?.(node, context);
 
 				node.forEachChild(visit);
 			};

@@ -18,6 +18,7 @@ const ruleStandalone = stubLanguage.createRule({
 		preset: "first",
 	},
 	messages: stubMessages,
+	options: z.never(),
 	setup: vi.fn(),
 });
 

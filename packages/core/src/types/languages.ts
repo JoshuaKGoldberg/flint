@@ -1,42 +1,29 @@
+import type { StandardSchemaV1 } from "@standard-schema/spec";
+
 import { CommentDirective } from "./directives.js";
 import { PromiseOrSync } from "./promises.js";
-import { FileReport, NormalizedReport } from "./reports.js";
 import {
-	AnyRule,
-	AnyRuleDefinition,
-	Rule,
-	RuleAbout,
-	RuleDefinition,
-} from "./rules.js";
-import { AnyOptionalSchema, InferredObject } from "./shapes.js";
+	FileReport,
+	NormalizedReport,
+	type ReportMessageData,
+} from "./reports.js";
+import { Rule, RuleAbout, RuleDefinition, type RuleRuntime } from "./rules.js";
 
 export type AnyLanguage = Language<object, object>;
 
-export interface CreateRule<AstNodesByName, ContextServices extends object> {
-	<const About extends RuleAbout, const MessageId extends string>(
-		definition: RuleDefinition<
-			About,
-			AstNodesByName,
-			ContextServices,
-			MessageId,
-			undefined
-		>,
-	): Rule<About, AstNodesByName, ContextServices, MessageId, undefined>;
-
-	<
-		const About extends RuleAbout,
-		const MessageId extends string,
-		const OptionsSchema extends AnyOptionalSchema,
-	>(
-		definition: RuleDefinition<
-			About,
-			AstNodesByName,
-			ContextServices,
-			MessageId,
-			OptionsSchema
-		>,
-	): Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
-}
+export type CreateRule<AstNodesByName, ContextServices extends object> = <
+	const About extends RuleAbout,
+	const MessageId extends string,
+	const OptionsSchema extends StandardSchemaV1,
+>(
+	definition: RuleDefinition<
+		About,
+		AstNodesByName,
+		ContextServices,
+		MessageId,
+		OptionsSchema
+	>,
+) => Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
 
 export interface Language<AstNodesByName, ContextServices extends object>
 	extends LanguageDefinition {
@@ -73,13 +60,10 @@ export interface LanguageFileCacheImpacts {
 export interface LanguageFile extends Disposable {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
-	runRule<
-		OptionsSchema extends AnyOptionalSchema | undefined =
-			| AnyOptionalSchema
-			| undefined,
-	>(
-		rule: AnyRule<RuleAbout, OptionsSchema>,
-		options: InferredObject<OptionsSchema>,
+	runRule(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		runtime: RuleRuntime<any, string, any>,
+		messages: Record<string, ReportMessageData>,
 	): PromiseOrSync<NormalizedReport[]>;
 }
 
@@ -89,13 +73,11 @@ export interface LanguageFile extends Disposable {
 export interface LanguageFileDefinition extends Partial<Disposable> {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
-	runRule<
-		OptionsSchema extends AnyOptionalSchema | undefined =
-			| AnyOptionalSchema
-			| undefined,
-	>(
-		rule: AnyRuleDefinition<OptionsSchema>,
-		options: InferredObject<OptionsSchema>,
+	runRule(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		runtime: RuleRuntime<any, string, any>,
+		messages: Record<string, ReportMessageData>,
+		// options: InferredObject<OptionsSchema>,
 	): PromiseOrSync<NormalizedReport[]>;
 }
 

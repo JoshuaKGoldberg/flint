@@ -1,66 +1,55 @@
-import { CachedFactory } from "cached-factory";
+import type { CachedFactory } from "cached-factory";
+
 import { debugForFile } from "debug-for-file";
 
+import type { AnyRule, RuleRuntime } from "../types/rules.js";
+
 import { DirectivesFilterer } from "../directives/DirectivesFilterer.js";
-import { ConfigRuleDefinition } from "../types/configs.js";
 import {
-	AnyLanguage,
+	type AnyLanguage,
+	type LanguageFile,
 	LanguageFileDiagnostic,
-	LanguageFileFactory,
+	type LanguagePrepared,
 } from "../types/languages.js";
 import { FileReport } from "../types/reports.js";
-import { computeRulesWithOptions } from "./computeRulesWithOptions.js";
 
 const log = debugForFile(import.meta.filename);
 
 export async function lintFile(
 	filePathAbsolute: string,
-	languageFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
-	ruleDefinitions: ConfigRuleDefinition[],
+	file: LanguageFile,
+	rule: Omit<AnyRule, "setup">,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	runtime: RuleRuntime<any, string, any>,
 	skipDiagnostics: boolean,
+	languageFiles: CachedFactory<AnyLanguage, LanguagePrepared>,
 ) {
-	log("Linting: %s:", filePathAbsolute);
-
 	const dependencies = new Set<string>();
 	const diagnostics: LanguageFileDiagnostic[] = [];
 	const reports: FileReport[] = [];
 
-	const languageFiles = new CachedFactory((language: AnyLanguage) =>
-		languageFactories.get(language).prepareFromDisk(filePathAbsolute),
-	);
-	const rulesWithOptions = computeRulesWithOptions(ruleDefinitions);
-
-	// TODO: It would probably be good to group rules by language...
-	for (const [rule, options] of rulesWithOptions) {
-		// TODO: How to make types more permissive around assignability?
-		// See AnyRule's any
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		const { file } = languageFiles.get(rule.language);
-
-		if (file.cache?.dependencies) {
-			for (const dependency of file.cache.dependencies) {
-				if (!dependencies.has(dependency)) {
-					log("Adding file dependency %s:", dependency);
-					dependencies.add(dependency);
-				}
+	if (file.cache?.dependencies) {
+		for (const dependency of file.cache.dependencies) {
+			if (!dependencies.has(dependency)) {
+				log("Adding file dependency %s:", dependency);
+				dependencies.add(dependency);
 			}
 		}
+	}
 
-		// TODO: These should probably be put in some kind of queue?
-		log("Running rule %s with options: %o", rule.about.id, options);
-		const ruleReports = await file.runRule(rule, options as object | undefined);
-		log("Found %d reports from rule %s", ruleReports.length, rule.about.id);
+	// TODO: These should probably be put in some kind of queue?
+	const ruleReports = await file.runRule(runtime, rule.messages);
+	log("Found %d reports from rule %s", ruleReports.length, rule.about.id);
 
-		for (const ruleReport of ruleReports) {
-			reports.push({
-				about: rule.about,
-				...ruleReport,
-			});
+	for (const ruleReport of ruleReports) {
+		reports.push({
+			about: rule.about,
+			...ruleReport,
+		});
 
-			if (ruleReport.dependencies) {
-				for (const dependency of ruleReport.dependencies) {
-					dependencies.add(dependency);
-				}
+		if (ruleReport.dependencies) {
+			for (const dependency of ruleReport.dependencies) {
+				dependencies.add(dependency);
 			}
 		}
 	}

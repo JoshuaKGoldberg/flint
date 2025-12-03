@@ -168,6 +168,9 @@ importers:
       '@flint.fyi/utils':
         specifier: 'workspace:'
         version: link:../utils
+      '@standard-schema/spec':
+        specifier: ^1.0.0
+        version: 1.0.0
       cached-factory:
         specifier: ^0.1.0
         version: 0.1.0
