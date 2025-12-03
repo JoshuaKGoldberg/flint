@@ -31,7 +31,7 @@ export default jsonLanguage.createRule({
 			.default([])
 			.describe("Keys to allow duplicates under."),
 	},
-	setup({ allowKeys } = {}) {
+	setup({ allowKeys }) {
 		const allowKeysUnique = new Set(allowKeys);
 
 		return {

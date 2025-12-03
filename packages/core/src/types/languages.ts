@@ -21,6 +21,7 @@ export interface CreateRule<AstNodesByName, ContextServices extends object> {
 			undefined
 		>,
 	): Rule<About, AstNodesByName, ContextServices, MessageId, undefined>;
+
 	<
 		const About extends RuleAbout,
 		const MessageId extends string,

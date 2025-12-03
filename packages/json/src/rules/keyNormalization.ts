@@ -32,7 +32,7 @@ export default jsonLanguage.createRule({
 			)
 			.optional(),
 	},
-	setup({ form = "NFC" } = {}) {
+	setup({ form = "NFC" }) {
 		return {
 			visitors: {
 				ObjectLiteralExpression(node, context) {
