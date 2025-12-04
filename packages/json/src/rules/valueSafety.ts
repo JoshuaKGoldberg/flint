@@ -1,4 +1,4 @@
-import type { RuleContext } from "@flint.fyi/core/src/types/context.js";
+import type { RuleContext } from "@flint.fyi/core";
 
 import * as ts from "typescript";
 import z from "zod";
