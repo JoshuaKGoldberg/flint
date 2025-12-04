@@ -104,10 +104,9 @@ export async function lintOnce(
 
 			// TODO: How to make types more permissive around assignability?
 			// See AnyRule's any
-			const { file } = languageFactories
+			const { file } = languageFiles
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-				.get(rule.language)
-				.prepareFromDisk(filePathAbsolute);
+				.get([rule.language, filePathAbsolute]);
 
 			log("Linting: %s:", filePathAbsolute);
 

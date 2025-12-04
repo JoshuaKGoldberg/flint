@@ -11,31 +11,19 @@ import { Rule, RuleAbout, RuleDefinition, type RuleRuntime } from "./rules.js";
 
 export type AnyLanguage = Language<object, object>;
 
-export interface CreateRule<AstNodesByName, ContextServices extends object> {
-	<const About extends RuleAbout, const MessageId extends string>(
-		definition: RuleDefinition<
-			About,
-			AstNodesByName,
-			ContextServices,
-			MessageId,
-			undefined
-		>,
-	): Rule<About, AstNodesByName, ContextServices, MessageId, undefined>;
-
-	<
-		const About extends RuleAbout,
-		const MessageId extends string,
-		const OptionsSchema extends AnyOptionalSchema,
-	>(
-		definition: RuleDefinition<
-			About,
-			AstNodesByName,
-			ContextServices,
-			MessageId,
-			OptionsSchema
-		>,
-	): Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
-}
+export type CreateRule<AstNodesByName, ContextServices extends object> = <
+	const About extends RuleAbout,
+	const MessageId extends string,
+	const OptionsSchema extends AnyOptionalSchema | undefined = undefined,
+>(
+	definition: RuleDefinition<
+		About,
+		AstNodesByName,
+		ContextServices,
+		MessageId,
+		OptionsSchema
+	>,
+) => Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
 
 export interface Language<AstNodesByName, ContextServices extends object>
 	extends LanguageDefinition {
