@@ -95,11 +95,23 @@ export async function lintOnce(
 
 	// TODO: It would probably be good to group rules by language...
 	for (const [rule, options] of rulesWithOptions) {
+		// TODO: cache runtimes? compute them lazily?
 		const runtime = await rule.setup(options);
 		log("Running rule %s with options: %o", rule.about.id, options);
 
 		// TODO: this does an await in a for loop - should it use a queue?
 		for (const filePath of allFilePaths) {
+			if (
+				!useDefinitions.some(
+					(use) =>
+						use.found.has(filePath) &&
+						// why doesn't this work sometimes?
+						use.rules.includes(rule),
+				)
+			) {
+				continue;
+			}
+
 			const filePathAbsolute = makeAbsolute(filePath);
 
 			// TODO: How to make types more permissive around assignability?

@@ -66,7 +66,7 @@ export async function lintFile(
 			directivesFilterer.add(prepared.directives);
 		}
 
-		if (!skipDiagnostics) {
+		if (!(skipDiagnostics || true)) {
 			if (prepared.file.getDiagnostics) {
 				log(
 					"Retrieving language %s diagnostics for file %s",
