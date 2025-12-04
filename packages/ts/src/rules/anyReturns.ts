@@ -56,8 +56,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				ArrowFunction: (node, context) => {
 					if (!ts.isBlock(node.body)) {
-						// TODO: finish dogfood
-						return checkReturn(context, node.body, node.body) as any;
+						checkReturn(context, node.body, node.body);
 					}
 				},
 				ReturnStatement: (node, context) => {
