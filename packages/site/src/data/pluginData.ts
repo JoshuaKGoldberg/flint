@@ -107,7 +107,7 @@ const pluginDataById = {
 			squiggly: "#020618",
 		},
 		description:
-			"Rules for Nuxt, the progress web framework that makes full-stack development with Vue.js intuitive.",
+			"Rules for Nuxt, the progressive web framework that makes full-stack development with Vue.js intuitive.",
 		id: "nuxt",
 		name: "Nuxt",
 	},
