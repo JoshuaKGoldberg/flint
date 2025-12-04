@@ -36,10 +36,10 @@ export default markdownLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				text(node: WithPosition<Text>) {
+				text(node: WithPosition<Text>, context) {
 					for (const [message, pattern] of [
 						["reversedImage", /!\([^)]+\)\[[^\]]+\]/g],
 						["reversedLink", /(?<!!)\([^)]+\)\[[^\]]+\]/g],

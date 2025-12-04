@@ -1,4 +1,4 @@
-import type { Heading, Html, Node, Root } from "mdast";
+import type { Heading, Html, Node } from "mdast";
 
 import type { WithPosition } from "../nodes.js";
 
@@ -25,10 +25,10 @@ export default markdownLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				root(root: WithPosition<Root>) {
+				root(root, context) {
 					const h1HeadingRanges: {
 						begin: number;
 						end: number;
