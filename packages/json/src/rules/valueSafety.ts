@@ -1,7 +1,6 @@
 import type { RuleContext } from "@flint.fyi/core";
 
 import * as ts from "typescript";
-import z from "zod";
 
 import { jsonLanguage, type JsonServices } from "../language.js";
 
