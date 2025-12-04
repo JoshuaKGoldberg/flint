@@ -1,6 +1,8 @@
+import type { RuleContext } from "@flint.fyi/core";
+
 import { Link } from "mdast";
 
-import { markdownLanguage } from "../language.js";
+import { markdownLanguage, type MarkdownServices } from "../language.js";
 import { WithPosition } from "../nodes.js";
 
 const urlTester = /(?:https?:\/\/|mailto:)\S+|[\w.+-]+@[\w.-]+\.\w+/gi;
@@ -25,13 +27,18 @@ export default markdownLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		// TODO: Add parent nodes to AST?
 		// That way this will be compatible with createOnce-style API in:
 		// https://github.com/JoshuaKGoldberg/flint/issues/356
 		const textInValidLinks = new Set<number>();
 
-		function report(begin: number, end: number, urlText: string) {
+		function report(
+			context: MarkdownServices & RuleContext<"bareUrl">,
+			begin: number,
+			end: number,
+			urlText: string,
+		) {
 			context.report({
 				message: "bareUrl",
 				range: { begin, end },
@@ -50,7 +57,10 @@ export default markdownLanguage.createRule({
 			});
 		}
 
-		function checkTextNode(node: WithPosition<Link>) {
+		function checkTextNode(
+			context: MarkdownServices & RuleContext<"bareUrl">,
+			node: WithPosition<Link>,
+		) {
 			const textNode = node.children[0];
 			const textPosition = textNode.position;
 
@@ -68,18 +78,23 @@ export default markdownLanguage.createRule({
 			if (linkLength > textLength) {
 				textInValidLinks.add(textPosition.start.offset);
 			} else {
-				report(textPosition.start.offset, textPosition.end.offset, node.url);
+				report(
+					context,
+					textPosition.start.offset,
+					textPosition.end.offset,
+					node.url,
+				);
 			}
 		}
 
 		return {
 			visitors: {
-				link(node) {
+				link(node, context) {
 					if (
 						node.children[0].type === "text" &&
 						node.children[0].value === node.url
 					) {
-						checkTextNode(node);
+						checkTextNode(context, node);
 					} else {
 						for (const child of node.children) {
 							if (
@@ -91,7 +106,7 @@ export default markdownLanguage.createRule({
 						}
 					}
 				},
-				text(node) {
+				text(node, context) {
 					if (textInValidLinks.has(node.position.start.offset)) {
 						return;
 					}
@@ -101,7 +116,7 @@ export default markdownLanguage.createRule({
 
 						const begin = node.position.start.offset + index;
 						const end = begin + match[0].length;
-						report(begin, end, match[0]);
+						report(context, begin, end, match[0]);
 					}
 				},
 			},

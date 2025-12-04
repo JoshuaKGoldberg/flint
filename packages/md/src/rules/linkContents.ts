@@ -20,10 +20,10 @@ export default markdownLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				link(node) {
+				link(node, context) {
 					if (!node.url || node.url === "#") {
 						context.report({
 							message: "emptyLink",
