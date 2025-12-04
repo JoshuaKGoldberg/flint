@@ -22,7 +22,7 @@ export async function lintFile(
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	runtime: RuleRuntime<any, string, any>,
 	skipDiagnostics: boolean,
-	languageFiles: CachedFactory<AnyLanguage, LanguagePrepared>,
+	languageFiles: CachedFactory<[AnyLanguage, string], LanguagePrepared>,
 ) {
 	const dependencies = new Set<string>();
 	const diagnostics: LanguageFileDiagnostic[] = [];
@@ -56,7 +56,7 @@ export async function lintFile(
 
 	const directivesFilterer = new DirectivesFilterer();
 
-	for (const [language, prepared] of languageFiles.entries()) {
+	for (const [[language], prepared] of languageFiles.entries()) {
 		if (prepared.directives) {
 			log(
 				"Adding %d directives for file %s",
@@ -103,7 +103,7 @@ export async function lintFile(
 		filePathAbsolute,
 	);
 
-	for (const [language, { file }] of languageFiles.entries()) {
+	for (const [[language], { file }] of languageFiles.entries()) {
 		log(
 			"Disposing language %s for file %s",
 			language.about.name,

@@ -88,6 +88,11 @@ export async function lintOnce(
 		useDefinitions.flatMap((use) => use.rules),
 	);
 
+	const languageFiles = new CachedFactory(
+		([language, filePathAbsolute]: [AnyLanguage, string]) =>
+			languageFactories.get(language).prepareFromDisk(filePathAbsolute),
+	);
+
 	// TODO: It would probably be good to group rules by language...
 	for (const [rule, options] of rulesWithOptions) {
 		const runtime = await rule.setup(options);
@@ -95,9 +100,6 @@ export async function lintOnce(
 
 		// TODO: this does an await in a for loop - should it use a queue?
 		for (const filePath of allFilePaths) {
-			const languageFiles = new CachedFactory((language: AnyLanguage) =>
-				languageFactories.get(language).prepareFromDisk(filePathAbsolute),
-			);
 			const filePathAbsolute = makeAbsolute(filePath);
 
 			// TODO: How to make types more permissive around assignability?
