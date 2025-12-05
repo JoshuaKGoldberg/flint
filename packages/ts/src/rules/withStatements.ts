@@ -6,13 +6,13 @@ export default typescriptLanguage.createRule({
 	about: {
 		description: "Reports using with statements",
 		id: "withStatements",
-		preset: "stylistic",
+		preset: "logical",
 	},
 	messages: {
 		withStatement: {
-			primary:
-				"The with statement is potentially problematic because it adds members of an object to the current scope, making it impossible to tell what a variable inside the block actually refers to.",
+			primary: "with statements should not be used in strict mode.",
 			secondary: [
+				"The with statement is potentially problematic because it adds members of an object to the current scope, making it impossible to tell what a variable inside the block actually refers to.",
 				"If an object doesn't have an expected variable, you'll end up modifying a global instead of the expected property.",
 			],
 			suggestions: [

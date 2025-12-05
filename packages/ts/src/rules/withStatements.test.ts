@@ -5,24 +5,24 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-with (ooo.eee.oo.ah_ah.ting.tang.walla.walla) {
-	bing = true;
-	bang = true;
+with (value.foo) {
+	bar = true;
+	baz = true;
 }
 `,
 			snapshot: `
-with (ooo.eee.oo.ah_ah.ting.tang.walla.walla) {
+with (value.foo) {
 ~~~~
 The with statement is potentially problematic because it adds members of an object to the current scope, making it impossible to tell what a variable inside the block actually refers to.
-	bing = true;
-	bang = true;
+	bar = true;
+	baz = true;
 }
 `,
 		},
 	],
 	valid: [
-		`var o = ooo.eee.oo.ah_ah.ting.tang.walla.walla;
-o.bing = true;
-o.bang = true;`,
+		`var o = value.foo;
+o.bar = true;
+o.baz = true;`,
 	],
 });
