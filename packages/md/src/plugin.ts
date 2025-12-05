@@ -13,6 +13,7 @@ import labelReferences from "./rules/labelReferences.js";
 import labelReferenceValidity from "./rules/labelReferenceValidity.js";
 import linkContents from "./rules/linkContents.js";
 import mediaSyntaxReversals from "./rules/mediaSyntaxReversals.js";
+import tableColumnCounts from "./rules/tableColumnCounts.js";
 
 export const md = createPlugin({
 	files: {
@@ -33,5 +34,6 @@ export const md = createPlugin({
 		labelReferenceValidity,
 		linkContents,
 		mediaSyntaxReversals,
+		tableColumnCounts,
 	],
 });
