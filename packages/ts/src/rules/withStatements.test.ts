@@ -5,24 +5,23 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-with (value.foo) {
-	bar = true;
-	baz = true;
+with (container.property) {
+  property.value = true;
 }
 `,
 			snapshot: `
-with (value.foo) {
+with (container.property) {
 ~~~~
-The with statement is potentially problematic because it adds members of an object to the current scope, making it impossible to tell what a variable inside the block actually refers to.
-	bar = true;
-	baz = true;
+\`with\` statements are deprecated, unreliable, and difficult to reason about.
+  property.value = true;
 }
 `,
 		},
 	],
 	valid: [
-		`var o = value.foo;
-o.bar = true;
-o.baz = true;`,
+		`
+let property = container.property;
+property.value = true;
+`,
 	],
 });

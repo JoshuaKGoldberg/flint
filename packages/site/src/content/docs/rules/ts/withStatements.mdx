@@ -10,7 +10,8 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="ts" rule="withStatements" />
 
-The with statement is potentially problematic because it adds members of an object to the current scope, making it impossible to tell what a variable inside the block actually refers to.
+`with` statements are deprecated, unreliable, and difficult to reason about.
+They are problematic because they add members of an object to the current scope, making it impossible to reliably know what a variable inside the block actually refers to.
 If an object doesn't have an expected variable, you'll end up modifying a global instead of the expected property.
 
 ## Examples
