@@ -6,7 +6,7 @@ export default typescriptLanguage.createRule({
 	about: {
 		description: "Reports using with statements",
 		id: "withStatements",
-		preset: "logical",
+		preset: "untyped",
 	},
 	messages: {
 		withStatement: {
