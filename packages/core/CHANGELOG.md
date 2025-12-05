@@ -1,5 +1,15 @@
 # @flint/core
 
+## 0.16.0
+
+### Minor Changes
+
+- 1bbae2e: feat(core): add `binarySearch` and `getLineAndColumnOfPosition` utilities
+
+### Patch Changes
+
+- 11abdff: fix(core): properly resolve `flint-disable-*` directives selection when comment has trailing whitespaces
+
 ## 0.15.2
 
 ### Patch Changes
