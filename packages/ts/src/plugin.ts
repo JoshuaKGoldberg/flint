@@ -50,6 +50,7 @@ import unnecessaryConcatenation from "./rules/unnecessaryConcatenation.js";
 import unsafeNegations from "./rules/unsafeNegations.js";
 import variableDeletions from "./rules/variableDeletions.js";
 import voidOperator from "./rules/voidOperator.js";
+import withStatements from "./rules/withStatements.js";
 
 export const ts = createPlugin({
 	files: {
@@ -107,5 +108,6 @@ export const ts = createPlugin({
 		unsafeNegations,
 		variableDeletions,
 		voidOperator,
+		withStatements,
 	],
 });

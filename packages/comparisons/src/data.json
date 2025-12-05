@@ -18586,7 +18586,8 @@
 		"flint": {
 			"name": "withStatements",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "untyped",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
