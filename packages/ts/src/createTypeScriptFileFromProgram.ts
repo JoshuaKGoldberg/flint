@@ -45,11 +45,17 @@ export function createTypeScriptFileFromProgram(
 					}),
 				}));
 		},
-		runRule(runtime, messages) {
+		async runRule(runtime, messages) {
 			const reports: NormalizedReport[] = [];
 
-			const context = {
+			const services = {
 				program,
+				sourceFile,
+				typeChecker: program.getTypeChecker(),
+			};
+
+			const context = {
+				...services,
 				report: (report: RuleReport) => {
 					reports.push({
 						...report,
@@ -61,8 +67,7 @@ export function createTypeScriptFileFromProgram(
 						range: normalizeRange(report.range, sourceFile),
 					});
 				},
-				sourceFile,
-				typeChecker: program.getTypeChecker(),
+				...(await runtime.fileSetup?.(services)),
 			};
 
 			if (!runtime.visitors) {

@@ -2,14 +2,13 @@ import type { CachedFactory } from "cached-factory";
 
 import { debugForFile } from "debug-for-file";
 
-import type { AnyRule, RuleRuntime } from "../types/rules.js";
+import type { AnyRule, AnyRuleRuntime } from "../types/rules.js";
 
 import { DirectivesFilterer } from "../directives/DirectivesFilterer.js";
 import {
 	type AnyLanguage,
-	type LanguageFile,
 	LanguageFileDiagnostic,
-	type LanguagePrepared,
+	type LanguageFileFactory,
 } from "../types/languages.js";
 import { FileReport } from "../types/reports.js";
 
@@ -17,16 +16,26 @@ const log = debugForFile(import.meta.filename);
 
 export async function lintFile(
 	filePathAbsolute: string,
-	file: LanguageFile,
 	rule: Omit<AnyRule, "setup">,
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	runtime: RuleRuntime<any, string, any>,
+	runtime: AnyRuleRuntime,
 	skipDiagnostics: boolean,
-	languageFiles: CachedFactory<[AnyLanguage, string], LanguagePrepared>,
-) {
+	languageFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
+): Promise<{
+	dependencies: Set<string>;
+	diagnostics: LanguageFileDiagnostic[];
+	reports: FileReport[];
+}> {
 	const dependencies = new Set<string>();
 	const diagnostics: LanguageFileDiagnostic[] = [];
 	const reports: FileReport[] = [];
+
+	const language = languageFactories
+		// TODO: How to make types more permissive around assignability?
+		// See AnyRule's any
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		.get(rule.language);
+
+	const { file } = language.prepareFromDisk.get(filePathAbsolute);
 
 	if (file.cache?.dependencies) {
 		for (const dependency of file.cache.dependencies) {
@@ -56,7 +65,9 @@ export async function lintFile(
 
 	const directivesFilterer = new DirectivesFilterer();
 
-	for (const [[language], prepared] of languageFiles.entries()) {
+	const languageFiles = language.prepareFromDisk;
+
+	for (const [, prepared] of languageFiles.entries()) {
 		if (prepared.directives) {
 			log(
 				"Adding %d directives for file %s",
@@ -70,13 +81,13 @@ export async function lintFile(
 			if (prepared.file.getDiagnostics) {
 				log(
 					"Retrieving language %s diagnostics for file %s",
-					language.about.name,
+					rule.language.about.name,
 					filePathAbsolute,
 				);
 				diagnostics.push(...prepared.file.getDiagnostics());
 				log(
 					"Retrieved language %s diagnostics for file %s",
-					language.about.name,
+					rule.language.about.name,
 					filePathAbsolute,
 				);
 			}
@@ -86,7 +97,7 @@ export async function lintFile(
 			log(
 				"Found %d comment reports for language %s in file %s",
 				reports.length,
-				language.about.name,
+				rule.language.about.name,
 				filePathAbsolute,
 			);
 			reports.push(...prepared.reports);
@@ -103,16 +114,16 @@ export async function lintFile(
 		filePathAbsolute,
 	);
 
-	for (const [[language], { file }] of languageFiles.entries()) {
+	for (const [, { file }] of languageFiles.entries()) {
 		log(
 			"Disposing language %s for file %s",
-			language.about.name,
+			rule.language.about.name,
 			filePathAbsolute,
 		);
 		file[Symbol.dispose]();
 		log(
 			"Disposed language %s for file %s",
-			language.about.name,
+			rule.language.about.name,
 			filePathAbsolute,
 		);
 	}

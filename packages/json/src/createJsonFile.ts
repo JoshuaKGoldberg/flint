@@ -17,10 +17,14 @@ export function createTypeScriptJsonFile(
 	const sourceFile = ts.parseJsonText(filePathAbsolute, sourceText);
 
 	return {
-		runRule(runtime, messages) {
+		async runRule(runtime, messages) {
 			const reports: NormalizedReport[] = [];
 
+			const services = {
+				sourceFile,
+			};
 			const context = {
+				...services,
 				report: (report: RuleReport) => {
 					reports.push({
 						...report,
@@ -32,7 +36,8 @@ export function createTypeScriptJsonFile(
 						range: normalizeRange(report.range, sourceFile),
 					});
 				},
-				sourceFile,
+				// TODO: can we make this typesafe?
+				...(await runtime.fileSetup?.(services)),
 			};
 
 			if (!runtime.visitors) {

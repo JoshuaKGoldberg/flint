@@ -20,20 +20,24 @@ export default textLanguage.createRule({
 			suggestions: ["TODO"],
 		},
 	},
-	async setup(context) {
-		const documentValidator = await createDocumentValidator(
-			context.filePathAbsolute,
-			context.sourceText,
-		);
-		if (!documentValidator) {
-			return undefined;
-		}
-
+	setup() {
 		return {
 			dependencies: ["cspell.json"],
+			async fileSetup(context) {
+				const documentValidator = await createDocumentValidator(
+					context.filePathAbsolute,
+					context.sourceText,
+				);
+
+				return { documentValidator };
+			},
 			visitors: {
-				file: (text) => {
-					const issues = documentValidator.checkText(
+				file: (text, context) => {
+					if (!context.documentValidator) {
+						return;
+					}
+
+					const issues = context.documentValidator.checkText(
 						[0, text.length],
 						undefined,
 						undefined,

@@ -1,32 +1,47 @@
+import type { CachedFactory } from "cached-factory";
+
 import type { AnyOptionalSchema } from "./shapes.js";
 
 import { CommentDirective } from "./directives.js";
-import { PromiseOrSync } from "./promises.js";
 import {
 	FileReport,
 	NormalizedReport,
 	type ReportMessageData,
 } from "./reports.js";
-import { Rule, RuleAbout, RuleDefinition, type RuleRuntime } from "./rules.js";
+import {
+	type AnyRuleRuntime,
+	Rule,
+	RuleAbout,
+	RuleDefinition,
+} from "./rules.js";
 
 export type AnyLanguage = Language<object, object>;
 
 export type CreateRule<AstNodesByName, ContextServices extends object> = <
 	const About extends RuleAbout,
 	const MessageId extends string,
+	const FileContext extends object,
 	const OptionsSchema extends AnyOptionalSchema | undefined = undefined,
 >(
 	definition: RuleDefinition<
 		About,
 		AstNodesByName,
 		ContextServices,
+		FileContext,
 		MessageId,
 		OptionsSchema
 	>,
-) => Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
+) => Rule<
+	About,
+	AstNodesByName,
+	ContextServices,
+	FileContext,
+	MessageId,
+	OptionsSchema
+>;
 
-export interface Language<AstNodesByName, ContextServices extends object>
-	extends LanguageDefinition {
+export interface Language<AstNodesByName, ContextServices extends object> {
+	about: LanguageAbout;
 	createRule: CreateRule<AstNodesByName, ContextServices>;
 	prepare(): LanguageFileFactory;
 }
@@ -61,10 +76,9 @@ export interface LanguageFile extends Disposable {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
 	runRule(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		runtime: RuleRuntime<any, string, any>,
+		runtime: AnyRuleRuntime,
 		messages: Record<string, ReportMessageData>,
-	): PromiseOrSync<NormalizedReport[]>;
+	): Promise<NormalizedReport[]>;
 }
 
 /**
@@ -74,17 +88,16 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
 	runRule(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		runtime: RuleRuntime<any, string, any>,
+		runtime: AnyRuleRuntime,
 		messages: Record<string, ReportMessageData>,
-	): PromiseOrSync<NormalizedReport[]>;
+	): Promise<NormalizedReport[]>;
 }
 
 /**
  * Creates wrappers around files to be linted.
  */
 export interface LanguageFileFactory extends Disposable {
-	prepareFromDisk(filePathAbsolute: string): LanguagePrepared;
+	prepareFromDisk: CachedFactory<string, LanguagePrepared>;
 	prepareFromVirtual(
 		filePathAbsolute: string,
 		sourceText: string,

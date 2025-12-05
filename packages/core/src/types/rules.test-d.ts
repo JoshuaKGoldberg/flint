@@ -11,8 +11,9 @@ describe("Rule", () => {
 				description: "desc";
 				id: "id";
 			},
+			{ foo: "foo" },
 			{ bar: "bar" },
-			{ bar: "bar" },
+			{ baz: "baz" },
 			"message",
 			undefined
 		>;
@@ -28,8 +29,9 @@ describe("Rule", () => {
 				description: "desc";
 				id: "id";
 			},
+			{ foo: "foo" },
 			{ bar: "bar" },
-			{ bar: "bar" },
+			{ baz: "baz" },
 			"message",
 			undefined
 		>;
@@ -45,8 +47,9 @@ describe("Rule", () => {
 				description: "desc";
 				id: "id";
 			},
+			{ foo: "foo" },
 			{ bar: "bar" },
-			{ bar: "bar" },
+			{ baz: "baz" },
 			"message",
 			{
 				foo: z.ZodOptional<z.ZodString>;

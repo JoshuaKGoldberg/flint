@@ -10,11 +10,16 @@ export function createTextFile(
 	sourceText: string,
 ): LanguageFileDefinition {
 	return {
-		runRule(runtime, messages) {
+		async runRule(runtime, messages) {
 			const reports: NormalizedReport[] = [];
 
-			const context = {
+			const services = {
 				filePathAbsolute,
+				sourceText,
+			};
+
+			const context = {
+				...services,
 				report: (report: RuleReport) => {
 					reports.push({
 						...report,
@@ -35,7 +40,7 @@ export function createTextFile(
 						},
 					});
 				},
-				sourceText,
+				...(await runtime.fileSetup?.(services)),
 			};
 
 			if (runtime.visitors) {

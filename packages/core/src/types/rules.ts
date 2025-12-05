@@ -10,11 +10,13 @@ import { ReportMessageData } from "./reports.js";
 export type AnyRule<
 	About extends RuleAbout = RuleAbout,
 	OptionsSchema extends AnyOptionalSchema | undefined = any,
-> = Rule<About, any, any, string, OptionsSchema>;
+> = Rule<About, any, any, any, string, OptionsSchema>;
 
 export type AnyRuleDefinition<
 	OptionsSchema extends AnyOptionalSchema | undefined = any,
-> = RuleDefinition<RuleAbout, any, any, string, OptionsSchema>;
+> = RuleDefinition<RuleAbout, any, any, any, string, OptionsSchema>;
+
+export type AnyRuleRuntime = RuleRuntime<any, string, object, object>;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
@@ -24,12 +26,14 @@ export interface Rule<
 	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
+	FileContext extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > extends RuleDefinition<
 		About,
 		AstNodesByName,
 		ContextServices,
+		FileContext,
 		MessageId,
 		OptionsSchema
 	> {
@@ -47,6 +51,7 @@ export interface RuleDefinition<
 	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
+	FileContext extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
@@ -56,6 +61,7 @@ export interface RuleDefinition<
 	setup: RuleSetup<
 		AstNodesByName,
 		ContextServices,
+		FileContext,
 		MessageId,
 		InferredObject<OptionsSchema>
 	>;
@@ -64,20 +70,23 @@ export interface RuleDefinition<
 export interface RuleRuntime<
 	AstNodesByName,
 	MessageId extends string,
-	Services,
+	Services extends object,
+	FileContext extends object,
 > {
 	dependencies?: string[];
-	visitors?: RuleVisitors<AstNodesByName, MessageId, Services>;
+	fileSetup?: (context: Services) => PromiseOrSync<FileContext>;
+	visitors?: RuleVisitors<AstNodesByName, MessageId, FileContext & Services>;
 }
 
 export type RuleSetup<
 	AstNodesByName,
 	ContextServices extends object,
+	FileContext extends object,
 	MessageId extends string,
 	Options,
 > = (
 	options: Options,
-) => PromiseOrSync<RuleRuntime<AstNodesByName, MessageId, ContextServices>>;
+) => RuleRuntime<AstNodesByName, MessageId, ContextServices, FileContext>;
 
 export type RuleVisitor<ASTNode, MessageId extends string, Services> = (
 	node: ASTNode,

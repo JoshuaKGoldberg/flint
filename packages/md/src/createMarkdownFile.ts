@@ -16,10 +16,15 @@ export function createMarkdownFile(sourceText: string) {
 	const sourceFileText = { text: sourceText };
 
 	const languageFile: LanguageFileDefinition = {
-		runRule(runtime, messages) {
+		async runRule(runtime, messages) {
 			const reports: NormalizedReport[] = [];
 
+			const services = {
+				root,
+			};
+
 			const context = {
+				...services,
 				report: (report: RuleReport) => {
 					reports.push({
 						...report,
@@ -37,7 +42,7 @@ export function createMarkdownFile(sourceText: string) {
 						},
 					});
 				},
-				root,
+				...(await runtime.fileSetup?.(services)),
 			};
 
 			if (!runtime.visitors) {

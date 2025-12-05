@@ -1,7 +1,7 @@
 // import { flint } from "@flint.fyi/plugin-flint";
-// import { spelling } from "@flint.fyi/plugin-spelling";
-// import { defineConfig, globs, json, md, ts, yaml } from "flint";
-import { defineConfig, json } from "flint";
+// import { ts, yaml } from "flint";
+import { spelling } from "@flint.fyi/plugin-spelling";
+import { defineConfig, globs, json, md, ts } from "flint";
 
 export default defineConfig({
 	use: [
@@ -9,17 +9,22 @@ export default defineConfig({
 			files: json.files.all,
 			rules: json.presets.logical,
 		},
-		// {
-		// 	files: md.files.all,
-		// 	rules: md.presets.logical,
-		// },
-		// {
-		// 	files: {
-		// 		exclude: process.env.LINT_FIXTURES ? [] : ["packages/fixtures"],
-		// 		include: ts.files.all,
-		// 	},
-		// 	rules: [flint.presets.logical, ts.presets.logical],
-		// },
+		{
+			files: md.files.all,
+			rules: md.presets.stylistic,
+		},
+		{
+			files: {
+				exclude: process.env.LINT_FIXTURES ? [] : ["packages/fixtures"],
+				include: ts.files.all,
+			},
+			// rules: [flint.presets.logical, ts.presets.logical],
+			rules: [
+				ts.rules({
+					anyReturns: undefined,
+				}),
+			],
+		},
 		// {
 		// 	files: {
 		// 		exclude: ["pnpm-lock.yaml"],
@@ -27,9 +32,9 @@ export default defineConfig({
 		// 	},
 		// 	rules: yaml.presets.logical,
 		// },
-		// {
-		// 	files: globs.all,
-		// 	rules: spelling.presets.logical,
-		// },
+		{
+			files: globs.all,
+			rules: spelling.presets.logical,
+		},
 	],
 });
