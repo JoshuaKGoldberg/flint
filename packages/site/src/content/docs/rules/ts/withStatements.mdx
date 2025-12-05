@@ -19,9 +19,8 @@ If an object doesn't have an expected variable, you'll end up modifying a global
 <TabItem label="❌ Incorrect">
 
 ```ts
-with (value.foo) {
-	bar = true;
-	baz = true;
+with (container.property) {
+	property.value = true;
 }
 ```
 
@@ -29,9 +28,8 @@ with (value.foo) {
 <TabItem label="✅ Correct">
 
 ```ts
-var alias = value.foo;
-alias.bar = true;
-alias.baz = true;
+let property = container.property;
+property.value = true;
 ```
 
 </TabItem>
