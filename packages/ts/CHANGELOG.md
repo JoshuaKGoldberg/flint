@@ -1,5 +1,11 @@
 # @flint/ts
 
+## 0.15.0
+
+### Minor Changes
+
+- 46f2d0e: feat(ts): \[withStatements\] add rule
+
 ## 0.14.6
 
 ### Patch Changes
