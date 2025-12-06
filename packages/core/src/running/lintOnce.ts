@@ -17,6 +17,7 @@ import { FilesGlobObjectProcessed, FilesValue } from "../types/files.js";
 import { AnyLanguage } from "../types/languages.js";
 import { FileResults, LintResults } from "../types/linting.js";
 import { flatten } from "../utils/arrays.js";
+import { computeRulesWithOptions } from "./computeRulesWithOptions.js";
 import { lintFile } from "./lintFile.js";
 import { readGitignore } from "./readGitignore.js";
 
@@ -83,30 +84,57 @@ export async function lintOnce(
 		? undefined
 		: await readFromCache(allFilePaths, configDefinition.filePath);
 
-	// TODO: This is very slow and the whole thing should be refactored 🙌.
-	// The separate lintFile function recomputes rule options repeatedly.
-	// It'd be better to group found files together in some way.
-	// Plus, this does an await in a for loop - should it use a queue?
-	for (const filePath of allFilePaths) {
-		const { dependencies, diagnostics, reports } =
-			cached?.get(filePath) ??
-			(await lintFile(
-				makeAbsolute(filePath),
-				languageFactories,
-				useDefinitions
-					.filter((use) => use.found.has(filePath))
-					.flatMap((use) => use.rules),
-				skipDiagnostics,
-			));
+	const rulesWithOptions = computeRulesWithOptions(
+		useDefinitions.flatMap((use) => use.rules),
+	);
 
-		filesResults.set(filePath, {
-			dependencies: new Set(dependencies),
-			diagnostics: diagnostics ?? [],
-			reports: reports ?? [],
-		});
+	// TODO: It would probably be good to group rules by language...
+	for (const [rule, options] of rulesWithOptions) {
+		// TODO: cache runtimes? compute them lazily?
+		const runtime = rule.setup(options);
+		log("Running rule %s with options: %o", rule.about.id, options);
 
-		if (reports?.length) {
-			totalReports += reports.length;
+		const appliedFiles = useDefinitions.flatMap((use) =>
+			use.rules.some((r) => ("rule" in r ? r.rule : r) == rule)
+				? Array.from(use.found)
+				: [],
+		);
+
+		// TODO: this does an await in a for loop - should it use a queue?
+		for (const filePath of appliedFiles) {
+			const cachedResult = cached?.get(filePath);
+
+			let result: FileResults;
+
+			if (!cachedResult) {
+				const filePathAbsolute = makeAbsolute(filePath);
+
+				log("Linting: %s:", filePathAbsolute);
+
+				const { dependencies, diagnostics, reports } = await lintFile(
+					filePathAbsolute,
+					rule,
+					runtime,
+					skipDiagnostics,
+					languageFactories,
+				);
+
+				result = {
+					dependencies,
+					diagnostics,
+					reports,
+				};
+			} else {
+				result = {
+					dependencies: new Set(cachedResult.dependencies),
+					diagnostics: cachedResult.diagnostics ?? [],
+					reports: cachedResult.reports ?? [],
+				};
+			}
+
+			filesResults.set(filePath, result);
+
+			totalReports += result.reports.length;
 		}
 	}
 

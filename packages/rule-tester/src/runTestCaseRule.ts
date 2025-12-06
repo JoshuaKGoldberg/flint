@@ -13,15 +13,15 @@ import { TestCaseNormalized } from "./normalizeTestCase.js";
 export interface TestCaseRuleConfiguration<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
-	options?: InferredObject<OptionsSchema>;
+	options: InferredObject<OptionsSchema>;
 	rule: AnyRule<RuleAbout, OptionsSchema>;
 }
 
-export function runTestCaseRule<
+export async function runTestCaseRule<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 >(
 	fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
-	{ options, rule }: Required<TestCaseRuleConfiguration<OptionsSchema>>,
+	{ options, rule }: TestCaseRuleConfiguration<OptionsSchema>,
 	{ code, fileName }: TestCaseNormalized,
 ) {
 	using file = fileFactories
@@ -31,5 +31,7 @@ export function runTestCaseRule<
 		.get(rule.language)
 		.prepareFromVirtual(fileName, code).file;
 
-	return file.runRule(rule, options as InferredObject<OptionsSchema>);
+	const runtime = await rule.setup(options);
+
+	return await file.runRule(runtime, rule.messages);
 }

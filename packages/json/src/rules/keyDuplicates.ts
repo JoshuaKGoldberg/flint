@@ -31,12 +31,12 @@ export default jsonLanguage.createRule({
 			.default([])
 			.describe("Keys to allow duplicates under."),
 	},
-	setup(context, { allowKeys }) {
+	setup({ allowKeys }) {
 		const allowKeysUnique = new Set(allowKeys);
 
 		return {
 			visitors: {
-				ObjectLiteralExpression(node) {
+				ObjectLiteralExpression(node, context) {
 					const seenKeys = new Set<string>();
 
 					for (const property of node.properties.toReversed()) {

@@ -20,10 +20,10 @@ export default markdownLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				image(node) {
+				image(node, context) {
 					if (!node.url || node.url === "#") {
 						context.report({
 							message: "emptyImage",

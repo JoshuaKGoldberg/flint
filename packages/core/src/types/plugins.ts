@@ -1,6 +1,7 @@
+import type { AnyOptionalSchema, InferredObject } from "./shapes.js";
+
 import { FilesValue } from "./files.js";
 import { AnyRule, Rule, RuleAbout } from "./rules.js";
-import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 export interface Plugin<
 	About extends RuleAbout,
@@ -21,7 +22,7 @@ export type PluginPresets<
 	Presets extends string | undefined,
 > = Record<
 	Presets extends string ? Presets : never,
-	Rule<About, object, object, string, AnyOptionalSchema | undefined>[]
+	Rule<About, unknown, object, object, string, AnyOptionalSchema | undefined>[]
 >;
 
 export type PluginRulesFactory<Rules extends AnyRule[]> = (

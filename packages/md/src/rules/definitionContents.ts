@@ -20,10 +20,10 @@ export default markdownLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				definition(node) {
+				definition(node, context) {
 					if (node.identifier === "//") {
 						return;
 					}

@@ -1,6 +1,8 @@
+import type { RuleContext } from "@flint.fyi/core";
+
 import * as ts from "typescript";
 
-import { jsonLanguage } from "../language.js";
+import { jsonLanguage, type JsonServices } from "../language.js";
 
 const MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER;
 const MIN_SAFE_INTEGER = Number.MIN_SAFE_INTEGER;
@@ -89,8 +91,8 @@ export default jsonLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
-		function checkNumericLiteral(node: ts.NumericLiteral) {
+	setup() {
+		function checkNumericLiteral(node: ts.NumericLiteral, context: Context) {
 			const originalText = context.sourceFile.text.substring(
 				node.getStart(context.sourceFile),
 				node.end,
@@ -151,7 +153,7 @@ export default jsonLanguage.createRule({
 			}
 		}
 
-		function checkStringLiteral(node: ts.StringLiteral) {
+		function checkStringLiteral(node: ts.StringLiteral, context: Context) {
 			if (hasLoneSurrogate(node.text)) {
 				context.report({
 					message: "loneSurrogate",
@@ -163,13 +165,15 @@ export default jsonLanguage.createRule({
 			}
 		}
 
-		function checkNode(node: ts.Node) {
+		function checkNode(node: ts.Node, context: Context) {
 			if (ts.isNumericLiteral(node)) {
-				checkNumericLiteral(node);
+				checkNumericLiteral(node, context);
 			} else if (ts.isStringLiteral(node)) {
-				checkStringLiteral(node);
+				checkStringLiteral(node, context);
 			} else {
-				node.forEachChild(checkNode);
+				node.forEachChild((node) => {
+					checkNode(node, context);
+				});
 			}
 		}
 
@@ -181,3 +185,9 @@ export default jsonLanguage.createRule({
 		};
 	},
 });
+
+// RuleContext alias
+type Context = JsonServices &
+	RuleContext<
+		"infinity" | "loneSurrogate" | "subnormal" | "unsafeInteger" | "unsafeZero"
+	>;

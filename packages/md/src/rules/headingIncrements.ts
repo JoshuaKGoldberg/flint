@@ -18,12 +18,12 @@ export default markdownLanguage.createRule({
 			suggestions: ["TODO"],
 		},
 	},
-	setup(context) {
+	setup() {
 		let previousDepth = 0;
 
 		return {
 			visitors: {
-				heading(node) {
+				heading(node, context) {
 					if (previousDepth && node.depth > previousDepth + 1) {
 						const begin = node.position.start.offset;
 

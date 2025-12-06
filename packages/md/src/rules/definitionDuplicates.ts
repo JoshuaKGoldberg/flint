@@ -21,7 +21,7 @@ export default markdownLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		const seenIdentifiers = new Map<
 			string,
 			{ begin: number; end: number; identifier: string }
@@ -29,7 +29,7 @@ export default markdownLanguage.createRule({
 
 		return {
 			visitors: {
-				definition(node) {
+				definition(node, context) {
 					if (node.identifier === "//") {
 						return;
 					}

@@ -1,9 +1,16 @@
-import {
+import type {
 	LanguageFileDefinition,
 	NormalizedReport,
+	ReportMessageData,
 	RuleReport,
+	RuleRuntime,
+	RuleVisitor,
 } from "@flint.fyi/core";
+
 import * as ts from "typescript";
+
+import type { JsonServices } from "./language.js";
+import type { TSNodesByName } from "./nodes.js";
 
 import { normalizeRange } from "./normalizeRange.js";
 
@@ -13,14 +20,21 @@ import { normalizeRange } from "./normalizeRange.js";
 export function createTypeScriptJsonFile(
 	filePathAbsolute: string,
 	sourceText: string,
-): LanguageFileDefinition {
+): LanguageFileDefinition<TSNodesByName, JsonServices> {
 	const sourceFile = ts.parseJsonText(filePathAbsolute, sourceText);
 
 	return {
-		async runRule(rule, options) {
+		async runRule<MessageId extends string, FileContext extends object>(
+			runtime: RuleRuntime<TSNodesByName, MessageId, JsonServices, FileContext>,
+			messages: Record<string, ReportMessageData>,
+		): Promise<NormalizedReport[]> {
 			const reports: NormalizedReport[] = [];
 
+			const services = {
+				sourceFile,
+			};
 			const context = {
+				...services,
 				report: (report: RuleReport) => {
 					reports.push({
 						...report,
@@ -28,23 +42,24 @@ export function createTypeScriptJsonFile(
 							report.fix && !Array.isArray(report.fix)
 								? [report.fix]
 								: report.fix,
-						message: rule.messages[report.message],
+						message: messages[report.message],
 						range: normalizeRange(report.range, sourceFile),
 					});
 				},
-				sourceFile,
+				...(await runtime.fileSetup?.(services)),
 			};
 
-			const runtime = await rule.setup(context, options);
-
-			if (!runtime?.visitors) {
+			if (!runtime.visitors) {
 				return reports;
 			}
 
 			const { visitors } = runtime;
 
 			const visit = (node: ts.Node) => {
-				visitors[ts.SyntaxKind[node.kind]]?.(node);
+				const visitor = visitors[
+					ts.SyntaxKind[node.kind] as keyof TSNodesByName
+				] as RuleVisitor<typeof node, MessageId, JsonServices> | undefined;
+				visitor?.(node, context);
 
 				node.forEachChild(visit);
 			};
