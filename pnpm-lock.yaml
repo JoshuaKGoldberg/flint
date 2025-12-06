@@ -574,8 +574,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       yaml-unist-parser:
-        specifier: ^2.0.5
-        version: 2.0.5
+        specifier: ^3.0.0
+        version: 3.1.0
 
 packages:
 
@@ -4823,13 +4823,9 @@ packages:
     resolution: {integrity: sha512-N47AqBDCMQmh6mBLmI6oqxryHRzi33aPFPsJhYy3VTUGCdLHYjGh4FZzpUjRlphaADBBkDmnkM/++KNIOHi5Rw==}
     hasBin: true
 
-  yaml-unist-parser@2.0.5:
-    resolution: {integrity: sha512-CirHjIkYcQxbG9wgYmzjJlMaBFuj788zLOgT0A2FAzdsw2dD4vnq4cx+kij/fXImG09ARnlODtS38JM1EottOw==}
+  yaml-unist-parser@3.1.0:
+    resolution: {integrity: sha512-hkwsdPLFBV6Vs40Mw5A11gzN9f9AiN8g72D8fXxfqnrW/AYY8/d7Yphx780UMzREcH7aRuHYAyQj9AwrI4E4xg==}
     engines: {node: '>= 14'}
-
-  yaml@1.10.2:
-    resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
-    engines: {node: '>= 6'}
 
   yaml@2.2.2:
     resolution: {integrity: sha512-CBKFWExMn46Foo4cldiChEzn7S7SRV+wqiluAb6xmueD/fGyRHIhX8m14vVGgeFWjN540nKCNVj6P21eQjgTuA==}
@@ -9967,11 +9963,9 @@ snapshots:
     optionalDependencies:
       prettier: 2.8.7
 
-  yaml-unist-parser@2.0.5:
+  yaml-unist-parser@3.1.0:
     dependencies:
-      yaml: 1.10.2
-
-  yaml@1.10.2: {}
+      yaml: 2.8.2
 
   yaml@2.2.2: {}
 
