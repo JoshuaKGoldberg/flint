@@ -24,7 +24,7 @@ export interface Rule<
 	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
-	FileContext extends object,
+	FileContext extends object | undefined,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > extends RuleDefinition<
@@ -49,7 +49,7 @@ export interface RuleDefinition<
 	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
-	FileContext extends object,
+	FileContext extends object | undefined,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
@@ -97,6 +97,7 @@ interface StatelessRuleRuntime<
 	ContextServices extends object,
 > {
 	dependencies?: string[];
+	fileSetup?: never;
 	visitors?: RuleVisitors<AstNodesByName, MessageId, ContextServices>;
 }
 
@@ -106,7 +107,7 @@ interface StatelessRuleRuntime<
 export type RuleSetup<
 	AstNodesByName,
 	ContextServices extends object,
-	FileContext extends object,
+	FileContext extends object | undefined,
 	MessageId extends string,
 	Options,
 > = (

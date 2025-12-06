@@ -15,7 +15,7 @@ export type AnyLanguage = Language<object, object>;
 export type CreateRule<AstNodesByName, ContextServices extends object> = <
 	const About extends RuleAbout,
 	const MessageId extends string,
-	const FileContext extends object,
+	const FileContext extends object | undefined = undefined,
 	const OptionsSchema extends AnyOptionalSchema | undefined = undefined,
 >(
 	definition: RuleDefinition<
@@ -74,7 +74,7 @@ export interface LanguageFile<AstNodesByName, ContextServices extends object>
 	extends Disposable {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
-	runRule<MessageId extends string, FileContext extends object>(
+	runRule<MessageId extends string, FileContext extends object | undefined>(
 		runtime: RuleRuntime<
 			AstNodesByName,
 			MessageId,
@@ -94,7 +94,7 @@ export interface LanguageFileDefinition<
 > extends Partial<Disposable> {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
-	runRule<MessageId extends string, FileContext extends object>(
+	runRule<MessageId extends string, FileContext extends object | undefined>(
 		runtime: RuleRuntime<
 			AstNodesByName,
 			MessageId,

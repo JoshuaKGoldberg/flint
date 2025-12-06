@@ -14,7 +14,10 @@ export function createTextFile(
 	sourceText: string,
 ): LanguageFileDefinition<TextNodes, TextServices> {
 	return {
-		async runRule<MessageId extends string, FileContext extends object>(
+		async runRule<
+			MessageId extends string,
+			FileContext extends object | undefined,
+		>(
 			runtime: RuleRuntime<TextNodes, MessageId, TextServices, FileContext>,
 			messages: Record<string, ReportMessageData>,
 		): Promise<NormalizedReport[]> {

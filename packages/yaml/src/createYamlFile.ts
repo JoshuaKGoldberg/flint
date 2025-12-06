@@ -21,7 +21,10 @@ export function createYamlFile(sourceText: string) {
 	const sourceFileText = { text: sourceText };
 
 	const languageFile: LanguageFileDefinition<YamlNodesByName, YamlServices> = {
-		async runRule<MessageId extends string, FileContext extends object>(
+		async runRule<
+			MessageId extends string,
+			FileContext extends object | undefined,
+		>(
 			runtime: RuleRuntime<
 				YamlNodesByName,
 				MessageId,

@@ -29,7 +29,10 @@ export function createMarkdownFile(sourceText: string) {
 		MarkdownNodesByName,
 		MarkdownServices
 	> = {
-		async runRule<MessageId extends string, FileContext extends object>(
+		async runRule<
+			MessageId extends string,
+			FileContext extends object | undefined,
+		>(
 			runtime: RuleRuntime<
 				MarkdownNodesByName,
 				MessageId,

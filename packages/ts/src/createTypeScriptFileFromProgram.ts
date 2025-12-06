@@ -52,7 +52,10 @@ export function createTypeScriptFileFromProgram(
 					}),
 				}));
 		},
-		async runRule<MessageId extends string, FileContext extends object>(
+		async runRule<
+			MessageId extends string,
+			FileContext extends object | undefined,
+		>(
 			runtime: RuleRuntime<
 				TSNodesByName,
 				MessageId,

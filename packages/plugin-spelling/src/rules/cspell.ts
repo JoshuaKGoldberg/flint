@@ -1,3 +1,5 @@
+import type { DocumentValidator } from "cspell-lib";
+
 import { textLanguage } from "@flint.fyi/text";
 import { parseJsonSafe } from "@flint.fyi/utils";
 
@@ -7,7 +9,15 @@ interface CSpellConfigLike {
 	words?: string[];
 }
 
-export default textLanguage.createRule({
+export default textLanguage.createRule<
+	{
+		readonly description: "Runs the CSpell spell checker on any source code file.";
+		readonly id: "cspell";
+		readonly preset: "logical";
+	},
+	"issue",
+	{ documentValidator: DocumentValidator | undefined }
+>({
 	about: {
 		description: "Runs the CSpell spell checker on any source code file.",
 		id: "cspell",

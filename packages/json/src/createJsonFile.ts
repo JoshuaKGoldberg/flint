@@ -24,7 +24,10 @@ export function createTypeScriptJsonFile(
 	const sourceFile = ts.parseJsonText(filePathAbsolute, sourceText);
 
 	return {
-		async runRule<MessageId extends string, FileContext extends object>(
+		async runRule<
+			MessageId extends string,
+			FileContext extends object | undefined,
+		>(
 			runtime: RuleRuntime<TSNodesByName, MessageId, JsonServices, FileContext>,
 			messages: Record<string, ReportMessageData>,
 		): Promise<NormalizedReport[]> {
