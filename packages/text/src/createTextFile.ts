@@ -1,16 +1,23 @@
 import {
 	LanguageFileDefinition,
 	NormalizedReport,
+	type ReportMessageData,
 	RuleReport,
+	type RuleRuntime,
 } from "@flint.fyi/core";
 import indexToPosition from "index-to-position";
+
+import type { TextNodes, TextServices } from "./types.js";
 
 export function createTextFile(
 	filePathAbsolute: string,
 	sourceText: string,
-): LanguageFileDefinition {
+): LanguageFileDefinition<TextNodes, TextServices> {
 	return {
-		async runRule(runtime, messages) {
+		async runRule<MessageId extends string, FileContext extends object>(
+			runtime: RuleRuntime<TextNodes, MessageId, TextServices, FileContext>,
+			messages: Record<string, ReportMessageData>,
+		): Promise<NormalizedReport[]> {
 			const reports: NormalizedReport[] = [];
 
 			const services = {

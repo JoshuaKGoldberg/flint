@@ -15,5 +15,6 @@
 	],
 	"eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
 	"typescript.tsdk": "node_modules/typescript/lib",
-	"cSpell.words": ["menuitemcheckbox"]
+	"cSpell.words": ["menuitemcheckbox"],
+	"typescript.tsserver.experimental.enableProjectDiagnostics": true
 }

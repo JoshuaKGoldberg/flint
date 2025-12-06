@@ -2,11 +2,11 @@ import type { CachedFactory } from "cached-factory";
 
 import { debugForFile } from "debug-for-file";
 
-import type { AnyRule, AnyRuleRuntime } from "../types/rules.js";
+import type { Rule, RuleAbout, RuleRuntime } from "../types/rules.js";
 
 import { DirectivesFilterer } from "../directives/DirectivesFilterer.js";
 import {
-	type AnyLanguage,
+	type Language,
 	LanguageFileDiagnostic,
 	type LanguageFileFactory,
 } from "../types/languages.js";
@@ -14,12 +14,24 @@ import { FileReport } from "../types/reports.js";
 
 const log = debugForFile(import.meta.filename);
 
-export async function lintFile(
+export async function lintFile<
+	About extends RuleAbout,
+	AstNodesByName,
+	ContextServices extends object,
+	FileContext extends object,
+	MessageId extends string,
+>(
 	filePathAbsolute: string,
-	rule: Omit<AnyRule, "setup">,
-	runtime: AnyRuleRuntime,
+	rule: Omit<
+		Rule<About, AstNodesByName, ContextServices, FileContext, string, never>,
+		"setup"
+	>,
+	runtime: RuleRuntime<AstNodesByName, MessageId, ContextServices, FileContext>,
 	skipDiagnostics: boolean,
-	languageFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
+	languageFactories: CachedFactory<
+		Language<AstNodesByName, ContextServices>,
+		LanguageFileFactory<AstNodesByName, ContextServices>
+	>,
 ): Promise<{
 	dependencies: Set<string>;
 	diagnostics: LanguageFileDiagnostic[];
@@ -32,7 +44,6 @@ export async function lintFile(
 	const language = languageFactories
 		// TODO: How to make types more permissive around assignability?
 		// See AnyRule's any
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		.get(rule.language);
 
 	const { file } = language.prepareFromDisk.get(filePathAbsolute);

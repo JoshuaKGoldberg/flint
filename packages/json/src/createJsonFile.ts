@@ -1,9 +1,16 @@
-import {
+import type {
 	LanguageFileDefinition,
 	NormalizedReport,
+	ReportMessageData,
 	RuleReport,
+	RuleRuntime,
+	RuleVisitor,
 } from "@flint.fyi/core";
+
 import * as ts from "typescript";
+
+import type { JsonServices } from "./language.js";
+import type { TSNodesByName } from "./nodes.js";
 
 import { normalizeRange } from "./normalizeRange.js";
 
@@ -13,11 +20,14 @@ import { normalizeRange } from "./normalizeRange.js";
 export function createTypeScriptJsonFile(
 	filePathAbsolute: string,
 	sourceText: string,
-): LanguageFileDefinition {
+): LanguageFileDefinition<TSNodesByName, JsonServices> {
 	const sourceFile = ts.parseJsonText(filePathAbsolute, sourceText);
 
 	return {
-		async runRule(runtime, messages) {
+		async runRule<MessageId extends string, FileContext extends object>(
+			runtime: RuleRuntime<TSNodesByName, MessageId, JsonServices, FileContext>,
+			messages: Record<string, ReportMessageData>,
+		): Promise<NormalizedReport[]> {
 			const reports: NormalizedReport[] = [];
 
 			const services = {
@@ -36,7 +46,6 @@ export function createTypeScriptJsonFile(
 						range: normalizeRange(report.range, sourceFile),
 					});
 				},
-				// TODO: can we make this typesafe?
 				...(await runtime.fileSetup?.(services)),
 			};
 
@@ -47,7 +56,10 @@ export function createTypeScriptJsonFile(
 			const { visitors } = runtime;
 
 			const visit = (node: ts.Node) => {
-				visitors[ts.SyntaxKind[node.kind]]?.(node, context);
+				const visitor = visitors[
+					ts.SyntaxKind[node.kind] as keyof TSNodesByName
+				] as RuleVisitor<typeof node, MessageId, JsonServices> | undefined;
+				visitor?.(node, context);
 
 				node.forEachChild(visit);
 			};

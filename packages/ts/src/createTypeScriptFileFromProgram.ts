@@ -1,9 +1,16 @@
-import {
+import type {
 	LanguageFileDefinition,
 	NormalizedReport,
+	ReportMessageData,
 	RuleReport,
+	RuleRuntime,
+	RuleVisitor,
 } from "@flint.fyi/core";
+
 import * as ts from "typescript";
+
+import type { TypeScriptServices } from "./language.js";
+import type { TSNodesByName } from "./nodes.js";
 
 import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
 import { formatDiagnostic } from "./formatDiagnostic.js";
@@ -15,7 +22,7 @@ const NodeSyntaxKinds = getFirstEnumValues(ts.SyntaxKind);
 export function createTypeScriptFileFromProgram(
 	program: ts.Program,
 	sourceFile: ts.SourceFile,
-): LanguageFileDefinition {
+): LanguageFileDefinition<TSNodesByName, TypeScriptServices> {
 	return {
 		cache: {
 			dependencies: [
@@ -45,7 +52,15 @@ export function createTypeScriptFileFromProgram(
 					}),
 				}));
 		},
-		async runRule(runtime, messages) {
+		async runRule<MessageId extends string, FileContext extends object>(
+			runtime: RuleRuntime<
+				TSNodesByName,
+				MessageId,
+				TypeScriptServices,
+				FileContext
+			>,
+			messages: Record<string, ReportMessageData>,
+		): Promise<NormalizedReport[]> {
 			const reports: NormalizedReport[] = [];
 
 			const services = {
@@ -76,7 +91,14 @@ export function createTypeScriptFileFromProgram(
 
 			const { visitors } = runtime;
 			const visit = (node: ts.Node) => {
-				visitors[NodeSyntaxKinds[node.kind]]?.(node, context);
+				// TODO: There's got to be a better way to type visitors so all this casting isn't necessary.
+				const visitor = visitors[
+					NodeSyntaxKinds[node.kind] as keyof typeof visitors
+				] as
+					| RuleVisitor<typeof node, MessageId, TypeScriptServices>
+					| undefined;
+
+				visitor?.(node, context);
 
 				node.forEachChild(visit);
 			};

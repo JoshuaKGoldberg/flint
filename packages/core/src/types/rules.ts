@@ -15,8 +15,6 @@ export type AnyRule<
 export type AnyRuleDefinition<
 	OptionsSchema extends AnyOptionalSchema | undefined = any,
 > = RuleDefinition<RuleAbout, any, any, any, string, OptionsSchema>;
-
-export type AnyRuleRuntime = RuleRuntime<any, string, object, object>;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
@@ -67,17 +65,44 @@ export interface RuleDefinition<
 	>;
 }
 
-export interface RuleRuntime<
+export type RuleRuntime<
 	AstNodesByName,
 	MessageId extends string,
-	Services extends object,
+	ContextServices extends object,
+	FileContext extends object | undefined,
+> = FileContext extends object
+	? StatefulRuleRuntime<AstNodesByName, MessageId, ContextServices, FileContext>
+	: FileContext extends undefined
+		? StatelessRuleRuntime<AstNodesByName, MessageId, ContextServices>
+		: never;
+
+interface StatefulRuleRuntime<
+	AstNodesByName,
+	MessageId extends string,
+	ContextServices extends object,
 	FileContext extends object,
 > {
 	dependencies?: string[];
-	fileSetup?: (context: Services) => PromiseOrSync<FileContext>;
-	visitors?: RuleVisitors<AstNodesByName, MessageId, FileContext & Services>;
+	fileSetup?: (context: ContextServices) => PromiseOrSync<FileContext>;
+	visitors?: RuleVisitors<
+		AstNodesByName,
+		MessageId,
+		ContextServices & FileContext
+	>;
 }
 
+interface StatelessRuleRuntime<
+	AstNodesByName,
+	MessageId extends string,
+	ContextServices extends object,
+> {
+	dependencies?: string[];
+	visitors?: RuleVisitors<AstNodesByName, MessageId, ContextServices>;
+}
+
+/**
+ * Create an instance of {@linkcode RuleRuntime} given the {@linkcode Rule}’s options.
+ */
 export type RuleSetup<
 	AstNodesByName,
 	ContextServices extends object,

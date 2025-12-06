@@ -37,7 +37,7 @@ export default typescriptLanguage.createRule({
 				"Whether to allow namespaces in `.d.ts` and other definition files.",
 			),
 	},
-	setup(context, { allowDeclarations, allowDefinitionFiles }) {
+	setup({ allowDeclarations, allowDefinitionFiles }) {
 		if (allowDefinitionFiles && context.sourceFile.isDeclarationFile) {
 			return;
 		}
