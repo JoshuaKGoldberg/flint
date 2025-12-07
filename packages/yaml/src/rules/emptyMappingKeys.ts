@@ -16,10 +16,10 @@ export default yamlLanguage.createRule({
 			suggestions: ["TODO"],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				mappingKey: (node) => {
+				mappingKey: (node, context) => {
 					if (node.children.length === 0) {
 						context.report({
 							message: "emptyKey",
