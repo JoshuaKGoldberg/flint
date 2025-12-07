@@ -74,7 +74,10 @@ export interface LanguageFile<AstNodesByName, ContextServices extends object>
 	extends Disposable {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
-	runRule<MessageId extends string, FileContext extends object | undefined>(
+	runRule<
+		const MessageId extends string,
+		const FileContext extends object | undefined,
+	>(
 		runtime: RuleRuntime<
 			AstNodesByName,
 			MessageId,
@@ -94,7 +97,10 @@ export interface LanguageFileDefinition<
 > extends Partial<Disposable> {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
-	runRule<MessageId extends string, FileContext extends object | undefined>(
+	runRule<
+		const MessageId extends string,
+		const FileContext extends object | undefined,
+	>(
 		runtime: RuleRuntime<
 			AstNodesByName,
 			MessageId,

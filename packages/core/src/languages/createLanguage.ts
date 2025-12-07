@@ -6,7 +6,10 @@ import { makeDisposable } from "./makeDisposable.js";
 
 const log = debugForFile(import.meta.filename);
 
-export function createLanguage<AstNodesByName, ContextServices extends object>(
+export function createLanguage<
+	const AstNodesByName,
+	const ContextServices extends object,
+>(
 	languageDefinition: LanguageDefinition<AstNodesByName, ContextServices>,
 ): Language<AstNodesByName, ContextServices> {
 	const language: Language<AstNodesByName, ContextServices> = {

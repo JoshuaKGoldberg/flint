@@ -15,11 +15,11 @@ import { FileReport } from "../types/reports.js";
 const log = debugForFile(import.meta.filename);
 
 export async function lintFile<
-	About extends RuleAbout,
-	AstNodesByName,
-	ContextServices extends object,
-	FileContext extends object | undefined,
-	MessageId extends string,
+	const About extends RuleAbout,
+	const AstNodesByName,
+	const ContextServices extends object,
+	const FileContext extends object | undefined,
+	const MessageId extends string,
 >(
 	filePathAbsolute: string,
 	rule: Omit<
