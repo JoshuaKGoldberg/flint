@@ -15,6 +15,31 @@ export type AnyLanguage = Language<object, object>;
 export type CreateRule<AstNodesByName, ContextServices extends object> = <
 	const About extends RuleAbout,
 	const MessageId extends string,
+	const OptionsSchema extends AnyOptionalSchema | undefined = undefined,
+>(
+	definition: RuleDefinition<
+		About,
+		AstNodesByName,
+		ContextServices,
+		undefined,
+		MessageId,
+		OptionsSchema
+	>,
+) => Rule<
+	About,
+	AstNodesByName,
+	ContextServices,
+	undefined,
+	MessageId,
+	OptionsSchema
+>;
+
+export type CreateStatefulRule<
+	AstNodesByName,
+	ContextServices extends object,
+> = <
+	const About extends RuleAbout,
+	const MessageId extends string,
 	const FileContext extends object | undefined = undefined,
 	const OptionsSchema extends AnyOptionalSchema | undefined = undefined,
 >(
@@ -38,6 +63,7 @@ export type CreateRule<AstNodesByName, ContextServices extends object> = <
 export interface Language<AstNodesByName, ContextServices extends object> {
 	about: LanguageAbout;
 	createRule: CreateRule<AstNodesByName, ContextServices>;
+	createStatefulRule: CreateStatefulRule<AstNodesByName, ContextServices>;
 	prepare(): LanguageFileFactory<AstNodesByName, ContextServices>;
 }
 

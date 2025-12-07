@@ -9,7 +9,7 @@ interface CSpellConfigLike {
 	words?: string[];
 }
 
-export default textLanguage.createRule<
+export default textLanguage.createStatefulRule<
 	{
 		readonly description: "Runs the CSpell spell checker on any source code file.";
 		readonly id: "cspell";

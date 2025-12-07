@@ -21,6 +21,12 @@ export function createLanguage<
 				language,
 			};
 		},
+		createStatefulRule: (ruleDefinition) => {
+			return {
+				...ruleDefinition,
+				language,
+			};
+		},
 
 		prepare() {
 			log(
