@@ -24,7 +24,7 @@ export interface Rule<
 	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
-	FileContext extends object | undefined,
+	in out FileContext extends object | undefined,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > extends RuleDefinition<
@@ -82,10 +82,10 @@ export type RuleRuntime<
 		: never;
 
 interface StatefulRuleRuntime<
-	AstNodesByName,
-	MessageId extends string,
-	ContextServices extends object,
-	FileContext extends object,
+	in out AstNodesByName,
+	out MessageId extends string,
+	in ContextServices extends object,
+	in out FileContext extends object,
 > {
 	dependencies?: string[];
 	fileSetup: (
@@ -100,9 +100,9 @@ interface StatefulRuleRuntime<
 }
 
 interface StatelessRuleRuntime<
-	AstNodesByName,
-	MessageId extends string,
-	ContextServices extends object,
+	in out AstNodesByName,
+	out MessageId extends string,
+	in ContextServices extends object,
 > {
 	dependencies?: string[];
 	fileSetup?: (context: ContextServices) => PromiseOrSync<false | undefined>;
@@ -113,11 +113,11 @@ interface StatelessRuleRuntime<
  * Create an instance of {@linkcode RuleRuntime} given the {@linkcode Rule}’s options.
  */
 export type RuleSetup<
-	AstNodesByName,
-	ContextServices extends object,
-	FileContext extends object | undefined,
-	MessageId extends string,
-	Options,
+	in out AstNodesByName,
+	in ContextServices extends object,
+	in out FileContext extends object | undefined,
+	out MessageId extends string,
+	in Options,
 > = (
 	options: Options,
 ) => RuleRuntime<AstNodesByName, MessageId, ContextServices, FileContext>;
@@ -127,7 +127,11 @@ export type RuleVisitor<ASTNode, MessageId extends string, Services> = (
 	context: RuleContext<MessageId> & Services,
 ) => void;
 
-export type RuleVisitors<AstNodesByName, MessageId extends string, Services> = {
+export type RuleVisitors<
+	in out AstNodesByName,
+	out MessageId extends string,
+	in Services,
+> = {
 	[Kind in keyof AstNodesByName]?: RuleVisitor<
 		AstNodesByName[Kind],
 		MessageId,

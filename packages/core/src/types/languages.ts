@@ -40,7 +40,7 @@ export type CreateStatefulRule<
 > = <
 	const About extends RuleAbout,
 	const MessageId extends string,
-	const FileContext extends object | undefined = undefined,
+	const FileContext extends object | undefined,
 	const OptionsSchema extends AnyOptionalSchema | undefined = undefined,
 >(
 	definition: RuleDefinition<

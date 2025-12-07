@@ -7,13 +7,27 @@ import { WithPosition } from "../nodes.js";
 
 const urlTester = /(?:https?:\/\/|mailto:)\S+|[\w.+-]+@[\w.-]+\.\w+/gi;
 
-export default markdownLanguage.createRule({
-	about: {
-		description:
-			"Reports bare URLs that should be formatted as autolinks or links.",
-		id: "bareUrls",
-		preset: "stylistic",
-	},
+const about = {
+	description:
+		"Reports bare URLs that should be formatted as autolinks or links.",
+	id: "bareUrls",
+	preset: "stylistic",
+} as const;
+
+type BareUrlContext = BareUrlFileContext &
+	MarkdownServices &
+	RuleContext<"bareUrl">;
+
+interface BareUrlFileContext {
+	textInValidLinks: Set<number>;
+}
+
+export default markdownLanguage.createStatefulRule<
+	typeof about,
+	"bareUrl",
+	BareUrlFileContext
+>({
+	about,
 	messages: {
 		bareUrl: {
 			primary: "This bare URL is ambiguous to parsers.",
@@ -27,69 +41,14 @@ export default markdownLanguage.createRule({
 			],
 		},
 	},
+
 	setup() {
-		// TODO: Add parent nodes to AST?
-		// That way this will be compatible with createOnce-style API in:
-		// https://github.com/JoshuaKGoldberg/flint/issues/356
-		const textInValidLinks = new Set<number>();
-
-		function report(
-			context: MarkdownServices & RuleContext<"bareUrl">,
-			begin: number,
-			end: number,
-			urlText: string,
-		) {
-			context.report({
-				message: "bareUrl",
-				range: { begin, end },
-				suggestions: [
-					{
-						id: "formatAsLink",
-						range: { begin, end },
-						text: `[${urlText}](${urlText})`,
-					},
-					{
-						id: "wrapInAngleBrackets",
-						range: { begin, end },
-						text: `<${urlText}>`,
-					},
-				],
-			});
-		}
-
-		function checkTextNode(
-			context: MarkdownServices & RuleContext<"bareUrl">,
-			node: WithPosition<Link>,
-		) {
-			const textNode = node.children[0];
-			const textPosition = textNode.position;
-
-			if (
-				textPosition?.start.offset === undefined ||
-				textPosition.end.offset === undefined
-			) {
-				return;
-			}
-
-			const linkPosition = node.position;
-			const linkLength = linkPosition.end.offset - linkPosition.start.offset;
-			const textLength = textPosition.end.offset - textPosition.start.offset;
-
-			if (linkLength > textLength) {
-				textInValidLinks.add(textPosition.start.offset);
-			} else {
-				report(
-					context,
-					textPosition.start.offset,
-					textPosition.end.offset,
-					node.url,
-				);
-			}
-		}
-
 		return {
+			fileSetup: (): BareUrlFileContext => ({
+				textInValidLinks: new Set<number>(),
+			}),
 			visitors: {
-				link(node, context) {
+				link: (node, context) => {
 					if (
 						node.children[0].type === "text" &&
 						node.children[0].value === node.url
@@ -101,13 +60,13 @@ export default markdownLanguage.createRule({
 								child.type === "text" &&
 								child.position?.start.offset !== undefined
 							) {
-								textInValidLinks.add(child.position.start.offset);
+								context.textInValidLinks.add(child.position.start.offset);
 							}
 						}
 					}
 				},
 				text(node, context) {
-					if (textInValidLinks.has(node.position.start.offset)) {
+					if (context.textInValidLinks.has(node.position.start.offset)) {
 						return;
 					}
 
@@ -123,3 +82,54 @@ export default markdownLanguage.createRule({
 		};
 	},
 });
+
+function checkTextNode(context: BareUrlContext, node: WithPosition<Link>) {
+	const textNode = node.children[0];
+	const textPosition = textNode.position;
+
+	if (
+		textPosition?.start.offset === undefined ||
+		textPosition.end.offset === undefined
+	) {
+		return;
+	}
+
+	const linkPosition = node.position;
+	const linkLength = linkPosition.end.offset - linkPosition.start.offset;
+	const textLength = textPosition.end.offset - textPosition.start.offset;
+
+	if (linkLength > textLength) {
+		context.textInValidLinks.add(textPosition.start.offset);
+	} else {
+		report(
+			context,
+			textPosition.start.offset,
+			textPosition.end.offset,
+			node.url,
+		);
+	}
+}
+
+function report(
+	context: BareUrlContext,
+	begin: number,
+	end: number,
+	urlText: string,
+) {
+	context.report({
+		message: "bareUrl",
+		range: { begin, end },
+		suggestions: [
+			{
+				id: "formatAsLink",
+				range: { begin, end },
+				text: `[${urlText}](${urlText})`,
+			},
+			{
+				id: "wrapInAngleBrackets",
+				range: { begin, end },
+				text: `<${urlText}>`,
+			},
+		],
+	});
+}
