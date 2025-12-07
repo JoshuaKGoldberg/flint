@@ -23,10 +23,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				DeleteExpression: (node) => {
+				DeleteExpression: (node, context) => {
 					if (node.expression.kind === ts.SyntaxKind.Identifier) {
 						context.report({
 							message: "noDeleteVar",

@@ -18,10 +18,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				DebuggerStatement: (node) => {
+				DebuggerStatement: (node, context) => {
 					const range = {
 						begin: node.getStart(),
 						end: node.getEnd(),

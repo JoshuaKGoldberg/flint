@@ -22,10 +22,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
+				PropertyAccessExpression(node, context) {
 					if (
 						ts.isIdentifier(node.name) &&
 						node.name.text === "cookie" &&

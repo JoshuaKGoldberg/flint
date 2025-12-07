@@ -23,10 +23,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				SwitchStatement: (node) => {
+				SwitchStatement: (node, context) => {
 					const seenCases: ts.Expression[] = [];
 
 					for (const clause of node.caseBlock.clauses) {

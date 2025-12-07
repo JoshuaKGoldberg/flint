@@ -20,10 +20,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				Identifier: (node) => {
+				Identifier: (node, context) => {
 					if (
 						ts.isVariableDeclaration(node.parent) &&
 						node.parent.name === node

@@ -1,4 +1,10 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import type { RuleContext } from "@flint.fyi/core";
+
+import {
+	getTSNodeRange,
+	typescriptLanguage,
+	type TypeScriptServices,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -21,27 +27,18 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
-		function checkStringValue(value: string, node: ts.Node) {
-			if (value.toLowerCase().startsWith("javascript:")) {
-				context.report({
-					message: "scriptUrl",
-					range: getTSNodeRange(node, context.sourceFile),
-				});
-			}
-		}
-
+	setup() {
 		return {
 			visitors: {
-				NoSubstitutionTemplateLiteral(node: ts.NoSubstitutionTemplateLiteral) {
+				NoSubstitutionTemplateLiteral(node, context) {
 					if (!ts.isTaggedTemplateExpression(node.parent)) {
-						checkStringValue(node.text, node);
+						checkStringValue(node.text, node, context);
 					}
 				},
-				StringLiteral(node: ts.StringLiteral) {
-					checkStringValue(node.text, node);
+				StringLiteral(node, context) {
+					checkStringValue(node.text, node, context);
 				},
-				TemplateExpression(node: ts.TemplateExpression) {
+				TemplateExpression(node, context) {
 					if (
 						!ts.isTaggedTemplateExpression(node.parent) &&
 						node.head.text.toLowerCase().startsWith("javascript:")
@@ -56,3 +53,16 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+function checkStringValue(
+	value: string,
+	node: ts.Node,
+	context: RuleContext<"scriptUrl"> & TypeScriptServices,
+) {
+	if (value.toLowerCase().startsWith("javascript:")) {
+		context.report({
+			message: "scriptUrl",
+			range: getTSNodeRange(node, context.sourceFile),
+		});
+	}
+}

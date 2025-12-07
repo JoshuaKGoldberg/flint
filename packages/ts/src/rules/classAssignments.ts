@@ -20,10 +20,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				ClassDeclaration: (node) => {
+				ClassDeclaration: (node, context) => {
 					if (!node.name) {
 						return;
 					}

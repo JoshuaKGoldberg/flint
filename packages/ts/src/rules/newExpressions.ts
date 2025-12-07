@@ -24,7 +24,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function isStandaloneExpression(node: ts.Node): boolean {
 			const parent = node.parent;
 
@@ -50,7 +50,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				NewExpression: (node) => {
+				NewExpression: (node, context) => {
 					if (isStandaloneExpression(node)) {
 						context.report({
 							message: "noStandaloneNew",

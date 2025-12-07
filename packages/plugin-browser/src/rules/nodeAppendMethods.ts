@@ -32,7 +32,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function isFirstChildAccess(node: ts.Expression): boolean {
 			return (
 				ts.isPropertyAccessExpression(node) &&
@@ -43,7 +43,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node, context) {
 					if (
 						!ts.isPropertyAccessExpression(node.expression) ||
 						!ts.isIdentifier(node.expression.name) ||

@@ -18,10 +18,10 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Remove the curly braces and use the content directly."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				JsxExpression(node) {
+				JsxExpression(node, context) {
 					if (
 						!node.expression ||
 						(!ts.isJsxElement(node.parent) && !ts.isJsxFragment(node.parent))

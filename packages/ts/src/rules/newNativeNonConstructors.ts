@@ -21,10 +21,10 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Remove the `new` keyword and call the function directly."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				NewExpression: (node) => {
+				NewExpression: (node, context) => {
 					if (!ts.isIdentifier(node.expression)) {
 						return;
 					}

@@ -20,10 +20,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				ClassStaticBlockDeclaration: (node) => {
+				ClassStaticBlockDeclaration: (node, context) => {
 					const statements = node.body.statements;
 					if (statements.length) {
 						return;

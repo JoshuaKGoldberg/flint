@@ -25,10 +25,10 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Wrap the relation in parentheses and negate it."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, context) => {
 					const operator = operatorStrings.get(node.operatorToken.kind);
 					if (!operator) {
 						return;

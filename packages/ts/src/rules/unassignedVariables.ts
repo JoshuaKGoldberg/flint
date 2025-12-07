@@ -23,7 +23,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function hasAssignments(
 			identifier: ts.Identifier,
 			sourceFile: ts.SourceFile,
@@ -36,7 +36,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				VariableDeclaration: (node) => {
+				VariableDeclaration: (node, context) => {
 					if (node.initializer || !ts.isIdentifier(node.name)) {
 						return;
 					}

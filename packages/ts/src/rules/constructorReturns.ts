@@ -22,10 +22,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				Constructor: (node) => {
+				Constructor: (node, context) => {
 					if (!node.body) {
 						return;
 					}

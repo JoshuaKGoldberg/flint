@@ -21,7 +21,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function getClassListMethodCall(node: ts.Node) {
 			if (!ts.isExpressionStatement(node)) {
 				return undefined;
@@ -100,7 +100,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				IfStatement(node: ts.IfStatement) {
+				IfStatement(node, context) {
 					const thenStatement = node.thenStatement;
 					const elseStatement = node.elseStatement;
 

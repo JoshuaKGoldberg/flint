@@ -23,10 +23,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				NewExpression(node: ts.NewExpression) {
+				NewExpression(node, context) {
 					if (
 						!ts.isIdentifier(node.expression) ||
 						node.expression.text !== "Buffer"

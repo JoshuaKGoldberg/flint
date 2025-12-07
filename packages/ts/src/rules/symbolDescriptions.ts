@@ -21,10 +21,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				CallExpression: (node) => {
+				CallExpression: (node, context) => {
 					if (
 						!ts.isIdentifier(node.expression) ||
 						node.expression.text !== "Symbol" ||

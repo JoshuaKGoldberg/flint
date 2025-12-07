@@ -18,10 +18,10 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Remove the redundant non-null assertion operator."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				NonNullExpression: (node) => {
+				NonNullExpression: (node, context) => {
 					if (node.parent.kind !== ts.SyntaxKind.NonNullExpression) {
 						return;
 					}

@@ -23,10 +23,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				JsxText(node: ts.JsxText) {
+				JsxText(node, context) {
 					const text = node.text;
 
 					if (/^\s*(?:\/\/|\/\*)/.test(text)) {

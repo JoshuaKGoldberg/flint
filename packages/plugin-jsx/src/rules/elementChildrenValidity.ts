@@ -40,10 +40,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				JsxElement(node: ts.JsxElement) {
+				JsxElement(node, context) {
 					if (!node.children.length) {
 						return;
 					}

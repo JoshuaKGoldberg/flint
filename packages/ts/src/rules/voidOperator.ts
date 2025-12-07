@@ -20,10 +20,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				VoidExpression: (node) => {
+				VoidExpression: (node, context) => {
 					context.report({
 						message: "noVoid",
 						range: {

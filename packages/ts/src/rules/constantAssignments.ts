@@ -23,7 +23,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function collectBindingElements(name: ts.BindingName): ts.Identifier[] {
 			if (ts.isIdentifier(name)) {
 				return [name];
@@ -42,7 +42,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				VariableDeclarationList: (node) => {
+				VariableDeclarationList: (node, context) => {
 					if (
 						!(node.flags & ts.NodeFlags.Const) ||
 						node.declarations.length === 0

@@ -18,10 +18,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				DeleteExpression: (node) => {
+				DeleteExpression: (node, context) => {
 					const start = node.getStart(context.sourceFile);
 
 					context.report({

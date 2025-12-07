@@ -27,10 +27,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, context) => {
 					if (
 						tsutils.isAssignmentKind(node.operatorToken.kind) &&
 						isGlobalVariable(node.left, context.typeChecker)
@@ -41,7 +41,7 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
-				PostfixUnaryExpression: (node) => {
+				PostfixUnaryExpression: (node, context) => {
 					if (isGlobalVariable(node.operand, context.typeChecker)) {
 						context.report({
 							message: "noGlobalAssign",
@@ -49,7 +49,7 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
-				PrefixUnaryExpression: (node) => {
+				PrefixUnaryExpression: (node, context) => {
 					if (
 						(node.operator === ts.SyntaxKind.PlusPlusToken ||
 							node.operator === ts.SyntaxKind.MinusMinusToken) &&

@@ -22,10 +22,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, context) => {
 					if (
 						isComparisonOperator(node.operatorToken) &&
 						hasSameTokens(node.left, node.right, context.sourceFile)

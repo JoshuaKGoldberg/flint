@@ -2,6 +2,7 @@ import {
 	getDeclarationsIfGlobal,
 	getTSNodeRange,
 	typescriptLanguage,
+	type TypeScriptServices,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -25,35 +26,15 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Replace with `.key` property access."],
 		},
 	},
-	setup(context) {
-		function isKeyboardEvent(expression: ts.LeftHandSideExpression) {
-			return (
-				context.typeChecker.getTypeAtLocation(expression).getSymbol()?.name ===
-				"KeyboardEvent"
-			);
-		}
-
-		function isKeyboardEventProperty(name: ts.Identifier) {
-			const declarations = getDeclarationsIfGlobal(name, context.typeChecker);
-			if (!declarations) {
-				return;
-			}
-
-			return (
-				declarations.length === 1 &&
-				ts.isInterfaceDeclaration(declarations[0].parent) &&
-				["KeyboardEvent", "UIEvent"].includes(declarations[0].parent.name.text)
-			);
-		}
-
+	setup() {
 		return {
 			visitors: {
-				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
+				PropertyAccessExpression(node, context) {
 					if (
 						ts.isIdentifier(node.name) &&
 						deprecatedProperties.has(node.name.text) &&
-						isKeyboardEvent(node.expression) &&
-						isKeyboardEventProperty(node.name)
+						isKeyboardEvent(context, node.expression) &&
+						isKeyboardEventProperty(context, node.name)
 					) {
 						context.report({
 							data: { property: node.name.text },
@@ -66,3 +47,29 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+function isKeyboardEvent(
+	context: TypeScriptServices,
+	expression: ts.LeftHandSideExpression,
+) {
+	return (
+		context.typeChecker.getTypeAtLocation(expression).getSymbol()?.name ===
+		"KeyboardEvent"
+	);
+}
+
+function isKeyboardEventProperty(
+	context: TypeScriptServices,
+	name: ts.Identifier,
+) {
+	const declarations = getDeclarationsIfGlobal(name, context.typeChecker);
+	if (!declarations) {
+		return;
+	}
+
+	return (
+		declarations.length === 1 &&
+		ts.isInterfaceDeclaration(declarations[0].parent) &&
+		["KeyboardEvent", "UIEvent"].includes(declarations[0].parent.name.text)
+	);
+}

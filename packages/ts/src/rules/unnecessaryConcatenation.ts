@@ -23,10 +23,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, context) => {
 					if (
 						node.operatorToken.kind === ts.SyntaxKind.PlusToken &&
 						ts.isStringLiteral(node.left) &&

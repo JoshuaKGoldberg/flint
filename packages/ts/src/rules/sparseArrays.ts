@@ -22,10 +22,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				OmittedExpression: (node) => {
+				OmittedExpression: (node, context) => {
 					const parent = node.parent;
 					if (!ts.isArrayLiteralExpression(parent)) {
 						return;

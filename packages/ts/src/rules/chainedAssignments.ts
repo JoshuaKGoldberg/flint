@@ -26,10 +26,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, context) => {
 					if (!tsutils.isAssignmentKind(node.operatorToken.kind)) {
 						return;
 					}

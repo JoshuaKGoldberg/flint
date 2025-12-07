@@ -72,10 +72,10 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Use the `dataset` property instead."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node, context) {
 					const details = getMethodDetails(node);
 					if (!details) {
 						return;

@@ -22,7 +22,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function collectBindingElements(name: ts.BindingName): ts.Identifier[] {
 			const identifiers: ts.Identifier[] = [];
 
@@ -44,7 +44,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CatchClause: (node) => {
+				CatchClause: (node, context) => {
 					if (!node.variableDeclaration?.name) {
 						return;
 					}

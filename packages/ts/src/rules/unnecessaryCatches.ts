@@ -22,10 +22,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				CatchClause: (node) => {
+				CatchClause: (node, context) => {
 					if (!node.variableDeclaration || !ts.isBlock(node.block)) {
 						return;
 					}

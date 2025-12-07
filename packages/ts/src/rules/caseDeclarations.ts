@@ -24,7 +24,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function getLexicalDeclaration(
 			statements: ts.NodeArray<ts.Statement>,
 		): ts.Node | undefined {

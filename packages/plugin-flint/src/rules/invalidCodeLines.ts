@@ -1,4 +1,10 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import type { RuleContext } from "@flint.fyi/core";
+
+import {
+	getTSNodeRange,
+	typescriptLanguage,
+	type TypeScriptServices,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 import type { ParsedTestCaseInvalid } from "../types.js";
@@ -26,59 +32,69 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
-		function checkTestCase(testCase: ParsedTestCaseInvalid) {
-			if (!testCase.code.startsWith("\n")) {
-				context.report({
-					fix: [createFixForCode(testCase), createFixForSnapshot(testCase)],
-					message: "singleLineTest",
-					range: getTSNodeRange(testCase.nodes.code, context.sourceFile),
-				});
-			}
-		}
-
-		function createFixForCode(testCase: ParsedTestCaseInvalid) {
-			if (ts.isStringLiteral(testCase.nodes.code)) {
-				return {
-					range: getTSNodeRange(testCase.nodes.code, context.sourceFile),
-					text: `\`\n${testCase.code}\n\``,
-				};
-			}
-
-			const begin = testCase.nodes.code.getStart(context.sourceFile) + 1;
-
-			return {
-				range: {
-					begin,
-					end: begin,
-				},
-				text: "\n",
-			};
-		}
-
-		function createFixForSnapshot(testCase: ParsedTestCaseInvalid) {
-			const begin = testCase.nodes.snapshot.getStart(context.sourceFile) + 1;
-
-			return {
-				range: {
-					begin,
-					end: begin,
-				},
-				text: "\n",
-			};
-		}
-
+	setup() {
 		return {
 			visitors: {
-				CallExpression(node) {
+				CallExpression(node, context) {
 					const describedCases = getRuleTesterDescribedCases(node);
 					if (!describedCases) {
 						return;
 					}
 
-					describedCases.invalid.forEach(checkTestCase);
+					for (const testCase of describedCases.invalid) {
+						checkTestCase(testCase, context);
+					}
 				},
 			},
 		};
 	},
 });
+
+type Context = RuleContext<"singleLineTest"> & TypeScriptServices;
+
+function checkTestCase(testCase: ParsedTestCaseInvalid, context: Context) {
+	if (!testCase.code.startsWith("\n")) {
+		context.report({
+			fix: [
+				createFixForCode(testCase, context),
+				createFixForSnapshot(testCase, context),
+			],
+			message: "singleLineTest",
+			range: getTSNodeRange(testCase.nodes.code, context.sourceFile),
+		});
+	}
+}
+
+function createFixForCode(testCase: ParsedTestCaseInvalid, context: Context) {
+	if (ts.isStringLiteral(testCase.nodes.code)) {
+		return {
+			range: getTSNodeRange(testCase.nodes.code, context.sourceFile),
+			text: `\`\n${testCase.code}\n\``,
+		};
+	}
+
+	const begin = testCase.nodes.code.getStart(context.sourceFile) + 1;
+
+	return {
+		range: {
+			begin,
+			end: begin,
+		},
+		text: "\n",
+	};
+}
+
+function createFixForSnapshot(
+	testCase: ParsedTestCaseInvalid,
+	context: Context,
+) {
+	const begin = testCase.nodes.snapshot.getStart(context.sourceFile) + 1;
+
+	return {
+		range: {
+			begin,
+			end: begin,
+		},
+		text: "\n",
+	};
+}

@@ -23,7 +23,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function isValidBlock(node: ts.Block): boolean {
 			const parent = node.parent;
 
@@ -72,7 +72,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				Block: (node) => {
+				Block: (node, context) => {
 					if (!isValidBlock(node)) {
 						context.report({
 							message: "unnecessaryBlock",

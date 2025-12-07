@@ -133,10 +133,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				ForStatement: (node) => {
+				ForStatement: (node, context) => {
 					if (
 						!node.condition ||
 						!node.incrementor ||

@@ -24,10 +24,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				NewExpression: (node) => {
+				NewExpression: (node, context) => {
 					if (
 						!isGlobalDeclaration(node.expression, context.typeChecker) ||
 						!node.arguments?.length

@@ -34,7 +34,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function getTextContent(node: ts.JsxElement): string {
 			let text = "";
 
@@ -55,7 +55,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxElement(node: ts.JsxElement) {
+				JsxElement(node, context) {
 					if (
 						!ts.isIdentifier(node.openingElement.tagName) ||
 						node.openingElement.tagName.text !== "a"

@@ -23,10 +23,10 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Replace `innerText` with `textContent`."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
+				PropertyAccessExpression(node, context) {
 					if (
 						ts.isIdentifier(node.name) &&
 						node.name.text === "innerText" &&

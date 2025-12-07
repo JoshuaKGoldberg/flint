@@ -21,10 +21,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				SwitchStatement: (node) => {
+				SwitchStatement: (node, context) => {
 					const clauses = node.caseBlock.clauses;
 					const defaultClauseIndex = clauses.findIndex(
 						(clause) => clause.kind === ts.SyntaxKind.DefaultClause,

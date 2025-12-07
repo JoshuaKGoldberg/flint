@@ -25,10 +25,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				ElementAccessExpression: (node) => {
+				ElementAccessExpression: (node, context) => {
 					if (
 						ts.isStringLiteral(node.argumentExpression) &&
 						node.argumentExpression.text === "__proto__"
@@ -42,7 +42,7 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
-				PropertyAccessExpression: (node) => {
+				PropertyAccessExpression: (node, context) => {
 					if (
 						node.name.kind === ts.SyntaxKind.Identifier &&
 						node.name.text === "__proto__"

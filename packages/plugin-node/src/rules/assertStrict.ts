@@ -37,10 +37,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				ImportDeclaration(node: ts.ImportDeclaration) {
+				ImportDeclaration(node, context) {
 					if (
 						isStrictAssertImport(node.moduleSpecifier) ||
 						!isImportFromNodeAssert(node.moduleSpecifier)
@@ -68,7 +68,7 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
-				ImportEqualsDeclaration(node: ts.ImportEqualsDeclaration) {
+				ImportEqualsDeclaration(node, context) {
 					if (
 						ts.isExternalModuleReference(node.moduleReference) &&
 						isImportFromNodeAssert(node.moduleReference.expression)

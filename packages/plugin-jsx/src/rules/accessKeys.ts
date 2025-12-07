@@ -21,10 +21,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				JsxAttribute(node: ts.JsxAttribute) {
+				JsxAttribute(node, context) {
 					if (!ts.isIdentifier(node.name)) {
 						return;
 					}

@@ -21,10 +21,10 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
 			visitors: {
-				FunctionDeclaration: (node) => {
+				FunctionDeclaration: (node, context) => {
 					if (!node.name) {
 						return;
 					}

@@ -23,7 +23,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function getCalleeNameAndNode(node: ts.Expression) {
 			if (ts.isIdentifier(node)) {
 				return { name: node.text, node };
@@ -43,7 +43,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node, context) {
 					const found = getCalleeNameAndNode(node.expression);
 					if (found === undefined) {
 						return;
