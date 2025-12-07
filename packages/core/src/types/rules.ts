@@ -70,10 +70,15 @@ export type RuleRuntime<
 	MessageId extends string,
 	ContextServices extends object,
 	FileContext extends object | undefined,
-> = FileContext extends object
-	? StatefulRuleRuntime<AstNodesByName, MessageId, ContextServices, FileContext>
-	: FileContext extends undefined
-		? StatelessRuleRuntime<AstNodesByName, MessageId, ContextServices>
+> = FileContext extends undefined
+	? StatelessRuleRuntime<AstNodesByName, MessageId, ContextServices>
+	: FileContext extends object
+		? StatefulRuleRuntime<
+				AstNodesByName,
+				MessageId,
+				ContextServices,
+				FileContext
+			>
 		: never;
 
 interface StatefulRuleRuntime<
@@ -83,7 +88,10 @@ interface StatefulRuleRuntime<
 	FileContext extends object,
 > {
 	dependencies?: string[];
-	fileSetup?: (context: ContextServices) => PromiseOrSync<FileContext>;
+	fileSetup: (
+		context: ContextServices,
+	) => // TODO: The "object" of FileContext gets collapsed as any. Whatever shall we do?
+	PromiseOrSync<false | FileContext | undefined>;
 	visitors?: RuleVisitors<
 		AstNodesByName,
 		MessageId,
@@ -97,7 +105,7 @@ interface StatelessRuleRuntime<
 	ContextServices extends object,
 > {
 	dependencies?: string[];
-	fileSetup?: never;
+	fileSetup?: (context: ContextServices) => PromiseOrSync<false | undefined>;
 	visitors?: RuleVisitors<AstNodesByName, MessageId, ContextServices>;
 }
 

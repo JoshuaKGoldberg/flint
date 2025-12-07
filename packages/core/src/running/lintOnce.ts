@@ -95,7 +95,7 @@ export async function lintOnce(
 		log("Running rule %s with options: %o", rule.about.id, options);
 
 		const appliedFiles = useDefinitions.flatMap((use) =>
-			use.rules.some((r) => ("rule" in r ? r.rule : r) == rule)
+			use.rules.some((r) => ("rule" in r ? r.rule : r) === rule)
 				? Array.from(use.found)
 				: [],
 		);

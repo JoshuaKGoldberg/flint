@@ -72,6 +72,13 @@ export function createTypeScriptFileFromProgram(
 				typeChecker: program.getTypeChecker(),
 			};
 
+			const fileContext = await (runtime.fileSetup?.(services) as Promise<
+				false | object | undefined
+			>);
+			if (fileContext === false) {
+				return [];
+			}
+
 			const context = {
 				...services,
 				report: (report: RuleReport) => {
@@ -85,7 +92,7 @@ export function createTypeScriptFileFromProgram(
 						range: normalizeRange(report.range, sourceFile),
 					});
 				},
-				...(await runtime.fileSetup?.(services)),
+				...fileContext,
 			};
 
 			if (!runtime.visitors) {

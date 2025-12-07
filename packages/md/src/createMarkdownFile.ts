@@ -47,6 +47,13 @@ export function createMarkdownFile(sourceText: string) {
 				root,
 			};
 
+			const fileContext = await (runtime.fileSetup?.(services) as Promise<
+				false | object | undefined
+			>);
+			if (fileContext === false) {
+				return [];
+			}
+
 			const context = {
 				...services,
 				report: (report: RuleReport) => {
@@ -66,7 +73,7 @@ export function createMarkdownFile(sourceText: string) {
 						},
 					});
 				},
-				...(await runtime.fileSetup?.(services)),
+				...fileContext,
 			};
 
 			if (!runtime.visitors) {
