@@ -2,6 +2,7 @@ import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 
 import { Language, LanguageDefinition } from "../types/languages.js";
+import { createRule } from "../types/rule-builder.js";
 import { makeDisposable } from "./makeDisposable.js";
 
 const log = debugForFile(import.meta.filename);
@@ -15,12 +16,14 @@ export function createLanguage<
 	const language: Language<AstNodesByName, ContextServices> = {
 		...languageDefinition,
 
+		buildRule: () => createRule(language),
 		createRule: (ruleDefinition) => {
 			return {
 				...ruleDefinition,
 				language,
 			};
 		},
+
 		createStatefulRule: (ruleDefinition) => {
 			return {
 				...ruleDefinition,

@@ -88,10 +88,8 @@ interface StatefulRuleRuntime<
 	in out FileContext extends object,
 > {
 	dependencies?: string[];
-	fileSetup: (
-		context: ContextServices,
-	) => // TODO: The "object" of FileContext gets collapsed as any. Whatever shall we do?
-	PromiseOrSync<false | FileContext | undefined>;
+	fileSetup: (context: ContextServices) => PromiseOrSync<FileContext>;
+	skipFile?: (context: ContextServices) => PromiseOrSync<boolean>;
 	visitors?: RuleVisitors<
 		AstNodesByName,
 		MessageId,
@@ -105,7 +103,7 @@ interface StatelessRuleRuntime<
 	in ContextServices extends object,
 > {
 	dependencies?: string[];
-	fileSetup?: (context: ContextServices) => PromiseOrSync<false | undefined>;
+	skipFile?: (context: ContextServices) => PromiseOrSync<boolean>;
 	visitors?: RuleVisitors<AstNodesByName, MessageId, ContextServices>;
 }
 

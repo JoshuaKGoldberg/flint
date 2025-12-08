@@ -1,5 +1,6 @@
 import type { CachedFactory } from "cached-factory";
 
+import type { RuleBuilder } from "./rule-builder.js";
 import type { AnyOptionalSchema } from "./shapes.js";
 
 import { CommentDirective } from "./directives.js";
@@ -62,6 +63,14 @@ export type CreateStatefulRule<
 
 export interface Language<AstNodesByName, ContextServices extends object> {
 	about: LanguageAbout;
+	buildRule: () => RuleBuilder<
+		never,
+		AstNodesByName,
+		ContextServices,
+		never,
+		never,
+		undefined
+	>;
 	createRule: CreateRule<AstNodesByName, ContextServices>;
 	createStatefulRule: CreateStatefulRule<AstNodesByName, ContextServices>;
 	prepare(): LanguageFileFactory<AstNodesByName, ContextServices>;
