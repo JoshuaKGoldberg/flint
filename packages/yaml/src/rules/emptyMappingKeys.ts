@@ -18,6 +18,7 @@ export default yamlLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				mappingKey: (node, context) => {
 					if (node.children.length === 0) {

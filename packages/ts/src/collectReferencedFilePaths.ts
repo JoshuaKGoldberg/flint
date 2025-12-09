@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as path from "node:path";
 import * as ts from "typescript";
 

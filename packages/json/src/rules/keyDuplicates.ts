@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 import z from "zod";
 
@@ -35,6 +36,7 @@ export default jsonLanguage.createRule({
 		const allowKeysUnique = new Set(allowKeys);
 
 		return {
+			...runtimeBase,
 			visitors: {
 				ObjectLiteralExpression(node, context) {
 					const seenKeys = new Set<string>();

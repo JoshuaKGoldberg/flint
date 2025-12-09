@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -76,6 +77,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
 				JsxOpeningElement: checkElement,
 				JsxSelfClosingElement: checkElement,

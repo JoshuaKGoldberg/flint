@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
@@ -86,6 +87,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
 				CallExpression: (node) => {
 					if (ts.isIdentifier(node.expression)) {

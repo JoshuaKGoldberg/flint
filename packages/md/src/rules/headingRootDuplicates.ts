@@ -1,5 +1,7 @@
 import type { Heading, Html, Node } from "mdast";
 
+import { runtimeBase } from "@flint.fyi/core";
+
 import type { WithPosition } from "../nodes.js";
 
 import { markdownLanguage } from "../language.js";
@@ -27,6 +29,7 @@ export default markdownLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				root(root, context) {
 					const h1HeadingRanges: {

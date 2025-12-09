@@ -1,3 +1,5 @@
+import { runtimeBase } from "@flint.fyi/core";
+
 import { typescriptLanguage } from "../language.js";
 
 export default typescriptLanguage.createRule({
@@ -22,6 +24,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				ClassStaticBlockDeclaration: (node, context) => {
 					const statements = node.body.statements;

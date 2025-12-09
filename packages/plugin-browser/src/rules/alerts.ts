@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import { isGlobalDeclaration } from "@flint.fyi/ts";
 import * as ts from "typescript";
@@ -42,6 +43,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
 				CallExpression(node, context) {
 					const found = getCalleeNameAndNode(node.expression);

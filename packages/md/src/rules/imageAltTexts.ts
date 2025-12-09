@@ -1,5 +1,6 @@
 import type { RuleContext } from "@flint.fyi/core";
 
+import { runtimeBase } from "@flint.fyi/core";
 import { Image, ImageReference } from "mdast";
 
 import { markdownLanguage, type MarkdownServices } from "../language.js";
@@ -39,6 +40,7 @@ export default markdownLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				image: checkNode,
 				imageReference: checkNode,

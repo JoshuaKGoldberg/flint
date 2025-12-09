@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
@@ -47,6 +48,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
 				ForInStatement: (node) => {
 					const type = getConstrainedTypeAtLocation(

@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 import { z } from "zod";
@@ -43,6 +44,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
 				ModuleDeclaration: (node) => {
 					if (

@@ -1,3 +1,5 @@
+import { runtimeBase } from "@flint.fyi/core";
+
 import { markdownLanguage } from "../language.js";
 
 export default markdownLanguage.createRule({
@@ -22,6 +24,7 @@ export default markdownLanguage.createRule({
 		let previousDepth = 0;
 
 		return {
+			...runtimeBase,
 			visitors: {
 				heading(node, context) {
 					if (previousDepth && node.depth > previousDepth + 1) {

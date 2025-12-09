@@ -1,5 +1,6 @@
 import type { RuleContext } from "@flint.fyi/core";
 
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { jsonLanguage, type JsonServices } from "../language.js";
@@ -73,6 +74,7 @@ export default jsonLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				ArrayLiteralExpression: checkNode,
 				ObjectLiteralExpression: checkNode,

@@ -1,5 +1,7 @@
 import type { Definition, Node, Text } from "mdast";
 
+import { runtimeBase } from "@flint.fyi/core";
+
 import { markdownLanguage } from "../language.js";
 
 // Pattern to match label references: ![text][label], [text][label], [label][], or [label]
@@ -28,6 +30,7 @@ export default markdownLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				root(root, context) {
 					const definitions = new Set<string>();

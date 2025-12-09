@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import {
 	getTSNodeRange,
 	isGlobalDeclaration,
@@ -29,6 +30,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				CallExpression(node, context) {
 					if (

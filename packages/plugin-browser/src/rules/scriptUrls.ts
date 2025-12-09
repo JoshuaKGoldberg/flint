@@ -1,5 +1,6 @@
 import type { RuleContext } from "@flint.fyi/core";
 
+import { runtimeBase } from "@flint.fyi/core";
 import {
 	getTSNodeRange,
 	typescriptLanguage,
@@ -29,6 +30,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				NoSubstitutionTemplateLiteral(node, context) {
 					if (!ts.isTaggedTemplateExpression(node.parent)) {

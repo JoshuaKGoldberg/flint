@@ -1,4 +1,5 @@
-import { CharacterReportRange } from "@flint.fyi/core";
+import { CharacterReportRange, type RuleContext } from "@flint.fyi/core";
+import { runtimeBase } from "@flint.fyi/core";
 import { typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -22,53 +23,63 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
-		function checkNodeChildren(
-			node: ts.JsxElement | ts.JsxFragment,
-			range: CharacterReportRange,
-		) {
-			const children = node.children.filter(
-				(child) => !ts.isJsxText(child) || child.text.trim().length > 0,
-			);
-
-			let childType: string | undefined;
-
-			if (children.length === 0) {
-				childType = "no children";
-			} else if (children.length === 1) {
-				childType = "a single child";
-			}
-
-			if (childType) {
-				context.report({
-					data: { childType },
-					message: "unnecessaryFragment",
-					range,
-				});
-			}
-		}
-
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				JsxElement(node) {
+				JsxElement(node, context) {
 					if (
 						ts.isIdentifier(node.openingElement.tagName) &&
 						!node.openingElement.attributes.properties.length &&
 						node.openingElement.tagName.text === "Fragment"
 					) {
-						checkNodeChildren(node, {
-							begin: node.openingElement.getStart(context.sourceFile),
-							end: node.closingElement.getEnd(),
-						});
+						checkNodeChildren(
+							node,
+							{
+								begin: node.openingElement.getStart(context.sourceFile),
+								end: node.closingElement.getEnd(),
+							},
+							context,
+						);
 					}
 				},
-				JsxFragment(node: ts.JsxFragment) {
-					checkNodeChildren(node, {
-						begin: node.openingFragment.getStart(context.sourceFile),
-						end: node.closingFragment.getEnd(),
-					});
+				JsxFragment(node, context) {
+					checkNodeChildren(
+						node,
+						{
+							begin: node.openingFragment.getStart(context.sourceFile),
+							end: node.closingFragment.getEnd(),
+						},
+						context,
+					);
 				},
 			},
 		};
 	},
 });
+
+function checkNodeChildren(
+	node: ts.JsxElement | ts.JsxFragment,
+	range: CharacterReportRange,
+	context: RuleContext<"unnecessaryFragment">,
+) {
+	const children = node.children.filter(
+		(child) => !ts.isJsxText(child) || child.text.trim().length > 0,
+	);
+
+	let childType: string | undefined;
+
+	if (children.length === 0) {
+		childType = "no children";
+	} else if (children.length === 1) {
+		childType = "a single child";
+	}
+
+	if (childType) {
+		context.report({
+			data: { childType },
+			message: "unnecessaryFragment",
+			range,
+		});
+	}
+}

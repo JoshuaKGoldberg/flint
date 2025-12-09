@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
@@ -135,6 +136,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				ForStatement: (node, context) => {
 					if (

@@ -19,7 +19,7 @@ export type CreateRule<AstNodesByName, ContextServices extends object> = <
 		About,
 		AstNodesByName,
 		ContextServices,
-		never,
+		object,
 		MessageId,
 		OptionsSchema
 	>,
@@ -27,7 +27,7 @@ export type CreateRule<AstNodesByName, ContextServices extends object> = <
 	About,
 	AstNodesByName,
 	ContextServices,
-	never,
+	object,
 	MessageId,
 	OptionsSchema
 >;

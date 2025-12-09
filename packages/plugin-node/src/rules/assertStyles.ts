@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -34,6 +35,7 @@ export default typescriptLanguage.createRule({
 		const assertIdentifierNames = new Set<string>();
 
 		return {
+			...runtimeBase,
 			visitors: {
 				CallExpression(node, context) {
 					if (

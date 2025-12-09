@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import {
 	getDeclarationsIfGlobal,
 	getTSNodeRange,
@@ -28,6 +29,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				PropertyAccessExpression(node, context) {
 					if (

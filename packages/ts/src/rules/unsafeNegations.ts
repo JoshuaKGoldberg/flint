@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
@@ -27,6 +28,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				BinaryExpression: (node, context) => {
 					const operator = operatorStrings.get(node.operatorToken.kind);

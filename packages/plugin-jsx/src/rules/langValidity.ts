@@ -1,4 +1,9 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { type RuleContext, runtimeBase } from "@flint.fyi/core";
+import {
+	getTSNodeRange,
+	typescriptLanguage,
+	type TypeScriptServices,
+} from "@flint.fyi/ts";
 import languageTags from "language-tags";
 import * as ts from "typescript";
 
@@ -23,36 +28,9 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
-		function checkElement(node: ts.JsxOpeningLikeElement) {
-			const langAttribute = node.attributes.properties.find(
-				(property): property is ts.JsxAttribute =>
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
-					property.name.text === "lang",
-			);
-
-			if (!langAttribute?.initializer) {
-				return;
-			}
-
-			if (ts.isStringLiteral(langAttribute.initializer)) {
-				const langValue = langAttribute.initializer.text;
-
-				if (!languageTags.check(langValue)) {
-					context.report({
-						data: { value: langValue || "(empty)" },
-						message: "invalidLang",
-						range: getTSNodeRange(
-							langAttribute.initializer,
-							context.sourceFile,
-						),
-					});
-				}
-			}
-		}
-
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				JsxOpeningElement: checkElement,
 				JsxSelfClosingElement: checkElement,
@@ -60,3 +38,31 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+function checkElement(
+	node: ts.JsxOpeningLikeElement,
+	context: RuleContext<"invalidLang"> & TypeScriptServices,
+) {
+	const langAttribute = node.attributes.properties.find(
+		(property): property is ts.JsxAttribute =>
+			ts.isJsxAttribute(property) &&
+			ts.isIdentifier(property.name) &&
+			property.name.text === "lang",
+	);
+
+	if (!langAttribute?.initializer) {
+		return;
+	}
+
+	if (ts.isStringLiteral(langAttribute.initializer)) {
+		const langValue = langAttribute.initializer.text;
+
+		if (!languageTags.check(langValue)) {
+			context.report({
+				data: { value: langValue || "(empty)" },
+				message: "invalidLang",
+				range: getTSNodeRange(langAttribute.initializer, context.sourceFile),
+			});
+		}
+	}
+}

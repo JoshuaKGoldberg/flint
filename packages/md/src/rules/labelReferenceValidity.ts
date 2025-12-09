@@ -1,5 +1,7 @@
 import type { Node, Text } from "mdast";
 
+import { runtimeBase } from "@flint.fyi/core";
+
 import { markdownLanguage } from "../language.js";
 
 const invalidPattern = /\[[^\]]+\]\[\s+\]/g;
@@ -26,6 +28,7 @@ export default markdownLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				root(root, context) {
 					function visitText(node: Text) {

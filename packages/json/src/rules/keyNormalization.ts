@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 import z from "zod";
 
@@ -33,6 +34,7 @@ export default jsonLanguage.createRule({
 	},
 	setup({ form = "NFC" }) {
 		return {
+			...runtimeBase,
 			visitors: {
 				ObjectLiteralExpression(node, context) {
 					for (const property of node.properties) {

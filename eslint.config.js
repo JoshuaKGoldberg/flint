@@ -97,6 +97,7 @@ export default defineConfig(
 		rules: {
 			"@typescript-eslint/no-empty-function": "off",
 			"@typescript-eslint/no-empty-object-type": "off",
+			"vitest/expect-expect": "off",
 		},
 	},
 	{

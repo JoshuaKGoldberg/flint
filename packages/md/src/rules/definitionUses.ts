@@ -1,5 +1,7 @@
 import type { Definition, ImageReference, Node } from "mdast";
 
+import { runtimeBase } from "@flint.fyi/core";
+
 import { markdownLanguage } from "../language.js";
 
 export default markdownLanguage.createRule({
@@ -24,6 +26,7 @@ export default markdownLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				root(root, context) {
 					const definitions = new Map<

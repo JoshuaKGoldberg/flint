@@ -1,5 +1,6 @@
 import type { RuleContext } from "@flint.fyi/core";
 
+import { runtimeBase } from "@flint.fyi/core";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
@@ -53,6 +54,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				ArrowFunction: (node, context) => {
 					if (!ts.isBlock(node.body)) {

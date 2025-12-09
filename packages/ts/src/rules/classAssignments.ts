@@ -1,3 +1,5 @@
+import { runtimeBase } from "@flint.fyi/core";
+
 import { typescriptLanguage } from "../language.js";
 import { getModifyingReferences } from "../utils/getModifyingReferences.js";
 
@@ -22,6 +24,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				ClassDeclaration: (node, context) => {
 					if (!node.name) {

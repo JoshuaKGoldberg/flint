@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
@@ -26,6 +27,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		return {
+			...runtimeBase,
 			visitors: {
 				FunctionDeclaration: checkFunction,
 				FunctionExpression: checkFunction,

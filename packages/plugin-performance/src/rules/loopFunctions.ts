@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { typescriptLanguage } from "@flint.fyi/ts";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
@@ -157,6 +158,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
 				DoStatement: checkLoopStatement,
 				ForInStatement: checkLoopStatement,

@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
@@ -71,6 +72,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
 				Block: (node, context) => {
 					if (!isValidBlock(node)) {

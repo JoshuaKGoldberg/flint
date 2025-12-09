@@ -1,5 +1,4 @@
-import type { RuleContext } from "@flint.fyi/core";
-
+import { type RuleContext, runtimeBase } from "@flint.fyi/core";
 import { Link } from "mdast";
 
 import { markdownLanguage, type MarkdownServices } from "../language.js";
@@ -7,27 +6,19 @@ import { WithPosition } from "../nodes.js";
 
 const urlTester = /(?:https?:\/\/|mailto:)\S+|[\w.+-]+@[\w.-]+\.\w+/gi;
 
-const about = {
-	description:
-		"Reports bare URLs that should be formatted as autolinks or links.",
-	id: "bareUrls",
-	preset: "stylistic",
-} as const;
+type Context = FileContext & MarkdownServices & RuleContext<"bareUrl">;
 
-type BareUrlContext = BareUrlFileContext &
-	MarkdownServices &
-	RuleContext<"bareUrl">;
-
-interface BareUrlFileContext {
+interface FileContext {
 	textInValidLinks: Set<number>;
 }
 
-export default markdownLanguage.createStatefulRule<
-	typeof about,
-	"bareUrl",
-	BareUrlFileContext
->({
-	about,
+export default markdownLanguage.createStatefulRule({
+	about: {
+		description:
+			"Reports bare URLs that should be formatted as autolinks or links.",
+		id: "bareUrls",
+		preset: "stylistic",
+	} as const,
 	messages: {
 		bareUrl: {
 			primary: "This bare URL is ambiguous to parsers.",
@@ -44,7 +35,8 @@ export default markdownLanguage.createStatefulRule<
 
 	setup() {
 		return {
-			fileSetup: (): BareUrlFileContext => ({
+			...runtimeBase,
+			fileSetup: (): FileContext => ({
 				textInValidLinks: new Set<number>(),
 			}),
 			visitors: {
@@ -83,7 +75,7 @@ export default markdownLanguage.createStatefulRule<
 	},
 });
 
-function checkTextNode(context: BareUrlContext, node: WithPosition<Link>) {
+function checkTextNode(context: Context, node: WithPosition<Link>) {
 	const textNode = node.children[0];
 	const textPosition = textNode.position;
 
@@ -110,12 +102,7 @@ function checkTextNode(context: BareUrlContext, node: WithPosition<Link>) {
 	}
 }
 
-function report(
-	context: BareUrlContext,
-	begin: number,
-	end: number,
-	urlText: string,
-) {
+function report(context: Context, begin: number, end: number, urlText: string) {
 	context.report({
 		message: "bareUrl",
 		range: { begin, end },
