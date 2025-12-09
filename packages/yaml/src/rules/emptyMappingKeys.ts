@@ -1,3 +1,5 @@
+import { runtimeBase } from "@flint.fyi/core";
+
 import { yamlLanguage } from "../language.js";
 
 export default yamlLanguage.createRule({
