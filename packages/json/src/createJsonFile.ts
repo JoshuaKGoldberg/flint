@@ -1,12 +1,10 @@
-import type {
-	LanguageFileDefinition,
-	NormalizedReport,
-	ReportMessageData,
-	RuleReport,
-	RuleRuntime,
-	RuleVisitor,
+import {
+	createRuleRunner,
+	type LanguageFileDefinition,
+	type RuleContext,
+	type RuleVisitor,
+	type RuleVisitors,
 } from "@flint.fyi/core";
-
 import * as ts from "typescript";
 
 import type { JsonServices } from "./language.js";
@@ -24,55 +22,30 @@ export function createTypeScriptJsonFile(
 	const sourceFile = ts.parseJsonText(filePathAbsolute, sourceText);
 
 	return {
-		async runRule<MessageId extends string, FileContext extends object>(
-			runtime: RuleRuntime<TSNodesByName, MessageId, JsonServices, FileContext>,
-			messages: Record<string, ReportMessageData>,
-		): Promise<NormalizedReport[]> {
-			const reports: NormalizedReport[] = [];
-
-			const services: JsonServices = {
+		runRule: createRuleRunner<TSNodesByName, JsonServices>(
+			{
 				sourceFile,
-			};
+			},
+			<MessageId extends string, FileContext extends object>(
+				visitors: RuleVisitors<
+					TSNodesByName,
+					MessageId,
+					FileContext & JsonServices
+				>,
+				context: FileContext & JsonServices & RuleContext<MessageId>,
+			) => {
+				const visit = (node: ts.Node) => {
+					const visitor = visitors[
+						ts.SyntaxKind[node.kind] as keyof TSNodesByName
+					] as RuleVisitor<typeof node, MessageId, unknown> | undefined;
+					visitor?.(node, context);
 
-			if (runtime.skipFile(services)) {
-				return reports;
-			}
+					node.forEachChild(visit);
+				};
 
-			const fileContext = await runtime.fileSetup(services);
-			if (fileContext === false) {
-				return [];
-			}
-
-			const context = {
-				...services,
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: messages[report.message],
-						range: normalizeRange(report.range, sourceFile),
-					});
-				},
-				...fileContext,
-			};
-
-			const { visitors } = runtime;
-
-			const visit = (node: ts.Node) => {
-				const visitor = visitors[
-					ts.SyntaxKind[node.kind] as keyof TSNodesByName
-				] as RuleVisitor<typeof node, MessageId, JsonServices> | undefined;
-				visitor?.(node, context);
-
-				node.forEachChild(visit);
-			};
-
-			sourceFile.forEachChild(visit);
-
-			return reports;
-		},
+				sourceFile.forEachChild(visit);
+			},
+			(range) => normalizeRange(range, sourceFile),
+		),
 	};
 }

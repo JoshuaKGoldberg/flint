@@ -1,11 +1,6 @@
-import type { RuleContext } from "./context.js";
 import type { Language } from "./languages.js";
 import type { PromiseOrSync } from "./promises.js";
-import type {
-	NormalizedReport,
-	ReportMessageData,
-	RuleReport,
-} from "./reports.js";
+import type { ReportMessageData } from "./reports.js";
 import type {
 	FileSetup,
 	Rule,
@@ -298,84 +293,3 @@ export const createRule = <AstNodesByName, ContextServices extends object>(
 	>(language, () => Promise.resolve({}));
 
 //#region TEST
-
-interface TestAstNodesByName {
-	file: unknown;
-}
-interface TestServices {
-	truthy: true;
-}
-
-async function runTestRule<
-	MessageId extends string,
-	FileContext extends object,
-	OptionsSchema extends AnyOptionalSchema | undefined = undefined,
->(
-	rule: Rule<
-		RuleAbout,
-		TestAstNodesByName,
-		TestServices,
-		FileContext,
-		MessageId,
-		OptionsSchema
-	>,
-	options: InferredObject<OptionsSchema>,
-): Promise<NormalizedReport[]> {
-	const reports: NormalizedReport[] = [];
-
-	const services: TestServices = {
-		truthy: true,
-	};
-
-	const runtime = rule.setup(options);
-
-	if (await runtime.skipFile(services)) {
-		return [];
-	}
-
-	const fileContext = await runtime.fileSetup(services);
-
-	const context: FileContext & RuleContext<MessageId> & TestServices = {
-		...services,
-		report: (report: RuleReport<MessageId>) => {
-			reports.push({
-				...report,
-				fix:
-					report.fix && !Array.isArray(report.fix) ? [report.fix] : report.fix,
-				message: rule.messages[report.message],
-				range: {
-					begin: {
-						column: 0,
-						line: 0,
-						raw: 0,
-					},
-					end: {
-						column: 0,
-						line: 0,
-						raw: 0,
-					},
-				},
-			});
-		},
-		...fileContext,
-	};
-
-	runtime.visitors.file?.({}, context);
-
-	return reports;
-}
-
-declare const testLanguage: Language<TestAstNodesByName, TestServices>;
-
-const testRule = createRule(testLanguage)
-	.pipe(
-		about({
-			description: "",
-			id: "",
-		}),
-	)
-	.pipe(messages({}))
-	.pipe(stateful(() => ({})))
-	.buildWithVisitors(() => ({}));
-
-await runTestRule(testRule, undefined);

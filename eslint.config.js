@@ -92,6 +92,14 @@ export default defineConfig(
 		rules: { "@typescript-eslint/no-unsafe-assignment": "off" },
 	},
 	{
+		extends: [vitest.configs.recommended],
+		files: ["**/*.test-d.*"],
+		rules: {
+			"@typescript-eslint/no-empty-function": "off",
+			"@typescript-eslint/no-empty-object-type": "off",
+		},
+	},
+	{
 		extends: [yml.configs["flat/standard"], yml.configs["flat/prettier"]],
 		files: ["**/*.{yml,yaml}"],
 		rules: {

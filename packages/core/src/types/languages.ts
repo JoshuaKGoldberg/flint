@@ -1,15 +1,12 @@
 import type { CachedFactory } from "cached-factory";
 
 import type { RuleBuilder } from "./rule-builder.js";
+import type { RuleRunner } from "./run-rule.js";
 import type { AnyOptionalSchema } from "./shapes.js";
 
 import { CommentDirective } from "./directives.js";
-import {
-	FileReport,
-	NormalizedReport,
-	type ReportMessageData,
-} from "./reports.js";
-import { Rule, RuleAbout, RuleDefinition, type RuleRuntime } from "./rules.js";
+import { FileReport } from "./reports.js";
+import { Rule, RuleAbout, RuleDefinition } from "./rules.js";
 
 export type AnyLanguage = Language<object, object>;
 
@@ -67,7 +64,7 @@ export interface Language<AstNodesByName, ContextServices extends object> {
 		never,
 		AstNodesByName,
 		ContextServices,
-		never,
+		object,
 		never,
 		undefined
 	>;
@@ -109,15 +106,7 @@ export interface LanguageFile<AstNodesByName, ContextServices extends object>
 	extends Disposable {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
-	runRule<const MessageId extends string, const FileContext extends object>(
-		runtime: RuleRuntime<
-			AstNodesByName,
-			MessageId,
-			ContextServices,
-			FileContext
-		>,
-		messages: Record<string, ReportMessageData>,
-	): Promise<NormalizedReport[]>;
+	runRule: RuleRunner<AstNodesByName, ContextServices>;
 }
 
 /**
@@ -129,15 +118,7 @@ export interface LanguageFileDefinition<
 > extends Partial<Disposable> {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
-	runRule<const MessageId extends string, const FileContext extends object>(
-		runtime: RuleRuntime<
-			AstNodesByName,
-			MessageId,
-			ContextServices,
-			FileContext
-		>,
-		messages: Record<string, ReportMessageData>,
-	): Promise<NormalizedReport[]>;
+	runRule: RuleRunner<AstNodesByName, ContextServices>;
 }
 
 /**

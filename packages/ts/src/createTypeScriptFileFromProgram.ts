@@ -1,12 +1,10 @@
-import type {
+import {
+	createRuleRunner,
 	LanguageFileDefinition,
-	NormalizedReport,
-	ReportMessageData,
-	RuleReport,
-	RuleRuntime,
+	RuleContext,
 	RuleVisitor,
+	RuleVisitors,
 } from "@flint.fyi/core";
-
 import * as ts from "typescript";
 
 import type { TypeScriptServices } from "./language.js";
@@ -52,65 +50,36 @@ export function createTypeScriptFileFromProgram(
 					}),
 				}));
 		},
-		async runRule<MessageId extends string, FileContext extends object>(
-			runtime: RuleRuntime<
-				TSNodesByName,
-				MessageId,
-				TypeScriptServices,
-				FileContext
-			>,
-			messages: Record<string, ReportMessageData>,
-		): Promise<NormalizedReport[]> {
-			const reports: NormalizedReport[] = [];
-
-			const services = {
+		runRule: createRuleRunner<TSNodesByName, TypeScriptServices>(
+			{
 				program,
 				sourceFile,
 				typeChecker: program.getTypeChecker(),
-			};
+			},
+			<MessageId extends string, FileContext extends object>(
+				visitors: RuleVisitors<
+					TSNodesByName,
+					MessageId,
+					FileContext & TypeScriptServices
+				>,
+				context: FileContext & RuleContext<MessageId> & TypeScriptServices,
+			) => {
+				const visit = (node: ts.Node) => {
+					// TODO: There's got to be a better way to type visitors so all this casting isn't necessary.
+					const visitor = visitors[
+						NodeSyntaxKinds[node.kind] as keyof typeof visitors
+					] as
+						| RuleVisitor<typeof node, MessageId, TypeScriptServices>
+						| undefined;
 
-			if (runtime.skipFile(services)) {
-				return reports;
-			}
+					visitor?.(node, context);
 
-			const fileContext = await runtime.fileSetup(services);
-			if (fileContext === false) {
-				return [];
-			}
+					node.forEachChild(visit);
+				};
 
-			const context = {
-				...services,
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: messages[report.message],
-						range: normalizeRange(report.range, sourceFile),
-					});
-				},
-				...fileContext,
-			};
-
-			const { visitors } = runtime;
-			const visit = (node: ts.Node) => {
-				// TODO: There's got to be a better way to type visitors so all this casting isn't necessary.
-				const visitor = visitors[
-					NodeSyntaxKinds[node.kind] as keyof typeof visitors
-				] as
-					| RuleVisitor<typeof node, MessageId, TypeScriptServices>
-					| undefined;
-
-				visitor?.(node, context);
-
-				node.forEachChild(visit);
-			};
-
-			visit(sourceFile);
-
-			return reports;
-		},
+				visit(sourceFile);
+			},
+			(range) => normalizeRange(range, sourceFile),
+		),
 	};
 }

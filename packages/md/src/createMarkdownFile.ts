@@ -1,13 +1,12 @@
 import type * as mdast from "mdast";
 
 import {
+	createRuleRunner,
 	getColumnAndLineOfPosition,
 	LanguageFileDefinition,
-	NormalizedReport,
-	type ReportMessageData,
-	RuleReport,
-	type RuleRuntime,
-	type RuleVisitor,
+	RuleContext,
+	RuleVisitor,
+	RuleVisitors,
 } from "@flint.fyi/core";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
@@ -29,64 +28,31 @@ export function createMarkdownFile(sourceText: string) {
 		MarkdownNodesByName,
 		MarkdownServices
 	> = {
-		async runRule<MessageId extends string, FileContext extends object>(
-			runtime: RuleRuntime<
-				MarkdownNodesByName,
-				MessageId,
-				MarkdownServices,
-				FileContext
-			>,
-			messages: Record<string, ReportMessageData>,
-		): Promise<NormalizedReport[]> {
-			const reports: NormalizedReport[] = [];
-
-			const services = {
+		runRule: createRuleRunner<MarkdownNodesByName, MarkdownServices>(
+			{
 				root,
-			};
+			},
+			<MessageId extends string, FileContext extends object>(
+				visitors: RuleVisitors<
+					MarkdownNodesByName,
+					MessageId,
+					FileContext & MarkdownServices
+				>,
+				context: FileContext & MarkdownServices & RuleContext<MessageId>,
+			) => {
+				visit(root, (node) => {
+					const visitor = visitors[node.type] as
+						| RuleVisitor<typeof node, MessageId, MarkdownServices>
+						| undefined;
 
-			if (runtime.skipFile(services)) {
-				return reports;
-			}
-
-			const fileContext = await runtime.fileSetup(services);
-			if (fileContext === false) {
-				return [];
-			}
-
-			const context = {
-				...services,
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: messages[report.message],
-						range: {
-							begin: getColumnAndLineOfPosition(
-								sourceFileText,
-								report.range.begin,
-							),
-							end: getColumnAndLineOfPosition(sourceFileText, report.range.end),
-						},
-					});
-				},
-				...fileContext,
-			};
-
-			const { visitors } = runtime;
-
-			visit(root, (node) => {
-				const visitor = visitors[node.type] as
-					| RuleVisitor<typeof node, MessageId, MarkdownServices>
-					| undefined;
-
-				visitor?.(node, context);
-			});
-
-			return reports;
-		},
+					visitor?.(node, context);
+				});
+			},
+			(range) => ({
+				begin: getColumnAndLineOfPosition(sourceFileText, range.begin),
+				end: getColumnAndLineOfPosition(sourceFileText, range.end),
+			}),
+		),
 	};
 
 	return { languageFile, root };

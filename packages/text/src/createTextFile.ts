@@ -1,9 +1,8 @@
 import {
+	createRuleRunner,
 	LanguageFileDefinition,
-	NormalizedReport,
-	type ReportMessageData,
-	RuleReport,
-	type RuleRuntime,
+	RuleContext,
+	RuleVisitors,
 } from "@flint.fyi/core";
 import indexToPosition from "index-to-position";
 
@@ -14,61 +13,38 @@ export function createTextFile(
 	sourceText: string,
 ): LanguageFileDefinition<TextNodes, TextServices> {
 	return {
-		async runRule<MessageId extends string, FileContext extends object>(
-			runtime: RuleRuntime<TextNodes, MessageId, TextServices, FileContext>,
-			messages: Record<string, ReportMessageData>,
-		): Promise<NormalizedReport[]> {
-			const reports: NormalizedReport[] = [];
-
-			const services = {
+		runRule: createRuleRunner<TextNodes, TextServices>(
+			{
 				filePathAbsolute,
 				sourceText,
-			};
+			},
+			<MessageId extends string, FileContext extends object>(
+				visitors: RuleVisitors<
+					TextNodes,
+					MessageId,
+					FileContext & TextServices
+				>,
+				context: FileContext & RuleContext<MessageId> & TextServices,
+			) => {
+				visitors.file?.(sourceText, context);
 
-			if (runtime.skipFile(services)) {
-				return reports;
-			}
-
-			const fileContext = await runtime.fileSetup(services);
-			if (fileContext === false) {
-				return [];
-			}
-
-			const context = {
-				...services,
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: messages[report.message],
-						range: {
-							begin: {
-								...indexToPosition(sourceText, report.range.begin),
-								raw: report.range.begin,
-							},
-							end: {
-								...indexToPosition(sourceText, report.range.end),
-								raw: report.range.end,
-							},
-						},
-					});
-				},
-				...fileContext,
-			};
-
-			runtime.visitors.file?.(sourceText, context);
-
-			if (runtime.visitors.line) {
-				const lines = sourceText.split(/\r\n|\n|\r/);
-				for (const line of lines) {
-					runtime.visitors.line(line, context);
+				if (visitors.line) {
+					const lines = sourceText.split(/\r\n|\n|\r/);
+					for (const line of lines) {
+						visitors.line(line, context);
+					}
 				}
-			}
-
-			return reports;
-		},
+			},
+			(range) => ({
+				begin: {
+					...indexToPosition(sourceText, range.begin),
+					raw: range.begin,
+				},
+				end: {
+					...indexToPosition(sourceText, range.end),
+					raw: range.end,
+				},
+			}),
+		),
 	};
 }
