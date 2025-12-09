@@ -78,12 +78,15 @@ export class RuleTester<AstNodesByName, ContextServices extends object> {
 		};
 	}
 
-	describe<OptionsSchema extends AnyOptionalSchema | undefined>(
+	describe<
+		FileContext extends object,
+		OptionsSchema extends AnyOptionalSchema | undefined,
+	>(
 		rule: Rule<
 			RuleAbout,
 			AstNodesByName,
 			ContextServices,
-			object,
+			FileContext,
 			string,
 			OptionsSchema
 		>,
@@ -104,12 +107,15 @@ export class RuleTester<AstNodesByName, ContextServices extends object> {
 		});
 	}
 
-	#itInvalidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
+	#itInvalidCase<
+		FileContext extends object,
+		OptionsSchema extends AnyOptionalSchema | undefined,
+	>(
 		rule: Rule<
 			RuleAbout,
 			AstNodesByName,
 			ContextServices,
-			object,
+			FileContext,
 			string,
 			OptionsSchema
 		>,
@@ -155,12 +161,15 @@ export class RuleTester<AstNodesByName, ContextServices extends object> {
 		test(testCase.code, setup);
 	}
 
-	#itValidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
+	#itValidCase<
+		FileContext extends object,
+		OptionsSchema extends AnyOptionalSchema | undefined,
+	>(
 		rule: Rule<
 			RuleAbout,
 			AstNodesByName,
 			ContextServices,
-			object,
+			FileContext,
 			string,
 			OptionsSchema
 		>,

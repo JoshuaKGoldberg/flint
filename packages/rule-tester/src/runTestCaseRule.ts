@@ -13,6 +13,7 @@ import { TestCaseNormalized } from "./normalizeTestCase.js";
 export interface TestCaseRuleConfiguration<
 	AstNodesByName,
 	ContextServices extends object,
+	FileContext extends object,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
 	options: InferredObject<OptionsSchema>;
@@ -20,7 +21,7 @@ export interface TestCaseRuleConfiguration<
 		RuleAbout,
 		AstNodesByName,
 		ContextServices,
-		object,
+		FileContext,
 		string,
 		OptionsSchema
 	>;
@@ -29,6 +30,7 @@ export interface TestCaseRuleConfiguration<
 export async function runTestCaseRule<
 	AstNodesByName,
 	ContextServices extends object,
+	FileContext extends object,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 >(
 	fileFactories: CachedFactory<
@@ -38,7 +40,12 @@ export async function runTestCaseRule<
 	{
 		options,
 		rule,
-	}: TestCaseRuleConfiguration<AstNodesByName, ContextServices, OptionsSchema>,
+	}: TestCaseRuleConfiguration<
+		AstNodesByName,
+		ContextServices,
+		FileContext,
+		OptionsSchema
+	>,
 	{ code, fileName }: TestCaseNormalized,
 ) {
 	using file = fileFactories
