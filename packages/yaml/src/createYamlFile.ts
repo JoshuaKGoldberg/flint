@@ -21,10 +21,7 @@ export function createYamlFile(sourceText: string) {
 	const sourceFileText = { text: sourceText };
 
 	const languageFile: LanguageFileDefinition<YamlNodesByName, YamlServices> = {
-		async runRule<
-			MessageId extends string,
-			FileContext extends object | undefined,
-		>(
+		async runRule<MessageId extends string, FileContext extends object>(
 			runtime: RuleRuntime<
 				YamlNodesByName,
 				MessageId,
@@ -39,9 +36,11 @@ export function createYamlFile(sourceText: string) {
 				root,
 			};
 
-			const fileContext = await (runtime.fileSetup?.(services) as Promise<
-				false | object | undefined
-			>);
+			if (runtime.skipFile(services)) {
+				return reports;
+			}
+
+			const fileContext = await runtime.fileSetup(services);
 			if (fileContext === false) {
 				return [];
 			}
@@ -67,10 +66,6 @@ export function createYamlFile(sourceText: string) {
 				},
 				...fileContext,
 			};
-
-			if (!runtime.visitors) {
-				return reports;
-			}
 
 			const { visitors } = runtime;
 

@@ -22,7 +22,7 @@ export type CreateRule<AstNodesByName, ContextServices extends object> = <
 		About,
 		AstNodesByName,
 		ContextServices,
-		undefined,
+		never,
 		MessageId,
 		OptionsSchema
 	>,
@@ -30,7 +30,7 @@ export type CreateRule<AstNodesByName, ContextServices extends object> = <
 	About,
 	AstNodesByName,
 	ContextServices,
-	undefined,
+	never,
 	MessageId,
 	OptionsSchema
 >;
@@ -41,7 +41,7 @@ export type CreateStatefulRule<
 > = <
 	const About extends RuleAbout,
 	const MessageId extends string,
-	const FileContext extends object | undefined,
+	const FileContext extends object,
 	const OptionsSchema extends AnyOptionalSchema | undefined = undefined,
 >(
 	definition: RuleDefinition<
@@ -109,10 +109,7 @@ export interface LanguageFile<AstNodesByName, ContextServices extends object>
 	extends Disposable {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
-	runRule<
-		const MessageId extends string,
-		const FileContext extends object | undefined,
-	>(
+	runRule<const MessageId extends string, const FileContext extends object>(
 		runtime: RuleRuntime<
 			AstNodesByName,
 			MessageId,
@@ -132,10 +129,7 @@ export interface LanguageFileDefinition<
 > extends Partial<Disposable> {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
-	runRule<
-		const MessageId extends string,
-		const FileContext extends object | undefined,
-	>(
+	runRule<const MessageId extends string, const FileContext extends object>(
 		runtime: RuleRuntime<
 			AstNodesByName,
 			MessageId,

@@ -37,7 +37,7 @@ export default textLanguage
 			return { documentValidator };
 		}),
 	)
-	.build(() => ({
+	.buildWithVisitors(() => ({
 		file: (text, context) => {
 			if (!context.documentValidator) {
 				return;

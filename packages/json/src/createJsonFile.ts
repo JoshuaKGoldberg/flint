@@ -24,21 +24,21 @@ export function createTypeScriptJsonFile(
 	const sourceFile = ts.parseJsonText(filePathAbsolute, sourceText);
 
 	return {
-		async runRule<
-			MessageId extends string,
-			FileContext extends object | undefined,
-		>(
+		async runRule<MessageId extends string, FileContext extends object>(
 			runtime: RuleRuntime<TSNodesByName, MessageId, JsonServices, FileContext>,
 			messages: Record<string, ReportMessageData>,
 		): Promise<NormalizedReport[]> {
 			const reports: NormalizedReport[] = [];
 
-			const services = {
+			const services: JsonServices = {
 				sourceFile,
 			};
-			const fileContext = await (runtime.fileSetup?.(services) as Promise<
-				false | object | undefined
-			>);
+
+			if (runtime.skipFile(services)) {
+				return reports;
+			}
+
+			const fileContext = await runtime.fileSetup(services);
 			if (fileContext === false) {
 				return [];
 			}
@@ -58,10 +58,6 @@ export function createTypeScriptJsonFile(
 				},
 				...fileContext,
 			};
-
-			if (!runtime.visitors) {
-				return reports;
-			}
 
 			const { visitors } = runtime;
 

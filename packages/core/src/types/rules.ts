@@ -24,7 +24,7 @@ export interface Rule<
 	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
-	in out FileContext extends object | undefined,
+	in out FileContext extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > extends RuleDefinition<
@@ -45,11 +45,15 @@ export interface RuleAbout extends BaseAbout {
 /**
  * The definition of a rule, as provided to rule creators internally.
  */
+export type FileSetup<ContextServices, FileContext extends object> = (
+	context: ContextServices,
+) => PromiseOrSync<FileContext>;
+
 export interface RuleDefinition<
 	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
-	FileContext extends object | undefined,
+	FileContext extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
@@ -65,46 +69,20 @@ export interface RuleDefinition<
 	>;
 }
 
-export type RuleRuntime<
-	AstNodesByName,
-	MessageId extends string,
-	ContextServices extends object,
-	FileContext extends object | undefined,
-> = FileContext extends undefined
-	? StatelessRuleRuntime<AstNodesByName, MessageId, ContextServices>
-	: FileContext extends object
-		? StatefulRuleRuntime<
-				AstNodesByName,
-				MessageId,
-				ContextServices,
-				FileContext
-			>
-		: never;
-
-interface StatefulRuleRuntime<
+export interface RuleRuntime<
 	in out AstNodesByName,
 	out MessageId extends string,
 	in ContextServices extends object,
 	in out FileContext extends object,
 > {
-	dependencies?: string[];
-	fileSetup: (context: ContextServices) => PromiseOrSync<FileContext>;
-	skipFile?: (context: ContextServices) => PromiseOrSync<boolean>;
-	visitors?: RuleVisitors<
+	dependencies: string[];
+	fileSetup: FileSetup<ContextServices, FileContext>;
+	skipFile: (context: ContextServices) => PromiseOrSync<boolean>;
+	visitors: RuleVisitors<
 		AstNodesByName,
 		MessageId,
 		ContextServices & FileContext
 	>;
-}
-
-interface StatelessRuleRuntime<
-	in out AstNodesByName,
-	out MessageId extends string,
-	in ContextServices extends object,
-> {
-	dependencies?: string[];
-	skipFile?: (context: ContextServices) => PromiseOrSync<boolean>;
-	visitors?: RuleVisitors<AstNodesByName, MessageId, ContextServices>;
 }
 
 /**
@@ -113,7 +91,7 @@ interface StatelessRuleRuntime<
 export type RuleSetup<
 	in out AstNodesByName,
 	in ContextServices extends object,
-	in out FileContext extends object | undefined,
+	in out FileContext extends object,
 	out MessageId extends string,
 	in Options,
 > = (

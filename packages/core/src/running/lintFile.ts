@@ -18,7 +18,7 @@ export async function lintFile<
 	const About extends RuleAbout,
 	const AstNodesByName,
 	const ContextServices extends object,
-	const FileContext extends object | undefined,
+	const FileContext extends object,
 	const MessageId extends string,
 >(
 	filePathAbsolute: string,

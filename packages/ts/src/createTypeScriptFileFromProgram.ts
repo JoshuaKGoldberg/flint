@@ -52,10 +52,7 @@ export function createTypeScriptFileFromProgram(
 					}),
 				}));
 		},
-		async runRule<
-			MessageId extends string,
-			FileContext extends object | undefined,
-		>(
+		async runRule<MessageId extends string, FileContext extends object>(
 			runtime: RuleRuntime<
 				TSNodesByName,
 				MessageId,
@@ -72,9 +69,11 @@ export function createTypeScriptFileFromProgram(
 				typeChecker: program.getTypeChecker(),
 			};
 
-			const fileContext = await (runtime.fileSetup?.(services) as Promise<
-				false | object | undefined
-			>);
+			if (runtime.skipFile(services)) {
+				return reports;
+			}
+
+			const fileContext = await runtime.fileSetup(services);
 			if (fileContext === false) {
 				return [];
 			}
@@ -94,10 +93,6 @@ export function createTypeScriptFileFromProgram(
 				},
 				...fileContext,
 			};
-
-			if (!runtime.visitors) {
-				return reports;
-			}
 
 			const { visitors } = runtime;
 			const visit = (node: ts.Node) => {

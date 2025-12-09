@@ -14,10 +14,7 @@ export function createTextFile(
 	sourceText: string,
 ): LanguageFileDefinition<TextNodes, TextServices> {
 	return {
-		async runRule<
-			MessageId extends string,
-			FileContext extends object | undefined,
-		>(
+		async runRule<MessageId extends string, FileContext extends object>(
 			runtime: RuleRuntime<TextNodes, MessageId, TextServices, FileContext>,
 			messages: Record<string, ReportMessageData>,
 		): Promise<NormalizedReport[]> {
@@ -28,9 +25,11 @@ export function createTextFile(
 				sourceText,
 			};
 
-			const fileContext = await (runtime.fileSetup?.(services) as Promise<
-				false | object | undefined
-			>);
+			if (runtime.skipFile(services)) {
+				return reports;
+			}
+
+			const fileContext = await runtime.fileSetup(services);
 			if (fileContext === false) {
 				return [];
 			}
@@ -60,14 +59,12 @@ export function createTextFile(
 				...fileContext,
 			};
 
-			if (runtime.visitors) {
-				runtime.visitors.file?.(sourceText, context);
+			runtime.visitors.file?.(sourceText, context);
 
-				if (runtime.visitors.line) {
-					const lines = sourceText.split(/\r\n|\n|\r/);
-					for (const line of lines) {
-						runtime.visitors.line(line, context);
-					}
+			if (runtime.visitors.line) {
+				const lines = sourceText.split(/\r\n|\n|\r/);
+				for (const line of lines) {
+					runtime.visitors.line(line, context);
 				}
 			}
 

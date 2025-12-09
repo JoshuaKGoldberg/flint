@@ -29,10 +29,7 @@ export function createMarkdownFile(sourceText: string) {
 		MarkdownNodesByName,
 		MarkdownServices
 	> = {
-		async runRule<
-			MessageId extends string,
-			FileContext extends object | undefined,
-		>(
+		async runRule<MessageId extends string, FileContext extends object>(
 			runtime: RuleRuntime<
 				MarkdownNodesByName,
 				MessageId,
@@ -47,9 +44,11 @@ export function createMarkdownFile(sourceText: string) {
 				root,
 			};
 
-			const fileContext = await (runtime.fileSetup?.(services) as Promise<
-				false | object | undefined
-			>);
+			if (runtime.skipFile(services)) {
+				return reports;
+			}
+
+			const fileContext = await runtime.fileSetup(services);
 			if (fileContext === false) {
 				return [];
 			}
@@ -75,10 +74,6 @@ export function createMarkdownFile(sourceText: string) {
 				},
 				...fileContext,
 			};
-
-			if (!runtime.visitors) {
-				return reports;
-			}
 
 			const { visitors } = runtime;
 

@@ -6,69 +6,30 @@ import type {
 	ReportMessageData,
 	RuleReport,
 } from "./reports.js";
-import type { RuleAbout, RuleVisitors } from "./rules.js";
+import type {
+	FileSetup,
+	Rule,
+	RuleAbout,
+	RuleRuntime,
+	RuleVisitors,
+} from "./rules.js";
 import type { AnyOptionalSchema, InferredObject } from "./shapes.js";
-
-type FileSetup<ContextServices, FileContext> = (
-	context: ContextServices,
-) => PromiseOrSync<FileContext>;
-
-type RuleSetup<
-	AstNodesByName,
-	MessageId extends string,
-	ContextServices extends object,
-	in out FileContext extends object | undefined,
-	OptionsSchema extends AnyOptionalSchema | undefined,
-> = (
-	options: InferredObject<OptionsSchema>,
-) => RuleVisitors<
-	AstNodesByName,
-	MessageId,
-	ContextServices & (FileContext extends object ? FileContext : never)
->;
 
 type SkipFile<ContextServices> = (
 	context: ContextServices,
 ) => PromiseOrSync<boolean>;
 
-/**
- * A single lint rule, as used by users in configs.
- */
-export interface Rule<
-	About extends RuleAbout,
-	AstNodesByName,
-	ContextServices extends object,
-	in out FileContext extends object | undefined,
-	MessageId extends string,
-	OptionsSchema extends AnyOptionalSchema | undefined,
-> {
-	about: About;
-	dependencies: string[];
-	fileSetup?: FileSetup<ContextServices, FileContext>;
-	language: Language<AstNodesByName, ContextServices>;
-	messages: Record<MessageId, ReportMessageData>;
-	options?: OptionsSchema;
-	setup: RuleSetup<
-		AstNodesByName,
-		MessageId,
-		ContextServices,
-		FileContext,
-		OptionsSchema
-	>;
-	skipFile?: SkipFile<ContextServices>;
-}
-
 export class RuleBuilder<
 	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
-	FileContext extends object | undefined,
+	FileContext extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
 	readonly about?: About;
 	readonly dependencies: string[];
-	readonly fileSetup?: FileSetup<ContextServices, FileContext>;
+	readonly fileSetup: FileSetup<ContextServices, FileContext>;
 	readonly language: Language<AstNodesByName, ContextServices>;
 	readonly messages?: Record<MessageId, ReportMessageData>;
 	readonly options?: OptionsSchema;
@@ -76,9 +37,9 @@ export class RuleBuilder<
 
 	constructor(
 		language: Language<AstNodesByName, ContextServices>,
+		fileSetup: FileSetup<ContextServices, FileContext>,
 		about?: About,
 		messages?: Record<MessageId, ReportMessageData>,
-		fileSetup?: FileSetup<ContextServices, FileContext>,
 		options?: OptionsSchema,
 		skipFile?: SkipFile<ContextServices>,
 		dependencies: string[] = [],
@@ -92,14 +53,10 @@ export class RuleBuilder<
 		this.dependencies = dependencies;
 	}
 
-	build(
+	buildWithVisitors(
 		setup: (
 			options: InferredObject<OptionsSchema>,
-		) => RuleVisitors<
-			AstNodesByName,
-			MessageId,
-			ContextServices & (FileContext extends object ? FileContext : object)
-		>,
+		) => RuleVisitors<AstNodesByName, MessageId, ContextServices & FileContext>,
 	): Rule<
 		About,
 		AstNodesByName,
@@ -114,13 +71,23 @@ export class RuleBuilder<
 
 		return {
 			about: this.about,
-			dependencies: this.dependencies,
-			fileSetup: this.fileSetup,
+
 			language: this.language,
 			messages: this.messages,
 			options: this.options,
-			setup,
-			skipFile: this.skipFile,
+			setup: (options) => {
+				return {
+					dependencies: this.dependencies,
+					fileSetup: this.fileSetup,
+					skipFile: this.skipFile ?? (() => false),
+					visitors: setup(options),
+				} satisfies RuleRuntime<
+					AstNodesByName,
+					MessageId,
+					ContextServices,
+					FileContext
+				>;
+			},
 		};
 	}
 
@@ -134,7 +101,7 @@ export const about =
 	<
 		AstNodesByName,
 		ContextServices extends object,
-		FileContext extends object | undefined,
+		FileContext extends object,
 		MessageId extends string,
 		OptionsSchema extends AnyOptionalSchema | undefined,
 	>(
@@ -149,9 +116,9 @@ export const about =
 	) =>
 		new RuleBuilder(
 			builder.language,
+			builder.fileSetup,
 			about,
 			builder.messages,
-			builder.fileSetup,
 			builder.options,
 			builder.skipFile,
 			builder.dependencies,
@@ -165,7 +132,7 @@ export const messages =
 		About extends RuleAbout,
 		AstNodesByName,
 		ContextServices extends object,
-		FileContext extends object | undefined,
+		FileContext extends object,
 		OptionsSchema extends AnyOptionalSchema | undefined,
 	>(
 		builder: RuleBuilder<
@@ -186,9 +153,9 @@ export const messages =
 	> =>
 		new RuleBuilder(
 			builder.language,
+			builder.fileSetup,
 			builder.about,
 			messages,
-			builder.fileSetup,
 			builder.options,
 			builder.skipFile,
 			builder.dependencies,
@@ -202,7 +169,7 @@ export const options =
 		About extends RuleAbout,
 		AstNodesByName,
 		ContextServices extends object,
-		FileContext extends object | undefined,
+		FileContext extends object,
 		MessageId extends string,
 	>(
 		builder: RuleBuilder<
@@ -223,9 +190,9 @@ export const options =
 	> =>
 		new RuleBuilder(
 			builder.language,
+			builder.fileSetup,
 			builder.about,
 			builder.messages,
-			builder.fileSetup,
 			options,
 			builder.skipFile,
 			builder.dependencies,
@@ -236,7 +203,7 @@ export const skipFile =
 	<
 		About extends RuleAbout,
 		AstNodesByName,
-		FileContext extends object | undefined,
+		FileContext extends object,
 		MessageId extends string,
 		OptionsSchema extends AnyOptionalSchema | undefined,
 	>(
@@ -251,9 +218,9 @@ export const skipFile =
 	) =>
 		new RuleBuilder(
 			builder.language,
+			builder.fileSetup,
 			builder.about,
 			builder.messages,
-			builder.fileSetup,
 			builder.options,
 			skipFile,
 			builder.dependencies,
@@ -265,7 +232,7 @@ export const dependencies =
 		About extends RuleAbout,
 		AstNodesByName,
 		ContextServices extends object,
-		FileContext extends object | undefined,
+		FileContext extends object,
 		MessageId extends string,
 		OptionsSchema extends AnyOptionalSchema | undefined,
 	>(
@@ -280,9 +247,9 @@ export const dependencies =
 	) =>
 		new RuleBuilder(
 			builder.language,
+			builder.fileSetup,
 			builder.about,
 			builder.messages,
-			builder.fileSetup,
 			builder.options,
 			builder.skipFile,
 			dependencies,
@@ -295,6 +262,7 @@ export const stateful =
 	<
 		About extends RuleAbout,
 		AstNodesByName,
+		OldFileContext extends object,
 		MessageId extends string,
 		OptionsSchema extends AnyOptionalSchema | undefined,
 	>(
@@ -302,16 +270,16 @@ export const stateful =
 			About,
 			AstNodesByName,
 			ContextServices,
-			never,
+			OldFileContext,
 			MessageId,
 			OptionsSchema
 		>,
 	) =>
 		new RuleBuilder(
 			builder.language,
+			fileSetup,
 			builder.about,
 			builder.messages,
-			fileSetup,
 			builder.options,
 			builder.skipFile,
 			builder.dependencies,
@@ -324,10 +292,10 @@ export const createRule = <AstNodesByName, ContextServices extends object>(
 		never,
 		AstNodesByName,
 		ContextServices,
-		never,
+		object,
 		never,
 		undefined
-	>(language);
+	>(language, () => Promise.resolve({}));
 
 //#region TEST
 
@@ -340,7 +308,7 @@ interface TestServices {
 
 async function runTestRule<
 	MessageId extends string,
-	FileContext extends object | undefined,
+	FileContext extends object,
 	OptionsSchema extends AnyOptionalSchema | undefined = undefined,
 >(
 	rule: Rule<
@@ -359,15 +327,15 @@ async function runTestRule<
 		truthy: true,
 	};
 
-	if (await rule.skipFile?.(services)) {
+	const runtime = rule.setup(options);
+
+	if (await runtime.skipFile(services)) {
 		return [];
 	}
 
-	const fileContext = await rule.fileSetup?.(services);
+	const fileContext = await runtime.fileSetup(services);
 
-	const context: (FileContext extends object ? FileContext : never) &
-		RuleContext<MessageId> &
-		TestServices = {
+	const context: FileContext & RuleContext<MessageId> & TestServices = {
 		...services,
 		report: (report: RuleReport<MessageId>) => {
 			reports.push({
@@ -389,13 +357,10 @@ async function runTestRule<
 				},
 			});
 		},
-		...((typeof fileContext === "object"
-			? fileContext
-			: {}) as FileContext extends object ? FileContext : never),
+		...fileContext,
 	};
 
-	const visitors = rule.setup(options);
-	visitors.file?.({}, context);
+	runtime.visitors.file?.({}, context);
 
 	return reports;
 }
@@ -410,6 +375,7 @@ const testRule = createRule(testLanguage)
 		}),
 	)
 	.pipe(messages({}))
-	.build(() => ({}));
+	.pipe(stateful(() => ({})))
+	.buildWithVisitors(() => ({}));
 
 await runTestRule(testRule, undefined);
