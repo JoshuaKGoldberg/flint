@@ -8,9 +8,10 @@ const urlTester = /(?:https?:\/\/|mailto:)\S+|[\w.+-]+@[\w.-]+\.\w+/gi;
 
 type Context = FileContext & MarkdownServices & RuleContext<"bareUrl">;
 
-interface FileContext {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- Otherwise we get a
+type FileContext = {
 	textInValidLinks: Set<number>;
-}
+};
 
 export default markdownLanguage.createStatefulRule({
 	about: {

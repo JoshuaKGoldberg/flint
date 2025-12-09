@@ -41,10 +41,7 @@ export async function lintFile<
 	const diagnostics: LanguageFileDiagnostic[] = [];
 	const reports: FileReport[] = [];
 
-	const language = languageFactories
-		// TODO: How to make types more permissive around assignability?
-		// See AnyRule's any
-		.get(rule.language);
+	const language = languageFactories.get(rule.language);
 
 	const { file } = language.prepareFromDisk.get(filePathAbsolute);
 

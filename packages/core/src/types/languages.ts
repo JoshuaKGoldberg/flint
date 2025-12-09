@@ -8,8 +8,6 @@ import { CommentDirective } from "./directives.js";
 import { FileReport } from "./reports.js";
 import { Rule, RuleAbout, RuleDefinition } from "./rules.js";
 
-export type AnyLanguage = Language<object, object>;
-
 export type CreateRule<AstNodesByName, ContextServices extends object> = <
 	const About extends RuleAbout,
 	const MessageId extends string,

@@ -4,6 +4,8 @@ import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 import path from "node:path";
 
+import type { Language } from "../types/languages.js";
+
 import { readFromCache } from "../cache/readFromCache.js";
 import { writeToCache } from "../cache/writeToCache.js";
 import { collectFilesValues } from "../globs/collectFilesValues.js";
@@ -14,7 +16,6 @@ import {
 	ProcessedConfigDefinition,
 } from "../types/configs.js";
 import { FilesGlobObjectProcessed, FilesValue } from "../types/files.js";
-import { AnyLanguage } from "../types/languages.js";
 import { FileResults, LintResults } from "../types/linting.js";
 import { flatten } from "../utils/arrays.js";
 import { computeRulesWithOptions } from "./computeRulesWithOptions.js";
@@ -76,9 +77,11 @@ export async function lintOnce(
 	const filesResults = new Map<string, FileResults>();
 	let totalReports = 0;
 
-	const languageFactories = new CachedFactory((language: AnyLanguage) => {
-		return language.prepare();
-	});
+	const languageFactories = new CachedFactory(
+		(language: Language<unknown, object>) => {
+			return language.prepare();
+		},
+	);
 
 	const cached = ignoreCache
 		? undefined

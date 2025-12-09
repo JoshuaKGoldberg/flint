@@ -1,4 +1,12 @@
 import { RuleTester } from "@flint.fyi/rule-tester";
 import { describe, it } from "vitest";
 
-export const ruleTester = new RuleTester({ describe, it });
+import type { MarkdownServices } from "../language.js";
+import type { MarkdownNodesByName } from "../nodes.js";
+
+export const ruleTester = new RuleTester<MarkdownNodesByName, MarkdownServices>(
+	{
+		describe,
+		it,
+	},
+);
