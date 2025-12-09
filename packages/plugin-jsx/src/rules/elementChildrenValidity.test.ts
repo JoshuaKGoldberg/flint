@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 <br>text</br>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <br>text</br>
  ~~
@@ -18,7 +17,6 @@ ruleTester.describe(rule, {
 			code: `
 <img>child content</img>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <img>child content</img>
  ~~~
@@ -29,7 +27,6 @@ ruleTester.describe(rule, {
 			code: `
 <input><span>Invalid</span></input>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <input><span>Invalid</span></input>
  ~~~~~
@@ -40,7 +37,6 @@ ruleTester.describe(rule, {
 			code: `
 <hr>{expression}</hr>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <hr>{expression}</hr>
  ~~
@@ -53,7 +49,6 @@ ruleTester.describe(rule, {
     <div>Content</div>
 </meta>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <meta>
  ~~~~
@@ -66,7 +61,6 @@ ruleTester.describe(rule, {
 			code: `
 <area>text content</area>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <area>text content</area>
  ~~~~
@@ -79,7 +73,6 @@ ruleTester.describe(rule, {
     content
 </base>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <base>
  ~~~~
@@ -92,7 +85,6 @@ ruleTester.describe(rule, {
 			code: `
 <col><td>data</td></col>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <col><td>data</td></col>
  ~~~
@@ -103,7 +95,6 @@ ruleTester.describe(rule, {
 			code: `
 <embed>child</embed>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <embed>child</embed>
  ~~~~~
@@ -114,7 +105,6 @@ ruleTester.describe(rule, {
 			code: `
 <link>content</link>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <link>content</link>
  ~~~~
@@ -125,7 +115,6 @@ ruleTester.describe(rule, {
 			code: `
 <param>value</param>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <param>value</param>
  ~~~~~
@@ -136,7 +125,6 @@ ruleTester.describe(rule, {
 			code: `
 <source>media</source>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <source>media</source>
  ~~~~~~
@@ -147,7 +135,6 @@ ruleTester.describe(rule, {
 			code: `
 <track>subtitle</track>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <track>subtitle</track>
  ~~~~~
@@ -158,7 +145,6 @@ ruleTester.describe(rule, {
 			code: `
 <wbr>text</wbr>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <wbr>text</wbr>
  ~~~
@@ -167,26 +153,25 @@ ruleTester.describe(rule, {
 		},
 	],
 	valid: [
-		{ code: `<br />`, fileName: "file.tsx" },
-		{ code: `<img src="test.jpg" />`, fileName: "file.tsx" },
-		{ code: `<input type="text" />`, fileName: "file.tsx" },
-		{ code: `<hr />`, fileName: "file.tsx" },
-		{ code: `<meta name="viewport" />`, fileName: "file.tsx" },
-		{ code: `<link rel="stylesheet" />`, fileName: "file.tsx" },
-		{ code: `<div>Content</div>`, fileName: "file.tsx" },
-		{ code: `<span><br /></span>`, fileName: "file.tsx" },
+		{ code: `<br />` },
+		{ code: `<img src="test.jpg" />` },
+		{ code: `<input type="text" />` },
+		{ code: `<hr />` },
+		{ code: `<meta name="viewport" />` },
+		{ code: `<link rel="stylesheet" />` },
+		{ code: `<div>Content</div>` },
+		{ code: `<span><br /></span>` },
 		{
 			code: `<CustomComponent>children</CustomComponent>`,
-			fileName: "file.tsx",
 		},
-		{ code: `<Button>Click me</Button>`, fileName: "file.tsx" },
-		{ code: `<area />`, fileName: "file.tsx" },
-		{ code: `<base />`, fileName: "file.tsx" },
-		{ code: `<col />`, fileName: "file.tsx" },
-		{ code: `<embed />`, fileName: "file.tsx" },
-		{ code: `<param />`, fileName: "file.tsx" },
-		{ code: `<source />`, fileName: "file.tsx" },
-		{ code: `<track />`, fileName: "file.tsx" },
-		{ code: `<wbr />`, fileName: "file.tsx" },
+		{ code: `<Button>Click me</Button>` },
+		{ code: `<area />` },
+		{ code: `<base />` },
+		{ code: `<col />` },
+		{ code: `<embed />` },
+		{ code: `<param />` },
+		{ code: `<source />` },
+		{ code: `<track />` },
+		{ code: `<wbr />` },
 	],
 });

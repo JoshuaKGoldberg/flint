@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 const element = <><div>Hello</div></>;
 `,
-			fileName: "file.tsx",
 			snapshot: `
 const element = <><div>Hello</div></>;
                 ~~~~~~~~~~~~~~~~~~~~~
@@ -18,7 +17,6 @@ const element = <><div>Hello</div></>;
 			code: `
 const element = <>Hello</>;
 `,
-			fileName: "file.tsx",
 			snapshot: `
 const element = <>Hello</>;
                 ~~~~~~~~~~
@@ -29,7 +27,6 @@ const element = <>Hello</>;
 			code: `
 const element = <></>;
 `,
-			fileName: "file.tsx",
 			snapshot: `
 const element = <></>;
                 ~~~~~
@@ -40,7 +37,6 @@ const element = <></>;
 			code: `
 const element = <Fragment><div>Hello</div></Fragment>;
 `,
-			fileName: "file.tsx",
 			snapshot: `
 const element = <Fragment><div>Hello</div></Fragment>;
                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,7 +47,6 @@ const element = <Fragment><div>Hello</div></Fragment>;
 			code: `
 const element = <Fragment></Fragment>;
 `,
-			fileName: "file.tsx",
 			snapshot: `
 const element = <Fragment></Fragment>;
                 ~~~~~~~~~~~~~~~~~~~~~
@@ -64,7 +59,6 @@ const element = <>
     <div>Hello</div>
 </>;
 `,
-			fileName: "file.tsx",
 			snapshot: `
 const element = <>
                 ~~
@@ -83,7 +77,6 @@ return (
     </>
 );
 `,
-			fileName: "file.tsx",
 			snapshot: `
 return (
     <>
@@ -102,7 +95,6 @@ const element = <Fragment>
     Text content
 </Fragment>;
 `,
-			fileName: "file.tsx",
 			snapshot: `
 const element = <Fragment>
                 ~~~~~~~~~~
@@ -117,21 +109,17 @@ const element = <Fragment>
 	valid: [
 		{
 			code: `const element = <><div>First</div><div>Second</div></>;`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `const element = <Fragment><div>First</div><div>Second</div></Fragment>;`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `const element = <Fragment key="item"><div>Hello</div></Fragment>;`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `const element = <><div>A</div><div>B</div><div>C</div></>;`,
-			fileName: "file.tsx",
 		},
-		{ code: `const element = <div>Hello</div>;`, fileName: "file.tsx" },
+		{ code: `const element = <div>Hello</div>;` },
 		{
 			code: `
 return (
@@ -141,11 +129,9 @@ return (
     </>
 );
 `,
-			fileName: "file.tsx",
 		},
 		{
 			code: `const element = <Fragment key={item.id}><span>{item.text}</span></Fragment>;`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `
@@ -155,7 +141,6 @@ const element = <>
     <div>Second</div>
 </>;
 `,
-			fileName: "file.tsx",
 		},
 	],
 });
