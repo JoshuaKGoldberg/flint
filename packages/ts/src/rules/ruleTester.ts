@@ -5,6 +5,7 @@ import type { TypeScriptServices } from "../language.js";
 import type { TSNodesByName } from "../nodes.js";
 
 export const ruleTester = new RuleTester<TSNodesByName, TypeScriptServices>({
+	defaults: { fileName: "file.ts" },
 	describe,
 	it,
 });

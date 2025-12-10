@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 <div id="first" id="second">Content</div>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <div id="first" id="second">Content</div>
                 ~~
@@ -20,7 +19,6 @@ ruleTester.describe(rule, {
     Click me
 </button>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <button className="btn" onClick={handleClick} className="btn-primary">
                                               ~~~~~~~~~
@@ -33,7 +31,6 @@ ruleTester.describe(rule, {
 			code: `
 <input type="text" name="field" type="email" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <input type="text" name="field" type="email" />
                                 ~~~~
@@ -50,7 +47,6 @@ ruleTester.describe(rule, {
     value="third"
 />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <Component
     value="first"
@@ -67,19 +63,16 @@ ruleTester.describe(rule, {
 		},
 	],
 	valid: [
-		{ code: `<div id="unique">Content</div>`, fileName: "file.tsx" },
+		{ code: `<div id="unique">Content</div>` },
 		{
 			code: `<button className="btn" onClick={handleClick}>Click</button>`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `<input type="text" name="field" value="test" />`,
-			fileName: "file.tsx",
 		},
-		{ code: `<Component {...props} />`, fileName: "file.tsx" },
+		{ code: `<Component {...props} />` },
 		{
 			code: `<Element prop1="a" prop2="b" prop3="c" />`,
-			fileName: "file.tsx",
 		},
 	],
 });

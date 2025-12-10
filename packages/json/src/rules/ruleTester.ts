@@ -5,6 +5,7 @@ import type { JsonServices } from "../language.js";
 import type { TSNodesByName } from "../nodes.js";
 
 export const ruleTester = new RuleTester<TSNodesByName, JsonServices>({
+	defaults: { fileName: "file.json" },
 	describe,
 	it,
 });

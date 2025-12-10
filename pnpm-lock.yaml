@@ -50,8 +50,8 @@ importers:
         specifier: 1.5.0
         version: 1.5.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.2(@types/debug@4.1.12)(@types/node@24.10.0)(jiti@2.6.1)(yaml@2.8.2))
       console-fail-test:
-        specifier: 0.5.0
-        version: 0.5.0
+        specifier: 0.6.0
+        version: 0.6.0
       cspell:
         specifier: 9.4.0
         version: 9.4.0
@@ -59,8 +59,8 @@ importers:
         specifier: 9.39.1
         version: 9.39.1(jiti@2.6.1)
       eslint-plugin-jsdoc:
-        specifier: 61.4.0
-        version: 61.4.0(eslint@9.39.1(jiti@2.6.1))
+        specifier: 61.5.0
+        version: 61.5.0(eslint@9.39.1(jiti@2.6.1))
       eslint-plugin-jsonc:
         specifier: 2.21.0
         version: 2.21.0(eslint@9.39.1(jiti@2.6.1))
@@ -95,8 +95,8 @@ importers:
         specifier: 16.2.6
         version: 16.2.6
       markdownlint:
-        specifier: 0.39.0
-        version: 0.39.0
+        specifier: 0.40.0
+        version: 0.40.0
       markdownlint-cli:
         specifier: 0.46.0
         version: 0.46.0
@@ -574,8 +574,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       yaml-unist-parser:
-        specifier: ^2.0.5
-        version: 2.0.5
+        specifier: ^3.0.0
+        version: 3.1.0
 
 packages:
 
@@ -2355,9 +2355,9 @@ packages:
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
-  console-fail-test@0.5.0:
-    resolution: {integrity: sha512-nghkQcJ9DJMYtdN1L/ZNu1GvnLMo38DTneWX23+WbIdvjuVkbcshGFxgIG5LbI9j/th4dgwUc0Hiwtq85VWb/Q==}
-    engines: {node: '>=18'}
+  console-fail-test@0.6.0:
+    resolution: {integrity: sha512-9v1VR0upG/wIxMz9QuwmdCHnpy7mJAP0qokFhZTI/nbAV6kAuSMkjbczcV2XJU1aFmCX783pF8TsUhqQMuWOAg==}
+    engines: {node: '>=20.19.0'}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -2655,8 +2655,8 @@ packages:
     peerDependencies:
       eslint: '>=8'
 
-  eslint-plugin-jsdoc@61.4.0:
-    resolution: {integrity: sha512-Gbe6Z1QENj6jr5PVnEkWwm0PcVCGFwl9ju+e0BxFuRHHv6c8q2L+PRfCwDBO+veEEEGi5XO52nmoIRvhxb1A3Q==}
+  eslint-plugin-jsdoc@61.5.0:
+    resolution: {integrity: sha512-PR81eOGq4S7diVnV9xzFSBE4CDENRQGP0Lckkek8AdHtbj+6Bm0cItwlFnxsLFriJHspiE3mpu8U20eODyToIg==}
     engines: {node: '>=20.11.0'}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -3348,6 +3348,10 @@ packages:
 
   markdownlint@0.39.0:
     resolution: {integrity: sha512-Xt/oY7bAiHwukL1iru2np5LIkhwD19Y7frlsiDILK62v3jucXCD6JXlZlwMG12HZOR+roHIVuJZrfCkOhp6k3g==}
+    engines: {node: '>=20'}
+
+  markdownlint@0.40.0:
+    resolution: {integrity: sha512-UKybllYNheWac61Ia7T6fzuQNDZimFIpCg2w6hHjgV1Qu0w1TV0LlSgryUGzM0bkKQCBhy2FDhEELB73Kb0kAg==}
     engines: {node: '>=20'}
 
   mdast-heading-id@2.0.0:
@@ -4823,13 +4827,9 @@ packages:
     resolution: {integrity: sha512-N47AqBDCMQmh6mBLmI6oqxryHRzi33aPFPsJhYy3VTUGCdLHYjGh4FZzpUjRlphaADBBkDmnkM/++KNIOHi5Rw==}
     hasBin: true
 
-  yaml-unist-parser@2.0.5:
-    resolution: {integrity: sha512-CirHjIkYcQxbG9wgYmzjJlMaBFuj788zLOgT0A2FAzdsw2dD4vnq4cx+kij/fXImG09ARnlODtS38JM1EottOw==}
+  yaml-unist-parser@3.1.0:
+    resolution: {integrity: sha512-hkwsdPLFBV6Vs40Mw5A11gzN9f9AiN8g72D8fXxfqnrW/AYY8/d7Yphx780UMzREcH7aRuHYAyQj9AwrI4E4xg==}
     engines: {node: '>= 14'}
-
-  yaml@1.10.2:
-    resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
-    engines: {node: '>= 6'}
 
   yaml@2.2.2:
     resolution: {integrity: sha512-CBKFWExMn46Foo4cldiChEzn7S7SRV+wqiluAb6xmueD/fGyRHIhX8m14vVGgeFWjN540nKCNVj6P21eQjgTuA==}
@@ -6913,7 +6913,7 @@ snapshots:
 
   concat-map@0.0.1: {}
 
-  console-fail-test@0.5.0: {}
+  console-fail-test@0.6.0: {}
 
   convert-source-map@2.0.0: {}
 
@@ -7241,7 +7241,7 @@ snapshots:
       eslint: 9.39.1(jiti@2.6.1)
       eslint-compat-utils: 0.5.1(eslint@9.39.1(jiti@2.6.1))
 
-  eslint-plugin-jsdoc@61.4.0(eslint@9.39.1(jiti@2.6.1)):
+  eslint-plugin-jsdoc@61.5.0(eslint@9.39.1(jiti@2.6.1)):
     dependencies:
       '@es-joy/jsdoccomment': 0.76.0
       '@es-joy/resolve.exports': 1.2.0
@@ -8132,6 +8132,20 @@ snapshots:
       micromark-extension-gfm-table: 2.1.1
       micromark-extension-math: 3.1.0
       micromark-util-types: 2.0.2
+    transitivePeerDependencies:
+      - supports-color
+
+  markdownlint@0.40.0:
+    dependencies:
+      micromark: 4.0.2
+      micromark-core-commonmark: 2.0.3
+      micromark-extension-directive: 4.0.0
+      micromark-extension-gfm-autolink-literal: 2.1.0
+      micromark-extension-gfm-footnote: 2.1.0
+      micromark-extension-gfm-table: 2.1.1
+      micromark-extension-math: 3.1.0
+      micromark-util-types: 2.0.2
+      string-width: 8.1.0
     transitivePeerDependencies:
       - supports-color
 
@@ -9967,11 +9981,9 @@ snapshots:
     optionalDependencies:
       prettier: 2.8.7
 
-  yaml-unist-parser@2.0.5:
+  yaml-unist-parser@3.1.0:
     dependencies:
-      yaml: 1.10.2
-
-  yaml@1.10.2: {}
+      yaml: 2.8.2
 
   yaml@2.2.2: {}
 

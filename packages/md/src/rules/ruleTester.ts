@@ -6,6 +6,7 @@ import type { MarkdownNodesByName } from "../nodes.js";
 
 export const ruleTester = new RuleTester<MarkdownNodesByName, MarkdownServices>(
 	{
+		defaults: { fileName: "file.json" },
 		describe,
 		it,
 	},

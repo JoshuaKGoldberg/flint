@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 <button disabled={true}>Click me</button>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <button disabled={true}>Click me</button>
         ~~~~~~~~~~~~~~~
@@ -18,7 +17,6 @@ ruleTester.describe(rule, {
 			code: `
 <input type="text" required={true} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <input type="text" required={true} />
                    ~~~~~~~~~~~~~~~
@@ -29,7 +27,6 @@ ruleTester.describe(rule, {
 			code: `
 <Component isActive={true} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <Component isActive={true} />
            ~~~~~~~~~~~~~~~
@@ -40,7 +37,6 @@ ruleTester.describe(rule, {
 			code: `
 <div hidden={true} aria-hidden={true}></div>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <div hidden={true} aria-hidden={true}></div>
      ~~~~~~~~~~~~~
@@ -51,19 +47,17 @@ ruleTester.describe(rule, {
 		},
 	],
 	valid: [
-		{ code: `<button disabled>Click me</button>`, fileName: "file.tsx" },
-		{ code: `<input type="text" required />`, fileName: "file.tsx" },
-		{ code: `<Component isActive />`, fileName: "file.tsx" },
+		{ code: `<button disabled>Click me</button>` },
+		{ code: `<input type="text" required />` },
+		{ code: `<Component isActive />` },
 		{
 			code: `<button disabled={false}>Click me</button>`,
-			fileName: "file.tsx",
 		},
-		{ code: `<input type="text" required={false} />`, fileName: "file.tsx" },
+		{ code: `<input type="text" required={false} />` },
 		{
 			code: `<Component isActive={someCondition} />`,
-			fileName: "file.tsx",
 		},
-		{ code: `<button>Click me</button>`, fileName: "file.tsx" },
-		{ code: `<div className="test" />`, fileName: "file.tsx" },
+		{ code: `<button>Click me</button>` },
+		{ code: `<div className="test" />` },
 	],
 });

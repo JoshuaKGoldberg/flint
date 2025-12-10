@@ -16,6 +16,9 @@ import { runTestCaseRule } from "./runTestCaseRule.js";
 import { InvalidTestCase, TestCase, ValidTestCase } from "./types.js";
 
 export interface RuleTesterOptions {
+	defaults?: {
+		fileName?: string;
+	};
 	describe?: TesterSetupDescribe;
 	it?: TesterSetupIt;
 	only?: TesterSetupIt;
@@ -46,6 +49,7 @@ export class RuleTester<AstNodesByName, ContextServices extends object> {
 	#testerOptions: Required<RuleTesterOptions>;
 
 	constructor({
+		defaults,
 		describe,
 		it,
 		only,
@@ -70,6 +74,7 @@ export class RuleTester<AstNodesByName, ContextServices extends object> {
 		}
 
 		this.#testerOptions = {
+			defaults: defaults ?? {},
 			describe: defaultTo(describe, scope, "describe"),
 			it,
 			only,
@@ -121,7 +126,10 @@ export class RuleTester<AstNodesByName, ContextServices extends object> {
 		>,
 		testCase: InvalidTestCase<InferredObject<OptionsSchema>>,
 	) {
-		const testCaseNormalized = normalizeTestCase(testCase);
+		const testCaseNormalized = normalizeTestCase(
+			testCase,
+			this.#testerOptions.defaults.fileName,
+		);
 
 		this.#itTestCase(testCaseNormalized, async () => {
 			const reports = await runTestCaseRule(
@@ -177,7 +185,10 @@ export class RuleTester<AstNodesByName, ContextServices extends object> {
 	) {
 		const testCase =
 			typeof testCaseRaw === "string" ? { code: testCaseRaw } : testCaseRaw;
-		const testCaseNormalized = normalizeTestCase(testCase);
+		const testCaseNormalized = normalizeTestCase(
+			testCase,
+			this.#testerOptions.defaults.fileName,
+		);
 
 		this.#itTestCase(testCaseNormalized, async () => {
 			const reports = await runTestCaseRule(
