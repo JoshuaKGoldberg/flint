@@ -95,5 +95,5 @@ To add a new rule, `{ruleName}` to an existing Flint plugin `{plugin}`:
 3. Try to follow these best practices when writing the rule's documentation and tests:
    - In documentation, see the sections present in other rules and fill them out
      - In _Further Reading_ documentation, find at least one first-party source such as MDN
-     - _When Not To Use It_ should have at least one legitimate reason
+     - _When Not To Use It_ should not say to always use the rule; instead, think of at least one legitimate reason - even if it's legacy runtimes
    - In tests, use as straightforward code snippets as possible, preferring generic names like `value` over references like `foo`/`bar`
