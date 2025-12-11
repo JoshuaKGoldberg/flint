@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
@@ -20,10 +21,11 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Split the expression into separate statements."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, context) => {
 					if (node.operatorToken.kind === ts.SyntaxKind.CommaToken) {
 						context.report({
 							message: "noSequences",

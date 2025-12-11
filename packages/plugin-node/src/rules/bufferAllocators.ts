@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -23,10 +24,11 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				NewExpression(node: ts.NewExpression) {
+				NewExpression(node, context) {
 					if (
 						!ts.isIdentifier(node.expression) ||
 						node.expression.text !== "Buffer"

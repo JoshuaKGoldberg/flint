@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { typescriptLanguage } from "@flint.fyi/ts";
 
 export default typescriptLanguage.createRule({
@@ -18,10 +19,11 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				DeleteExpression: (node) => {
+				DeleteExpression: (node, context) => {
 					const start = node.getStart(context.sourceFile);
 
 					context.report({

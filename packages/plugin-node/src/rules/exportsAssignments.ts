@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -48,10 +49,11 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Use `module.exports` instead of `exports`"],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, context) => {
 					if (
 						node.operatorToken.kind == ts.SyntaxKind.EqualsToken &&
 						ts.isIdentifier(node.left) &&

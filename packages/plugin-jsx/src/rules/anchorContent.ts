@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -22,7 +23,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function hasAccessibleContent(
 			element: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
 		): boolean {
@@ -67,8 +68,9 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
-				JsxElement(node: ts.JsxElement) {
+				JsxElement(node, context) {
 					const openingElement = node.openingElement;
 					if (
 						ts.isIdentifier(openingElement.tagName) &&
@@ -82,7 +84,7 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
+				JsxSelfClosingElement(node, context) {
 					if (
 						ts.isIdentifier(node.tagName) &&
 						node.tagName.text === "a" &&

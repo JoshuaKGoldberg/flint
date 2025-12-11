@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
@@ -23,7 +24,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function collectBindingElements(name: ts.BindingName): ts.Identifier[] {
 			if (ts.isIdentifier(name)) {
 				return [name];
@@ -41,8 +42,9 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
-				VariableDeclarationList: (node) => {
+				VariableDeclarationList: (node, context) => {
 					if (
 						!(node.flags & ts.NodeFlags.Const) ||
 						node.declarations.length === 0

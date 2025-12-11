@@ -1,57 +1,50 @@
 import {
+	createRuleRunner,
 	LanguageFileDefinition,
-	NormalizedReport,
-	RuleReport,
+	RuleContext,
+	RuleVisitors,
 } from "@flint.fyi/core";
 import indexToPosition from "index-to-position";
+
+import type { TextNodes, TextServices } from "./types.js";
 
 export function createTextFile(
 	filePathAbsolute: string,
 	sourceText: string,
-): LanguageFileDefinition {
+): LanguageFileDefinition<TextNodes, TextServices> {
 	return {
-		async runRule(rule, options) {
-			const reports: NormalizedReport[] = [];
-
-			const context = {
+		runRule: createRuleRunner<TextNodes, TextServices>(
+			{
 				filePathAbsolute,
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: rule.messages[report.message],
-						range: {
-							begin: {
-								...indexToPosition(sourceText, report.range.begin),
-								raw: report.range.begin,
-							},
-							end: {
-								...indexToPosition(sourceText, report.range.end),
-								raw: report.range.end,
-							},
-						},
-					});
-				},
 				sourceText,
-			};
+			},
+			<MessageId extends string, FileContext extends object>(
+				visitors: RuleVisitors<
+					TextNodes,
+					MessageId,
+					FileContext & TextServices
+				>,
+				context: FileContext & RuleContext<MessageId> & TextServices,
+			) => {
+				visitors.file?.(sourceText, context);
 
-			const runtime = await rule.setup(context, options);
-
-			if (runtime?.visitors) {
-				runtime.visitors.file?.(sourceText);
-
-				if (runtime.visitors.line) {
+				if (visitors.line) {
 					const lines = sourceText.split(/\r\n|\n|\r/);
 					for (const line of lines) {
-						runtime.visitors.line(line);
+						visitors.line(line, context);
 					}
 				}
-			}
-
-			return reports;
-		},
+			},
+			(range) => ({
+				begin: {
+					...indexToPosition(sourceText, range.begin),
+					raw: range.begin,
+				},
+				end: {
+					...indexToPosition(sourceText, range.end),
+					raw: range.end,
+				},
+			}),
+		),
 	};
 }

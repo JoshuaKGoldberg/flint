@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -40,10 +41,11 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				JsxElement(node: ts.JsxElement) {
+				JsxElement(node, context) {
 					if (!node.children.length) {
 						return;
 					}

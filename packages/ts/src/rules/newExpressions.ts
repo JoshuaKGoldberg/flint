@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
@@ -24,7 +25,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function isStandaloneExpression(node: ts.Node): boolean {
 			const parent = node.parent;
 
@@ -49,8 +50,9 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
-				NewExpression: (node) => {
+				NewExpression: (node, context) => {
 					if (isStandaloneExpression(node)) {
 						context.report({
 							message: "noStandaloneNew",

@@ -1,4 +1,9 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { runtimeBase } from "@flint.fyi/core";
+import {
+	getTSNodeRange,
+	typescriptLanguage,
+	type TypeScriptServices,
+} from "@flint.fyi/ts";
 import { isGlobalVariable } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -30,24 +35,17 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
-		function isWindowLikeIdentifier(node: ts.Expression): boolean {
-			return (
-				ts.isIdentifier(node) &&
-				windowLikeNames.has(node.text) &&
-				isGlobalVariable(node, context.typeChecker)
-			);
-		}
-
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node, context) {
 					if (
 						node.arguments.length < 2 &&
 						ts.isPropertyAccessExpression(node.expression) &&
 						ts.isIdentifier(node.expression.name) &&
 						node.expression.name.text === "postMessage" &&
-						isWindowLikeIdentifier(node.expression.expression)
+						isWindowLikeIdentifier(node.expression.expression, context)
 					) {
 						context.report({
 							message: "missingTargetOrigin",
@@ -59,3 +57,14 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+function isWindowLikeIdentifier(
+	node: ts.Expression,
+	context: TypeScriptServices,
+): boolean {
+	return (
+		ts.isIdentifier(node) &&
+		windowLikeNames.has(node.text) &&
+		isGlobalVariable(node, context.typeChecker)
+	);
+}

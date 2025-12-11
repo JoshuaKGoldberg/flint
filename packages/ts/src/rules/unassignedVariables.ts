@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
@@ -23,7 +24,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function hasAssignments(
 			identifier: ts.Identifier,
 			sourceFile: ts.SourceFile,
@@ -35,8 +36,9 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
-				VariableDeclaration: (node) => {
+				VariableDeclaration: (node, context) => {
 					if (node.initializer || !ts.isIdentifier(node.name)) {
 						return;
 					}

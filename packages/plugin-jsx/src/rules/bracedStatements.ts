@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -18,10 +19,11 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Remove the curly braces and use the content directly."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				JsxExpression(node) {
+				JsxExpression(node, context) {
 					if (
 						!node.expression ||
 						(!ts.isJsxElement(node.parent) && !ts.isJsxFragment(node.parent))

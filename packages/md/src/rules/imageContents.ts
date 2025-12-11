@@ -1,3 +1,5 @@
+import { runtimeBase } from "@flint.fyi/core";
+
 import { markdownLanguage } from "../language.js";
 
 export default markdownLanguage.createRule({
@@ -20,10 +22,11 @@ export default markdownLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				image(node) {
+				image(node, context) {
 					if (!node.url || node.url === "#") {
 						context.report({
 							message: "emptyImage",

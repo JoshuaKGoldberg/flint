@@ -1,5 +1,5 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
 
 const problematicEntities = [
 	{ entity: '"', toBrace: '{"\\""}', toHTML: "&quot;" },
@@ -28,10 +28,11 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				JsxText(node: ts.JsxText) {
+				JsxText(node, context) {
 					const nodeStart = node.getStart(context.sourceFile);
 					const reports: {
 						begin: number;

@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -21,7 +22,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function getClassListMethodCall(node: ts.Node) {
 			if (!ts.isExpressionStatement(node)) {
 				return undefined;
@@ -99,8 +100,9 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
-				IfStatement(node: ts.IfStatement) {
+				IfStatement(node, context) {
 					const thenStatement = node.thenStatement;
 					const elseStatement = node.elseStatement;
 

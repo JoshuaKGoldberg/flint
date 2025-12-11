@@ -1,3 +1,5 @@
+import { runtimeBase } from "@flint.fyi/core";
+
 import { yamlLanguage } from "../language.js";
 
 export default yamlLanguage.createRule({
@@ -16,10 +18,11 @@ export default yamlLanguage.createRule({
 			suggestions: ["TODO"],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				mappingKey: (node) => {
+				mappingKey: (node, context) => {
 					if (node.children.length === 0) {
 						context.report({
 							message: "emptyKey",

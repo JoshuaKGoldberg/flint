@@ -1,27 +1,35 @@
+import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 
-import {
-	CreateRule,
-	Language,
-	LanguageDefinition,
-} from "../types/languages.js";
-import { AnyRuleDefinition } from "../types/rules.js";
+import { Language, LanguageDefinition } from "../types/languages.js";
+import { createRule } from "../types/rule-builder.js";
 import { makeDisposable } from "./makeDisposable.js";
 
 const log = debugForFile(import.meta.filename);
 
-export function createLanguage<AstNodesByName, ContextServices extends object>(
-	languageDefinition: LanguageDefinition,
-) {
+export function createLanguage<
+	const AstNodesByName,
+	const ContextServices extends object,
+>(
+	languageDefinition: LanguageDefinition<AstNodesByName, ContextServices>,
+): Language<AstNodesByName, ContextServices> {
 	const language: Language<AstNodesByName, ContextServices> = {
 		...languageDefinition,
 
-		createRule: ((ruleDefinition: AnyRuleDefinition) => {
+		buildRule: () => createRule(language),
+		createRule: (ruleDefinition) => {
 			return {
 				...ruleDefinition,
 				language,
 			};
-		}) as CreateRule<AstNodesByName, ContextServices>,
+		},
+
+		createStatefulRule: (ruleDefinition) => {
+			return {
+				...ruleDefinition,
+				language,
+			};
+		},
 
 		prepare() {
 			log(
@@ -35,7 +43,7 @@ export function createLanguage<AstNodesByName, ContextServices extends object>(
 
 			const fileFactory = makeDisposable({
 				...fileFactoryDefinition,
-				prepareFromDisk: (filePathAbsolute: string) => {
+				prepareFromDisk: new CachedFactory((filePathAbsolute: string) => {
 					const { file, ...rest } =
 						fileFactoryDefinition.prepareFromDisk(filePathAbsolute);
 
@@ -43,7 +51,7 @@ export function createLanguage<AstNodesByName, ContextServices extends object>(
 						file: makeDisposable(file),
 						...rest,
 					};
-				},
+				}),
 				prepareFromVirtual: (filePathAbsolute: string, sourceText: string) => {
 					const { file, ...rest } = fileFactoryDefinition.prepareFromVirtual(
 						filePathAbsolute,

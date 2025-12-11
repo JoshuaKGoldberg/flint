@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
@@ -25,10 +26,11 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				ElementAccessExpression: (node) => {
+				ElementAccessExpression: (node, context) => {
 					if (
 						ts.isStringLiteral(node.argumentExpression) &&
 						node.argumentExpression.text === "__proto__"
@@ -42,7 +44,7 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
-				PropertyAccessExpression: (node) => {
+				PropertyAccessExpression: (node, context) => {
 					if (
 						node.name.kind === ts.SyntaxKind.Identifier &&
 						node.name.text === "__proto__"

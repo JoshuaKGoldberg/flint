@@ -1,4 +1,9 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { type RuleContext, runtimeBase } from "@flint.fyi/core";
+import {
+	getTSNodeRange,
+	typescriptLanguage,
+	type TypeScriptServices,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const alternateProperties = new Set(["aria-label", "aria-labelledby", "title"]);
@@ -25,126 +30,9 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
-		function checkNode(node: ts.JsxOpeningElement | ts.JsxSelfClosingElement) {
-			const { attributes, tagName } = node;
-			if (!ts.isIdentifier(tagName)) {
-				return;
-			}
-
-			const elementName = tagName.text.toLowerCase();
-
-			if (elementName === "img" || elementName === "area") {
-				checkAltAttribute(attributes, tagName, elementName);
-			} else if (elementName === "input") {
-				checkInputElement(attributes, tagName);
-			} else if (elementName === "object") {
-				checkObjectAccessibility(attributes, tagName);
-			}
-		}
-
-		function checkAltAttribute(
-			attributes: ts.JsxAttributes,
-			tagName: ts.JsxTagNameExpression,
-			elementName: string,
-		) {
-			const properties = attributes.properties.find(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					attr.name.text === "alt",
-			);
-
-			const hasAriaLabel = attributes.properties.some(
-				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
-					(attr.name.text === "aria-label" ||
-						attr.name.text === "aria-labelledby") &&
-					attr.initializer,
-			);
-
-			if (hasAriaLabel) {
-				return;
-			}
-
-			if (!properties) {
-				context.report({
-					data: { element: elementName },
-					message: "missingAlt",
-					range: getTSNodeRange(tagName, context.sourceFile),
-				});
-				return;
-			}
-
-			if (ts.isJsxAttribute(properties)) {
-				if (!properties.initializer) {
-					context.report({
-						data: { element: elementName },
-						message: "missingAlt",
-						range: getTSNodeRange(tagName, context.sourceFile),
-					});
-				} else if (ts.isJsxExpression(properties.initializer)) {
-					const { expression } = properties.initializer;
-					if (
-						expression &&
-						ts.isIdentifier(expression) &&
-						expression.text === "undefined"
-					) {
-						context.report({
-							data: { element: elementName },
-							message: "missingAlt",
-							range: getTSNodeRange(tagName, context.sourceFile),
-						});
-					}
-				}
-			}
-		}
-
-		function checkInputElement(
-			attributes: ts.JsxAttributes,
-			tagName: ts.JsxTagNameExpression,
-		) {
-			const typeAttribute = attributes.properties.find(
-				(properties) =>
-					ts.isJsxAttribute(properties) &&
-					ts.isIdentifier(properties.name) &&
-					properties.name.text === "type",
-			);
-
-			if (typeAttribute && ts.isJsxAttribute(typeAttribute)) {
-				if (
-					typeAttribute.initializer &&
-					ts.isStringLiteral(typeAttribute.initializer) &&
-					typeAttribute.initializer.text === "image"
-				) {
-					checkAltAttribute(attributes, tagName, "input[type='image']");
-				}
-			}
-		}
-
-		function checkObjectAccessibility(
-			attributes: ts.JsxAttributes,
-			tagName: ts.JsxTagNameExpression,
-		) {
-			if (
-				!attributes.properties.some(
-					(property) =>
-						ts.isJsxAttribute(property) &&
-						ts.isIdentifier(property.name) &&
-						alternateProperties.has(property.name.text) &&
-						property.initializer,
-				)
-			) {
-				context.report({
-					data: { element: "object" },
-					message: "missingAlt",
-					range: getTSNodeRange(tagName, context.sourceFile),
-				});
-			}
-		}
-
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				JsxOpeningElement: checkNode,
 				JsxSelfClosingElement: checkNode,
@@ -152,3 +40,129 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+type Context = RuleContext<"missingAlt"> & TypeScriptServices;
+
+function checkAltAttribute(
+	attributes: ts.JsxAttributes,
+	tagName: ts.JsxTagNameExpression,
+	elementName: string,
+	context: Context,
+) {
+	const properties = attributes.properties.find(
+		(attr) =>
+			ts.isJsxAttribute(attr) &&
+			ts.isIdentifier(attr.name) &&
+			attr.name.text === "alt",
+	);
+
+	const hasAriaLabel = attributes.properties.some(
+		(attr) =>
+			ts.isJsxAttribute(attr) &&
+			ts.isIdentifier(attr.name) &&
+			(attr.name.text === "aria-label" ||
+				attr.name.text === "aria-labelledby") &&
+			attr.initializer,
+	);
+
+	if (hasAriaLabel) {
+		return;
+	}
+
+	if (!properties) {
+		context.report({
+			data: { element: elementName },
+			message: "missingAlt",
+			range: getTSNodeRange(tagName, context.sourceFile),
+		});
+		return;
+	}
+
+	if (ts.isJsxAttribute(properties)) {
+		if (!properties.initializer) {
+			context.report({
+				data: { element: elementName },
+				message: "missingAlt",
+				range: getTSNodeRange(tagName, context.sourceFile),
+			});
+		} else if (ts.isJsxExpression(properties.initializer)) {
+			const { expression } = properties.initializer;
+			if (
+				expression &&
+				ts.isIdentifier(expression) &&
+				expression.text === "undefined"
+			) {
+				context.report({
+					data: { element: elementName },
+					message: "missingAlt",
+					range: getTSNodeRange(tagName, context.sourceFile),
+				});
+			}
+		}
+	}
+}
+
+function checkInputElement(
+	attributes: ts.JsxAttributes,
+	tagName: ts.JsxTagNameExpression,
+	context: Context,
+) {
+	const typeAttribute = attributes.properties.find(
+		(properties) =>
+			ts.isJsxAttribute(properties) &&
+			ts.isIdentifier(properties.name) &&
+			properties.name.text === "type",
+	);
+
+	if (typeAttribute && ts.isJsxAttribute(typeAttribute)) {
+		if (
+			typeAttribute.initializer &&
+			ts.isStringLiteral(typeAttribute.initializer) &&
+			typeAttribute.initializer.text === "image"
+		) {
+			checkAltAttribute(attributes, tagName, "input[type='image']", context);
+		}
+	}
+}
+
+function checkNode(
+	node: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+	context: Context,
+) {
+	const { attributes, tagName } = node;
+	if (!ts.isIdentifier(tagName)) {
+		return;
+	}
+
+	const elementName = tagName.text.toLowerCase();
+
+	if (elementName === "img" || elementName === "area") {
+		checkAltAttribute(attributes, tagName, elementName, context);
+	} else if (elementName === "input") {
+		checkInputElement(attributes, tagName, context);
+	} else if (elementName === "object") {
+		checkObjectAccessibility(attributes, tagName, context);
+	}
+}
+
+function checkObjectAccessibility(
+	attributes: ts.JsxAttributes,
+	tagName: ts.JsxTagNameExpression,
+	context: Context,
+) {
+	if (
+		!attributes.properties.some(
+			(property) =>
+				ts.isJsxAttribute(property) &&
+				ts.isIdentifier(property.name) &&
+				alternateProperties.has(property.name.text) &&
+				property.initializer,
+		)
+	) {
+		context.report({
+			data: { element: "object" },
+			message: "missingAlt",
+			range: getTSNodeRange(tagName, context.sourceFile),
+		});
+	}
+}

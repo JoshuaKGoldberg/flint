@@ -11,8 +11,9 @@ describe("Rule", () => {
 				description: "desc";
 				id: "id";
 			},
+			{ foo: "foo" },
 			{ bar: "bar" },
-			{ bar: "bar" },
+			{ baz: "baz" },
 			"message",
 			undefined
 		>;
@@ -28,8 +29,9 @@ describe("Rule", () => {
 				description: "desc";
 				id: "id";
 			},
+			{ foo: "foo" },
 			{ bar: "bar" },
-			{ bar: "bar" },
+			{ baz: "baz" },
 			"message",
 			undefined
 		>;
@@ -45,15 +47,16 @@ describe("Rule", () => {
 				description: "desc";
 				id: "id";
 			},
+			{ foo: "foo" },
 			{ bar: "bar" },
-			{ bar: "bar" },
+			{ baz: "baz" },
 			"message",
 			{
 				foo: z.ZodOptional<z.ZodString>;
 			}
 		>;
 
-		const options = {} as Parameters<rule["setup"]>[1];
+		const options = {} as Parameters<rule["setup"]>[0];
 
 		expectTypeOf(options).toEqualTypeOf<{ foo?: string | undefined }>();
 	});
@@ -64,7 +67,7 @@ describe("Rule", () => {
 			rule: AnyRuleDefinition<T>,
 			options: InferredObject<T>,
 		) => {
-			void rule.setup({}, options);
+			void rule.setup(options);
 		});
 		// flint-disable-lines-end voidOperator
 	});

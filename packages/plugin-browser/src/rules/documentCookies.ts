@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import { isGlobalDeclaration } from "@flint.fyi/ts";
 import * as ts from "typescript";
@@ -22,10 +23,11 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
+				PropertyAccessExpression(node, context) {
 					if (
 						ts.isIdentifier(node.name) &&
 						node.name.text === "cookie" &&

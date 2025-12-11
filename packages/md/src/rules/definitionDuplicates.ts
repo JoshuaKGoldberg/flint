@@ -1,3 +1,5 @@
+import { runtimeBase } from "@flint.fyi/core";
+
 import { markdownLanguage } from "../language.js";
 
 export default markdownLanguage.createRule({
@@ -21,15 +23,16 @@ export default markdownLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		const seenIdentifiers = new Map<
 			string,
 			{ begin: number; end: number; identifier: string }
 		>();
 
 		return {
+			...runtimeBase,
 			visitors: {
-				definition(node) {
+				definition(node, context) {
 					if (node.identifier === "//") {
 						return;
 					}

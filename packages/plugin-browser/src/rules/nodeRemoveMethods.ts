@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import {
 	getTSNodeRange,
 	isGlobalDeclaration,
@@ -23,10 +24,11 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Use `{{ child }}.remove()` instead."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node, context) {
 					if (
 						!ts.isPropertyAccessExpression(node.expression) ||
 						!ts.isIdentifier(node.expression.name) ||

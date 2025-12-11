@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
@@ -23,7 +24,7 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		function isValidBlock(node: ts.Block): boolean {
 			const parent = node.parent;
 
@@ -71,8 +72,9 @@ export default typescriptLanguage.createRule({
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
-				Block: (node) => {
+				Block: (node, context) => {
 					if (!isValidBlock(node)) {
 						context.report({
 							message: "unnecessaryBlock",

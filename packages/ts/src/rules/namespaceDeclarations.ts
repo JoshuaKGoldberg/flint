@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 import { z } from "zod";
@@ -37,12 +38,13 @@ export default typescriptLanguage.createRule({
 				"Whether to allow namespaces in `.d.ts` and other definition files.",
 			),
 	},
-	setup(context, { allowDeclarations, allowDefinitionFiles }) {
+	setup({ allowDeclarations, allowDefinitionFiles }) {
 		if (allowDefinitionFiles && context.sourceFile.isDeclarationFile) {
 			return;
 		}
 
 		return {
+			...runtimeBase,
 			visitors: {
 				ModuleDeclaration: (node) => {
 					if (

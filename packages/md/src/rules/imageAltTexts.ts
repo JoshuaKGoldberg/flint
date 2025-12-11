@@ -1,6 +1,9 @@
+import type { RuleContext } from "@flint.fyi/core";
+
+import { runtimeBase } from "@flint.fyi/core";
 import { Image, ImageReference } from "mdast";
 
-import { markdownLanguage } from "../language.js";
+import { markdownLanguage, type MarkdownServices } from "../language.js";
 import { WithPosition } from "../nodes.js";
 
 export default markdownLanguage.createRule({
@@ -35,28 +38,9 @@ export default markdownLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
-		function checkNode(node: WithPosition<Image | ImageReference>) {
-			if (!node.alt) {
-				context.report({
-					message: "missingAlt",
-					range: {
-						begin: node.position.start.offset,
-						end: node.position.end.offset,
-					},
-				});
-			} else if (node.alt.trim() === "") {
-				context.report({
-					message: "whitespaceAlt",
-					range: {
-						begin: node.position.start.offset,
-						end: node.position.end.offset,
-					},
-				});
-			}
-		}
-
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				image: checkNode,
 				imageReference: checkNode,
@@ -64,3 +48,26 @@ export default markdownLanguage.createRule({
 		};
 	},
 });
+
+function checkNode(
+	node: WithPosition<Image | ImageReference>,
+	context: MarkdownServices & RuleContext<"missingAlt" | "whitespaceAlt">,
+) {
+	if (!node.alt) {
+		context.report({
+			message: "missingAlt",
+			range: {
+				begin: node.position.start.offset,
+				end: node.position.end.offset,
+			},
+		});
+	} else if (node.alt.trim() === "") {
+		context.report({
+			message: "whitespaceAlt",
+			range: {
+				begin: node.position.start.offset,
+				end: node.position.end.offset,
+			},
+		});
+	}
+}

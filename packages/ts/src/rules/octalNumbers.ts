@@ -1,3 +1,5 @@
+import { runtimeBase } from "@flint.fyi/core";
+
 import { typescriptLanguage } from "../language.js";
 
 export default typescriptLanguage.createRule({
@@ -21,10 +23,11 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				NumericLiteral: (node) => {
+				NumericLiteral: (node, context) => {
 					const text = node.getText(context.sourceFile);
 
 					// Check for legacy octal literal: starts with 0 followed by octal digits (0-7)

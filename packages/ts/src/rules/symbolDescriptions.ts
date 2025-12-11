@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
@@ -21,10 +22,11 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				CallExpression: (node) => {
+				CallExpression: (node, context) => {
 					if (
 						!ts.isIdentifier(node.expression) ||
 						node.expression.text !== "Symbol" ||

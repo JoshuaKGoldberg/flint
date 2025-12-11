@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
@@ -20,10 +21,11 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				Identifier: (node) => {
+				Identifier: (node, context) => {
 					if (
 						ts.isVariableDeclaration(node.parent) &&
 						node.parent.name === node

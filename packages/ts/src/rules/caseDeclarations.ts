@@ -1,8 +1,9 @@
+import { type RuleContext, runtimeBase } from "@flint.fyi/core";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage, type TypeScriptServices } from "../language.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -24,43 +25,9 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
-		function getLexicalDeclaration(
-			statements: ts.NodeArray<ts.Statement>,
-		): ts.Node | undefined {
-			for (const statement of statements) {
-				if (
-					ts.isVariableStatement(statement) &&
-					tsutils.isNodeFlagSet(
-						statement.declarationList,
-						ts.NodeFlags.Let | ts.NodeFlags.Const,
-					)
-				) {
-					return statement.declarationList.getChildAt(0, context.sourceFile);
-				}
-
-				if (
-					ts.isClassDeclaration(statement) ||
-					ts.isFunctionDeclaration(statement)
-				) {
-					return statement.getChildAt(0, context.sourceFile);
-				}
-			}
-
-			return undefined;
-		}
-
-		function checkClause(node: ts.CaseClause | ts.DefaultClause): void {
-			const declarationNode = getLexicalDeclaration(node.statements);
-			if (declarationNode) {
-				context.report({
-					message: "unexpectedLexicalDeclaration",
-					range: getTSNodeRange(declarationNode, context.sourceFile),
-				});
-			}
-		}
-
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				CaseClause: checkClause,
 				DefaultClause: checkClause,
@@ -68,3 +35,42 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+function checkClause(
+	node: ts.CaseClause | ts.DefaultClause,
+	context: RuleContext<"unexpectedLexicalDeclaration"> & TypeScriptServices,
+): void {
+	const declarationNode = getLexicalDeclaration(node.statements, context);
+	if (declarationNode) {
+		context.report({
+			message: "unexpectedLexicalDeclaration",
+			range: getTSNodeRange(declarationNode, context.sourceFile),
+		});
+	}
+}
+
+function getLexicalDeclaration(
+	statements: ts.NodeArray<ts.Statement>,
+	context: TypeScriptServices,
+): ts.Node | undefined {
+	for (const statement of statements) {
+		if (
+			ts.isVariableStatement(statement) &&
+			tsutils.isNodeFlagSet(
+				statement.declarationList,
+				ts.NodeFlags.Let | ts.NodeFlags.Const,
+			)
+		) {
+			return statement.declarationList.getChildAt(0, context.sourceFile);
+		}
+
+		if (
+			ts.isClassDeclaration(statement) ||
+			ts.isFunctionDeclaration(statement)
+		) {
+			return statement.getChildAt(0, context.sourceFile);
+		}
+	}
+
+	return undefined;
+}

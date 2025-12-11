@@ -1,19 +1,20 @@
+import type { AnyOptionalSchema, InferredObject } from "./shapes.js";
+
 import { BaseAbout } from "./about.js";
 import { RuleContext } from "./context.js";
 import { Language } from "./languages.js";
 import { PromiseOrSync } from "./promises.js";
 import { ReportMessageData } from "./reports.js";
-import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type AnyRule<
 	About extends RuleAbout = RuleAbout,
 	OptionsSchema extends AnyOptionalSchema | undefined = any,
-> = Rule<About, any, any, string, OptionsSchema>;
+> = Rule<About, any, any, any, string, OptionsSchema>;
 
 export type AnyRuleDefinition<
 	OptionsSchema extends AnyOptionalSchema | undefined = any,
-> = RuleDefinition<RuleAbout, any, any, string, OptionsSchema>;
+> = RuleDefinition<RuleAbout, any, any, any, string, OptionsSchema>;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
@@ -23,12 +24,14 @@ export interface Rule<
 	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
+	in out FileContext extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > extends RuleDefinition<
 		About,
 		AstNodesByName,
 		ContextServices,
+		FileContext,
 		MessageId,
 		OptionsSchema
 	> {
@@ -42,10 +45,15 @@ export interface RuleAbout extends BaseAbout {
 /**
  * The definition of a rule, as provided to rule creators internally.
  */
+export type FileSetup<ContextServices, FileContext extends object> = (
+	context: ContextServices,
+) => PromiseOrSync<FileContext>;
+
 export interface RuleDefinition<
 	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
+	FileContext extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
@@ -55,28 +63,54 @@ export interface RuleDefinition<
 	setup: RuleSetup<
 		AstNodesByName,
 		ContextServices,
+		FileContext,
 		MessageId,
 		InferredObject<OptionsSchema>
 	>;
 }
 
-export interface RuleRuntime<AstNodesByName> {
-	dependencies?: string[];
-	visitors?: RuleVisitors<AstNodesByName>;
+export interface RuleRuntime<
+	in out AstNodesByName,
+	out MessageId extends string,
+	in ContextServices extends object,
+	in out FileContext extends object,
+> {
+	dependencies: string[];
+	fileSetup: FileSetup<ContextServices, FileContext>;
+	skipFile: (context: ContextServices) => PromiseOrSync<boolean>;
+	visitors: RuleVisitors<
+		AstNodesByName,
+		MessageId,
+		ContextServices & FileContext
+	>;
 }
 
+/**
+ * Create an instance of {@linkcode RuleRuntime} given the {@linkcode Rule}’s options.
+ */
 export type RuleSetup<
-	AstNodesByName,
-	ContextServices extends object,
-	MessageId extends string,
-	Options,
+	in out AstNodesByName,
+	in ContextServices extends object,
+	in out FileContext extends object,
+	out MessageId extends string,
+	in Options,
 > = (
-	context: ContextServices & RuleContext<MessageId>,
 	options: Options,
-) => PromiseOrSync<RuleRuntime<AstNodesByName> | undefined>;
+) => RuleRuntime<AstNodesByName, MessageId, ContextServices, FileContext>;
 
-export type RuleVisitor<ASTNode> = (node: ASTNode) => void;
+export type RuleVisitor<ASTNode, MessageId extends string, Services> = (
+	node: ASTNode,
+	context: RuleContext<MessageId> & Services,
+) => void;
 
-export type RuleVisitors<AstNodesByName> = {
-	[Kind in keyof AstNodesByName]?: RuleVisitor<AstNodesByName[Kind]>;
+export type RuleVisitors<
+	in out AstNodesByName,
+	out MessageId extends string,
+	in Services,
+> = {
+	[Kind in keyof AstNodesByName]?: RuleVisitor<
+		AstNodesByName[Kind],
+		MessageId,
+		Services
+	>;
 };

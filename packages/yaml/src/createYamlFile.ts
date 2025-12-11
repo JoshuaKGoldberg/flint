@@ -1,11 +1,16 @@
 import {
+	createRuleRunner,
 	getColumnAndLineOfPosition,
 	LanguageFileDefinition,
-	NormalizedReport,
-	RuleReport,
+	RuleContext,
+	RuleVisitor,
+	RuleVisitors,
 } from "@flint.fyi/core";
 import { visit } from "unist-util-visit";
 import * as yamlParser from "yaml-unist-parser";
+
+import type { YamlServices } from "./language.js";
+import type { YamlNodesByName } from "./nodes.js";
 
 // Eventually, it might make sense to use a native speed Yaml parser...
 // However, the unist ecosystem is quite extensive and well-supported.
@@ -14,45 +19,32 @@ export function createYamlFile(sourceText: string) {
 	const root = yamlParser.parse(sourceText);
 	const sourceFileText = { text: sourceText };
 
-	const languageFile: LanguageFileDefinition = {
-		async runRule(rule, options) {
-			const reports: NormalizedReport[] = [];
-
-			const context = {
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: rule.messages[report.message],
-						range: {
-							begin: getColumnAndLineOfPosition(
-								sourceFileText,
-								report.range.begin,
-							),
-							end: getColumnAndLineOfPosition(sourceFileText, report.range.end),
-						},
-					});
-				},
+	const languageFile: LanguageFileDefinition<YamlNodesByName, YamlServices> = {
+		runRule: createRuleRunner<YamlNodesByName, YamlServices>(
+			{
 				root,
-			};
+			},
+			<MessageId extends string, FileContext extends object>(
+				visitors: RuleVisitors<
+					YamlNodesByName,
+					MessageId,
+					FileContext & YamlServices
+				>,
+				context: FileContext & RuleContext<MessageId> & YamlServices,
+			) => {
+				visit(root, (node) => {
+					const visitor = visitors[node.type] as
+						| RuleVisitor<typeof node, MessageId, YamlServices>
+						| undefined;
 
-			const runtime = await rule.setup(context, options);
-
-			if (!runtime?.visitors) {
-				return reports;
-			}
-
-			const { visitors } = runtime;
-
-			visit(root, (node) => {
-				visitors[node.type]?.(node);
-			});
-
-			return reports;
-		},
+					visitor?.(node, context);
+				});
+			},
+			(range) => ({
+				begin: getColumnAndLineOfPosition(sourceFileText, range.begin),
+				end: getColumnAndLineOfPosition(sourceFileText, range.end),
+			}),
+		),
 	};
 
 	return { languageFile, root };

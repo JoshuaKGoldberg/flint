@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -30,12 +31,13 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		const assertIdentifierNames = new Set<string>();
 
 		return {
+			...runtimeBase,
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node, context) {
 					if (
 						ts.isIdentifier(node.expression) &&
 						assertIdentifierNames.has(node.expression.text)
@@ -46,7 +48,7 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
-				ImportDeclaration(node: ts.ImportDeclaration) {
+				ImportDeclaration(node) {
 					if (
 						!ts.isStringLiteral(node.moduleSpecifier) ||
 						!isAssertImport(node.moduleSpecifier.text) ||
@@ -75,7 +77,7 @@ export default typescriptLanguage.createRule({
 						}
 					}
 				},
-				ImportEqualsDeclaration(node: ts.ImportEqualsDeclaration) {
+				ImportEqualsDeclaration(node) {
 					if (
 						ts.isExternalModuleReference(node.moduleReference) &&
 						ts.isStringLiteral(node.moduleReference.expression) &&

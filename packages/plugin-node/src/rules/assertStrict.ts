@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -37,10 +38,11 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				ImportDeclaration(node: ts.ImportDeclaration) {
+				ImportDeclaration(node, context) {
 					if (
 						isStrictAssertImport(node.moduleSpecifier) ||
 						!isImportFromNodeAssert(node.moduleSpecifier)
@@ -68,7 +70,7 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
-				ImportEqualsDeclaration(node: ts.ImportEqualsDeclaration) {
+				ImportEqualsDeclaration(node, context) {
 					if (
 						ts.isExternalModuleReference(node.moduleReference) &&
 						isImportFromNodeAssert(node.moduleReference.expression)

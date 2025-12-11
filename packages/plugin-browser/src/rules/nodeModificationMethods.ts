@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -96,10 +97,11 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Replace with `.replaceWith()`."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				CallExpression(node) {
+				CallExpression(node, context) {
 					const nameNode = getPropertyNameNode(node.expression);
 					if (nameNode === undefined) {
 						return;

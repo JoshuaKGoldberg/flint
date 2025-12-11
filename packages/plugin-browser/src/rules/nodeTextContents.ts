@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import {
 	getTSNodeRange,
 	isGlobalDeclaration,
@@ -23,10 +24,11 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Replace `innerText` with `textContent`."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
+				PropertyAccessExpression(node, context) {
 					if (
 						ts.isIdentifier(node.name) &&
 						node.name.text === "innerText" &&

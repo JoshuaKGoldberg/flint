@@ -1,9 +1,14 @@
 import {
+	createRuleRunner,
 	LanguageFileDefinition,
-	NormalizedReport,
-	RuleReport,
+	RuleContext,
+	RuleVisitor,
+	RuleVisitors,
 } from "@flint.fyi/core";
 import * as ts from "typescript";
+
+import type { TypeScriptServices } from "./language.js";
+import type { TSNodesByName } from "./nodes.js";
 
 import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
 import { formatDiagnostic } from "./formatDiagnostic.js";
@@ -15,7 +20,7 @@ const NodeSyntaxKinds = getFirstEnumValues(ts.SyntaxKind);
 export function createTypeScriptFileFromProgram(
 	program: ts.Program,
 	sourceFile: ts.SourceFile,
-): LanguageFileDefinition {
+): LanguageFileDefinition<TSNodesByName, TypeScriptServices> {
 	return {
 		cache: {
 			dependencies: [
@@ -45,42 +50,36 @@ export function createTypeScriptFileFromProgram(
 					}),
 				}));
 		},
-		async runRule(rule, options) {
-			const reports: NormalizedReport[] = [];
-
-			const context = {
+		runRule: createRuleRunner<TSNodesByName, TypeScriptServices>(
+			{
 				program,
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: rule.messages[report.message],
-						range: normalizeRange(report.range, sourceFile),
-					});
-				},
 				sourceFile,
 				typeChecker: program.getTypeChecker(),
-			};
+			},
+			<MessageId extends string, FileContext extends object>(
+				visitors: RuleVisitors<
+					TSNodesByName,
+					MessageId,
+					FileContext & TypeScriptServices
+				>,
+				context: FileContext & RuleContext<MessageId> & TypeScriptServices,
+			) => {
+				const visit = (node: ts.Node) => {
+					// TODO: There's got to be a better way to type visitors so all this casting isn't necessary.
+					const visitor = visitors[
+						NodeSyntaxKinds[node.kind] as keyof typeof visitors
+					] as
+						| RuleVisitor<typeof node, MessageId, TypeScriptServices>
+						| undefined;
 
-			const runtime = await rule.setup(context, options);
+					visitor?.(node, context);
 
-			if (!runtime?.visitors) {
-				return reports;
-			}
+					node.forEachChild(visit);
+				};
 
-			const { visitors } = runtime;
-			const visit = (node: ts.Node) => {
-				visitors[NodeSyntaxKinds[node.kind]]?.(node);
-
-				node.forEachChild(visit);
-			};
-
-			visit(sourceFile);
-
-			return reports;
-		},
+				visit(sourceFile);
+			},
+			(range) => normalizeRange(range, sourceFile),
+		),
 	};
 }

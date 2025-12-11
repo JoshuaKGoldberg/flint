@@ -1,8 +1,13 @@
 import { RuleTester } from "@flint.fyi/rule-tester";
 import { describe, it } from "vitest";
 
-export const ruleTester = new RuleTester({
-	defaults: { fileName: "file.md" },
-	describe,
-	it,
-});
+import type { MarkdownServices } from "../language.js";
+import type { MarkdownNodesByName } from "../nodes.js";
+
+export const ruleTester = new RuleTester<MarkdownNodesByName, MarkdownServices>(
+	{
+		defaults: { fileName: "file.json" },
+		describe,
+		it,
+	},
+);

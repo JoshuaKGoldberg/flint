@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import {
 	getTSNodeRange,
 	isGlobalDeclaration,
@@ -72,10 +73,11 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Use the `dataset` property instead."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node, context) {
 					const details = getMethodDetails(node);
 					if (!details) {
 						return;

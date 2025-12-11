@@ -1,4 +1,5 @@
-import { typescriptLanguage } from "@flint.fyi/ts";
+import { type RuleContext, runtimeBase } from "@flint.fyi/core";
+import { typescriptLanguage, type TypeScriptServices } from "@flint.fyi/ts";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
@@ -20,41 +21,9 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
-		function checkForAwaitExpressions(node: ts.Node, loopNode: ts.Node): void {
-			if (ts.isAwaitExpression(node)) {
-				const start = node.getStart(context.sourceFile);
-				context.report({
-					message: "noAwaitInLoop",
-					range: {
-						begin: start,
-						end: start + "await".length,
-					},
-				});
-				return;
-			}
-
-			if (
-				ts.isDoStatement(node) ||
-				ts.isForInStatement(node) ||
-				ts.isForOfStatement(node) ||
-				ts.isForStatement(node) ||
-				ts.isWhileStatement(node) ||
-				tsutils.isFunctionScopeBoundary(node)
-			) {
-				return;
-			}
-
-			ts.forEachChild(node, (child) => {
-				checkForAwaitExpressions(child, loopNode);
-			});
-		}
-
-		function checkNode(node: ts.Node & { statement: ts.Node }) {
-			checkForAwaitExpressions(node.statement, node);
-		}
-
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				DoStatement: checkNode,
 				ForInStatement: checkNode,
@@ -65,3 +34,42 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+type Context = RuleContext<"noAwaitInLoop"> & TypeScriptServices;
+
+function checkForAwaitExpressions(
+	node: ts.Node,
+	loopNode: ts.Node,
+	context: Context,
+): void {
+	if (ts.isAwaitExpression(node)) {
+		const start = node.getStart(context.sourceFile);
+		context.report({
+			message: "noAwaitInLoop",
+			range: {
+				begin: start,
+				end: start + "await".length,
+			},
+		});
+		return;
+	}
+
+	if (
+		ts.isDoStatement(node) ||
+		ts.isForInStatement(node) ||
+		ts.isForOfStatement(node) ||
+		ts.isForStatement(node) ||
+		ts.isWhileStatement(node) ||
+		tsutils.isFunctionScopeBoundary(node)
+	) {
+		return;
+	}
+
+	ts.forEachChild(node, (child) => {
+		checkForAwaitExpressions(child, loopNode, context);
+	});
+}
+
+function checkNode(node: ts.Node & { statement: ts.Node }, context: Context) {
+	checkForAwaitExpressions(node.statement, node, context);
+}

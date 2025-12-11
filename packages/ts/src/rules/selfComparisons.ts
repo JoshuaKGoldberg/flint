@@ -1,3 +1,5 @@
+import { runtimeBase } from "@flint.fyi/core";
+
 import { typescriptLanguage } from "../language.js";
 import { hasSameTokens } from "../utils/hasSameTokens.js";
 import { isComparisonOperator } from "./utils/operators.js";
@@ -22,10 +24,11 @@ export default typescriptLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, context) => {
 					if (
 						isComparisonOperator(node.operatorToken) &&
 						hasSameTokens(node.left, node.right, context.sourceFile)

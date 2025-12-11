@@ -1,30 +1,13 @@
+import type { RuleContext } from "@flint.fyi/core";
+
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
-import { jsonLanguage } from "../language.js";
+import { jsonLanguage, type JsonServices } from "../language.js";
 
 const MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER;
 const MIN_SAFE_INTEGER = Number.MIN_SAFE_INTEGER;
 const MIN_NORMAL = 2.2250738585072014e-308;
-
-function hasLoneSurrogate(text: string): boolean {
-	for (let i = 0; i < text.length; i++) {
-		const code = text.charCodeAt(i);
-
-		if (code >= 0xdc00 && code <= 0xdfff) {
-			return true;
-		}
-
-		if (code >= 0xd800 && code <= 0xdbff) {
-			const next = text.charCodeAt(i + 1);
-			if (!(next >= 0xdc00 && next <= 0xdfff)) {
-				return true;
-			}
-			i++;
-		}
-	}
-
-	return false;
-}
 
 export default jsonLanguage.createRule({
 	about: {
@@ -89,91 +72,9 @@ export default jsonLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
-		function checkNumericLiteral(node: ts.NumericLiteral) {
-			const originalText = context.sourceFile.text.substring(
-				node.getStart(context.sourceFile),
-				node.end,
-			);
-			const value = Number(originalText);
-
-			if (!Number.isFinite(value)) {
-				context.report({
-					data: { sign: value > 0 ? "" : "-" },
-					message: "infinity",
-					range: {
-						begin: node.getStart(context.sourceFile),
-						end: node.end,
-					},
-				});
-				return;
-			}
-
-			if (value === 0 && originalText !== "0") {
-				const normalized = originalText.toLowerCase().replace(/[_\s]/g, "");
-				if (
-					!normalized.startsWith("0e") &&
-					!normalized.startsWith("-0e") &&
-					!normalized.startsWith("0.0")
-				) {
-					context.report({
-						message: "unsafeZero",
-						range: {
-							begin: node.getStart(context.sourceFile),
-							end: node.end,
-						},
-					});
-				}
-				return;
-			}
-
-			if (Number.isInteger(value)) {
-				if (value > MAX_SAFE_INTEGER || value < MIN_SAFE_INTEGER) {
-					context.report({
-						message: "unsafeInteger",
-						range: {
-							begin: node.getStart(context.sourceFile),
-							end: node.end,
-						},
-					});
-				}
-				return;
-			}
-
-			if (value !== 0 && Math.abs(value) < MIN_NORMAL) {
-				context.report({
-					message: "subnormal",
-					range: {
-						begin: node.getStart(context.sourceFile),
-						end: node.end,
-					},
-				});
-			}
-		}
-
-		function checkStringLiteral(node: ts.StringLiteral) {
-			if (hasLoneSurrogate(node.text)) {
-				context.report({
-					message: "loneSurrogate",
-					range: {
-						begin: node.getStart(context.sourceFile),
-						end: node.end,
-					},
-				});
-			}
-		}
-
-		function checkNode(node: ts.Node) {
-			if (ts.isNumericLiteral(node)) {
-				checkNumericLiteral(node);
-			} else if (ts.isStringLiteral(node)) {
-				checkStringLiteral(node);
-			} else {
-				node.forEachChild(checkNode);
-			}
-		}
-
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
 				ArrayLiteralExpression: checkNode,
 				ObjectLiteralExpression: checkNode,
@@ -181,3 +82,114 @@ export default jsonLanguage.createRule({
 		};
 	},
 });
+
+function checkNode(node: ts.Node, context: Context) {
+	if (ts.isNumericLiteral(node)) {
+		checkNumericLiteral(node, context);
+	} else if (ts.isStringLiteral(node)) {
+		checkStringLiteral(node, context);
+	} else {
+		node.forEachChild((node) => {
+			checkNode(node, context);
+		});
+	}
+}
+
+function checkNumericLiteral(node: ts.NumericLiteral, context: Context) {
+	const originalText = context.sourceFile.text.substring(
+		node.getStart(context.sourceFile),
+		node.end,
+	);
+	const value = Number(originalText);
+
+	if (!Number.isFinite(value)) {
+		context.report({
+			data: { sign: value > 0 ? "" : "-" },
+			message: "infinity",
+			range: {
+				begin: node.getStart(context.sourceFile),
+				end: node.end,
+			},
+		});
+		return;
+	}
+
+	if (value === 0 && originalText !== "0") {
+		const normalized = originalText.toLowerCase().replace(/[_\s]/g, "");
+		if (
+			!normalized.startsWith("0e") &&
+			!normalized.startsWith("-0e") &&
+			!normalized.startsWith("0.0")
+		) {
+			context.report({
+				message: "unsafeZero",
+				range: {
+					begin: node.getStart(context.sourceFile),
+					end: node.end,
+				},
+			});
+		}
+		return;
+	}
+
+	if (Number.isInteger(value)) {
+		if (value > MAX_SAFE_INTEGER || value < MIN_SAFE_INTEGER) {
+			context.report({
+				message: "unsafeInteger",
+				range: {
+					begin: node.getStart(context.sourceFile),
+					end: node.end,
+				},
+			});
+		}
+		return;
+	}
+
+	if (value !== 0 && Math.abs(value) < MIN_NORMAL) {
+		context.report({
+			message: "subnormal",
+			range: {
+				begin: node.getStart(context.sourceFile),
+				end: node.end,
+			},
+		});
+	}
+}
+
+function checkStringLiteral(node: ts.StringLiteral, context: Context) {
+	if (hasLoneSurrogate(node.text)) {
+		context.report({
+			message: "loneSurrogate",
+			range: {
+				begin: node.getStart(context.sourceFile),
+				end: node.end,
+			},
+		});
+	}
+}
+
+function hasLoneSurrogate(text: string): boolean {
+	for (let i = 0; i < text.length; i++) {
+		const code = text.charCodeAt(i);
+
+		if (code >= 0xdc00 && code <= 0xdfff) {
+			return true;
+		}
+
+		if (code >= 0xd800 && code <= 0xdbff) {
+			const next = text.charCodeAt(i + 1);
+			if (!(next >= 0xdc00 && next <= 0xdfff)) {
+				return true;
+			}
+			i++;
+		}
+	}
+
+	return false;
+}
+
+// RuleContext alias
+type Context = JsonServices &
+	RuleContext<
+		"infinity" | "loneSurrogate" | "subnormal" | "unsafeInteger" | "unsafeZero"
+	>;

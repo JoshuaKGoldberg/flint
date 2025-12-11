@@ -1,6 +1,6 @@
-import type { Node, Root, Text } from "mdast";
+import type { Node, Text } from "mdast";
 
-import type { WithPosition } from "../nodes.js";
+import { runtimeBase } from "@flint.fyi/core";
 
 import { markdownLanguage } from "../language.js";
 
@@ -26,10 +26,11 @@ export default markdownLanguage.createRule({
 			],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				root(root: WithPosition<Root>) {
+				root(root, context) {
 					function visitText(node: Text) {
 						if (
 							node.position?.start.offset === undefined ||

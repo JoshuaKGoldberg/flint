@@ -1,9 +1,9 @@
 import {
-	AnyLanguage,
 	AnyOptionalSchema,
-	AnyRule,
 	InferredObject,
+	type Language,
 	LanguageFileFactory,
+	type Rule,
 	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
@@ -41,8 +41,11 @@ export type TesterSetupIt = (
 	setup: () => Promise<void>,
 ) => void;
 
-export class RuleTester {
-	#fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>;
+export class RuleTester<AstNodesByName, ContextServices extends object> {
+	#fileFactories: CachedFactory<
+		Language<AstNodesByName, ContextServices>,
+		LanguageFileFactory<AstNodesByName, ContextServices>
+	>;
 	#testerOptions: Required<RuleTesterOptions>;
 
 	constructor({
@@ -53,9 +56,7 @@ export class RuleTester {
 		scope = globalThis,
 		skip,
 	}: RuleTesterOptions = {}) {
-		this.#fileFactories = new CachedFactory((language: AnyLanguage) =>
-			language.prepare(),
-		);
+		this.#fileFactories = new CachedFactory((language) => language.prepare());
 
 		it = defaultTo(it, scope, "it");
 
@@ -82,8 +83,18 @@ export class RuleTester {
 		};
 	}
 
-	describe<OptionsSchema extends AnyOptionalSchema | undefined>(
-		rule: AnyRule<RuleAbout, OptionsSchema>,
+	describe<
+		FileContext extends object,
+		OptionsSchema extends AnyOptionalSchema | undefined,
+	>(
+		rule: Rule<
+			RuleAbout,
+			AstNodesByName,
+			ContextServices,
+			FileContext,
+			string,
+			OptionsSchema
+		>,
 		{ invalid, valid }: TestCases<InferredObject<OptionsSchema>>,
 	) {
 		this.#testerOptions.describe(rule.about.id, () => {
@@ -101,8 +112,18 @@ export class RuleTester {
 		});
 	}
 
-	#itInvalidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
-		rule: AnyRule<RuleAbout, OptionsSchema>,
+	#itInvalidCase<
+		FileContext extends object,
+		OptionsSchema extends AnyOptionalSchema | undefined,
+	>(
+		rule: Rule<
+			RuleAbout,
+			AstNodesByName,
+			ContextServices,
+			FileContext,
+			string,
+			OptionsSchema
+		>,
 		testCase: InvalidTestCase<InferredObject<OptionsSchema>>,
 	) {
 		const testCaseNormalized = normalizeTestCase(
@@ -148,8 +169,18 @@ export class RuleTester {
 		test(testCase.code, setup);
 	}
 
-	#itValidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
-		rule: AnyRule<RuleAbout, OptionsSchema>,
+	#itValidCase<
+		FileContext extends object,
+		OptionsSchema extends AnyOptionalSchema | undefined,
+	>(
+		rule: Rule<
+			RuleAbout,
+			AstNodesByName,
+			ContextServices,
+			FileContext,
+			string,
+			OptionsSchema
+		>,
 		testCaseRaw: ValidTestCase<InferredObject<OptionsSchema>>,
 	) {
 		const testCase =

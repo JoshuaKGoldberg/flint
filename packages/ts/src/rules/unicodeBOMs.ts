@@ -17,7 +17,7 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Remove the BOM from the beginning of the file."],
 		},
 	},
-	setup(context) {
+	setup() {
 		const text = context.sourceFile.getFullText();
 		if (text.charCodeAt(0) !== 0xfeff) {
 			return {};

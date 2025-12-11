@@ -1,3 +1,4 @@
+import { runtimeBase } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
@@ -18,10 +19,11 @@ export default typescriptLanguage.createRule({
 			suggestions: ["Remove the redundant non-null assertion operator."],
 		},
 	},
-	setup(context) {
+	setup() {
 		return {
+			...runtimeBase,
 			visitors: {
-				NonNullExpression: (node) => {
+				NonNullExpression: (node, context) => {
 					if (node.parent.kind !== ts.SyntaxKind.NonNullExpression) {
 						return;
 					}
