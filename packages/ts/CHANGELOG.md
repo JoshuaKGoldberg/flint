@@ -1,5 +1,16 @@
 # @flint/ts
 
+## 0.15.0
+
+### Minor Changes
+
+- 46f2d0e: feat(ts): \[withStatements\] add rule
+
+### Patch Changes
+
+- Updated dependencies [f37f0d0]
+  - @flint.fyi/rule-tester@0.15.0
+
 ## 0.14.6
 
 ### Patch Changes
