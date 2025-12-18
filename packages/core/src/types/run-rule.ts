@@ -10,22 +10,20 @@ import type { RuleRuntime, RuleVisitors } from "./rules.js";
 
 export type RuleRunner<AstNodesByName, ContextServices extends object> = <
 	const MessageId extends string,
-	const FileContext extends object,
+	const Options,
 >(
-	runtime: RuleRuntime<AstNodesByName, MessageId, ContextServices, FileContext>,
+	runtime: RuleRuntime<AstNodesByName, MessageId, ContextServices, Options>,
 	messages: Record<MessageId, ReportMessageData>,
+	options: Options,
 ) => Promise<NormalizedReport[]>;
 
 type Visit<AstNodesByName, ContextServices extends object> = <
 	MessageId extends string,
-	FileContext extends object,
+	Options,
 >(
-	visitors: RuleVisitors<
-		AstNodesByName,
-		MessageId,
-		ContextServices & FileContext
-	>,
-	context: ContextServices & FileContext & RuleContext<MessageId>,
+	visitors: RuleVisitors<AstNodesByName, MessageId, ContextServices, Options>,
+	context: ContextServices & RuleContext<MessageId>,
+	options: Options,
 ) => void;
 
 export function createRuleRunner<
@@ -36,17 +34,10 @@ export function createRuleRunner<
 	visit: Visit<AstNodesByName, ContextServices>,
 	createRange: (range: CharacterReportRange) => NormalizedReportRangeObject,
 ): RuleRunner<AstNodesByName, ContextServices> {
-	return async function runRule<
-		const MessageId extends string,
-		const FileContext extends object,
-	>(
-		runtime: RuleRuntime<
-			AstNodesByName,
-			MessageId,
-			ContextServices,
-			FileContext
-		>,
+	return async function runRule<const MessageId extends string, Options>(
+		runtime: RuleRuntime<AstNodesByName, MessageId, ContextServices, Options>,
 		messages: Record<MessageId, ReportMessageData>,
+		options: Options,
 	): Promise<NormalizedReport[]> {
 		const reports: NormalizedReport[] = [];
 
@@ -54,9 +45,7 @@ export function createRuleRunner<
 			return [];
 		}
 
-		const fileContext = await runtime.fileSetup(services);
-
-		const context: ContextServices & FileContext & RuleContext<MessageId> = {
+		const context: ContextServices & RuleContext<MessageId> = {
 			...services,
 			report: (report: RuleReport<MessageId>) => {
 				reports.push({
@@ -69,10 +58,9 @@ export function createRuleRunner<
 					range: createRange(report.range),
 				});
 			},
-			...fileContext,
 		};
 
-		visit(runtime.visitors, context);
+		visit(runtime.visitors, context, options);
 
 		return reports;
 	};

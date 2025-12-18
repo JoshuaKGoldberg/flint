@@ -10,11 +10,11 @@ import { ReportMessageData } from "./reports.js";
 export type AnyRule<
 	About extends RuleAbout = RuleAbout,
 	OptionsSchema extends AnyOptionalSchema | undefined = any,
-> = Rule<About, any, any, any, string, OptionsSchema>;
+> = Rule<About, any, any, string, OptionsSchema>;
 
 export type AnyRuleDefinition<
 	OptionsSchema extends AnyOptionalSchema | undefined = any,
-> = RuleDefinition<RuleAbout, any, any, any, string, OptionsSchema>;
+> = RuleDefinition<RuleAbout, any, any, string, OptionsSchema>;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
@@ -24,14 +24,12 @@ export interface Rule<
 	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
-	in out FileContext extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > extends RuleDefinition<
 		About,
 		AstNodesByName,
 		ContextServices,
-		FileContext,
 		MessageId,
 		OptionsSchema
 	> {
@@ -45,15 +43,10 @@ export interface RuleAbout extends BaseAbout {
 /**
  * The definition of a rule, as provided to rule creators internally.
  */
-export type FileSetup<ContextServices, FileContext extends object> = (
-	context: ContextServices,
-) => PromiseOrSync<FileContext>;
-
 export interface RuleDefinition<
 	About extends RuleAbout,
 	AstNodesByName,
 	ContextServices extends object,
-	FileContext extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
@@ -63,7 +56,6 @@ export interface RuleDefinition<
 	setup: RuleSetup<
 		AstNodesByName,
 		ContextServices,
-		FileContext,
 		MessageId,
 		InferredObject<OptionsSchema>
 	>;
@@ -73,16 +65,11 @@ export interface RuleRuntime<
 	in out AstNodesByName,
 	out MessageId extends string,
 	in ContextServices extends object,
-	in out FileContext extends object,
+	in Options,
 > {
 	dependencies: string[];
-	fileSetup: FileSetup<ContextServices, FileContext>;
 	skipFile: (context: ContextServices) => PromiseOrSync<boolean>;
-	visitors: RuleVisitors<
-		AstNodesByName,
-		MessageId,
-		ContextServices & FileContext
-	>;
+	visitors: RuleVisitors<AstNodesByName, MessageId, ContextServices, Options>;
 }
 
 /**
@@ -91,26 +78,31 @@ export interface RuleRuntime<
 export type RuleSetup<
 	in out AstNodesByName,
 	in ContextServices extends object,
-	in out FileContext extends object,
 	out MessageId extends string,
 	in Options,
-> = (
-	options: Options,
-) => RuleRuntime<AstNodesByName, MessageId, ContextServices, FileContext>;
+> = () => RuleRuntime<AstNodesByName, MessageId, ContextServices, Options>;
 
-export type RuleVisitor<ASTNode, MessageId extends string, Services> = (
+export type RuleVisitor<
+	ASTNode,
+	MessageId extends string,
+	Services,
+	Options,
+> = (
 	node: ASTNode,
 	context: RuleContext<MessageId> & Services,
+	options: Options,
 ) => void;
 
 export type RuleVisitors<
 	in out AstNodesByName,
 	out MessageId extends string,
 	in Services,
+	in Options,
 > = {
 	[Kind in keyof AstNodesByName]?: RuleVisitor<
 		AstNodesByName[Kind],
 		MessageId,
-		Services
+		Services,
+		Options
 	>;
 };

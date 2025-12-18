@@ -18,20 +18,17 @@ export function createTextFile(
 				filePathAbsolute,
 				sourceText,
 			},
-			<MessageId extends string, FileContext extends object>(
-				visitors: RuleVisitors<
-					TextNodes,
-					MessageId,
-					FileContext & TextServices
-				>,
-				context: FileContext & RuleContext<MessageId> & TextServices,
+			<MessageId extends string, Options>(
+				visitors: RuleVisitors<TextNodes, MessageId, TextServices, Options>,
+				context: RuleContext<MessageId> & TextServices,
+				options: Options,
 			) => {
-				visitors.file?.(sourceText, context);
+				visitors.file?.(sourceText, context, options);
 
 				if (visitors.line) {
 					const lines = sourceText.split(/\r\n|\n|\r/);
 					for (const line of lines) {
-						visitors.line(line, context);
+						visitors.line(line, context, options);
 					}
 				}
 			},

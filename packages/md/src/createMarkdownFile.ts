@@ -32,20 +32,22 @@ export function createMarkdownFile(sourceText: string) {
 			{
 				root,
 			},
-			<MessageId extends string, FileContext extends object>(
+			<MessageId extends string, Options>(
 				visitors: RuleVisitors<
 					MarkdownNodesByName,
 					MessageId,
-					FileContext & MarkdownServices
+					MarkdownServices,
+					Options
 				>,
-				context: FileContext & MarkdownServices & RuleContext<MessageId>,
+				context: MarkdownServices & RuleContext<MessageId>,
+				options: Options,
 			) => {
 				visit(root, (node) => {
 					const visitor = visitors[node.type] as
-						| RuleVisitor<typeof node, MessageId, MarkdownServices>
+						| RuleVisitor<typeof node, MessageId, MarkdownServices, Options>
 						| undefined;
 
-					visitor?.(node, context);
+					visitor?.(node, context, options);
 				});
 			},
 			(range) => ({

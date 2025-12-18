@@ -1,17 +1,12 @@
 import { type RuleContext, runtimeBase } from "@flint.fyi/core";
-import { Link } from "mdast";
+import { Link, type Root } from "mdast";
 
 import { markdownLanguage, type MarkdownServices } from "../language.js";
 import { WithPosition } from "../nodes.js";
 
 const urlTester = /(?:https?:\/\/|mailto:)\S+|[\w.+-]+@[\w.-]+\.\w+/gi;
 
-type Context = FileContext & MarkdownServices & RuleContext<"bareUrl">;
-
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- Otherwise we get a
-type FileContext = {
-	textInValidLinks: Set<number>;
-};
+type Context = MarkdownServices & RuleContext<"bareUrl">;
 
 export default markdownLanguage.createRule({
 	about: {
@@ -19,7 +14,7 @@ export default markdownLanguage.createRule({
 			"Reports bare URLs that should be formatted as autolinks or links.",
 		id: "bareUrls",
 		preset: "stylistic",
-	} as const,
+	},
 	messages: {
 		bareUrl: {
 			primary: "This bare URL is ambiguous to parsers.",
@@ -35,31 +30,36 @@ export default markdownLanguage.createRule({
 	},
 
 	setup() {
+		const textInValidLinks = new Map<WithPosition<Root>, Set<number>>();
+
 		return {
 			...runtimeBase,
-			fileSetup: (): FileContext => ({
-				textInValidLinks: new Set<number>(),
-			}),
 			visitors: {
 				link: (node, context) => {
 					if (
 						node.children[0].type === "text" &&
 						node.children[0].value === node.url
 					) {
-						checkTextNode(context, node);
+						checkTextNode(context, node, textInValidLinks);
 					} else {
 						for (const child of node.children) {
 							if (
 								child.type === "text" &&
 								child.position?.start.offset !== undefined
 							) {
-								context.textInValidLinks.add(child.position.start.offset);
+								getOrInsert(textInValidLinks, context.root, new Set()).add(
+									child.position.start.offset,
+								);
 							}
 						}
 					}
 				},
 				text(node, context) {
-					if (context.textInValidLinks.has(node.position.start.offset)) {
+					if (
+						getOrInsert(textInValidLinks, context.root, new Set()).has(
+							node.position.start.offset,
+						)
+					) {
 						return;
 					}
 
@@ -76,7 +76,11 @@ export default markdownLanguage.createRule({
 	},
 });
 
-function checkTextNode(context: Context, node: WithPosition<Link>) {
+function checkTextNode(
+	context: Context,
+	node: WithPosition<Link>,
+	textInValidLinks: Map<WithPosition<Root>, Set<number>>,
+) {
 	const textNode = node.children[0];
 	const textPosition = textNode.position;
 
@@ -92,7 +96,9 @@ function checkTextNode(context: Context, node: WithPosition<Link>) {
 	const textLength = textPosition.end.offset - textPosition.start.offset;
 
 	if (linkLength > textLength) {
-		context.textInValidLinks.add(textPosition.start.offset);
+		getOrInsert(textInValidLinks, context.root, new Set()).add(
+			textPosition.start.offset,
+		);
 	} else {
 		report(
 			context,
@@ -120,4 +126,13 @@ function report(context: Context, begin: number, end: number, urlText: string) {
 			},
 		],
 	});
+}
+
+/** Ponyfill https://github.com/tc39/proposal-upsert. */
+function getOrInsert<K, V>(map: Map<K, V>, key: K, defaultValue: V): V {
+	if (!map.has(key)) {
+		map.set(key, defaultValue);
+	}
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Already checked.
+	return map.get(key)!;
 }

@@ -26,19 +26,18 @@ export function createTypeScriptJsonFile(
 			{
 				sourceFile,
 			},
-			<MessageId extends string, FileContext extends object>(
-				visitors: RuleVisitors<
-					TSNodesByName,
-					MessageId,
-					FileContext & JsonServices
-				>,
-				context: FileContext & JsonServices & RuleContext<MessageId>,
+			<MessageId extends string, Options>(
+				visitors: RuleVisitors<TSNodesByName, MessageId, JsonServices, Options>,
+				context: JsonServices & RuleContext<MessageId>,
+				options: Options,
 			) => {
 				const visit = (node: ts.Node) => {
 					const visitor = visitors[
 						ts.SyntaxKind[node.kind] as keyof TSNodesByName
-					] as RuleVisitor<typeof node, MessageId, unknown> | undefined;
-					visitor?.(node, context);
+					] as
+						| RuleVisitor<typeof node, MessageId, JsonServices, Options>
+						| undefined;
+					visitor?.(node, context, options);
 
 					node.forEachChild(visit);
 				};

@@ -10,25 +10,16 @@ import { Rule, RuleAbout, RuleDefinition } from "./rules.js";
 export type CreateRule<AstNodesByName, ContextServices extends object> = <
 	const About extends RuleAbout,
 	const MessageId extends string,
-	const FileContext extends object,
 	const OptionsSchema extends AnyOptionalSchema | undefined = undefined,
 >(
 	definition: RuleDefinition<
 		About,
 		AstNodesByName,
 		ContextServices,
-		FileContext,
 		MessageId,
 		OptionsSchema
 	>,
-) => Rule<
-	About,
-	AstNodesByName,
-	ContextServices,
-	FileContext,
-	MessageId,
-	OptionsSchema
->;
+) => Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
 
 export interface Language<AstNodesByName, ContextServices extends object> {
 	about: LanguageAbout;

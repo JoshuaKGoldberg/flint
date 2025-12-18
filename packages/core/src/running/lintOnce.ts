@@ -94,7 +94,7 @@ export async function lintOnce(
 	// TODO: It would probably be good to group rules by language...
 	for (const [rule, options] of rulesWithOptions) {
 		// TODO: cache runtimes? compute them lazily?
-		const runtime = rule.setup(options);
+		const runtime = rule.setup();
 		log("Running rule %s with options: %o", rule.about.id, options);
 
 		const appliedFiles = useDefinitions.flatMap((use) =>
@@ -120,6 +120,7 @@ export async function lintOnce(
 					runtime,
 					skipDiagnostics,
 					languageFactories,
+					options,
 				);
 
 				result = {

@@ -18,20 +18,21 @@ export async function lintFile<
 	const About extends RuleAbout,
 	const AstNodesByName,
 	const ContextServices extends object,
-	const FileContext extends object,
 	const MessageId extends string,
+	const Options,
 >(
 	filePathAbsolute: string,
 	rule: Omit<
-		Rule<About, AstNodesByName, ContextServices, FileContext, string, never>,
+		Rule<About, AstNodesByName, ContextServices, string, never>,
 		"setup"
 	>,
-	runtime: RuleRuntime<AstNodesByName, MessageId, ContextServices, FileContext>,
+	runtime: RuleRuntime<AstNodesByName, MessageId, ContextServices, Options>,
 	skipDiagnostics: boolean,
 	languageFactories: CachedFactory<
 		Language<AstNodesByName, ContextServices>,
 		LanguageFileFactory<AstNodesByName, ContextServices>
 	>,
+	options: Options,
 ): Promise<{
 	dependencies: Set<string>;
 	diagnostics: LanguageFileDiagnostic[];
@@ -55,7 +56,7 @@ export async function lintFile<
 	}
 
 	// TODO: These should probably be put in some kind of queue?
-	const ruleReports = await file.runRule(runtime, rule.messages);
+	const ruleReports = await file.runRule(runtime, rule.messages, options);
 	log("Found %d reports from rule %s", ruleReports.length, rule.about.id);
 
 	for (const ruleReport of ruleReports) {

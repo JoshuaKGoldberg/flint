@@ -56,23 +56,24 @@ export function createTypeScriptFileFromProgram(
 				sourceFile,
 				typeChecker: program.getTypeChecker(),
 			},
-			<MessageId extends string, FileContext extends object>(
+			<MessageId extends string, Options>(
 				visitors: RuleVisitors<
 					TSNodesByName,
 					MessageId,
-					FileContext & TypeScriptServices
+					TypeScriptServices,
+					Options
 				>,
-				context: FileContext & RuleContext<MessageId> & TypeScriptServices,
+				context: RuleContext<MessageId> & TypeScriptServices,
+				options: Options,
 			) => {
 				const visit = (node: ts.Node) => {
 					// TODO: There's got to be a better way to type visitors so all this casting isn't necessary.
 					const visitor = visitors[
 						NodeSyntaxKinds[node.kind] as keyof typeof visitors
 					] as
-						| RuleVisitor<typeof node, MessageId, TypeScriptServices>
+						| RuleVisitor<typeof node, MessageId, TypeScriptServices, Options>
 						| undefined;
-
-					visitor?.(node, context);
+					visitor?.(node, context, options);
 
 					node.forEachChild(visit);
 				};

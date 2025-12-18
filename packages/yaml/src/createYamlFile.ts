@@ -24,20 +24,22 @@ export function createYamlFile(sourceText: string) {
 			{
 				root,
 			},
-			<MessageId extends string, FileContext extends object>(
+			<MessageId extends string, Options>(
 				visitors: RuleVisitors<
 					YamlNodesByName,
 					MessageId,
-					FileContext & YamlServices
+					YamlServices,
+					Options
 				>,
-				context: FileContext & RuleContext<MessageId> & YamlServices,
+				context: RuleContext<MessageId> & YamlServices,
+				options: Options,
 			) => {
 				visit(root, (node) => {
 					const visitor = visitors[node.type] as
-						| RuleVisitor<typeof node, MessageId, YamlServices>
+						| RuleVisitor<typeof node, MessageId, YamlServices, Options>
 						| undefined;
 
-					visitor?.(node, context);
+					visitor?.(node, context, options);
 				});
 			},
 			(range) => ({
