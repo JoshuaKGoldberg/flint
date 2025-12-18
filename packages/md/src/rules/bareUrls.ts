@@ -13,7 +13,7 @@ type FileContext = {
 	textInValidLinks: Set<number>;
 };
 
-export default markdownLanguage.createStatefulRule({
+export default markdownLanguage.createRule({
 	about: {
 		description:
 			"Reports bare URLs that should be formatted as autolinks or links.",

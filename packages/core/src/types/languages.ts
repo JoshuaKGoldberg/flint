@@ -1,6 +1,5 @@
 import type { CachedFactory } from "cached-factory";
 
-import type { RuleBuilder } from "./rule-builder.js";
 import type { RuleRunner } from "./run-rule.js";
 import type { AnyOptionalSchema } from "./shapes.js";
 
@@ -9,31 +8,6 @@ import { FileReport } from "./reports.js";
 import { Rule, RuleAbout, RuleDefinition } from "./rules.js";
 
 export type CreateRule<AstNodesByName, ContextServices extends object> = <
-	const About extends RuleAbout,
-	const MessageId extends string,
-	const OptionsSchema extends AnyOptionalSchema | undefined = undefined,
->(
-	definition: RuleDefinition<
-		About,
-		AstNodesByName,
-		ContextServices,
-		object,
-		MessageId,
-		OptionsSchema
-	>,
-) => Rule<
-	About,
-	AstNodesByName,
-	ContextServices,
-	object,
-	MessageId,
-	OptionsSchema
->;
-
-export type CreateStatefulRule<
-	AstNodesByName,
-	ContextServices extends object,
-> = <
 	const About extends RuleAbout,
 	const MessageId extends string,
 	const FileContext extends object,
@@ -58,16 +32,7 @@ export type CreateStatefulRule<
 
 export interface Language<AstNodesByName, ContextServices extends object> {
 	about: LanguageAbout;
-	buildRule: () => RuleBuilder<
-		never,
-		AstNodesByName,
-		ContextServices,
-		object,
-		never,
-		undefined
-	>;
 	createRule: CreateRule<AstNodesByName, ContextServices>;
-	createStatefulRule: CreateStatefulRule<AstNodesByName, ContextServices>;
 	prepare(): LanguageFileFactory<AstNodesByName, ContextServices>;
 }
 
