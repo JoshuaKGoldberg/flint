@@ -1,3 +1,5 @@
+import { expect } from "vitest";
+
 import rule from "./classListToggles.js";
 import { ruleTester } from "./ruleTester.js";
 
@@ -11,15 +13,26 @@ if (condition) {
     element.classList.remove("active");
 }
 `,
-			snapshot: `
-if (condition) {
-    element.classList.add("active");
-                      ~~~
-                      Prefer using \`classList.toggle()\` instead of conditional \`classList.add()\` and \`classList.remove()\`.
-} else {
-    element.classList.remove("active");
-}
-`,
+			output: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					element.classList.toggle("active", condition);
+					"
+				`);
+			},
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					if (condition) {
+					    element.classList.add("active");
+					                      ~~~
+					                      Prefer using \`classList.toggle()\` instead of conditional \`classList.add()\` and \`classList.remove()\`.
+					} else {
+					    element.classList.remove("active");
+					}
+					"
+				`);
+			},
 		},
 		{
 			code: `
@@ -29,15 +42,26 @@ if (isVisible) {
     button.classList.add("hidden");
 }
 `,
-			snapshot: `
-if (isVisible) {
-    button.classList.remove("hidden");
-                     ~~~~~~
-                     Prefer using \`classList.toggle()\` instead of conditional \`classList.add()\` and \`classList.remove()\`.
-} else {
-    button.classList.add("hidden");
-}
-`,
+			output: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					button.classList.toggle("hidden", !(isVisible));
+					"
+				`);
+			},
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					if (isVisible) {
+					    button.classList.remove("hidden");
+					                     ~~~~~~
+					                     Prefer using \`classList.toggle()\` instead of conditional \`classList.add()\` and \`classList.remove()\`.
+					} else {
+					    button.classList.add("hidden");
+					}
+					"
+				`);
+			},
 		},
 		{
 			code: `
@@ -46,14 +70,25 @@ if (flag)
 else
     element.classList.remove("active");
 `,
-			snapshot: `
-if (flag)
-    element.classList.add("active");
-                      ~~~
-                      Prefer using \`classList.toggle()\` instead of conditional \`classList.add()\` and \`classList.remove()\`.
-else
-    element.classList.remove("active");
-`,
+			output: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					element.classList.toggle("active", flag);
+					"
+				`);
+			},
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					if (flag)
+					    element.classList.add("active");
+					                      ~~~
+					                      Prefer using \`classList.toggle()\` instead of conditional \`classList.add()\` and \`classList.remove()\`.
+					else
+					    element.classList.remove("active");
+					"
+				`);
+			},
 		},
 	],
 	valid: [

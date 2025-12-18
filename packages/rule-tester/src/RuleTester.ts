@@ -7,9 +7,11 @@ import {
 	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
-import assert from "node:assert/strict";
 
-import { createReportSnapshot } from "./createReportSnapshot.js";
+import { assertString } from "./assertions/assertString.js";
+import { assertValues } from "./assertions/assertValues.js";
+import { createReportsFixed } from "./createReportsFixed.js";
+import { createReportsOutput } from "./createReportsOutput.js";
 import { normalizeTestCase } from "./normalizeTestCase.js";
 import { resolveReportedSuggestions } from "./resolveReportedSuggestions.js";
 import { runTestCaseRule } from "./runTestCaseRule.js";
@@ -120,15 +122,27 @@ export class RuleTester {
 				},
 				testCaseNormalized,
 			);
-			const actualSnapshot = createReportSnapshot(testCase.code, reports);
 
-			assert.equal(actualSnapshot, testCase.snapshot);
+			const fixed = createReportsFixed(testCase.code, reports);
+			if (fixed) {
+				if (testCase.output) {
+					assertString(fixed, testCase.output);
+				} else {
+					throw new Error(`Missing "output" property for case with fix.`);
+				}
+			} else if (testCase.output) {
+				throw new Error(`Extraneous "output" property for case without fix.`);
+			}
 
-			const actualSuggestions = resolveReportedSuggestions(
-				reports,
-				testCaseNormalized,
+			assertString(
+				createReportsOutput(testCase.code, reports),
+				testCase.snapshot,
 			);
-			assert.deepStrictEqual(actualSuggestions, testCase.suggestions);
+
+			assertValues(
+				resolveReportedSuggestions(reports, testCaseNormalized),
+				testCase.suggestions,
+			);
 		});
 	}
 
@@ -171,8 +185,8 @@ export class RuleTester {
 			);
 
 			if (reports.length) {
-				assert.deepStrictEqual(
-					createReportSnapshot(testCaseNormalized.code, reports),
+				assertString(
+					createReportsOutput(testCaseNormalized.code, reports),
 					testCaseNormalized.code,
 				);
 			}

@@ -1,3 +1,5 @@
+import { expect } from "vitest";
+
 import rule from "./keyDuplicates.js";
 import { ruleTester } from "./ruleTester.js";
 
@@ -10,14 +12,18 @@ ruleTester.describe(rule, {
   "a": "second",
 }
 `,
-			snapshot: `
-{
-  "a": "first",
-  ~~~
-  This key is made redundant by an identical key later in the object.
-  "a": "second",
-}
-`,
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					{
+					  "a": "first",
+					  ~~~
+					  This key is made redundant by an identical key later in the object.
+					  "a": "second",
+					}
+					"
+				`);
+			},
 		},
 		{
 			code: `
@@ -29,14 +35,18 @@ ruleTester.describe(rule, {
 			options: {
 				allowKeys: ["//"],
 			},
-			snapshot: `
-{
-  "a": "first",
-  ~~~
-  This key is made redundant by an identical key later in the object.
-  "a": "second",
-}
-`,
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					{
+					  "a": "first",
+					  ~~~
+					  This key is made redundant by an identical key later in the object.
+					  "a": "second",
+					}
+					"
+				`);
+			},
 		},
 	],
 	valid: [

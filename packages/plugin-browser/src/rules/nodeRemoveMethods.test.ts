@@ -1,3 +1,5 @@
+import { expect } from "vitest";
+
 import rule from "./nodeRemoveMethods.js";
 import { ruleTester } from "./ruleTester.js";
 
@@ -9,63 +11,95 @@ declare const parentNode: HTMLElement;
 declare const childNode: HTMLElement;
 parentNode.removeChild(childNode);
 `,
-			output: `
-declare const parentNode: HTMLElement;
-declare const childNode: HTMLElement;
-childNode.remove();
-			`,
-			snapshot: `
-declare const parentNode: HTMLElement;
-declare const childNode: HTMLElement;
-parentNode.removeChild(childNode);
-           ~~~~~~~~~~~
-           Prefer the modern \`childNode.remove()\` over \`parentNode.removeChild(childNode)\`.
-`,
+			output: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					declare const parentNode: HTMLElement;
+					declare const childNode: HTMLElement;
+					childNode.remove();
+					"
+				`);
+			},
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					declare const parentNode: HTMLElement;
+					declare const childNode: HTMLElement;
+					parentNode.removeChild(childNode);
+					           ~~~~~~~~~~~
+					           Prefer the modern \`childNode.remove()\` over \`parentNode.removeChild(childNode)\`.
+					"
+				`);
+			},
 		},
 		{
 			code: `
 declare const element: HTMLElement;
 element.parentNode.removeChild(element);
 `,
-			output: `
-declare const element: HTMLElement;
-element.remove();
-			`,
-			snapshot: `
-declare const element: HTMLElement;
-element.parentNode.removeChild(element);
-                   ~~~~~~~~~~~
-                   Prefer the modern \`element.remove()\` over \`element.parentNode.removeChild(element)\`.
-`,
+			output: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					declare const element: HTMLElement;
+					element.remove();
+					"
+				`);
+			},
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					declare const element: HTMLElement;
+					element.parentNode.removeChild(element);
+					                   ~~~~~~~~~~~
+					                   Prefer the modern \`element.remove()\` over \`element.parentNode.removeChild(element)\`.
+					"
+				`);
+			},
 		},
 		{
 			code: `
 declare const node: HTMLElement;
 node.parentElement.removeChild(node);
 `,
-			output: `
-declare const node: HTMLElement;
-node.remove();
-`,
-			snapshot: `
-declare const node: HTMLElement;
-node.parentElement.removeChild(node);
-                   ~~~~~~~~~~~
-                   Prefer the modern \`node.remove()\` over \`node.parentElement.removeChild(node)\`.
-`,
+			output: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					declare const node: HTMLElement;
+					node.remove();
+					"
+				`);
+			},
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					declare const node: HTMLElement;
+					node.parentElement.removeChild(node);
+					                   ~~~~~~~~~~~
+					                   Prefer the modern \`node.remove()\` over \`node.parentElement.removeChild(node)\`.
+					"
+				`);
+			},
 		},
 		{
 			code: `
 document.body.removeChild(footer);
 `,
-			output: `
-footer.remove();
-`,
-			snapshot: `
-document.body.removeChild(footer);
-              ~~~~~~~~~~~
-              Prefer the modern \`footer.remove()\` over \`document.body.removeChild(footer)\`.
-`,
+			output: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					footer.remove();
+					"
+				`);
+			},
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					document.body.removeChild(footer);
+					              ~~~~~~~~~~~
+					              Prefer the modern \`footer.remove()\` over \`document.body.removeChild(footer)\`.
+					"
+				`);
+			},
 		},
 	],
 	valid: [

@@ -1,10 +1,14 @@
 export interface InvalidTestCase<
 	Options extends object | undefined = object | undefined,
 > extends TestCase<Options> {
-	output?: string;
-	snapshot: string;
+	output?: StringExpectation;
+	snapshot: StringExpectation;
 	suggestions?: TestSuggestion[];
 }
+
+export type StringExpectation = string | StringExpectationFunction;
+
+export type StringExpectationFunction = (actual: string) => void;
 
 export interface TestCase<
 	Options extends object | undefined = object | undefined,
@@ -38,7 +42,7 @@ export interface TestSuggestionFileCase {
 
 export interface TestSuggestionForFile {
 	id: string;
-	updated: string;
+	updated: StringExpectation;
 }
 
 export interface TestSuggestionForFiles {

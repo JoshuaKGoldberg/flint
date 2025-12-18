@@ -1,3 +1,5 @@
+import { expect } from "vitest";
+
 import rule from "./keyNormalization.js";
 import { ruleTester } from "./ruleTester.js";
 
@@ -11,21 +13,29 @@ ruleTester.describe(rule, {
     "cafe\u0301": "value"
 }
 `,
-			snapshot: `
-{
-    "cafe\u0301": "value"
-    ~~~~~~~
-    This key is not normalized using the NFC normalization form.
-}
-`,
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					{
+					    "café": "value"
+					    ~~~~~~~
+					    This key is not normalized using the NFC normalization form.
+					}
+					"
+				`);
+			},
 			suggestions: [
 				{
 					id: "normalizeKey",
-					updated: `
-{
-    "café": "value"
-}
-`,
+					updated: (text) => {
+						expect(text).toMatchInlineSnapshot(`
+							"
+							{
+							    "café": "value"
+							}
+							"
+						`);
+					},
 				},
 			],
 		},
@@ -36,23 +46,31 @@ ruleTester.describe(rule, {
     "cafe\u0301": "latte"
 }
 `,
-			snapshot: `
-{
-    "résumé": "document",
-    "cafe\u0301": "latte"
-    ~~~~~~~
-    This key is not normalized using the NFC normalization form.
-}
-`,
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					{
+					    "résumé": "document",
+					    "café": "latte"
+					    ~~~~~~~
+					    This key is not normalized using the NFC normalization form.
+					}
+					"
+				`);
+			},
 			suggestions: [
 				{
 					id: "normalizeKey",
-					updated: `
-{
-    "résumé": "document",
-    "café": "latte"
-}
-`,
+					updated: (text) => {
+						expect(text).toMatchInlineSnapshot(`
+							"
+							{
+							    "résumé": "document",
+							    "café": "latte"
+							}
+							"
+						`);
+					},
 				},
 			],
 		},
@@ -65,21 +83,29 @@ ruleTester.describe(rule, {
 			options: {
 				form: "NFD",
 			},
-			snapshot: `
-{
-    "café": "value"
-    ~~~~~~
-    This key is not normalized using the NFD normalization form.
-}
-`,
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					{
+					    "café": "value"
+					    ~~~~~~
+					    This key is not normalized using the NFD normalization form.
+					}
+					"
+				`);
+			},
 			suggestions: [
 				{
 					id: "normalizeKey",
-					updated: `
-{
-    "cafe\u0301": "value"
-}
-`,
+					updated: (text) => {
+						expect(text).toMatchInlineSnapshot(`
+							"
+							{
+							    "café": "value"
+							}
+							"
+						`);
+					},
 				},
 			],
 		},
@@ -93,34 +119,46 @@ ruleTester.describe(rule, {
 			options: {
 				form: "NFD",
 			},
-			snapshot: `
-{
-    "café": "espresso",
-    ~~~~~~
-    This key is not normalized using the NFD normalization form.
-    "naïve": "approach"
-    ~~~~~~~
-    This key is not normalized using the NFD normalization form.
-}
-`,
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					{
+					    "café": "espresso",
+					    ~~~~~~
+					    This key is not normalized using the NFD normalization form.
+					    "naïve": "approach"
+					    ~~~~~~~
+					    This key is not normalized using the NFD normalization form.
+					}
+					"
+				`);
+			},
 			suggestions: [
 				{
 					id: "normalizeKey",
-					updated: `
-{
-    "cafe\u0301": "espresso",
-    "naïve": "approach"
-}
-`,
+					updated: (text) => {
+						expect(text).toMatchInlineSnapshot(`
+							"
+							{
+							    "café": "espresso",
+							    "naïve": "approach"
+							}
+							"
+						`);
+					},
 				},
 				{
 					id: "normalizeKey",
-					updated: `
-{
-    "café": "espresso",
-    "nai\u0308ve": "approach"
-}
-`,
+					updated: (text) => {
+						expect(text).toMatchInlineSnapshot(`
+							"
+							{
+							    "café": "espresso",
+							    "naïve": "approach"
+							}
+							"
+						`);
+					},
 				},
 			],
 		},

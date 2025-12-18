@@ -1,3 +1,5 @@
+import { expect } from "vitest";
+
 import rule from "./invalidCodeLines.js";
 import { ruleTester } from "./ruleTester.js";
 
@@ -18,38 +20,48 @@ Rule report message.
     ],
 });
 `,
-			output: `
-ruleTester.describe(rule, {
-    valid: ['a', 'a'],
-    invalid: [
-      {
-        code: \`
 
-\`,
-        snapshot: \`
-~
-Rule report message.
-\`,
-      }
-    ],
-});
-`,
-			snapshot: `
-ruleTester.describe(rule, {
-    valid: ['a', 'a'],
-    invalid: [
-      {
-        code: "",
-              ~~
-              This code block should be formatted across multiple lines for more readable reports.
-        snapshot: \`
-~
-Rule report message.
-\`,
-      }
-    ],
-});
-`,
+			output: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					ruleTester.describe(rule, {
+					    valid: ['a', 'a'],
+					    invalid: [
+					      {
+					        code: \`
+
+					\`,
+					        snapshot: \`
+
+					~
+					Rule report message.
+					\`,
+					      }
+					    ],
+					});
+					"
+				`);
+			},
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					ruleTester.describe(rule, {
+					    valid: ['a', 'a'],
+					    invalid: [
+					      {
+					        code: "",
+					              ~~
+					              This code block should be formatted across multiple lines for more readable reports.
+					        snapshot: \`
+					~
+					Rule report message.
+					\`,
+					      }
+					    ],
+					});
+					"
+				`);
+			},
 		},
 		{
 			code: `
@@ -68,44 +80,51 @@ Rule report message.
     ],
 });
 `,
-			output: `
-ruleTester.describe(rule, {
-    valid: ['a', 'a'],
-    invalid: [
-      {
-        code: \`
-console.log(
-);
-\`,
-        snapshot: \`
-console.log(
-);
-~
-Rule report message.
-\`,
-      }
-    ],
-});
-`,
-			snapshot: `
-ruleTester.describe(rule, {
-    valid: ['a', 'a'],
-    invalid: [
-      {
-        code: \`console.log(
-              ~~~~~~~~~~~~~
-              This code block should be formatted across multiple lines for more readable reports.
-);\`,
-~~~
-        snapshot: \`console.log(
-);
-~
-Rule report message.
-\`,
-      }
-    ],
-});
-`,
+			output: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					ruleTester.describe(rule, {
+					    valid: ['a', 'a'],
+					    invalid: [
+					      {
+					        code: \`
+					console.log(
+					);\`,
+					        snapshot: \`
+					console.log(
+					);
+					~
+					Rule report message.
+					\`,
+					      }
+					    ],
+					});
+					"
+				`);
+			},
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					ruleTester.describe(rule, {
+					    valid: ['a', 'a'],
+					    invalid: [
+					      {
+					        code: \`console.log(
+					              ~~~~~~~~~~~~~
+					              This code block should be formatted across multiple lines for more readable reports.
+					);\`,
+					~~~
+					        snapshot: \`console.log(
+					);
+					~
+					Rule report message.
+					\`,
+					      }
+					    ],
+					});
+					"
+				`);
+			},
 		},
 		{
 			code: `
@@ -122,39 +141,47 @@ Rule report message.
     ],
 });
 `,
-			output: `
-ruleTester.describe(rule, {
-    valid: ['a', 'a'],
-    invalid: [
-      {
-        code: \`
-console.log();
-\`,
-        snapshot: \`
-console.log();
-~~~~~~~~~~~~~
-Rule report message.
-\`,
-      }
-    ],
-});
-`,
-			snapshot: `
-ruleTester.describe(rule, {
-    valid: ['a', 'a'],
-    invalid: [
-      {
-        code: \`console.log();\`,
-              ~~~~~~~~~~~~~~~~
-              This code block should be formatted across multiple lines for more readable reports.
-        snapshot: \`console.log();
-~~~~~~~~~~~~
-Rule report message.
-\`,
-      }
-    ],
-});
-`,
+
+			output: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					ruleTester.describe(rule, {
+					    valid: ['a', 'a'],
+					    invalid: [
+					      {
+					        code: \`
+					console.log();\`,
+					        snapshot: \`
+					console.log();
+					~~~~~~~~~~~~
+					Rule report message.
+					\`,
+					      }
+					    ],
+					});
+					"
+				`);
+			},
+			snapshot: (text) => {
+				expect(text).toMatchInlineSnapshot(`
+					"
+					ruleTester.describe(rule, {
+					    valid: ['a', 'a'],
+					    invalid: [
+					      {
+					        code: \`console.log();\`,
+					              ~~~~~~~~~~~~~~~~
+					              This code block should be formatted across multiple lines for more readable reports.
+					        snapshot: \`console.log();
+					~~~~~~~~~~~~
+					Rule report message.
+					\`,
+					      }
+					    ],
+					});
+					"
+				`);
+			},
 		},
 	],
 	valid: [
