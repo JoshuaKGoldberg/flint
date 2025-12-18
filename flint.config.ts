@@ -1,4 +1,5 @@
 // import { flint } from "@flint.fyi/plugin-flint";
+import { node } from "@flint.fyi/plugin-node";
 import { spelling } from "@flint.fyi/plugin-spelling";
 import { defineConfig, globs, json, md, ts, yaml } from "flint";
 
@@ -17,8 +18,12 @@ export default defineConfig({
 				exclude: process.env.LINT_FIXTURES ? [] : ["packages/fixtures"],
 				include: ts.files.all,
 			},
-			// rules: [flint.presets.logical, ts.presets.logical],
 			rules: [
+				// flint.presets.logical,
+				// node.presets.logical,
+				// node.presets.stylistic,
+				// ts.presets.logical,
+				// ts.presets.stylistic,
 				ts.rules({
 					anyReturns: undefined,
 				}),

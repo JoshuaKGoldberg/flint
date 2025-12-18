@@ -57,10 +57,10 @@
 		"eslint-plugin-yml": "1.19.0",
 		"flint": "workspace:^",
 		"husky": "9.1.7",
-		"knip": "5.71.0",
+		"knip": "5.73.0",
 		"lint-staged": "16.2.6",
 		"markdownlint": "0.40.0",
-		"markdownlint-cli": "0.46.0",
+		"markdownlint-cli": "0.47.0",
 		"prettier": "3.6.2",
 		"prettier-plugin-astro": "0.14.1",
 		"prettier-plugin-curly": "0.4.0",
@@ -68,11 +68,11 @@
 		"prettier-plugin-sh": "0.18.0",
 		"sentences-per-line": "0.3.0",
 		"typescript": "5.9.3",
-		"typescript-eslint": "8.48.0",
+		"typescript-eslint": "8.50.0",
 		"vitest": "4.0.2",
-		"zod": "4.1.12"
+		"zod": "4.2.0"
 	},
-	"packageManager": "pnpm@10.24.0",
+	"packageManager": "pnpm@10.26.0",
 	"engines": {
 		"node": ">=24.0.0"
 	},
