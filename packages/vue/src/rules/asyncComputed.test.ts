@@ -3,7 +3,6 @@ import path from "node:path";
 import rule from "./asyncComputed.js";
 import { ruleTester } from "./ruleTester.js";
 
-const fileName = path.join(import.meta.dirname, "file.vue");
 // TODO: the default file.ts path is packages/vfs/file.ts, so imports from
 // the vue package cannot be resolved, because vue is located in packages/vue/node_modules
 const tsFileName = path.join(import.meta.dirname, "file.ts");
@@ -33,7 +32,6 @@ computed(async () => 'hello')
 	computed(async () => 'hello')
 </script>
 			`,
-			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -56,7 +54,6 @@ computed(async () => 'hello')
 	})
 </script>
 			`,
-			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -81,7 +78,6 @@ computed(async () => 'hello')
 	computed(foo)
 </script>
 			`,
-			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -104,7 +100,6 @@ computed(async () => 'hello')
 	})
 </script>
 			`,
-			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -130,7 +125,6 @@ computed(async () => 'hello')
 	computed(fn)
 </script>
 			`,
-			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -154,7 +148,6 @@ computed(async () => 'hello')
 	computed(fn)
 </script>
 			`,
-			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -178,7 +171,6 @@ computed(async () => 'hello')
 	})
 </script>
 			`,
-			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -210,7 +202,6 @@ computed(async () => 'hello')
 	})
 </script>
 			`,
-			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -244,7 +235,6 @@ computed(async () => 'hello')
 	computed(getterAndSetter)
 </script>
 			`,
-			fileName,
 			snapshot: `
 <script setup lang="ts">
 	import { computed } from 'vue'
@@ -270,7 +260,6 @@ computed(async () => 'hello')
 	computed(async () => 'hello')
 </script>
 			`,
-			fileName,
 			snapshot: `
 <script lang="ts">
 	import { computed } from 'vue'
@@ -294,7 +283,6 @@ computed(async () => 'hello')
 <script setup lang="ts">
 </script>
 			`,
-			fileName,
 			snapshot: `
 <script lang="ts">
 	import { computed } from 'vue'
@@ -309,7 +297,6 @@ computed(async () => 'hello')
 			`,
 		},
 		{
-			fileName,
 			// TODO: volar sets different ScriptKind depending on <script> lang,
 			// it doesn't work with current prepareFromVirtual
 			code: `
@@ -337,39 +324,29 @@ computed(async () => 'hello')
 	],
 	valid: [
 		// invalid computed
-		{
-			code: `
+		`
 <script setup lang="ts">
 	import { computed } from 'vue'
 
 	computed()
 </script>
-			`,
-			fileName,
-		},
+		`,
 		// invalid computed
-		{
-			code: `
+		`
 <script setup lang="ts">
 	import { computed } from 'vue'
 
 	computed('hello')
 </script>
-			`,
-			fileName,
-		},
-		{
-			code: `
+		`,
+		`
 <script setup lang="ts">
 	import { computed } from 'vue'
 
 	computed(() => 'hello')
 </script>
-			`,
-			fileName,
-		},
-		{
-			code: `
+		`,
+		`
 <script setup lang="ts">
 	import { computed } from 'vue'
 
@@ -377,11 +354,8 @@ computed(async () => 'hello')
 		return 'hello'
 	})
 </script>
-			`,
-			fileName,
-		},
-		{
-			code: `
+		`,
+		`
 <script setup lang="ts">
 	import { computed } from 'vue'
 
@@ -389,11 +363,8 @@ computed(async () => 'hello')
 		return 'hello'
 	})
 </script>
-			`,
-			fileName,
-		},
-		{
-			code: `
+		`,
+		`
 <script setup lang="ts">
 	import { computed } from 'vue'
 
@@ -401,11 +372,8 @@ computed(async () => 'hello')
 
 	computed(comp)
 </script>
-			`,
-			fileName,
-		},
-		{
-			code: `
+		`,
+		`
 <script setup lang="ts">
 	import { computed } from 'vue'
 
@@ -414,11 +382,8 @@ computed(async () => 'hello')
 		set: v => {}
 	})
 </script>
-			`,
-			fileName,
-		},
-		{
-			code: `
+		`,
+		`
 <script setup lang="ts">
 	import { computed } from 'vue'
 
@@ -427,11 +392,8 @@ computed(async () => 'hello')
 		set: (v: number) => {}
 	})
 </script>
-			`,
-			fileName,
-		},
-		{
-			code: `
+		`,
+		`
 <script setup lang="ts">
 	import { computed } from 'vue'
 
@@ -442,16 +404,11 @@ computed(async () => 'hello')
 
 	computed(getterAndSetter)
 </script>
-			`,
-			fileName,
-		},
-		{
-			code: `
+		`,
+		`
 <script setup lang="ts">
 	computed(async () => 'hello')
 </script>
-			`,
-			fileName,
-		},
+		`,
 	],
 });
