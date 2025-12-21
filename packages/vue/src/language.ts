@@ -1,6 +1,7 @@
 import {
 	AnyLevelDeep,
 	AnyRule,
+	CharacterReportRange,
 	computeRulesWithOptions,
 	ConfigRuleDefinition,
 	createLanguage,
@@ -11,6 +12,7 @@ import {
 	LanguagePreparedDefinition,
 	NormalizedReport,
 	NormalizedReportRangeObject,
+	RuleContext,
 	RuleReport,
 	RuleReporter,
 	setTSExtraSupportedExtensions,
@@ -39,10 +41,9 @@ import {
 	collectTypeScriptFileCacheImpacts,
 	convertTypeScriptDiagnosticToLanguageFileDiagnostic,
 	extractDirectivesFromTypeScriptFile,
-	normalizeRange,
+	NodeSyntaxKinds,
 	prepareTypeScriptBasedLanguage,
 	prepareTypeScriptFile,
-	runTypeScriptBasedLanguageRule,
 	TSNodesByName,
 	TypeScriptBasedLanguageFile,
 	TypeScriptServices,
@@ -283,6 +284,14 @@ function prepareVueFile(
 	const sourceTextWithLineMap: SourceFileWithLineMap = {
 		text: sourceText,
 	};
+	function normalizeSourceRange(
+		range: CharacterReportRange,
+	): NormalizedReportRangeObject {
+		return {
+			begin: getColumnAndLineOfPosition(sourceTextWithLineMap, range.begin),
+			end: getColumnAndLineOfPosition(sourceTextWithLineMap, range.end),
+		};
+	}
 
 	const serviceScript =
 		sourceScript.generated.languagePlugin.typescript.getServiceScript(
@@ -304,6 +313,9 @@ function prepareVueFile(
 	}
 
 	const map = volarLanguage.maps.get(serviceScript.code, sourceScript);
+	const sortedMappings = map.mappings.toSorted(
+		(a, b) => a.generatedOffsets[0] - b.generatedOffsets[0],
+	);
 
 	const sfcAst = vueParse(sourceText, {
 		comments: true,
@@ -361,28 +373,13 @@ function prepareVueFile(
 	sfcAst.children.forEach(visitTemplate);
 
 	for (const d of extractDirectivesFromTypeScriptFile(sourceFile)) {
-		directives.push(mapRange(d));
-	}
-
-	function mapRange<T extends { range: NormalizedReportRangeObject }>(
-		obj: T,
-	): T {
-		const sourceRange = map
-			.toSourceRange(obj.range.begin.raw, obj.range.end.raw, true)
-			.next();
-		if (sourceRange.done) {
-			return obj;
+		const range = translateRange(map, d.range.begin.raw, d.range.end.raw);
+		if (range != null) {
+			directives.push({
+				...d,
+				range: normalizeSourceRange(range),
+			});
 		}
-		const [sourceStart, sourceEnd] = sourceRange.value;
-		return {
-			...obj,
-			range: normalizeRange(
-				{ begin: sourceStart, end: sourceEnd },
-				{
-					text: sourceText,
-				},
-			),
-		};
 	}
 
 	const directivesCollector = new DirectivesCollector(
@@ -437,89 +434,109 @@ function prepareVueFile(
 				];
 			},
 			async runRule(rule, options) {
-				const translatedReports: NormalizedReport[] = [];
-				const reports = await runTypeScriptBasedLanguageRule(
+				const reports: NormalizedReport[] = [];
+				const context: RuleContext<string> & VueServices = {
 					program,
-					sourceFile,
-					rule,
-					options,
-					{
-						vueServices: {
-							codegen,
+					report: (report) => {
+						const reportRange = translateRange(
 							map,
-							reportSfc: (report: RuleReport) => {
-								translatedReports.push({
-									...report,
-									fix:
-										report.fix && !Array.isArray(report.fix)
-											? [report.fix]
-											: report.fix,
-									message: rule.messages[report.message],
-									range: {
-										begin: getColumnAndLineOfPosition(
-											sourceTextWithLineMap,
-											report.range.begin,
-										),
-										end: getColumnAndLineOfPosition(
-											sourceTextWithLineMap,
-											report.range.end,
-										),
-									},
-								});
-							},
-							sfc: sfcAst,
-							virtualCode,
-						},
-					} satisfies Omit<VueServices, keyof TypeScriptServices>,
-				);
-
-				for (const report of reports) {
-					const reportRange = translateRange(
-						map,
-						report.range.begin.raw,
-						report.range.end.raw,
-					);
-					if (reportRange == null) {
-						continue;
-					}
-
-					const translatedReport: NormalizedReport = {
-						...report,
-						range: normalizeRange(reportRange, {
-							text: sourceText,
-						}),
-					};
-					if (report.suggestions != null) {
-						translatedReport.suggestions = report.suggestions.map<Suggestion>(
-							(suggestion) => {
-								if (isSuggestionForFiles(suggestion)) {
-									throw new Error(
-										"TODO: vue - suggestions for multiple files are not yet supported",
-									);
-								}
-								const range = translateRange(
-									map,
-									suggestion.range.begin,
-									suggestion.range.end,
-								);
-								if (range == null) {
-									// TODO: maybe we should filter out these suggestions intead of erroring?
-									throw new Error(
-										"Suggestion range overlaps with virtual code",
-									);
-								}
-								return {
-									...suggestion,
-									range,
-								};
-							},
+							report.range.begin,
+							report.range.end,
 						);
-					}
+						if (reportRange == null) {
+							return;
+						}
 
-					translatedReports.push(translatedReport);
+						const translatedReport: NormalizedReport = {
+							...report,
+							fix:
+								report.fix && !Array.isArray(report.fix)
+									? [report.fix]
+									: report.fix,
+							message: rule.messages[report.message],
+							range: normalizeSourceRange(reportRange),
+						};
+
+						for (const suggestion of translatedReport.suggestions ?? []) {
+							if (isSuggestionForFiles(suggestion)) {
+								throw new Error(
+									"TODO: vue - suggestions for multiple files are not yet supported",
+								);
+							}
+							const range = translateRange(
+								map,
+								suggestion.range.begin,
+								suggestion.range.end,
+							);
+							if (range == null) {
+								// TODO: maybe we should filter out these suggestions intead of erroring?
+								throw new Error("Suggestion range overlaps with virtual code");
+							}
+							suggestion.range = range;
+						}
+
+						reports.push(translatedReport);
+					},
+					sourceFile,
+					typeChecker: program.getTypeChecker(),
+					vueServices: {
+						codegen,
+						map,
+						reportSfc: (report: RuleReport) => {
+							reports.push({
+								...report,
+								fix:
+									report.fix && !Array.isArray(report.fix)
+										? [report.fix]
+										: report.fix,
+								message: rule.messages[report.message],
+								range: normalizeSourceRange(report.range),
+							});
+						},
+						sfc: sfcAst,
+						virtualCode,
+					},
+				};
+
+				const runtime = await rule.setup(context, options);
+
+				if (runtime?.visitors) {
+					const { visitors } = runtime;
+					let lastMappingIdx = 0;
+					const visit = (node: ts.Node) => {
+						visitors[NodeSyntaxKinds[node.kind]]?.(node);
+
+						node.forEachChild(visit);
+					};
+					Statements: for (const statement of sourceFile.statements) {
+						while (true) {
+							const currentMapping = sortedMappings[lastMappingIdx];
+							if (currentMapping == null) {
+								break Statements;
+							}
+							const currentMappingLength =
+								currentMapping.generatedLengths?.[0] ??
+								currentMapping.lengths[0];
+							if (
+								currentMappingLength === 0 ||
+								statement.pos >=
+									currentMapping.generatedOffsets[0] + currentMappingLength
+							) {
+								lastMappingIdx++;
+								continue;
+							}
+							if (statement.end <= currentMapping.generatedOffsets[0]) {
+								continue Statements;
+							}
+							break;
+						}
+
+						visit(statement);
+					}
+					visit(sourceFile.endOfFileToken);
 				}
 
-				return translatedReports;
+				return reports;
 			},
 		},
 	};
