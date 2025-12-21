@@ -1,14 +1,14 @@
-import type * as ts from "typescript";
-
 import {
 	CharacterReportRange,
 	getColumnAndLineOfPosition,
 	NormalizedReportRangeObject,
+	SourceFileWithLineMap,
 } from "@flint.fyi/core";
+import * as ts from "typescript";
 
 export function normalizeRange(
 	original: CharacterReportRange,
-	sourceFile: ts.SourceFile,
+	sourceFile: SourceFileWithLineMap,
 ): NormalizedReportRangeObject {
 	const onCharacters = isNode(original)
 		? { begin: original.getStart(), end: original.getEnd() }

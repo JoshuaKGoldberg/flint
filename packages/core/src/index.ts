@@ -10,12 +10,19 @@ export { globs } from "./globs/index.js";
 export { createLanguage } from "./languages/createLanguage.js";
 export { createPlugin } from "./plugins/createPlugin.js";
 export { formatReportPrimary } from "./reporting/formatReportPrimary.js";
+export { computeRulesWithOptions } from "./running/computeRulesWithOptions.js";
 export { lintFixing } from "./running/lintFixing.js";
 export { lintOnce } from "./running/lintOnce.js";
+export {
+	setTSExtraSupportedExtensions,
+	setTSProgramCreationProxy,
+} from "./ts-patch/proxy-program.js";
 export * from "./types/about.js";
+export * from "./types/arrays.js";
 export * from "./types/cache.js";
 export * from "./types/changes.js";
 export * from "./types/configs.js";
+export * from "./types/context.js";
 export * from "./types/directives.js";
 export * from "./types/formatting.js";
 export * from "./types/languages.js";
@@ -26,6 +33,6 @@ export * from "./types/ranges.js";
 export * from "./types/reports.js";
 export * from "./types/rules.js";
 export * from "./types/shapes.js";
-export { binarySearch } from "./utils/arrays.js";
+export * from "./utils/arrays.js";
 export * from "./utils/getColumnAndLineOfPosition.js";
 export * from "./utils/predicates.js";

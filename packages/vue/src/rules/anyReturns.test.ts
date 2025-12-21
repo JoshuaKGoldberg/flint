@@ -1,0 +1,98 @@
+import rule from "../../../ts/lib/rules/anyReturns.js";
+import { vueLanguage } from "../language.js";
+import { ruleTester } from "./ruleTester.js";
+
+ruleTester.describe(vueLanguage.createRule(rule), {
+	invalid: [
+		{
+			code: `
+<script lang="ts" setup>
+	function foo() {
+		return 1 as any
+	}
+</script>
+			`,
+			snapshot: `
+<script lang="ts" setup>
+	function foo() {
+		return 1 as any
+		~~~~~~~~~~~~~~~
+		Unsafe return of a value of type \`any\`.
+	}
+</script>
+			`,
+		},
+		{
+			code: `
+<script lang="ts" setup>
+	import MyComponent from './MyComponent.vue'
+
+	const foo = 1 as any
+</script>
+
+<template>
+	<MyComponent :foo="() => foo"/>
+</template>
+			`,
+			snapshot: `
+<script lang="ts" setup>
+	import MyComponent from './MyComponent.vue'
+
+	const foo = 1 as any
+</script>
+
+<template>
+	<MyComponent :foo="() => foo"/>
+	                         ~~~
+	                         Unsafe return of a value of type \`any\`.
+</template>
+			`,
+		},
+		{
+			code: `
+<script lang="ts" setup>
+	import MyComponent from './MyComponent.vue'
+
+	const foo = 1
+</script>
+
+<template>
+	<MyComponent :foo="() => [
+		foo,
+		foo,
+	] as any"/>
+</template>
+			`,
+			snapshot: `
+<script lang="ts" setup>
+	import MyComponent from './MyComponent.vue'
+
+	const foo = 1
+</script>
+
+<template>
+	<MyComponent :foo="() => [
+	                         ~
+	                         Unsafe return of a value of type \`any\`.
+		foo,
+		~~~~
+		foo,
+		~~~~
+	] as any"/>
+	~~~~~~~~
+</template>
+			`,
+		},
+	],
+	valid: [
+		`
+<script lang="ts" setup>
+	import MyComponent from './MyComponent.vue'
+
+	function foo() {
+		return MyComponent
+	}
+</script>
+		`,
+	],
+});
