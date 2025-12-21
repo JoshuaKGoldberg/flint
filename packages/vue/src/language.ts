@@ -6,6 +6,7 @@ import {
 	createLanguage,
 	DirectivesCollector,
 	flatten,
+	getColumnAndLineOfPosition,
 	isSuggestionForFiles,
 	LanguagePreparedDefinition,
 	NormalizedReport,
@@ -14,10 +15,10 @@ import {
 	RuleReporter,
 	setTSExtraSupportedExtensions,
 	setTSProgramCreationProxy,
+	SourceFileWithLineMap,
 	Suggestion,
 } from "@flint.fyi/core";
 import {
-	VirtualCode,
 	Language as VolarLanguage,
 	Mapper as VolarMapper,
 } from "@volar/language-core";
@@ -28,7 +29,6 @@ import {
 	createVueLanguagePlugin,
 	createParsedCommandLine as createVueParsedCommandLine,
 	createParsedCommandLineByJson as createVueParsedCommandLineByJson,
-	Sfc,
 	tsCodegen,
 	VueCompilerOptions,
 	VueVirtualCode,
@@ -44,14 +44,11 @@ import {
 	prepareTypeScriptFile,
 	runTypeScriptBasedLanguageRule,
 	TSNodesByName,
-	ts as tsPlugin,
 	TypeScriptBasedLanguageFile,
 	TypeScriptServices,
 } from "@flint.fyi/ts";
 import { proxyCreateProgram } from "@volar/typescript/lib/node/proxyCreateProgram.js";
 import ts from "typescript";
-import { VFile } from "vfile";
-import { location } from "vfile-location";
 
 type ProxiedTSProgram = ts.Program & {
 	__flintVolarLanguage?: undefined | VolarLanguage<string>;
@@ -283,12 +280,9 @@ function prepareVueFile(
 		0,
 		sourceScript.snapshot.getLength(),
 	);
-	const fileLocation = location(
-		new VFile({
-			path: filePathAbsolute,
-			value: sourceText,
-		}),
-	);
+	const sourceTextWithLineMap: SourceFileWithLineMap = {
+		text: sourceText,
+	};
 
 	const serviceScript =
 		sourceScript.generated.languagePlugin.typescript.getServiceScript(
@@ -428,7 +422,8 @@ function prepareVueFile(
 						let code = "VUE";
 						let loc = "";
 						if ("code" in e) {
-							code += e.code.toString();
+							// TODO: think about codes
+							code += "999999" + e.code.toString();
 							loc =
 								e.loc != null
 									? `:${e.loc?.start.line}:${e.loc?.start.column}`
@@ -453,15 +448,6 @@ function prepareVueFile(
 							codegen,
 							map,
 							reportSfc: (report: RuleReport) => {
-								// TODO: avoid bringing entire dependency for such trivial task?
-								const positionBegin = fileLocation.toPoint(report.range.begin);
-								if (positionBegin == null) {
-									throw new Error("Invalid report.range.begin");
-								}
-								const positionEnd = fileLocation.toPoint(report.range.end);
-								if (positionEnd == null) {
-									throw new Error("Invalid report.range.begin");
-								}
 								translatedReports.push({
 									...report,
 									fix:
@@ -470,16 +456,14 @@ function prepareVueFile(
 											: report.fix,
 									message: rule.messages[report.message],
 									range: {
-										begin: {
-											column: positionBegin.column - 1,
-											line: positionBegin.line - 1,
-											raw: report.range.begin,
-										},
-										end: {
-											column: positionEnd.column - 1,
-											line: positionEnd.line - 1,
-											raw: report.range.end,
-										},
+										begin: getColumnAndLineOfPosition(
+											sourceTextWithLineMap,
+											report.range.begin,
+										),
+										end: getColumnAndLineOfPosition(
+											sourceTextWithLineMap,
+											report.range.end,
+										),
 									},
 								});
 							},
