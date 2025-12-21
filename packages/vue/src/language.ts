@@ -214,52 +214,20 @@ export const vueLanguage = createLanguage<TSNodesByName, VueServices>({
 });
 
 export function translateRange(
-	generated: string,
 	map: VolarMapper,
-	begin: number,
-	end: number,
+	serviceBegin: number,
+	serviceEnd: number,
 ): null | { begin: number; end: number } {
-	if (end < begin) {
-		throw new Error("TODO");
-	}
-	// TODO(perf): binary search?
-
-	// we don't care about mappings with two positions (are we right?)
-	const mappings = map.mappings.filter(
-		(m) => m.sourceOffsets.length === 1 && m.lengths[0] > 0,
-	);
-
-	let sourceBegin: null | number = null;
-
-	for (const mapping of mappings) {
-		const generatedLengths = mapping.generatedLengths ?? mapping.lengths;
-
-		if (begin < mapping.generatedOffsets[0]) {
-			// TODO: __VLS_dollars
-			const a = "__VLS_ctx.";
-			if (generated.slice(begin, mapping.generatedOffsets[0]) !== a) {
-				return null;
-			}
-			if (end <= mapping.generatedOffsets[0]) {
-				return null;
-			}
-			sourceBegin ??= mapping.sourceOffsets[0];
-		} else if (begin < mapping.generatedOffsets[0] + generatedLengths[0]) {
-			sourceBegin ??=
-				mapping.sourceOffsets[0] + (begin - mapping.generatedOffsets[0]);
-		} else {
+	for (const [begin, end] of map.toSourceRange(
+		serviceBegin,
+		serviceEnd,
+		true,
+	)) {
+		if (begin === end) {
 			continue;
 		}
-
-		if (end <= mapping.generatedOffsets[0] + generatedLengths[0]) {
-			return {
-				begin: sourceBegin,
-				end: mapping.sourceOffsets[0] + (end - mapping.generatedOffsets[0]),
-			};
-		}
-		begin = mapping.generatedOffsets[0] + generatedLengths[0];
+		return { begin, end };
 	}
-
 	return null;
 }
 
@@ -357,10 +325,7 @@ function prepareVueFile(
 		// prefixIdentifiers: true,
 	});
 
-	// TODO: directives
 	// TODO: support defineComponent
-
-	// const directivesCollector = new DirectivesCollector()
 
 	// TODO: extract directives from other blocks too
 
@@ -526,7 +491,6 @@ function prepareVueFile(
 
 				for (const report of reports) {
 					const reportRange = translateRange(
-						serviceText,
 						map,
 						report.range.begin.raw,
 						report.range.end.raw,
@@ -550,7 +514,6 @@ function prepareVueFile(
 									);
 								}
 								const range = translateRange(
-									serviceText,
 									map,
 									suggestion.range.begin,
 									suggestion.range.end,

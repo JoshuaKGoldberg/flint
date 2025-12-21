@@ -13,7 +13,7 @@ import {
 import ts, { flattenDiagnosticMessageText } from "typescript";
 
 export interface RawDiagnostic {
-	file?: SourceFileLineMapAndFileName;
+	file?: SourceFileWithLineMapAndFileName;
 	length: number;
 	message: string;
 	name: string;
@@ -24,12 +24,13 @@ export interface RawDiagnostic {
 export interface RawDiagnosticRelatedInformation {
 	category: ts.DiagnosticCategory;
 	code: number;
-	file: SourceFileLineMapAndFileName | undefined;
+	file: SourceFileWithLineMapAndFileName | undefined;
 	length: number | undefined;
 	messageText: string | ts.DiagnosticMessageChain;
 	start: number | undefined;
 }
-export interface SourceFileLineMapAndFileName extends SourceFileWithLineMap {
+export interface SourceFileWithLineMapAndFileName
+	extends SourceFileWithLineMap {
 	fileName: string;
 }
 
@@ -99,7 +100,7 @@ function displayFilename(name: string) {
 }
 
 function formatCodeSpan(
-	file: SourceFileLineMapAndFileName,
+	file: SourceFileWithLineMapAndFileName,
 	start: number,
 	length: number,
 	indent: string,
@@ -170,7 +171,7 @@ function formatCodeSpan(
 }
 
 function formatLocation(
-	file: SourceFileLineMapAndFileName,
+	file: SourceFileWithLineMapAndFileName,
 	start: number,
 ): string {
 	const { column, line } = getColumnAndLineOfPosition(file, start);

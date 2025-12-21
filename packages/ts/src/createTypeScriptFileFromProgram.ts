@@ -14,7 +14,7 @@ import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
 import {
 	formatDiagnostic,
 	RawDiagnostic,
-	SourceFileLikeLooseWithName,
+	SourceFileWithLineMapAndFileName,
 } from "./formatDiagnostic.js";
 import { getFirstEnumValues } from "./getFirstEnumValues.js";
 import { normalizeRange } from "./normalizeRange.js";
@@ -27,7 +27,7 @@ export interface TSDiagnosticLoose
 
 export interface TSDiagnosticRelatedInformationLoose
 	extends Omit<ts.DiagnosticRelatedInformation, "file"> {
-	file: SourceFileLikeLooseWithName | undefined;
+	file: SourceFileWithLineMapAndFileName | undefined;
 }
 
 export function collectTypeScriptFileCacheImpacts(
