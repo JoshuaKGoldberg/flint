@@ -85,6 +85,26 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "lishaduck",
+      "name": "Eli",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88557639?v=4",
+      "profile": "http://lishaduck.github.io",
+      "contributions": [
+        "ideas",
+        "code",
+        "tool"
+      ]
+    },
+    {
+      "login": "kirkwaiblinger",
+      "name": "Kirk Waiblinger",
+      "avatar_url": "https://avatars.githubusercontent.com/u/53019676?v=4",
+      "profile": "https://github.com/kirkwaiblinger",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

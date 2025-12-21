@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 <label />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <label />
  ~~~~~
@@ -18,7 +17,6 @@ ruleTester.describe(rule, {
 			code: `
 <label>Name</label>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <label>Name</label>
  ~~~~~
@@ -29,7 +27,6 @@ ruleTester.describe(rule, {
 			code: `
 <label><span>Name</span></label>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <label><span>Name</span></label>
  ~~~~~
@@ -40,7 +37,6 @@ ruleTester.describe(rule, {
 			code: `
 <label htmlFor="" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <label htmlFor="" />
  ~~~~~
@@ -51,7 +47,6 @@ ruleTester.describe(rule, {
 			code: `
 <label htmlFor={''} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <label htmlFor={''} />
  ~~~~~
@@ -62,7 +57,6 @@ ruleTester.describe(rule, {
 			code: `
 <label htmlFor={\`\`} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <label htmlFor={\`\`} />
  ~~~~~
@@ -73,7 +67,6 @@ ruleTester.describe(rule, {
 			code: `
 <label htmlFor={undefined} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <label htmlFor={undefined} />
  ~~~~~
@@ -84,7 +77,6 @@ ruleTester.describe(rule, {
 			code: `
 <label htmlFor={null} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <label htmlFor={null} />
  ~~~~~
@@ -93,26 +85,23 @@ ruleTester.describe(rule, {
 		},
 	],
 	valid: [
-		{ code: `<label htmlFor="name">Name</label>`, fileName: "file.tsx" },
-		{ code: `<label htmlFor="name" />`, fileName: "file.tsx" },
-		{ code: `<label htmlFor={nameId}>Name</label>`, fileName: "file.tsx" },
+		{ code: `<label htmlFor="name">Name</label>` },
+		{ code: `<label htmlFor="name" />` },
+		{ code: `<label htmlFor={nameId}>Name</label>` },
 		{
 			code: `<label>Name <input type="text" /></label>`,
-			fileName: "file.tsx",
 		},
-		{ code: `<label><input type="text" /></label>`, fileName: "file.tsx" },
-		{ code: `<label><select></select></label>`, fileName: "file.tsx" },
-		{ code: `<label><textarea></textarea></label>`, fileName: "file.tsx" },
+		{ code: `<label><input type="text" /></label>` },
+		{ code: `<label><select></select></label>` },
+		{ code: `<label><textarea></textarea></label>` },
 		{
 			code: `<label><div><input type="text" /></div></label>`,
-			fileName: "file.tsx",
 		},
-		{ code: `<label><meter value={0.5} /></label>`, fileName: "file.tsx" },
-		{ code: `<label><output>Result</output></label>`, fileName: "file.tsx" },
+		{ code: `<label><meter value={0.5} /></label>` },
+		{ code: `<label><output>Result</output></label>` },
 		{
 			code: `<label><progress value={50} max={100} /></label>`,
-			fileName: "file.tsx",
 		},
-		{ code: `<div>Not a label</div>`, fileName: "file.tsx" },
+		{ code: `<div>Not a label</div>` },
 	],
 });

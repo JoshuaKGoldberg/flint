@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 <button>Click me</button>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <button>Click me</button>
  ~~~~~~
@@ -18,7 +17,6 @@ ruleTester.describe(rule, {
 			code: `
 <button />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <button />
  ~~~~~~
@@ -29,7 +27,6 @@ ruleTester.describe(rule, {
 			code: `
 <button onClick={handleClick}>Submit</button>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <button onClick={handleClick}>Submit</button>
  ~~~~~~
@@ -40,7 +37,6 @@ ruleTester.describe(rule, {
 			code: `
 <button type="invalid">Click</button>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <button type="invalid">Click</button>
         ~~~~~~~~~~~~~~
@@ -51,7 +47,6 @@ ruleTester.describe(rule, {
 			code: `
 <button type={"wrong"}>Click</button>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <button type={"wrong"}>Click</button>
         ~~~~~~~~~~~~~~
@@ -60,13 +55,13 @@ ruleTester.describe(rule, {
 		},
 	],
 	valid: [
-		{ code: `<div />`, fileName: "file.tsx" },
-		{ code: `<button type="button">Click</button>`, fileName: "file.tsx" },
-		{ code: `<button type="submit">Submit</button>`, fileName: "file.tsx" },
-		{ code: `<button type="reset">Reset</button>`, fileName: "file.tsx" },
-		{ code: `<button type={"button"}>Click</button>`, fileName: "file.tsx" },
-		{ code: `<button type="button" />`, fileName: "file.tsx" },
-		{ code: `<input type="button" />`, fileName: "file.tsx" },
-		{ code: `<a href="#">Link</a>`, fileName: "file.tsx" },
+		{ code: `<div />` },
+		{ code: `<button type="button">Click</button>` },
+		{ code: `<button type="submit">Submit</button>` },
+		{ code: `<button type="reset">Reset</button>` },
+		{ code: `<button type={"button"}>Click</button>` },
+		{ code: `<button type="button" />` },
+		{ code: `<input type="button" />` },
+		{ code: `<a href="#">Link</a>` },
 	],
 });

@@ -15,7 +15,7 @@
 	"dependencies": {
 		"@astrojs/check": "^0.9.5",
 		"@astrojs/react": "^4.4.2",
-		"@astrojs/starlight": "^0.36.2",
+		"@astrojs/starlight": "^0.37.0",
 		"@flint.fyi/comparisons": "workspace:",
 		"@flint.fyi/plugin-browser": "workspace:",
 		"@flint.fyi/plugin-flint": "workspace:",

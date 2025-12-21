@@ -34,4 +34,5 @@ export * from "./types/reports.js";
 export * from "./types/rules.js";
 export * from "./types/shapes.js";
 export * from "./utils/arrays.js";
+export * from "./utils/getColumnAndLineOfPosition.js";
 export * from "./utils/predicates.js";
