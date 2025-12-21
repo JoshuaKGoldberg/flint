@@ -266,7 +266,6 @@ export function translateRange(
 export function vueWrapRules(
 	...rules: AnyLevelDeep<ConfigRuleDefinition>[]
 ): AnyRule[] {
-	// @ts-expect-error
 	return Array.from(
 		computeRulesWithOptions(flatten(rules))
 			.keys()

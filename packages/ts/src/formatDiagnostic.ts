@@ -5,16 +5,15 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
+import {
+	getColumnAndLineOfPosition,
+	getPositionOfColumnAndLine,
+	SourceFileWithLineMap,
+} from "@flint.fyi/core";
 import ts, { flattenDiagnosticMessageText } from "typescript";
 
-import {
-	getLineAndCharacterOfPosition,
-	getPositionOfLineAndCharacter,
-	SourceFileLikeLoose,
-} from "./normalizeRange.js";
-
 export interface RawDiagnostic {
-	file?: SourceFileLikeLooseWithName;
+	file?: SourceFileLineMapAndFileName;
 	length: number;
 	message: string;
 	name: string;
@@ -25,12 +24,12 @@ export interface RawDiagnostic {
 export interface RawDiagnosticRelatedInformation {
 	category: ts.DiagnosticCategory;
 	code: number;
-	file: SourceFileLikeLooseWithName | undefined;
+	file: SourceFileLineMapAndFileName | undefined;
 	length: number | undefined;
 	messageText: string | ts.DiagnosticMessageChain;
 	start: number | undefined;
 }
-export interface SourceFileLikeLooseWithName extends SourceFileLikeLoose {
+export interface SourceFileLineMapAndFileName extends SourceFileWithLineMap {
 	fileName: string;
 }
 
@@ -100,17 +99,21 @@ function displayFilename(name: string) {
 }
 
 function formatCodeSpan(
-	file: SourceFileLikeLoose,
+	file: SourceFileLineMapAndFileName,
 	start: number,
 	length: number,
 	indent: string,
 	squiggleColor: string,
 ) {
-	const { character: firstLineChar, line: firstLine } =
-		getLineAndCharacterOfPosition(file, start);
-	const { character: lastLineChar, line: lastLine } =
-		getLineAndCharacterOfPosition(file, start + length);
-	const lastLineInFile = getLineAndCharacterOfPosition(
+	const { column: firstLineChar, line: firstLine } = getColumnAndLineOfPosition(
+		file,
+		start,
+	);
+	const { column: lastLineChar, line: lastLine } = getColumnAndLineOfPosition(
+		file,
+		start + length,
+	);
+	const lastLineInFile = getColumnAndLineOfPosition(
 		file,
 		file.text.length,
 	).line;
@@ -131,10 +134,10 @@ function formatCodeSpan(
 				"\n";
 			i = lastLine - 1;
 		}
-		const lineStart = getPositionOfLineAndCharacter(file, i, 0);
+		const lineStart = getPositionOfColumnAndLine(file, { line: i, column: 0 });
 		const lineEnd =
 			i < lastLineInFile
-				? getPositionOfLineAndCharacter(file, i + 1, 0)
+				? getPositionOfColumnAndLine(file, { line: i + 1, column: 0 })
 				: file.text.length;
 		let lineContent = file.text.slice(lineStart, lineEnd);
 		lineContent = lineContent.trimEnd();
@@ -167,16 +170,16 @@ function formatCodeSpan(
 }
 
 function formatLocation(
-	file: SourceFileLikeLooseWithName,
+	file: SourceFileLineMapAndFileName,
 	start: number,
 ): string {
-	const { character, line } = getLineAndCharacterOfPosition(file, start);
+	const { column, line } = getColumnAndLineOfPosition(file, start);
 	const relativeFileName = displayFilename(file.fileName);
 	let output = "";
 	output += color(relativeFileName, COLOR.Cyan);
 	output += ":";
 	output += color(`${line + 1}`, COLOR.Yellow);
 	output += ":";
-	output += color(`${character + 1}`, COLOR.Yellow);
+	output += color(`${column + 1}`, COLOR.Yellow);
 	return output;
 }

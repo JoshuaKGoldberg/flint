@@ -1,6 +1,9 @@
 import { describe, expect, test, vi } from "vitest";
 
-import { getColumnAndLineOfPosition } from "./getColumnAndLineOfPosition.js";
+import {
+	getColumnAndLineOfPosition,
+	getPositionOfColumnAndLine,
+} from "./getColumnAndLineOfPosition.js";
 
 describe("getColumnAndLineOfPosition", () => {
 	test("negative position", () => {
@@ -258,5 +261,43 @@ describe("getColumnAndLineOfPosition", () => {
 			lineMap: [0, 3],
 			text: "0\n23",
 		});
+	});
+});
+
+describe("getPositionOfColumnAndLine", () => {
+	test("clamps negative line", () => {
+		const res = getPositionOfColumnAndLine("012", { line: -1, column: 1 });
+
+		expect(res).toBe(1);
+	});
+
+	test("clamps line after EOF", () => {
+		const res = getPositionOfColumnAndLine("012", { line: 1, column: 1 });
+
+		expect(res).toBe(1);
+	});
+
+	test("clamps column", () => {
+		const res = getPositionOfColumnAndLine("012\n45", { line: 0, column: 4 });
+
+		expect(res).toBe(3);
+	});
+
+	test("clamps column with empty line before it", () => {
+		const res = getPositionOfColumnAndLine("012\n\n56", { line: 1, column: 5 });
+
+		expect(res).toBe(4);
+	});
+
+	test("clamps column on the last line to EOF", () => {
+		const res = getPositionOfColumnAndLine("012", { line: 1, column: 5 });
+
+		expect(res).toBe(3);
+	});
+
+	test("column on EOF", () => {
+		const res = getPositionOfColumnAndLine("012", { line: 1, column: 3 });
+
+		expect(res).toBe(3);
 	});
 });

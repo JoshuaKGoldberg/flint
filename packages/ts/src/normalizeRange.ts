@@ -2,16 +2,13 @@ import {
 	CharacterReportRange,
 	getColumnAndLineOfPosition,
 	NormalizedReportRangeObject,
+	SourceFileWithLineMap,
 } from "@flint.fyi/core";
 import * as ts from "typescript";
 
-export interface SourceFileLikeLoose {
-	readonly text: string;
-}
-
 export function normalizeRange(
 	original: CharacterReportRange,
-	sourceFile: SourceFileLikeLoose,
+	sourceFile: SourceFileWithLineMap,
 ): NormalizedReportRangeObject {
 	const onCharacters = isNode(original)
 		? { begin: original.getStart(), end: original.getEnd() }
