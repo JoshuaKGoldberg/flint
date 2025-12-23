@@ -3,4 +3,4 @@
 "flint": patch
 ---
 
-chore(core): make `runCli` respect passed args
+fix(cli): make `runCli` respect passed args
