@@ -37,6 +37,10 @@ export function convertTypeScriptDiagnosticToLanguageFileDiagnostic(
 	};
 }
 
+function color(text: string, formatStyle: string) {
+	return formatStyle + text + resetEscapeSequence;
+}
+
 function formatDiagnostic(diagnostic: RawDiagnostic) {
 	let output = "";
 
@@ -77,10 +81,6 @@ function formatDiagnostic(diagnostic: RawDiagnostic) {
 	}
 
 	return output;
-}
-
-function color(text: string, formatStyle: string) {
-	return formatStyle + text + resetEscapeSequence;
 }
 
 const gutterStyleSequence = "\u001b[7m";
