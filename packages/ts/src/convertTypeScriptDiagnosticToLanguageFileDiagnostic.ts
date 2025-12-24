@@ -5,6 +5,7 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
+import { LanguageFileDiagnostic } from "@flint.fyi/core";
 import ts, {
 	flattenDiagnosticMessageText,
 	getLineAndCharacterOfPosition,
@@ -12,7 +13,7 @@ import ts, {
 	type SourceFile,
 } from "typescript";
 
-export interface RawDiagnostic {
+interface RawDiagnostic {
 	file?: ts.SourceFile;
 	length: number;
 	message: string;
@@ -21,7 +22,26 @@ export interface RawDiagnostic {
 	start: number;
 }
 
-export function formatDiagnostic(diagnostic: RawDiagnostic) {
+export function convertTypeScriptDiagnosticToLanguageFileDiagnostic(
+	diagnostic: ts.Diagnostic,
+): LanguageFileDiagnostic {
+	return {
+		code: `TS${diagnostic.code}`,
+		text: formatDiagnostic({
+			...diagnostic,
+			length: diagnostic.length!,
+			message: ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"),
+			name: `TS${diagnostic.code}`,
+			start: diagnostic.start!,
+		}),
+	};
+}
+
+function color(text: string, formatStyle: string) {
+	return formatStyle + text + resetEscapeSequence;
+}
+
+function formatDiagnostic(diagnostic: RawDiagnostic) {
 	let output = "";
 
 	if (diagnostic.file !== undefined) {
@@ -61,10 +81,6 @@ export function formatDiagnostic(diagnostic: RawDiagnostic) {
 	}
 
 	return output;
-}
-
-function color(text: string, formatStyle: string) {
-	return formatStyle + text + resetEscapeSequence;
 }
 
 const gutterStyleSequence = "\u001b[7m";
