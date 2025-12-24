@@ -3,6 +3,10 @@ export {
 	collectTypeScriptFileCacheImpacts,
 	NodeSyntaxKinds,
 } from "./createTypeScriptFileFromProgram.js";
+export {
+	extractDirectivesFromTypeScriptFile,
+	ExtractedDirective,
+} from "./directives/parseDirectivesFromTypeScriptFile.js";
 export { getTSNodeRange } from "./getTSNodeRange.js";
 export * from "./language.js";
 export { TSNodesByName } from "./nodes.js";
