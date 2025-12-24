@@ -2,6 +2,7 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
+import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -30,17 +31,20 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				NewExpression: (node) => {
 					if (
-						ts.isIdentifier(node.expression) &&
-						node.expression.text === "Object"
+						!ts.isIdentifier(node.expression) ||
+						node.expression.text !== "Object" ||
+						!isGlobalDeclaration(node.expression, context.typeChecker)
 					) {
-						context.report({
-							message: "preferObjectLiteral",
-							range: getTSNodeRange(
-								node.getChildAt(0, context.sourceFile),
-								context.sourceFile,
-							),
-						});
+						return;
 					}
+
+					context.report({
+						message: "preferObjectLiteral",
+						range: getTSNodeRange(
+							node.getChildAt(0, context.sourceFile),
+							context.sourceFile,
+						),
+					});
 				},
 			},
 		};

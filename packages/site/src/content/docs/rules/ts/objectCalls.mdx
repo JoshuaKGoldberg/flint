@@ -18,12 +18,14 @@ Object literal notation `{}` is the preferred and more concise way to create pla
 <TabItem label="❌ Incorrect">
 
 ```ts
-// Using new Object() constructor
 const emptyObject = new Object();
+```
 
-// With arguments
+```ts
 const config = new Object({ key: "value" });
+```
 
+```ts
 function createEmpty() {
 	return new Object();
 }
@@ -33,20 +35,24 @@ function createEmpty() {
 <TabItem label="✅ Correct">
 
 ```ts
-// Using object literal notation
 const emptyObject = {};
+```
 
-// With properties
+```ts
 const config = { key: "value" };
+```
 
+```ts
 function createEmpty() {
 	return {};
 }
+```
 
-// For objects without a prototype
+```ts
 const objectWithoutPrototype = Object.create(null);
+```
 
-// For copying objects, use Object.assign
+```ts
 const copy = Object.assign({}, source);
 ```
 
@@ -59,8 +65,8 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-There are no common scenarios where calling `Object` as a constructor is preferred over object literal notation.
-Object literals are more concise, more readable, and equally performant.
+If you have a very large codebase with extensive use of `new Object()`, migrating all instances may be time-consuming.
+However, the migration is straightforward and the benefits of using object literals are significant.
 
 ## Further Reading
 

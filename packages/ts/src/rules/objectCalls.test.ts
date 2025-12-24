@@ -97,5 +97,10 @@ processData(new Object());
 		`const array = [{}, { key: "value" }];`,
 		`const nested = { inner: {} };`,
 		`processData({});`,
+		`
+			class Object {}
+			new Object();
+			export {}
+		`,
 	],
 });
