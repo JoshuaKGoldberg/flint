@@ -12,7 +12,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		unnecessaryCall: {
 			primary:
-				"Prefer direct function calls over unnecessary .call() with null or undefined context.",
+				"Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.",
 			secondary: [
 				"Using .call() or .apply() with null or undefined as the context provides no benefit over a direct function call.",
 				"This adds unnecessary complexity and reduces code readability.",
@@ -49,16 +49,12 @@ export default typescriptLanguage.createRule({
 						(ts.isIdentifier(firstArgument) &&
 							firstArgument.text === "undefined")
 					) {
-						const dotPosition = propertyAccess.name.getStart(context.sourceFile) - 1;
-						
-						const range = {
-							begin: dotPosition,
-							end: node.getEnd(),
-						};
-
 						context.report({
 							message: "unnecessaryCall",
-							range,
+							range: {
+								begin: propertyAccess.name.getStart(context.sourceFile) - 1,
+								end: node.getEnd(),
+							},
 						});
 					}
 				},

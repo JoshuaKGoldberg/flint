@@ -16,7 +16,7 @@ function add(a, b) {
 }
 const result = add.call(undefined, 1, 2);
                   ~~~~~~~~~~~~~~~~~~~~~~
-                  Prefer direct function calls over unnecessary .call() with null or undefined context.
+                  Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.
 `,
 		},
 		{
@@ -32,7 +32,7 @@ function add(a, b) {
 }
 const result = add.call(null, 1, 2);
                   ~~~~~~~~~~~~~~~~~
-                  Prefer direct function calls over unnecessary .call() with null or undefined context.
+                  Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.
 `,
 		},
 		{
@@ -48,7 +48,7 @@ function add(a, b) {
 }
 const result = add.apply(undefined, [1, 2]);
                   ~~~~~~~~~~~~~~~~~~~~~~~~~
-                  Prefer direct function calls over unnecessary .call() with null or undefined context.
+                  Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.
 `,
 		},
 		{
@@ -64,7 +64,7 @@ function add(a, b) {
 }
 const result = add.apply(null, [1, 2]);
                   ~~~~~~~~~~~~~~~~~~~~
-                  Prefer direct function calls over unnecessary .call() with null or undefined context.
+                  Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.
 `,
 		},
 		{
@@ -76,7 +76,7 @@ const value = fn.call(undefined, 5);
 const fn = (x: number) => x * 2;
 const value = fn.call(undefined, 5);
                 ~~~~~~~~~~~~~~~~~~~
-                Prefer direct function calls over unnecessary .call() with null or undefined context.
+                Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.
 `,
 		},
 		{
@@ -92,7 +92,7 @@ const callback = function(name: string) {
 };
 callback.apply(null, ["test"]);
         ~~~~~~~~~~~~~~~~~~~~~~
-        Prefer direct function calls over unnecessary .call() with null or undefined context.
+        Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.
 `,
 		},
 	],

@@ -1,5 +1,5 @@
 ---
-description: "Remove unnecessary .call() and .apply() with null or undefined context."
+description: "Reports using .call() or .apply() when the context (this value) provides no benefit."
 title: "unnecessaryFunctionCurries"
 topic: "rules"
 ---
@@ -11,7 +11,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 <RuleSummary plugin="ts" rule="unnecessaryFunctionCurries" />
 
 Using `.call()` or `.apply()` with `null` or `undefined` as the context (first argument) provides no benefit over calling the function directly.
-This adds unnecessary complexity and reduces code readability without any practical advantage.
+This adds unnecessary complexity and reduces code readability.
 
 ## Examples
 
@@ -22,11 +22,24 @@ This adds unnecessary complexity and reduces code readability without any practi
 function add(a: number, b: number) {
 	return a + b;
 }
+const result = add.call(undefined, 1, 2);
+```
 
-const result1 = add.call(undefined, 1, 2);
-const result2 = add.call(null, 5, 10);
-const result3 = add.apply(undefined, [3, 4]);
-const result4 = add.apply(null, [7, 8]);
+```ts
+function multiply(x: number, y: number) {
+	return x * y;
+}
+const value = multiply.call(null, 5, 3);
+```
+
+```ts
+const callback = (message: string) => message.toUpperCase();
+callback.apply(undefined, ["hello"]);
+```
+
+```ts
+const compute = (a: number, b: number) => a + b;
+compute.apply(null, [10, 20]);
 ```
 
 </TabItem>
@@ -36,15 +49,30 @@ const result4 = add.apply(null, [7, 8]);
 function add(a: number, b: number) {
 	return a + b;
 }
-
 const result = add(1, 2);
+```
 
+```ts
+const callback = (message: string) => message.toUpperCase();
+callback("hello");
+```
+
+```ts
 // Using .call() with a meaningful context
 const obj = { value: 10 };
 function getValue() {
 	return this.value;
 }
 const contextResult = getValue.call(obj);
+```
+
+```ts
+// Using .apply() to pass an array of arguments with context
+function greet(this: { name: string }, greeting: string) {
+	return `${greeting}, ${this.name}!`;
+}
+const person = { name: "Alice" };
+greet.apply(person, ["Hello"]);
 ```
 
 </TabItem>
@@ -56,7 +84,7 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-If you have a specific coding pattern that requires explicit use of `.call()` or `.apply()` for consistency, even when the context is `null` or `undefined`, you might choose to disable this rule.
+If you have a specific coding pattern that requires explicit use of `.call()` or `.apply()` for consistency across a large codebase, even when the context is `null` or `undefined`, you might choose to disable this rule.
 However, in most cases, direct function calls improve code clarity and maintainability.
 
 ## Further Reading
