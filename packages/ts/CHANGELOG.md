@@ -1,5 +1,37 @@
 # @flint/ts
 
+## 0.14.6
+
+### Patch Changes
+
+- b789918: fix(ts): [forDirections] allow multi-part conditions
+- Updated dependencies [1bbae2e]
+- Updated dependencies [11abdff]
+  - @flint.fyi/core@0.16.0
+
+## 0.14.5
+
+### Patch Changes
+
+- 7e21021: fix(ts): [chainedAssignments] allow non-assignment right-side operators
+
+## 0.14.4
+
+### Patch Changes
+
+- 158b542: expose \`program\` in TS rules context
+- Updated dependencies [3d19082]
+- Updated dependencies [a3f9043]
+  - @flint.fyi/core@0.15.1
+  - @flint.fyi/rule-tester@0.14.2
+
+## 0.14.3
+
+### Patch Changes
+
+- 9b6b884: added browser plugin with alerts rule
+- c8bad31: feat: add JSX plugin with accessKeys rule
+
 ## 0.14.2
 
 ### Patch Changes

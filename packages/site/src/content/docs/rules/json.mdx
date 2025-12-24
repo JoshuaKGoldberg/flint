@@ -1,0 +1,63 @@
+---
+description: "JSON linting rules provided by Flint."
+title: "JSON Plugin"
+---
+
+import { RulesTable } from "~/components/RulesTable.tsx";
+import PluginTop from "~/components/PluginTop.astro";
+
+<PluginTop pluginId="json" />
+
+## Presets
+
+Flint's JSON plugin provides the following preset:
+
+| Preset                    | Recommended | Description                                                     |
+| ------------------------- | ----------- | --------------------------------------------------------------- |
+| **[`logical`](#logical)** | ✅ Always   | Common rules for finding bugs and good practices in JSON files. |
+
+Flint recommends using the [`logical`](#logical) preset:
+
+```ts title="flint.config.ts"
+import { defineConfig, json } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: json.files.all,
+			rules: json.presets.logical,
+		},
+	],
+});
+```
+
+:::note
+Coming soon: more expansive documentation on choosing and combining plugins & presets with Flint.
+:::
+
+### `logical`
+
+Rules that find bugs and enforce good JSON practices for most-to-all JSON files.
+
+```ts title="flint.config.ts"
+import { defineConfig, json } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: json.files.all,
+			rules: json.presets.logical,
+		},
+	],
+});
+```
+
+## Rules
+
+<RulesTable implementing plugin="json" />
+
+## Selectors
+
+Flint's JSON plugin provides the following files selector:
+
+- `all`: `**/*.json`

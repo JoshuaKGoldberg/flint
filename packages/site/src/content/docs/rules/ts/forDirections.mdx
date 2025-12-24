@@ -1,0 +1,93 @@
+---
+description: "Reports for loops with counter variables that move in the wrong direction."
+title: "forDirections"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="forDirections" />
+
+A for loop with a counter that moves in the wrong direction relative to its stop condition will either run infinitely or never execute at all.
+For example, if the counter is incrementing (using `++` or `+= positive`) but the condition expects the counter to be decreasing (like `i >= 0`), the loop will never terminate.
+While infinite loops are sometimes intentional, the convention is to use `while` loops for such cases, making a wrong-direction for loop typically a bug.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+for (let i = 0; i < 10; i--) {
+	console.log(i);
+}
+```
+
+```ts
+for (let i = 10; i >= 0; i++) {
+	console.log(i);
+}
+```
+
+```ts
+for (let i = 0; i < 10; i -= 1) {
+	process(i);
+}
+```
+
+```ts
+const step = -2;
+for (let i = 0; i < 10; i += step) {
+	handle(i);
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+for (let i = 0; i < 10; i++) {
+	console.log(i);
+}
+```
+
+```ts
+for (let i = 10; i >= 0; i--) {
+	console.log(i);
+}
+```
+
+```ts
+for (let i = 0; i < 10; i += 1) {
+	process(i);
+}
+```
+
+```ts
+for (let i = 10; i > 0; i -= 1) {
+	handle(i);
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your project uses control flow structures that create confusing side effects, such as dynamic getters that modify state, you might not be able to enable this rule.
+Consider refactoring to more predictable control flow structures.
+
+## Further Reading
+
+- [MDN: `for` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for)
+- [MDN: Loops and iteration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="forDirections" />

@@ -66,6 +66,45 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "lo1tuma",
+      "name": "Mathias Schreck",
+      "avatar_url": "https://avatars.githubusercontent.com/u/169170?v=4",
+      "profile": "https://github.com/lo1tuma",
+      "contributions": [
+        "bug",
+        "ideas"
+      ]
+    },
+    {
+      "login": "auvred",
+      "name": "auvred",
+      "avatar_url": "https://avatars.githubusercontent.com/u/61150013?v=4",
+      "profile": "https://github.com/auvred",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "lishaduck",
+      "name": "Eli",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88557639?v=4",
+      "profile": "http://lishaduck.github.io",
+      "contributions": [
+        "ideas",
+        "code",
+        "tool"
+      ]
+    },
+    {
+      "login": "kirkwaiblinger",
+      "name": "Kirk Waiblinger",
+      "avatar_url": "https://avatars.githubusercontent.com/u/53019676?v=4",
+      "profile": "https://github.com/kirkwaiblinger",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

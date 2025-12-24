@@ -4,6 +4,9 @@
 	"ignoreDependencies": ["flint", "^@flint\\.fyi\\/.*"],
 	"ignoreExportsUsedInFile": { "interface": true, "type": true },
 	"workspaces": {
+		"packages/comparisons": {
+			"entry": ["src/sort-data.ts"]
+		},
 		"packages/site": {
 			"entry": ["src/components/*.astro"],
 			"ignoreDependencies": ["sharp"]

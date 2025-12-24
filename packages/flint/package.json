@@ -21,7 +21,7 @@
 		"@flint.fyi/json": "workspace:",
 		"@flint.fyi/md": "workspace:",
 		"@flint.fyi/ts": "workspace:",
-		"@flint.fyi/yml": "workspace:"
+		"@flint.fyi/yaml": "workspace:"
 	},
 	"engines": {
 		"node": ">=24.0.0"

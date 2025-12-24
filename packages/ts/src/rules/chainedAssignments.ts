@@ -35,7 +35,10 @@ export default typescriptLanguage.createRule({
 					}
 
 					const rightSide = unwrapParenthesizedExpression(node.right);
-					if (!ts.isBinaryExpression(rightSide)) {
+					if (
+						!ts.isBinaryExpression(rightSide) ||
+						!tsutils.isAssignmentKind(rightSide.operatorToken.kind)
+					) {
 						return;
 					}
 

@@ -22,18 +22,12 @@ export const markdownLanguage = createLanguage<
 		return {
 			prepareFromDisk: (filePathAbsolute) => {
 				const sourceText = fsSync.readFileSync(filePathAbsolute, "utf8");
-				const { languageFile, root } = createMarkdownFile(
-					filePathAbsolute,
-					sourceText,
-				);
+				const { languageFile, root } = createMarkdownFile(sourceText);
 
 				return prepareMarkdownFile(languageFile, root, sourceText);
 			},
 			prepareFromVirtual: (filePathAbsolute, sourceText) => {
-				const { languageFile, root } = createMarkdownFile(
-					filePathAbsolute,
-					sourceText,
-				);
+				const { languageFile, root } = createMarkdownFile(sourceText);
 
 				return prepareMarkdownFile(languageFile, root, sourceText);
 			},

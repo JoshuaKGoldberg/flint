@@ -1,0 +1,66 @@
+---
+description: "Math, JSON, Reflect, and Atomics are not functions and should not be called directly."
+title: "globalObjectCalls"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="globalObjectCalls" />
+
+The global objects `Math`, `JSON`, `Reflect`, and `Atomics` are not constructors or functions.
+They are built-in objects that provide utility methods and properties as namespaces.
+Attempting to call them as functions or instantiate them with `new` will result in a TypeError at runtime.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const result = Math();
+
+const data = JSON();
+
+const reflected = Reflect();
+
+const instance = new Atomics();
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const value = Math.abs(-5);
+
+const parsed = JSON.parse("{}");
+
+const keys = Reflect.ownKeys({});
+
+const result = Atomics.add(buffer, 0, 1);
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your codebase redefines these objects and is guaranteed to run in an environment that allows that, you might not want to enable this rule.
+For example, if you target a legacy runtime with legacy non-standard JavaScript semantics, modern standard practices may not apply to you.
+
+## Further Reading
+
+- [MDN: Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics)
+- [MDN: JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON)
+- [MDN: Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
+- [MDN: Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="globalObjectCalls" />

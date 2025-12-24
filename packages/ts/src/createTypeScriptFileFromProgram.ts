@@ -49,9 +49,14 @@ export function createTypeScriptFileFromProgram(
 			const reports: NormalizedReport[] = [];
 
 			const context = {
+				program,
 				report: (report: RuleReport) => {
 					reports.push({
 						...report,
+						fix:
+							report.fix && !Array.isArray(report.fix)
+								? [report.fix]
+								: report.fix,
 						message: rule.messages[report.message],
 						range: normalizeRange(report.range, sourceFile),
 					});
@@ -73,7 +78,7 @@ export function createTypeScriptFileFromProgram(
 				node.forEachChild(visit);
 			};
 
-			sourceFile.forEachChild(visit);
+			visit(sourceFile);
 
 			return reports;
 		},

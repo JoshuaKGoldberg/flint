@@ -1,0 +1,72 @@
+---
+description: "Flint plugin linting rules provided by Flint. Meta!"
+title: "Flint Plugin"
+---
+
+import { RulesTable } from "~/components/RulesTable.tsx";
+import PluginTop from "~/components/PluginTop.astro";
+
+<PluginTop pluginId="flint" />
+
+## Presets
+
+### `logical`
+
+Rules that find bugs and enforce good practices for Flint plugins and rules.
+
+```ts title="flint.config.ts"
+import { flint } from "@flint.fyi/plugin-flint";
+import { defineConfig, ts } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: ts.files.all,
+			rules: flint.presets.logical,
+		},
+	],
+});
+```
+
+### `logicalStrict`
+
+Additional logical rules that enforce best practices which are not always straightforward to implement.
+These rules are recommended for projects where a majority of developers are experienced with both JavaScript/TypeScript and writing plugins for a linter.
+
+```ts title="flint.config.ts"
+import { flint } from "@flint.fyi/plugin-flint";
+import { defineConfig, ts } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: ts.files.all,
+			rules: flint.presets.logicalStrict,
+		},
+	],
+});
+```
+
+This preset's rules are a superset of those in [`logical`](#logical).
+
+### `stylistic`
+
+Rules that enforce consistent styling and best stylistic practices for most-to-all Flint plugins.
+
+```ts title="flint.config.ts"
+import { flint } from "@flint.fyi/plugin-flint";
+import { defineConfig, ts } from "flint";
+
+export default defineConfig({
+	use: [
+		{
+			files: ts.files.all,
+			rules: flint.presets.stylistic,
+		},
+	],
+});
+```
+
+## Rules
+
+<RulesTable implementing plugin="flint" />
