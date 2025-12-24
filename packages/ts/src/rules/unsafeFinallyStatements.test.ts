@@ -17,7 +17,7 @@ try {
 } finally {
     return 1;
     ~~~~~~
-    This control flow statement can override any returned value from try/catch blocks.
+    Control flow statements in finally blocks can override control flow from try/catch blocks.
 }
 `,
 		},
@@ -39,7 +39,7 @@ try {
 } finally {
     return;
     ~~~~~~
-    This control flow statement can override any returned value from try/catch blocks.
+    Control flow statements in finally blocks can override control flow from try/catch blocks.
 }
 `,
 		},
@@ -57,7 +57,7 @@ try {
 } finally {
     throw new Error("Error");
     ~~~~~
-    This control flow statement can override any returned value from try/catch blocks.
+    Control flow statements in finally blocks can override control flow from try/catch blocks.
 }
 `,
 		},
@@ -78,7 +78,7 @@ while (condition) {
     } finally {
         break;
         ~~~~~
-        This control flow statement can override any returned value from try/catch blocks.
+        Control flow statements in finally blocks can override control flow from try/catch blocks.
     }
 }
 `,
@@ -100,7 +100,7 @@ for (let i = 0; i < 10; i++) {
     } finally {
         continue;
         ~~~~~~~~
-        This control flow statement can override any returned value from try/catch blocks.
+        Control flow statements in finally blocks can override control flow from try/catch blocks.
     }
 }
 `,
@@ -124,7 +124,7 @@ function test() {
     } finally {
         return "override";
         ~~~~~~
-        This control flow statement can override any returned value from try/catch blocks.
+        Control flow statements in finally blocks can override control flow from try/catch blocks.
     }
 }
 `,
@@ -146,51 +146,7 @@ try {
     if (condition) {
         return;
         ~~~~~~
-        This control flow statement can override any returned value from try/catch blocks.
-    }
-}
-`,
-		},
-		{
-			code: `
-try {
-    doSomething();
-} finally {
-    while (condition) {
-        break;
-    }
-}
-`,
-			snapshot: `
-try {
-    doSomething();
-} finally {
-    while (condition) {
-        break;
-        ~~~~~
-        This control flow statement can override any returned value from try/catch blocks.
-    }
-}
-`,
-		},
-		{
-			code: `
-try {
-    doSomething();
-} finally {
-    for (let i = 0; i < 10; i++) {
-        continue;
-    }
-}
-`,
-			snapshot: `
-try {
-    doSomething();
-} finally {
-    for (let i = 0; i < 10; i++) {
-        continue;
-        ~~~~~~~~
-        This control flow statement can override any returned value from try/catch blocks.
+        Control flow statements in finally blocks can override control flow from try/catch blocks.
     }
 }
 `,
@@ -214,7 +170,7 @@ try {
         case 1:
             return;
             ~~~~~~
-            This control flow statement can override any returned value from try/catch blocks.
+            Control flow statements in finally blocks can override control flow from try/catch blocks.
     }
 }
 `,
@@ -236,7 +192,7 @@ try {
     label: {
         break label;
         ~~~~~
-        This control flow statement can override any returned value from try/catch blocks.
+        Control flow statements in finally blocks can override control flow from try/catch blocks.
     }
 }
 `,
@@ -305,6 +261,45 @@ try {
 } finally {
     while (condition) {
         cleanup();
+    }
+}
+`,
+		`
+try {
+    doSomething();
+} finally {
+    for (let i = 0; i < 10; i++) {
+        if (i === 5) break;
+    }
+}
+`,
+		`
+try {
+    doSomething();
+} finally {
+    while (condition) {
+        if (shouldExit) break;
+    }
+}
+`,
+		`
+try {
+    doSomething();
+} finally {
+    for (let i = 0; i < 10; i++) {
+        if (i === 0) continue;
+        process(i);
+    }
+}
+`,
+		`
+try {
+    doSomething();
+} finally {
+    try {
+        cleanup();
+    } finally {
+        log();
     }
 }
 `,

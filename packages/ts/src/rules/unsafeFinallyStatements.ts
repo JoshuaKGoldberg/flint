@@ -12,13 +12,13 @@ export default typescriptLanguage.createRule({
 	messages: {
 		unsafeFinally: {
 			primary:
-				"This control flow statement can override any returned value from try/catch blocks.",
+				"Control flow statements in finally blocks can override control flow from try/catch blocks.",
 			secondary: [
 				"Control flow statements like `break`, `continue`, `return`, and `throw` in finally blocks can override control flow statements in the try or catch blocks.",
 				"This can lead to unexpected behavior, as the `finally` block will execute regardless of what happens in `try`/`catch`, and its control flow takes precedence.",
 			],
 			suggestions: [
-				"Move the control flow statement out of the `finally` block",
+				"Move the control flow statement out of the `finally` block.",
 				"Remove the control flow statement if the `finally` block is only used for cleanup operations.",
 			],
 		},
@@ -61,31 +61,12 @@ export default typescriptLanguage.createRule({
 							if (statement.elseStatement) {
 								checkStatement(statement.elseStatement);
 							}
-						} else if (
-							ts.isWhileStatement(statement) ||
-							ts.isDoStatement(statement)
-						) {
-							checkStatement(statement.statement);
-						} else if (
-							ts.isForStatement(statement) ||
-							ts.isForInStatement(statement) ||
-							ts.isForOfStatement(statement)
-						) {
-							checkStatement(statement.statement);
 						} else if (ts.isSwitchStatement(statement)) {
 							statement.caseBlock.clauses.forEach((clause) => {
 								clause.statements.forEach(checkStatement);
 							});
 						} else if (ts.isLabeledStatement(statement)) {
 							checkStatement(statement.statement);
-						} else if (ts.isTryStatement(statement)) {
-							checkStatement(statement.tryBlock);
-							if (statement.catchClause) {
-								checkStatement(statement.catchClause.block);
-							}
-							if (statement.finallyBlock) {
-								checkStatement(statement.finallyBlock);
-							}
 						}
 					}
 
