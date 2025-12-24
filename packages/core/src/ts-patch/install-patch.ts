@@ -7,7 +7,7 @@ const require = createRequire(import.meta.url);
 const typescriptPath = require.resolve("typescript");
 
 const origReadFileSync = fs.readFileSync;
-// @ts-expect-error - approach used by Volar.js
+// @ts-expect-error - TypeScript doesn't understand that the overloads do match up. 
 fs.readFileSync = (...args) => {
 	const res = origReadFileSync(...args);
 	if (args[0] === typescriptPath) {
