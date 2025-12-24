@@ -1,8 +1,4 @@
-import {
-	LanguageFileDefinition,
-	NormalizedReport,
-	RuleReport,
-} from "@flint.fyi/core";
+import { LanguageFileDefinition } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { normalizeRange } from "./normalizeRange.js";
@@ -17,41 +13,21 @@ export function createTypeScriptJsonFile(
 	const sourceFile = ts.parseJsonText(filePathAbsolute, sourceText);
 
 	return {
-		async runRule(rule, options) {
-			const reports: NormalizedReport[] = [];
-
-			const context = {
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: rule.messages[report.message],
-						range: normalizeRange(report.range, sourceFile),
-					});
-				},
-				sourceFile,
-			};
-
-			const runtime = await rule.setup(context, options);
-
-			if (!runtime?.visitors) {
-				return reports;
+		normalizeRange: (range) => normalizeRange(range, sourceFile),
+		runRule(runtime, options) {
+			const { visitors } = runtime;
+			if (!visitors) {
+				return;
 			}
 
-			const { visitors } = runtime;
+			const fileServices = { options, sourceFile };
 
 			const visit = (node: ts.Node) => {
-				visitors[ts.SyntaxKind[node.kind]]?.(node);
-
+				visitors[ts.SyntaxKind[node.kind]]?.(node, fileServices);
 				node.forEachChild(visit);
 			};
 
 			sourceFile.forEachChild(visit);
-
-			return reports;
 		},
 	};
 }

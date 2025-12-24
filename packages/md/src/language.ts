@@ -7,13 +7,13 @@ import { createMarkdownFile } from "./createMarkdownFile.js";
 import { MarkdownNodesByName, WithPosition } from "./nodes.js";
 import { prepareMarkdownFile } from "./prepareMarkdownFile.js";
 
-export interface MarkdownServices {
+export interface MarkdownFileServices {
 	root: WithPosition<mdast.Root>;
 }
 
 export const markdownLanguage = createLanguage<
 	MarkdownNodesByName,
-	MarkdownServices
+	MarkdownFileServices
 >({
 	about: {
 		name: "Markdown",

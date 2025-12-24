@@ -1,24 +1,14 @@
-import { makeAbsolute } from "@flint.fyi/utils";
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
-import * as fs from "node:fs/promises";
-import path from "node:path";
 
 import { readFromCache } from "../cache/readFromCache.js";
 import { writeToCache } from "../cache/writeToCache.js";
-import { collectFilesValues } from "../globs/collectFilesValues.js";
-import { AnyLevelDeep } from "../types/arrays.js";
-import {
-	ConfigRuleDefinition,
-	ConfigUseDefinition,
-	ProcessedConfigDefinition,
-} from "../types/configs.js";
-import { FilesGlobObjectProcessed, FilesValue } from "../types/files.js";
+import { ProcessedConfigDefinition } from "../types/configs.js";
 import { AnyLanguage } from "../types/languages.js";
 import { FileResults, LintResults } from "../types/linting.js";
-import { flatten } from "../utils/arrays.js";
-import { lintFile } from "./lintFile.js";
-import { readGitignore } from "./readGitignore.js";
+import { AnyRule } from "../types/rules.js";
+import { computeUseDefinitions } from "./computeUseDefinitions.js";
+import { lintFile, RuntimeStorage } from "./lintFile.js";
 
 const log = debugForFile(import.meta.filename);
 
@@ -27,75 +17,59 @@ export interface LintOnceSettings {
 	skipDiagnostics: boolean;
 }
 
+/**
+ * This is a mispeling.
+ */
 export async function lintOnce(
 	configDefinition: ProcessedConfigDefinition,
 	{ ignoreCache, skipDiagnostics }: LintOnceSettings,
 ): Promise<LintResults> {
-	interface ConfigUseDefinitionWithFiles extends ConfigUseDefinition {
-		found: Set<string>;
-		rules: ConfigRuleDefinition[];
-	}
-
-	const gitignore = await readGitignore();
-
-	log("Collecting files from %d use pattern(s)", configDefinition.use.length);
-	log("Excluding based on .gitignore: %s", gitignore);
-
-	const useDefinitions: ConfigUseDefinitionWithFiles[] = await Promise.all(
-		configDefinition.use.map(async (use) => {
-			const globs = resolveUseFilesGlobs(use.files, configDefinition);
-
-			return {
-				...use,
-				found: new Set(
-					(
-						await Array.fromAsync(
-							fs.glob([globs.include].flat(), {
-								exclude: [...gitignore, ...globs.exclude],
-								withFileTypes: true,
-							}),
-						)
-					)
-						.filter((entry) => entry.isFile())
-						.map((entry) =>
-							path.relative(
-								process.cwd(),
-								makeAbsolute(path.join(entry.parentPath, entry.name)),
-							),
-						),
-				),
-				rules: use.rules ? flatten(use.rules) : [],
-			};
-		}),
-	);
-
+	const useDefinitions = await computeUseDefinitions(configDefinition);
 	const allFilePaths = new Set(
 		useDefinitions.flatMap((use) => Array.from(use.found)),
 	);
 	const filesResults = new Map<string, FileResults>();
 	let totalReports = 0;
 
-	const languageFactories = new CachedFactory((language: AnyLanguage) => {
-		return language.prepare();
+	const languageFileFactoryFactory = new CachedFactory(
+		(language: AnyLanguage) => language.prepare(),
+	);
+
+	const runtimeStorage = {} as RuntimeStorage;
+
+	const ruleRuntimeFactory = new CachedFactory(async (rule: AnyRule) => {
+		log("Running rule %s setup:", rule.about.id);
+		return await rule.setup({
+			report(ruleReport) {
+				runtimeStorage.reports.push({
+					...ruleReport,
+					about: rule.about,
+					fix:
+						ruleReport.fix && !Array.isArray(ruleReport.fix)
+							? [ruleReport.fix]
+							: ruleReport.fix,
+					message: rule.messages[ruleReport.message],
+					range: runtimeStorage.file.normalizeRange(ruleReport.range),
+				});
+			},
+		});
 	});
 
-	const cached = ignoreCache
+	const cachedFileReports = ignoreCache
 		? undefined
 		: await readFromCache(allFilePaths, configDefinition.filePath);
 
-	// TODO: This is very slow and the whole thing should be refactored 🙌.
-	// The separate lintFile function recomputes rule options repeatedly.
-	// It'd be better to group found files together in some way.
-	// Plus, this does an await in a for loop - should it use a queue?
 	for (const filePath of allFilePaths) {
 		const { dependencies, diagnostics, reports } =
-			cached?.get(filePath) ??
+			cachedFileReports?.get(filePath) ??
 			(await lintFile(
-				makeAbsolute(filePath),
-				languageFactories,
-				useDefinitions
-					.filter((use) => use.found.has(filePath))
-					.flatMap((use) => use.rules),
+				filePath,
+				languageFileFactoryFactory,
+				// TODO: How to make types more permissive around assignability?
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+				ruleRuntimeFactory,
+				runtimeStorage,
+				useDefinitions,
 				skipDiagnostics,
 			));
 
@@ -112,46 +86,9 @@ export async function lintOnce(
 
 	log("Found %d report(s)", totalReports);
 
-	const lintResults = { allFilePaths, cached, filesResults };
+	const lintResults = { allFilePaths, cached: cachedFileReports, filesResults };
 
 	await writeToCache(configDefinition.filePath, lintResults);
 
 	return lintResults;
-}
-
-function collectUseFilesGlobsObject(
-	files: AnyLevelDeep<FilesValue> | undefined,
-	configDefinition: ProcessedConfigDefinition,
-): FilesGlobObjectProcessed {
-	switch (typeof files) {
-		case "function":
-			return resolveUseFilesGlobs(files(configDefinition), configDefinition);
-
-		case "undefined":
-			return { exclude: [], include: [] };
-
-		default: {
-			const exclude = new Set<string>();
-			const include = new Set<string>();
-
-			collectFilesValues(flatten(files), exclude, include);
-
-			return {
-				exclude: Array.from(exclude),
-				include: Array.from(include),
-			};
-		}
-	}
-}
-
-function resolveUseFilesGlobs(
-	files: AnyLevelDeep<FilesValue> | undefined,
-	configDefinition: ProcessedConfigDefinition,
-): FilesGlobObjectProcessed {
-	const globs = collectUseFilesGlobsObject(files, configDefinition);
-
-	return {
-		exclude: [...globs.exclude, ...(configDefinition.ignore ?? [])],
-		include: globs.include,
-	};
 }

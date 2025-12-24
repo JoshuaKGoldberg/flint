@@ -31,27 +31,30 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function isWindowLikeIdentifier(node: ts.Expression): boolean {
+		function isWindowLikeIdentifier(
+			node: ts.Expression,
+			typeChecker: ts.TypeChecker,
+		): boolean {
 			return (
 				ts.isIdentifier(node) &&
 				windowLikeNames.has(node.text) &&
-				isGlobalVariable(node, context.typeChecker)
+				isGlobalVariable(node, typeChecker)
 			);
 		}
 
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
 					if (
 						node.arguments.length < 2 &&
 						ts.isPropertyAccessExpression(node.expression) &&
 						ts.isIdentifier(node.expression.name) &&
 						node.expression.name.text === "postMessage" &&
-						isWindowLikeIdentifier(node.expression.expression)
+						isWindowLikeIdentifier(node.expression.expression, typeChecker)
 					) {
 						context.report({
 							message: "missingTargetOrigin",
-							range: getTSNodeRange(node.expression.name, context.sourceFile),
+							range: getTSNodeRange(node.expression.name, sourceFile),
 						});
 					}
 				},

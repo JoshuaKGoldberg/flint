@@ -2,9 +2,9 @@ import { createLanguage } from "@flint.fyi/core";
 import fsSync from "node:fs";
 
 import { createTextFile } from "./createTextFile.js";
-import { TextNodes, TextServices } from "./types.js";
+import { TextFileServices, TextNodes } from "./types.js";
 
-export const textLanguage = createLanguage<TextNodes, TextServices>({
+export const textLanguage = createLanguage<TextNodes, TextFileServices>({
 	about: {
 		name: "YAML",
 	},

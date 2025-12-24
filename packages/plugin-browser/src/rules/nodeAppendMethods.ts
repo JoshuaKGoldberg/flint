@@ -43,11 +43,11 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
 					if (
 						!ts.isPropertyAccessExpression(node.expression) ||
 						!ts.isIdentifier(node.expression.name) ||
-						!isGlobalDeclaration(node.expression.name, context.typeChecker)
+						!isGlobalDeclaration(node.expression.name, typeChecker)
 					) {
 						return;
 					}
@@ -57,7 +57,7 @@ export default typescriptLanguage.createRule({
 							context.report({
 								data: { method: "appendChild" },
 								message: "preferAppend",
-								range: getTSNodeRange(node.expression.name, context.sourceFile),
+								range: getTSNodeRange(node.expression.name, sourceFile),
 							});
 							break;
 
@@ -83,7 +83,7 @@ export default typescriptLanguage.createRule({
 									secondArgument.kind === ts.SyntaxKind.NullKeyword
 										? "preferAppend"
 										: "preferPrepend",
-								range: getTSNodeRange(node.expression.name, context.sourceFile),
+								range: getTSNodeRange(node.expression.name, sourceFile),
 							});
 						}
 					}

@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const interactiveHandlers = [
@@ -76,6 +80,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkElement(
 			element: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (!ts.isIdentifier(element.tagName)) {
 				return;
@@ -112,7 +117,7 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { element: elementName },
 					message: "invalidHandler",
-					range: getTSNodeRange(element.tagName, context.sourceFile),
+					range: getTSNodeRange(element.tagName, sourceFile),
 				});
 			}
 		}

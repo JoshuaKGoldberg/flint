@@ -1,8 +1,4 @@
-import {
-	LanguageFileDefinition,
-	NormalizedReport,
-	RuleReport,
-} from "@flint.fyi/core";
+import { LanguageFileDefinition } from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
@@ -45,42 +41,25 @@ export function createTypeScriptFileFromProgram(
 					}),
 				}));
 		},
-		async runRule(rule, options) {
-			const reports: NormalizedReport[] = [];
-
-			const context = {
-				program,
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: rule.messages[report.message],
-						range: normalizeRange(report.range, sourceFile),
-					});
-				},
-				sourceFile,
-				typeChecker: program.getTypeChecker(),
-			};
-
-			const runtime = await rule.setup(context, options);
-
-			if (!runtime?.visitors) {
-				return reports;
+		// context:
+		// sourceFile,
+		// typeChecker: program.getTypeChecker(),
+		normalizeRange: (range) => normalizeRange(range, sourceFile),
+		runRule(runtime, options) {
+			const { visitors } = runtime;
+			if (!visitors) {
+				return;
 			}
 
-			const { visitors } = runtime;
-			const visit = (node: ts.Node) => {
-				visitors[NodeSyntaxKinds[node.kind]]?.(node);
+			const typeChecker = program.getTypeChecker();
+			const fileServices = { options, program, sourceFile, typeChecker };
 
+			const visit = (node: ts.Node) => {
+				visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
 				node.forEachChild(visit);
 			};
 
 			visit(sourceFile);
-
-			return reports;
 		},
 	};
 }
