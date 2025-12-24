@@ -37,7 +37,7 @@ export function convertTypeScriptDiagnosticToLanguageFileDiagnostic(
 	};
 }
 
-export function formatDiagnostic(diagnostic: RawDiagnostic) {
+function formatDiagnostic(diagnostic: RawDiagnostic) {
 	let output = "";
 
 	if (diagnostic.file !== undefined) {
