@@ -2,7 +2,7 @@ import type { createProgram } from "typescript";
 
 // We store extras in globalThis rather than in a local module-level variable,
 // to make it work in Vitest
-const globalTyped = globalThis as unknown as {
+const globalTyped = globalThis as typeof globalThis & {
 	_flintCreateProgramProxies: Set<
 		(
 			ts: typeof import("typescript"),

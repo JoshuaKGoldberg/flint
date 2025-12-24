@@ -6,14 +6,14 @@ import { transformTscContent } from "./shared.js";
 const require = createRequire(import.meta.url);
 const typescriptPath = require.resolve("typescript");
 
-const origReadFileSync = fs.readFileSync;
-// @ts-expect-error - TypeScript doesn't understand that the overloads do match up. 
+const originalReadFileSync = fs.readFileSync;
+// @ts-expect-error - TypeScript doesn't understand that the overloads do match up.
 fs.readFileSync = (...args) => {
-	const res = origReadFileSync(...args);
+	const res = originalReadFileSync(...args);
 	if (args[0] === typescriptPath) {
 		return transformTscContent(res.toString());
 	}
 	return res;
 };
 require("typescript");
-fs.readFileSync = origReadFileSync;
+fs.readFileSync = originalReadFileSync;
