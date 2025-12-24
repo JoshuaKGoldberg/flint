@@ -1,5 +1,11 @@
+export { convertTypeScriptDiagnosticToLanguageFileDiagnostic } from "./convertTypeScriptDiagnosticToLanguageFileDiagnostic.js";
+export {
+	collectTypeScriptFileCacheImpacts,
+	NodeSyntaxKinds,
+} from "./createTypeScriptFileFromProgram.js";
 export { getTSNodeRange } from "./getTSNodeRange.js";
 export * from "./language.js";
+export { TSNodesByName } from "./nodes.js";
 export { ts } from "./plugin.js";
 export { getDeclarationsIfGlobal } from "./utils/getDeclarationsIfGlobal.js";
 export { isGlobalDeclaration } from "./utils/isGlobalDeclaration.js";
