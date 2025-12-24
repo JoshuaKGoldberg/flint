@@ -36,7 +36,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				VariableDeclaration: (node) => {
+				VariableDeclaration: (node, { sourceFile, typeChecker }) => {
 					if (node.initializer || !ts.isIdentifier(node.name)) {
 						return;
 					}
@@ -48,16 +48,14 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					if (
-						!hasAssignments(node.name, context.sourceFile, context.typeChecker)
-					) {
+					if (!hasAssignments(node.name, sourceFile, typeChecker)) {
 						context.report({
 							data: {
 								name: node.name.text,
 							},
 							message: "noUnassigned",
 							range: {
-								begin: node.name.getStart(context.sourceFile),
+								begin: node.name.getStart(sourceFile),
 								end: node.name.getEnd(),
 							},
 						});

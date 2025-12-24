@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -23,8 +27,8 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkIframe(
-			tagName: ts.JsxTagNameExpression,
-			attributes: ts.JsxAttributes,
+			{ attributes, tagName }: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (
 				!ts.isIdentifier(tagName) ||
@@ -44,7 +48,7 @@ export default typescriptLanguage.createRule({
 			if (!titleAttribute || !ts.isJsxAttribute(titleAttribute)) {
 				context.report({
 					message: "missingTitle",
-					range: getTSNodeRange(tagName, context.sourceFile),
+					range: getTSNodeRange(tagName, sourceFile),
 				});
 				return;
 			}
@@ -52,7 +56,7 @@ export default typescriptLanguage.createRule({
 			if (!titleAttribute.initializer) {
 				context.report({
 					message: "missingTitle",
-					range: getTSNodeRange(tagName, context.sourceFile),
+					range: getTSNodeRange(tagName, sourceFile),
 				});
 				return;
 			}
@@ -61,7 +65,7 @@ export default typescriptLanguage.createRule({
 				if (titleAttribute.initializer.text === "") {
 					context.report({
 						message: "missingTitle",
-						range: getTSNodeRange(tagName, context.sourceFile),
+						range: getTSNodeRange(tagName, sourceFile),
 					});
 				}
 			} else if (ts.isJsxExpression(titleAttribute.initializer)) {
@@ -78,7 +82,7 @@ export default typescriptLanguage.createRule({
 				) {
 					context.report({
 						message: "missingTitle",
-						range: getTSNodeRange(tagName, context.sourceFile),
+						range: getTSNodeRange(tagName, sourceFile),
 					});
 				}
 			}
@@ -86,12 +90,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkIframe(node.tagName, node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkIframe(node.tagName, node.attributes);
-				},
+				JsxOpeningElement: checkIframe,
+				JsxSelfClosingElement: checkIframe,
 			},
 		};
 	},

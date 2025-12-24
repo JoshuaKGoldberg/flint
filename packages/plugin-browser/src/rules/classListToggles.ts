@@ -100,7 +100,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				IfStatement(node: ts.IfStatement) {
+				IfStatement(node: ts.IfStatement, { sourceFile }) {
 					const thenStatement = node.thenStatement;
 					const elseStatement = node.elseStatement;
 
@@ -145,7 +145,6 @@ export default typescriptLanguage.createRule({
 						}
 
 						const condition = node.expression;
-						const sourceFile = context.sourceFile;
 						const conditionText = condition.getText(sourceFile);
 						const className = thenCall.className;
 						const toggleSecondArg =

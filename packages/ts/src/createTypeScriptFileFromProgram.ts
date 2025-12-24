@@ -65,9 +65,12 @@ export function createTypeScriptFileFromProgram(
 				return reports;
 			}
 
+			const typeChecker = program.getTypeChecker();
+			const fileServices = { options, program, sourceFile, typeChecker };
 			const { visitors } = runtime;
+
 			const visit = (node: ts.Node) => {
-				visitors[NodeSyntaxKinds[node.kind]]?.(node);
+				visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
 
 				node.forEachChild(visit);
 			};

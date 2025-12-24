@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -19,7 +23,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(node: ts.JsxOpeningLikeElement) {
+		function checkElement(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			const seenProps = new Set<string>();
 
 			for (const property of node.attributes.properties) {
@@ -33,7 +40,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						data: { propName },
 						message: "duplicateProp",
-						range: getTSNodeRange(property.name, context.sourceFile),
+						range: getTSNodeRange(property.name, sourceFile),
 					});
 				} else {
 					seenProps.add(propName);
