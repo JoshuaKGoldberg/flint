@@ -7,12 +7,14 @@ import ts from "typescript";
 
 import { normalizeRange } from "../normalizeRange.js";
 
+export interface ExtractedDirective {
+	range: NormalizedReportRangeObject;
+	selection: string;
+	type: string;
+}
+
 export function extractDirectivesFromTypeScriptFile(sourceFile: ts.SourceFile) {
-	const directives: {
-		range: NormalizedReportRangeObject;
-		selection: string;
-		type: string;
-	}[] = [];
+	const directives: ExtractedDirective[] = [];
 
 	tsutils.forEachComment(sourceFile, (fullText, sourceRange) => {
 		const commentText = fullText.slice(sourceRange.pos, sourceRange.end);
