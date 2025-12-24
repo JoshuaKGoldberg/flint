@@ -11,6 +11,6 @@
 		{ "path": "../json" },
 		{ "path": "../md" },
 		{ "path": "../ts" },
-		{ "path": "../yml" }
+		{ "path": "../yaml" }
 	]
 }

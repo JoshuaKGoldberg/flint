@@ -11,6 +11,9 @@ export default defineConfig({
 				root: `./packages/${name}`,
 				setupFiles: ["console-fail-test/setup"],
 				testTimeout: 10_000,
+				typecheck: {
+					enabled: true,
+				},
 			},
 		})),
 	},

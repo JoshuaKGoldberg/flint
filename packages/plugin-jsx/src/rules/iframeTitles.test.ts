@@ -4,55 +4,79 @@ import { ruleTester } from "./ruleTester.js";
 ruleTester.describe(rule, {
 	invalid: [
 		{
-			code: `<iframe />`,
-			fileName: "file.tsx",
-			snapshot: `<iframe />
+			code: `
+<iframe />
+`,
+			snapshot: `
+<iframe />
  ~~~~~~
- This <iframe> element is missing a \`title\` prop.`,
+ This <iframe> element is missing a \`title\` prop.
+`,
 		},
 		{
-			code: `<iframe src="https://example.com" />`,
-			fileName: "file.tsx",
-			snapshot: `<iframe src="https://example.com" />
+			code: `
+<iframe src="https://example.com" />
+`,
+			snapshot: `
+<iframe src="https://example.com" />
  ~~~~~~
- This <iframe> element is missing a \`title\` prop.`,
+ This <iframe> element is missing a \`title\` prop.
+`,
 		},
 		{
-			code: `<iframe title="" />`,
-			fileName: "file.tsx",
-			snapshot: `<iframe title="" />
+			code: `
+<iframe title="" />
+`,
+			snapshot: `
+<iframe title="" />
  ~~~~~~
- This <iframe> element is missing a \`title\` prop.`,
+ This <iframe> element is missing a \`title\` prop.
+`,
 		},
 		{
-			code: `<iframe title={''} />`,
-			fileName: "file.tsx",
-			snapshot: `<iframe title={''} />
+			code: `
+<iframe title={''} />
+`,
+			snapshot: `
+<iframe title={''} />
  ~~~~~~
- This <iframe> element is missing a \`title\` prop.`,
+ This <iframe> element is missing a \`title\` prop.
+`,
 		},
 		{
-			code: `<iframe title={\`\`} />`,
-			fileName: "file.tsx",
-			snapshot: `<iframe title={\`\`} />
+			code: `
+<iframe title={\`\`} />
+`,
+			snapshot: `
+<iframe title={\`\`} />
  ~~~~~~
- This <iframe> element is missing a \`title\` prop.`,
+ This <iframe> element is missing a \`title\` prop.
+`,
 		},
 		{
-			code: `<iframe title={undefined} />`,
-			fileName: "file.tsx",
-			snapshot: `<iframe title={undefined} />
+			code: `
+<iframe title={undefined} />
+`,
+			snapshot: `
+<iframe title={undefined} />
  ~~~~~~
- This <iframe> element is missing a \`title\` prop.`,
+ This <iframe> element is missing a \`title\` prop.
+`,
 		},
 	],
 	valid: [
-		{ code: `<iframe title="This is a unique title" />`, fileName: "file.tsx" },
-		{ code: `<iframe title={uniqueTitle} />`, fileName: "file.tsx" },
 		{
-			code: `<iframe title="Video player" src="video.mp4" />`,
-			fileName: "file.tsx",
+			code: `<iframe title="This is a unique title" />
+	`,
 		},
-		{ code: `<div>Not an iframe</div>`, fileName: "file.tsx" },
+		{
+			code: `<iframe title={uniqueTitle} />
+	`,
+		},
+		{
+			code: `<iframe title="Video player" src="video.mp4" />
+	`,
+		},
+		{ code: `<div>Not an iframe</div>` },
 	],
 });

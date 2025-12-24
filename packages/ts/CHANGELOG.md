@@ -1,5 +1,20 @@
 # @flint/ts
 
+## 0.14.6
+
+### Patch Changes
+
+- b789918: fix(ts): [forDirections] allow multi-part conditions
+- Updated dependencies [1bbae2e]
+- Updated dependencies [11abdff]
+  - @flint.fyi/core@0.16.0
+
+## 0.14.5
+
+### Patch Changes
+
+- 7e21021: fix(ts): [chainedAssignments] allow non-assignment right-side operators
+
 ## 0.14.4
 
 ### Patch Changes

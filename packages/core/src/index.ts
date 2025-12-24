@@ -26,4 +26,6 @@ export * from "./types/ranges.js";
 export * from "./types/reports.js";
 export * from "./types/rules.js";
 export * from "./types/shapes.js";
+export { binarySearch } from "./utils/arrays.js";
+export * from "./utils/getColumnAndLineOfPosition.js";
 export * from "./utils/predicates.js";
