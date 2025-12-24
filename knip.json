@@ -3,6 +3,7 @@
 	"ignore": ["flint.config.*", "packages/fixtures/*"],
 	"ignoreDependencies": ["flint", "^@flint\\.fyi\\/.*"],
 	"ignoreExportsUsedInFile": { "interface": true, "type": true },
+	"ignoreUnresolved": [".*/lib/ts-patch/install-patch-hooks.js"],
 	"workspaces": {
 		"packages/core": {
 			"entry": [
