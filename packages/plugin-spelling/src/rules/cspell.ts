@@ -29,7 +29,6 @@ export default textLanguage.createRule({
 			dependencies: ["cspell.json"],
 			visitors: {
 				file: (text, { filePathAbsolute }) => {
-					console.log("Visiting", filePathAbsolute);
 					if (
 						cspellSettings.ignorePaths &&
 						checkFilenameMatchesGlob(
