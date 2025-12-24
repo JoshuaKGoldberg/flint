@@ -1,6 +1,5 @@
 import { textLanguage } from "@flint.fyi/text";
 import { parseJsonSafe } from "@flint.fyi/utils";
-import { checkFilenameMatchesGlob } from "cspell-lib";
 
 import { createDocumentValidator } from "./createDocumentValidator.js";
 
@@ -22,28 +21,22 @@ export default textLanguage.createRule({
 		},
 	},
 	async setup(context) {
-		const { cspellSettings, documentValidator } =
-			await createDocumentValidator();
+		const documentValidator = await createDocumentValidator(
+			context.filePathAbsolute,
+			context.sourceText,
+		);
+		if (!documentValidator) {
+			return undefined;
+		}
 
 		return {
 			dependencies: ["cspell.json"],
 			visitors: {
-				file: (text, { filePathAbsolute }) => {
-					if (
-						cspellSettings.ignorePaths &&
-						checkFilenameMatchesGlob(
-							filePathAbsolute,
-							cspellSettings.ignorePaths,
-						)
-					) {
-						console.log("ignoring", filePathAbsolute);
-						return;
-					}
-
+				file: (text) => {
 					const issues = documentValidator.checkText(
 						[0, text.length],
-						text,
-						filePathAbsolute,
+						undefined,
+						undefined,
 					);
 
 					for (const issue of issues) {
