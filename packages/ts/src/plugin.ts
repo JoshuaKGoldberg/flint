@@ -17,6 +17,7 @@ import emptyBlocks from "./rules/emptyBlocks.js";
 import emptyDestructures from "./rules/emptyDestructures.js";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
+import finallyStatementSafety from "./rules/finallyStatementSafety.js";
 import forDirections from "./rules/forDirections.js";
 import forInArrays from "./rules/forInArrays.js";
 import functionAssignments from "./rules/functionAssignments.js";
@@ -75,6 +76,7 @@ export const ts = createPlugin({
 		emptyDestructures,
 		emptyStaticBlocks,
 		exceptionAssignments,
+		finallyStatementSafety,
 		forDirections,
 		forInArrays,
 		functionAssignments,

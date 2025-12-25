@@ -18127,7 +18127,8 @@
 			}
 		],
 		"flint": {
-			"name": "unsafeFinallyStatements",
+			"status": "implemented",
+			"name": "finallyStatementSafety",
 			"plugin": "ts",
 			"preset": "logical"
 		},
