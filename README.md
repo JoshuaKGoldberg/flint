@@ -1,7 +1,7 @@
 <h1 align="center">Flint</h1>
 
 <p align="center">
-	[Experimental] A fast, friendly linter.
+	[Experimental] Monorepo for Flint: a fast, friendly linter.
 	❤️‍🔥
 </p>
 
@@ -17,7 +17,7 @@
 	<img alt="💪 TypeScript: Strict" src="https://img.shields.io/badge/%F0%9F%92%AA_typescript-strict-21bb42.svg" />
 </p>
 
-<img align="right" alt="A flaming heart atop a brown linter-style squiggly line" src="docs/flint.png">
+<img align="right" alt="A flaming heart atop a brown linter-style squiggly line" height="128" src="docs/flint.png" width="105.14285714285714">
 
 **Flint** is an experimental new linter.
 It's a proof-of-concept to explore the concepts in the following blog posts:

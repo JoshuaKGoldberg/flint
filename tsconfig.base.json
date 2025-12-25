@@ -2,6 +2,8 @@
 	"compilerOptions": {
 		"composite": true,
 		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
 		"esModuleInterop": true,
 		"lib": ["ESNext"],
 		"module": "NodeNext",

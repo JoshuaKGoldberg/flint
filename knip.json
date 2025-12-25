@@ -1,8 +1,9 @@
 {
-	"$schema": "https://unpkg.com/knip@5.61.2/schema.json",
+	"$schema": "./node_modules/knip/schema.json",
 	"ignore": ["flint.config.*", "packages/fixtures/*"],
 	"ignoreDependencies": ["flint", "^@flint\\.fyi\\/.*"],
 	"ignoreExportsUsedInFile": { "interface": true, "type": true },
+	"treatConfigHintsAsErrors": true,
 	"ignoreUnresolved": [".*/lib/ts-patch/install-patch-hooks.js"],
 	"workspaces": {
 		"packages/core": {

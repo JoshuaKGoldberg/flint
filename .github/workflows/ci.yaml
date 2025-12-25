@@ -24,13 +24,6 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
       - run: pnpm lint:knip
-  lint_markdown:
-    name: Lint Markdown
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - uses: ./.github/actions/prepare
-      - run: pnpm lint:md
   lint_packages:
     name: Lint Packages
     runs-on: ubuntu-latest
