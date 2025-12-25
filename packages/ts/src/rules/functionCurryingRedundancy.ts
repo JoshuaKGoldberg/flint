@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
+import { isFunction } from "../utils/isFunction.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -14,11 +15,11 @@ export default typescriptLanguage.createRule({
 			primary:
 				'This "currying" of a function without a defined context does nothing and can be simplified.',
 			secondary: [
-				"Using .call() or .apply() with null or undefined as the context provides no benefit over a direct function call.",
+				"Using `.{{ method }}()` with null or undefined as the context provides no benefit over a direct function call.",
 				"This adds unnecessary complexity and reduces code readability.",
 			],
 			suggestions: [
-				"Replace the .call() or .apply() with a direct function call.",
+				"Replace the `.{{ method }}()` with a direct function call.",
 			],
 		},
 	},
@@ -30,72 +31,74 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const methodName = node.expression.name.text;
-
+					const method = node.expression.name.text;
 					if (
-						(methodName !== "call" && methodName !== "apply") ||
-						!node.arguments.length
+						(method !== "call" && method !== "apply") ||
+						!node.arguments.length ||
+						!isFunction(node.expression.expression, typeChecker)
 					) {
-						return;
-					}
-
-					// Verify that the object being called is actually a function
-					const objectType = typeChecker.getTypeAtLocation(
-						node.expression.expression,
-					);
-					const callSignatures = objectType.getCallSignatures();
-
-					if (callSignatures.length === 0) {
 						return;
 					}
 
 					const firstArgument = node.arguments[0];
-
 					if (
-						firstArgument.kind === ts.SyntaxKind.NullKeyword ||
-						firstArgument.kind === ts.SyntaxKind.UndefinedKeyword ||
-						(ts.isIdentifier(firstArgument) &&
-							firstArgument.text === "undefined")
+						firstArgument.kind !== ts.SyntaxKind.NullKeyword &&
+						!(
+							ts.isIdentifier(firstArgument) &&
+							firstArgument.text === "undefined"
+						)
 					) {
-						// Create the fix
-						const functionExpression =
-							node.expression.expression.getText(sourceFile);
-						const methodArguments = node.arguments.slice(1);
+						return;
+					}
 
-						let fixText: string;
-						if (methodName === "apply") {
-							// For .apply(), the second argument is an array of arguments
-							if (methodArguments.length > 0) {
-								const argsArray = methodArguments[0];
-								fixText = `${functionExpression}(...${argsArray.getText(sourceFile)})`;
-							} else {
-								fixText = `${functionExpression}()`;
-							}
-						} else {
-							// For .call(), arguments are passed directly
-							const argsText = methodArguments
-								.map((arg) => arg.getText(sourceFile))
-								.join(", ");
-							fixText = `${functionExpression}(${argsText})`;
-						}
+					const fixTextCreator =
+						method === "apply" ? createApplyFixText : createCallFixText;
 
-						context.report({
-							fix: {
-								range: {
-									begin: node.getStart(sourceFile),
-									end: node.getEnd(),
-								},
-								text: fixText,
-							},
-							message: "unnecessaryCall",
+					context.report({
+						data: { method },
+						fix: {
 							range: {
-								begin: node.expression.name.getStart(sourceFile) - 1,
+								begin: node.getStart(sourceFile),
 								end: node.getEnd(),
 							},
-						});
-					}
+							text: fixTextCreator(
+								node.expression.expression.getText(sourceFile),
+								node.arguments.slice(1),
+								sourceFile,
+							),
+						},
+						message: "unnecessaryCall",
+						range: {
+							begin: node.expression.name.getStart(sourceFile) - 1,
+							end: node.getEnd(),
+						},
+					});
 				},
 			},
 		};
 	},
 });
+
+function createApplyFixText(
+	functionExpression: string,
+	methodArguments: ts.Expression[],
+	sourceFile: ts.SourceFile,
+) {
+	if (methodArguments.length > 0) {
+		const argsArray = methodArguments[0];
+		return `${functionExpression}(...${argsArray.getText(sourceFile)})`;
+	} else {
+		return `${functionExpression}()`;
+	}
+}
+
+function createCallFixText(
+	functionExpression: string,
+	methodArguments: ts.Expression[],
+	sourceFile: ts.SourceFile,
+) {
+	const argsText = methodArguments
+		.map((arg) => arg.getText(sourceFile))
+		.join(", ");
+	return `${functionExpression}(${argsText})`;
+}
