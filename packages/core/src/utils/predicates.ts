@@ -2,7 +2,7 @@ import { Change, SuggestionForFiles } from "../types/changes.js";
 import { FileReport, FileReportWithFix } from "../types/reports.js";
 
 export function hasFix(report: FileReport): report is FileReportWithFix {
-	return "fix" in report;
+	return report.fix != null;
 }
 
 export function isSuggestionForFiles(

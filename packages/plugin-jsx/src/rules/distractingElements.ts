@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const distractingElements = new Set(["blink", "marquee"]);
@@ -24,9 +28,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement({
-			tagName,
-		}: ts.JsxOpeningElement | ts.JsxSelfClosingElement) {
+		function checkElement(
+			{ tagName }: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			if (!ts.isIdentifier(tagName)) {
 				return;
 			}
@@ -37,7 +42,7 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { element: elementName },
 					message: "noDistractingElement",
-					range: getTSNodeRange(tagName, context.sourceFile),
+					range: getTSNodeRange(tagName, sourceFile),
 				});
 			}
 		}

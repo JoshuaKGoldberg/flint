@@ -1,4 +1,5 @@
 import {
+	LanguageFileCacheImpacts,
 	LanguageFileDefinition,
 	NormalizedReport,
 	RuleReport,
@@ -6,44 +7,37 @@ import {
 import * as ts from "typescript";
 
 import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
-import { formatDiagnostic } from "./formatDiagnostic.js";
+import { convertTypeScriptDiagnosticToLanguageFileDiagnostic } from "./convertTypeScriptDiagnosticToLanguageFileDiagnostic.js";
 import { getFirstEnumValues } from "./getFirstEnumValues.js";
 import { normalizeRange } from "./normalizeRange.js";
 
-const NodeSyntaxKinds = getFirstEnumValues(ts.SyntaxKind);
+export const NodeSyntaxKinds = getFirstEnumValues(ts.SyntaxKind);
+
+export function collectTypeScriptFileCacheImpacts(
+	program: ts.Program,
+	sourceFile: ts.SourceFile,
+): LanguageFileCacheImpacts {
+	return {
+		dependencies: [
+			// TODO: Add support for multi-TSConfig workspaces.
+			// https://github.com/JoshuaKGoldberg/flint/issues/64 & more.
+			"tsconfig.json",
+
+			...collectReferencedFilePaths(program, sourceFile),
+		],
+	};
+}
 
 export function createTypeScriptFileFromProgram(
 	program: ts.Program,
 	sourceFile: ts.SourceFile,
 ): LanguageFileDefinition {
 	return {
-		cache: {
-			dependencies: [
-				// TODO: Add support for multi-TSConfig workspaces.
-				// https://github.com/JoshuaKGoldberg/flint/issues/64 & more.
-				"tsconfig.json",
-
-				...collectReferencedFilePaths(program, sourceFile),
-			],
-		},
+		cache: collectTypeScriptFileCacheImpacts(program, sourceFile),
 		getDiagnostics() {
 			return ts
 				.getPreEmitDiagnostics(program, sourceFile)
-				.map((diagnostic) => ({
-					code: `TS${diagnostic.code}`,
-					text: formatDiagnostic({
-						...diagnostic,
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						length: diagnostic.length!,
-						message: ts.flattenDiagnosticMessageText(
-							diagnostic.messageText,
-							"\n",
-						),
-						name: `TS${diagnostic.code}`,
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						start: diagnostic.start!,
-					}),
-				}));
+				.map(convertTypeScriptDiagnosticToLanguageFileDiagnostic);
 		},
 		async runRule(rule, options) {
 			const reports: NormalizedReport[] = [];
@@ -71,14 +65,17 @@ export function createTypeScriptFileFromProgram(
 				return reports;
 			}
 
+			const typeChecker = program.getTypeChecker();
+			const fileServices = { options, program, sourceFile, typeChecker };
 			const { visitors } = runtime;
+
 			const visit = (node: ts.Node) => {
-				visitors[NodeSyntaxKinds[node.kind]]?.(node);
+				visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
 
 				node.forEachChild(visit);
 			};
 
-			sourceFile.forEachChild(visit);
+			visit(sourceFile);
 
 			return reports;
 		},
