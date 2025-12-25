@@ -45,6 +45,8 @@ export async function lintFile(
 	runtimeStorage.reports = results.reports;
 
 	const languageFileFactory = new CachedFactory((language: AnyLanguage) => {
+		log("Creating language file factory %s:", language.about.name);
+
 		const fileFactory = languageFileFactoryFactory
 			.get(language)
 			.prepareFromDisk(filePathAbsolute);
