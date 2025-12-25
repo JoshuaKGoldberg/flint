@@ -5,14 +5,14 @@ import { typescriptLanguage } from "../language.js";
 export default typescriptLanguage.createRule({
 	about: {
 		description:
-			"Reports using .call() or .apply() when the context (this value) provides no benefit.",
-		id: "unnecessaryFunctionCurries",
+			"Reports using `.apply()` or `.call()` or  when the context (`this` value) provides no benefit.",
+		id: "functionCurryingRedundancy",
 		preset: "logical",
 	},
 	messages: {
 		unnecessaryCall: {
 			primary:
-				"Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.",
+				'This "currying" of a function without a defined context does nothing and can be simplified.',
 			secondary: [
 				"Using .call() or .apply() with null or undefined as the context provides no benefit over a direct function call.",
 				"This adds unnecessary complexity and reduces code readability.",
@@ -30,14 +30,12 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const propertyAccess = node.expression;
-					const methodName = propertyAccess.name.text;
+					const methodName = node.expression.name.text;
 
-					if (methodName !== "call" && methodName !== "apply") {
-						return;
-					}
-
-					if (node.arguments.length === 0) {
+					if (
+						(methodName !== "call" && methodName !== "apply") ||
+						!node.arguments.length
+					) {
 						return;
 					}
 
@@ -52,7 +50,7 @@ export default typescriptLanguage.createRule({
 						context.report({
 							message: "unnecessaryCall",
 							range: {
-								begin: propertyAccess.name.getStart(context.sourceFile) - 1,
+								begin: node.expression.name.getStart(context.sourceFile) - 1,
 								end: node.getEnd(),
 							},
 						});

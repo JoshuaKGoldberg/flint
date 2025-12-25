@@ -47,7 +47,7 @@ import unicodeBOMs from "./rules/unicodeBOMs.js";
 import unnecessaryBlocks from "./rules/unnecessaryBlocks.js";
 import unnecessaryCatches from "./rules/unnecessaryCatches.js";
 import unnecessaryConcatenation from "./rules/unnecessaryConcatenation.js";
-import unnecessaryFunctionCurries from "./rules/unnecessaryFunctionCurries.js";
+import functionCurryingRedundancy from "./rules/functionCurryingRedundancy.js";
 import unsafeNegations from "./rules/unsafeNegations.js";
 import variableDeletions from "./rules/variableDeletions.js";
 import voidOperator from "./rules/voidOperator.js";
@@ -106,7 +106,7 @@ export const ts = createPlugin({
 		unnecessaryBlocks,
 		unnecessaryCatches,
 		unnecessaryConcatenation,
-		unnecessaryFunctionCurries,
+		functionCurryingRedundancy,
 		unsafeNegations,
 		variableDeletions,
 		voidOperator,

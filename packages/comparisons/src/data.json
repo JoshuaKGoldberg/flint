@@ -17502,10 +17502,10 @@
 			}
 		],
 		"flint": {
-			"implemented": true,
-			"name": "unnecessaryFunctionCurries",
+			"name": "functionCurryingRedundancy",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{

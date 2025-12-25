@@ -1,6 +1,6 @@
 ---
-description: "Reports using .call() or .apply() when the context (this value) provides no benefit."
-title: "unnecessaryFunctionCurries"
+description: "Reports using `.apply()` `.call()` or  when the context (`this` value) provides no benefit."
+title: "functionCurryingRedundancy"
 topic: "rules"
 ---
 
@@ -8,10 +8,10 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="ts" rule="unnecessaryFunctionCurries" />
+<RuleSummary plugin="ts" rule="functionCurryingRedundancy" />
 
-Using `.call()` or `.apply()` with `null` or `undefined` as the context (first argument) provides no benefit over calling the function directly.
-This adds unnecessary complexity and reduces code readability.
+Using `.apply()` `.call()` or with `null` or `undefined` as the context (first argument) provides no benefit over calling the function directly.
+Doing so adds unnecessary complexity and reduces code readability.
 
 ## Examples
 
@@ -84,14 +84,14 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-If you have a specific coding pattern that requires explicit use of `.call()` or `.apply()` for consistency across a large codebase, even when the context is `null` or `undefined`, you might choose to disable this rule.
+If you have a specific coding pattern that requires explicit use of `.apply()` `.call()` or for consistency across a large codebase, even when the context is `null` or `undefined`, you might choose to disable this rule.
 However, in most cases, direct function calls improve code clarity and maintainability.
 
 ## Further Reading
 
-- [MDN: Function.prototype.call()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call)
 - [MDN: Function.prototype.apply()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)
+- [MDN: Function.prototype.call()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call)
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="ts" ruleId="unnecessaryFunctionCurries" />
+<RuleEquivalents pluginId="ts" ruleId="functionCurryingRedundancy" />

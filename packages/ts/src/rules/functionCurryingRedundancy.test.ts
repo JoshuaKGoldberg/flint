@@ -1,5 +1,5 @@
 import { ruleTester } from "./ruleTester.js";
-import rule from "./unnecessaryFunctionCurries.js";
+import rule from "./functionCurryingRedundancy.js";
 
 ruleTester.describe(rule, {
 	invalid: [
