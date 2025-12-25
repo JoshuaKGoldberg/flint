@@ -78,7 +78,7 @@ Thanks! ❤️‍🔥
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/lo1tuma"><img src="https://avatars.githubusercontent.com/u/169170?v=4?s=100" width="100px;" alt="Mathias Schreck"/><br /><sub><b>Mathias Schreck</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/flint/issues?q=author%3Alo1tuma" title="Bug reports">🐛</a> <a href="#ideas-lo1tuma" title="Ideas, Planning, & Feedback">🤔</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/auvred"><img src="https://avatars.githubusercontent.com/u/61150013?v=4?s=100" width="100px;" alt="auvred"/><br /><sub><b>auvred</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/flint/issues?q=author%3Aauvred" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/auvred"><img src="https://avatars.githubusercontent.com/u/61150013?v=4?s=100" width="100px;" alt="auvred"/><br /><sub><b>auvred</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/flint/issues?q=author%3Aauvred" title="Bug reports">🐛</a> <a href="#maintenance-auvred" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/bmclear"><img src="https://avatars.githubusercontent.com/u/7715393?v=4?s=100" width="100px;" alt="bmclear"/><br /><sub><b>bmclear</b></sub></a><br /><a href="#maintenance-bmclear" title="Maintenance">🚧</a> <a href="https://github.com/JoshuaKGoldberg/flint/commits?author=bmclear" title="Code">💻</a></td>
     </tr>
   </tbody>
