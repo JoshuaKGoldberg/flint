@@ -18,16 +18,18 @@ import {
 	setTSExtraSupportedExtensions,
 	setTSProgramCreationProxy,
 	SourceFileWithLineMap,
-	Suggestion,
 } from "@flint.fyi/core";
 import {
 	Language as VolarLanguage,
 	Mapper as VolarMapper,
 } from "@volar/language-core";
-import { NodeTypes, RootNode, TemplateChildNode } from "@vue/compiler-core";
-import { parse as vueParse } from "@vue/compiler-dom";
 import {
-	createGlobalTypesWriter as createGlobalVueTypesWriter,
+	parse as vueParse,
+	NodeTypes,
+	RootNode,
+	TemplateChildNode,
+} from "@vue/compiler-dom";
+import {
 	createVueLanguagePlugin,
 	createParsedCommandLine as createVueParsedCommandLine,
 	createParsedCommandLineByJson as createVueParsedCommandLineByJson,
@@ -64,7 +66,6 @@ setTSProgramCreationProxy(
 			apply(target, thisArg, args) {
 				let volarLanguage = null as null | VolarLanguage<string>;
 				let vueCompilerOptions = null as null | VueCompilerOptions;
-				let globalTypesErrorForFile = null as null | string;
 				const proxied = proxyCreateProgram(ts, createProgram, (ts, options) => {
 					const { configFilePath } = options.options;
 					vueCompilerOptions = (
@@ -81,17 +82,6 @@ setTSProgramCreationProxy(
 									{},
 								)
 					).vueOptions;
-					const globalTypesPath = createGlobalVueTypesWriter(
-						vueCompilerOptions,
-						ts.sys.writeFile,
-					);
-					vueCompilerOptions.globalTypesPath = (fileName) => {
-						const result = globalTypesPath(fileName);
-						if (result == null) {
-							globalTypesErrorForFile ??= fileName;
-						}
-						return result;
-					};
 					const vueLanguagePlugin = createVueLanguagePlugin<string>(
 						ts,
 						options.options,
@@ -137,38 +127,6 @@ setTSProgramCreationProxy(
 				}
 
 				program.__flintVolarLanguage = volarLanguage;
-				const getGlobalDiagnostics = program.getGlobalDiagnostics;
-				program.getGlobalDiagnostics = (...args) => {
-					const diagnostics = [...getGlobalDiagnostics(...args)];
-
-					if (globalTypesErrorForFile != null) {
-						diagnostics.push({
-							category: ts.DiagnosticCategory.Warning,
-							file: undefined,
-							length: 0,
-							start: 0,
-							// TODO: If no Vue rules are used, the Vue language isn't prepared,
-							// and its diagnostics are not collected. In this case, the only
-							// channel to report errors is through TS program diagnostics.
-							// But this forces us to write imaginary TS error code here. Maybe
-							// a better solution would be to introduce a secondary diagnostics
-							// reporting channel, or to introduce some special _magic_ TS error
-							// code which will be handled in a special way by
-							// convertTypeScriptDiagnosticToLanguageFileDiagnostic
-							code: 99999999,
-							messageText: `
-Failed to write the global types file for '${globalTypesErrorForFile}'. Make sure that:
-
-1. 'node_modules' directory exists.
-2. '${vueCompilerOptions!.lib}' is installed as a direct dependency.
-
-Alternatively, you can manually set "vueCompilerOptions.globalTypesPath" in your "tsconfig.json" or "jsconfig.json".
-						`.trim(),
-						});
-					}
-
-					return diagnostics;
-				};
 				return program;
 			},
 		}),

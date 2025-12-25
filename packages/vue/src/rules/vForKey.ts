@@ -1,6 +1,6 @@
 import { CharacterReportRange } from "@flint.fyi/core";
 import { Mapper as VolarMapper } from "@volar/language-core";
-import * as vue from "@vue/compiler-core";
+import * as vue from "@vue/compiler-dom";
 import ts from "typescript";
 
 import { vueLanguage } from "../language.js";
