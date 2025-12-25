@@ -1,10 +1,16 @@
 import { textLanguage } from "@flint.fyi/text";
 import { parseJsonSafe } from "@flint.fyi/utils";
+import { DocumentValidator } from "cspell-lib";
 
 import { createDocumentValidator } from "./createDocumentValidator.js";
 
 interface CSpellConfigLike {
 	words?: string[];
+}
+
+interface FileTask {
+	documentValidatorTask: Promise<DocumentValidator | undefined>;
+	text: string;
 }
 
 export default textLanguage.createRule({
@@ -29,10 +35,17 @@ export default textLanguage.createRule({
 			return undefined;
 		}
 
+		const fileTasks: FileTask[] = [];
+
 		return {
 			dependencies: ["cspell.json"],
-			visitors: {
-				file: (text) => {
+			teardown: async () => {
+				for (const { documentValidatorTask, text } of fileTasks) {
+					const documentValidator = await documentValidatorTask;
+					if (!documentValidator) {
+						return undefined;
+					}
+
 					const issues = documentValidator.checkText(
 						[0, text.length],
 						undefined,
@@ -79,6 +92,17 @@ export default textLanguage.createRule({
 							],
 						});
 					}
+				}
+			},
+			visitors: {
+				file: (text, { filePathAbsolute, sourceText }) => {
+					fileTasks.push({
+						documentValidatorTask: createDocumentValidator(
+							filePathAbsolute,
+							sourceText,
+						),
+						text,
+					});
 				},
 			},
 		};

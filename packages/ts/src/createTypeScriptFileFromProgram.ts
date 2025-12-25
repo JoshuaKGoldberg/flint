@@ -61,21 +61,21 @@ export function createTypeScriptFileFromProgram(
 
 			const runtime = await rule.setup(context, options);
 
-			if (!runtime?.visitors) {
-				return reports;
+			if (runtime?.visitors) {
+				const typeChecker = program.getTypeChecker();
+				const fileServices = { options, program, sourceFile, typeChecker };
+				const { visitors } = runtime;
+
+				const visit = (node: ts.Node) => {
+					visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
+
+					node.forEachChild(visit);
+				};
+
+				visit(sourceFile);
 			}
 
-			const typeChecker = program.getTypeChecker();
-			const fileServices = { options, program, sourceFile, typeChecker };
-			const { visitors } = runtime;
-
-			const visit = (node: ts.Node) => {
-				visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
-
-				node.forEachChild(visit);
-			};
-
-			visit(sourceFile);
+			await runtime?.teardown?.();
 
 			return reports;
 		},
