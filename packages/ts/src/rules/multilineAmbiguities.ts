@@ -2,7 +2,7 @@ import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
 
-interface Ambiguity {
+interface PotentialAmbiguity {
 	data: {
 		after: string;
 		interpretation: string;
@@ -11,13 +11,13 @@ interface Ambiguity {
 	startNode: ts.Node;
 }
 
-function findAmbiguity(
+function findPotentialAmbiguity(
 	node: ts.Node,
 	sourceFile: ts.SourceFile,
 	rootExpression: ts.Expression,
-): Ambiguity | undefined {
+): PotentialAmbiguity | undefined {
 	const nested = ts.forEachChild(node, (child) => {
-		return findAmbiguity(child, sourceFile, rootExpression);
+		return findPotentialAmbiguity(child, sourceFile, rootExpression);
 	});
 	if (nested) {
 		return nested;
@@ -55,10 +55,6 @@ function findAmbiguity(
 	}
 }
 
-function getEndLineNumber(node: ts.Node, sourceFile: ts.SourceFile): number {
-	return sourceFile.getLineAndCharacterOfPosition(node.getEnd()).line;
-}
-
 function getFirstNonWhitespaceOnLine(
 	lineNumber: number,
 	sourceFile: ts.SourceFile,
@@ -72,11 +68,6 @@ function getFirstNonWhitespaceOnLine(
 	}
 
 	return start;
-}
-
-function getLineNumber(node: ts.Node, sourceFile: ts.SourceFile): number {
-	return sourceFile.getLineAndCharacterOfPosition(node.getStart(sourceFile))
-		.line;
 }
 
 export default typescriptLanguage.createRule({
@@ -102,19 +93,23 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkNode(node: ts.Expression, sourceFile: ts.SourceFile) {
-			const ambiguity = findAmbiguity(node, context.sourceFile, node);
-			if (!ambiguity) {
+			const candidate = findPotentialAmbiguity(node, context.sourceFile, node);
+			if (!candidate) {
 				return;
 			}
 
-			const endLine = getEndLineNumber(ambiguity.endNode, sourceFile);
-			const startLine = getLineNumber(ambiguity.startNode, sourceFile);
+			const { line: endLine } = sourceFile.getLineAndCharacterOfPosition(
+				candidate.endNode.getEnd(),
+			);
+			const { line: startLine } = sourceFile.getLineAndCharacterOfPosition(
+				candidate.startNode.getStart(sourceFile),
+			);
 			if (endLine >= startLine) {
 				return;
 			}
 
 			context.report({
-				data: ambiguity.data,
+				data: candidate.data,
 				message: "ambiguity",
 				range: {
 					begin: getFirstNonWhitespaceOnLine(startLine, sourceFile),

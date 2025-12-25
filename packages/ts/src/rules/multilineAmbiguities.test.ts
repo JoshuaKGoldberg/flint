@@ -153,5 +153,12 @@ class MyClass {
 const value = getData();
 const element = [1, 2, 3];
 `,
+		`
+callee(
+  a
+    ? b
+    : c
+);
+`,
 	],
 });
