@@ -5,14 +5,14 @@ import { typescriptLanguage } from "../language.js";
 export default typescriptLanguage.createRule({
 	about: {
 		description:
-			"Reports control flow statements in finally blocks that can override control flow in try/catch blocks.",
-		id: "unsafeFinallyStatements",
+			"Reports control flow statements in `finally` blocks that can override control flow in `try`/`catch` blocks.",
+		id: "finallyStatementSafety",
 		preset: "logical",
 	},
 	messages: {
 		unsafeFinally: {
 			primary:
-				"Control flow statements in finally blocks can override control flow from try/catch blocks.",
+				"Control flow statements in `finally` blocks misleadingly override control flow from `try`/`catch` blocks.",
 			secondary: [
 				"Control flow statements like `break`, `continue`, `return`, and `throw` in finally blocks can override control flow statements in the try or catch blocks.",
 				"This can lead to unexpected behavior, as the `finally` block will execute regardless of what happens in `try`/`catch`, and its control flow takes precedence.",

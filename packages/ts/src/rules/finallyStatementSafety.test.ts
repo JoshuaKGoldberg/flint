@@ -1,5 +1,5 @@
+import rule from "./finallyStatementSafety.js";
 import { ruleTester } from "./ruleTester.js";
-import rule from "./unsafeFinallyStatements.js";
 
 ruleTester.describe(rule, {
 	invalid: [
@@ -17,7 +17,7 @@ try {
 } finally {
     return 1;
     ~~~~~~
-    Control flow statements in finally blocks can override control flow from try/catch blocks.
+    Control flow statements in \`finally\` blocks misleadingly override control flow from \`try\`/\`catch\` blocks.
 }
 `,
 		},
@@ -39,7 +39,7 @@ try {
 } finally {
     return;
     ~~~~~~
-    Control flow statements in finally blocks can override control flow from try/catch blocks.
+    Control flow statements in \`finally\` blocks misleadingly override control flow from \`try\`/\`catch\` blocks.
 }
 `,
 		},
@@ -57,7 +57,7 @@ try {
 } finally {
     throw new Error("Error");
     ~~~~~
-    Control flow statements in finally blocks can override control flow from try/catch blocks.
+    Control flow statements in \`finally\` blocks misleadingly override control flow from \`try\`/\`catch\` blocks.
 }
 `,
 		},
@@ -78,7 +78,7 @@ while (condition) {
     } finally {
         break;
         ~~~~~
-        Control flow statements in finally blocks can override control flow from try/catch blocks.
+        Control flow statements in \`finally\` blocks misleadingly override control flow from \`try\`/\`catch\` blocks.
     }
 }
 `,
@@ -100,7 +100,7 @@ for (let i = 0; i < 10; i++) {
     } finally {
         continue;
         ~~~~~~~~
-        Control flow statements in finally blocks can override control flow from try/catch blocks.
+        Control flow statements in \`finally\` blocks misleadingly override control flow from \`try\`/\`catch\` blocks.
     }
 }
 `,
@@ -124,7 +124,7 @@ function test() {
     } finally {
         return "override";
         ~~~~~~
-        Control flow statements in finally blocks can override control flow from try/catch blocks.
+        Control flow statements in \`finally\` blocks misleadingly override control flow from \`try\`/\`catch\` blocks.
     }
 }
 `,
@@ -146,7 +146,7 @@ try {
     if (condition) {
         return;
         ~~~~~~
-        Control flow statements in finally blocks can override control flow from try/catch blocks.
+        Control flow statements in \`finally\` blocks misleadingly override control flow from \`try\`/\`catch\` blocks.
     }
 }
 `,
@@ -170,7 +170,7 @@ try {
         case 1:
             return;
             ~~~~~~
-            Control flow statements in finally blocks can override control flow from try/catch blocks.
+            Control flow statements in \`finally\` blocks misleadingly override control flow from \`try\`/\`catch\` blocks.
     }
 }
 `,
@@ -192,7 +192,7 @@ try {
     label: {
         break label;
         ~~~~~
-        Control flow statements in finally blocks can override control flow from try/catch blocks.
+        Control flow statements in \`finally\` blocks misleadingly override control flow from \`try\`/\`catch\` blocks.
     }
 }
 `,

@@ -17,6 +17,7 @@ import emptyBlocks from "./rules/emptyBlocks.js";
 import emptyDestructures from "./rules/emptyDestructures.js";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
+import finallyStatementSafety from "./rules/finallyStatementSafety.js";
 import forDirections from "./rules/forDirections.js";
 import forInArrays from "./rules/forInArrays.js";
 import functionAssignments from "./rules/functionAssignments.js";
@@ -47,7 +48,6 @@ import unicodeBOMs from "./rules/unicodeBOMs.js";
 import unnecessaryBlocks from "./rules/unnecessaryBlocks.js";
 import unnecessaryCatches from "./rules/unnecessaryCatches.js";
 import unnecessaryConcatenation from "./rules/unnecessaryConcatenation.js";
-import unsafeFinallyStatements from "./rules/unsafeFinallyStatements.js";
 import unsafeNegations from "./rules/unsafeNegations.js";
 import variableDeletions from "./rules/variableDeletions.js";
 import voidOperator from "./rules/voidOperator.js";
@@ -76,6 +76,7 @@ export const ts = createPlugin({
 		emptyDestructures,
 		emptyStaticBlocks,
 		exceptionAssignments,
+		finallyStatementSafety,
 		forDirections,
 		forInArrays,
 		functionAssignments,
@@ -106,7 +107,6 @@ export const ts = createPlugin({
 		unnecessaryBlocks,
 		unnecessaryCatches,
 		unnecessaryConcatenation,
-		unsafeFinallyStatements,
 		unsafeNegations,
 		variableDeletions,
 		voidOperator,

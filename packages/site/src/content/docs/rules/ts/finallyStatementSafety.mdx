@@ -1,6 +1,6 @@
 ---
 description: "Avoid using control flow statements in finally blocks."
-title: "unsafeFinallyStatements"
+title: "finallyStatementSafety"
 topic: "rules"
 ---
 
@@ -8,7 +8,7 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="ts" rule="unsafeFinallyStatements" />
+<RuleSummary plugin="ts" rule="finallyStatementSafety" />
 
 Control flow statements such as `return`, `throw`, `break`, and `continue` in `finally` blocks can cause unexpected behavior.
 When these statements appear in a `finally` block, they override any control flow statements in the corresponding `try` or `catch` blocks.
@@ -27,7 +27,9 @@ function processData() {
 		return null;
 	}
 }
+```
 
+```ts
 function handleError() {
 	try {
 		throw new Error("Original error");
@@ -37,7 +39,9 @@ function handleError() {
 		throw new Error("Override error");
 	}
 }
+```
 
+```ts
 for (let i = 0; i < items.length; i++) {
 	try {
 		processItem(items[i]);
@@ -58,7 +62,9 @@ function processData() {
 		cleanup();
 	}
 }
+```
 
+```ts
 function handleError() {
 	try {
 		throw new Error("Original error");
@@ -69,7 +75,9 @@ function handleError() {
 		cleanup();
 	}
 }
+```
 
+```ts
 for (let i = 0; i < items.length; i++) {
 	try {
 		processItem(items[i]);
@@ -89,8 +97,7 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-This rule enforces best practices that prevent subtle bugs related to control flow in exception handling.
-There are very few legitimate use cases for control flow statements in `finally` blocks, so disabling this rule is not recommended.
+If you are very confident in your handling of exception handling in your code and specifically want to use the confusing quirks of `finally` control flow statements, this rule might not be for you.
 
 ## Further Reading
 
@@ -99,4 +106,4 @@ There are very few legitimate use cases for control flow statements in `finally`
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="ts" ruleId="unsafeFinallyStatements" />
+<RuleEquivalents pluginId="ts" ruleId="finallyStatementSafety" />
