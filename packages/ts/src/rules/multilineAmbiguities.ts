@@ -2,76 +2,57 @@ import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
 
-interface AmbiguityResult {
-	message: "unexpectedCall" | "unexpectedProperty" | "unexpectedTemplate";
-	rangeEnd: number;
-	rangeStart: number;
+interface Ambiguity {
+	data: {
+		after: string;
+		interpretation: string;
+	};
+	endNode: ts.Node;
+	startNode: ts.Node;
 }
 
-function findAmbiguousExpression(
+function findAmbiguity(
 	node: ts.Node,
 	sourceFile: ts.SourceFile,
 	rootExpression: ts.Expression,
-): AmbiguityResult | undefined {
-	// Check if this node itself is ambiguous
-	if (ts.isCallExpression(node) && node.arguments.length > 0) {
-		const calleeEndLine = getEndLineNumber(node.expression, sourceFile);
-		const argsStartLine = getLineNumber(node.arguments[0], sourceFile);
-
-		if (calleeEndLine < argsStartLine) {
-			// Report from the first non-whitespace character on the line where the ambiguity begins
-			const lineStart = getFirstNonWhitespaceOnLine(argsStartLine, sourceFile);
-
-			return {
-				message: "unexpectedCall",
-				rangeEnd: rootExpression.getEnd(),
-				rangeStart: lineStart,
-			};
-		}
-	}
-
-	if (ts.isElementAccessExpression(node)) {
-		const objectEndLine = getEndLineNumber(node.expression, sourceFile);
-		const indexStartLine = getLineNumber(node.argumentExpression, sourceFile);
-
-		if (objectEndLine < indexStartLine) {
-			// Report from the first non-whitespace character on the line where the ambiguity begins
-			const lineStart = getFirstNonWhitespaceOnLine(indexStartLine, sourceFile);
-
-			return {
-				message: "unexpectedProperty",
-				rangeEnd: rootExpression.getEnd(),
-				rangeStart: lineStart,
-			};
-		}
-	}
-
-	if (ts.isTaggedTemplateExpression(node)) {
-		const tagEndLine = getEndLineNumber(node.tag, sourceFile);
-		const templateStartLine = getLineNumber(node.template, sourceFile);
-
-		if (tagEndLine < templateStartLine) {
-			// Report from the first non-whitespace character on the line where the ambiguity begins
-			const lineStart = getFirstNonWhitespaceOnLine(
-				templateStartLine,
-				sourceFile,
-			);
-
-			return {
-				message: "unexpectedTemplate",
-				rangeEnd: rootExpression.getEnd(),
-				rangeStart: lineStart,
-			};
-		}
-	}
-
-	// Recursively check children
-	let foundResult: AmbiguityResult | undefined;
-	ts.forEachChild(node, (child) => {
-		foundResult ??= findAmbiguousExpression(child, sourceFile, rootExpression);
+): Ambiguity | undefined {
+	const nested = ts.forEachChild(node, (child) => {
+		return findAmbiguity(child, sourceFile, rootExpression);
 	});
+	if (nested) {
+		return nested;
+	}
 
-	return foundResult;
+	if (ts.isCallExpression(node)) {
+		if (node.arguments.length) {
+			return {
+				data: {
+					after: "parentheses",
+					interpretation: "function call",
+				},
+				endNode: node.expression,
+				startNode: node.arguments[0],
+			};
+		}
+	} else if (ts.isElementAccessExpression(node)) {
+		return {
+			data: {
+				after: "brackets",
+				interpretation: "property access",
+			},
+			endNode: node.expression,
+			startNode: node.argumentExpression,
+		};
+	} else if (ts.isTaggedTemplateExpression(node)) {
+		return {
+			data: {
+				after: "a template literal",
+				interpretation: "tagged template",
+			},
+			endNode: node.tag,
+			startNode: node.template,
+		};
+	}
 }
 
 function getEndLineNumber(node: ts.Node, sourceFile: ts.SourceFile): number {
@@ -84,13 +65,13 @@ function getFirstNonWhitespaceOnLine(
 ): number {
 	const lineStart = sourceFile.getPositionOfLineAndCharacter(lineNumber, 0);
 	const text = sourceFile.getText();
-	let pos = lineStart;
+	let start = lineStart;
 
-	while (pos < text.length && (text[pos] === " " || text[pos] === "\t")) {
-		pos++;
+	while (start < text.length && /\s+/.test(text[start])) {
+		start++;
 	}
 
-	return pos;
+	return start;
 }
 
 function getLineNumber(node: ts.Node, sourceFile: ts.SourceFile): number {
@@ -106,80 +87,54 @@ export default typescriptLanguage.createRule({
 		preset: "stylistic",
 	},
 	messages: {
-		unexpectedCall: {
+		ambiguity: {
 			primary:
-				"Avoid ambiguous line breaks before parentheses that could be interpreted as function calls.",
+				"This ambiguous line break before {{ after }} will be misinterpreted as a {{ interpretation }}.",
 			secondary: [
-				"When a line ends with an expression and the next line starts with parentheses, it may be interpreted as a function call instead of two separate statements.",
+				"When a line ends with an expression and the next line starts with {{ after }}, it may be interpreted as a {{ interpretation }} instead of two separate statements.",
 				"This can lead to unexpected behavior and runtime errors that are difficult to debug.",
 			],
 			suggestions: [
-				"Add a semicolon after the first expression to make it clear they are separate statements.",
-				"Alternatively, move the parentheses to the same line as the expression if a function call is intended.",
-			],
-		},
-		unexpectedProperty: {
-			primary:
-				"Avoid ambiguous line breaks before brackets that could be interpreted as property access.",
-			secondary: [
-				"When a line ends with an expression and the next line starts with brackets, it may be interpreted as property access instead of two separate statements.",
-				"This can lead to unexpected behavior and runtime errors that are difficult to debug.",
-			],
-			suggestions: [
-				"Add a semicolon after the first expression to make it clear they are separate statements.",
-				"Alternatively, move the brackets to the same line as the expression if property access is intended.",
-			],
-		},
-		unexpectedTemplate: {
-			primary:
-				"Avoid ambiguous line breaks before template literals that could be interpreted as tagged templates.",
-			secondary: [
-				"When a line ends with an expression and the next line starts with a template literal, it may be interpreted as a tagged template instead of two separate statements.",
-				"This can lead to unexpected behavior and runtime errors that are difficult to debug.",
-			],
-			suggestions: [
-				"Add a semicolon after the first expression to make it clear they are separate statements.",
-				"Alternatively, move the template literal to the same line as the expression if a tagged template is intended.",
+				"Add a semicolon after the first line to make it clear they are separate statements.",
+				"Alternatively, move the {{ after }} to the same line as the first expression if a {{ interpretation }} is intended.",
 			],
 		},
 	},
 	setup(context) {
-		function checkNode(node: ts.Node) {
-			let expressionToCheck: ts.Expression | undefined;
-
-			if (ts.isVariableDeclaration(node) && node.initializer) {
-				expressionToCheck = node.initializer;
-			} else if (ts.isExpressionStatement(node)) {
-				expressionToCheck = node.expression;
-			}
-
-			if (!expressionToCheck) {
+		function checkNode(node: ts.Expression, sourceFile: ts.SourceFile) {
+			const ambiguity = findAmbiguity(node, context.sourceFile, node);
+			if (!ambiguity) {
 				return;
 			}
 
-			const result = findAmbiguousExpression(
-				expressionToCheck,
-				context.sourceFile,
-				expressionToCheck,
-			);
-
-			if (!result) {
+			const endLine = getEndLineNumber(ambiguity.endNode, sourceFile);
+			const startLine = getLineNumber(ambiguity.startNode, sourceFile);
+			if (endLine >= startLine) {
 				return;
 			}
 
 			context.report({
-				message: result.message,
+				data: ambiguity.data,
+				message: "ambiguity",
 				range: {
-					begin: result.rangeStart,
-					end: result.rangeEnd,
+					begin: getFirstNonWhitespaceOnLine(startLine, sourceFile),
+					end: node.getEnd(),
 				},
 			});
 		}
 
 		return {
 			visitors: {
-				ExpressionStatement: checkNode,
-				VariableDeclaration: checkNode,
+				ExpressionStatement: (node, { sourceFile }) => {
+					if (ts.isExpressionStatement(node)) {
+						checkNode(node.expression, sourceFile);
+					}
+				},
+				VariableDeclaration: (node, { sourceFile }) => {
+					if (node.initializer) {
+						checkNode(node.initializer, sourceFile);
+					}
+				},
 			},
 		};
 	},

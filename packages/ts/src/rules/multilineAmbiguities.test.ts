@@ -12,7 +12,7 @@ const value = identifier
 const value = identifier
 (expression).doSomething()
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-Avoid ambiguous line breaks before parentheses that could be interpreted as function calls.
+This ambiguous line break before parentheses will be misinterpreted as a function call.
 `,
 		},
 		{
@@ -24,7 +24,7 @@ const value = identifier
 const value = identifier
 [element].forEach(callback)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Avoid ambiguous line breaks before brackets that could be interpreted as property access.
+This ambiguous line break before brackets will be misinterpreted as a property access.
 `,
 		},
 		{
@@ -36,7 +36,7 @@ const value = identifier
 const value = identifier
 \`template literal\`
 ~~~~~~~~~~~~~~~~~~
-Avoid ambiguous line breaks before template literals that could be interpreted as tagged templates.
+This ambiguous line break before a template literal will be misinterpreted as a tagged template.
 `,
 		},
 		{
@@ -48,7 +48,7 @@ const a = b
 const a = b
 (c || d).doSomething()
 ~~~~~~~~~~~~~~~~~~~~~~
-Avoid ambiguous line breaks before parentheses that could be interpreted as function calls.
+This ambiguous line break before parentheses will be misinterpreted as a function call.
 `,
 		},
 		{
@@ -60,7 +60,7 @@ const e = f
 const e = f
 [g].forEach(x => x)
 ~~~~~~~~~~~~~~~~~~~
-Avoid ambiguous line breaks before brackets that could be interpreted as property access.
+This ambiguous line break before brackets will be misinterpreted as a property access.
 `,
 		},
 		{
@@ -72,7 +72,7 @@ const h = i
 const h = i
 \`template\`
 ~~~~~~~~~~
-Avoid ambiguous line breaks before template literals that could be interpreted as tagged templates.
+This ambiguous line break before a template literal will be misinterpreted as a tagged template.
 `,
 		},
 		{
@@ -86,8 +86,8 @@ function test() {
 function test() {
     const result = calculate()
     (value + 1).toString()
-   ~~~~~~~~~~~~~~~~~~~~~~~
-   Avoid ambiguous line breaks before parentheses that could be interpreted as function calls.
+    ~~~~~~~~~~~~~~~~~~~~~~
+    This ambiguous line break before parentheses will be misinterpreted as a function call.
 }
 `,
 		},
@@ -105,8 +105,8 @@ class MyClass {
     method() {
         const data = getData()
         [0].value
-       ~~~~~~~~~~
-       Avoid ambiguous line breaks before brackets that could be interpreted as property access.
+        ~~~~~~~~~
+        This ambiguous line break before brackets will be misinterpreted as a property access.
     }
 }
 `,
