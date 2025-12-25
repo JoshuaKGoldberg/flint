@@ -71,7 +71,6 @@ export async function lintOnce(
 				runtimeStorage,
 				useDefinitions,
 				skipDiagnostics,
-				useDefinitions,
 			));
 
 		filesResults.set(filePath, {

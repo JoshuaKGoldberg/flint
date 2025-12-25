@@ -5,10 +5,6 @@ import { TSNodesByName } from "./nodes.js";
 import { prepareTypeScriptBasedLanguage } from "./prepareTypeScriptBasedLanguage.js";
 import { prepareTypeScriptFile } from "./prepareTypeScriptFile.js";
 
-const log = debugForFile(import.meta.filename);
-
-const projectRoot = path.join(import.meta.dirname, "../..");
-
 export interface TypeScriptFileServices {
 	program: ts.Program;
 	sourceFile: ts.SourceFile;

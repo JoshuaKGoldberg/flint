@@ -1,4 +1,7 @@
-import { LanguageFileDefinition } from "@flint.fyi/core";
+import {
+	LanguageFileCacheImpacts,
+	LanguageFileDefinition,
+} from "@flint.fyi/core";
 import * as ts from "typescript";
 
 import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
