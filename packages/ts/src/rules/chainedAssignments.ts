@@ -29,7 +29,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, { sourceFile }) => {
 					if (!tsutils.isAssignmentKind(node.operatorToken.kind)) {
 						return;
 					}
@@ -49,7 +49,7 @@ export default typescriptLanguage.createRule({
 
 					context.report({
 						message: "noChainedAssignment",
-						range: getTSNodeRange(node.operatorToken, context.sourceFile),
+						range: getTSNodeRange(node.operatorToken, sourceFile),
 					});
 				},
 			},

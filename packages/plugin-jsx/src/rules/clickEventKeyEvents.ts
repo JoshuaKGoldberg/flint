@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const interactiveElements = new Set([
@@ -31,7 +35,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkClickEvent(node: ts.JsxOpeningLikeElement) {
+		function checkClickEvent(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			if (
 				!ts.isIdentifier(node.tagName) ||
 				node.tagName.text.toLowerCase() !== node.tagName.text
@@ -65,7 +72,7 @@ export default typescriptLanguage.createRule({
 			if (onClickName) {
 				context.report({
 					message: "missingKeyEvent",
-					range: getTSNodeRange(onClickName, context.sourceFile),
+					range: getTSNodeRange(onClickName, sourceFile),
 				});
 			}
 		}

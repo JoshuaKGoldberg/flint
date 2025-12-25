@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -22,7 +26,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(node: ts.JsxOpeningLikeElement) {
+		function checkElement(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			if (
 				!ts.isIdentifier(node.tagName) ||
 				node.tagName.text.toLowerCase() === "th"
@@ -44,7 +51,7 @@ export default typescriptLanguage.createRule({
 
 			context.report({
 				message: "invalidScope",
-				range: getTSNodeRange(scopeProperty, context.sourceFile),
+				range: getTSNodeRange(scopeProperty, sourceFile),
 			});
 		}
 

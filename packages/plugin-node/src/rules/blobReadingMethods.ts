@@ -30,7 +30,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
 					if (
 						!ts.isPropertyAccessExpression(node.expression) ||
 						!ts.isIdentifier(node.expression.name)
@@ -52,7 +52,7 @@ export default typescriptLanguage.createRule({
 					const methodName = node.expression.name.text;
 					if (
 						!blobReadingMethods.has(methodName) ||
-						!isGlobalDeclaration(node.expression.name, context.typeChecker)
+						!isGlobalDeclaration(node.expression.name, typeChecker)
 					) {
 						return;
 					}
@@ -60,7 +60,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						data: { method: methodName },
 						message: "preferBlobMethod",
-						range: getTSNodeRange(node, context.sourceFile),
+						range: getTSNodeRange(node, sourceFile),
 					});
 				},
 			},

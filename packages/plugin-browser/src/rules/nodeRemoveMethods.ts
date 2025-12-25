@@ -26,21 +26,19 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
 					if (
 						!ts.isPropertyAccessExpression(node.expression) ||
 						!ts.isIdentifier(node.expression.name) ||
 						node.expression.name.text !== "removeChild" ||
 						node.arguments.length !== 1 ||
-						!isGlobalDeclaration(node.expression, context.typeChecker)
+						!isGlobalDeclaration(node.expression, typeChecker)
 					) {
 						return;
 					}
 
-					const parentText = node.expression.expression.getText(
-						context.sourceFile,
-					);
-					const childText = node.arguments[0].getText(context.sourceFile);
+					const parentText = node.expression.expression.getText(sourceFile);
+					const childText = node.arguments[0].getText(sourceFile);
 
 					context.report({
 						data: {
@@ -49,12 +47,12 @@ export default typescriptLanguage.createRule({
 						},
 						fix: [
 							{
-								range: getTSNodeRange(node, context.sourceFile),
+								range: getTSNodeRange(node, sourceFile),
 								text: `${childText}.remove()`,
 							},
 						],
 						message: "preferRemove",
-						range: getTSNodeRange(node.expression.name, context.sourceFile),
+						range: getTSNodeRange(node.expression.name, sourceFile),
 					});
 				},
 			},

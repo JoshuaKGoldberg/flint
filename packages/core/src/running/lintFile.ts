@@ -1,8 +1,8 @@
+import { makeAbsolute } from "@flint.fyi/utils";
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 
 import { DirectivesFilterer } from "../directives/DirectivesFilterer.js";
-import { ConfigRuleDefinition } from "../types/configs.js";
 import {
 	AnyLanguage,
 	LanguageFileDiagnostic,
@@ -10,15 +10,17 @@ import {
 } from "../types/languages.js";
 import { FileReport } from "../types/reports.js";
 import { computeRulesWithOptions } from "./computeRulesWithOptions.js";
+import { ConfigUseDefinitionWithFiles } from "./computeUseDefinitions.js";
 
 const log = debugForFile(import.meta.filename);
 
 export async function lintFile(
-	filePathAbsolute: string,
+	filePath: string,
 	languageFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
-	ruleDefinitions: ConfigRuleDefinition[],
 	skipDiagnostics: boolean,
+	useDefinitions: ConfigUseDefinitionWithFiles[],
 ) {
+	const filePathAbsolute = makeAbsolute(filePath);
 	log("Linting: %s:", filePathAbsolute);
 
 	const dependencies = new Set<string>();
@@ -28,7 +30,7 @@ export async function lintFile(
 	const languageFiles = new CachedFactory((language: AnyLanguage) =>
 		languageFactories.get(language).prepareFromDisk(filePathAbsolute),
 	);
-	const rulesWithOptions = computeRulesWithOptions(ruleDefinitions);
+	const rulesWithOptions = computeRulesWithOptions(filePath, useDefinitions);
 
 	// TODO: It would probably be good to group rules by language...
 	for (const [rule, options] of rulesWithOptions) {

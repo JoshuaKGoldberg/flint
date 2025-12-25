@@ -38,15 +38,16 @@ export function createTextFile(
 				sourceText,
 			};
 
+			const fileServices = { filePathAbsolute, options, sourceText };
 			const runtime = await rule.setup(context, options);
 
 			if (runtime?.visitors) {
-				runtime.visitors.file?.(sourceText);
+				runtime.visitors.file?.(sourceText, fileServices);
 
 				if (runtime.visitors.line) {
 					const lines = sourceText.split(/\r\n|\n|\r/);
 					for (const line of lines) {
-						runtime.visitors.line(line);
+						runtime.visitors.line(line, fileServices);
 					}
 				}
 			}

@@ -23,11 +23,11 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, { sourceFile }) => {
 					if (node.operatorToken.kind === ts.SyntaxKind.CommaToken) {
 						context.report({
 							message: "noSequences",
-							range: getTSNodeRange(node.operatorToken, context.sourceFile),
+							range: getTSNodeRange(node.operatorToken, sourceFile),
 						});
 					}
 				},

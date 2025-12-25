@@ -26,7 +26,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxAttribute(node: ts.JsxAttribute) {
+				JsxAttribute(node: ts.JsxAttribute, { sourceFile }) {
 					if (
 						!ts.isIdentifier(node.name) ||
 						node.name.text.toLowerCase() !== "tabindex" ||
@@ -40,7 +40,7 @@ export default typescriptLanguage.createRule({
 					if (value !== undefined && value > 0) {
 						context.report({
 							message: "noPositiveTabIndex",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: getTSNodeRange(node, sourceFile),
 						});
 					}
 				},

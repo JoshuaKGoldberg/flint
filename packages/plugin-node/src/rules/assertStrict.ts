@@ -40,7 +40,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				ImportDeclaration(node: ts.ImportDeclaration) {
+				ImportDeclaration(node: ts.ImportDeclaration, { sourceFile }) {
 					if (
 						isStrictAssertImport(node.moduleSpecifier) ||
 						!isImportFromNodeAssert(node.moduleSpecifier)
@@ -64,11 +64,14 @@ export default typescriptLanguage.createRule({
 
 						context.report({
 							message: "preferStrictAssert",
-							range: getTSNodeRange(node.moduleSpecifier, context.sourceFile),
+							range: getTSNodeRange(node.moduleSpecifier, sourceFile),
 						});
 					}
 				},
-				ImportEqualsDeclaration(node: ts.ImportEqualsDeclaration) {
+				ImportEqualsDeclaration(
+					node: ts.ImportEqualsDeclaration,
+					{ sourceFile },
+				) {
 					if (
 						ts.isExternalModuleReference(node.moduleReference) &&
 						isImportFromNodeAssert(node.moduleReference.expression)
@@ -77,7 +80,7 @@ export default typescriptLanguage.createRule({
 							message: "preferStrictAssert",
 							range: getTSNodeRange(
 								node.moduleReference.expression,
-								context.sourceFile,
+								sourceFile,
 							),
 						});
 					}
