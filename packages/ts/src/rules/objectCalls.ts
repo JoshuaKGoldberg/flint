@@ -2,36 +2,39 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
-import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
+import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.js";
 
 export default typescriptLanguage.createRule({
 	about: {
 		description:
-			"Use object literal notation {} or Object.create instead of calling or constructing Object.",
+			"Prefer `{}` object literal notation or `Object.create` instead of calling or constructing `Object`.",
 		id: "objectCalls",
-		preset: "logical",
+		preset: "stylistic",
 	},
 	messages: {
 		preferObjectLiteral: {
 			primary:
-				"Use object literal notation {} or Object.create instead of calling or constructing Object.",
+				"Prefer directly using `{}` instead of calling or constructing `Object`.",
 			secondary: [
-				"Calling or constructing Object with Object() or new Object() is unnecessarily verbose and less idiomatic than using object literal syntax.",
-				"Object literal notation {} is the preferred and more concise way to create plain objects.",
-				"For creating objects without a prototype, use Object.create(null).",
+				"Calling or constructing Object with `Object()` or `new Object()` is unnecessarily verbose and less idiomatic than using object literal syntax.",
+				"`{}` object literal notation is the preferred and more concise way to create plain objects.",
+				"For creating objects without a prototype, use `Object.create(null)`.",
 			],
 			suggestions: [
-				"Replace Object() or new Object() with {} to create an empty object.",
-				"Use Object.create(null) when you need an object without a prototype.",
+				"Replace `Object()` or `new Object()` with `{}` to create an empty object.",
+				"Use `Object.create(null)` when you need an object without a prototype.",
 			],
 		},
 	},
 	setup(context) {
-		function checkObjectCall(node: ts.CallExpression | ts.NewExpression): void {
+		function checkNode(node: ts.CallExpression | ts.NewExpression): void {
 			if (
 				!ts.isIdentifier(node.expression) ||
-				node.expression.text !== "Object" ||
-				!isGlobalDeclaration(node.expression, context.typeChecker)
+				!isGlobalDeclarationOfName(
+					node.expression,
+					"Object",
+					context.typeChecker,
+				)
 			) {
 				return;
 			}
@@ -49,8 +52,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression: checkObjectCall,
-				NewExpression: checkObjectCall,
+				CallExpression: checkNode,
+				NewExpression: checkNode,
 			},
 		};
 	},
