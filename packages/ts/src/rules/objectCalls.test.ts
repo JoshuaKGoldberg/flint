@@ -10,7 +10,7 @@ const value = new Object();
 			snapshot: `
 const value = new Object();
               ~~~
-              Use object literal notation {} or Object.create instead of calling Object as a constructor.
+              Use object literal notation {} or Object.create instead of calling or constructing Object.
 `,
 		},
 		{
@@ -21,10 +21,10 @@ const filled = new Object({ key: "value" });
 			snapshot: `
 const empty = new Object();
               ~~~
-              Use object literal notation {} or Object.create instead of calling Object as a constructor.
+              Use object literal notation {} or Object.create instead of calling or constructing Object.
 const filled = new Object({ key: "value" });
                ~~~
-               Use object literal notation {} or Object.create instead of calling Object as a constructor.
+               Use object literal notation {} or Object.create instead of calling or constructing Object.
 `,
 		},
 		{
@@ -37,7 +37,7 @@ function createObject() {
 function createObject() {
     return new Object();
            ~~~
-           Use object literal notation {} or Object.create instead of calling Object as a constructor.
+           Use object literal notation {} or Object.create instead of calling or constructing Object.
 }
 `,
 		},
@@ -48,7 +48,7 @@ const config = condition ? new Object() : { default: true };
 			snapshot: `
 const config = condition ? new Object() : { default: true };
                            ~~~
-                           Use object literal notation {} or Object.create instead of calling Object as a constructor.
+                           Use object literal notation {} or Object.create instead of calling or constructing Object.
 `,
 		},
 		{
@@ -58,9 +58,9 @@ const array = [new Object(), new Object()];
 			snapshot: `
 const array = [new Object(), new Object()];
                ~~~
-               Use object literal notation {} or Object.create instead of calling Object as a constructor.
+               Use object literal notation {} or Object.create instead of calling or constructing Object.
                              ~~~
-                             Use object literal notation {} or Object.create instead of calling Object as a constructor.
+                             Use object literal notation {} or Object.create instead of calling or constructing Object.
 `,
 		},
 		{
@@ -70,7 +70,7 @@ const nested = { inner: new Object() };
 			snapshot: `
 const nested = { inner: new Object() };
                         ~~~
-                        Use object literal notation {} or Object.create instead of calling Object as a constructor.
+                        Use object literal notation {} or Object.create instead of calling or constructing Object.
 `,
 		},
 		{
@@ -80,7 +80,73 @@ processData(new Object());
 			snapshot: `
 processData(new Object());
             ~~~
-            Use object literal notation {} or Object.create instead of calling Object as a constructor.
+            Use object literal notation {} or Object.create instead of calling or constructing Object.
+`,
+		},
+		{
+			code: `
+const value = Object();
+`,
+			snapshot: `
+const value = Object();
+              ~~~~~~
+              Use object literal notation {} or Object.create instead of calling or constructing Object.
+`,
+		},
+		{
+			code: `
+const filled = Object({ key: "value" });
+`,
+			snapshot: `
+const filled = Object({ key: "value" });
+               ~~~~~~
+               Use object literal notation {} or Object.create instead of calling or constructing Object.
+`,
+		},
+		{
+			code: `
+function createObject() {
+    return Object();
+}
+`,
+			snapshot: `
+function createObject() {
+    return Object();
+           ~~~~~~
+           Use object literal notation {} or Object.create instead of calling or constructing Object.
+}
+`,
+		},
+		{
+			code: `
+const config = condition ? Object() : { default: true };
+`,
+			snapshot: `
+const config = condition ? Object() : { default: true };
+                           ~~~~~~
+                           Use object literal notation {} or Object.create instead of calling or constructing Object.
+`,
+		},
+		{
+			code: `
+const array = [Object(), Object()];
+`,
+			snapshot: `
+const array = [Object(), Object()];
+               ~~~~~~
+               Use object literal notation {} or Object.create instead of calling or constructing Object.
+                         ~~~~~~
+                         Use object literal notation {} or Object.create instead of calling or constructing Object.
+`,
+		},
+		{
+			code: `
+processData(Object());
+`,
+			snapshot: `
+processData(Object());
+            ~~~~~~
+            Use object literal notation {} or Object.create instead of calling or constructing Object.
 `,
 		},
 	],

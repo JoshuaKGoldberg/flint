@@ -1,5 +1,5 @@
 ---
-description: "Use object literal notation {} or Object.create instead of calling Object as a constructor."
+description: "Use object literal notation {} or Object.create instead of calling or constructing Object."
 title: "objectCalls"
 ---
 
@@ -9,7 +9,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="ts" rule="objectCalls" />
 
-Calling `Object` as a constructor with `new Object()` is unnecessarily verbose and less idiomatic than using object literal syntax.
+Calling or constructing the global `Object` directly is unnecessarily verbose and less idiomatic than using object literal syntax.
 Object literal notation `{}` is the preferred and more concise way to create plain objects in JavaScript and TypeScript.
 
 ## Examples
@@ -22,13 +22,15 @@ const emptyObject = new Object();
 ```
 
 ```ts
+const emptyObject = Object();
+```
+
+```ts
 const config = new Object({ key: "value" });
 ```
 
 ```ts
-function createEmpty() {
-	return new Object();
-}
+const config = Object({ key: "value" });
 ```
 
 </TabItem>
@@ -40,12 +42,6 @@ const emptyObject = {};
 
 ```ts
 const config = { key: "value" };
-```
-
-```ts
-function createEmpty() {
-	return {};
-}
 ```
 
 ```ts
@@ -65,8 +61,9 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-If you have a very large codebase with extensive use of `new Object()`, migrating all instances may be time-consuming.
-However, the migration is straightforward and the benefits of using object literals are significant.
+If you have an existing codebase style that would be difficult to migrate away from, such as for consistency preferences with legacy code.
+
+If you target a legacy runtime with behavioral quirks where object literals behave differently than `Object()` calls.
 
 ## Further Reading
 
