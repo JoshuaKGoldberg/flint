@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.js";
 import rule from "./functionCurryingRedundancy.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [
@@ -10,13 +10,19 @@ function add(a, b) {
 }
 const result = add.call(undefined, 1, 2);
 `,
+			output: `
+function add(a, b) {
+    return a + b;
+}
+const result = add(1, 2);
+`,
 			snapshot: `
 function add(a, b) {
     return a + b;
 }
 const result = add.call(undefined, 1, 2);
                   ~~~~~~~~~~~~~~~~~~~~~~
-                  Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.
+                  This "currying" of a function without a defined context does nothing and can be simplified.
 `,
 		},
 		{
@@ -25,6 +31,12 @@ function add(a, b) {
     return a + b;
 }
 const result = add.call(null, 1, 2);
+`,
+			output: `
+function add(a, b) {
+    return a + b;
+}
+const result = add(1, 2);
 `,
 			snapshot: `
 function add(a, b) {
@@ -32,7 +44,7 @@ function add(a, b) {
 }
 const result = add.call(null, 1, 2);
                   ~~~~~~~~~~~~~~~~~
-                  Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.
+                  This "currying" of a function without a defined context does nothing and can be simplified.
 `,
 		},
 		{
@@ -41,6 +53,12 @@ function add(a, b) {
     return a + b;
 }
 const result = add.apply(undefined, [1, 2]);
+`,
+			output: `
+function add(a, b) {
+    return a + b;
+}
+const result = add(...[1, 2]);
 `,
 			snapshot: `
 function add(a, b) {
@@ -48,7 +66,7 @@ function add(a, b) {
 }
 const result = add.apply(undefined, [1, 2]);
                   ~~~~~~~~~~~~~~~~~~~~~~~~~
-                  Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.
+                  This "currying" of a function without a defined context does nothing and can be simplified.
 `,
 		},
 		{
@@ -57,6 +75,12 @@ function add(a, b) {
     return a + b;
 }
 const result = add.apply(null, [1, 2]);
+`,
+			output: `
+function add(a, b) {
+    return a + b;
+}
+const result = add(...[1, 2]);
 `,
 			snapshot: `
 function add(a, b) {
@@ -64,7 +88,7 @@ function add(a, b) {
 }
 const result = add.apply(null, [1, 2]);
                   ~~~~~~~~~~~~~~~~~~~~
-                  Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.
+                  This "currying" of a function without a defined context does nothing and can be simplified.
 `,
 		},
 		{
@@ -72,11 +96,15 @@ const result = add.apply(null, [1, 2]);
 const fn = (x: number) => x * 2;
 const value = fn.call(undefined, 5);
 `,
+			output: `
+const fn = (x: number) => x * 2;
+const value = fn(5);
+`,
 			snapshot: `
 const fn = (x: number) => x * 2;
 const value = fn.call(undefined, 5);
                 ~~~~~~~~~~~~~~~~~~~
-                Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.
+                This "currying" of a function without a defined context does nothing and can be simplified.
 `,
 		},
 		{
@@ -85,6 +113,12 @@ const callback = function(name: string) {
     return name.toUpperCase();
 };
 callback.apply(null, ["test"]);
+`,
+			output: `
+const callback = function(name: string) {
+    return name.toUpperCase();
+};
+callback(...["test"]);
 `,
 			snapshot: `
 const callback = function(name: string) {
@@ -92,7 +126,7 @@ const callback = function(name: string) {
 };
 callback.apply(null, ["test"]);
         ~~~~~~~~~~~~~~~~~~~~~~
-        Prefer direct function calls over unnecessary .call() or .apply() with null or undefined context.
+        This "currying" of a function without a defined context does nothing and can be simplified.
 `,
 		},
 	],
@@ -116,6 +150,23 @@ const obj = {
     }
 };
 const result = obj.getValue.call(obj);
+`,
+		// Test case for the bug: interface with apply/call methods that aren't from Function.prototype
+		`
+interface CustomInterface {
+    apply(...args: unknown[]): void;
+}
+
+declare const customObj: CustomInterface;
+customObj.apply(null, "abc");
+`,
+		`
+interface CustomInterface {
+    call(...args: unknown[]): void;
+}
+
+declare const customObj: CustomInterface;
+customObj.call(null, "abc");
 `,
 	],
 });

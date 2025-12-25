@@ -25,7 +25,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression: (node) => {
+				CallExpression: (node, { sourceFile, typeChecker }) => {
 					if (!ts.isPropertyAccessExpression(node.expression)) {
 						return;
 					}
@@ -39,6 +39,16 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
+					// Verify that the object being called is actually a function
+					const objectType = typeChecker.getTypeAtLocation(
+						node.expression.expression,
+					);
+					const callSignatures = objectType.getCallSignatures();
+
+					if (callSignatures.length === 0) {
+						return;
+					}
+
 					const firstArgument = node.arguments[0];
 
 					if (
@@ -47,10 +57,39 @@ export default typescriptLanguage.createRule({
 						(ts.isIdentifier(firstArgument) &&
 							firstArgument.text === "undefined")
 					) {
+						// Create the fix
+						const functionExpression =
+							node.expression.expression.getText(sourceFile);
+						const methodArguments = node.arguments.slice(1);
+
+						let fixText: string;
+						if (methodName === "apply") {
+							// For .apply(), the second argument is an array of arguments
+							if (methodArguments.length > 0) {
+								const argsArray = methodArguments[0];
+								fixText = `${functionExpression}(...${argsArray.getText(sourceFile)})`;
+							} else {
+								fixText = `${functionExpression}()`;
+							}
+						} else {
+							// For .call(), arguments are passed directly
+							const argsText = methodArguments
+								.map((arg) => arg.getText(sourceFile))
+								.join(", ");
+							fixText = `${functionExpression}(${argsText})`;
+						}
+
 						context.report({
+							fix: {
+								range: {
+									begin: node.getStart(sourceFile),
+									end: node.getEnd(),
+								},
+								text: fixText,
+							},
 							message: "unnecessaryCall",
 							range: {
-								begin: node.expression.name.getStart(context.sourceFile) - 1,
+								begin: node.expression.name.getStart(sourceFile) - 1,
 								end: node.getEnd(),
 							},
 						});
