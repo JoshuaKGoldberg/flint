@@ -21,6 +21,7 @@ import finallyStatementSafety from "./rules/finallyStatementSafety.js";
 import forDirections from "./rules/forDirections.js";
 import forInArrays from "./rules/forInArrays.js";
 import functionAssignments from "./rules/functionAssignments.js";
+import functionCurryingRedundancy from "./rules/functionCurryingRedundancy.js";
 import functionNewCalls from "./rules/functionNewCalls.js";
 import generatorFunctionYields from "./rules/generatorFunctionYields.js";
 import globalAssignments from "./rules/globalAssignments.js";
@@ -81,6 +82,7 @@ export const ts = createPlugin({
 		forDirections,
 		forInArrays,
 		functionAssignments,
+		functionCurryingRedundancy,
 		functionNewCalls,
 		generatorFunctionYields,
 		globalAssignments,
