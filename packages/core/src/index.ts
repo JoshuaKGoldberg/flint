@@ -12,6 +12,10 @@ export { createPlugin } from "./plugins/createPlugin.js";
 export { formatReportPrimary } from "./reporting/formatReportPrimary.js";
 export { lintFixing } from "./running/lintFixing.js";
 export { lintOnce } from "./running/lintOnce.js";
+export {
+	setTSExtraSupportedExtensions,
+	setTSProgramCreationProxy,
+} from "./ts-patch/proxy-program.js";
 export * from "./types/about.js";
 export * from "./types/cache.js";
 export * from "./types/changes.js";
@@ -26,4 +30,6 @@ export * from "./types/ranges.js";
 export * from "./types/reports.js";
 export * from "./types/rules.js";
 export * from "./types/shapes.js";
+export { binarySearch } from "./utils/arrays.js";
+export * from "./utils/getColumnAndLineOfPosition.js";
 export * from "./utils/predicates.js";

@@ -1,5 +1,27 @@
 # @flint/core
 
+## 0.16.0
+
+### Minor Changes
+
+- 1bbae2e: feat(core): add `binarySearch` and `getLineAndColumnOfPosition` utilities
+
+### Patch Changes
+
+- 11abdff: fix(core): properly resolve `flint-disable-*` directives selection when comment has trailing whitespaces
+
+## 0.15.2
+
+### Patch Changes
+
+- 5bca9c4: fix(core): make `Rule` type assignable to `AnyRule`
+
+## 0.15.1
+
+### Patch Changes
+
+- 3d19082: fix: use 0-indexed column and line across codebase
+
 ## 0.15.0
 
 ### Minor Changes

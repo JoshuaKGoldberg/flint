@@ -1,0 +1,54 @@
+---
+description: "Prefer files without a Unicode Byte Order Mark (BOM)."
+title: "unicodeBOMs"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="unicodeBOMs" />
+
+The Unicode Byte Order Mark (BOM) is a special character (U+FEFF) that can appear at the start of a file to indicate its byte order and encoding.
+While it can be useful in some contexts, it is generally unnecessary in UTF-8 files and can cause issues with some tools and editors that do not expect it.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+// File starts with BOM character (U+FEFF)
+const value = 42;
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+// File without BOM character
+const value = 42;
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you are working in an environment that specifically requires UTF-8 files to have a BOM, you might choose to disable this rule.
+However, this is uncommon in modern development, as most tools and editors handle UTF-8 files without a BOM correctly.
+
+## Further Reading
+
+- [MDN: Byte Order Mark](https://developer.mozilla.org/en-US/docs/Glossary/Byte_order_mark)
+- [Wikipedia: Byte Order Mark](https://en.wikipedia.org/wiki/Byte_order_mark)
+- [UTF-8 and Unicode FAQ](https://www.unicode.org/faq/utf_bom.html)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="unicodeBOMs" />

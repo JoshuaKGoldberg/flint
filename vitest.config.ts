@@ -9,8 +9,14 @@ export default defineConfig({
 				include: ["**/src/**/*.test.ts"],
 				name,
 				root: `./packages/${name}`,
-				setupFiles: ["console-fail-test/setup"],
+				setupFiles: [
+					"console-fail-test/setup",
+					"../core/lib/ts-patch/install-patch-hooks.js",
+				],
 				testTimeout: 10_000,
+				typecheck: {
+					enabled: true,
+				},
 			},
 		})),
 	},

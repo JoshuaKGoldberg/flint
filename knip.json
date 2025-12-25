@@ -3,7 +3,17 @@
 	"ignore": ["flint.config.*", "packages/fixtures/*"],
 	"ignoreDependencies": ["flint", "^@flint\\.fyi\\/.*"],
 	"ignoreExportsUsedInFile": { "interface": true, "type": true },
+	"ignoreUnresolved": [".*/lib/ts-patch/install-patch-hooks.js"],
 	"workspaces": {
+		"packages/core": {
+			"entry": [
+				"src/ts-patch/install-patch.ts",
+				"src/ts-patch/install-patch-hooks.ts"
+			]
+		},
+		"packages/comparisons": {
+			"entry": ["src/sort-data.ts"]
+		},
 		"packages/site": {
 			"entry": ["src/components/*.astro"],
 			"ignoreDependencies": ["sharp"]

@@ -10,7 +10,7 @@ export interface FileReport extends NormalizedReport {
 }
 
 export interface FileReportWithFix extends FileReport {
-	fix: Fix;
+	fix: Fix[];
 }
 
 export interface NormalizedReportRangeObject {
@@ -22,21 +22,21 @@ export interface NormalizedReportRangeObject {
  * A full rule report that can be used to display to users via a reporter.
  */
 export interface NormalizedReport {
-	data?: ReportInterpolationData;
+	data?: ReportInterpolationData | undefined;
 
 	/**
 	 * Any files that should be factored into caching this report.
 	 */
 	dependencies?: string[];
 
-	fix?: Fix;
+	fix?: Fix[] | undefined;
 	message: ReportMessageData;
 	range: NormalizedReportRangeObject;
-	suggestions?: Suggestion[];
+	suggestions?: Suggestion[] | undefined;
 }
 
 export interface NormalizedRuleReportWithFix extends NormalizedReport {
-	fix: Fix;
+	fix: Fix[];
 }
 
 export type ReportInterpolationData = Record<string, boolean | number | string>;
@@ -45,16 +45,16 @@ export type ReportInterpolationData = Record<string, boolean | number | string>;
  * The internal raw rule report format used by rules themselves.
  */
 export interface RuleReport<Message extends string = string> {
-	data?: ReportInterpolationData;
+	data?: ReportInterpolationData | undefined;
 
 	/**
 	 * Any files that should be factored into caching this report.
 	 */
 	dependencies?: string[];
 
-	fix?: Fix;
+	fix?: Fix | Fix[] | undefined;
 	message: Message;
-	suggestions?: Suggestion[];
+	suggestions?: Suggestion[] | undefined;
 
 	/**
 	 * Which specific characters in the source file are affected by this report.

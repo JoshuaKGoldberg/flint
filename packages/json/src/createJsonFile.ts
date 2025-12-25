@@ -24,6 +24,10 @@ export function createTypeScriptJsonFile(
 				report: (report: RuleReport) => {
 					reports.push({
 						...report,
+						fix:
+							report.fix && !Array.isArray(report.fix)
+								? [report.fix]
+								: report.fix,
 						message: rule.messages[report.message],
 						range: normalizeRange(report.range, sourceFile),
 					});
@@ -37,10 +41,11 @@ export function createTypeScriptJsonFile(
 				return reports;
 			}
 
+			const fileServices = { options, sourceFile };
 			const { visitors } = runtime;
 
 			const visit = (node: ts.Node) => {
-				visitors[ts.SyntaxKind[node.kind]]?.(node);
+				visitors[ts.SyntaxKind[node.kind]]?.(node, fileServices);
 
 				node.forEachChild(visit);
 			};
