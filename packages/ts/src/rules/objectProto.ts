@@ -28,7 +28,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				ElementAccessExpression: (node) => {
+				ElementAccessExpression: (node, { sourceFile }) => {
 					if (
 						ts.isStringLiteral(node.argumentExpression) &&
 						node.argumentExpression.text === "__proto__"
@@ -36,13 +36,13 @@ export default typescriptLanguage.createRule({
 						context.report({
 							message: "noProto",
 							range: {
-								begin: node.argumentExpression.getStart(context.sourceFile),
+								begin: node.argumentExpression.getStart(sourceFile),
 								end: node.argumentExpression.getEnd(),
 							},
 						});
 					}
 				},
-				PropertyAccessExpression: (node) => {
+				PropertyAccessExpression: (node, { sourceFile }) => {
 					if (
 						node.name.kind === ts.SyntaxKind.Identifier &&
 						node.name.text === "__proto__"
@@ -50,7 +50,7 @@ export default typescriptLanguage.createRule({
 						context.report({
 							message: "noProto",
 							range: {
-								begin: node.name.getStart(context.sourceFile),
+								begin: node.name.getStart(sourceFile),
 								end: node.name.getEnd(),
 							},
 						});

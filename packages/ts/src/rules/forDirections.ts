@@ -136,7 +136,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				ForStatement: (node) => {
+				ForStatement: (node, { sourceFile }) => {
 					if (
 						!node.condition ||
 						!node.incrementor ||
@@ -164,7 +164,7 @@ export default typescriptLanguage.createRule({
 					if (conditionDirection && conditionDirection !== updateDirection) {
 						context.report({
 							message: "wrongDirection",
-							range: getTSNodeRange(node.incrementor, context.sourceFile),
+							range: getTSNodeRange(node.incrementor, sourceFile),
 						});
 					}
 				},

@@ -1,4 +1,4 @@
-import { typescriptLanguage } from "@flint.fyi/ts";
+import { TypeScriptFileServices, typescriptLanguage } from "@flint.fyi/ts";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
@@ -106,16 +106,17 @@ export default typescriptLanguage.createRule({
 			node: ts.Node,
 			loopNode: ts.Node,
 			loopVariables: Set<string>,
+			sourceFile: ts.SourceFile,
 		): void {
 			if (tsutils.isFunctionScopeBoundary(node)) {
 				if (referencesLoopVariable(node, loopVariables, loopNode)) {
-					const start = node.getStart(context.sourceFile);
+					const start = node.getStart(sourceFile);
 					let keyword = "function";
 
 					if (ts.isFunctionDeclaration(node) || ts.isFunctionExpression(node)) {
 						keyword = "function";
 					} else if (ts.isArrowFunction(node)) {
-						const firstToken = node.getFirstToken(context.sourceFile);
+						const firstToken = node.getFirstToken(sourceFile);
 						if (firstToken && ts.isIdentifier(firstToken)) {
 							keyword = firstToken.text;
 						} else {
@@ -145,14 +146,17 @@ export default typescriptLanguage.createRule({
 			}
 
 			ts.forEachChild(node, (child) => {
-				checkFunctionInLoop(child, loopNode, loopVariables);
+				checkFunctionInLoop(child, loopNode, loopVariables, sourceFile);
 			});
 		}
 
-		function checkLoopStatement(node: ts.Node & { statement: ts.Node }) {
+		function checkLoopStatement(
+			node: ts.Node & { statement: ts.Node },
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			const loopVariables = getLoopVariables(node);
 			if (loopVariables.size > 0) {
-				checkFunctionInLoop(node.statement, node, loopVariables);
+				checkFunctionInLoop(node.statement, node, loopVariables, sourceFile);
 			}
 		}
 

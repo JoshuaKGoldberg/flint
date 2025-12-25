@@ -31,28 +31,34 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkIdentifier(node: ts.Identifier): void {
+		function checkIdentifier(
+			node: ts.Identifier,
+			sourceFile: ts.SourceFile,
+		): void {
 			if (restrictedNames.has(node.text)) {
 				context.report({
 					data: {
 						name: node.text,
 					},
 					message: "shadowedRestrictedName",
-					range: getTSNodeRange(node, context.sourceFile),
+					range: getTSNodeRange(node, sourceFile),
 				});
 			}
 		}
 
-		function checkBindingName(name: ts.BindingName): void {
+		function checkBindingName(
+			name: ts.BindingName,
+			sourceFile: ts.SourceFile,
+		): void {
 			if (ts.isIdentifier(name)) {
-				checkIdentifier(name);
+				checkIdentifier(name, sourceFile);
 			} else if (
 				ts.isObjectBindingPattern(name) ||
 				ts.isArrayBindingPattern(name)
 			) {
 				for (const element of name.elements) {
 					if (ts.isBindingElement(element)) {
-						checkBindingName(element.name);
+						checkBindingName(element.name, sourceFile);
 					}
 				}
 			}
@@ -60,44 +66,45 @@ export default typescriptLanguage.createRule({
 
 		function checkParameters(
 			parameters: ts.NodeArray<ts.ParameterDeclaration>,
+			sourceFile: ts.SourceFile,
 		): void {
 			for (const parameter of parameters) {
-				checkBindingName(parameter.name);
+				checkBindingName(parameter.name, sourceFile);
 			}
 		}
 
 		return {
 			visitors: {
-				ArrowFunction: (node) => {
-					checkParameters(node.parameters);
+				ArrowFunction: (node, { sourceFile }) => {
+					checkParameters(node.parameters, sourceFile);
 				},
-				ClassDeclaration: (node) => {
+				ClassDeclaration: (node, { sourceFile }) => {
 					if (node.name) {
-						checkIdentifier(node.name);
+						checkIdentifier(node.name, sourceFile);
 					}
 				},
-				ClassExpression: (node) => {
+				ClassExpression: (node, { sourceFile }) => {
 					if (node.name) {
-						checkIdentifier(node.name);
+						checkIdentifier(node.name, sourceFile);
 					}
 				},
-				FunctionDeclaration: (node) => {
+				FunctionDeclaration: (node, { sourceFile }) => {
 					if (node.name) {
-						checkIdentifier(node.name);
+						checkIdentifier(node.name, sourceFile);
 					}
-					checkParameters(node.parameters);
+					checkParameters(node.parameters, sourceFile);
 				},
-				FunctionExpression: (node) => {
+				FunctionExpression: (node, { sourceFile }) => {
 					if (node.name) {
-						checkIdentifier(node.name);
+						checkIdentifier(node.name, sourceFile);
 					}
-					checkParameters(node.parameters);
+					checkParameters(node.parameters, sourceFile);
 				},
-				MethodDeclaration: (node) => {
-					checkParameters(node.parameters);
+				MethodDeclaration: (node, { sourceFile }) => {
+					checkParameters(node.parameters, sourceFile);
 				},
-				VariableDeclaration: (node) => {
-					checkBindingName(node.name);
+				VariableDeclaration: (node, { sourceFile }) => {
+					checkBindingName(node.name, sourceFile);
 				},
 			},
 		};

@@ -50,14 +50,11 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				NewExpression: (node) => {
+				NewExpression: (node, { sourceFile }) => {
 					if (isStandaloneExpression(node)) {
 						context.report({
 							message: "noStandaloneNew",
-							range: getTSNodeRange(
-								node.getChildAt(0, context.sourceFile),
-								context.sourceFile,
-							),
+							range: getTSNodeRange(node.getChildAt(0, sourceFile), sourceFile),
 						});
 					}
 				},

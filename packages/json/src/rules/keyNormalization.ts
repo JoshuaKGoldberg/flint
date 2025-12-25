@@ -31,10 +31,13 @@ export default jsonLanguage.createRule({
 				"Unicode normalization form to use when checking keys. Must be one of: NFC (default), NFD, NFKC, or NFKD.",
 			),
 	},
-	setup(context, { form = "NFC" }) {
+	setup(context) {
 		return {
 			visitors: {
-				ObjectLiteralExpression(node) {
+				ObjectLiteralExpression(
+					node,
+					{ options: { form = "NFC" }, sourceFile },
+				) {
 					for (const property of node.properties) {
 						if (
 							!ts.isPropertyAssignment(property) ||
@@ -54,14 +57,14 @@ export default jsonLanguage.createRule({
 							data: { form },
 							message: "unnormalizedKey",
 							range: {
-								begin: property.name.getStart(context.sourceFile),
+								begin: property.name.getStart(sourceFile),
 								end: property.name.end,
 							},
 							suggestions: [
 								{
 									id: "normalizeKey",
 									range: {
-										begin: property.name.getStart(context.sourceFile) + 1,
+										begin: property.name.getStart(sourceFile) + 1,
 										end: property.name.end - 1,
 									},
 									text: normalizedKey,

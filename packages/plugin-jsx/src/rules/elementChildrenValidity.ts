@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const voidElements = new Set([
@@ -43,7 +47,10 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxElement(node: ts.JsxElement) {
+				JsxElement(
+					node: ts.JsxElement,
+					{ sourceFile }: TypeScriptFileServices,
+				) {
 					if (!node.children.length) {
 						return;
 					}
@@ -61,7 +68,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						data: { element: elementName },
 						message: "voidElementWithChildren",
-						range: getTSNodeRange(openingElement.tagName, context.sourceFile),
+						range: getTSNodeRange(openingElement.tagName, sourceFile),
 					});
 				},
 			},

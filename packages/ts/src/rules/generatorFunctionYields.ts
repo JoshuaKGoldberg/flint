@@ -1,7 +1,7 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import { TypeScriptFileServices, typescriptLanguage } from "../language.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -38,6 +38,7 @@ export default typescriptLanguage.createRule({
 				| ts.FunctionDeclaration
 				| ts.FunctionExpression
 				| ts.MethodDeclaration,
+			{ sourceFile }: TypeScriptFileServices,
 		): void {
 			if (!node.asteriskToken || !node.body || blockContainsYield(node.body)) {
 				return;
@@ -46,7 +47,7 @@ export default typescriptLanguage.createRule({
 			context.report({
 				message: "missingYield",
 				range: {
-					begin: node.asteriskToken.getStart(context.sourceFile),
+					begin: node.asteriskToken.getStart(sourceFile),
 					end: node.asteriskToken.getEnd(),
 				},
 			});
