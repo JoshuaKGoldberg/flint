@@ -12542,7 +12542,7 @@
 			}
 		],
 		"flint": {
-			"name": "methodSignatureStyle",
+			"name": "methodSignatureStyles",
 			"plugin": "ts",
 			"preset": "stylistic"
 		}
@@ -17055,9 +17055,8 @@
 			}
 		],
 		"flint": {
-			"name": "typeConstituentSorting",
-			"plugin": "ts",
-			"status": "skipped"
+			"name": "typeConstituents",
+			"plugin": "sorting"
 		}
 	},
 	{
@@ -17068,7 +17067,7 @@
 			}
 		],
 		"flint": {
-			"name": "typeDefinitions",
+			"name": "typeAnnotations",
 			"plugin": "ts",
 			"status": "skipped"
 		}
