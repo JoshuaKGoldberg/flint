@@ -34,6 +34,7 @@ export async function lintFile(
 	runtimeStorage: RuntimeStorage,
 	useDefinitions: ConfigUseDefinitionWithFiles[],
 	skipDiagnostics: boolean,
+	useDefinitions: ConfigUseDefinitionWithFiles[],
 ) {
 	const filePathAbsolute = makeAbsolute(filePath);
 	const results: LintFileResults = {
