@@ -95,11 +95,11 @@ export default textLanguage.createRule({
 				}
 			},
 			visitors: {
-				file: (text, { filePathAbsolute, sourceText }) => {
+				file: (text, { filePathAbsolute }) => {
 					fileTasks.push({
 						documentValidatorTask: createDocumentValidator(
 							filePathAbsolute,
-							sourceText,
+							text,
 						),
 						text,
 					});
