@@ -20,6 +20,7 @@ import exceptionAssignments from "./rules/exceptionAssignments.js";
 import forDirections from "./rules/forDirections.js";
 import forInArrays from "./rules/forInArrays.js";
 import functionAssignments from "./rules/functionAssignments.js";
+import functionCurryingRedundancy from "./rules/functionCurryingRedundancy.js";
 import functionNewCalls from "./rules/functionNewCalls.js";
 import generatorFunctionYields from "./rules/generatorFunctionYields.js";
 import globalAssignments from "./rules/globalAssignments.js";
@@ -47,7 +48,6 @@ import unicodeBOMs from "./rules/unicodeBOMs.js";
 import unnecessaryBlocks from "./rules/unnecessaryBlocks.js";
 import unnecessaryCatches from "./rules/unnecessaryCatches.js";
 import unnecessaryConcatenation from "./rules/unnecessaryConcatenation.js";
-import functionCurryingRedundancy from "./rules/functionCurryingRedundancy.js";
 import unsafeNegations from "./rules/unsafeNegations.js";
 import variableDeletions from "./rules/variableDeletions.js";
 import voidOperator from "./rules/voidOperator.js";
@@ -79,6 +79,7 @@ export const ts = createPlugin({
 		forDirections,
 		forInArrays,
 		functionAssignments,
+		functionCurryingRedundancy,
 		functionNewCalls,
 		generatorFunctionYields,
 		globalAssignments,
@@ -106,7 +107,6 @@ export const ts = createPlugin({
 		unnecessaryBlocks,
 		unnecessaryCatches,
 		unnecessaryConcatenation,
-		functionCurryingRedundancy,
 		unsafeNegations,
 		variableDeletions,
 		voidOperator,
