@@ -60,9 +60,9 @@ export interface RuleDefinition<
 	>;
 }
 
-export interface RuleRuntime<AstNodesByName> {
+export interface RuleRuntime<AstNodesByName, FileServices extends object> {
 	dependencies?: string[];
-	visitors?: RuleVisitors<AstNodesByName>;
+	visitors?: RuleVisitors<AstNodesByName, FileServices>;
 }
 
 export type RuleSetup<
@@ -73,10 +73,19 @@ export type RuleSetup<
 > = (
 	context: ContextServices & RuleContext<MessageId>,
 	options: Options,
-) => PromiseOrSync<RuleRuntime<AstNodesByName> | undefined>;
+) => PromiseOrSync<
+	| RuleRuntime<AstNodesByName, ContextServices & { options: Options }>
+	| undefined
+>;
 
-export type RuleVisitor<ASTNode> = (node: ASTNode) => void;
+export type RuleVisitor<ASTNode, FileServices extends object> = (
+	node: ASTNode,
+	services: FileServices,
+) => void;
 
-export type RuleVisitors<AstNodesByName> = {
-	[Kind in keyof AstNodesByName]?: RuleVisitor<AstNodesByName[Kind]>;
+export type RuleVisitors<AstNodesByName, FileServices extends object> = {
+	[Kind in keyof AstNodesByName]?: RuleVisitor<
+		AstNodesByName[Kind],
+		FileServices
+	>;
 };

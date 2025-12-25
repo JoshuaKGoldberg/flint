@@ -30,8 +30,11 @@ export default typescriptLanguage.createRule({
 			);
 		}
 
-		function isIdentifierNamespaceImport(identifier: ts.Identifier) {
-			return context.typeChecker
+		function isIdentifierNamespaceImport(
+			identifier: ts.Identifier,
+			typeChecker: ts.TypeChecker,
+		) {
+			return typeChecker
 				.getSymbolAtLocation(identifier)
 				?.getDeclarations()
 				?.some(isNamespaceImportDeclaration);
@@ -39,14 +42,17 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				ElementAccessExpression(node: ts.ElementAccessExpression) {
+				ElementAccessExpression(
+					node: ts.ElementAccessExpression,
+					{ sourceFile, typeChecker },
+				) {
 					if (
 						ts.isIdentifier(node.expression) &&
-						isIdentifierNamespaceImport(node.expression)
+						isIdentifierNamespaceImport(node.expression, typeChecker)
 					) {
 						context.report({
 							message: "noDynamicAccess",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: getTSNodeRange(node, sourceFile),
 						});
 					}
 				},

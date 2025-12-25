@@ -41,10 +41,11 @@ export function createTypeScriptJsonFile(
 				return reports;
 			}
 
+			const fileServices = { options, sourceFile };
 			const { visitors } = runtime;
 
 			const visit = (node: ts.Node) => {
-				visitors[ts.SyntaxKind[node.kind]]?.(node);
+				visitors[ts.SyntaxKind[node.kind]]?.(node, fileServices);
 
 				node.forEachChild(visit);
 			};

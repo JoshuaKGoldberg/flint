@@ -37,9 +37,10 @@ export default typescriptLanguage.createRule({
 		function generateObjectIsText(
 			node: ts.BinaryExpression,
 			isNegated: boolean,
+			sourceFile: ts.SourceFile,
 		) {
-			const leftText = node.left.getText(context.sourceFile);
-			const rightText = node.right.getText(context.sourceFile);
+			const leftText = node.left.getText(sourceFile);
+			const rightText = node.right.getText(sourceFile);
 			const objectIsCall = `Object.is(${leftText}, ${rightText})`;
 
 			return isNegated ? `!${objectIsCall}` : objectIsCall;
@@ -47,7 +48,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, { sourceFile }) => {
 					if (
 						!isComparisonOperator(node.operatorToken) ||
 						(!isNegativeZero(node.left) && !isNegativeZero(node.right))
@@ -55,9 +56,9 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const operator = node.operatorToken.getText(context.sourceFile);
+					const operator = node.operatorToken.getText(sourceFile);
 					const range = {
-						begin: node.getStart(context.sourceFile),
+						begin: node.getStart(sourceFile),
 						end: node.getEnd(),
 					};
 
@@ -75,6 +76,7 @@ export default typescriptLanguage.createRule({
 										text: generateObjectIsText(
 											node,
 											isNegatedEqualityOperator(node.operatorToken),
+											sourceFile,
 										),
 									},
 								]

@@ -23,19 +23,19 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				ClassStaticBlockDeclaration: (node) => {
+				ClassStaticBlockDeclaration: (node, { sourceFile }) => {
 					const statements = node.body.statements;
 					if (statements.length) {
 						return;
 					}
 
-					const openBrace = node.body.getFirstToken(context.sourceFile);
+					const openBrace = node.body.getFirstToken(sourceFile);
 					if (!openBrace) {
 						return;
 					}
 
 					const range = {
-						begin: node.getStart(context.sourceFile),
+						begin: node.getStart(sourceFile),
 						end: openBrace.getEnd(),
 					};
 
@@ -46,7 +46,7 @@ export default typescriptLanguage.createRule({
 							{
 								id: "removeEmptyStaticBlock",
 								range: {
-									begin: node.getStart(context.sourceFile),
+									begin: node.getStart(sourceFile),
 									end: node.getEnd(),
 								},
 								text: "",

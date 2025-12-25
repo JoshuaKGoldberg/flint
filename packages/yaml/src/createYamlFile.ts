@@ -45,10 +45,11 @@ export function createYamlFile(sourceText: string) {
 				return reports;
 			}
 
+			const fileServices = { options, root };
 			const { visitors } = runtime;
 
 			visit(root, (node) => {
-				visitors[node.type]?.(node);
+				visitors[node.type]?.(node, fileServices);
 			});
 
 			return reports;
