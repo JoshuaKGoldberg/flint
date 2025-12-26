@@ -112,12 +112,12 @@ importers:
       prettier-plugin-packagejson:
         specifier: 2.5.19
         version: 2.5.19(prettier@3.6.2)
+      prettier-plugin-sentences-per-line:
+        specifier: 0.2.0
+        version: 0.2.0(prettier@3.6.2)
       prettier-plugin-sh:
         specifier: 0.18.0
         version: 0.18.0(prettier@3.6.2)
-      sentences-per-line:
-        specifier: 0.5.0
-        version: 0.5.0
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -3860,6 +3860,11 @@ packages:
     peerDependenciesMeta:
       prettier:
         optional: true
+
+  prettier-plugin-sentences-per-line@0.2.0:
+    resolution: {integrity: sha512-c9JzBEcpOHVvpFojb7MAgUqhJ59k5v92J6k+7+GI79JTrooV507vwmINn2JviUixU0U0NWZjwp4/KWBnfgge0w==}
+    peerDependencies:
+      prettier: ^3
 
   prettier-plugin-sh@0.18.0:
     resolution: {integrity: sha512-cW1XL27FOJQ/qGHOW6IHwdCiNWQsAgK+feA8V6+xUTaH0cD3Mh+tFAtBvEEWvuY6hTDzRV943Fzeii+qMOh7nQ==}
@@ -9016,6 +9021,11 @@ snapshots:
       synckit: 0.11.11
     optionalDependencies:
       prettier: 3.6.2
+
+  prettier-plugin-sentences-per-line@0.2.0(prettier@3.6.2):
+    dependencies:
+      prettier: 3.6.2
+      sentences-per-line: 0.5.0
 
   prettier-plugin-sh@0.18.0(prettier@3.6.2):
     dependencies:
