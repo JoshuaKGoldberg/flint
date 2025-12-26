@@ -12,6 +12,9 @@ overrides:
 packages:
   - packages/*
 
-strictDepBuilds: true
+peerDependencyRules:
+  allowedVersions:
+    astro: "5"
 
+strictDepBuilds: true
 strictPeerDependencies: true

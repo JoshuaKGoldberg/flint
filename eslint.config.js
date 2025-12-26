@@ -17,6 +17,7 @@ export default defineConfig(
 		ignores: [
 			"**/*.snap",
 			"**/node_modules",
+			"**/.tsbuildinfo",
 			"packages/*/.astro",
 			"packages/*/dist",
 			"packages/*/lib",
@@ -33,6 +34,7 @@ export default defineConfig(
 			jsdoc.configs["flat/logical-typescript-error"],
 			jsdoc.configs["flat/stylistic-typescript-error"],
 			n.configs["flat/recommended"],
+			// @ts-expect-error -- azat-io/eslint-plugin-perfectionist#655
 			perfectionist.configs["recommended-natural"],
 			regexp.configs["flat/recommended"],
 			tseslint.configs.strictTypeChecked,
@@ -41,9 +43,7 @@ export default defineConfig(
 		files: ["**/*.{js,ts}"],
 		languageOptions: {
 			parserOptions: {
-				projectService: {
-					allowDefaultProject: ["*.config.js", "packages/*/bin/index.js"],
-				},
+				projectService: true,
 			},
 		},
 		rules: {

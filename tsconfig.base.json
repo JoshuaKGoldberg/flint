@@ -1,16 +1,29 @@
 {
 	"compilerOptions": {
-		"composite": true,
-		"declaration": true,
-		"declarationMap": true,
-		"esModuleInterop": true,
-		"lib": ["ESNext"],
+		// Environment Settings
+		// See also https://aka.ms/tsconfig/module
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
-		"resolveJsonModule": true,
-		"skipLibCheck": true,
+		"target": "ESNext",
+		"lib": ["ESNext"],
+		"types": [],
+		"customConditions": ["@flint/source"],
+
+		// Other Outputs
+		"composite": true,
+		"emitDeclarationOnly": true,
+		"declaration": true,
+		"declarationMap": true,
 		"sourceMap": true,
+
+		// Recommended Options
 		"strict": true,
-		"target": "ESNext"
+		"isolatedModules": true,
+		"noUncheckedSideEffectImports": true,
+		"moduleDetection": "force",
+		"skipLibCheck": true,
+
+		"allowJs": true,
+		"checkJs": true
 	}
 }

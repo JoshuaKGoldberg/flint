@@ -14,9 +14,8 @@
 	},
 	"type": "module",
 	"scripts": {
-		"build": "tsc -b",
+		"build": "tsdown",
 		"flint": "node packages/flint/bin/index.js",
-		"format": "prettier .",
 		"lint": "eslint . --max-warnings 0",
 		"lint:knip": "knip",
 		"lint:packages": "pnpm dedupe --check",
@@ -60,10 +59,10 @@
 		"prettier-plugin-packagejson": "2.5.20",
 		"prettier-plugin-sentences-per-line": "0.2.0",
 		"prettier-plugin-sh": "0.18.0",
+		"tsdown": "0.18.3",
 		"typescript": "5.9.3",
 		"typescript-eslint": "8.50.0",
-		"vitest": "4.0.15",
-		"zod": "4.2.0"
+		"vitest": "4.0.15"
 	},
 	"packageManager": "pnpm@10.26.0",
 	"engines": {

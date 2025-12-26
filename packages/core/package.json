@@ -14,16 +14,34 @@
 	},
 	"type": "module",
 	"exports": {
-		".": "./lib/index.js",
-		"./ts-patch/install-patch": "./lib/ts-patch/install-patch.js"
+		".": {
+			"@flint/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		},
+		"./ts-patch/install-patch": {
+			"@flint/source": "./src/ts-patch/install-patch.ts",
+			"default": "./lib/ts-patch/install-patch.js"
+		},
+		"./ts-patch/install-patch-hooks": {
+			"@flint/source": "./src/ts-patch/install-patch-hooks.ts",
+			"default": "./lib/ts-patch/install-patch-hooks.js"
+		},
+		"./ts-patch/proxy-program": {
+			"@flint/source": "./src/ts-patch/proxy-program.ts",
+			"default": "./lib/ts-patch/proxy-program.js"
+		},
+		"./package.json": "./package.json"
 	},
+	"main": "./lib/index.js",
+	"module": "./lib/index.js",
+	"types": "./lib/index.d.ts",
 	"dependencies": {
 		"@flint.fyi/utils": "workspace:",
 		"cached-factory": "^0.1.0",
 		"debug-for-file": "^0.2.0",
 		"omit-empty": "^1.0.0",
 		"prettier": "3.7.4",
-		"zod": "^4.1.12"
+		"zod": "^4.2.1"
 	},
 	"devDependencies": {
 		"@types/omit-empty": "1.0.4"
@@ -33,6 +51,13 @@
 	},
 	"publishConfig": {
 		"access": "public",
+		"exports": {
+			".": "./lib/index.js",
+			"./ts-patch/install-patch": "./lib/ts-patch/install-patch.js",
+			"./ts-patch/install-patch-hooks": "./lib/ts-patch/install-patch-hooks.js",
+			"./ts-patch/proxy-program": "./lib/ts-patch/proxy-program.js",
+			"./package.json": "./package.json"
+		},
 		"provenance": true
 	}
 }
