@@ -42,16 +42,16 @@ export function createMarkdownFile(sourceText: string) {
 
 			const runtime = await rule.setup(context, options);
 
-			if (!runtime?.visitors) {
-				return reports;
+			if (runtime?.visitors) {
+				const fileServices = { options, root };
+				const { visitors } = runtime;
+
+				visit(root, (node) => {
+					visitors[node.type]?.(node, fileServices);
+				});
 			}
 
-			const fileServices = { options, root };
-			const { visitors } = runtime;
-
-			visit(root, (node) => {
-				visitors[node.type]?.(node, fileServices);
-			});
+			await runtime?.teardown?.();
 
 			return reports;
 		},

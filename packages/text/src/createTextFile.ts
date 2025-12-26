@@ -52,6 +52,8 @@ export function createTextFile(
 				}
 			}
 
+			await runtime?.teardown?.();
+
 			return reports;
 		},
 	};
