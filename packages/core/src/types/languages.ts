@@ -38,8 +38,10 @@ export interface CreateRule<AstNodesByName, ContextServices extends object> {
 	): Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
 }
 
-export interface Language<AstNodesByName, ContextServices extends object>
-	extends LanguageDefinition {
+export interface Language<
+	AstNodesByName,
+	ContextServices extends object,
+> extends LanguageDefinition {
 	createRule: CreateRule<AstNodesByName, ContextServices>;
 	prepare(): LanguageFileFactory;
 }
