@@ -12,8 +12,7 @@ export interface SourceFileWithLineMap {
 	lineMap?: readonly number[];
 }
 
-export interface SourceFileWithLineMapAndFileName
-	extends SourceFileWithLineMap {
+export interface SourceFileWithLineMapAndFileName extends SourceFileWithLineMap {
 	fileName: string;
 }
 

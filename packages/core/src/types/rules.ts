@@ -26,12 +26,12 @@ export interface Rule<
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > extends RuleDefinition<
-		About,
-		AstNodesByName,
-		ContextServices,
-		MessageId,
-		OptionsSchema
-	> {
+	About,
+	AstNodesByName,
+	ContextServices,
+	MessageId,
+	OptionsSchema
+> {
 	language: Language<AstNodesByName, ContextServices>;
 }
 
