@@ -6,9 +6,9 @@ import { writeToCache } from "../cache/writeToCache.js";
 import { ProcessedConfigDefinition } from "../types/configs.js";
 import { AnyLanguage } from "../types/languages.js";
 import { FileResults, LintResults } from "../types/linting.js";
+import { AnyRule } from "../types/rules.js";
 import { computeUseDefinitions } from "./computeUseDefinitions.js";
-import { lintFile } from "./lintFile.js";
-import { readGitignore } from "./readGitignore.js";
+import { lintFile, RuntimeStorage } from "./lintFile.js";
 
 const log = debugForFile(import.meta.filename);
 
@@ -17,59 +17,87 @@ export interface LintOnceSettings {
 	skipDiagnostics: boolean;
 }
 
+/** This is a mispeling. */
 export async function lintOnce(
 	configDefinition: ProcessedConfigDefinition,
 	{ ignoreCache, skipDiagnostics }: LintOnceSettings,
 ): Promise<LintResults> {
-	const gitignore = await readGitignore();
-
-	log("Collecting files from %d use pattern(s)", configDefinition.use.length);
-	log("Excluding based on .gitignore: %s", gitignore);
-
 	const useDefinitions = await computeUseDefinitions(configDefinition);
-
 	const allFilePaths = new Set(
 		useDefinitions.flatMap((use) => Array.from(use.found)),
 	);
 	const filesResults = new Map<string, FileResults>();
 	let totalReports = 0;
 
-	const languageFactories = new CachedFactory((language: AnyLanguage) => {
-		return language.prepare();
+	const languageFileFactoryFactory = new CachedFactory(
+		(language: AnyLanguage) => language.prepare(),
+	);
+
+	/**
+	 * Value references that change across uses of a singleton rule runtime.
+	 * @see {@link lintFile} for where this storage is used.
+	 * @see {@link ruleRuntimeFactory} for creating singleton rule runtimes.
+	 */
+	const runtimeStorage = {} as RuntimeStorage;
+
+	/**
+	 * This factory creates a singleton "runtime" at for each rule.
+	 * That runtime is the same across all files that run the rule.
+	 * The {@link runtimeStorage} variable is used for storage that needs to
+	 * be "reset" each time a new rule is run with the same runtime.
+	 */
+	const ruleRuntimeFactory = new CachedFactory(async (rule: AnyRule) => {
+		log("Running rule %s setup:", rule.about.id);
+		return await rule.setup({
+			report(ruleReport) {
+				runtimeStorage.reports.push({
+					...ruleReport,
+					about: rule.about,
+					fix:
+						ruleReport.fix && !Array.isArray(ruleReport.fix)
+							? [ruleReport.fix]
+							: ruleReport.fix,
+					message: rule.messages[ruleReport.message],
+					range: runtimeStorage.file.normalizeRange(ruleReport.range),
+				});
+			},
+		});
 	});
 
-	const cached = ignoreCache
+	const cachedFileReports = ignoreCache
 		? undefined
 		: await readFromCache(allFilePaths, configDefinition.filePath);
 
-	// TODO: This is very slow and the whole thing should be refactored 🙌.
-	// The separate lintFile function recomputes rule options repeatedly.
-	// It'd be better to group found files together in some way.
-	// Plus, this does an await in a for loop - should it use a queue?
 	for (const filePath of allFilePaths) {
-		const { dependencies, diagnostics, reports } =
-			cached?.get(filePath) ??
+		const lintResults =
+			cachedFileReports?.get(filePath) ??
 			(await lintFile(
 				filePath,
-				languageFactories,
-				skipDiagnostics,
+				languageFileFactoryFactory,
+				// TODO: How to make types more permissive around assignability?
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+				ruleRuntimeFactory,
+				runtimeStorage,
 				useDefinitions,
+				skipDiagnostics,
 			));
 
 		filesResults.set(filePath, {
-			dependencies: new Set(dependencies),
-			diagnostics: diagnostics ?? [],
-			reports: reports ?? [],
+			dependencies: new Set(lintResults.dependencies),
+			diagnostics: lintResults.diagnostics ?? [],
+			reports: lintResults.reports ?? [],
 		});
 
-		if (reports?.length) {
-			totalReports += reports.length;
+		if (lintResults.reports?.length) {
+			totalReports += lintResults.reports.length;
 		}
 	}
 
+	// TODO: Apply rule teardown()s...
+
 	log("Found %d report(s)", totalReports);
 
-	const lintResults = { allFilePaths, cached, filesResults };
+	const lintResults = { allFilePaths, cached: cachedFileReports, filesResults };
 
 	await writeToCache(configDefinition.filePath, lintResults);
 

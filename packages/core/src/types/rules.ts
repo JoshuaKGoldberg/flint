@@ -15,6 +15,9 @@ export type AnyRule<
 export type AnyRuleDefinition<
 	OptionsSchema extends AnyOptionalSchema | undefined = any,
 > = RuleDefinition<RuleAbout, any, any, string, OptionsSchema>;
+
+export type AnyRuleRuntime<Options extends object | undefined = any> =
+	RuleRuntime<any, object, Options>;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
@@ -23,17 +26,17 @@ export type AnyRuleDefinition<
 export interface Rule<
 	About extends RuleAbout,
 	AstNodesByName,
-	ContextServices extends object,
+	FileServices extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > extends RuleDefinition<
 	About,
 	AstNodesByName,
-	ContextServices,
+	FileServices,
 	MessageId,
 	OptionsSchema
 > {
-	language: Language<AstNodesByName, ContextServices>;
+	language: Language<AstNodesByName, FileServices>;
 }
 
 export interface RuleAbout extends BaseAbout {
@@ -46,7 +49,7 @@ export interface RuleAbout extends BaseAbout {
 export interface RuleDefinition<
 	About extends RuleAbout,
 	AstNodesByName,
-	ContextServices extends object,
+	FileServices extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
@@ -55,41 +58,50 @@ export interface RuleDefinition<
 	options?: OptionsSchema;
 	setup: RuleSetup<
 		AstNodesByName,
-		ContextServices,
+		FileServices,
 		MessageId,
 		InferredObject<OptionsSchema>
 	>;
 }
 
-export interface RuleRuntime<AstNodesByName, FileServices extends object> {
+export interface RuleRuntime<
+	AstNodesByName,
+	FileServices extends object,
+	Options,
+> {
 	dependencies?: string[];
 	teardown?: RuleTeardown;
-	visitors?: RuleVisitors<AstNodesByName, FileServices>;
+	visitors?: RuleVisitors<AstNodesByName, FileServices, Options>;
 }
 
 export type RuleSetup<
 	AstNodesByName,
-	ContextServices extends object,
+	FileServices extends object,
 	MessageId extends string,
 	Options,
 > = (
-	context: ContextServices & RuleContext<MessageId>,
-	options: Options,
-) => PromiseOrSync<
-	| RuleRuntime<AstNodesByName, ContextServices & { options: Options }>
-	| undefined
->;
+	context: RuleContext<MessageId>,
+) => PromiseOrSync<RuleRuntime<AstNodesByName, FileServices, Options>>;
 
 export type RuleTeardown = () => PromiseOrSync<undefined>;
 
-export type RuleVisitor<ASTNode, FileServices extends object> = (
+export type RuleVisitor<ASTNode, FileServices extends object, Options> = (
 	node: ASTNode,
-	services: FileServices,
+	data: RuleVisitorData<FileServices, Options>,
 ) => void;
 
-export type RuleVisitors<AstNodesByName, FileServices extends object> = {
+export type RuleVisitorData<FileServices, Options> = FileServices & {
+	options: Options;
+};
+
+export type RuleVisitors<
+	AstNodesByName,
+	FileServices extends object,
+	Options,
+> = {
 	[Kind in keyof AstNodesByName]?: RuleVisitor<
 		AstNodesByName[Kind],
-		FileServices
+		FileServices,
+		Options
 	>;
 };

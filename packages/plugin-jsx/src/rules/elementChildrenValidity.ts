@@ -1,7 +1,7 @@
 import {
 	getTSNodeRange,
-	TypeScriptFileServices,
 	typescriptLanguage,
+	TypeScriptServices,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -47,10 +47,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxElement(
-					node: ts.JsxElement,
-					{ sourceFile }: TypeScriptFileServices,
-				) {
+				JsxElement(node: ts.JsxElement, { sourceFile }: TypeScriptServices) {
 					if (!node.children.length) {
 						return;
 					}

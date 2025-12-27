@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage, type TypeScriptServices } from "../language.js";
 import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.js";
 
 export default typescriptLanguage.createRule({
@@ -27,26 +27,25 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkNode(node: ts.CallExpression | ts.NewExpression): void {
+		function checkNode(
+			node: ts.CallExpression | ts.NewExpression,
+			{ sourceFile, typeChecker }: TypeScriptServices,
+		): void {
 			if (
 				!ts.isIdentifier(node.expression) ||
-				!isGlobalDeclarationOfName(
-					node.expression,
-					"Object",
-					context.typeChecker,
-				)
+				!isGlobalDeclarationOfName(node.expression, "Object", typeChecker)
 			) {
 				return;
 			}
 
 			const reportNode =
 				node.kind === ts.SyntaxKind.NewExpression
-					? node.getChildAt(0, context.sourceFile)
+					? node.getChildAt(0, sourceFile)
 					: node.expression;
 
 			context.report({
 				message: "preferObjectLiteral",
-				range: getTSNodeRange(reportNode, context.sourceFile),
+				range: getTSNodeRange(reportNode, sourceFile),
 			});
 		}
 

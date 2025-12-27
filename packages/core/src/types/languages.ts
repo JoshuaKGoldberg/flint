@@ -1,28 +1,23 @@
-import type { PromiseOrSync } from "@flint.fyi/utils";
+import { PromiseOrSync } from "@flint.fyi/utils";
 
 import { CommentDirective } from "./directives.js";
-import { FileReport, NormalizedReport } from "./reports.js";
-import {
-	AnyRule,
-	AnyRuleDefinition,
-	Rule,
-	RuleAbout,
-	RuleDefinition,
-} from "./rules.js";
+import { CharacterReportRange } from "./ranges.js";
+import { FileReport, NormalizedReportRangeObject } from "./reports.js";
+import { AnyRuleRuntime, Rule, RuleAbout, RuleDefinition } from "./rules.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 export type AnyLanguage = Language<object, object>;
 
-export interface CreateRule<AstNodesByName, ContextServices extends object> {
+export interface CreateRule<AstNodesByName, FileServices extends object> {
 	<const About extends RuleAbout, const MessageId extends string>(
 		definition: RuleDefinition<
 			About,
 			AstNodesByName,
-			ContextServices,
+			FileServices,
 			MessageId,
 			undefined
 		>,
-	): Rule<About, AstNodesByName, ContextServices, MessageId, undefined>;
+	): Rule<About, AstNodesByName, FileServices, MessageId, undefined>;
 
 	<
 		const About extends RuleAbout,
@@ -32,18 +27,18 @@ export interface CreateRule<AstNodesByName, ContextServices extends object> {
 		definition: RuleDefinition<
 			About,
 			AstNodesByName,
-			ContextServices,
+			FileServices,
 			MessageId,
 			OptionsSchema
 		>,
-	): Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
+	): Rule<About, AstNodesByName, FileServices, MessageId, OptionsSchema>;
 }
 
 export interface Language<
 	AstNodesByName,
-	ContextServices extends object,
+	FileServices extends object,
 > extends LanguageDefinition {
-	createRule: CreateRule<AstNodesByName, ContextServices>;
+	createRule: CreateRule<AstNodesByName, FileServices>;
 	prepare(): LanguageFileFactory;
 }
 
@@ -76,14 +71,15 @@ export interface LanguageFileCacheImpacts {
 export interface LanguageFile extends Disposable {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
-	runRule<
+	normalizeRange(range: CharacterReportRange): NormalizedReportRangeObject;
+	runVisitors<
 		OptionsSchema extends AnyOptionalSchema | undefined =
 			| AnyOptionalSchema
 			| undefined,
 	>(
-		rule: AnyRule<RuleAbout, OptionsSchema>,
+		ruleRuntime: AnyRuleRuntime<InferredObject<OptionsSchema>>,
 		options: InferredObject<OptionsSchema>,
-	): PromiseOrSync<NormalizedReport[]>;
+	): void;
 }
 
 /**
@@ -92,14 +88,15 @@ export interface LanguageFile extends Disposable {
 export interface LanguageFileDefinition extends Partial<Disposable> {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
-	runRule<
+	normalizeRange(range: CharacterReportRange): NormalizedReportRangeObject;
+	runVisitors<
 		OptionsSchema extends AnyOptionalSchema | undefined =
 			| AnyOptionalSchema
 			| undefined,
 	>(
-		rule: AnyRuleDefinition<OptionsSchema>,
+		ruleRuntime: AnyRuleRuntime<InferredObject<OptionsSchema>>,
 		options: InferredObject<OptionsSchema>,
-	): PromiseOrSync<NormalizedReport[]>;
+	): void;
 }
 
 /**

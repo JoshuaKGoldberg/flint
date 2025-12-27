@@ -1,8 +1,6 @@
 import {
 	getColumnAndLineOfPosition,
 	LanguageFileDefinition,
-	NormalizedReport,
-	RuleReport,
 } from "@flint.fyi/core";
 import { visit } from "unist-util-visit";
 import * as yamlParser from "yaml-unist-parser";
@@ -15,44 +13,20 @@ export function createYamlFile(sourceText: string) {
 	const sourceFileText = { text: sourceText };
 
 	const languageFile: LanguageFileDefinition = {
-		async runRule(rule, options) {
-			const reports: NormalizedReport[] = [];
+		normalizeRange: (range) => ({
+			begin: getColumnAndLineOfPosition(sourceFileText, range.begin),
+			end: getColumnAndLineOfPosition(sourceFileText, range.end),
+		}),
+		runVisitors(runtime, options) {
+			const fileServices = { options, root };
 
-			const context = {
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: rule.messages[report.message],
-						range: {
-							begin: getColumnAndLineOfPosition(
-								sourceFileText,
-								report.range.begin,
-							),
-							end: getColumnAndLineOfPosition(sourceFileText, report.range.end),
-						},
-					});
-				},
-				root,
-			};
+			const { visitors } = runtime;
 
-			const runtime = await rule.setup(context, options);
-
-			if (runtime?.visitors) {
-				const fileServices = { options, root };
-				const { visitors } = runtime;
-
+			if (visitors) {
 				visit(root, (node) => {
 					visitors[node.type]?.(node, fileServices);
 				});
 			}
-
-			await runtime?.teardown?.();
-
-			return reports;
 		},
 	};
 

@@ -5,7 +5,7 @@ import { TSNodesByName } from "./nodes.js";
 import { prepareTypeScriptBasedLanguage } from "./prepareTypeScriptBasedLanguage.js";
 import { prepareTypeScriptFile } from "./prepareTypeScriptFile.js";
 
-export interface TypeScriptFileServices {
+export interface TypeScriptServices {
 	program: ts.Program;
 	sourceFile: ts.SourceFile;
 	typeChecker: ts.TypeChecker;
@@ -13,7 +13,7 @@ export interface TypeScriptFileServices {
 
 export const typescriptLanguage = createLanguage<
 	TSNodesByName,
-	TypeScriptFileServices
+	TypeScriptServices
 >({
 	about: {
 		name: "TypeScript",
