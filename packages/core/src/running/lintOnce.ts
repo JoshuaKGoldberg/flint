@@ -93,6 +93,8 @@ export async function lintOnce(
 		}
 	}
 
+	// TODO: Apply rule teardown()s...
+
 	log("Found %d report(s)", totalReports);
 
 	const lintResults = { allFilePaths, cached: cachedFileReports, filesResults };

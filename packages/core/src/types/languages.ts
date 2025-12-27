@@ -72,14 +72,14 @@ export interface LanguageFile extends Disposable {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
 	normalizeRange(range: CharacterReportRange): NormalizedReportRangeObject;
-	runRule<
+	runVisitors<
 		OptionsSchema extends AnyOptionalSchema | undefined =
 			| AnyOptionalSchema
 			| undefined,
 	>(
 		ruleRuntime: AnyRuleRuntime<InferredObject<OptionsSchema>>,
 		options: InferredObject<OptionsSchema>,
-	): PromiseOrSync<undefined>;
+	): void;
 }
 
 /**
@@ -89,14 +89,14 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
 	cache?: LanguageFileCacheImpacts;
 	getDiagnostics?(): LanguageDiagnostics;
 	normalizeRange(range: CharacterReportRange): NormalizedReportRangeObject;
-	runRule<
+	runVisitors<
 		OptionsSchema extends AnyOptionalSchema | undefined =
 			| AnyOptionalSchema
 			| undefined,
 	>(
 		ruleRuntime: AnyRuleRuntime<InferredObject<OptionsSchema>>,
 		options: InferredObject<OptionsSchema>,
-	): PromiseOrSync<undefined>;
+	): void;
 }
 
 /**

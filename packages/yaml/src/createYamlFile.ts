@@ -17,7 +17,7 @@ export function createYamlFile(sourceText: string) {
 			begin: getColumnAndLineOfPosition(sourceFileText, range.begin),
 			end: getColumnAndLineOfPosition(sourceFileText, range.end),
 		}),
-		async runRule(runtime, options) {
+		runVisitors(runtime, options) {
 			const fileServices = { options, root };
 
 			const { visitors } = runtime;
@@ -27,8 +27,6 @@ export function createYamlFile(sourceText: string) {
 					visitors[node.type]?.(node, fileServices);
 				});
 			}
-
-			await runtime.teardown?.();
 		},
 	};
 

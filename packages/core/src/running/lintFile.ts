@@ -105,8 +105,11 @@ export async function lintFile(
 		// TODO: How to make types more permissive around assignability?
 		// See AnyRuleRuntime's any
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		await fileFactory.file.runRule(runtime, options as object | undefined);
+		fileFactory.file.runVisitors(runtime, options as object | undefined);
 	}
+
+	// TODO: These directives filters need to apply after rule teardown()s.
+	// But, teardown()s apply outside of lintFile, more in lintOnce...
 
 	const directivesFilterer = new DirectivesFilterer();
 

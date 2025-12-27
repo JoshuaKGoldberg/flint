@@ -52,7 +52,7 @@ export async function runTestCaseRule<
 	// TODO: How to make types more permissive around assignability?
 	// See AnyRuleRuntime's any
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-	await file.runRule(ruleRuntime, options as InferredObject<OptionsSchema>);
+	await file.runVisitors(ruleRuntime, options as InferredObject<OptionsSchema>);
 
 	return reports;
 }
