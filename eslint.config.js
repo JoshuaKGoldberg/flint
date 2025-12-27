@@ -53,9 +53,7 @@ export default defineConfig(
 			],
 			"@typescript-eslint/restrict-template-expressions": [
 				"error",
-				{
-					allowNumber: true,
-				},
+				{ allowNumber: true },
 			],
 			"n/no-extraneous-import": "off",
 			"n/no-missing-import": "off",
