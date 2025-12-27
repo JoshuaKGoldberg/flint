@@ -1,3 +1,5 @@
+autoInstallPeers: false
+
 disallowWorkspaceCycles: true
 
 onlyBuiltDependencies:
@@ -13,3 +15,5 @@ packages:
   - packages/*
 
 strictDepBuilds: true
+
+strictPeerDependencies: true
