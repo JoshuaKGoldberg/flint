@@ -1,5 +1,6 @@
+import type { PromiseOrSync } from "@flint.fyi/utils";
+
 import { CommentDirective } from "./directives.js";
-import { PromiseOrSync } from "./promises.js";
 import { FileReport, NormalizedReport } from "./reports.js";
 import {
 	AnyRule,
