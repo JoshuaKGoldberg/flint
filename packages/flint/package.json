@@ -15,13 +15,17 @@
 	"type": "module",
 	"exports": "./lib/index.js",
 	"bin": "bin/index.js",
+	"files": [
+		"lib/"
+	],
 	"dependencies": {
 		"@flint.fyi/cli": "workspace:",
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/json": "workspace:",
 		"@flint.fyi/md": "workspace:",
 		"@flint.fyi/ts": "workspace:",
-		"@flint.fyi/yaml": "workspace:"
+		"@flint.fyi/yaml": "workspace:",
+		"typescript": "^5.9.3"
 	},
 	"engines": {
 		"node": ">=24.0.0"
