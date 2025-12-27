@@ -1,7 +1,7 @@
 <h1 align="center">Flint</h1>
 
 <p align="center">
-	[Experimental] A fast, friendly linter.
+	[Experimental] Monorepo for Flint: a fast, friendly linter.
 	❤️‍🔥
 </p>
 
@@ -17,7 +17,7 @@
 	<img alt="💪 TypeScript: Strict" src="https://img.shields.io/badge/%F0%9F%92%AA_typescript-strict-21bb42.svg" />
 </p>
 
-<img align="right" alt="A flaming heart atop a brown linter-style squiggly line" src="docs/flint.png">
+<img align="right" alt="A flaming heart atop a brown linter-style squiggly line" height="128" src="docs/flint.png" width="105">
 
 **Flint** is an experimental new linter.
 It's a proof-of-concept to explore the concepts in the following blog posts:
@@ -72,7 +72,7 @@ Thanks! ❤️‍🔥
       <td align="center" valign="top" width="14.28%"><a href="http://jasik.xyz"><img src="https://avatars.githubusercontent.com/u/10626596?v=4?s=100" width="100px;" alt="Caleb Jasik"/><br /><sub><b>Caleb Jasik</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/flint/issues?q=author%3Ajasikpark" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://christopher-buss.gitbook.io/portfolio"><img src="https://avatars.githubusercontent.com/u/32301681?v=4?s=100" width="100px;" alt="Christopher Buss"/><br /><sub><b>Christopher Buss</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/flint/commits?author=christopher-buss" title="Code">💻</a> <a href="https://github.com/JoshuaKGoldberg/flint/issues?q=author%3Achristopher-buss" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://donisaac.dev"><img src="https://avatars.githubusercontent.com/u/22823424?v=4?s=100" width="100px;" alt="Don Isaac"/><br /><sub><b>Don Isaac</b></sub></a><br /><a href="#maintenance-donisaac" title="Maintenance">🚧</a> <a href="https://github.com/JoshuaKGoldberg/flint/commits?author=donisaac" title="Tests">⚠️</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://lishaduck.github.io"><img src="https://avatars.githubusercontent.com/u/88557639?v=4?s=100" width="100px;" alt="Eli"/><br /><sub><b>Eli</b></sub></a><br /><a href="#ideas-lishaduck" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/JoshuaKGoldberg/flint/commits?author=lishaduck" title="Code">💻</a> <a href="#tool-lishaduck" title="Tools">🔧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://lishaduck.github.io"><img src="https://avatars.githubusercontent.com/u/88557639?v=4?s=100" width="100px;" alt="Eli"/><br /><sub><b>Eli</b></sub></a><br /><a href="#ideas-lishaduck" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/JoshuaKGoldberg/flint/commits?author=lishaduck" title="Code">💻</a> <a href="#tool-lishaduck" title="Tools">🔧</a> <a href="#maintenance-lishaduck" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://www.joshuakgoldberg.com"><img src="https://avatars.githubusercontent.com/u/3335181?v=4?s=100" width="100px;" alt="Josh Goldberg ✨"/><br /><sub><b>Josh Goldberg ✨</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/flint/commits?author=JoshuaKGoldberg" title="Code">💻</a> <a href="#content-JoshuaKGoldberg" title="Content">🖋</a> <a href="https://github.com/JoshuaKGoldberg/flint/commits?author=JoshuaKGoldberg" title="Documentation">📖</a> <a href="#ideas-JoshuaKGoldberg" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-JoshuaKGoldberg" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-JoshuaKGoldberg" title="Maintenance">🚧</a> <a href="#projectManagement-JoshuaKGoldberg" title="Project Management">📆</a> <a href="#tool-JoshuaKGoldberg" title="Tools">🔧</a> <a href="https://github.com/JoshuaKGoldberg/flint/issues?q=author%3AJoshuaKGoldberg" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/kirkwaiblinger"><img src="https://avatars.githubusercontent.com/u/53019676?v=4?s=100" width="100px;" alt="Kirk Waiblinger"/><br /><sub><b>Kirk Waiblinger</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/flint/commits?author=kirkwaiblinger" title="Code">💻</a></td>
     </tr>

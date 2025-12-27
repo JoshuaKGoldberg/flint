@@ -1,5 +1,5 @@
 {
-	"name": "flint",
+	"name": "@flint/workspace",
 	"version": "0.12.0",
 	"private": true,
 	"description": "[Experimental] Monorepo for Flint: a fast, friendly linter. ❤️‍🔥",
@@ -13,16 +13,12 @@
 		"email": "npm@joshuakgoldberg.com"
 	},
 	"type": "module",
-	"files": [
-		"bin/index.js",
-		"lib/"
-	],
 	"scripts": {
 		"build": "tsc -b",
 		"flint": "node packages/flint/bin/index.js",
+		"format": "prettier .",
 		"lint": "eslint . --max-warnings 0",
 		"lint:knip": "knip",
-		"lint:md": "markdownlint \"**/*.md\" \".github/**/*.md\"",
 		"lint:packages": "pnpm dedupe --check",
 		"lint:spelling": "cspell \"**\" \".github/**/*\"",
 		"prepare": "husky",
@@ -35,21 +31,20 @@
 		"@changesets/cli": "2.29.7",
 		"@eslint-community/eslint-plugin-eslint-comments": "4.5.0",
 		"@eslint/js": "9.39.1",
+		"@eslint/markdown": "7.5.1",
 		"@flint.fyi/plugin-browser": "workspace:^",
 		"@flint.fyi/plugin-flint": "workspace:^",
 		"@flint.fyi/plugin-jsx": "workspace:^",
 		"@flint.fyi/plugin-node": "workspace:^",
 		"@flint.fyi/plugin-spelling": "workspace:^",
-		"@types/eslint-plugin-markdown": "2.0.2",
 		"@types/mdast": "4.0.4",
-		"@types/node": "24.10.0",
+		"@types/node": "24.10.1",
 		"@vitest/eslint-plugin": "1.6.1",
-		"console-fail-test": "0.6.0",
+		"console-fail-test": "0.6.1",
 		"cspell": "9.4.0",
 		"eslint": "9.39.1",
 		"eslint-plugin-jsdoc": "61.5.0",
 		"eslint-plugin-jsonc": "2.21.0",
-		"eslint-plugin-markdown": "5.1.0",
 		"eslint-plugin-n": "17.23.1",
 		"eslint-plugin-package-json": "0.85.0",
 		"eslint-plugin-perfectionist": "5.1.0",
@@ -57,26 +52,21 @@
 		"eslint-plugin-yml": "1.19.0",
 		"flint": "workspace:^",
 		"husky": "9.1.7",
-		"knip": "5.77.0",
-		"lint-staged": "16.2.6",
-		"markdownlint": "0.40.0",
-		"markdownlint-cli": "0.47.0",
+		"knip": "5.76.0",
+		"lint-staged": "16.2.7",
 		"prettier": "3.7.4",
 		"prettier-plugin-astro": "0.14.1",
-		"prettier-plugin-curly": "0.4.0",
-		"prettier-plugin-packagejson": "2.5.19",
+		"prettier-plugin-curly": "0.4.1",
+		"prettier-plugin-packagejson": "2.5.20",
 		"prettier-plugin-sentences-per-line": "0.2.0",
 		"prettier-plugin-sh": "0.18.0",
 		"typescript": "5.9.3",
 		"typescript-eslint": "8.50.0",
-		"vitest": "4.0.2",
+		"vitest": "4.0.15",
 		"zod": "4.2.0"
 	},
 	"packageManager": "pnpm@10.26.0",
 	"engines": {
 		"node": ">=24.0.0"
-	},
-	"publishConfig": {
-		"provenance": true
 	}
 }
