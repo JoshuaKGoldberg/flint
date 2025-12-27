@@ -1,8 +1,9 @@
-import { isConfig, lintFixing, lintOnce, runPrettier } from "@flint.fyi/core";
+import { isConfig, lintFixing, lintOnce } from "@flint.fyi/core";
 import { debugForFile } from "debug-for-file";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
+import { runPrettier } from "./formatting/runPrettier.js";
 import { OptionsValues } from "./options.js";
 import { Renderer } from "./renderers/types.js";
 

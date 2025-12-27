@@ -1,9 +1,10 @@
+import {
+	FormattingResults,
+	LintResultsMaybeWithChanges,
+} from "@flint.fyi/core";
 import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 import * as prettier from "prettier";
-
-import { FormattingResults } from "../types/formatting.js";
-import { LintResultsMaybeWithChanges } from "../types/linting.js";
 
 const log = debugForFile(import.meta.filename);
 
