@@ -143,8 +143,7 @@ If you've made any code/file changes, re-run all those scripts to validate they 
 
 ### Artifacts
 
-It's ok if you write one-of scripts to test rules (e.g.
-`debug__test.mjs`) but don't check them into Git or include them in PRs.
+It's ok if you write one-of scripts to test rules (e.g. `debug__test.mjs`) but don't check them into Git or include them in PRs.
 
 If your changes to built files (`.json`, `.ts`, other TSConfig includes) are only within one package, you don't need to re-build before running tests.
 As long as you built once before the changes it's fine.
