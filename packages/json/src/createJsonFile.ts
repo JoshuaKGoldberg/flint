@@ -14,20 +14,20 @@ export function createTypeScriptJsonFile(
 
 	return {
 		normalizeRange: (range) => normalizeRange(range, sourceFile),
-		runRule(runtime, options) {
+		async runRule(runtime, options) {
+			const fileServices = { options, sourceFile };
 			const { visitors } = runtime;
-			if (!visitors) {
-				return;
+
+			if (visitors) {
+				const visit = (node: ts.Node) => {
+					visitors[ts.SyntaxKind[node.kind]]?.(node, fileServices);
+					node.forEachChild(visit);
+				};
+
+				sourceFile.forEachChild(visit);
 			}
 
-			const fileServices = { options, sourceFile };
-
-			const visit = (node: ts.Node) => {
-				visitors[ts.SyntaxKind[node.kind]]?.(node, fileServices);
-				node.forEachChild(visit);
-			};
-
-			sourceFile.forEachChild(visit);
+			await runtime.teardown?.();
 		},
 	};
 }

@@ -1,3 +1,5 @@
+import type { PromiseOrSync } from "@flint.fyi/utils";
+
 import {
 	AnyLanguage,
 	AnyOptionalSchema,
@@ -5,6 +7,7 @@ import {
 	FileReport,
 	InferredObject,
 	LanguageFileFactory,
+	type NormalizedReport,
 	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
@@ -52,7 +55,7 @@ export async function runTestCaseRule<
 	// TODO: How to make types more permissive around assignability?
 	// See AnyRuleRuntime's any
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-	file.runRule(ruleRuntime, options as InferredObject<OptionsSchema>);
+	await file.runRule(ruleRuntime, options as InferredObject<OptionsSchema>);
 
 	return reports;
 }

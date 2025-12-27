@@ -18,17 +18,17 @@ export function createMarkdownFile(sourceText: string) {
 			begin: getColumnAndLineOfPosition(sourceFileText, range.begin),
 			end: getColumnAndLineOfPosition(sourceFileText, range.end),
 		}),
-		runRule(runtime, options) {
+		async runRule(runtime, options) {
+			const fileServices = { options, root };
 			const { visitors } = runtime;
-			if (!visitors) {
-				return;
+
+			if (visitors) {
+				visit(root, (node) => {
+					visitors[node.type]?.(node, fileServices);
+				});
 			}
 
-			const fileServices = { options, root };
-
-			visit(root, (node) => {
-				visitors[node.type]?.(node, fileServices);
-			});
+			await runtime.teardown?.();
 		},
 	};
 

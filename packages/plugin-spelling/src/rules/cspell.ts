@@ -1,11 +1,16 @@
 import { textLanguage } from "@flint.fyi/text";
 import { parseJsonSafe } from "@flint.fyi/utils";
-import { checkFilenameMatchesGlob } from "cspell-lib";
+import { DocumentValidator } from "cspell-lib";
 
 import { createDocumentValidator } from "./createDocumentValidator.js";
 
 interface CSpellConfigLike {
 	words?: string[];
+}
+
+interface FileTask {
+	documentValidatorTask: Promise<DocumentValidator | undefined>;
+	text: string;
 }
 
 export default textLanguage.createRule({
@@ -21,29 +26,22 @@ export default textLanguage.createRule({
 			suggestions: ["TODO"],
 		},
 	},
-	async setup(context) {
-		const { cspellSettings, documentValidator } =
-			await createDocumentValidator();
+	setup(context) {
+		const fileTasks: FileTask[] = [];
 
 		return {
 			dependencies: ["cspell.json"],
-			visitors: {
-				file: (text, { filePathAbsolute }) => {
-					if (
-						cspellSettings.ignorePaths &&
-						checkFilenameMatchesGlob(
-							filePathAbsolute,
-							cspellSettings.ignorePaths,
-						)
-					) {
-						console.log("ignoring", filePathAbsolute);
-						return;
+			teardown: async () => {
+				for (const { documentValidatorTask, text } of fileTasks) {
+					const documentValidator = await documentValidatorTask;
+					if (!documentValidator) {
+						return undefined;
 					}
 
 					const issues = documentValidator.checkText(
 						[0, text.length],
-						text,
-						filePathAbsolute,
+						undefined,
+						undefined,
 					);
 
 					for (const issue of issues) {
@@ -86,6 +84,17 @@ export default textLanguage.createRule({
 							],
 						});
 					}
+				}
+			},
+			visitors: {
+				file: (text, { filePathAbsolute }) => {
+					fileTasks.push({
+						documentValidatorTask: createDocumentValidator(
+							filePathAbsolute,
+							text,
+						),
+						text,
+					});
 				},
 			},
 		};

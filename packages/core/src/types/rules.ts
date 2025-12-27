@@ -1,7 +1,8 @@
+import type { PromiseOrSync } from "@flint.fyi/utils";
+
 import { BaseAbout } from "./about.js";
 import { RuleContext } from "./context.js";
 import { Language } from "./languages.js";
-import { PromiseOrSync } from "./promises.js";
 import { ReportMessageData } from "./reports.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
@@ -29,12 +30,12 @@ export interface Rule<
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > extends RuleDefinition<
-		About,
-		AstNodesByName,
-		FileServices,
-		MessageId,
-		OptionsSchema
-	> {
+	About,
+	AstNodesByName,
+	FileServices,
+	MessageId,
+	OptionsSchema
+> {
 	language: Language<AstNodesByName, FileServices>;
 }
 
@@ -69,6 +70,7 @@ export interface RuleRuntime<
 	Options,
 > {
 	dependencies?: string[];
+	teardown?: RuleTeardown;
 	visitors?: RuleVisitors<AstNodesByName, FileServices, Options>;
 }
 
@@ -80,6 +82,8 @@ export type RuleSetup<
 > = (
 	context: RuleContext<MessageId>,
 ) => PromiseOrSync<RuleRuntime<AstNodesByName, FileServices, Options>>;
+
+export type RuleTeardown = () => PromiseOrSync<undefined>;
 
 export type RuleVisitor<ASTNode, FileServices extends object, Options> = (
 	node: ASTNode,

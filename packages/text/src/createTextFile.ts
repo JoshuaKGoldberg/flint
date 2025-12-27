@@ -16,7 +16,7 @@ export function createTextFile(
 				raw: range.end,
 			},
 		}),
-		runRule(runtime, options) {
+		async runRule(runtime, options) {
 			if (!runtime.visitors) {
 				return;
 			}
@@ -31,6 +31,8 @@ export function createTextFile(
 					runtime.visitors.line(line, fileServices);
 				}
 			}
+
+			await runtime.teardown?.();
 		},
 	};
 }

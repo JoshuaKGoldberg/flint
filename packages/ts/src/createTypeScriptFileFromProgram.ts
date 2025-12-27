@@ -37,25 +37,22 @@ export function createTypeScriptFileFromProgram(
 				.getPreEmitDiagnostics(program, sourceFile)
 				.map(convertTypeScriptDiagnosticToLanguageFileDiagnostic);
 		},
-		// context:
-		// sourceFile,
-		// typeChecker: program.getTypeChecker(),
 		normalizeRange: (range) => normalizeRange(range, sourceFile),
-		runRule(runtime, options) {
-			const { visitors } = runtime;
-			if (!visitors) {
-				return;
-			}
-
+		async runRule(runtime, options) {
 			const typeChecker = program.getTypeChecker();
 			const fileServices = { options, program, sourceFile, typeChecker };
+			const { visitors } = runtime;
 
-			const visit = (node: ts.Node) => {
-				visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
-				node.forEachChild(visit);
-			};
+			if (visitors) {
+				const visit = (node: ts.Node) => {
+					visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
+					node.forEachChild(visit);
+				};
 
-			visit(sourceFile);
+				visit(sourceFile);
+			}
+
+			await runtime.teardown?.();
 		},
 	};
 }
