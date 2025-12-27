@@ -6,12 +6,15 @@
 		"CHANGELOG.md",
 		"lib",
 		"node_modules",
-		"packages/site/dist",
 		"packages/comparisons/src/data.json",
+		"packages/site/dist",
 		"pnpm-lock.yaml",
 		"tsconfig.tsbuildinfo"
 	],
 	"words": [
+		"Focusables",
+		"Oxlint",
+		"WHATWG",
 		"affordances",
 		"aria-activedescendant",
 		"aria-colcount",
@@ -37,7 +40,6 @@
 		"deoptimizations",
 		"destructures",
 		"extlang",
-		"Focusables",
 		"idlist",
 		"impp",
 		"joshuakgoldberg",
@@ -46,7 +48,6 @@
 		"menuitemradio",
 		"nord",
 		"oxendict",
-		"Oxlint",
 		"roletype",
 		"sectionhead",
 		"shiki",
@@ -55,7 +56,6 @@
 		"subtag",
 		"subtags",
 		"treegrid",
-		"webauthn",
-		"WHATWG"
+		"webauthn"
 	]
 }
