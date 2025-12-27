@@ -160,6 +160,10 @@ importers:
       wrap-ansi:
         specifier: ^9.0.2
         version: 9.0.2
+    devDependencies:
+      prettier:
+        specifier: 3.7.4
+        version: 3.7.4
 
   packages/comparisons: {}
 
@@ -177,9 +181,6 @@ importers:
       omit-empty:
         specifier: ^1.0.0
         version: 1.0.0
-      prettier:
-        specifier: 3.7.4
-        version: 3.7.4
       zod:
         specifier: ^4.1.12
         version: 4.2.0
@@ -208,6 +209,10 @@ importers:
       '@flint.fyi/yaml':
         specifier: 'workspace:'
         version: link:../yaml
+    devDependencies:
+      prettier:
+        specifier: 3.7.4
+        version: 3.7.4
 
   packages/json:
     dependencies:
