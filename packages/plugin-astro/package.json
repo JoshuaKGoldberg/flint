@@ -15,10 +15,7 @@
 	"type": "module",
 	"main": "./lib/index.js",
 	"dependencies": {
-		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/rule-tester": "workspace:",
-		"@flint.fyi/ts": "workspace:",
-		"@flint.fyi/utils": "workspace:"
+		"@flint.fyi/core": "workspace:"
 	},
 	"engines": {
 		"node": ">=24.0.0"

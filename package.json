@@ -35,7 +35,7 @@
 		"@changesets/cli": "2.29.7",
 		"@eslint-community/eslint-plugin-eslint-comments": "4.5.0",
 		"@eslint/js": "9.39.1",
-		"@flint.fyi/plugin-browser": "workspace:^",
+		"@flint.fyi/core": "workspace:^",
 		"@flint.fyi/plugin-flint": "workspace:^",
 		"@flint.fyi/plugin-jsx": "workspace:^",
 		"@flint.fyi/plugin-node": "workspace:^",

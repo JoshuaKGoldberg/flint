@@ -16,7 +16,6 @@
 	"main": "./lib/index.js",
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/rule-tester": "workspace:",
 		"index-to-position": "^1.2.0"
 	},
 	"engines": {

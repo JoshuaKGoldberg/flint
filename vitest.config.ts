@@ -11,7 +11,7 @@ export default defineConfig({
 				root: `./packages/${name}`,
 				setupFiles: [
 					"console-fail-test/setup",
-					"../core/lib/ts-patch/install-patch-hooks.js",
+					"@flint.fyi/core/lib/ts-patch/install-patch-hooks.js",
 				],
 				testTimeout: 10_000,
 				typecheck: {

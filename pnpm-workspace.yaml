@@ -6,3 +6,5 @@ onlyBuiltDependencies:
   - sharp@0.34.5
 
 strictDepBuilds: true
+
+disallowWorkspaceCycles: true
