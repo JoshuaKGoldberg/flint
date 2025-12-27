@@ -2,12 +2,12 @@ onlyBuiltDependencies:
   - esbuild@0.25.11
   - sharp@0.34.5
 
-packages:
-  - packages/*
-
-strictDepBuilds: true
-
 overrides:
   read-package-up: 12.0.0
   read-pkg: 10.0.0
   unicorn-magic: 0.4.0
+
+packages:
+  - packages/*
+
+strictDepBuilds: true
