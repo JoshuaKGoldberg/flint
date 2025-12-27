@@ -1,5 +1,3 @@
-import type { PromiseOrSync } from "@flint.fyi/utils";
-
 import {
 	AnyLanguage,
 	AnyOptionalSchema,
@@ -7,7 +5,6 @@ import {
 	FileReport,
 	InferredObject,
 	LanguageFileFactory,
-	type NormalizedReport,
 	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
