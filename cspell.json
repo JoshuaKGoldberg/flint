@@ -4,17 +4,13 @@
 		".all-contributorsrc",
 		".github",
 		"CHANGELOG.md",
-		"lib",
 		"node_modules",
 		"packages/comparisons/src/data.json",
 		"packages/site/dist",
 		"pnpm-lock.yaml",
-		"tsconfig.tsbuildinfo"
+		".tsbuildinfo/"
 	],
 	"words": [
-		"Focusables",
-		"Oxlint",
-		"WHATWG",
 		"affordances",
 		"aria-activedescendant",
 		"aria-colcount",
@@ -34,12 +30,15 @@
 		"aria-setsize",
 		"aria-valuenow",
 		"aria-valuetext",
+		"attw",
 		"autolinks",
+		"azat-io",
 		"bday",
 		"contentinfo",
 		"deoptimizations",
 		"destructures",
 		"extlang",
+		"Focusables",
 		"idlist",
 		"impp",
 		"joshuakgoldberg",
@@ -48,6 +47,7 @@
 		"menuitemradio",
 		"nord",
 		"oxendict",
+		"Oxlint",
 		"roletype",
 		"sectionhead",
 		"shiki",
@@ -56,6 +56,7 @@
 		"subtag",
 		"subtags",
 		"treegrid",
-		"webauthn"
+		"webauthn",
+		"WHATWG"
 	]
 }

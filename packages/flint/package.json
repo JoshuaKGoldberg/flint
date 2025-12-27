@@ -13,8 +13,20 @@
 		"email": "npm@joshuakgoldberg.com"
 	},
 	"type": "module",
-	"exports": "./lib/index.js",
+	"exports": {
+		".": {
+			"@flint/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"main": "./lib/index.js",
+	"module": "./lib/index.js",
+	"types": "./lib/index.d.ts",
 	"bin": "bin/index.js",
+	"files": [
+		"lib/"
+	],
 	"dependencies": {
 		"@flint.fyi/cli": "workspace:",
 		"@flint.fyi/core": "workspace:",
@@ -27,6 +39,10 @@
 		"node": ">=24.0.0"
 	},
 	"publishConfig": {
+		"exports": {
+			".": "./lib/index.js",
+			"./package.json": "./package.json"
+		},
 		"provenance": true
 	}
 }

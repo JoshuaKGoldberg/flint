@@ -1,10 +1,11 @@
 {
 	"compilerOptions": {
-		"outDir": "lib",
-		"rootDir": "src"
+		"tsBuildInfoFile": ".tsbuildinfo/tsbuildinfo.json",
+		"outDir": ".tsbuildinfo/src",
+		"types": ["node"]
 	},
 	"extends": "../../tsconfig.base.json",
-	"include": ["src"],
+	"include": ["src", "bin"],
 	"references": [
 		{ "path": "../core" },
 		{ "path": "../cli" },

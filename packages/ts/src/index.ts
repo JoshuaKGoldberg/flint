@@ -5,16 +5,16 @@ export {
 } from "./createTypeScriptFileFromProgram.js";
 export {
 	extractDirectivesFromTypeScriptFile,
-	ExtractedDirective,
+	type ExtractedDirective,
 } from "./directives/parseDirectivesFromTypeScriptFile.js";
 export { getTSNodeRange } from "./getTSNodeRange.js";
 export * from "./language.js";
-export { TSNodesByName } from "./nodes.js";
+export type { TSNodesByName } from "./nodes.js";
 export { ts } from "./plugin.js";
 export {
 	prepareTypeScriptBasedLanguage,
-	TypeScriptBasedLanguageFile,
-	TypeScriptBasedLanguageFileFactoryDefinition,
+	type TypeScriptBasedLanguageFile,
+	type TypeScriptBasedLanguageFileFactoryDefinition,
 } from "./prepareTypeScriptBasedLanguage.js";
 export { getDeclarationsIfGlobal } from "./utils/getDeclarationsIfGlobal.js";
 export { isGlobalDeclaration } from "./utils/isGlobalDeclaration.js";

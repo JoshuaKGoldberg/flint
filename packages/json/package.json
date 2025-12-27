@@ -13,17 +13,31 @@
 		"email": "npm@joshuakgoldberg.com"
 	},
 	"type": "module",
-	"exports": "./lib/index.js",
+	"exports": {
+		".": {
+			"@flint/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"main": "./lib/index.js",
+	"module": "./lib/index.js",
+	"types": "./lib/index.d.ts",
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/rule-tester": "workspace:",
-		"typescript": "^5.9.0 || ^6.0.0"
+		"typescript": ">=5.9.3",
+		"zod": "^4.2.1"
 	},
 	"engines": {
 		"node": ">=24.0.0"
 	},
 	"publishConfig": {
 		"access": "public",
+		"exports": {
+			".": "./lib/index.js",
+			"./package.json": "./package.json"
+		},
 		"provenance": true
 	}
 }

@@ -1,9 +1,15 @@
 {
 	"compilerOptions": {
-		"noEmit": true
+		"noEmit": true,
+		"tsBuildInfoFile": ".tsbuildinfo/tsbuildinfo.json"
 	},
 	"extends": "./tsconfig.base.json",
-	"include": ["./*.ts"],
+	"include": [
+		"./@types/*/*.ts",
+		"./*.ts",
+		"./*.js",
+		"./packages/*/tsdown.config.ts"
+	],
 	"references": [
 		{ "path": "./packages/comparisons" },
 		{ "path": "./packages/core" },
