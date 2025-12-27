@@ -33,8 +33,19 @@ export async function lintOnce(
 		(language: AnyLanguage) => language.prepare(),
 	);
 
+	/**
+	 * Value references that change across uses of a singleton rule runtime.
+	 * @see {@link lintFile} for where this storage is used.
+	 * @see {@link ruleRuntimeFactory} for creating singleton rule runtimes.
+	 */
 	const runtimeStorage = {} as RuntimeStorage;
 
+	/**
+	 * This factory creates a singleton "runtime" at for each rule.
+	 * That runtime is the same across all files that run the rule.
+	 * The {@link runtimeStorage} variable is used for storage that needs to
+	 * be "reset" each time a new rule is run with the same runtime.
+	 */
 	const ruleRuntimeFactory = new CachedFactory(async (rule: AnyRule) => {
 		log("Running rule %s setup:", rule.about.id);
 		return await rule.setup({
@@ -58,7 +69,7 @@ export async function lintOnce(
 		: await readFromCache(allFilePaths, configDefinition.filePath);
 
 	for (const filePath of allFilePaths) {
-		const { dependencies, diagnostics, reports } =
+		const lintResults =
 			cachedFileReports?.get(filePath) ??
 			(await lintFile(
 				filePath,
@@ -72,13 +83,13 @@ export async function lintOnce(
 			));
 
 		filesResults.set(filePath, {
-			dependencies: new Set(dependencies),
-			diagnostics: diagnostics ?? [],
-			reports: reports ?? [],
+			dependencies: new Set(lintResults.dependencies),
+			diagnostics: lintResults.diagnostics ?? [],
+			reports: lintResults.reports ?? [],
 		});
 
-		if (reports?.length) {
-			totalReports += reports.length;
+		if (lintResults.reports?.length) {
+			totalReports += lintResults.reports.length;
 		}
 	}
 

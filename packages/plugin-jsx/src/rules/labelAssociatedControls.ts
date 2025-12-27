@@ -1,6 +1,6 @@
 import {
 	getTSNodeRange,
-	TypeScriptFileServices,
+	TypeScriptServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
@@ -96,7 +96,7 @@ export default typescriptLanguage.createRule({
 
 		function checkLabel(
 			node: ts.JsxElement | ts.JsxSelfClosingElement,
-			{ sourceFile }: TypeScriptFileServices,
+			{ sourceFile }: TypeScriptServices,
 		) {
 			if (ts.isJsxElement(node) && hasNestedControl(node.children)) {
 				return;

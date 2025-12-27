@@ -1,6 +1,6 @@
 import {
 	getTSNodeRange,
-	TypeScriptFileServices,
+	TypeScriptServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
@@ -30,7 +30,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkHeading(
 			node: ts.JsxElement | ts.JsxSelfClosingElement,
-			{ sourceFile }: TypeScriptFileServices,
+			{ sourceFile }: TypeScriptServices,
 		) {
 			const tagName = ts.isJsxElement(node)
 				? node.openingElement.tagName

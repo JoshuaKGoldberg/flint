@@ -1,3 +1,5 @@
+import { PromiseOrSync } from "@flint.fyi/utils";
+
 import { CommentDirective } from "./directives.js";
 import { CharacterReportRange } from "./ranges.js";
 import { FileReport, NormalizedReportRangeObject } from "./reports.js";
@@ -77,7 +79,7 @@ export interface LanguageFile extends Disposable {
 	>(
 		ruleRuntime: AnyRuleRuntime<InferredObject<OptionsSchema>>,
 		options: InferredObject<OptionsSchema>,
-	): void;
+	): PromiseOrSync<undefined>;
 }
 
 /**
@@ -94,7 +96,7 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
 	>(
 		ruleRuntime: AnyRuleRuntime<InferredObject<OptionsSchema>>,
 		options: InferredObject<OptionsSchema>,
-	): void;
+	): PromiseOrSync<undefined>;
 }
 
 /**

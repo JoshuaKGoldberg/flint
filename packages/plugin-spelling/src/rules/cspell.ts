@@ -1,17 +1,15 @@
 import { textLanguage } from "@flint.fyi/text";
 import { parseJsonSafe } from "@flint.fyi/utils";
+import { type DocumentValidator } from "cspell-lib";
 
-import {
-	type CreatedDocumentValidator,
-	createDocumentValidator,
-} from "./createDocumentValidator.js";
+import { createDocumentValidator } from "./createDocumentValidator.js";
 
 interface CSpellConfigLike {
 	words?: string[];
 }
 
 interface FileTask {
-	documentValidatorTask: Promise<CreatedDocumentValidator | undefined>;
+	documentValidatorTask: Promise<DocumentValidator | undefined>;
 	text: string;
 }
 
@@ -35,7 +33,7 @@ export default textLanguage.createRule({
 			dependencies: ["cspell.json"],
 			teardown: async () => {
 				for (const { documentValidatorTask, text } of fileTasks) {
-					const { documentValidator } = (await documentValidatorTask) ?? {};
+					const documentValidator = await documentValidatorTask;
 					if (!documentValidator) {
 						return undefined;
 					}

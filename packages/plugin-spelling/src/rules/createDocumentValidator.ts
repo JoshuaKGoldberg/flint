@@ -1,5 +1,6 @@
 import { toFileDirURL, toFileURL } from "@cspell/url";
 import {
+	checkFilenameMatchesGlob,
 	createTextDocument,
 	CSpellSettings,
 	DocumentValidator,
@@ -7,15 +8,7 @@ import {
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
-export interface CreatedDocumentValidator {
-	cspellSettings: CSpellSettings;
-	documentValidator: DocumentValidator;
-}
-
-export async function createDocumentValidator(
-	fileName: string,
-	text: string,
-): Promise<CreatedDocumentValidator> {
+export async function createDocumentValidator(fileName: string, text: string) {
 	const cwd = process.cwd();
 	const document = createTextDocument({
 		content: text,
@@ -39,15 +32,22 @@ export async function createDocumentValidator(
 		with: { type: "json" },
 	})) as { default: CSpellSettings };
 
-	const documentValidator = new DocumentValidator(
+	const validator = new DocumentValidator(
 		document,
 		{ resolveImportsRelativeTo },
 		configFile.default,
 	);
 
-	await documentValidator.prepare();
+	await validator.prepare();
 
-	const cspellSettings = documentValidator.getFinalizedDocSettings();
+	const finalSettings = validator.getFinalizedDocSettings();
 
-	return { cspellSettings, documentValidator };
+	if (
+		finalSettings.ignorePaths &&
+		checkFilenameMatchesGlob(fileName, finalSettings.ignorePaths)
+	) {
+		return undefined;
+	}
+
+	return validator;
 }

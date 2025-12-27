@@ -22,8 +22,20 @@ export interface LintFileResults {
 	reports: FileReport[];
 }
 
+/**
+ * Value references that change across uses of a singleton rule runtime.
+ */
 export interface RuntimeStorage {
+	/**
+	 * Language file representation of the source code file being linted.
+	 */
 	file: LanguageFileDefinition;
+
+	/**
+	 * Where to store reports created by the currently running rule.
+	 * These might not be the final reports returned by {@link lintFile},
+	 * as those still need to be filtered based on comment directives.
+	 */
 	reports: FileReport[];
 }
 
@@ -93,7 +105,7 @@ export async function lintFile(
 		// TODO: How to make types more permissive around assignability?
 		// See AnyRuleRuntime's any
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		fileFactory.file.runRule(runtime, options as object | undefined);
+		await fileFactory.file.runRule(runtime, options as object | undefined);
 	}
 
 	const directivesFilterer = new DirectivesFilterer();

@@ -16,7 +16,7 @@ export function createTextFile(
 				raw: range.end,
 			},
 		}),
-		runRule(runtime, options) {
+		async runRule(runtime, options) {
 			const fileServices = { filePathAbsolute, options, sourceText };
 
 			if (runtime.visitors) {
@@ -29,6 +29,8 @@ export function createTextFile(
 					}
 				}
 			}
+
+			await runtime.teardown?.();
 		},
 	};
 }

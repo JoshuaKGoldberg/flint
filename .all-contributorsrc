@@ -95,7 +95,9 @@
       "contributions": [
         "ideas",
         "code",
-        "tool"
+        "tool",
+        "maintenance",
+        "bug"
       ]
     },
     {

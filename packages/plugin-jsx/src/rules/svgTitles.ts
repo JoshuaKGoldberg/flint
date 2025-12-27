@@ -1,6 +1,6 @@
 import {
 	getTSNodeRange,
-	TypeScriptFileServices,
+	TypeScriptServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
@@ -69,7 +69,7 @@ export default typescriptLanguage.createRule({
 
 		function checkElement(
 			node: ts.JsxElement | ts.JsxSelfClosingElement,
-			{ sourceFile }: TypeScriptFileServices,
+			{ sourceFile }: TypeScriptServices,
 		) {
 			const tagName = ts.isJsxElement(node)
 				? node.openingElement.tagName

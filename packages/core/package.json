@@ -13,7 +13,10 @@
 		"email": "npm@joshuakgoldberg.com"
 	},
 	"type": "module",
-	"main": "./lib/index.js",
+	"exports": {
+		".": "./lib/index.js",
+		"./ts-patch/install-patch": "./lib/ts-patch/install-patch.js"
+	},
 	"dependencies": {
 		"@flint.fyi/utils": "workspace:",
 		"cached-factory": "^0.1.0",
