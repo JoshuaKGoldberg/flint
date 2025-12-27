@@ -1,4 +1,4 @@
-import { TypeScriptFileServices, typescriptLanguage } from "@flint.fyi/ts";
+import { TypeScriptServices, typescriptLanguage } from "@flint.fyi/ts";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
@@ -56,7 +56,7 @@ export default typescriptLanguage.createRule({
 
 		function checkNode(
 			node: ts.Node & { statement: ts.Node },
-			{ sourceFile }: TypeScriptFileServices,
+			{ sourceFile }: TypeScriptServices,
 		) {
 			checkForAwaitExpressions(node.statement, node, sourceFile);
 		}

@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
-import { TypeScriptFileServices, typescriptLanguage } from "../language.js";
+import { TypeScriptServices, typescriptLanguage } from "../language.js";
 
 const globalObjects = new Set(["Atomics", "JSON", "Math", "Reflect"]);
 
@@ -39,7 +39,7 @@ export default typescriptLanguage.createRule({
 
 		function checkNode(
 			{ expression }: ts.CallExpression | ts.NewExpression,
-			{ sourceFile }: TypeScriptFileServices,
+			{ sourceFile }: TypeScriptServices,
 		) {
 			if (ts.isIdentifier(expression) && globalObjects.has(expression.text)) {
 				reportGlobalObjectCall(expression, expression.text, sourceFile);

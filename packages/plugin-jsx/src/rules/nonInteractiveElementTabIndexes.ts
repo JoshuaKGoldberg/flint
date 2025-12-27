@@ -1,6 +1,6 @@
 import {
 	getTSNodeRange,
-	TypeScriptFileServices,
+	TypeScriptServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
@@ -116,7 +116,7 @@ export default typescriptLanguage.createRule({
 
 		function checkTabIndex(
 			node: ts.JsxOpeningLikeElement,
-			{ sourceFile }: TypeScriptFileServices,
+			{ sourceFile }: TypeScriptServices,
 		) {
 			if (!ts.isIdentifier(node.tagName)) {
 				return;

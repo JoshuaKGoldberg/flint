@@ -1,6 +1,6 @@
 import {
 	getTSNodeRange,
-	TypeScriptFileServices,
+	TypeScriptServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
@@ -95,7 +95,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				ClassDeclaration(
 					node: ts.ClassDeclaration,
-					{ sourceFile, typeChecker }: TypeScriptFileServices,
+					{ sourceFile, typeChecker }: TypeScriptServices,
 				) {
 					if (!node.heritageClauses) {
 						return;
@@ -113,7 +113,7 @@ export default typescriptLanguage.createRule({
 				},
 				NewExpression(
 					node: ts.NewExpression,
-					{ sourceFile, typeChecker }: TypeScriptFileServices,
+					{ sourceFile, typeChecker }: TypeScriptServices,
 				) {
 					checkExpression(node.expression, sourceFile, typeChecker);
 				},
