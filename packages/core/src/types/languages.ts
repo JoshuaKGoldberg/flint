@@ -77,7 +77,7 @@ export interface LanguageFile extends Disposable {
 	>(
 		ruleRuntime: AnyRuleRuntime<InferredObject<OptionsSchema>>,
 		options: InferredObject<OptionsSchema>,
-	): Promise<void>;
+	): void;
 }
 
 /**
@@ -94,7 +94,7 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
 	>(
 		ruleRuntime: AnyRuleRuntime<InferredObject<OptionsSchema>>,
 		options: InferredObject<OptionsSchema>,
-	): Promise<void>;
+	): void;
 }
 
 /**

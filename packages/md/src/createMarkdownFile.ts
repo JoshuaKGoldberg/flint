@@ -18,7 +18,7 @@ export function createMarkdownFile(sourceText: string) {
 			begin: getColumnAndLineOfPosition(sourceFileText, range.begin),
 			end: getColumnAndLineOfPosition(sourceFileText, range.end),
 		}),
-		async runRule(runtime, options) {
+		runRule(runtime, options) {
 			if (runtime.visitors) {
 				const { visitors } = runtime;
 
@@ -28,8 +28,6 @@ export function createMarkdownFile(sourceText: string) {
 					visitors[node.type]?.(node, fileServices);
 				});
 			}
-
-			await runtime.teardown?.();
 		},
 	};
 

@@ -17,6 +17,7 @@ export interface LintOnceSettings {
 	skipDiagnostics: boolean;
 }
 
+/** This is a mispeling. */
 export async function lintOnce(
 	configDefinition: ProcessedConfigDefinition,
 	{ ignoreCache, skipDiagnostics }: LintOnceSettings,
@@ -80,6 +81,12 @@ export async function lintOnce(
 			totalReports += reports.length;
 		}
 	}
+
+	const teardowns: Promise<undefined>[] = [];
+	for (const [, runtime] of ruleRuntimeFactory.entries()) {
+		teardowns.push(runtime.then((r) => r.teardown?.()));
+	}
+	// todo: wire up to `filesResults`
 
 	log("Found %d report(s)", totalReports);
 

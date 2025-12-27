@@ -81,8 +81,7 @@ export async function lintFile(
 		),
 	);
 
-	// Then, we run each rule's runtime on the file
-	// (visitors are synchronous, but they may have a asynchronous teardown)
+	// Then, we run each rule's runtime on the file (visitors are synchronous)
 	for (const [rule, { options, runtime }] of ruleOptionsAndRuntimes) {
 		// TODO: How to make types more permissive around assignability?
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -94,7 +93,7 @@ export async function lintFile(
 		// TODO: How to make types more permissive around assignability?
 		// See AnyRuleRuntime's any
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		await fileFactory.file.runRule(runtime, options as object | undefined);
+		fileFactory.file.runRule(runtime, options as object | undefined);
 	}
 
 	const directivesFilterer = new DirectivesFilterer();

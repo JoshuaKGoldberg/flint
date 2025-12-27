@@ -89,9 +89,12 @@ export default textLanguage.createRule({
 				}
 			},
 			visitors: {
-				file: (text) => {
+				file: (text, { filePathAbsolute }) => {
 					fileTasks.push({
-						documentValidatorTask: createDocumentValidator(),
+						documentValidatorTask: createDocumentValidator(
+							filePathAbsolute,
+							text,
+						),
 						text,
 					});
 				},

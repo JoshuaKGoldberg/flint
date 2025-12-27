@@ -41,7 +41,7 @@ export function createTypeScriptFileFromProgram(
 		// sourceFile,
 		// typeChecker: program.getTypeChecker(),
 		normalizeRange: (range) => normalizeRange(range, sourceFile),
-		async runRule(runtime, options) {
+		runRule(runtime, options) {
 			if (runtime.visitors) {
 				const typeChecker = program.getTypeChecker();
 				const fileServices = { options, program, sourceFile, typeChecker };
@@ -55,8 +55,6 @@ export function createTypeScriptFileFromProgram(
 
 				visit(sourceFile);
 			}
-
-			await runtime.teardown?.();
 		},
 	};
 }

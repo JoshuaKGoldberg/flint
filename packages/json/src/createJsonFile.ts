@@ -14,7 +14,7 @@ export function createTypeScriptJsonFile(
 
 	return {
 		normalizeRange: (range) => normalizeRange(range, sourceFile),
-		async runRule(runtime, options) {
+		runRule(runtime, options) {
 			if (runtime.visitors) {
 				const fileServices = { options, sourceFile };
 				const { visitors } = runtime;
@@ -26,8 +26,6 @@ export function createTypeScriptJsonFile(
 
 				sourceFile.forEachChild(visit);
 			}
-
-			await runtime.teardown?.();
 		},
 	};
 }

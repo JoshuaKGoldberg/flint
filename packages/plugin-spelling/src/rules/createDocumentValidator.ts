@@ -12,11 +12,14 @@ export interface CreatedDocumentValidator {
 	documentValidator: DocumentValidator;
 }
 
-export async function createDocumentValidator(): Promise<CreatedDocumentValidator> {
+export async function createDocumentValidator(
+	fileName: string,
+	text: string,
+): Promise<CreatedDocumentValidator> {
 	const cwd = process.cwd();
 	const document = createTextDocument({
-		content: "",
-		uri: "file.txt",
+		content: text,
+		uri: fileName,
 	});
 
 	const resolveImportsRelativeTo = toFileURL(
