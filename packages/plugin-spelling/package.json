@@ -13,7 +13,7 @@
 		"email": "npm@joshuakgoldberg.com"
 	},
 	"type": "module",
-	"main": "./lib/index.js",
+	"exports": "./lib/index.js",
 	"dependencies": {
 		"@cspell/url": "^9.2.2",
 		"@flint.fyi/core": "workspace:",
