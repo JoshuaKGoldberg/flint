@@ -93,12 +93,6 @@ export async function lintOnce(
 		}
 	}
 
-	const teardowns: Promise<undefined>[] = [];
-	for (const [, runtime] of ruleRuntimeFactory.entries()) {
-		teardowns.push(runtime.then((r) => r.teardown?.()));
-	}
-	// todo: wire up to `filesResults`
-
 	log("Found %d report(s)", totalReports);
 
 	const lintResults = { allFilePaths, cached: cachedFileReports, filesResults };
