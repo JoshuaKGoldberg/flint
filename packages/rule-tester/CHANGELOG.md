@@ -1,5 +1,19 @@
 # @flint/rule-tester
 
+## 0.15.0
+
+### Minor Changes
+
+- f37f0d0: Added 'defaults.fileName' to rule tester
+
+### Patch Changes
+
+- Updated dependencies [483ee56]
+- Updated dependencies [3617e4f]
+- Updated dependencies [5e23e96]
+- Updated dependencies [3117eaf]
+  - @flint.fyi/core@0.17.0
+
 ## 0.14.3
 
 ### Patch Changes

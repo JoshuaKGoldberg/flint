@@ -1,5 +1,18 @@
 # @flint/core
 
+## 0.17.0
+
+### Minor Changes
+
+- 483ee56: feat(core): export getPositionOfColumnAndLine utility
+  feat(ts): allow passing loose TS-based diagnostics to convertTypeScriptDiagnosticToLanguageFileDiagnostic
+- 5e23e96: feat(core): add patching mechanism for `typescript.js` to allow creating TS program with non-TS files
+
+### Patch Changes
+
+- 3617e4f: chore: pass services to rule visitors
+- 3117eaf: feat: add optional async teardown() for rules
+
 ## 0.16.0
 
 ### Minor Changes
