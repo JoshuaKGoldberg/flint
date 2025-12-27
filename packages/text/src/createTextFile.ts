@@ -17,18 +17,16 @@ export function createTextFile(
 			},
 		}),
 		async runRule(runtime, options) {
-			if (!runtime.visitors) {
-				return;
-			}
-
 			const fileServices = { filePathAbsolute, options, sourceText };
 
-			runtime.visitors.file?.(sourceText, fileServices);
+			if (runtime.visitors) {
+				runtime.visitors.file?.(sourceText, fileServices);
 
-			if (runtime.visitors.line) {
-				const lines = sourceText.split(/\r\n|\n|\r/);
-				for (const line of lines) {
-					runtime.visitors.line(line, fileServices);
+				if (runtime.visitors.line) {
+					const lines = sourceText.split(/\r\n|\n|\r/);
+					for (const line of lines) {
+						runtime.visitors.line(line, fileServices);
+					}
 				}
 			}
 
