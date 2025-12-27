@@ -17,9 +17,7 @@ export interface LintOnceSettings {
 	skipDiagnostics: boolean;
 }
 
-/**
- * This is a mispeling.
- */
+/** This is a mispeling. */
 export async function lintOnce(
 	configDefinition: ProcessedConfigDefinition,
 	{ ignoreCache, skipDiagnostics }: LintOnceSettings,

@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage, TypeScriptServices } from "../language.js";
+import { typescriptLanguage, type TypeScriptServices } from "../language.js";
 import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
 import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.js";
 

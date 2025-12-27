@@ -93,7 +93,7 @@ export async function lintFile(
 		),
 	);
 
-	// Then, we run each rule's runtime on the file (each is synchronous)
+	// Then, we run each rule's runtime on the file (visitors are synchronous)
 	for (const [rule, { options, runtime }] of ruleOptionsAndRuntimes) {
 		// TODO: How to make types more permissive around assignability?
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
