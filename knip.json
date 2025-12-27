@@ -2,6 +2,7 @@
 	"$schema": "./node_modules/knip/schema.json",
 	"ignore": ["packages/fixtures/*"],
 	"ignoreExportsUsedInFile": { "interface": true, "type": true },
+	"treatConfigHintsAsErrors": true,
 	"workspaces": {
 		".": {
 			"entry": ["flint.config.ts"]
