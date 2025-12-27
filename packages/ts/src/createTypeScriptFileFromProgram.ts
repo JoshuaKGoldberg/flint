@@ -41,21 +41,22 @@ export function createTypeScriptFileFromProgram(
 		// sourceFile,
 		// typeChecker: program.getTypeChecker(),
 		normalizeRange: (range) => normalizeRange(range, sourceFile),
-		runRule(runtime, options) {
-			const { visitors } = runtime;
-			if (!visitors) {
-				return;
+		async runRule(runtime, options) {
+			if (runtime.visitors) {
+				const typeChecker = program.getTypeChecker();
+				const fileServices = { options, program, sourceFile, typeChecker };
+				const { visitors } = runtime;
+
+				const visit = (node: ts.Node) => {
+					visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
+
+					node.forEachChild(visit);
+				};
+
+				visit(sourceFile);
 			}
 
-			const typeChecker = program.getTypeChecker();
-			const fileServices = { options, program, sourceFile, typeChecker };
-
-			const visit = (node: ts.Node) => {
-				visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
-				node.forEachChild(visit);
-			};
-
-			visit(sourceFile);
+			await runtime.teardown?.();
 		},
 	};
 }

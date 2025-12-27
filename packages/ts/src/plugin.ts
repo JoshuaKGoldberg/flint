@@ -17,9 +17,11 @@ import emptyBlocks from "./rules/emptyBlocks.js";
 import emptyDestructures from "./rules/emptyDestructures.js";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.js";
 import exceptionAssignments from "./rules/exceptionAssignments.js";
+import finallyStatementSafety from "./rules/finallyStatementSafety.js";
 import forDirections from "./rules/forDirections.js";
 import forInArrays from "./rules/forInArrays.js";
 import functionAssignments from "./rules/functionAssignments.js";
+import functionCurryingRedundancy from "./rules/functionCurryingRedundancy.js";
 import functionNewCalls from "./rules/functionNewCalls.js";
 import generatorFunctionYields from "./rules/generatorFunctionYields.js";
 import globalAssignments from "./rules/globalAssignments.js";
@@ -30,6 +32,7 @@ import newExpressions from "./rules/newExpressions.js";
 import newNativeNonConstructors from "./rules/newNativeNonConstructors.js";
 import nonOctalDecimalEscapes from "./rules/nonOctalDecimalEscapes.js";
 import numericLiteralParsing from "./rules/numericLiteralParsing.js";
+import objectCalls from "./rules/objectCalls.js";
 import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
@@ -75,9 +78,11 @@ export const ts = createPlugin({
 		emptyDestructures,
 		emptyStaticBlocks,
 		exceptionAssignments,
+		finallyStatementSafety,
 		forDirections,
 		forInArrays,
 		functionAssignments,
+		functionCurryingRedundancy,
 		functionNewCalls,
 		generatorFunctionYields,
 		globalAssignments,
@@ -88,6 +93,7 @@ export const ts = createPlugin({
 		newNativeNonConstructors,
 		nonOctalDecimalEscapes,
 		numericLiteralParsing,
+		objectCalls,
 		objectProto,
 		octalEscapes,
 		octalNumbers,

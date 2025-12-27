@@ -16,21 +16,21 @@ export function createTextFile(
 				raw: range.end,
 			},
 		}),
-		runRule(runtime, options) {
-			if (!runtime.visitors) {
-				return;
-			}
-
+		async runRule(runtime, options) {
 			const fileServices = { filePathAbsolute, options, sourceText };
 
-			runtime.visitors.file?.(sourceText, fileServices);
+			if (runtime.visitors) {
+				runtime.visitors.file?.(sourceText, fileServices);
 
-			if (runtime.visitors.line) {
-				const lines = sourceText.split(/\r\n|\n|\r/);
-				for (const line of lines) {
-					runtime.visitors.line(line, fileServices);
+				if (runtime.visitors.line) {
+					const lines = sourceText.split(/\r\n|\n|\r/);
+					for (const line of lines) {
+						runtime.visitors.line(line, fileServices);
+					}
 				}
 			}
+
+			await runtime.teardown?.();
 		},
 	};
 }

@@ -1,4 +1,4 @@
-import { ColumnAndLine } from "../types/ranges.js";
+import { ColumnAndLine, ColumnAndLineWithoutRaw } from "../types/ranges.js";
 import { binarySearch } from "./arrays.js";
 
 /** Subset of ts.SourceFileLike */
@@ -10,6 +10,10 @@ export interface SourceFileWithLineMap {
 	readonly text: string;
 	/** Used for caching the start positions of lines in `text` */
 	lineMap?: readonly number[];
+}
+
+export interface SourceFileWithLineMapAndFileName extends SourceFileWithLineMap {
+	fileName: string;
 }
 
 /**
@@ -121,4 +125,41 @@ function computeLineStarts(source: string): readonly number[] {
 	}
 	res.push(lineStart);
 	return res;
+}
+
+/**
+ * Prefer passing a `source` of type `HasGetLineAndCharacterOfPosition` or `SourceFileWithLineMap`.
+ * This way, the expensive computation of the `lineMap` will be cached across multiple calls.
+ */
+export function getPositionOfColumnAndLine(
+	source: SourceFileWithLineMap | string,
+	columnAndLine: ColumnAndLineWithoutRaw,
+): number {
+	if (typeof source === "string") {
+		return computePositionOfColumnAndLine(
+			source,
+			computeLineStarts(source),
+			columnAndLine,
+		);
+	}
+	source.lineMap ??= computeLineStarts(source.text);
+	return computePositionOfColumnAndLine(
+		source.text,
+		source.lineMap,
+		columnAndLine,
+	);
+}
+
+function computePositionOfColumnAndLine(
+	sourceText: string,
+	lineStarts: readonly number[],
+	{ column, line }: ColumnAndLineWithoutRaw,
+): number {
+	line = Math.min(Math.max(line, 0), lineStarts.length - 1);
+
+	const res = lineStarts[line] + column;
+	if (line === lineStarts.length - 1) {
+		return Math.min(res, sourceText.length);
+	}
+	return Math.min(res, lineStarts[line + 1] - 1);
 }

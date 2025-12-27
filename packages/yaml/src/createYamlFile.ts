@@ -17,17 +17,17 @@ export function createYamlFile(sourceText: string) {
 			begin: getColumnAndLineOfPosition(sourceFileText, range.begin),
 			end: getColumnAndLineOfPosition(sourceFileText, range.end),
 		}),
-		runRule(runtime, options) {
-			const { visitors } = runtime;
-			if (!visitors) {
-				return;
+		async runRule(runtime, options) {
+			if (runtime.visitors) {
+				const fileServices = { options, root };
+				const { visitors } = runtime;
+
+				visit(root, (node) => {
+					visitors[node.type]?.(node, fileServices);
+				});
 			}
 
-			const fileServices = { options, root };
-
-			visit(root, (node) => {
-				visitors[node.type]?.(node, fileServices);
-			});
+			await runtime.teardown?.();
 		},
 	};
 

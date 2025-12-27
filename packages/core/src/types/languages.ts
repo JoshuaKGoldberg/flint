@@ -32,8 +32,10 @@ export interface CreateRule<AstNodesByName, FileServices extends object> {
 	): Rule<About, AstNodesByName, FileServices, MessageId, OptionsSchema>;
 }
 
-export interface Language<AstNodesByName, FileServices extends object>
-	extends LanguageDefinition {
+export interface Language<
+	AstNodesByName,
+	FileServices extends object,
+> extends LanguageDefinition {
 	createRule: CreateRule<AstNodesByName, FileServices>;
 	prepare(): LanguageFileFactory;
 }
@@ -75,7 +77,7 @@ export interface LanguageFile extends Disposable {
 	>(
 		ruleRuntime: AnyRuleRuntime<InferredObject<OptionsSchema>>,
 		options: InferredObject<OptionsSchema>,
-	): void;
+	): Promise<void>;
 }
 
 /**
@@ -92,7 +94,7 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
 	>(
 		ruleRuntime: AnyRuleRuntime<InferredObject<OptionsSchema>>,
 		options: InferredObject<OptionsSchema>,
-	): void;
+	): Promise<void>;
 }
 
 /**
