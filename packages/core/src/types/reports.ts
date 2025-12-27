@@ -35,10 +35,6 @@ export interface NormalizedReport {
 	suggestions?: Suggestion[] | undefined;
 }
 
-export interface NormalizedRuleReportWithFix extends NormalizedReport {
-	fix: Fix[];
-}
-
 export type ReportInterpolationData = Record<string, boolean | number | string>;
 
 /**

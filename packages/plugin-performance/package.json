@@ -18,7 +18,6 @@
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/rule-tester": "workspace:",
 		"@flint.fyi/ts": "workspace:",
-		"@flint.fyi/utils": "workspace:",
 		"ts-api-utils": "^2.1.0"
 	},
 	"engines": {
