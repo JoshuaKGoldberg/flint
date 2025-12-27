@@ -12715,7 +12715,8 @@
 		"flint": {
 			"name": "multilineAmbiguities",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
