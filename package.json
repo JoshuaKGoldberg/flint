@@ -68,12 +68,5 @@
 	"packageManager": "pnpm@10.26.0",
 	"engines": {
 		"node": ">=24.0.0"
-	},
-	"pnpm": {
-		"overrides": {
-			"read-package-up": "12.0.0",
-			"read-pkg": "10.0.0",
-			"unicorn-magic": "0.4.0"
-		}
 	}
 }
