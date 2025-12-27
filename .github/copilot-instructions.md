@@ -58,8 +58,7 @@ Code snippets should look like they pass the repo's type-checking and linting.
 Example: don't violate ESLint's no-unused-vars for function parameters or variables, nor TypeScript's noImplicitAny.
 
 Don't mention very old legacy points unless they're relevant to a rule.
-Example: don't mention behavior differences in strict mode vs.
-non-strict mode unless the changed logic actually intersects with stuff differently between the two.
+Example: don't mention behavior differences in strict mode vs. non-strict mode unless the changed logic actually intersects with stuff differently between the two.
 
 Don't say "easily", "simply", or equivalent words or phrases.
 Nothing is simple to everyone.
@@ -116,11 +115,9 @@ Indent with four spaces.
 
 If `valid` test cases can be collapsed to one line, they should be.
 
-Start all `invalid` test case code after the first line (i.e.
-`snapshot:` and then newline), so that snapshot `~`s visually show up underneath the flagged characters of code.
+Start all `invalid` test case code after the first line (i.e. `snapshot:` and then newline), so that snapshot `~`s visually show up underneath the flagged characters of code.
 
-Don't use foo/bar/etc.
-names.
+Don't use foo/bar/etc. names.
 Use succinct descriptive ones instead.
 Example: instead of `let foo;` use `let value;`.
 Instead of `foo-.-bar` use `before-.-after`.
