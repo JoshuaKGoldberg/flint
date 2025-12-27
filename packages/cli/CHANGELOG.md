@@ -1,5 +1,16 @@
 # @flint/cli
 
+## 0.15.4
+
+### Patch Changes
+
+- edca373: fix(cli): make `runCli` respect passed args
+- Updated dependencies [483ee56]
+- Updated dependencies [3617e4f]
+- Updated dependencies [5e23e96]
+- Updated dependencies [3117eaf]
+  - @flint.fyi/core@0.17.0
+
 ## 0.15.3
 
 ### Patch Changes

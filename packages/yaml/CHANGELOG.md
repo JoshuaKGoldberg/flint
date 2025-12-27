@@ -1,5 +1,19 @@
 # @flint/yaml
 
+## 0.14.2
+
+### Patch Changes
+
+- 3617e4f: chore: pass services to rule visitors
+- 3117eaf: feat: add optional async teardown() for rules
+- Updated dependencies [483ee56]
+- Updated dependencies [3617e4f]
+- Updated dependencies [f37f0d0]
+- Updated dependencies [5e23e96]
+- Updated dependencies [3117eaf]
+  - @flint.fyi/core@0.17.0
+  - @flint.fyi/rule-tester@0.15.0
+
 ## 0.14.1
 
 ### Patch Changes

@@ -1,5 +1,23 @@
 # @flint.fyi/plugin-flint
 
+## 0.2.1
+
+### Patch Changes
+
+- 3617e4f: chore: pass services to rule visitors
+- Updated dependencies [483ee56]
+- Updated dependencies [3617e4f]
+- Updated dependencies [f37f0d0]
+- Updated dependencies [59a78c0]
+- Updated dependencies [5e23e96]
+- Updated dependencies [618f259]
+- Updated dependencies [52f8cc4]
+- Updated dependencies [46f2d0e]
+- Updated dependencies [3117eaf]
+  - @flint.fyi/core@0.17.0
+  - @flint.fyi/ts@0.15.0
+  - @flint.fyi/rule-tester@0.15.0
+
 ## 0.2.0
 
 ### Minor Changes
