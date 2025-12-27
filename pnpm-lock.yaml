@@ -1,7 +1,7 @@
 lockfileVersion: '9.0'
 
 settings:
-  autoInstallPeers: true
+  autoInstallPeers: false
   excludeLinksFromLockfile: false
 
 overrides:
@@ -457,8 +457,8 @@ importers:
         specifier: 'workspace:'
         version: link:../plugin-spelling
       '@konami-emoji-blast/astro':
-        specifier: ^0.1.1
-        version: 0.1.1(astro@5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2))(konami-emoji-blast@0.6.0)
+        specifier: ^0.2.0
+        version: 0.2.0(astro@5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2))(konami-emoji-blast@0.6.0)
       '@types/node':
         specifier: ^24.10.1
         version: 24.10.1
@@ -1444,11 +1444,11 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@konami-emoji-blast/astro@0.1.1':
-    resolution: {integrity: sha512-+P4dIQz9FhRTU2hCkAqR0pKAcW8XRA28s//3QerVydE/tO5vx/nEnsipaHzkcajg4npgF+/wczepbVYZhME8zQ==}
+  '@konami-emoji-blast/astro@0.2.0':
+    resolution: {integrity: sha512-fzZmmQSBRnnsLaK8oQlzEGLzpJuFBU7oKjoJlOzRcO6IS3avwJ6AAvHvFiYFaqT/FEupmutoJKdbue0C49zD9A==}
     peerDependencies:
-      astro: ^2 || ^3 || ^4
-      konami-emoji-blast: ''
+      astro: ^2 || ^3 || ^4 || ^5.0.0
+      konami-emoji-blast: 0.6.0
 
   '@manypkg/find-root@1.1.0':
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
@@ -5857,7 +5857,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@konami-emoji-blast/astro@0.1.1(astro@5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2))(konami-emoji-blast@0.6.0)':
+  '@konami-emoji-blast/astro@0.2.0(astro@5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2))(konami-emoji-blast@0.6.0)':
     dependencies:
       astro: 5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2)
       konami-emoji-blast: 0.6.0
