@@ -52,7 +52,7 @@
 		"eslint-plugin-yml": "1.19.0",
 		"flint": "workspace:^",
 		"husky": "9.1.7",
-		"knip": "5.76.0",
+		"knip": "5.77.1",
 		"lint-staged": "16.2.7",
 		"prettier": "3.7.4",
 		"prettier-plugin-astro": "0.14.1",
