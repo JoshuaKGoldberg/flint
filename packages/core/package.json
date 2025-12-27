@@ -15,7 +15,8 @@
 	"type": "module",
 	"exports": {
 		".": "./lib/index.js",
-		"./ts-patch/install-patch": "./lib/ts-patch/install-patch.js"
+		"./ts-patch/install-patch": "./lib/ts-patch/install-patch.js",
+		"./ts-patch/install-patch-hooks": "./lib/ts-patch/install-patch-hooks.js"
 	},
 	"dependencies": {
 		"@flint.fyi/utils": "workspace:",

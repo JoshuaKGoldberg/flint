@@ -4,15 +4,10 @@
 	"ignoreExportsUsedInFile": { "interface": true, "type": true },
 	"workspaces": {
 		".": {
-			"entry": ["flint.config.ts"],
-			"ignoreDependencies": ["flint"]
+			"entry": ["flint.config.ts"]
 		},
 		"packages/core": {
-			"entry": [
-				"src/ts-patch/install-patch.ts",
-				"src/ts-patch/proxy-program.ts",
-				"src/ts-patch/install-patch-hooks.ts"
-			]
+			"entry": ["src/ts-patch/proxy-program.ts"]
 		},
 		"packages/comparisons": {
 			"entry": ["src/sort-data.ts"]
