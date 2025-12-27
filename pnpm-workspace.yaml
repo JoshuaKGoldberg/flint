@@ -1,10 +1,15 @@
-packages:
-  - packages/*
+disallowWorkspaceCycles: true
 
 onlyBuiltDependencies:
   - esbuild@0.25.11
   - sharp@0.34.5
 
-strictDepBuilds: true
+overrides:
+  read-package-up: 12.0.0
+  read-pkg: 10.0.0
+  unicorn-magic: 0.4.0
 
-disallowWorkspaceCycles: true
+packages:
+  - packages/*
+
+strictDepBuilds: true
