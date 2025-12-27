@@ -209,7 +209,7 @@ importers:
         specifier: 'workspace:'
         version: link:../rule-tester
       typescript:
-        specifier: '>=5.9.3'
+        specifier: ^5.9.0 || ^6.0.0
         version: 5.9.3
 
   packages/md:
@@ -548,7 +548,7 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0(typescript@5.9.3)
       typescript:
-        specifier: '>=5.9.3'
+        specifier: ^5.9.0 || ^6.0.0
         version: 5.9.3
 
   packages/utils: {}
