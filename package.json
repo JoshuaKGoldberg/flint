@@ -1,5 +1,5 @@
 {
-	"name": "flint",
+	"name": "@flint/workspace",
 	"version": "0.12.0",
 	"private": true,
 	"description": "[Experimental] Monorepo for Flint: a fast, friendly linter. ❤️‍🔥",
@@ -13,10 +13,6 @@
 		"email": "npm@joshuakgoldberg.com"
 	},
 	"type": "module",
-	"files": [
-		"bin/index.js",
-		"lib/"
-	],
 	"scripts": {
 		"build": "tsc -b",
 		"flint": "node packages/flint/bin/index.js",
@@ -75,9 +71,6 @@
 	"packageManager": "pnpm@10.26.0",
 	"engines": {
 		"node": ">=24.0.0"
-	},
-	"publishConfig": {
-		"provenance": true
 	},
 	"pnpm": {
 		"overrides": {
