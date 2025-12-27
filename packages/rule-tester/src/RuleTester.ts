@@ -164,7 +164,7 @@ export class RuleTester {
 				this.#fileFactories,
 				{
 					// TODO: Figure out a way around the type assertion...
-					options: (testCase.options ?? {}) as InferredObject<OptionsSchema>,
+					options: testCase.options ?? ({} as InferredObject<OptionsSchema>),
 					rule,
 				},
 				testCaseNormalized,
