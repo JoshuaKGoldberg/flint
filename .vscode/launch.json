@@ -14,7 +14,7 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "Run Flint 🏕️🐶",
+			"name": "Run Flint",
 			"program": "${workspaceFolder}/packages/flint/bin/index.js",
 			"sourceMaps": true,
 			"console": "integratedTerminal",
