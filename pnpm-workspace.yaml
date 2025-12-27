@@ -1,3 +1,5 @@
+autoInstallPeers: false
+
 onlyBuiltDependencies:
   - esbuild@0.25.11
   - sharp@0.34.5
@@ -11,3 +13,5 @@ packages:
   - packages/*
 
 strictDepBuilds: true
+
+strictPeerDependencies: true
