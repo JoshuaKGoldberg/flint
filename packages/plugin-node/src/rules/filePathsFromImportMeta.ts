@@ -10,7 +10,7 @@ function isFileURLToPathCall(node: ts.Node): node is ts.CallExpression {
 	);
 }
 
-function isImportMetaFilename(node: ts.Node): boolean {
+function isImportMetaFilename(node: ts.Node) {
 	return (
 		ts.isPropertyAccessExpression(node) &&
 		ts.isMetaProperty(node.expression) &&
@@ -22,7 +22,7 @@ function isImportMetaFilename(node: ts.Node): boolean {
 	);
 }
 
-function isImportMetaUrl(node: ts.Node): boolean {
+function isImportMetaUrl(node: ts.Node) {
 	return (
 		ts.isPropertyAccessExpression(node) &&
 		ts.isMetaProperty(node.expression) &&
@@ -91,61 +91,60 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				CallExpression: (node, { sourceFile }) => {
 					// Check for path.dirname(fileURLToPath(import.meta.url))
-					// This must be checked first to avoid double-reporting
-					if (
-						isPathDirnameCall(node) &&
-						isFileURLToPathCall(node.arguments[0]) &&
-						isImportMetaUrl(node.arguments[0].arguments[0])
-					) {
-						context.report({
-							message: "preferImportMetaDirname",
-							range: getTSNodeRange(node, sourceFile),
-						});
-						return;
-					}
-
 					// Check for path.dirname(import.meta.filename)
-					if (
-						isPathDirnameCall(node) &&
-						isImportMetaFilename(node.arguments[0])
-					) {
-						context.report({
-							message: "preferImportMetaDirname",
-							range: getTSNodeRange(node, sourceFile),
-						});
-						return;
-					}
-
-					// Check for fileURLToPath(new URL('.', import.meta.url))
-					if (
-						isFileURLToPathCall(node) &&
-						isNewURLWithDot(node.arguments[0]) &&
-						isImportMetaUrl(node.arguments[0].arguments[1])
-					) {
-						context.report({
-							message: "preferImportMetaDirname",
-							range: getTSNodeRange(node, sourceFile),
-						});
-						return;
-					}
-
-					// Check for fileURLToPath(import.meta.url)
-					// This must be checked last to avoid double-reporting when inside path.dirname()
-					if (isFileURLToPathCall(node) && isImportMetaUrl(node.arguments[0])) {
-						// Don't report if this is inside a path.dirname call
+					// These must be checked first to avoid double-reporting
+					if (isPathDirnameCall(node)) {
 						if (
-							ts.isCallExpression(node.parent) &&
-							isPathDirnameCall(node.parent) &&
-							node.parent.arguments[0] === node
+							isFileURLToPathCall(node.arguments[0]) &&
+							isImportMetaUrl(node.arguments[0].arguments[0])
 						) {
+							context.report({
+								message: "preferImportMetaDirname",
+								range: getTSNodeRange(node, sourceFile),
+							});
 							return;
 						}
 
-						context.report({
-							message: "preferImportMetaFilename",
-							range: getTSNodeRange(node, sourceFile),
-						});
-						return;
+						if (isImportMetaFilename(node.arguments[0])) {
+							context.report({
+								message: "preferImportMetaDirname",
+								range: getTSNodeRange(node, sourceFile),
+							});
+							return;
+						}
+					}
+
+					// Check for fileURLToPath(new URL('.', import.meta.url))
+					// Check for fileURLToPath(import.meta.url)
+					// This must be checked last to avoid double-reporting when inside path.dirname()
+					if (isFileURLToPathCall(node)) {
+						if (
+							isNewURLWithDot(node.arguments[0]) &&
+							isImportMetaUrl(node.arguments[0].arguments[1])
+						) {
+							context.report({
+								message: "preferImportMetaDirname",
+								range: getTSNodeRange(node, sourceFile),
+							});
+							return;
+						}
+
+						if (isImportMetaUrl(node.arguments[0])) {
+							// Don't report if this is inside a path.dirname call
+							if (
+								ts.isCallExpression(node.parent) &&
+								isPathDirnameCall(node.parent) &&
+								node.parent.arguments[0] === node
+							) {
+								return;
+							}
+
+							context.report({
+								message: "preferImportMetaFilename",
+								range: getTSNodeRange(node, sourceFile),
+							});
+							return;
+						}
 					}
 				},
 			},

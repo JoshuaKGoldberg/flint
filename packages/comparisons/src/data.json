@@ -4237,11 +4237,11 @@
 			}
 		],
 		"flint": {
-			"implemented": true,
 			"name": "filePathsFromImportMeta",
 			"plugin": "node",
 			"preset": "stylistic",
-			"strictness": "strict"
+			"strictness": "strict",
+			"status": "implemented"
 		}
 	},
 	{
