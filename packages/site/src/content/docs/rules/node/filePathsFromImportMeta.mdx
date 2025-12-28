@@ -24,11 +24,17 @@ These properties provide direct access to directory and file paths without requi
 
 ```ts
 const filename = fileURLToPath(import.meta.url);
+```
 
+```ts
 const dirname = path.dirname(fileURLToPath(import.meta.url));
+```
 
+```ts
 const dirname = path.dirname(import.meta.filename);
+```
 
+```ts
 const dirname = fileURLToPath(new URL(".", import.meta.url));
 ```
 
@@ -37,9 +43,13 @@ const dirname = fileURLToPath(new URL(".", import.meta.url));
 
 ```ts
 const filename = import.meta.filename;
+```
 
+```ts
 const dirname = import.meta.dirname;
+```
 
+```ts
 const url = import.meta.url;
 ```
 

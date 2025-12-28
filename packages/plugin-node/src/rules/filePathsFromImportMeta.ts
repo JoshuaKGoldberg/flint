@@ -89,7 +89,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression: (node, { sourceFile }) => {
 					// Check for path.dirname(fileURLToPath(import.meta.url))
 					// This must be checked first to avoid double-reporting
 					if (
@@ -99,7 +99,7 @@ export default typescriptLanguage.createRule({
 					) {
 						context.report({
 							message: "preferImportMetaDirname",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: getTSNodeRange(node, sourceFile),
 						});
 						return;
 					}
@@ -111,7 +111,7 @@ export default typescriptLanguage.createRule({
 					) {
 						context.report({
 							message: "preferImportMetaDirname",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: getTSNodeRange(node, sourceFile),
 						});
 						return;
 					}
@@ -124,7 +124,7 @@ export default typescriptLanguage.createRule({
 					) {
 						context.report({
 							message: "preferImportMetaDirname",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: getTSNodeRange(node, sourceFile),
 						});
 						return;
 					}
@@ -143,7 +143,7 @@ export default typescriptLanguage.createRule({
 
 						context.report({
 							message: "preferImportMetaFilename",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: getTSNodeRange(node, sourceFile),
 						});
 						return;
 					}
