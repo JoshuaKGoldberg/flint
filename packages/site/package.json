@@ -35,6 +35,7 @@
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
 		"remark-custom-heading-id": "^2.0.0",
+		"starlight-blog": "^0.25.2",
 		"starlight-links-validator": "^0.19.1",
 		"starlight-package-managers": "^0.11.1",
 		"starlight-sidebar-topics": "^0.6.2",
