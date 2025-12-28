@@ -43,6 +43,26 @@ const settings = JSON.parse(fs.readFileSync('./settings.json', 'utf-8'));
                                                                Prefer reading the JSON file as a buffer instead of specifying UTF-8 encoding.
 `,
 		},
+		{
+			code: `
+const data = JSON.parse(await fs.readFile('./file.json', {encoding: 'utf8'}));
+`,
+			snapshot: `
+const data = JSON.parse(await fs.readFile('./file.json', {encoding: 'utf8'}));
+                                                         ~~~~~~~~~~~~~~~~~~
+                                                         Prefer reading the JSON file as a buffer instead of specifying UTF-8 encoding.
+`,
+		},
+		{
+			code: `
+const config = JSON.parse(fs.readFileSync('./config.json', {encoding: 'utf-8'}));
+`,
+			snapshot: `
+const config = JSON.parse(fs.readFileSync('./config.json', {encoding: 'utf-8'}));
+                                                           ~~~~~~~~~~~~~~~~~~~
+                                                           Prefer reading the JSON file as a buffer instead of specifying UTF-8 encoding.
+`,
+		},
 	],
 	valid: [
 		`const packageJson = JSON.parse(await fs.readFile('./package.json'));`,
