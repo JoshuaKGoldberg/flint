@@ -6,6 +6,7 @@ import blobReadingMethods from "./rules/blobReadingMethods.js";
 import bufferAllocators from "./rules/bufferAllocators.js";
 import eventClasses from "./rules/eventClasses.js";
 import exportsAssignments from "./rules/exportsAssignments.js";
+import filePathsFromImportMeta from "./rules/filePathsFromImportMeta.js";
 import fileReadJSONBuffers from "./rules/fileReadJSONBuffers.js";
 
 export const node = createPlugin({
@@ -17,6 +18,7 @@ export const node = createPlugin({
 		bufferAllocators,
 		eventClasses,
 		exportsAssignments,
+		filePathsFromImportMeta,
 		fileReadJSONBuffers,
 	],
 });
