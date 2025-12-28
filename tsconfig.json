@@ -3,7 +3,7 @@
 		"noEmit": true
 	},
 	"extends": "./tsconfig.base.json",
-	"include": ["./*.ts"],
+	"include": ["./*.ts", "packages/*/bin/index.js", "./@types/*/*.d.ts"],
 	"references": [
 		{ "path": "./packages/comparisons" },
 		{ "path": "./packages/core" },

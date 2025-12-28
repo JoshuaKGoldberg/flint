@@ -4,7 +4,7 @@
 	"description": "[Experimental] A Flint plugin for Node.js code.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/plugin-node"
 	},
 	"license": "MIT",
@@ -12,13 +12,18 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
+	"sideEffects": false,
 	"type": "module",
-	"exports": "./lib/index.js",
+	"exports": {
+		".": "./lib/index.js"
+	},
+	"files": [
+		"lib/"
+	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/rule-tester": "workspace:",
-		"@flint.fyi/ts": "workspace:",
-		"@flint.fyi/utils": "workspace:"
+		"@flint.fyi/ts": "workspace:"
 	},
 	"engines": {
 		"node": ">=24.0.0"

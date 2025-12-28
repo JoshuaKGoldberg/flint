@@ -25,15 +25,12 @@ importers:
       '@eslint/markdown':
         specifier: 7.5.1
         version: 7.5.1
-      '@flint.fyi/plugin-browser':
+      '@flint.fyi/core':
         specifier: workspace:^
-        version: link:packages/plugin-browser
+        version: link:packages/core
       '@flint.fyi/plugin-flint':
         specifier: workspace:^
         version: link:packages/plugin-flint
-      '@flint.fyi/plugin-jsx':
-        specifier: workspace:^
-        version: link:packages/plugin-jsx
       '@flint.fyi/plugin-node':
         specifier: workspace:^
         version: link:packages/plugin-node
@@ -88,6 +85,9 @@ importers:
       husky:
         specifier: 9.1.7
         version: 9.1.7
+      jiti:
+        specifier: 2.6.1
+        version: 2.6.1
       knip:
         specifier: 5.76.0
         version: 5.76.0(@types/node@24.10.1)(typescript@5.9.3)
@@ -245,15 +245,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
-      '@flint.fyi/ts':
-        specifier: 'workspace:'
-        version: link:../ts
-      '@flint.fyi/utils':
-        specifier: 'workspace:'
-        version: link:../utils
 
   packages/plugin-browser:
     dependencies:
@@ -266,9 +257,6 @@ importers:
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
-      '@flint.fyi/utils':
-        specifier: 'workspace:'
-        version: link:../utils
 
   packages/plugin-flint:
     dependencies:
@@ -296,9 +284,6 @@ importers:
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
-      '@flint.fyi/utils':
-        specifier: 'workspace:'
-        version: link:../utils
       language-tags:
         specifier: ^2.1.0
         version: 2.1.0
@@ -312,15 +297,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
-      '@flint.fyi/ts':
-        specifier: 'workspace:'
-        version: link:../ts
-      '@flint.fyi/utils':
-        specifier: 'workspace:'
-        version: link:../utils
 
   packages/plugin-node:
     dependencies:
@@ -333,24 +309,12 @@ importers:
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
-      '@flint.fyi/utils':
-        specifier: 'workspace:'
-        version: link:../utils
 
   packages/plugin-nuxt:
     dependencies:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
-      '@flint.fyi/ts':
-        specifier: 'workspace:'
-        version: link:../ts
-      '@flint.fyi/utils':
-        specifier: 'workspace:'
-        version: link:../utils
 
   packages/plugin-performance:
     dependencies:
@@ -363,9 +327,6 @@ importers:
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
-      '@flint.fyi/utils':
-        specifier: 'workspace:'
-        version: link:../utils
       ts-api-utils:
         specifier: ^2.1.0
         version: 2.1.0(typescript@5.9.3)
@@ -375,30 +336,12 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
-      '@flint.fyi/ts':
-        specifier: 'workspace:'
-        version: link:../ts
-      '@flint.fyi/utils':
-        specifier: 'workspace:'
-        version: link:../utils
 
   packages/plugin-solid:
     dependencies:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
-      '@flint.fyi/ts':
-        specifier: 'workspace:'
-        version: link:../ts
-      '@flint.fyi/utils':
-        specifier: 'workspace:'
-        version: link:../utils
 
   packages/plugin-spelling:
     dependencies:
@@ -453,6 +396,9 @@ importers:
       '@flint.fyi/plugin-flint':
         specifier: 'workspace:'
         version: link:../plugin-flint
+      '@flint.fyi/plugin-jsx':
+        specifier: 'workspace:'
+        version: link:../plugin-jsx
       '@flint.fyi/plugin-node':
         specifier: 'workspace:'
         version: link:../plugin-node
@@ -523,9 +469,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       index-to-position:
         specifier: ^1.2.0
         version: 1.2.0

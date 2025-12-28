@@ -4,7 +4,7 @@
 	"description": "[Experimental] A spell-checker plugin for Flint powered by CSpell.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/plugin-spelling"
 	},
 	"license": "MIT",
@@ -12,8 +12,14 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
+	"sideEffects": false,
 	"type": "module",
-	"exports": "./lib/index.js",
+	"exports": {
+		".": "./lib/index.js"
+	},
+	"files": [
+		"lib/"
+	],
 	"dependencies": {
 		"@cspell/url": "^9.2.2",
 		"@flint.fyi/core": "workspace:",
