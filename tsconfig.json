@@ -6,9 +6,10 @@
 	"extends": "./tsconfig.base.json",
 	"include": [
 		"./@types/*/*.ts",
-		"./*.ts",
 		"./*.js",
-		"./packages/*/tsdown.config.ts"
+		"./*.ts",
+		"./packages/*/tsdown.config.ts",
+		"packages/*/bin/index.js"
 	],
 	"references": [
 		{ "path": "./packages/comparisons" },

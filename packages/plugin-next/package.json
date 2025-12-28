@@ -4,7 +4,7 @@
 	"description": "[Experimental] A Flint plugin for Next.js code.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/plugin-next"
 	},
 	"license": "MIT",
@@ -12,6 +12,7 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
+	"sideEffects": false,
 	"type": "module",
 	"exports": {
 		".": {
@@ -23,11 +24,12 @@
 	"main": "./lib/index.js",
 	"module": "./lib/index.js",
 	"types": "./lib/index.d.ts",
+	"files": [
+		"lib/"
+	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/rule-tester": "workspace:",
-		"@flint.fyi/ts": "workspace:",
-		"@flint.fyi/utils": "workspace:"
+		"typescript": "^5.9.3"
 	},
 	"engines": {
 		"node": ">=24.0.0"

@@ -1,16 +1,14 @@
 {
 	"$schema": "./node_modules/knip/schema.json",
-	"ignore": ["flint.config.*", "packages/fixtures/*"],
-	"ignoreDependencies": ["flint", "^@flint\\.fyi\\/.*"],
+	"ignore": ["packages/fixtures/*"],
 	"ignoreExportsUsedInFile": { "interface": true, "type": true },
 	"treatConfigHintsAsErrors": true,
-	"ignoreUnresolved": [".*/lib/ts-patch/install-patch-hooks.js"],
 	"workspaces": {
+		".": {
+			"entry": ["flint.config.ts"]
+		},
 		"packages/core": {
-			"entry": [
-				"src/ts-patch/install-patch.ts",
-				"src/ts-patch/install-patch-hooks.ts"
-			]
+			"entry": ["src/ts-patch/proxy-program.ts"]
 		},
 		"packages/comparisons": {
 			"entry": ["src/sort-data.ts"]

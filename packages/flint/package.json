@@ -4,7 +4,7 @@
 	"description": "[Experimental] A fast, friendly linter. ❤️‍🔥",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/flint"
 	},
 	"license": "MIT",
@@ -12,6 +12,7 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
+	"sideEffects": false,
 	"type": "module",
 	"exports": {
 		".": {
@@ -23,7 +24,9 @@
 	"main": "./lib/index.js",
 	"module": "./lib/index.js",
 	"types": "./lib/index.d.ts",
-	"bin": "bin/index.js",
+	"bin": {
+		"flint": "bin/index.js"
+	},
 	"files": [
 		"lib/"
 	],
@@ -33,7 +36,8 @@
 		"@flint.fyi/json": "workspace:",
 		"@flint.fyi/md": "workspace:",
 		"@flint.fyi/ts": "workspace:",
-		"@flint.fyi/yaml": "workspace:"
+		"@flint.fyi/yaml": "workspace:",
+		"typescript": "^5.9.3"
 	},
 	"engines": {
 		"node": ">=24.0.0"

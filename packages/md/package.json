@@ -4,7 +4,7 @@
 	"description": "[Experimental] Markdown language plugin for Flint.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/md"
 	},
 	"license": "MIT",
@@ -12,6 +12,7 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
+	"sideEffects": false,
 	"type": "module",
 	"exports": {
 		".": {
@@ -23,15 +24,20 @@
 	"main": "./lib/index.js",
 	"module": "./lib/index.js",
 	"types": "./lib/index.d.ts",
+	"files": [
+		"lib/"
+	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/rule-tester": "workspace:",
 		"remark-parse": "^11.0.0",
+		"typescript": "^5.9.3 || ^6.0.0",
 		"unified": "^11.0.5",
 		"unist-util-visit": "^5.0.0"
 	},
 	"devDependencies": {
-		"@types/unist": "3.0.3"
+		"@types/unist": "3.0.3",
+		"vitest": "4.0.15"
 	},
 	"engines": {
 		"node": ">=24.0.0"
