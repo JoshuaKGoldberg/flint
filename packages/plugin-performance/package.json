@@ -12,13 +12,18 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
+	"sideEffects": false,
 	"type": "module",
-	"exports": "./lib/index.js",
+	"exports": {
+		".": "./lib/index.js"
+	},
+	"files": [
+		"lib/"
+	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/rule-tester": "workspace:",
 		"@flint.fyi/ts": "workspace:",
-		"@flint.fyi/utils": "workspace:",
 		"ts-api-utils": "^2.1.0"
 	},
 	"engines": {

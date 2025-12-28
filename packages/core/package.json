@@ -12,11 +12,20 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
+	"sideEffects": [
+		"./lib/ts-patch/install-patch.js",
+		"./lib/ts-patch/install-patch-hooks.js",
+		"./lib/ts-patch/proxy-program.ts"
+	],
 	"type": "module",
 	"exports": {
 		".": "./lib/index.js",
-		"./ts-patch/install-patch": "./lib/ts-patch/install-patch.js"
+		"./ts-patch/install-patch": "./lib/ts-patch/install-patch.js",
+		"./ts-patch/install-patch-hooks": "./lib/ts-patch/install-patch-hooks.js"
 	},
+	"files": [
+		"lib/"
+	],
 	"dependencies": {
 		"@flint.fyi/utils": "workspace:",
 		"cached-factory": "^0.1.0",
