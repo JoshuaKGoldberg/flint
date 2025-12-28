@@ -51,14 +51,21 @@ export default typescriptLanguage.createRule({
 						node.expression.expression.getEnd(),
 					);
 
-					const callText = sourceFile.text.slice(
-						node.getStart(sourceFile),
-						node.getEnd(),
-					);
+					// Find the opening parenthesis token to avoid being confused by comments
+					const openParenToken = node
+						.getChildren(sourceFile)
+						.find((child) => child.kind === ts.SyntaxKind.OpenParenToken);
 
-					const parenthesisIndex = callText.indexOf("(");
+					if (!openParenToken) {
+						return;
+					}
+
+					const argsStart = openParenToken.getEnd();
+					const argsEnd = node.getEnd() - 1; // Exclude closing paren
 					const argsText =
-						parenthesisIndex >= 0 && callText.slice(parenthesisIndex + 1, -1);
+						argsEnd > argsStart
+							? sourceFile.text.slice(argsStart, argsEnd)
+							: "";
 
 					const suggestionText = `Object.prototype.${method}.call(${objectText}${argsText ? ", " + argsText : ""})`;
 
