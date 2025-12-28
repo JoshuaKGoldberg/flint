@@ -46,21 +46,27 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
+					const openParenthesisToken = findToken(
+						node,
+						ts.SyntaxKind.OpenParenToken,
+						sourceFile,
+					);
+
+					const closeParenthesisToken = findToken(
+						node,
+						ts.SyntaxKind.CloseParenToken,
+						sourceFile,
+					);
+
 					const objectText = sourceFile.text.slice(
 						node.expression.expression.getStart(sourceFile),
 						node.expression.expression.getEnd(),
 					);
 
-					const callText = sourceFile.text.slice(
-						node.getStart(sourceFile),
-						node.getEnd(),
+					const argumentsText = sourceFile.text.slice(
+						openParenthesisToken.getEnd(),
+						closeParenthesisToken.getStart(sourceFile),
 					);
-
-					const parenthesisIndex = callText.indexOf("(");
-					const argsText =
-						parenthesisIndex >= 0 && callText.slice(parenthesisIndex + 1, -1);
-
-					const suggestionText = `Object.prototype.${method}.call(${objectText}${argsText ? ", " + argsText : ""})`;
 
 					context.report({
 						data: { method },
@@ -69,11 +75,8 @@ export default typescriptLanguage.createRule({
 						suggestions: [
 							{
 								id: "use-prototype-call",
-								range: {
-									begin: node.getStart(sourceFile),
-									end: node.getEnd(),
-								},
-								text: suggestionText,
+								range: getTSNodeRange(node, sourceFile),
+								text: `Object.prototype.${method}.call(${objectText}, ${argumentsText})`,
 							},
 						],
 					});
@@ -82,3 +85,12 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+function findToken(
+	node: ts.Node,
+	token: ts.SyntaxKind,
+	sourceFile: ts.SourceFile,
+) {
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	return node.getChildren(sourceFile).find((child) => child.kind === token)!;
+}

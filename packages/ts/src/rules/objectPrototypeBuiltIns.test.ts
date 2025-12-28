@@ -81,6 +81,60 @@ if (Object.prototype.hasOwnProperty.call(data, key)) {
 				},
 			],
 		},
+		{
+			code: `
+const has = object.hasOwnProperty/* comment */("key");
+`,
+			snapshot: `
+const has = object.hasOwnProperty/* comment */("key");
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            Prefer the safer \`Object.prototype.hasOwnProperty.call()\` over calling \`hasOwnProperty()\` directly on objects.
+`,
+			suggestions: [
+				{
+					id: "use-prototype-call",
+					updated: `
+const has = Object.prototype.hasOwnProperty.call(object, "key");
+`,
+				},
+			],
+		},
+		{
+			code: `
+const has = object.hasOwnProperty/* :( */("key");
+`,
+			snapshot: `
+const has = object.hasOwnProperty/* :( */("key");
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            Prefer the safer \`Object.prototype.hasOwnProperty.call()\` over calling \`hasOwnProperty()\` directly on objects.
+`,
+			suggestions: [
+				{
+					id: "use-prototype-call",
+					updated: `
+const has = Object.prototype.hasOwnProperty.call(object, "key");
+`,
+				},
+			],
+		},
+		{
+			code: `
+const has = object.hasOwnProperty(/* comment */ "key");
+`,
+			snapshot: `
+const has = object.hasOwnProperty(/* comment */ "key");
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            Prefer the safer \`Object.prototype.hasOwnProperty.call()\` over calling \`hasOwnProperty()\` directly on objects.
+`,
+			suggestions: [
+				{
+					id: "use-prototype-call",
+					updated: `
+const has = Object.prototype.hasOwnProperty.call(object, /* comment */ "key");
+`,
+				},
+			],
+		},
 	],
 	valid: [
 		`const has = Object.prototype.hasOwnProperty.call(object, "key");`,
