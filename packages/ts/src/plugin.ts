@@ -36,6 +36,7 @@ import objectCalls from "./rules/objectCalls.js";
 import objectHasOwns from "./rules/objectHasOwns.js";
 import objectKeyDuplicates from "./rules/objectKeyDuplicates.js";
 import objectProto from "./rules/objectProto.js";
+import objectPrototypeBuiltIns from "./rules/objectPrototypeBuiltIns.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
 import returnAssignments from "./rules/returnAssignments.js";
@@ -99,6 +100,7 @@ export const ts = createPlugin({
 		objectHasOwns,
 		objectKeyDuplicates,
 		objectProto,
+		objectPrototypeBuiltIns,
 		octalEscapes,
 		octalNumbers,
 		returnAssignments,
