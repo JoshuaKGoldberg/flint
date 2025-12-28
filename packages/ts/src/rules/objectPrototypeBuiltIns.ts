@@ -19,15 +19,13 @@ export default typescriptLanguage.createRule({
 	messages: {
 		prototypeBuiltIn: {
 			primary:
-				"Use Object.prototype.{{ method }}.call() instead of calling {{ method }} directly on an object.",
+				"Prefer Object.prototype.{{ method }}.call() over calling {{ method }}() directly on objects.",
 			secondary: [
-				"Objects can have properties that shadow built-in methods from Object.prototype.",
-				"Calling these methods directly can fail if the object was created with Object.create(null) or has shadowing properties.",
-				"Always call these methods through Object.prototype to ensure they work correctly.",
+				"Objects can have properties that shadow built-in methods from Object.prototype such as {{ method }}().",
+				"Objects created with Object.create(null) do not inherit from Object.prototype and will not have these methods.",
+				"Calling these methods directly can fail or execute unintended code if the object has shadowing properties.",
 			],
-			suggestions: [
-				"Use Object.prototype.{{ method }}.call(...) to safely call the method.",
-			],
+			suggestions: ["Call the method through Object.prototype using .call()."],
 		},
 	},
 	setup(context) {
@@ -45,11 +43,6 @@ export default typescriptLanguage.createRule({
 					if (!prototypeMethods.has(methodName)) {
 						return;
 					}
-
-					const nameRange = getTSNodeRange(
-						node.expression.name,
-						context.sourceFile,
-					);
 
 					const objectText = context.sourceFile.text.slice(
 						node.expression.expression.getStart(context.sourceFile),
@@ -72,7 +65,7 @@ export default typescriptLanguage.createRule({
 							method: methodName,
 						},
 						message: "prototypeBuiltIn",
-						range: nameRange,
+						range: getTSNodeRange(node, context.sourceFile),
 						suggestions: [
 							{
 								id: "use-prototype-call",

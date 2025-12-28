@@ -235,5 +235,29 @@ class MyClass {
     }
 }
 `,
+		`
+let result = "";
+result += "a" + "b";
+`,
+		`
+let result = 0;
+result += 1 + 2;
+`,
+		`
+let result = 0;
+result += 1 * 2;
+`,
+		`
+let result = 0;
+result += 1 - 2;
+`,
+		`
+let result = 0;
+result += 1 / 2;
+`,
+		`
+let result = 0;
+result += 1 ** 2;
+`,
 	],
 });
