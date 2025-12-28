@@ -4241,7 +4241,8 @@
 			"name": "filePathsFromImportMeta",
 			"plugin": "node",
 			"preset": "stylistic",
-			"strictness": "strict"
+			"strictness": "strict",
+			"status": "implemented"
 		}
 	},
 	{
@@ -4255,6 +4256,7 @@
 			"name": "fileReadJSONBuffers",
 			"plugin": "node",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		}
 	},

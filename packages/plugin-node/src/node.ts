@@ -7,6 +7,8 @@ import bufferAllocators from "./rules/bufferAllocators.js";
 import consoleSpaces from "./rules/consoleSpaces.js";
 import eventClasses from "./rules/eventClasses.js";
 import exportsAssignments from "./rules/exportsAssignments.js";
+import filePathsFromImportMeta from "./rules/filePathsFromImportMeta.js";
+import fileReadJSONBuffers from "./rules/fileReadJSONBuffers.js";
 
 export const node = createPlugin({
 	name: "Node.js",
@@ -18,5 +20,7 @@ export const node = createPlugin({
 		consoleSpaces,
 		eventClasses,
 		exportsAssignments,
+		filePathsFromImportMeta,
+		fileReadJSONBuffers,
 	],
 });
