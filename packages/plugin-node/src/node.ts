@@ -9,7 +9,7 @@ import eventClasses from "./rules/eventClasses.js";
 import exportsAssignments from "./rules/exportsAssignments.js";
 
 export const node = createPlugin({
-	name: "node",
+	name: "Node.js",
 	rules: [
 		assertStrict,
 		assertStyles,

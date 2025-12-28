@@ -1,5 +1,18 @@
 # @flint.fyi/text
 
+## 0.14.1
+
+### Patch Changes
+
+- d99170f: fix: add missing ("phantom") dependencies to package.jsons
+- 3617e4f: chore: pass services to rule visitors
+- Updated dependencies [483ee56]
+- Updated dependencies [d99170f]
+- Updated dependencies [3617e4f]
+- Updated dependencies [5e23e96]
+- Updated dependencies [3117eaf]
+  - @flint.fyi/core@0.17.0
+
 ## 0.14.0
 
 ### Minor Changes

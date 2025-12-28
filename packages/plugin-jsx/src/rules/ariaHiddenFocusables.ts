@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const focusableElements = new Set([
@@ -33,7 +37,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(node: ts.JsxOpeningLikeElement) {
+		function checkElement(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			const { attributes, tagName } = node;
 			if (!ts.isIdentifier(tagName)) {
 				return;
@@ -65,7 +72,7 @@ export default typescriptLanguage.createRule({
 			) {
 				context.report({
 					message: "ariaHiddenFocusable",
-					range: getTSNodeRange(ariaHiddenProperty, context.sourceFile),
+					range: getTSNodeRange(ariaHiddenProperty, sourceFile),
 				});
 			}
 		}

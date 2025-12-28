@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -42,7 +46,10 @@ export default typescriptLanguage.createRule({
 			return false;
 		}
 
-		function checkElement(node: ts.JsxOpeningLikeElement) {
+		function checkElement(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			for (const property of node.attributes.properties) {
 				if (
 					ts.isJsxAttribute(property) &&
@@ -52,7 +59,7 @@ export default typescriptLanguage.createRule({
 				) {
 					context.report({
 						message: "noAutoFocus",
-						range: getTSNodeRange(property, context.sourceFile),
+						range: getTSNodeRange(property, sourceFile),
 					});
 				}
 			}
