@@ -1,6 +1,7 @@
 ---
-description: "Prefer Object.hasOwn() over Object.prototype.hasOwnProperty.call() for checking own properties."
+description: "Prefer `Object.hasOwn()` over `Object.prototype.hasOwnProperty.call()` for checking own properties."
 title: "objectHasOwns"
+topic: "rules"
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
@@ -12,7 +13,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 `Object.hasOwn()` is the modern, recommended way to check if an object has a property as its own property (not inherited from the prototype chain).
 It provides a safer and more convenient alternative to older patterns like `Object.prototype.hasOwnProperty.call()` or calling `hasOwnProperty()` directly on objects.
 
-Using `Object.hasOwn()` avoids potential issues with objects that don't inherit from `Object.prototype` (such as objects created with `Object.create(null)`) or objects that have overridden the `hasOwnProperty` method.
+Using `Object.hasOwn()` avoids potential issues with objects that don't inherit from `Object.prototype`, such as objects created with `Object.create(null)` and objects that have overridden the `hasOwnProperty` method.
 
 ## Examples
 
@@ -70,8 +71,7 @@ This rule is not configurable.
 If you need to support JavaScript environments that don't have `Object.hasOwn()` (pre-ES2022), you might need to disable this rule or use a polyfill.
 `Object.hasOwn()` is supported in Node.js 16.9.0+ and all modern browsers.
 
-For projects with a large existing codebase using the older patterns, the refactoring effort might be significant.
-In such cases, you can disable this rule and migrate gradually.
+For projects with a large existing codebase using the older patterns, and projects where `hasOwn` and/or `hasOwnProperty` are overridden with custom semantics, this rule might not be applicable.
 
 ## Further Reading
 
