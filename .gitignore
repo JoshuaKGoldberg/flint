@@ -3,5 +3,5 @@ packages/*/.astro
 packages/*/dist
 packages/*/lib
 /.tsbuildinfo/
-packages/*/.tsbuildinfo/
+packages/*/*.tsbuildinfo
 tsconfig.vitest-temp.json
