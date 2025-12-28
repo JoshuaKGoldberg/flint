@@ -1,5 +1,11 @@
 # @flint.fyi/comparisons
 
+## 0.1.2
+
+### Patch Changes
+
+- d99170f: fix: add missing ("phantom") dependencies to package.jsons
+
 ## 0.1.1
 
 ### Patch Changes

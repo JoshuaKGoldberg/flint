@@ -1,4 +1,4 @@
-# @flint.fyi/plugin-browser
+# @flint.fyi/plugin-performance
 
 ## 0.1.1
 
@@ -19,15 +19,3 @@
   - @flint.fyi/core@0.17.0
   - @flint.fyi/ts@0.15.0
   - @flint.fyi/rule-tester@0.15.0
-
-## 0.1.0
-
-### Minor Changes
-
-- 9b6b884: added browser plugin with alerts rule
-
-### Patch Changes
-
-- Updated dependencies [9b6b884]
-- Updated dependencies [c8bad31]
-  - @flint.fyi/ts@0.14.3
