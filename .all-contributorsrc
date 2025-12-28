@@ -97,7 +97,8 @@
         "code",
         "tool",
         "maintenance",
-        "bug"
+        "bug",
+        "infra"
       ]
     },
     {
