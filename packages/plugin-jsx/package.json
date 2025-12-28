@@ -4,7 +4,7 @@
 	"description": "[Experimental] A Flint plugin for JSX code.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/plugin-jsx"
 	},
 	"license": "MIT",

@@ -4,7 +4,7 @@
 	"description": "[Experimental] Rule unit tests for Flint.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/rule-tester"
 	},
 	"license": "MIT",

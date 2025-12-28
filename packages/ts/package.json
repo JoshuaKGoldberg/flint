@@ -4,7 +4,7 @@
 	"description": "[Experimental] TypeScript language plugin for Flint.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/ts"
 	},
 	"license": "MIT",

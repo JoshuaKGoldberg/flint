@@ -4,7 +4,7 @@
 	"description": "[Experimental] A spell-checker plugin for Flint powered by CSpell.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/plugin-spelling"
 	},
 	"license": "MIT",
