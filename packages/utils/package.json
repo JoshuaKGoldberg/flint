@@ -4,7 +4,7 @@
 	"description": "[Experimental] Shared utilities used by @flint/core and at least one other package.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/utils"
 	},
 	"license": "MIT",
