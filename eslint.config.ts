@@ -1,3 +1,5 @@
+import type { Linter } from "eslint";
+
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import eslint from "@eslint/js";
 import markdown from "@eslint/markdown";
@@ -33,7 +35,8 @@ export default defineConfig(
 			jsdoc.configs["flat/logical-typescript-error"],
 			jsdoc.configs["flat/stylistic-typescript-error"],
 			n.configs["flat/recommended"],
-			perfectionist.configs["recommended-natural"],
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			perfectionist.configs!["recommended-natural"] as Linter.Config,
 			regexp.configs["flat/recommended"],
 			tseslint.configs.strictTypeChecked,
 			tseslint.configs.stylisticTypeChecked,
@@ -41,9 +44,7 @@ export default defineConfig(
 		files: ["**/*.{js,ts}"],
 		languageOptions: {
 			parserOptions: {
-				projectService: {
-					allowDefaultProject: ["*.config.js", "packages/*/bin/index.js"],
-				},
+				projectService: true,
 			},
 		},
 		rules: {
