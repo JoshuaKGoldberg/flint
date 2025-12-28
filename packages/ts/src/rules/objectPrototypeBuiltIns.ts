@@ -60,8 +60,16 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
+					const closeParenToken = node
+						.getChildren(sourceFile)
+						.find((child) => child.kind === ts.SyntaxKind.CloseParenToken);
+
+					if (!closeParenToken) {
+						return;
+					}
+
 					const argsStart = openParenToken.getEnd();
-					const argsEnd = node.getEnd() - 1; // Exclude closing paren
+					const argsEnd = closeParenToken.getStart(sourceFile);
 					const argsText =
 						argsEnd > argsStart
 							? sourceFile.text.slice(argsStart, argsEnd)
