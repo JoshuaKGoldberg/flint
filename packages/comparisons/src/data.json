@@ -13615,7 +13615,8 @@
 		"flint": {
 			"name": "objectKeyDuplicates",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "untyped",
+			"status": "implemented"
 		}
 	},
 	{
