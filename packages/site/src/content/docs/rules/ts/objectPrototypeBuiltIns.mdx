@@ -56,7 +56,7 @@ This rule is not configurable.
 ## When Not To Use It
 
 If code only uses objects with hardcoded keys and never uses `Object.create(null)` or allows user-controlled object keys, this rule might not be necessary.
-However, the recommended pattern is generally safer.
+Alternately, if your codebase overrides these properties -which is a dangerous legacy pattern most runtimes recommend against- you might not be able to enable this rule.
 
 ## Further Reading
 

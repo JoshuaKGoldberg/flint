@@ -19,19 +19,21 @@ export default typescriptLanguage.createRule({
 	messages: {
 		prototypeBuiltIn: {
 			primary:
-				"Prefer Object.prototype.{{ method }}.call() over calling {{ method }}() directly on objects.",
+				"Prefer the safer `Object.prototype.{{ method }}.call()` over calling `{{ method }}()` directly on objects.",
 			secondary: [
-				"Objects can have properties that shadow built-in methods from Object.prototype such as {{ method }}().",
-				"Objects created with Object.create(null) do not inherit from Object.prototype and will not have these methods.",
+				"Objects can have properties that shadow built-in methods from `Object.prototype` such as `{{ method }}()`.",
+				"Objects created with `Object.create(null)` do not inherit from `Object.prototype` and will not have these methods.",
 				"Calling these methods directly can fail or execute unintended code if the object has shadowing properties.",
 			],
-			suggestions: ["Call the method through Object.prototype using .call()."],
+			suggestions: [
+				"Call the method through `Object.prototype` using `.call()`.",
+			],
 		},
 	},
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression: (node) => {
+				CallExpression: (node, { sourceFile }) => {
 					if (
 						!ts.isPropertyAccessExpression(node.expression) ||
 						!ts.isIdentifier(node.expression.name)
@@ -39,38 +41,36 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const methodName = node.expression.name.text;
-					if (!prototypeMethods.has(methodName)) {
+					const method = node.expression.name.text;
+					if (!prototypeMethods.has(method)) {
 						return;
 					}
 
-					const objectText = context.sourceFile.text.slice(
-						node.expression.expression.getStart(context.sourceFile),
+					const objectText = sourceFile.text.slice(
+						node.expression.expression.getStart(sourceFile),
 						node.expression.expression.getEnd(),
 					);
 
-					const callText = context.sourceFile.text.slice(
-						node.getStart(context.sourceFile),
+					const callText = sourceFile.text.slice(
+						node.getStart(sourceFile),
 						node.getEnd(),
 					);
 
-					const parenIndex = callText.indexOf("(");
+					const parenthesisIndex = callText.indexOf("(");
 					const argsText =
-						parenIndex >= 0 ? callText.slice(parenIndex + 1, -1) : "";
+						parenthesisIndex >= 0 && callText.slice(parenthesisIndex + 1, -1);
 
-					const suggestionText = `Object.prototype.${methodName}.call(${objectText}${argsText ? ", " + argsText : ""})`;
+					const suggestionText = `Object.prototype.${method}.call(${objectText}${argsText ? ", " + argsText : ""})`;
 
 					context.report({
-						data: {
-							method: methodName,
-						},
+						data: { method },
 						message: "prototypeBuiltIn",
-						range: getTSNodeRange(node, context.sourceFile),
+						range: getTSNodeRange(node, sourceFile),
 						suggestions: [
 							{
 								id: "use-prototype-call",
 								range: {
-									begin: node.getStart(context.sourceFile),
+									begin: node.getStart(sourceFile),
 									end: node.getEnd(),
 								},
 								text: suggestionText,
