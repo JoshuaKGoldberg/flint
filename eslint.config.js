@@ -55,8 +55,8 @@ export default defineConfig(
 				"error",
 				{ allowNumber: true },
 			],
-			"n/no-extraneous-import": "off",
 			"n/no-missing-import": "off",
+			"n/no-unpublished-import": "off", // eslint-community/eslint-plugin-n#495
 			"n/no-unsupported-features/node-builtins": [
 				"error",
 				{ allowExperimental: true },
@@ -75,7 +75,23 @@ export default defineConfig(
 			// https://github.com/eslint-community/eslint-plugin-n/issues/472
 			"n/no-unpublished-bin": "off",
 		},
-		settings: { perfectionist: { partitionByComment: true, type: "natural" } },
+		settings: {
+			n: {
+				convertPath: [
+					{
+						exclude: [
+							"**/ruleTester.ts",
+							"**/*.test.ts",
+							"**/*.test-d.ts",
+							"**/*.d.ts",
+						],
+						include: ["src/**/*.ts"],
+						replace: ["^src/(.+)$", "lib/$1"],
+					},
+				],
+			},
+			perfectionist: { partitionByComment: true, type: "natural" },
+		},
 	},
 	{
 		extends: [jsonc.configs["flat/recommended-with-json"]],
@@ -120,5 +136,11 @@ export default defineConfig(
 			],
 		},
 	},
-	{ extends: [packageJson.configs.recommended], files: ["package.json"] },
+	{
+		extends: [packageJson.configs.recommended, packageJson.configs.stylistic],
+	},
+	{
+		extends: [packageJson.configs["recommended-publishable"]],
+		files: [["packages/*/package.json", "!packages/site/package.json"]],
+	},
 );
