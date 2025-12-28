@@ -1,10 +1,10 @@
 {
 	"name": "flint",
-	"version": "0.14.0",
+	"version": "0.14.1",
 	"description": "[Experimental] A fast, friendly linter. ❤️‍🔥",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/flint"
 	},
 	"license": "MIT",
@@ -12,22 +12,30 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
+	"sideEffects": false,
 	"type": "module",
-	"main": "./lib/index.js",
-	"bin": "bin/index.js",
+	"exports": {
+		".": "./lib/index.js"
+	},
+	"bin": {
+		"flint": "bin/index.js"
+	},
+	"files": [
+		"lib/"
+	],
 	"dependencies": {
 		"@flint.fyi/cli": "workspace:",
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/json": "workspace:",
 		"@flint.fyi/md": "workspace:",
 		"@flint.fyi/ts": "workspace:",
-		"@flint.fyi/yml": "workspace:"
+		"@flint.fyi/yaml": "workspace:",
+		"typescript": "^5.9.3"
 	},
 	"engines": {
 		"node": ">=24.0.0"
 	},
 	"publishConfig": {
-		"access": "public",
 		"provenance": true
 	}
 }

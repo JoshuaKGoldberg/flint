@@ -1,13 +1,14 @@
 ---
 description: "Consecutive non-null assertion operators are unnecessary."
 title: "emptyMappingKeys"
+topic: "rules"
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="yml" rule="emptyMappingKeys" />
+<RuleSummary plugin="yaml" rule="emptyMappingKeys" />
 
 Empty keys are invalid in YAML and may cause parsers to reject the document or misinterpret its structure.
 Even if allowed by a parser, empty keys can be confusing for developers and lead to accidental mistakes in code.
@@ -17,14 +18,14 @@ Even if allowed by a parser, empty keys can be confusing for developers and lead
 <Tabs>
 <TabItem label="❌ Incorrect">
 
-```yml
+```yaml
 : "value"
 ```
 
 </TabItem>
 <TabItem label="✅ Correct">
 
-```yml
+```yaml
 "key": "value"
 ```
 
@@ -37,4 +38,4 @@ This rule is not configurable.
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="yml" ruleId="emptyMappingKeys" />
+<RuleEquivalents pluginId="yaml" ruleId="emptyMappingKeys" />

@@ -1,0 +1,96 @@
+---
+description: "Variables declared with const cannot be reassigned; use let or var instead if reassignment is needed."
+title: "constantAssignments"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="constantAssignments" />
+
+The `const` keyword creates a read-only reference to a value, preventing reassignment.
+While properties of const objects and elements of const arrays can be mutated, the binding itself cannot be reassigned.
+Attempting to reassign a const variable results in a runtime error.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const value = 1;
+value = 2;
+```
+
+```ts
+const result = getValue();
+result = getOtherValue();
+```
+
+```ts
+const counter = 0;
+counter++;
+```
+
+```ts
+const { property } = object;
+property = "new value";
+```
+
+```ts
+for (const item of items) {
+	item = processItem(item);
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+let value = 1;
+value = 2;
+```
+
+```ts
+const object = { value: 1 };
+object.value = 2;
+```
+
+```ts
+const array = [1, 2, 3];
+array.push(4);
+```
+
+```ts
+const { property } = object;
+console.log(property);
+```
+
+```ts
+for (let item of items) {
+	item = processItem(item);
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your codebase relies on non-standard behavior that involves reassigning constant variables (which is highly discouraged), you might choose to disable this rule.
+For example, if you target a legacy runtime with non-standard JavaScript semantics, standard practices may not apply to you.
+
+## Further Reading
+
+- [MDN: const](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const)
+- [MDN: let](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="constantAssignments" />

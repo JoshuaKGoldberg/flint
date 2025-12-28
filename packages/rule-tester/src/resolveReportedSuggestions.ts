@@ -2,8 +2,8 @@ import {
 	applyChangesToText,
 	isSuggestionForFiles,
 	NormalizedReport,
+	type SuggestionForFiles,
 } from "@flint.fyi/core";
-import { SuggestionForFiles } from "@flint.fyi/core/src/types/changes.js";
 import { isTruthy } from "@flint.fyi/utils";
 
 import { TestCaseNormalized } from "./normalizeTestCase.js";
