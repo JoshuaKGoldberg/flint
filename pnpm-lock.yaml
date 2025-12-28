@@ -157,12 +157,20 @@ importers:
       wrap-ansi:
         specifier: ^9.0.2
         version: 9.0.2
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/comparisons:
     dependencies:
       prettier:
         specifier: 3.7.4
         version: 3.7.4
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/core:
     dependencies:
@@ -191,6 +199,9 @@ importers:
       '@types/omit-empty':
         specifier: 1.0.4
         version: 1.0.4
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -218,6 +229,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/json:
     dependencies:
@@ -234,6 +249,9 @@ importers:
         specifier: ^4.2.1
         version: 4.2.1
     devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -262,6 +280,9 @@ importers:
       '@types/unist':
         specifier: 3.0.3
         version: 3.0.3
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -274,6 +295,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-browser:
     dependencies:
@@ -289,6 +314,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-flint:
     dependencies:
@@ -307,6 +336,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-jsx:
     dependencies:
@@ -329,6 +362,9 @@ importers:
       '@types/language-tags':
         specifier: 1.0.4
         version: 1.0.4
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -341,6 +377,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-node:
     dependencies:
@@ -356,6 +396,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-nuxt:
     dependencies:
@@ -365,6 +409,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-performance:
     dependencies:
@@ -383,6 +431,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-react:
     dependencies:
@@ -392,6 +444,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-solid:
     dependencies:
@@ -401,6 +457,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-spelling:
     dependencies:
@@ -426,6 +486,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -445,6 +508,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -548,6 +614,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/ts:
     dependencies:
@@ -579,6 +649,9 @@ importers:
         specifier: ^4.2.1
         version: 4.2.1
     devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -588,6 +661,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/yaml:
     dependencies:
@@ -607,6 +684,9 @@ importers:
         specifier: ^3.0.0
         version: 3.1.0
     devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)

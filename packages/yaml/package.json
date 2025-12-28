@@ -16,14 +16,13 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"@flint/source": "./src/index.ts",
+			"@flint.fyi/source": {
+				"types": "./.tsbuildinfo/types/src/index.d.ts",
+				"default": "./src/index.ts"
+			},
 			"default": "./lib/index.js"
-		},
-		"./package.json": "./package.json"
+		}
 	},
-	"main": "./lib/index.js",
-	"module": "./lib/index.js",
-	"types": "./lib/index.d.ts",
 	"files": [
 		"lib/"
 	],
@@ -35,6 +34,7 @@
 		"yaml-unist-parser": "^3.0.0"
 	},
 	"devDependencies": {
+		"tsdown": "0.18.3",
 		"vitest": "4.0.15"
 	},
 	"engines": {
@@ -43,8 +43,7 @@
 	"publishConfig": {
 		"access": "public",
 		"exports": {
-			".": "./lib/index.js",
-			"./package.json": "./package.json"
+			".": "./lib/index.js"
 		},
 		"provenance": true
 	}

@@ -6,9 +6,6 @@ export default defineConfig({
 	},
 	dts: true,
 	entry: ["src/index.ts"],
-	exports: {
-		devExports: "@flint/source",
-	},
 	failOnWarn: true,
 	fixedExtension: false,
 	outDir: "lib",

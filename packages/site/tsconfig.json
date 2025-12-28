@@ -10,7 +10,7 @@
 			"~/*": ["src/*"]
 		},
 		"target": "esnext",
-		"customConditions": ["@flint/source"]
+		"customConditions": ["@flint.fyi/source"]
 	},
 	"extends": "astro/tsconfigs/strict",
 	"include": [".astro/types.d.ts", "*.config.*", "src"],

@@ -20,26 +20,34 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"@flint/source": "./src/index.ts",
+			"@flint.fyi/source": {
+				"types": "./.tsbuildinfo/types/src/index.d.ts",
+				"default": "./src/index.ts"
+			},
 			"default": "./lib/index.js"
 		},
-		"./package.json": "./package.json",
 		"./ts-patch/install-patch": {
-			"@flint/source": "./src/ts-patch/install-patch.ts",
+			"@flint.fyi/source": {
+				"types": "./.tsbuildinfo/types/src/ts-patch/install-patch.d.ts",
+				"default": "./src/ts-patch/install-patch.ts"
+			},
 			"default": "./lib/ts-patch/install-patch.js"
 		},
 		"./ts-patch/install-patch-hooks": {
-			"@flint/source": "./src/ts-patch/install-patch-hooks.ts",
+			"@flint.fyi/source": {
+				"types": "./.tsbuildinfo/types/src/ts-patch/install-patch-hooks.d.ts",
+				"default": "./src/ts-patch/install-patch-hooks.ts"
+			},
 			"default": "./lib/ts-patch/install-patch-hooks.js"
 		},
 		"./ts-patch/proxy-program": {
-			"@flint/source": "./src/ts-patch/proxy-program.ts",
+			"@flint.fyi/source": {
+				"types": "./.tsbuildinfo/types/src/ts-patch/proxy-program.d.ts",
+				"default": "./src/ts-patch/proxy-program.ts"
+			},
 			"default": "./lib/ts-patch/proxy-program.js"
 		}
 	},
-	"main": "./lib/index.js",
-	"module": "./lib/index.js",
-	"types": "./lib/index.d.ts",
 	"files": [
 		"lib/"
 	],
@@ -54,6 +62,7 @@
 	},
 	"devDependencies": {
 		"@types/omit-empty": "1.0.4",
+		"tsdown": "0.18.3",
 		"vitest": "4.0.15"
 	},
 	"engines": {
@@ -65,8 +74,7 @@
 			".": "./lib/index.js",
 			"./ts-patch/install-patch": "./lib/ts-patch/install-patch.js",
 			"./ts-patch/install-patch-hooks": "./lib/ts-patch/install-patch-hooks.js",
-			"./ts-patch/proxy-program": "./lib/ts-patch/proxy-program.js",
-			"./package.json": "./package.json"
+			"./ts-patch/proxy-program": "./lib/ts-patch/proxy-program.js"
 		},
 		"provenance": true
 	}

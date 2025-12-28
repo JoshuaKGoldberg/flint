@@ -11,9 +11,6 @@ export default defineConfig({
 		"src/ts-patch/install-patch.ts",
 		"src/ts-patch/proxy-program.ts",
 	],
-	exports: {
-		devExports: "@flint/source",
-	},
 	failOnWarn: true,
 	fixedExtension: false,
 	outDir: "lib",
