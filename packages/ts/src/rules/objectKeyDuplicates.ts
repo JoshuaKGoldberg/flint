@@ -3,57 +3,6 @@ import * as ts from "typescript";
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
 
-// TODO: Reuse a shared getStaticValue-style utility?
-function getNameText(name: ts.PropertyName) {
-	if (
-		ts.isIdentifier(name) ||
-		ts.isStringLiteral(name) ||
-		ts.isNumericLiteral(name) ||
-		ts.isLiteralExpression(name)
-	) {
-		return name.text;
-	}
-
-	if (ts.isPrivateIdentifier(name)) {
-		return `#${name.text}`;
-	}
-
-	return undefined;
-}
-
-function getPropertyKeyName(property: ts.ObjectLiteralElementLike) {
-	if (ts.isShorthandPropertyAssignment(property)) {
-		return {
-			group: "values",
-			node: property.name,
-			text: property.name.text,
-		} as const;
-	}
-
-	if (
-		ts.isPropertyAssignment(property) ||
-		ts.isMethodDeclaration(property) ||
-		ts.isGetAccessorDeclaration(property) ||
-		ts.isSetAccessorDeclaration(property)
-	) {
-		const { name } = property;
-		const text = getNameText(name);
-		if (!text) {
-			return undefined;
-		}
-
-		const group = ts.isGetAccessorDeclaration(property)
-			? "getters"
-			: ts.isSetAccessorDeclaration(property)
-				? "setters"
-				: "values";
-
-		return { group, node: name, text } as const;
-	}
-
-	return undefined;
-}
-
 export default typescriptLanguage.createRule({
 	about: {
 		description:
@@ -108,3 +57,54 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+// TODO: Reuse a shared getStaticValue-style utility?
+function getNameText(name: ts.PropertyName) {
+	if (
+		ts.isIdentifier(name) ||
+		ts.isStringLiteral(name) ||
+		ts.isNumericLiteral(name) ||
+		ts.isLiteralExpression(name)
+	) {
+		return name.text;
+	}
+
+	if (ts.isPrivateIdentifier(name)) {
+		return `#${name.text}`;
+	}
+
+	return undefined;
+}
+
+function getPropertyKeyName(property: ts.ObjectLiteralElementLike) {
+	if (ts.isShorthandPropertyAssignment(property)) {
+		return {
+			group: "values",
+			node: property.name,
+			text: property.name.text,
+		} as const;
+	}
+
+	if (
+		ts.isPropertyAssignment(property) ||
+		ts.isMethodDeclaration(property) ||
+		ts.isGetAccessorDeclaration(property) ||
+		ts.isSetAccessorDeclaration(property)
+	) {
+		const { name } = property;
+		const text = getNameText(name);
+		if (!text) {
+			return undefined;
+		}
+
+		const group = ts.isGetAccessorDeclaration(property)
+			? "getters"
+			: ts.isSetAccessorDeclaration(property)
+				? "setters"
+				: "values";
+
+		return { group, node: name, text } as const;
+	}
+
+	return undefined;
+}
