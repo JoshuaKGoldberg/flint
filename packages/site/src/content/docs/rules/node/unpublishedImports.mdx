@@ -1,0 +1,62 @@
+---
+description: "Prevent importing modules from devDependencies in production code."
+title: "unpublishedImports"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="node" rule="unpublishedImports" />
+
+Modules listed in devDependencies are not installed in production environments, which can lead to runtime errors when your code attempts to import them.
+This rule helps ensure that production code only imports modules that will be available at runtime.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+import vitest from "vitest";
+
+import { describe } from "vitest";
+
+import eslint from "eslint";
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+import express from "express";
+
+import fs from "node:fs";
+
+import { parseJsonSafe } from "@flint.fyi/utils";
+
+import { something } from "./local-file";
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have a monorepo setup where devDependencies are intentionally available at runtime, or if your build process bundles all dependencies including devDependencies, you may not need this rule.
+
+## Further Reading
+
+- [npm: package.json - dependencies](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#dependencies)
+- [npm: package.json - devDependencies](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#devdependencies)
+- [Node.js: Modules](https://nodejs.org/api/modules.html)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="node" ruleId="unpublishedImports" />
