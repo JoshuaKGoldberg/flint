@@ -13587,6 +13587,7 @@
 			}
 		],
 		"flint": {
+			"status": "implemented",
 			"name": "objectHasOwns",
 			"plugin": "ts",
 			"preset": "stylistic"
