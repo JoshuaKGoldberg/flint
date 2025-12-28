@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-// @ts-check
 import { enableCompileCache } from "node:module";
 
 enableCompileCache();
