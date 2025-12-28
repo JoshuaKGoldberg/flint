@@ -10,7 +10,7 @@ const hasKey = obj.hasOwnProperty("key");
 			snapshot: `
 const hasKey = obj.hasOwnProperty("key");
                ~~~~~~~~~~~~~~~~~~~~~~~~~
-               Prefer Object.hasOwn() over hasOwnProperty() calls.
+               hasOwnProperty() calls can fail on objects without Object.prototype or with overridden properties.
 `,
 		},
 		{
@@ -22,7 +22,7 @@ if (obj.hasOwnProperty("prop")) {
 			snapshot: `
 if (obj.hasOwnProperty("prop")) {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Prefer Object.hasOwn() over hasOwnProperty() calls.
+    hasOwnProperty() calls can fail on objects without Object.prototype or with overridden properties.
     console.log("Has property");
 }
 `,
@@ -34,7 +34,7 @@ const result = Object.prototype.hasOwnProperty.call(obj, "key");
 			snapshot: `
 const result = Object.prototype.hasOwnProperty.call(obj, "key");
                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-               Prefer Object.hasOwn() over hasOwnProperty() calls.
+               hasOwnProperty() calls can fail on objects without Object.prototype or with overridden properties.
 `,
 		},
 		{
@@ -46,7 +46,7 @@ if (Object.prototype.hasOwnProperty.call(obj, "prop")) {
 			snapshot: `
 if (Object.prototype.hasOwnProperty.call(obj, "prop")) {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Prefer Object.hasOwn() over hasOwnProperty() calls.
+    hasOwnProperty() calls can fail on objects without Object.prototype or with overridden properties.
     console.log("Has property");
 }
 `,
@@ -58,7 +58,7 @@ const hasKey = {}.hasOwnProperty.call(obj, "key");
 			snapshot: `
 const hasKey = {}.hasOwnProperty.call(obj, "key");
                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-               Prefer Object.hasOwn() over hasOwnProperty() calls.
+               hasOwnProperty() calls can fail on objects without Object.prototype or with overridden properties.
 `,
 		},
 		{
@@ -70,7 +70,7 @@ if ({}.hasOwnProperty.call(obj, "prop")) {
 			snapshot: `
 if ({}.hasOwnProperty.call(obj, "prop")) {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Prefer Object.hasOwn() over hasOwnProperty() calls.
+    hasOwnProperty() calls can fail on objects without Object.prototype or with overridden properties.
     console.log("Has property");
 }
 `,
@@ -82,7 +82,7 @@ const value = someObj.hasOwnProperty(key);
 			snapshot: `
 const value = someObj.hasOwnProperty(key);
               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              Prefer Object.hasOwn() over hasOwnProperty() calls.
+              hasOwnProperty() calls can fail on objects without Object.prototype or with overridden properties.
 `,
 		},
 		{
@@ -95,7 +95,7 @@ function check(obj: object, key: string) {
 function check(obj: object, key: string) {
     return obj.hasOwnProperty(key);
            ~~~~~~~~~~~~~~~~~~~~~~~
-           Prefer Object.hasOwn() over hasOwnProperty() calls.
+           hasOwnProperty() calls can fail on objects without Object.prototype or with overridden properties.
 }
 `,
 		},

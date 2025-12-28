@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.js";
+import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.js";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -11,7 +12,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		preferHasOwn: {
-			primary: "Prefer Object.hasOwn() over hasOwnProperty() calls.",
+			primary:
+				"hasOwnProperty() calls can fail on objects without Object.prototype or with overridden properties.",
 			secondary: [
 				"Object.hasOwn() is a more modern and safer way to check if an object has its own property.",
 				"It avoids issues with objects that don't inherit from Object.prototype or have a modified hasOwnProperty property.",
@@ -25,7 +27,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function isObjectPrototypeHasOwnProperty(node: ts.Expression): boolean {
+		function isObjectPrototypeHasOwnProperty(
+			node: ts.Expression,
+			typeChecker: ts.TypeChecker,
+		): boolean {
 			// Check for Object.prototype.hasOwnProperty
 			if (
 				ts.isPropertyAccessExpression(node) &&
@@ -35,7 +40,11 @@ export default typescriptLanguage.createRule({
 				ts.isIdentifier(node.expression.name) &&
 				node.expression.name.text === "prototype" &&
 				ts.isIdentifier(node.expression.expression) &&
-				node.expression.expression.text === "Object"
+				isGlobalDeclarationOfName(
+					node.expression.expression,
+					"Object",
+					typeChecker,
+				)
 			) {
 				return true;
 			}
@@ -56,19 +65,22 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression: (node) => {
+				CallExpression: (node, { sourceFile, typeChecker }) => {
 					// Check for Object.prototype.hasOwnProperty.call(obj, key) or {}.hasOwnProperty.call(obj, key)
 					if (
 						ts.isPropertyAccessExpression(node.expression) &&
 						ts.isIdentifier(node.expression.name) &&
 						node.expression.name.text === "call" &&
-						isObjectPrototypeHasOwnProperty(node.expression.expression) &&
+						isObjectPrototypeHasOwnProperty(
+							node.expression.expression,
+							typeChecker,
+						) &&
 						node.arguments.length >= 2
 					) {
 						context.report({
 							message: "preferHasOwn",
 							range: {
-								begin: node.getStart(context.sourceFile),
+								begin: node.getStart(sourceFile),
 								end: node.getEnd(),
 							},
 						});
@@ -80,18 +92,16 @@ export default typescriptLanguage.createRule({
 						ts.isPropertyAccessExpression(node.expression) &&
 						ts.isIdentifier(node.expression.name) &&
 						node.expression.name.text === "hasOwnProperty" &&
-						node.arguments.length >= 1
+						node.arguments.length >= 1 &&
+						!isObjectPrototypeHasOwnProperty(node.expression, typeChecker)
 					) {
-						// Make sure it's not Object.prototype.hasOwnProperty or {}.hasOwnProperty
-						if (!isObjectPrototypeHasOwnProperty(node.expression)) {
-							context.report({
-								message: "preferHasOwn",
-								range: {
-									begin: node.getStart(context.sourceFile),
-									end: node.getEnd(),
-								},
-							});
-						}
+						context.report({
+							message: "preferHasOwn",
+							range: {
+								begin: node.getStart(sourceFile),
+								end: node.getEnd(),
+							},
+						});
 					}
 				},
 			},

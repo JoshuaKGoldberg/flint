@@ -21,13 +21,19 @@ Using `Object.hasOwn()` avoids potential issues with objects that don't inherit 
 
 ```ts
 const hasKey = obj.hasOwnProperty("key");
+```
 
+```ts
 if (obj.hasOwnProperty("prop")) {
 	console.log("Has property");
 }
+```
 
+```ts
 const result = Object.prototype.hasOwnProperty.call(obj, "key");
+```
 
+```ts
 const exists = {}.hasOwnProperty.call(obj, "prop");
 ```
 
@@ -36,13 +42,19 @@ const exists = {}.hasOwnProperty.call(obj, "prop");
 
 ```ts
 const hasKey = Object.hasOwn(obj, "key");
+```
 
+```ts
 if (Object.hasOwn(obj, "prop")) {
 	console.log("Has property");
 }
+```
 
+```ts
 const result = Object.hasOwn(obj, "key");
+```
 
+```ts
 const exists = Object.hasOwn(obj, "prop");
 ```
 
@@ -57,6 +69,9 @@ This rule is not configurable.
 
 If you need to support JavaScript environments that don't have `Object.hasOwn()` (pre-ES2022), you might need to disable this rule or use a polyfill.
 `Object.hasOwn()` is supported in Node.js 16.9.0+ and all modern browsers.
+
+For projects with a large existing codebase using the older patterns, the refactoring effort might be significant.
+In such cases, you can disable this rule and migrate gradually.
 
 ## Further Reading
 
