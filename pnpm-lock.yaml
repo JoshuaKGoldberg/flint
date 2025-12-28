@@ -318,6 +318,9 @@ importers:
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-flint:
     dependencies:
@@ -340,6 +343,9 @@ importers:
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-jsx:
     dependencies:
@@ -400,6 +406,9 @@ importers:
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-nuxt:
     dependencies:
@@ -435,6 +444,9 @@ importers:
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-react:
     dependencies:
