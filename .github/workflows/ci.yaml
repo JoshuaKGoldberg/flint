@@ -6,7 +6,6 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
       - run: pnpm build
-      - run: pnpm run -r build
       - run: pnpm flint
   lint:
     name: Lint
@@ -15,7 +14,6 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
       - run: pnpm build
-      - run: pnpm run -r build
       - run: pnpm lint
   lint_knip:
     name: Lint Knip
@@ -23,6 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
+      - run: pnpm build
       - run: pnpm lint:knip
   lint_packages:
     name: Lint Packages
@@ -40,6 +39,14 @@ jobs:
       - run: pnpm build
       - run: pnpm tsc -b
       - run: pnpm run test
+  build_site:
+    name: Build Website
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - uses: ./.github/actions/prepare
+      - run: pnpm build
+      - run: pnpm -r build
 
 name: CI
 
