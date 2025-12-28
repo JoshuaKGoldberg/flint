@@ -4,7 +4,7 @@
 	"description": "[Experimental] A fast, friendly linter. ❤️‍🔥",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/flint"
 	},
 	"license": "MIT",
@@ -17,7 +17,9 @@
 	"exports": {
 		".": "./lib/index.js"
 	},
-	"bin": "bin/index.js",
+	"bin": {
+		"flint": "bin/index.js"
+	},
 	"files": [
 		"lib/"
 	],
