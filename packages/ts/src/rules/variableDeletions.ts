@@ -26,12 +26,12 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				DeleteExpression: (node) => {
+				DeleteExpression: (node, { sourceFile }) => {
 					if (node.expression.kind === ts.SyntaxKind.Identifier) {
 						context.report({
 							message: "noDeleteVar",
 							range: {
-								begin: node.getStart(context.sourceFile),
+								begin: node.getStart(sourceFile),
 								end: node.getEnd(),
 							},
 						});

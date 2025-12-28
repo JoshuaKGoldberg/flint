@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 <div onMouseOver={() => void 0} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <div onMouseOver={() => void 0} />
      ~~~~~~~~~~~
@@ -18,7 +17,6 @@ ruleTester.describe(rule, {
 			code: `
 <div onMouseOut={() => void 0} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <div onMouseOut={() => void 0} />
      ~~~~~~~~~~
@@ -29,7 +27,6 @@ ruleTester.describe(rule, {
 			code: `
 <button onMouseOver={handler} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <button onMouseOver={handler} />
         ~~~~~~~~~~~
@@ -40,20 +37,16 @@ ruleTester.describe(rule, {
 	valid: [
 		{
 			code: `<div onMouseOver={() => void 0} onFocus={() => void 0} />`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `<div onMouseOut={() => void 0} onBlur={() => void 0} />`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `<div onFocus={() => void 0} />`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `<div />`,
-			fileName: "file.tsx",
 		},
-		{ code: `<button onClick={handler} />`, fileName: "file.tsx" },
+		{ code: `<button onClick={handler} />` },
 	],
 });

@@ -22,6 +22,9 @@ export type AnyOptionalSchema = Record<
  */
 export type InferredObject<
 	OptionsSchema extends AnyOptionalSchema | undefined,
-> = OptionsSchema extends AnyOptionalSchema
-	? Partial<z.infer<z.ZodObject<OptionsSchema>>>
-	: undefined;
+> = 0 extends 1 & NoInfer<OptionsSchema>
+	? // propagate `any`
+		OptionsSchema
+	: OptionsSchema extends AnyOptionalSchema
+		? Partial<z.infer<z.ZodObject<OptionsSchema>>>
+		: undefined;

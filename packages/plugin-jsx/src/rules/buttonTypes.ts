@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const validButtonTypes = new Set(["button", "reset", "submit"]);
@@ -39,7 +43,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(node: ts.JsxOpeningLikeElement) {
+		function checkElement(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			if (!ts.isIdentifier(node.tagName)) {
 				return;
 			}
@@ -59,7 +66,7 @@ export default typescriptLanguage.createRule({
 			if (!typeAttribute) {
 				context.report({
 					message: "missingType",
-					range: getTSNodeRange(node.tagName, context.sourceFile),
+					range: getTSNodeRange(node.tagName, sourceFile),
 				});
 				return;
 			}
@@ -70,7 +77,7 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { type: typeValue },
 					message: "invalidType",
-					range: getTSNodeRange(typeAttribute, context.sourceFile),
+					range: getTSNodeRange(typeAttribute, sourceFile),
 				});
 			}
 		}

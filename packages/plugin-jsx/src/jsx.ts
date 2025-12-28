@@ -20,10 +20,11 @@ import childrenProps from "./rules/childrenProps.js";
 import clickEventKeyEvents from "./rules/clickEventKeyEvents.js";
 import commentTextNodes from "./rules/commentTextNodes.js";
 import distractingElements from "./rules/distractingElements.js";
-import duplicateProps from "./rules/duplicateProps.js";
+import elementChildrenValidity from "./rules/elementChildrenValidity.js";
 import headingContents from "./rules/headingContents.js";
 import htmlLangs from "./rules/htmlLangs.js";
 import iframeTitles from "./rules/iframeTitles.js";
+import interactiveElementRoles from "./rules/interactiveElementRoles.js";
 import interactiveElementsFocusable from "./rules/interactiveElementsFocusable.js";
 import labelAssociatedControls from "./rules/labelAssociatedControls.js";
 import langValidity from "./rules/langValidity.js";
@@ -32,6 +33,7 @@ import mouseEventKeyEvents from "./rules/mouseEventKeyEvents.js";
 import nonInteractiveElementInteractions from "./rules/nonInteractiveElementInteractions.js";
 import nonInteractiveElementRoles from "./rules/nonInteractiveElementRoles.js";
 import nonInteractiveElementTabIndexes from "./rules/nonInteractiveElementTabIndexes.js";
+import propDuplicates from "./rules/propDuplicates.js";
 import roleRedundancies from "./rules/roleRedundancies.js";
 import roleRequiredAriaProps from "./rules/roleRequiredAriaProps.js";
 import roleSupportedAriaProps from "./rules/roleSupportedAriaProps.js";
@@ -42,10 +44,9 @@ import svgTitles from "./rules/svgTitles.js";
 import tabIndexPositiveValues from "./rules/tabIndexPositiveValues.js";
 import unescapedEntities from "./rules/unescapedEntities.js";
 import unnecessaryFragments from "./rules/unnecessaryFragments.js";
-import validElementChildren from "./rules/validElementChildren.js";
 
 export const jsx = createPlugin({
-	name: "jsx",
+	name: "JSX",
 	rules: [
 		accessKeys,
 		altTexts,
@@ -67,11 +68,12 @@ export const jsx = createPlugin({
 		clickEventKeyEvents,
 		commentTextNodes,
 		distractingElements,
-		duplicateProps,
+		propDuplicates,
 		headingContents,
 		htmlLangs,
 		iframeTitles,
 		interactiveElementsFocusable,
+		interactiveElementRoles,
 		labelAssociatedControls,
 		langValidity,
 		mediaCaptions,
@@ -89,6 +91,6 @@ export const jsx = createPlugin({
 		tabIndexPositiveValues,
 		unescapedEntities,
 		unnecessaryFragments,
-		validElementChildren,
+		elementChildrenValidity,
 	],
 });

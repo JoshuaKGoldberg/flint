@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const nonInteractiveElements = new Set([
@@ -110,7 +114,10 @@ export default typescriptLanguage.createRule({
 			return undefined;
 		}
 
-		function checkTabIndex(node: ts.JsxOpeningLikeElement) {
+		function checkTabIndex(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			if (!ts.isIdentifier(node.tagName)) {
 				return;
 			}
@@ -143,7 +150,7 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { element: elementName },
 					message: "nonInteractiveTabIndex",
-					range: getTSNodeRange(tabIndexProperty, context.sourceFile),
+					range: getTSNodeRange(tabIndexProperty, sourceFile),
 				});
 			}
 		}

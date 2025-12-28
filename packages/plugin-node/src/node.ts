@@ -9,7 +9,7 @@ import exportsAssignments from "./rules/exportsAssignments.js";
 import filePathsFromImportMeta from "./rules/filePathsFromImportMeta.js";
 
 export const node = createPlugin({
-	name: "node",
+	name: "Node.js",
 	rules: [
 		assertStrict,
 		assertStyles,

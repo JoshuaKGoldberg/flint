@@ -42,12 +42,12 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
 					if (
 						ts.isPropertyAccessExpression(node.expression) &&
 						ts.isIdentifier(node.expression.name) &&
 						legacyMethods.has(node.expression.name.text) &&
-						isGlobalDeclaration(node.expression.name, context.typeChecker)
+						isGlobalDeclaration(node.expression.name, typeChecker)
 					) {
 						context.report({
 							data: {
@@ -55,7 +55,7 @@ export default typescriptLanguage.createRule({
 								replacement: methodReplacements[node.expression.name.text],
 							},
 							message: "preferQuerySelector",
-							range: getTSNodeRange(node.expression.name, context.sourceFile),
+							range: getTSNodeRange(node.expression.name, sourceFile),
 						});
 					}
 				},
