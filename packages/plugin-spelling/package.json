@@ -26,7 +26,11 @@
 		"@flint.fyi/rule-tester": "workspace:",
 		"@flint.fyi/text": "workspace:",
 		"@flint.fyi/utils": "workspace:",
-		"cspell-lib": "^9.2.2"
+		"cspell-lib": "^9.2.2",
+		"typescript": "^5.9.3"
+	},
+	"devDependencies": {
+		"vitest": "4.0.15"
 	},
 	"engines": {
 		"node": ">=24.0.0"

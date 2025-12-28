@@ -20,6 +20,9 @@
 	"files": [
 		"lib/"
 	],
+	"dependencies": {
+		"prettier": "3.7.4"
+	},
 	"engines": {
 		"node": ">=24.0.0"
 	},

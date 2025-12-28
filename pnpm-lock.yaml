@@ -118,9 +118,6 @@ importers:
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
-      zod:
-        specifier: 4.2.0
-        version: 4.2.0
 
   packages/cli:
     dependencies:
@@ -148,11 +145,18 @@ importers:
       text-table-fast:
         specifier: ^0.1.0
         version: 0.1.0
+      typescript:
+        specifier: ^5.9.3 || ^6.0.0
+        version: 5.9.3
       wrap-ansi:
         specifier: ^9.0.2
         version: 9.0.2
 
-  packages/comparisons: {}
+  packages/comparisons:
+    dependencies:
+      prettier:
+        specifier: 3.7.4
+        version: 3.7.4
 
   packages/core:
     dependencies:
@@ -171,13 +175,19 @@ importers:
       prettier:
         specifier: 3.7.4
         version: 3.7.4
+      typescript:
+        specifier: ^5.9.3 || ^6.0.0
+        version: 5.9.3
       zod:
-        specifier: ^4.1.12
-        version: 4.2.0
+        specifier: ^4.2.1
+        version: 4.2.1
     devDependencies:
       '@types/omit-empty':
         specifier: 1.0.4
         version: 1.0.4
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/flint:
     dependencies:
@@ -199,6 +209,9 @@ importers:
       '@flint.fyi/yaml':
         specifier: 'workspace:'
         version: link:../yaml
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   packages/json:
     dependencies:
@@ -211,6 +224,13 @@ importers:
       typescript:
         specifier: ^5.9.0 || ^6.0.0
         version: 5.9.3
+      zod:
+        specifier: ^4.2.1
+        version: 4.2.1
+    devDependencies:
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/md:
     dependencies:
@@ -223,6 +243,9 @@ importers:
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
+      typescript:
+        specifier: ^5.9.3 || ^6.0.0
+        version: 5.9.3
       unified:
         specifier: ^11.0.5
         version: 11.0.5
@@ -233,12 +256,18 @@ importers:
       '@types/unist':
         specifier: 3.0.3
         version: 3.0.3
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-astro:
     dependencies:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   packages/plugin-browser:
     dependencies:
@@ -251,6 +280,13 @@ importers:
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+    devDependencies:
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-flint:
     dependencies:
@@ -266,6 +302,13 @@ importers:
       '@flint.fyi/utils':
         specifier: 'workspace:'
         version: link:../utils
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+    devDependencies:
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-jsx:
     dependencies:
@@ -281,16 +324,25 @@ importers:
       language-tags:
         specifier: ^2.1.0
         version: 2.1.0
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
     devDependencies:
       '@types/language-tags':
         specifier: 1.0.4
         version: 1.0.4
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-next:
     dependencies:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   packages/plugin-node:
     dependencies:
@@ -303,12 +355,22 @@ importers:
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+    devDependencies:
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-nuxt:
     dependencies:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   packages/plugin-performance:
     dependencies:
@@ -324,18 +386,31 @@ importers:
       ts-api-utils:
         specifier: ^2.1.0
         version: 2.1.0(typescript@5.9.3)
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+    devDependencies:
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-react:
     dependencies:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   packages/plugin-solid:
     dependencies:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   packages/plugin-spelling:
     dependencies:
@@ -357,6 +432,13 @@ importers:
       cspell-lib:
         specifier: ^9.2.2
         version: 9.4.0
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+    devDependencies:
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/rule-tester:
     dependencies:
@@ -369,6 +451,13 @@ importers:
       cached-factory:
         specifier: ^0.1.0
         version: 0.1.0
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+    devDependencies:
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/site:
     dependencies:
@@ -466,6 +555,9 @@ importers:
       index-to-position:
         specifier: ^1.2.0
         version: 1.2.0
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   packages/ts:
     dependencies:
@@ -493,8 +585,19 @@ importers:
       typescript:
         specifier: ^5.9.0 || ^6.0.0
         version: 5.9.3
+      zod:
+        specifier: ^4.2.1
+        version: 4.2.1
+    devDependencies:
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
-  packages/utils: {}
+  packages/utils:
+    dependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   packages/yaml:
     dependencies:
@@ -504,12 +607,19 @@ importers:
       '@flint.fyi/rule-tester':
         specifier: 'workspace:'
         version: link:../rule-tester
+      typescript:
+        specifier: ^5.9.3 || ^6.0.0
+        version: 5.9.3
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
       yaml-unist-parser:
         specifier: ^3.0.0
         version: 3.1.0
+    devDependencies:
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
 packages:
 
@@ -4764,8 +4874,8 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.2.0:
-    resolution: {integrity: sha512-Bd5fw9wlIhtqCCxotZgdTOMwGm1a0u75wARVEY9HMs1X17trvA/lMi4+MGK5EUfYkXVTbX8UDiDKW4OgzHVUZw==}
+  zod@4.2.1:
+    resolution: {integrity: sha512-0wZ1IRqGGhMP76gLqz8EyfBXKk0J2qo2+H3fi4mcUP/KtTocoX08nmIAHl1Z2kJIZbZee8KOpBCSNPRgauucjw==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -7893,7 +8003,7 @@ snapshots:
       smol-toml: 1.5.2
       strip-json-comments: 5.0.3
       typescript: 5.9.3
-      zod: 4.2.0
+      zod: 4.2.1
 
   konami-code-js@0.8.3: {}
 
@@ -9831,6 +9941,6 @@ snapshots:
 
   zod@3.25.76: {}
 
-  zod@4.2.0: {}
+  zod@4.2.1: {}
 
   zwitch@2.0.4: {}
