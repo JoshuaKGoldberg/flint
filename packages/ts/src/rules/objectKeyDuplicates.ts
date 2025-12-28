@@ -1,10 +1,35 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
 
-function getPropertyKeyName(
-	property: ts.ObjectLiteralElementLike,
-): string | undefined {
+// TODO: Reuse a shared getStaticValue-style utility?
+function getNameText(name: ts.PropertyName) {
+	if (
+		ts.isIdentifier(name) ||
+		ts.isStringLiteral(name) ||
+		ts.isNumericLiteral(name) ||
+		ts.isLiteralExpression(name)
+	) {
+		return name.text;
+	}
+
+	if (ts.isPrivateIdentifier(name)) {
+		return `#${name.text}`;
+	}
+
+	return undefined;
+}
+
+function getPropertyKeyName(property: ts.ObjectLiteralElementLike) {
+	if (ts.isShorthandPropertyAssignment(property)) {
+		return {
+			group: "values",
+			node: property.name,
+			text: property.name.text,
+		} as const;
+	}
+
 	if (
 		ts.isPropertyAssignment(property) ||
 		ts.isMethodDeclaration(property) ||
@@ -12,30 +37,18 @@ function getPropertyKeyName(
 		ts.isSetAccessorDeclaration(property)
 	) {
 		const { name } = property;
-
-		// Prefix getters and setters to treat them as distinct from each other and from regular properties
-		let prefix = "";
-		if (ts.isGetAccessorDeclaration(property)) {
-			prefix = "get:";
-		} else if (ts.isSetAccessorDeclaration(property)) {
-			prefix = "set:";
+		const text = getNameText(name);
+		if (!text) {
+			return undefined;
 		}
 
-		if (ts.isIdentifier(name)) {
-			return prefix + name.text;
-		}
+		const group = ts.isGetAccessorDeclaration(property)
+			? "getters"
+			: ts.isSetAccessorDeclaration(property)
+				? "setters"
+				: "values";
 
-		if (ts.isStringLiteral(name)) {
-			return prefix + name.text;
-		}
-
-		if (ts.isNumericLiteral(name)) {
-			return prefix + name.text;
-		}
-	}
-
-	if (ts.isShorthandPropertyAssignment(property)) {
-		return property.name.text;
+		return { group, node: name, text } as const;
 	}
 
 	return undefined;
@@ -46,7 +59,7 @@ export default typescriptLanguage.createRule({
 		description:
 			"Reports unnecessary duplicate keys that override previous values.",
 		id: "objectKeyDuplicates",
-		preset: "logical",
+		preset: "untyped",
 	},
 	messages: {
 		duplicateKey: {
@@ -66,34 +79,29 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				ObjectLiteralExpression(node) {
-					const seenKeys = new Map<string, ts.Node>();
+				ObjectLiteralExpression(node, { sourceFile }) {
+					const seenKeys = {
+						getters: new Map<string, ts.Node>(),
+						setters: new Map<string, ts.Node>(),
+						values: new Map<string, ts.Node>(),
+					};
 
 					for (const property of node.properties.toReversed()) {
 						const key = getPropertyKeyName(property);
-
-						if (key === undefined) {
+						if (!key) {
 							continue;
 						}
 
-						const existingNode = seenKeys.get(key);
+						const existingNode = seenKeys[key.group].get(key.text);
 
-						if (!existingNode) {
-							seenKeys.set(key, property);
-							continue;
+						if (existingNode) {
+							context.report({
+								message: "duplicateKey",
+								range: getTSNodeRange(key.node, sourceFile),
+							});
 						}
 
-						const keyNode = ts.isShorthandPropertyAssignment(property)
-							? property.name
-							: (property as ts.PropertyAssignment).name;
-
-						context.report({
-							message: "duplicateKey",
-							range: {
-								begin: keyNode.getStart(context.sourceFile),
-								end: keyNode.end,
-							},
-						});
+						seenKeys[key.group].set(key.text, property);
 					}
 				},
 			},
