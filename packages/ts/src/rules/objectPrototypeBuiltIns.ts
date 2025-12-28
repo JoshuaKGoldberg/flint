@@ -74,7 +74,7 @@ export default typescriptLanguage.createRule({
 						range: getTSNodeRange(node, sourceFile),
 						suggestions: [
 							{
-								id: "use-prototype-call",
+								id: "usePrototypeCall",
 								range: getTSNodeRange(node, sourceFile),
 								text: `Object.prototype.${method}.call(${objectText}, ${argumentsText})`,
 							},

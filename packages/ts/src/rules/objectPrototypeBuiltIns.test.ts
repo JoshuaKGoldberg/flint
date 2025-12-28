@@ -14,7 +14,7 @@ const has = object.hasOwnProperty("key");
 `,
 			suggestions: [
 				{
-					id: "use-prototype-call",
+					id: "usePrototypeCall",
 					updated: `
 const has = Object.prototype.hasOwnProperty.call(object, "key");
 `,
@@ -32,7 +32,7 @@ const isPrototype = object.isPrototypeOf(other);
 `,
 			suggestions: [
 				{
-					id: "use-prototype-call",
+					id: "usePrototypeCall",
 					updated: `
 const isPrototype = Object.prototype.isPrototypeOf.call(object, other);
 `,
@@ -50,7 +50,7 @@ const isEnum = object.propertyIsEnumerable("prop");
 `,
 			suggestions: [
 				{
-					id: "use-prototype-call",
+					id: "usePrototypeCall",
 					updated: `
 const isEnum = Object.prototype.propertyIsEnumerable.call(object, "prop");
 `,
@@ -72,7 +72,7 @@ if (data.hasOwnProperty(key)) {
 `,
 			suggestions: [
 				{
-					id: "use-prototype-call",
+					id: "usePrototypeCall",
 					updated: `
 if (Object.prototype.hasOwnProperty.call(data, key)) {
     process(data[key]);
@@ -92,7 +92,7 @@ const has = object.hasOwnProperty/* comment */("key");
 `,
 			suggestions: [
 				{
-					id: "use-prototype-call",
+					id: "usePrototypeCall",
 					updated: `
 const has = Object.prototype.hasOwnProperty.call(object, "key");
 `,
@@ -110,7 +110,7 @@ const has = object.hasOwnProperty/* :( */("key");
 `,
 			suggestions: [
 				{
-					id: "use-prototype-call",
+					id: "usePrototypeCall",
 					updated: `
 const has = Object.prototype.hasOwnProperty.call(object, "key");
 `,
@@ -128,7 +128,7 @@ const has = object.hasOwnProperty(/* comment */ "key");
 `,
 			suggestions: [
 				{
-					id: "use-prototype-call",
+					id: "usePrototypeCall",
 					updated: `
 const has = Object.prototype.hasOwnProperty.call(object, /* comment */ "key");
 `,
