@@ -12,7 +12,7 @@ unused: for (let i = 0; i < 10; i++) {
 			snapshot: `
 unused: for (let i = 0; i < 10; i++) {
 ~~~~~~
-Label 'unused' is declared but never used with a break or continue statement.
+Remove the unused label 'unused'.
     console.log(i);
 }
 `,
@@ -26,7 +26,7 @@ unused: {
 			snapshot: `
 unused: {
 ~~~~~~
-Label 'unused' is declared but never used with a break or continue statement.
+Remove the unused label 'unused'.
     console.log("block");
 }
 `,
@@ -42,10 +42,10 @@ outer: for (let i = 0; i < 10; i++) {
 			snapshot: `
 outer: for (let i = 0; i < 10; i++) {
 ~~~~~
-Label 'outer' is declared but never used with a break or continue statement.
+Remove the unused label 'outer'.
     inner: for (let j = 0; j < 10; j++) {
     ~~~~~
-    Label 'inner' is declared but never used with a break or continue statement.
+    Remove the unused label 'inner'.
         console.log(i, j);
     }
 }
@@ -60,7 +60,7 @@ unused: while (true) {
 			snapshot: `
 unused: while (true) {
 ~~~~~~
-Label 'unused' is declared but never used with a break or continue statement.
+Remove the unused label 'unused'.
     break;
 }
 `,
@@ -74,7 +74,7 @@ unused: do {
 			snapshot: `
 unused: do {
 ~~~~~~
-Label 'unused' is declared but never used with a break or continue statement.
+Remove the unused label 'unused'.
     console.log("test");
 } while (false);
 `,

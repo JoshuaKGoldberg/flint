@@ -10,8 +10,7 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		unusedLabel: {
-			primary:
-				"Label '{{ labelName }}' is declared but never used with a break or continue statement.",
+			primary: "Remove the unused label '{{ labelName }}'.",
 			secondary: [
 				"Labels in JavaScript and TypeScript are used to identify loops or blocks, allowing break and continue statements to reference them.",
 				"If a label is declared but never referenced, it serves no purpose and should be removed to keep the code clean.",
@@ -23,11 +22,9 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		// Collect all labels first
 		const declaredLabels = new Map<string, ts.LabeledStatement>();
 		const usedLabels = new Set<string>();
 
-		// First pass: collect all labeled statements and their uses
 		function collectLabels(node: ts.Node) {
 			if (ts.isLabeledStatement(node)) {
 				declaredLabels.set(node.label.text, node);
@@ -43,7 +40,6 @@ export default typescriptLanguage.createRule({
 
 		collectLabels(context.sourceFile);
 
-		// Now report unused labels
 		for (const [labelName, node] of declaredLabels) {
 			if (!usedLabels.has(labelName)) {
 				context.report({
@@ -59,7 +55,6 @@ export default typescriptLanguage.createRule({
 			}
 		}
 
-		// Return empty visitors since we've already done the work
 		return {
 			visitors: {},
 		};
