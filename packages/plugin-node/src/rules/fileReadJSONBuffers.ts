@@ -1,73 +1,6 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-function isReadFileCall(node: ts.Expression): node is ts.CallExpression {
-	if (!ts.isCallExpression(node)) {
-		return false;
-	}
-
-	if (!ts.isPropertyAccessExpression(node.expression)) {
-		return false;
-	}
-
-	if (
-		!ts.isIdentifier(node.expression.expression) ||
-		node.expression.expression.text !== "fs"
-	) {
-		return false;
-	}
-
-	if (!ts.isIdentifier(node.expression.name)) {
-		return false;
-	}
-
-	const methodName = node.expression.name.text;
-	return methodName === "readFile" || methodName === "readFileSync";
-}
-
-function isUtf8Encoding(node: ts.Expression): boolean {
-	if (ts.isStringLiteral(node)) {
-		return isUtf8EncodingString(node.text);
-	}
-
-	if (ts.isObjectLiteralExpression(node)) {
-		if (node.properties.length !== 1) {
-			return false;
-		}
-
-		const property = node.properties[0];
-		if (
-			!ts.isPropertyAssignment(property) ||
-			!ts.isIdentifier(property.name) ||
-			property.name.text !== "encoding"
-		) {
-			return false;
-		}
-
-		if (ts.isStringLiteral(property.initializer)) {
-			return isUtf8EncodingString(property.initializer.text);
-		}
-	}
-
-	return false;
-}
-
-function isUtf8EncodingString(value: unknown): boolean {
-	if (typeof value !== "string") {
-		return false;
-	}
-
-	const normalized = value.toLowerCase();
-	return normalized === "utf8" || normalized === "utf-8";
-}
-
-function unwrapAwaitExpression(node: ts.Expression): ts.Expression {
-	while (ts.isAwaitExpression(node)) {
-		node = node.expression;
-	}
-	return node;
-}
-
 export default typescriptLanguage.createRule({
 	about: {
 		description:
@@ -101,35 +34,75 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const [argument] = node.arguments;
-					if (ts.isSpreadElement(argument)) {
+					const argument = unwrapAwaitExpression(node.arguments[0]);
+					if (
+						ts.isSpreadElement(argument) ||
+						!isReadFileCall(argument) ||
+						argument.arguments.length !== 2
+					) {
 						return;
 					}
 
-					const unwrapped = unwrapAwaitExpression(argument);
-					if (!isReadFileCall(unwrapped)) {
-						return;
-					}
-
-					if (unwrapped.arguments.length !== 2) {
-						return;
-					}
-
-					const encodingArg = unwrapped.arguments[1];
-					if (ts.isSpreadElement(encodingArg)) {
-						return;
-					}
-
-					if (!isUtf8Encoding(encodingArg)) {
+					const encoding = argument.arguments[1];
+					if (ts.isSpreadElement(encoding) || !isUtf8Encoding(encoding)) {
 						return;
 					}
 
 					context.report({
 						message: "preferBufferReading",
-						range: getTSNodeRange(encodingArg, context.sourceFile),
+						range: getTSNodeRange(encoding, context.sourceFile),
 					});
 				},
 			},
 		};
 	},
 });
+
+function isReadFileCall(node: ts.Expression): node is ts.CallExpression {
+	return (
+		ts.isCallExpression(node) &&
+		ts.isPropertyAccessExpression(node.expression) &&
+		ts.isIdentifier(node.expression.expression) &&
+		node.expression.expression.text === "fs" &&
+		ts.isIdentifier(node.expression.name) &&
+		/^readFile(?:Sync)?$/.test(node.expression.name.text)
+	);
+}
+
+function isUtf8Encoding(node: ts.Expression): boolean {
+	if (ts.isStringLiteral(node)) {
+		return isUtf8EncodingString(node.text);
+	}
+
+	if (ts.isObjectLiteralExpression(node)) {
+		if (node.properties.length !== 1) {
+			return false;
+		}
+
+		const property = node.properties[0];
+		if (
+			!ts.isPropertyAssignment(property) ||
+			!ts.isIdentifier(property.name) ||
+			property.name.text !== "encoding"
+		) {
+			return false;
+		}
+
+		if (ts.isStringLiteral(property.initializer)) {
+			return isUtf8EncodingString(property.initializer.text);
+		}
+	}
+
+	return false;
+}
+
+function isUtf8EncodingString(value: unknown): boolean {
+	return typeof value === "string" && /utf-?8/i.test(value);
+}
+
+function unwrapAwaitExpression(node: ts.Expression): ts.Expression {
+	while (ts.isAwaitExpression(node)) {
+		node = node.expression;
+	}
+	return node;
+}
