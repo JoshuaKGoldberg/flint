@@ -11,6 +11,7 @@
 		{ "path": "../json" },
 		{ "path": "../md" },
 		{ "path": "../ts" },
+		{ "path": "../ts-patch" },
 		{ "path": "../yaml" }
 	]
 }

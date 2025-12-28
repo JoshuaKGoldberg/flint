@@ -37,6 +37,7 @@
 		"@flint.fyi/plugin-jsx": "workspace:^",
 		"@flint.fyi/plugin-node": "workspace:^",
 		"@flint.fyi/plugin-spelling": "workspace:^",
+		"@flint.fyi/ts-patch": "workspace:^",
 		"@types/mdast": "4.0.4",
 		"@types/node": "24.10.1",
 		"@vitest/eslint-plugin": "1.6.1",

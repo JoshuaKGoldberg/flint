@@ -24,6 +24,7 @@
 		{ "path": "./packages/plugin-spelling" },
 		{ "path": "./packages/text" },
 		{ "path": "./packages/ts" },
+		{ "path": "./packages/ts-patch" },
 		{ "path": "./packages/yaml" }
 	]
 }

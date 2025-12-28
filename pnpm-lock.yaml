@@ -40,6 +40,9 @@ importers:
       '@flint.fyi/plugin-spelling':
         specifier: workspace:^
         version: link:packages/plugin-spelling
+      '@flint.fyi/ts-patch':
+        specifier: workspace:^
+        version: link:packages/ts-patch
       '@types/mdast':
         specifier: 4.0.4
         version: 4.0.4
@@ -196,6 +199,9 @@ importers:
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
+      '@flint.fyi/ts-patch':
+        specifier: 'workspace:'
+        version: link:../ts-patch
       '@flint.fyi/yaml':
         specifier: 'workspace:'
         version: link:../yaml
@@ -549,6 +555,12 @@ importers:
         version: 2.1.0(typescript@5.9.3)
       typescript:
         specifier: ^5.9.0 || ^6.0.0
+        version: 5.9.3
+
+  packages/ts-patch:
+    devDependencies:
+      typescript:
+        specifier: 5.9.3
         version: 5.9.3
 
   packages/utils: {}

@@ -21,6 +21,7 @@
 		"@flint.fyi/json": "workspace:",
 		"@flint.fyi/md": "workspace:",
 		"@flint.fyi/ts": "workspace:",
+		"@flint.fyi/ts-patch": "workspace:",
 		"@flint.fyi/yaml": "workspace:"
 	},
 	"engines": {
