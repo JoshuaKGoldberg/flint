@@ -36,6 +36,7 @@ export default defineConfig(
 			jsdoc.configs["flat/stylistic-typescript-error"],
 			n.configs["flat/recommended"],
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			// https://github.com/azat-io/eslint-plugin-perfectionist/issues/655
 			perfectionist.configs!["recommended-natural"] as Linter.Config,
 			regexp.configs["flat/recommended"],
 			tseslint.configs.strictTypeChecked,
