@@ -6,6 +6,7 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
       - run: pnpm build
+      - run: pnpm -r build # Build packages/site
       - run: pnpm flint
   lint:
     name: Lint
@@ -14,6 +15,7 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
       - run: pnpm build
+      - run: pnpm -r prebuild # Generate packages/site/.astro without a full build.
       - run: pnpm lint
   lint_knip:
     name: Lint Knip
@@ -21,7 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
-      - run: pnpm build
+      - run: pnpm build # Knip requires all exports to be generated.
+      - run: pnpm tsc -b # Ditto
       - run: pnpm lint:knip
   lint_packages:
     name: Lint Packages
@@ -36,18 +39,9 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
-      - run: pnpm build
-      - run: pnpm tsc -b
+      - run: pnpm build # https://github.com/vitest-dev/vitest/discussions/9353
+      - run: pnpm tsc -b # For type tests
       - run: pnpm run test
-  build_site:
-    name: Build Website
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - uses: ./.github/actions/prepare
-      - run: pnpm build
-      - run: pnpm -r build
-
 name: CI
 
 on:
