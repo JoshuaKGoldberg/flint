@@ -30,8 +30,8 @@ function test() {
 			snapshot: `
 function test() {
 	debugger;
- ~~~~~~~~~
- Debugger statements should not be used in production code.
+	~~~~~~~~~
+	Debugger statements should not be used in production code.
 }
 `,
 			suggestions: [
@@ -54,8 +54,8 @@ if (condition) {
 			snapshot: `
 if (condition) {
 	debugger;
- ~~~~~~~~~
- Debugger statements should not be used in production code.
+	~~~~~~~~~
+	Debugger statements should not be used in production code.
 }
 `,
 			suggestions: [

@@ -26,7 +26,10 @@ export class DirectivesCollector {
 			return;
 		}
 
-		const selections = selection.split(/\s+/).map((text) => text.trim());
+		const selections = selection
+			.trim()
+			.split(/\s+/)
+			.map((text) => text.trim());
 		const directive: CommentDirective = { range, selections, type };
 
 		this.#directives.push(directive);

@@ -24,7 +24,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxAttribute(node: ts.JsxAttribute) {
+				JsxAttribute(node: ts.JsxAttribute, { sourceFile }) {
 					if (!ts.isIdentifier(node.name)) {
 						return;
 					}
@@ -37,7 +37,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						data: { attribute },
 						message: "avoidAccessKey",
-						range: getTSNodeRange(node.name, context.sourceFile),
+						range: getTSNodeRange(node.name, sourceFile),
 					});
 				},
 			},
