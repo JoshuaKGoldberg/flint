@@ -31,9 +31,6 @@ importers:
       '@flint.fyi/plugin-flint':
         specifier: workspace:^
         version: link:packages/plugin-flint
-      '@flint.fyi/plugin-jsx':
-        specifier: workspace:^
-        version: link:packages/plugin-jsx
       '@flint.fyi/plugin-node':
         specifier: workspace:^
         version: link:packages/plugin-node
@@ -390,6 +387,9 @@ importers:
       '@flint.fyi/plugin-flint':
         specifier: 'workspace:'
         version: link:../plugin-flint
+      '@flint.fyi/plugin-jsx':
+        specifier: 'workspace:'
+        version: link:../plugin-jsx
       '@flint.fyi/plugin-node':
         specifier: 'workspace:'
         version: link:../plugin-node
