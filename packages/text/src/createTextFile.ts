@@ -18,6 +18,10 @@ export function createTextFile(
 				report: (report: RuleReport) => {
 					reports.push({
 						...report,
+						fix:
+							report.fix && !Array.isArray(report.fix)
+								? [report.fix]
+								: report.fix,
 						message: rule.messages[report.message],
 						range: {
 							begin: {
@@ -34,18 +38,21 @@ export function createTextFile(
 				sourceText,
 			};
 
+			const fileServices = { filePathAbsolute, options, sourceText };
 			const runtime = await rule.setup(context, options);
 
 			if (runtime?.visitors) {
-				runtime.visitors.file?.(sourceText);
+				runtime.visitors.file?.(sourceText, fileServices);
 
 				if (runtime.visitors.line) {
 					const lines = sourceText.split(/\r\n|\n|\r/);
 					for (const line of lines) {
-						runtime.visitors.line(line);
+						runtime.visitors.line(line, fileServices);
 					}
 				}
 			}
+
+			await runtime?.teardown?.();
 
 			return reports;
 		},

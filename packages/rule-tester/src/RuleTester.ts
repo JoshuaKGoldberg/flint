@@ -7,15 +7,18 @@ import {
 	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
-import assert from "node:assert";
+import assert from "node:assert/strict";
 
 import { createReportSnapshot } from "./createReportSnapshot.js";
 import { normalizeTestCase } from "./normalizeTestCase.js";
 import { resolveReportedSuggestions } from "./resolveReportedSuggestions.js";
 import { runTestCaseRule } from "./runTestCaseRule.js";
-import { InvalidTestCase, ValidTestCase } from "./types.js";
+import { InvalidTestCase, TestCase, ValidTestCase } from "./types.js";
 
 export interface RuleTesterOptions {
+	defaults?: {
+		fileName?: string;
+	};
 	describe?: TesterSetupDescribe;
 	it?: TesterSetupIt;
 	only?: TesterSetupIt;
@@ -43,6 +46,7 @@ export class RuleTester {
 	#testerOptions: Required<RuleTesterOptions>;
 
 	constructor({
+		defaults,
 		describe,
 		it,
 		only,
@@ -69,6 +73,7 @@ export class RuleTester {
 		}
 
 		this.#testerOptions = {
+			defaults: defaults ?? {},
 			describe: defaultTo(describe, scope, "describe"),
 			it,
 			only,
@@ -100,21 +105,12 @@ export class RuleTester {
 		rule: AnyRule<RuleAbout, OptionsSchema>,
 		testCase: InvalidTestCase<InferredObject<OptionsSchema>>,
 	) {
-		const testCaseNormalized = normalizeTestCase(testCase);
+		const testCaseNormalized = normalizeTestCase(
+			testCase,
+			this.#testerOptions.defaults.fileName,
+		);
 
-		let test = testCase.only
-			? this.#testerOptions.only
-			: this.#testerOptions.it;
-
-		if (testCase.skip) {
-			if ("skip" in test && typeof test.skip === "function") {
-				test = test.skip as TesterSetupIt;
-			} else {
-				test = this.#testerOptions.skip;
-			}
-		}
-
-		test(testCase.code, async () => {
+		this.#itTestCase(testCaseNormalized, async () => {
 			const reports = await runTestCaseRule(
 				this.#fileFactories,
 				{
@@ -136,15 +132,34 @@ export class RuleTester {
 		});
 	}
 
+	#itTestCase(testCase: TestCase, setup: () => Promise<void>) {
+		let test = testCase.only
+			? this.#testerOptions.only
+			: this.#testerOptions.it;
+
+		if (testCase.skip) {
+			if ("skip" in test && typeof test.skip === "function") {
+				test = test.skip as TesterSetupIt;
+			} else {
+				test = this.#testerOptions.skip;
+			}
+		}
+
+		test(testCase.code, setup);
+	}
+
 	#itValidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
 		rule: AnyRule<RuleAbout, OptionsSchema>,
 		testCaseRaw: ValidTestCase<InferredObject<OptionsSchema>>,
 	) {
 		const testCase =
 			typeof testCaseRaw === "string" ? { code: testCaseRaw } : testCaseRaw;
-		const testCaseNormalized = normalizeTestCase(testCase);
+		const testCaseNormalized = normalizeTestCase(
+			testCase,
+			this.#testerOptions.defaults.fileName,
+		);
 
-		this.#testerOptions.it(testCase.code, async () => {
+		this.#itTestCase(testCaseNormalized, async () => {
 			const reports = await runTestCaseRule(
 				this.#fileFactories,
 				{

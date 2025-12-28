@@ -1,0 +1,41 @@
+{
+	"name": "@flint.fyi/plugin-jsx",
+	"version": "0.1.1",
+	"description": "[Experimental] A Flint plugin for JSX code.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
+		"directory": "packages/plugin-jsx"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"sideEffects": false,
+	"type": "module",
+	"exports": {
+		".": "./lib/index.js"
+	},
+	"files": [
+		"lib/"
+	],
+	"dependencies": {
+		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/rule-tester": "workspace:",
+		"@flint.fyi/ts": "workspace:",
+		"language-tags": "^2.1.0",
+		"typescript": "^5.9.3"
+	},
+	"devDependencies": {
+		"@types/language-tags": "1.0.4",
+		"vitest": "4.0.15"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	}
+}

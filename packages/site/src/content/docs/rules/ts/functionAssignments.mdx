@@ -1,0 +1,93 @@
+---
+description: "Variables declared with function declarations should not be reassigned."
+title: "functionAssignments"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="functionAssignments" />
+
+Reassigning a function declaration can make code harder to understand and maintain.
+Function declarations are hoisted to the top of their scope, and reassigning them can lead to unexpected behavior.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function calculate(value: number): number {
+	return value * 2;
+}
+
+calculate = (value: number) => value * 3;
+```
+
+```ts
+function processData(): void {
+	console.log("Processing...");
+}
+
+processData = null;
+```
+
+```ts
+function getValue(): number {
+	return 42;
+}
+
+getValue++;
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function calculate(value: number): number {
+	return value * 2;
+}
+
+const result = calculate(10);
+```
+
+```ts
+const processData = function (): void {
+	console.log("Processing...");
+};
+
+processData = () => {
+	console.log("Different processing");
+};
+```
+
+```ts
+let getValue = (): number => {
+	return 42;
+};
+
+getValue = () => 100;
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you're working in an existing codebase where reassigning function declarations is a common pattern and refactoring would be too costly, you might choose to disable this rule.
+However, using function expressions or const variables is generally a better practice when reassignment is needed.
+
+## Further Reading
+
+- [MDN: Function declarations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)
+- [MDN: Function hoisting](https://developer.mozilla.org/en-US/docs/Glossary/Hoisting#function_hoisting)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="functionAssignments" />

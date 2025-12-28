@@ -1,9 +1,12 @@
+import type { PromiseOrSync } from "@flint.fyi/utils";
+
 import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
 	InferredObject,
 	LanguageFileFactory,
+	type NormalizedReport,
 	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
@@ -23,7 +26,7 @@ export function runTestCaseRule<
 	fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
 	{ options, rule }: Required<TestCaseRuleConfiguration<OptionsSchema>>,
 	{ code, fileName }: TestCaseNormalized,
-) {
+): PromiseOrSync<NormalizedReport[]> {
 	using file = fileFactories
 		// TODO: How to make types more permissive around assignability?
 		// See AnyRule's any
