@@ -34,6 +34,7 @@ import nonOctalDecimalEscapes from "./rules/nonOctalDecimalEscapes.js";
 import numericLiteralParsing from "./rules/numericLiteralParsing.js";
 import objectCalls from "./rules/objectCalls.js";
 import objectHasOwns from "./rules/objectHasOwns.js";
+import objectKeyDuplicates from "./rules/objectKeyDuplicates.js";
 import objectProto from "./rules/objectProto.js";
 import octalEscapes from "./rules/octalEscapes.js";
 import octalNumbers from "./rules/octalNumbers.js";
@@ -96,6 +97,7 @@ export const ts = createPlugin({
 		numericLiteralParsing,
 		objectCalls,
 		objectHasOwns,
+		objectKeyDuplicates,
 		objectProto,
 		octalEscapes,
 		octalNumbers,
