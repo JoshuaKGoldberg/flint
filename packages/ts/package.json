@@ -22,7 +22,6 @@
 	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/rule-tester": "workspace:",
 		"@typescript-eslint/project-service": "^8.46.2",
 		"@typescript/vfs": "^1.6.1",
 		"cached-factory": "^0.1.0",
@@ -32,6 +31,7 @@
 		"zod": "^4.2.1"
 	},
 	"devDependencies": {
+		"@flint.fyi/rule-tester": "workspace:",
 		"vitest": "4.0.15"
 	},
 	"engines": {
