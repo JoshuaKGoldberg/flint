@@ -9,8 +9,8 @@ const has = object.hasOwnProperty("key");
 `,
 			snapshot: `
 const has = object.hasOwnProperty("key");
-                   ~~~~~~~~~~~~~~
-                   Use Object.prototype.hasOwnProperty.call() instead of calling hasOwnProperty directly on an object.
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            Prefer Object.prototype.hasOwnProperty.call() over calling hasOwnProperty() directly on objects.
 `,
 			suggestions: [
 				{
@@ -27,8 +27,8 @@ const isPrototype = object.isPrototypeOf(other);
 `,
 			snapshot: `
 const isPrototype = object.isPrototypeOf(other);
-                           ~~~~~~~~~~~~~
-                           Use Object.prototype.isPrototypeOf.call() instead of calling isPrototypeOf directly on an object.
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    Prefer Object.prototype.isPrototypeOf.call() over calling isPrototypeOf() directly on objects.
 `,
 			suggestions: [
 				{
@@ -45,8 +45,8 @@ const isEnum = object.propertyIsEnumerable("prop");
 `,
 			snapshot: `
 const isEnum = object.propertyIsEnumerable("prop");
-                      ~~~~~~~~~~~~~~~~~~~~
-                      Use Object.prototype.propertyIsEnumerable.call() instead of calling propertyIsEnumerable directly on an object.
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+               Prefer Object.prototype.propertyIsEnumerable.call() over calling propertyIsEnumerable() directly on objects.
 `,
 			suggestions: [
 				{
@@ -65,8 +65,8 @@ if (data.hasOwnProperty(key)) {
 `,
 			snapshot: `
 if (data.hasOwnProperty(key)) {
-         ~~~~~~~~~~~~~~
-         Use Object.prototype.hasOwnProperty.call() instead of calling hasOwnProperty directly on an object.
+    ~~~~~~~~~~~~~~~~~~~~~~~~
+    Prefer Object.prototype.hasOwnProperty.call() over calling hasOwnProperty() directly on objects.
     process(data[key]);
 }
 `,
