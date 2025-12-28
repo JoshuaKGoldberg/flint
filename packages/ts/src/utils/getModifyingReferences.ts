@@ -3,12 +3,8 @@ import * as ts from "typescript";
 
 /**
  * Gets all references to a variable that modify it (assignments, increments, decrements).
- * This is similar to ESLint's getModifyingReferences from ast-utils.js.
  *
  * TODO: Replace with a proper scope manager when available (see #400).
- * @param identifier The identifier node to find modifying references for.
- * @param sourceFile The source file containing the identifier.
- * @param typeChecker The TypeScript type checker.
  * @returns An array of identifier nodes that modify the variable.
  */
 export function getModifyingReferences(

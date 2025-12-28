@@ -6,9 +6,9 @@ export type CreatePluginOptions<
 	About extends RuleAbout,
 	FilesKey extends string | undefined,
 	Rules extends UnsafeAnyRule<About>[],
-> = FilesKey extends string
-	? CreatePluginOptionsWithFiles<About, FilesKey, Rules>
-	: CreatePluginOptionsWithoutFiles<About, Rules>;
+> = FilesKey extends undefined
+	? CreatePluginOptionsWithoutFiles<About, Rules>
+	: CreatePluginOptionsWithFiles<About, FilesKey & string, Rules>;
 
 export interface CreatePluginOptionsWithFiles<
 	About extends RuleAbout,

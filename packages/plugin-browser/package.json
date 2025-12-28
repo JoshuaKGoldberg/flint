@@ -1,0 +1,39 @@
+{
+	"name": "@flint.fyi/plugin-browser",
+	"version": "0.1.1",
+	"description": "[Experimental] A Flint plugin for browser code.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
+		"directory": "packages/plugin-browser"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"sideEffects": false,
+	"type": "module",
+	"exports": {
+		".": "./lib/index.js"
+	},
+	"files": [
+		"lib/"
+	],
+	"dependencies": {
+		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/rule-tester": "workspace:",
+		"@flint.fyi/ts": "workspace:",
+		"typescript": "^5.9.3"
+	},
+	"devDependencies": {
+		"vitest": "4.0.15"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	}
+}

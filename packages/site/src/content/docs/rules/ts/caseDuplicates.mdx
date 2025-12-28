@@ -1,0 +1,102 @@
+---
+description: "Reports switch statements with duplicate case clause test expressions."
+title: "caseDuplicates"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="caseDuplicates" />
+
+Duplicate case clauses in a switch statement represent a logic error where the second occurrence of a case will never be executed.
+When multiple case clauses have identical test expressions, only the first matching case is executed, making subsequent duplicates unreachable code.
+This typically indicates a copy-paste error or incomplete refactoring.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function getStatus(code: number): string {
+	switch (code) {
+		case 200:
+			return "OK";
+		case 404:
+			return "Not Found";
+		case 200:
+			return "Success"; // This case will never be reached
+	}
+}
+```
+
+```ts
+function handleInput(value: string): void {
+	switch (value) {
+		case "start":
+			console.log("Starting process");
+			break;
+		case "stop":
+			console.log("Stopping process");
+			break;
+		case "start":
+			console.log("Begin operation"); // This case will never be reached
+			break;
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function getStatus(code: number): string {
+	switch (code) {
+		case 200:
+			return "OK";
+		case 201:
+			return "Created";
+		case 404:
+			return "Not Found";
+	}
+}
+```
+
+```ts
+function handleInput(value: string): void {
+	switch (value) {
+		case "start":
+			console.log("Starting process");
+			break;
+		case "stop":
+			console.log("Stopping process");
+			break;
+		case "restart":
+			console.log("Restarting process");
+			break;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your project uses control flow structures that create confusing side effects, such as dynamic getters that modify state, you might not be able to enable this rule.
+Consider refactoring to more predictable control flow structures.
+
+## Further Reading
+
+- [MDN: switch statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch)
+- [MDN: Unreachable code](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Stmt_after_return)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="caseDuplicates" />
