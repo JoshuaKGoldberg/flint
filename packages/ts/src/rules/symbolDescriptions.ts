@@ -24,7 +24,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression: (node) => {
+				CallExpression: (node, { sourceFile }) => {
 					if (
 						!ts.isIdentifier(node.expression) ||
 						node.expression.text !== "Symbol" ||
@@ -36,7 +36,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						message: "missingDescription",
 						range: {
-							begin: node.getStart(context.sourceFile),
+							begin: node.getStart(sourceFile),
 							end: node.getEnd(),
 						},
 					});

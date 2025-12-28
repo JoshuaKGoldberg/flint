@@ -18,27 +18,33 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		const text = context.sourceFile.getFullText();
-		if (text.charCodeAt(0) !== 0xfeff) {
-			return {};
-		}
+		return {
+			visitors: {
+				SourceFile: (node) => {
+					const text = node.getFullText();
+					if (text.charCodeAt(0) !== 0xfeff) {
+						return {};
+					}
 
-		context.report({
-			message: "noBOM",
-			range: {
-				begin: 0,
-				end: 1,
-			},
-			suggestions: [
-				{
-					id: "removeBOM",
-					range: {
-						begin: 0,
-						end: 1,
-					},
-					text: "",
+					context.report({
+						message: "noBOM",
+						range: {
+							begin: 0,
+							end: 1,
+						},
+						suggestions: [
+							{
+								id: "removeBOM",
+								range: {
+									begin: 0,
+									end: 1,
+								},
+								text: "",
+							},
+						],
+					});
 				},
-			],
-		});
+			},
+		};
 	},
 });

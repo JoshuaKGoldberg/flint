@@ -30,13 +30,13 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
 					if (
 						!ts.isPropertyAccessExpression(node.expression) ||
 						!ts.isIdentifier(node.expression.name) ||
 						node.expression.name.text !== "removeEventListener" ||
 						node.arguments.length < 2 ||
-						!isGlobalDeclaration(node.expression, context.typeChecker)
+						!isGlobalDeclaration(node.expression, typeChecker)
 					) {
 						return;
 					}
@@ -51,7 +51,7 @@ export default typescriptLanguage.createRule({
 
 					context.report({
 						message: "invalidRemoveEventListener",
-						range: getTSNodeRange(listener, context.sourceFile),
+						range: getTSNodeRange(listener, sourceFile),
 					});
 				},
 			},

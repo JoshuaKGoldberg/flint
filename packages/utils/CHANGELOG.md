@@ -1,5 +1,11 @@
 # @flint/utils
 
+## 0.13.3
+
+### Patch Changes
+
+- d99170f: fix: add missing ("phantom") dependencies to package.jsons
+
 ## 0.13.2
 
 ### Patch Changes

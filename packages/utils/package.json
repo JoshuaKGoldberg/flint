@@ -1,10 +1,10 @@
 {
 	"name": "@flint.fyi/utils",
-	"version": "0.13.2",
+	"version": "0.13.3",
 	"description": "[Experimental] Shared utilities used by @flint/core and at least one other package.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/utils"
 	},
 	"license": "MIT",
@@ -12,8 +12,17 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
+	"sideEffects": false,
 	"type": "module",
-	"main": "./lib/index.js",
+	"exports": {
+		".": "./lib/index.js"
+	},
+	"files": [
+		"lib/"
+	],
+	"dependencies": {
+		"typescript": "^5.9.3"
+	},
 	"engines": {
 		"node": ">=24.0.0"
 	},

@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 <svg />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <svg />
  ~~~
@@ -18,7 +17,6 @@ ruleTester.describe(rule, {
 			code: `
 <svg viewBox="0 0 100 100" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <svg viewBox="0 0 100 100" />
  ~~~
@@ -30,7 +28,6 @@ ruleTester.describe(rule, {
 <svg>
     <circle cx="50" cy="50" r="40" />
 </svg>`,
-			fileName: "file.tsx",
 			snapshot: `
 <svg>
  ~~~
@@ -43,7 +40,6 @@ ruleTester.describe(rule, {
 <svg>
     <desc>Description only</desc>
 </svg>`,
-			fileName: "file.tsx",
 			snapshot: `
 <svg>
  ~~~
@@ -55,7 +51,6 @@ ruleTester.describe(rule, {
 			code: `
 <svg aria-label="" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <svg aria-label="" />
  ~~~
@@ -66,7 +61,6 @@ ruleTester.describe(rule, {
 			code: `
 <svg aria-label={""} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <svg aria-label={""} />
  ~~~
@@ -77,7 +71,6 @@ ruleTester.describe(rule, {
 			code: `
 <svg aria-label={\`\`} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <svg aria-label={\`\`} />
  ~~~
@@ -88,7 +81,6 @@ ruleTester.describe(rule, {
 			code: `
 <svg aria-label={undefined} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <svg aria-label={undefined} />
  ~~~
@@ -99,7 +91,6 @@ ruleTester.describe(rule, {
 			code: `
 <svg aria-labelledby="" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <svg aria-labelledby="" />
  ~~~
@@ -113,7 +104,6 @@ ruleTester.describe(rule, {
 <svg>
     <title>Accessible title</title>
 </svg>`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `
@@ -121,19 +111,16 @@ ruleTester.describe(rule, {
     <title>Circle</title>
     <circle cx="50" cy="50" r="40" />
 </svg>`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `
 <svg aria-label="Accessible label" />
 `,
-			fileName: "file.tsx",
 		},
 		{
 			code: `
 <svg aria-labelledby="title-id" />
 `,
-			fileName: "file.tsx",
 		},
 		{
 			code: `
@@ -141,8 +128,7 @@ ruleTester.describe(rule, {
     <circle cx="50" cy="50" r="40" />
 </svg>
 `,
-			fileName: "file.tsx",
 		},
-		{ code: `<div>Not an svg element</div>`, fileName: "file.tsx" },
+		{ code: `<div>Not an svg element</div>` },
 	],
 });

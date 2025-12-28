@@ -1,5 +1,17 @@
 # @flint.fyi/comparisons
 
+## 0.1.2
+
+### Patch Changes
+
+- d99170f: fix: add missing ("phantom") dependencies to package.jsons
+
+## 0.1.1
+
+### Patch Changes
+
+- f251e68: fix(comparisons): mark imageAltRedundancy as not implementing
+
 ## 0.1.0
 
 ### Minor Changes
