@@ -4255,6 +4255,7 @@
 			"name": "fileReadJSONBuffers",
 			"plugin": "node",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		}
 	},
