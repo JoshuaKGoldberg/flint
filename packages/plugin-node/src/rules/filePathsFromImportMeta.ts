@@ -41,8 +41,7 @@ function isNewURLWithDot(
 		ts.isNewExpression(node) &&
 		ts.isIdentifier(node.expression) &&
 		node.expression.text === "URL" &&
-		node.arguments !== undefined &&
-		node.arguments.length === 2 &&
+		node.arguments?.length === 2 &&
 		ts.isStringLiteral(node.arguments[0]) &&
 		node.arguments[0].text === "."
 	);
