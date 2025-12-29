@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/plugin-flint",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "[Experimental] A Flint plugin for linting Flint plugins.",
 	"repository": {
 		"type": "git",
@@ -24,16 +24,17 @@
 		}
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/rule-tester": "workspace:",
 		"@flint.fyi/ts": "workspace:",
 		"@flint.fyi/utils": "workspace:",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
+		"@flint.fyi/rule-tester": "workspace:",
 		"tsdown": "0.18.3",
 		"vitest": "4.0.15"
 	},

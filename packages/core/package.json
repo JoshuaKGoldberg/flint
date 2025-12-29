@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/core",
-	"version": "0.16.0",
+	"version": "0.17.0",
 	"description": "[Experimental] Core building blocks for Flint.",
 	"repository": {
 		"type": "git",
@@ -49,7 +49,8 @@
 		}
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"@flint.fyi/utils": "workspace:",
