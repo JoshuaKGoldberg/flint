@@ -18,18 +18,19 @@
 		".": "./lib/index.js"
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"@cspell/url": "^9.2.2",
 		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/rule-tester": "workspace:",
 		"@flint.fyi/text": "workspace:",
 		"@flint.fyi/utils": "workspace:",
 		"cspell-lib": "^9.2.2",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
+		"@flint.fyi/rule-tester": "workspace:",
 		"vitest": "4.0.15"
 	},
 	"engines": {

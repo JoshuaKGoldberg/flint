@@ -11,21 +11,19 @@ import packageJson from "eslint-plugin-package-json";
 import perfectionist from "eslint-plugin-perfectionist";
 import * as regexp from "eslint-plugin-regexp";
 import yml from "eslint-plugin-yml";
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
-	{
-		ignores: [
-			"**/*.snap",
-			"**/node_modules",
-			"packages/*/.astro",
-			"packages/*/dist",
-			"packages/*/lib",
-			"packages/fixtures",
-			"pnpm-lock.yaml",
-		],
-	},
+	globalIgnores([
+		"**/*.snap",
+		"**/node_modules",
+		"packages/*/.astro",
+		"packages/*/dist",
+		"packages/*/lib",
+		"packages/fixtures",
+		"pnpm-lock.yaml",
+	]),
 	{ linterOptions: { reportUnusedDisableDirectives: "error" } },
 	{
 		extends: [
@@ -58,7 +56,6 @@ export default defineConfig(
 				{ allowNumber: true },
 			],
 			"n/no-missing-import": "off",
-			"n/no-unpublished-import": "off", // eslint-community/eslint-plugin-n#495
 			"n/no-unsupported-features/node-builtins": [
 				"error",
 				{ allowExperimental: true },
@@ -81,14 +78,9 @@ export default defineConfig(
 			n: {
 				convertPath: [
 					{
-						exclude: [
-							"**/ruleTester.ts",
-							"**/*.test.ts",
-							"**/*.test-d.ts",
-							"**/*.d.ts",
-						],
-						include: ["src/**/*.ts"],
-						replace: ["^src/(.+)$", "lib/$1"],
+						exclude: ["**/ruleTester.ts", "**/*.test.ts", "**/*.test-d.ts"],
+						include: ["packages/*/src/**/*.ts"],
+						replace: ["src/(.+).ts$", "lib/$1.js"],
 					},
 				],
 			},

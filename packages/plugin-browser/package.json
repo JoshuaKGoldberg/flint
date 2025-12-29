@@ -18,15 +18,16 @@
 		".": "./lib/index.js"
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/rule-tester": "workspace:",
 		"@flint.fyi/ts": "workspace:",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
+		"@flint.fyi/rule-tester": "workspace:",
 		"vitest": "4.0.15"
 	},
 	"engines": {
