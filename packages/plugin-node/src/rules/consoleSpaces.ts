@@ -1,4 +1,4 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const consoleMethods = new Set([
