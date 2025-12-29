@@ -5,6 +5,7 @@
 	"extends": "./tsconfig.base.json",
 	"include": ["./*.ts"],
 	"references": [
+		{ "path": "./packages/astro-language" },
 		{ "path": "./packages/comparisons" },
 		{ "path": "./packages/core" },
 		{ "path": "./packages/cli" },
@@ -24,6 +25,7 @@
 		{ "path": "./packages/plugin-spelling" },
 		{ "path": "./packages/text" },
 		{ "path": "./packages/ts" },
+		{ "path": "./packages/vue-language" },
 		{ "path": "./packages/yaml" }
 	]
 }
