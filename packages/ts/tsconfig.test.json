@@ -1,7 +1,8 @@
 {
 	"compilerOptions": {
-		"tsBuildInfoFile": ".tsbuildinfo/tsbuildinfo-test.json",
-		"outDir": ".tsbuildinfo/types",
+		"tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo.test.json",
+		"rootDir": "src/",
+		"outDir": "lib/",
 		"types": ["node"],
 		"erasableSyntaxOnly": false
 	},
