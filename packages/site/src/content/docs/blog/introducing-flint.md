@@ -121,6 +121,7 @@ Modern web projects are able to use a plethora of tools: formatters, a variety o
 Each of those tools often ends up being either its own workflow in CI and/or a step in a larger CI job.
 Repositories have to choose: how much tooling power do they want, at the cost of CI time and configuration complexity?
 
+Modern linters such as Biome's and Oxlint have proven out user benefit from coordinating multiple tools for users.
 Flint aims to reduce complexity and user pain in three ways:
 
 - Flint's APIs allow for project-aware lint rules that can take on complex tasks like import cycle analysis and unused code detection
