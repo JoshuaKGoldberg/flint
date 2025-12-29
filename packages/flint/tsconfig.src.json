@@ -7,5 +7,12 @@
 	},
 	"extends": "../../tsconfig.base.json",
 	"include": ["src"],
-	"references": [{ "path": "../text" }, { "path": "../utils" }]
+	"references": [
+		{ "path": "../core" },
+		{ "path": "../cli" },
+		{ "path": "../json" },
+		{ "path": "../md" },
+		{ "path": "../ts" },
+		{ "path": "../yaml" }
+	]
 }

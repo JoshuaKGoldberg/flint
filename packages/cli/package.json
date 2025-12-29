@@ -16,10 +16,7 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"@flint.fyi/source": {
-				"types": "./.tsbuildinfo/types/src/index.d.ts",
-				"default": "./src/index.ts"
-			},
+			"@flint.fyi/source": "./src/index.ts",
 			"default": "./lib/index.js"
 		}
 	},
