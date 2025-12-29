@@ -4,7 +4,7 @@ title: Introducing Flint
 ---
 
 ESLint has been the leading web ecosystem linter for a decade.
-New native speed linters such as Biome and Oxlint that implement blazing fast linting using native speed languages are becoming more popular by the month.
+Its dominance is being challenged by new native speed linters such as Biome and Oxlint that implement blazing fast linting using native speed languages.
 Even TypeScript's source is being ported from TypeScript to Go.
 Yet, this Flint project -a new, experimental linter- is implemented in TypeScript rather than Go or Rust.
 
