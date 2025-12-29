@@ -1,5 +1,5 @@
-import rule from "./objectKeyDuplicates.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./objectKeyDuplicates.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

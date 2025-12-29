@@ -1,5 +1,5 @@
-import rule from "./consoleSpaces.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./consoleSpaces.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [
