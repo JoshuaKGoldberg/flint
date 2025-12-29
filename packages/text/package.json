@@ -23,8 +23,7 @@
 	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
-		"index-to-position": "^1.2.0",
-		"typescript": "^5.9.3"
+		"index-to-position": "^1.2.0"
 	},
 	"engines": {
 		"node": ">=24.0.0"
