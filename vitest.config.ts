@@ -10,7 +10,7 @@ export default defineConfig({
 				name,
 				root: `./packages/${name}`,
 				setupFiles: [
-					"console-fail-test/setup",
+					// "console-fail-test/setup",
 					"@flint.fyi/core/ts-patch/install-patch-hooks",
 				],
 				testTimeout: 10_000,

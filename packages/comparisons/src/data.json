@@ -4114,11 +4114,11 @@
 			}
 		],
 		"flint": {
-			"implemented": true,
 			"name": "consoleSpaces",
 			"plugin": "node",
 			"preset": "stylistic",
-			"strictness": "strict"
+			"strictness": "strict",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{

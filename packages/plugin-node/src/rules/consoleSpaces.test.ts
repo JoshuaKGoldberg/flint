@@ -15,6 +15,66 @@ console.log("test ");
 		},
 		{
 			code: `
+import console from 'console';
+console.log("test ");
+`,
+			snapshot: `
+import console from 'console';
+console.log("test ");
+            ~~~~~~~
+            This trailing space is unnecessary as Node.js console outputs already include spaces.
+`,
+		},
+		{
+			code: `
+import console from 'node:console';
+console.log("test ");
+`,
+			snapshot: `
+import console from 'node:console';
+console.log("test ");
+            ~~~~~~~
+            This trailing space is unnecessary as Node.js console outputs already include spaces.
+`,
+		},
+		{
+			code: `
+import { Console } from 'console';
+
+const console = new Console();
+
+console.log("test ");
+`,
+			snapshot: `
+import { Console } from 'console';
+
+const console = new Console();
+
+console.log("test ");
+            ~~~~~~~
+            This trailing space is unnecessary as Node.js console outputs already include spaces.
+`,
+		},
+		{
+			code: `
+import { Console } from 'node:console';
+
+const console = new Console();
+
+console.log("test ");
+`,
+			snapshot: `
+import { Console } from 'node:console';
+
+const console = new Console();
+
+console.log("test ");
+            ~~~~~~~
+            This trailing space is unnecessary as Node.js console outputs already include spaces.
+`,
+		},
+		{
+			code: `
 console.log(" test ");
 `,
 			snapshot: `
@@ -118,5 +178,23 @@ console.groupCollapsed(" collapsed ");
 		`console.log("");`,
 		`console.log("  intentionally indented");`,
 		`console.log("  intentionally indented", "more");`,
+		`
+const console = { log: (...args: unknown[]) => void };
+
+console.log(" collapsed ");
+
+export {};
+`,
+		`
+class Console {
+ log(...args: unknown[]) {}
+};
+
+const console = new Console();
+
+console.log(" collapsed ");
+
+export {};
+`,
 	],
 });
