@@ -19,7 +19,7 @@
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.*s.map"
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"@cspell/url": "^9.2.2",

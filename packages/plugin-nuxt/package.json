@@ -19,7 +19,7 @@
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.*s.map"
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
