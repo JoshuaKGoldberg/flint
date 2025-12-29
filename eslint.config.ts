@@ -20,6 +20,24 @@ const importAlphabet = Alphabet.generateRecommendedAlphabet()
 	.placeCharacterBefore({ characterAfter: "/", characterBefore: "." })
 	.getCharacters();
 
+// https://typescript-eslint.io/troubleshooting/typed-linting/performance#importextensions-enforcing-extensions-are-not-used
+function banJsImportExtension() {
+	const message = `Unexpected use of .js file extension (.js) in import; please use .ts`;
+	const literalAttributeMatcher = `Literal[value=/\\.js$/]`;
+	return [
+		{
+			message,
+			// import foo from 'bar.js';
+			selector: `ImportDeclaration > ${literalAttributeMatcher}.source`,
+		},
+		{
+			message,
+			// type Foo = typeof import('bar.js');
+			selector: `TSImportType > TSLiteralType > ${literalAttributeMatcher}`,
+		},
+	];
+}
+
 export default defineConfig(
 	{
 		ignores: [
@@ -85,6 +103,8 @@ export default defineConfig(
 
 			// https://github.com/eslint-community/eslint-plugin-n/issues/472
 			"n/no-unpublished-bin": "off",
+
+			"no-restricted-syntax": ["error", ...banJsImportExtension()],
 
 			"perfectionist/sort-imports": [
 				"error",
