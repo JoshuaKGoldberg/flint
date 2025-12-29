@@ -11,21 +11,19 @@ import packageJson from "eslint-plugin-package-json";
 import perfectionist from "eslint-plugin-perfectionist";
 import * as regexp from "eslint-plugin-regexp";
 import yml from "eslint-plugin-yml";
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
-	{
-		ignores: [
-			"**/*.snap",
-			"**/node_modules",
-			"packages/*/.astro",
-			"packages/*/dist",
-			"packages/*/lib",
-			"packages/fixtures",
-			"pnpm-lock.yaml",
-		],
-	},
+	globalIgnores([
+		"**/*.snap",
+		"**/node_modules",
+		"packages/*/.astro",
+		"packages/*/dist",
+		"packages/*/lib",
+		"packages/fixtures",
+		"pnpm-lock.yaml",
+	]),
 	{ linterOptions: { reportUnusedDisableDirectives: "error" } },
 	{
 		extends: [
@@ -57,7 +55,6 @@ export default defineConfig(
 				"error",
 				{ allowNumber: true },
 			],
-			"n/no-extraneous-import": "off",
 			"n/no-missing-import": "off",
 			"n/no-unsupported-features/node-builtins": [
 				"error",
@@ -77,7 +74,18 @@ export default defineConfig(
 			// https://github.com/eslint-community/eslint-plugin-n/issues/472
 			"n/no-unpublished-bin": "off",
 		},
-		settings: { perfectionist: { partitionByComment: true, type: "natural" } },
+		settings: {
+			n: {
+				convertPath: [
+					{
+						exclude: ["**/ruleTester.ts", "**/*.test.ts", "**/*.test-d.ts"],
+						include: ["packages/*/src/**/*.ts"],
+						replace: ["src/(.+).ts$", "lib/$1.js"],
+					},
+				],
+			},
+			perfectionist: { partitionByComment: true, type: "natural" },
+		},
 	},
 	{
 		extends: [jsonc.configs["flat/recommended-with-json"]],
@@ -122,5 +130,11 @@ export default defineConfig(
 			],
 		},
 	},
-	{ extends: [packageJson.configs.recommended], files: ["package.json"] },
+	{
+		extends: [packageJson.configs.recommended, packageJson.configs.stylistic],
+	},
+	{
+		extends: [packageJson.configs["recommended-publishable"]],
+		files: [["packages/*/package.json", "!packages/site/package.json"]],
+	},
 );

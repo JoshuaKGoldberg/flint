@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/text",
-	"version": "0.14.0",
+	"version": "0.14.1",
 	"description": "[Experimental] Plain text language for Flint.",
 	"repository": {
 		"type": "git",
@@ -18,11 +18,13 @@
 		".": "./lib/index.js"
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
-		"index-to-position": "^1.2.0"
+		"index-to-position": "^1.2.0",
+		"typescript": "^5.9.3"
 	},
 	"engines": {
 		"node": ">=24.0.0"

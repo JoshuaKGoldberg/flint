@@ -1,6 +1,6 @@
 {
 	"name": "flint",
-	"version": "0.14.0",
+	"version": "0.14.1",
 	"description": "[Experimental] A fast, friendly linter. ❤️‍🔥",
 	"repository": {
 		"type": "git",
@@ -21,7 +21,8 @@
 		"flint": "bin/index.js"
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"@flint.fyi/cli": "workspace:",
@@ -30,7 +31,8 @@
 		"@flint.fyi/md": "workspace:",
 		"@flint.fyi/ts": "workspace:",
 		"@flint.fyi/ts-patch": "workspace:",
-		"@flint.fyi/yaml": "workspace:"
+		"@flint.fyi/yaml": "workspace:",
+		"typescript": "^5.9.3"
 	},
 	"engines": {
 		"node": ">=24.0.0"

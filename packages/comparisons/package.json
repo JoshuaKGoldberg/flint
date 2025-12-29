@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/comparisons",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Comparisons of common lint rules across Flint and other web linters.",
 	"repository": {
 		"type": "git",
@@ -18,8 +18,12 @@
 		".": "./lib/index.js"
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.map"
 	],
+	"dependencies": {
+		"prettier": "3.7.4"
+	},
 	"engines": {
 		"node": ">=24.0.0"
 	},

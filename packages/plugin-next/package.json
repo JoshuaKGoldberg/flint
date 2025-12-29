@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/plugin-next",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "[Experimental] A Flint plugin for Next.js code.",
 	"repository": {
 		"type": "git",
@@ -18,10 +18,12 @@
 		".": "./lib/index.js"
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.map"
 	],
 	"dependencies": {
-		"@flint.fyi/core": "workspace:"
+		"@flint.fyi/core": "workspace:",
+		"typescript": "^5.9.3"
 	},
 	"engines": {
 		"node": ">=24.0.0"

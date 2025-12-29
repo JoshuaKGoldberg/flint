@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/json",
-	"version": "0.15.0",
+	"version": "0.15.1",
 	"description": "[Experimental] JSON language plugin for Flint.",
 	"repository": {
 		"type": "git",
@@ -18,12 +18,17 @@
 		".": "./lib/index.js"
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
+		"typescript": "^5.9.0 || ^6.0.0",
+		"zod": "^4.2.1"
+	},
+	"devDependencies": {
 		"@flint.fyi/rule-tester": "workspace:",
-		"typescript": "^5.9.0 || ^6.0.0"
+		"vitest": "4.0.15"
 	},
 	"engines": {
 		"node": ">=24.0.0"
