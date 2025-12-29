@@ -28,9 +28,6 @@ importers:
       '@eslint/markdown':
         specifier: 7.5.1
         version: 7.5.1
-      '@flint.fyi/core':
-        specifier: workspace:^
-        version: link:packages/core
       '@flint.fyi/plugin-flint':
         specifier: workspace:^
         version: link:packages/plugin-flint
@@ -40,6 +37,9 @@ importers:
       '@flint.fyi/plugin-spelling':
         specifier: workspace:^
         version: link:packages/plugin-spelling
+      '@flint.fyi/ts-patch':
+        specifier: workspace:^
+        version: link:packages/ts-patch
       '@types/mdast':
         specifier: 4.0.4
         version: 4.0.4
@@ -186,9 +186,6 @@ importers:
       prettier:
         specifier: 3.7.4
         version: 3.7.4
-      typescript:
-        specifier: ^5.9.3 || ^6.0.0
-        version: 5.9.3
       zod:
         specifier: ^4.2.1
         version: 4.2.1
@@ -220,6 +217,9 @@ importers:
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
+      '@flint.fyi/ts-patch':
+        specifier: 'workspace:'
+        version: link:../ts-patch
       '@flint.fyi/yaml':
         specifier: 'workspace:'
         version: link:../yaml
@@ -261,9 +261,6 @@ importers:
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
-      typescript:
-        specifier: ^5.9.3 || ^6.0.0
-        version: 5.9.3
       unified:
         specifier: ^11.0.5
         version: 11.0.5
@@ -488,9 +485,6 @@ importers:
       cspell-lib:
         specifier: ^9.2.2
         version: 9.4.0
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
     devDependencies:
       '@flint.fyi/rule-tester':
         specifier: 'workspace:'
@@ -513,9 +507,6 @@ importers:
       cached-factory:
         specifier: ^0.1.0
         version: 0.1.0
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
     devDependencies:
       tsdown:
         specifier: 0.18.3
@@ -620,9 +611,6 @@ importers:
       index-to-position:
         specifier: ^1.2.0
         version: 1.2.0
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
     devDependencies:
       tsdown:
         specifier: 0.18.3
@@ -665,11 +653,16 @@ importers:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
-  packages/utils:
-    dependencies:
+  packages/ts-patch:
+    devDependencies:
+      tsdown:
+        specifier: 0.18.3
+        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       typescript:
-        specifier: ^5.9.3
+        specifier: 5.9.3
         version: 5.9.3
+
+  packages/utils:
     devDependencies:
       tsdown:
         specifier: 0.18.3
@@ -680,9 +673,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      typescript:
-        specifier: ^5.9.3 || ^6.0.0
-        version: 5.9.3
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0

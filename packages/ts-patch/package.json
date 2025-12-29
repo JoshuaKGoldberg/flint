@@ -1,0 +1,60 @@
+{
+	"name": "@flint.fyi/ts-patch",
+	"version": "0.13.2",
+	"description": "[Experimental] Utilities for patching TypeScript used by @flint/core.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"directory": "packages/ts-patch"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"sideEffects": [
+		"./lib/install-patch-hooks.js",
+		"./lib/install-patch.js",
+		"./lib/proxy-program.js",
+		"./lib/shared.js"
+	],
+	"type": "module",
+	"imports": {
+		"#proxy-program": {
+			"@flint.fyi/source": "./src/proxy-program.ts",
+			"default": "./lib/proxy-program.js"
+		}
+	},
+	"exports": {
+		"./install-patch": {
+			"@flint.fyi/source": "./src/install-patch.ts",
+			"default": "./lib/install-patch.js"
+		},
+		"./install-patch-hooks": {
+			"@flint.fyi/source": "./src/install-patch-hooks.ts",
+			"default": "./lib/install-patch-hooks.js"
+		}
+	},
+	"files": [
+		"lib/",
+		"!lib/**/*.map"
+	],
+	"devDependencies": {
+		"tsdown": "0.18.3",
+		"typescript": "5.9.3"
+	},
+	"peerDependencies": {
+		"typescript": "^5.9.3 || ^6.0.0"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"access": "public",
+		"exports": {
+			"./install-patch": "./lib/install-patch.js",
+			"./install-patch-hooks": "./lib/install-patch-hooks.js"
+		},
+		"provenance": true
+	}
+}

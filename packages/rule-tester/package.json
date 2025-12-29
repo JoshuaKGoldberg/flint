@@ -28,8 +28,7 @@
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/utils": "workspace:",
-		"cached-factory": "^0.1.0",
-		"typescript": "^5.9.3"
+		"cached-factory": "^0.1.0"
 	},
 	"devDependencies": {
 		"tsdown": "0.18.3",

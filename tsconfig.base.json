@@ -4,7 +4,6 @@
 		"allowJs": true,
 		"checkJs": true,
 		"composite": true,
-		"customConditions": ["@flint.fyi/source"],
 		"declaration": true,
 		"declarationMap": true,
 		"emitDeclarationOnly": true,
