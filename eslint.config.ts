@@ -81,7 +81,6 @@ export default defineConfig(
 				"error",
 				{ allowNumber: true },
 			],
-
 			"n/no-missing-import": "off",
 			"n/no-unsupported-features/node-builtins": [
 				"error",
