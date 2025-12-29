@@ -54,7 +54,7 @@ See [Hybrid Linters: The Best of Both Worlds](https://www.joshuakgoldberg.com/bl
 
 Most linters today fall into two classifications of linter configs:
 
-- Direct JSON ([Biome](https://biomejs.dev/linter/#configuration), [Deno](https://docs.deno.com/runtime/fundamentals/configuration/#linting), [Oxlint](https://oxc.rs/docs/guide/usage/linter/config.html))
+- Direct JSON ([Biome](https://biomejs.dev/linter/#configure-the-linter), [Deno](https://docs.deno.com/runtime/fundamentals/configuration/#linting), [Oxlint](https://oxc.rs/docs/guide/usage/linter/config.html))
 - Full JavaScript (ESLint: [`.eslintrc.js` (deprecated)](https://eslint.org/docs/latest/use/configure/configuration-files-deprecated), [`eslint.config.js`](https://eslint.org/docs/latest/use/configure/configuration-files))
 
 Direct JSON is a nice and straightforward "walled garden" that shines in small projects.
@@ -149,8 +149,8 @@ If you're interested in helping build out a new experimental linter, we'd love t
 At the very least, see [About](/about) for how to get started using Flint as a user.
 Just trying out the project and telling us about your experience on the [Flint Discord](https://discord.gg/cFK3RAUDhy).
 
-The [GitHub issue tracker](https://github.com/JoshuaKGoldberg/flint/issues) is where you can find our list of upcoming work.
-See our [Contributing guide](https://github.com/JoshuaKGoldberg/flint/blob/main/.github/CONTRIBUTING.md) for how to find issues that you can get started on.
+The [GitHub issue tracker](https://github.com/flint-fyi/flint/issues) is where you can find our list of upcoming work.
+See our [Contributing guide](https://github.com/flint-fyi/flint/blob/main/.github/CONTRIBUTING.md) for how to find issues that you can get started on.
 Feel free to ask for help if you're new and unsure.
 We're happy to assist you.
 
