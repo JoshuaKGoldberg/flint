@@ -9,8 +9,28 @@ console.log("test ");
 `,
 			snapshot: `
 console.log("test ");
-            ~~~~~~~
-            This trailing space is unnecessary as Node.js console outputs already include spaces.
+                 ~
+                 This trailing space is unnecessary as Node.js console outputs already include spaces.
+`,
+		},
+		{
+			code: `
+console.log("test  ");
+`,
+			snapshot: `
+console.log("test  ");
+                 ~~
+                 This trailing space is unnecessary as Node.js console outputs already include spaces.
+`,
+		},
+		{
+			code: `
+console.log("test\t");
+`,
+			snapshot: `
+console.log("test\t");
+                 ~
+                 This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -21,8 +41,8 @@ console.log("test ");
 			snapshot: `
 import console from 'console';
 console.log("test ");
-            ~~~~~~~
-            This trailing space is unnecessary as Node.js console outputs already include spaces.
+                 ~
+                 This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -33,8 +53,8 @@ console.log("test ");
 			snapshot: `
 import console from 'node:console';
 console.log("test ");
-            ~~~~~~~
-            This trailing space is unnecessary as Node.js console outputs already include spaces.
+                 ~
+                 This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -51,8 +71,8 @@ import { Console } from 'console';
 const console = new Console();
 
 console.log("test ");
-            ~~~~~~~
-            This trailing space is unnecessary as Node.js console outputs already include spaces.
+                 ~
+                 This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -69,8 +89,8 @@ import { Console } from 'node:console';
 const console = new Console();
 
 console.log("test ");
-            ~~~~~~~
-            This trailing space is unnecessary as Node.js console outputs already include spaces.
+                 ~
+                 This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -79,8 +99,8 @@ console.log(" test ");
 `,
 			snapshot: `
 console.log(" test ");
-            ~~~~~~~~
-            This trailing space is unnecessary as Node.js console outputs already include spaces.
+                  ~
+                  This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -89,8 +109,8 @@ console.error(" error message  ");
 `,
 			snapshot: `
 console.error(" error message  ");
-              ~~~~~~~~~~~~~~~~~~
-              This trailing space is unnecessary as Node.js console outputs already include spaces.
+                             ~~
+                             This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -99,8 +119,8 @@ console.warn("warning ");
 `,
 			snapshot: `
 console.warn("warning ");
-             ~~~~~~~~~~
-             This trailing space is unnecessary as Node.js console outputs already include spaces.
+                     ~
+                     This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -109,8 +129,8 @@ console.info(" info ");
 `,
 			snapshot: `
 console.info(" info ");
-             ~~~~~~~~
-             This trailing space is unnecessary as Node.js console outputs already include spaces.
+                   ~
+                   This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -119,8 +139,8 @@ console.debug(" debug  ");
 `,
 			snapshot: `
 console.debug(" debug  ");
-              ~~~~~~~~~~
-              This trailing space is unnecessary as Node.js console outputs already include spaces.
+                     ~~
+                     This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -129,8 +149,30 @@ console.log("valid", " invalid");
 `,
 			snapshot: `
 console.log("valid", " invalid");
-                     ~~~~~~~~~~
-                     This leading space is unnecessary as Node.js console outputs already include spaces.
+                      ~
+                      This leading space is unnecessary as Node.js console outputs already include spaces.
+`,
+		},
+		{
+			code: `
+console.log("valid", "  invalid");
+`,
+			snapshot: `
+console.log("valid", "  invalid");
+                      ~~
+                      This leading space is unnecessary as Node.js console outputs already include spaces.
+`,
+		},
+		{
+			code: `
+console.log("valid", " invalid  ");
+`,
+			snapshot: `
+console.log("valid", " invalid  ");
+                      ~
+                      This leading space is unnecessary as Node.js console outputs already include spaces.
+                              ~~
+                              This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -139,8 +181,8 @@ console.trace(" trace ");
 `,
 			snapshot: `
 console.trace(" trace ");
-              ~~~~~~~~~
-              This trailing space is unnecessary as Node.js console outputs already include spaces.
+                     ~
+                     This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 		{
@@ -149,8 +191,8 @@ console.groupCollapsed(" collapsed ");
 `,
 			snapshot: `
 console.groupCollapsed(" collapsed ");
-                       ~~~~~~~~~~~~~
-                       This trailing space is unnecessary as Node.js console outputs already include spaces.
+                                  ~
+                                  This trailing space is unnecessary as Node.js console outputs already include spaces.
 `,
 		},
 	],

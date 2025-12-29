@@ -38,13 +38,10 @@ function isNodeConsole(node: ts.Expression, typeChecker: ts.TypeChecker) {
 		.getSymbol()
 		?.getDeclarations();
 
-	return (
-		declarations?.length &&
-		declarations.some((declaration) => {
-			return declaration
-				.getSourceFile()
-				.fileName.includes("node_modules/@types/node/console.d.ts");
-		})
+	return declarations?.some((declaration) =>
+		declaration
+			.getSourceFile()
+			.fileName.includes("node_modules/@types/node/console.d.ts"),
 	);
 }
 
@@ -56,7 +53,7 @@ export default typescriptLanguage.createRule({
 		preset: "stylistic",
 	},
 	messages: {
-		leadingSpace: {
+		leading: {
 			primary:
 				"This leading space is unnecessary as Node.js console outputs already include spaces.",
 			secondary: [
@@ -65,7 +62,7 @@ export default typescriptLanguage.createRule({
 			],
 			suggestions: ["Remove the leading space from the string literal"],
 		},
-		trailingSpace: {
+		trailing: {
 			primary:
 				"This trailing space is unnecessary as Node.js console outputs already include spaces.",
 			secondary: [
@@ -78,7 +75,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression, { typeChecker }) {
+				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
 					if (!isConsoleMethodCall(node.expression, typeChecker)) {
 						return;
 					}
@@ -89,20 +86,27 @@ export default typescriptLanguage.createRule({
 							continue;
 						}
 
-						const hasLeading = argument.text.startsWith(" ");
-						const hasTrailing = argument.text.endsWith(" ");
-
-						if (hasLeading && i !== 0) {
+						const startSpaces = /^(\s+)/.exec(argument.text);
+						if (startSpaces && i !== 0) {
+							const start = argument.getStart(sourceFile);
 							context.report({
-								message: "leadingSpace",
-								range: getTSNodeRange(argument, context.sourceFile),
+								message: "leading",
+								range: {
+									begin: start + 1,
+									end: start + startSpaces[1].length + 1,
+								},
 							});
 						}
 
-						if (hasTrailing) {
+						const endSpaces = /(\s+)$/.exec(argument.text);
+						if (endSpaces) {
+							const end = node.getEnd();
 							context.report({
-								message: "trailingSpace",
-								range: getTSNodeRange(argument, context.sourceFile),
+								message: "trailing",
+								range: {
+									begin: end - endSpaces[1].length - 2,
+									end: end - 2,
+								},
 							});
 						}
 					}
