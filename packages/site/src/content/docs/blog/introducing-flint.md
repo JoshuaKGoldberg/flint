@@ -38,13 +38,15 @@ The downside of JS/TS speed linters is their performance: they slow down tremend
 
 Native speed linters are able to optimize for performance and run many tens of times faster than traditional pure JavaScript linters.
 However, most web developers only have time to learn JavaScript and/or TypeScript.
-This makes linters and lint rules written in other languages unapproachable for them.
+Contributing to linters and lint rules written in other languages is much less approachable for them.
 
 With Flint, we're writing a new TypeScript linter core with the following performance optimizations for significant speed improvements over traditional JavaScript linters:
 
 - Although Flint's core and lint rules are in TypeScript, it will delegate to native speed parsing and type checking (e.g. typescript-go) -- which are the most common performance bottlenecks for linters
 - Flint's caching recognizes cross-file dependencies, allowing it to reuse cached results from unchanged files between runs
 - Adopting more modern techniques such as [Oxlint's `createOnce` API](https://oxc.rs/docs/guide/usage/linter/js-plugins#why-is-the-alternative-api-faster) will yield further memory and time improvements
+
+Flint's hypothesis for performance is that by adopting those techniques, we can have the approachability of a traditional JavaScript linter with most of the performance of a native speed linter.
 
 :::note
 See [Hybrid Linters: The Best of Both Worlds](https://www.joshuakgoldberg.com/blog/hybrid-linters-the-best-of-both-worlds) for more details on the reasoning, benefits, and drawbacks of hybrid linters.
