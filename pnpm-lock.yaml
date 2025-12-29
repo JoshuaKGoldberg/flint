@@ -236,9 +236,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       typescript:
         specifier: ^5.9.0 || ^6.0.0
         version: 5.9.3
@@ -246,6 +243,9 @@ importers:
         specifier: ^4.2.1
         version: 4.2.1
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
@@ -258,9 +258,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
@@ -274,6 +271,9 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       '@types/unist':
         specifier: 3.0.3
         version: 3.0.3
@@ -302,9 +302,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
@@ -312,6 +309,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
@@ -324,9 +324,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
@@ -337,6 +334,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
@@ -349,9 +349,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
@@ -362,6 +359,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       '@types/language-tags':
         specifier: 1.0.4
         version: 1.0.4
@@ -390,9 +390,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
@@ -400,6 +397,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
@@ -425,9 +425,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
@@ -438,6 +435,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
@@ -479,9 +479,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@flint.fyi/text':
         specifier: 'workspace:'
         version: link:../text
@@ -495,6 +492,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
@@ -633,9 +633,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@typescript-eslint/project-service':
         specifier: ^8.46.2
         version: 8.50.1(typescript@5.9.3)
@@ -658,6 +655,9 @@ importers:
         specifier: ^4.2.1
         version: 4.2.1
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
@@ -680,9 +680,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       typescript:
         specifier: ^5.9.3 || ^6.0.0
         version: 5.9.3
@@ -693,6 +690,9 @@ importers:
         specifier: ^3.0.0
         version: 3.1.0
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)

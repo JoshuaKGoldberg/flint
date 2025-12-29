@@ -1,5 +1,22 @@
 # @flint.fyi/plugin-spelling
 
+## 0.1.3
+
+### Patch Changes
+
+- d99170f: fix: add missing ("phantom") dependencies to package.jsons
+- 3117eaf: feat: add optional async teardown() for rules
+- Updated dependencies [483ee56]
+- Updated dependencies [d99170f]
+- Updated dependencies [3617e4f]
+- Updated dependencies [f37f0d0]
+- Updated dependencies [5e23e96]
+- Updated dependencies [3117eaf]
+  - @flint.fyi/core@0.17.0
+  - @flint.fyi/rule-tester@0.15.0
+  - @flint.fyi/utils@0.13.3
+  - @flint.fyi/text@0.14.1
+
 ## 0.1.2
 
 ### Patch Changes

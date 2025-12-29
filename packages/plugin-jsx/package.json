@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/plugin-jsx",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "[Experimental] A Flint plugin for JSX code.",
 	"repository": {
 		"type": "git",
@@ -24,16 +24,17 @@
 		}
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/rule-tester": "workspace:",
 		"@flint.fyi/ts": "workspace:",
 		"language-tags": "^2.1.0",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
+		"@flint.fyi/rule-tester": "workspace:",
 		"@types/language-tags": "1.0.4",
 		"tsdown": "0.18.3",
 		"vitest": "4.0.15"

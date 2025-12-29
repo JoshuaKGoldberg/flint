@@ -33,7 +33,10 @@ import newNativeNonConstructors from "./rules/newNativeNonConstructors.ts";
 import nonOctalDecimalEscapes from "./rules/nonOctalDecimalEscapes.ts";
 import numericLiteralParsing from "./rules/numericLiteralParsing.ts";
 import objectCalls from "./rules/objectCalls.ts";
+import objectHasOwns from "./rules/objectHasOwns.ts";
+import objectKeyDuplicates from "./rules/objectKeyDuplicates.ts";
 import objectProto from "./rules/objectProto.ts";
+import objectPrototypeBuiltIns from "./rules/objectPrototypeBuiltIns.ts";
 import octalEscapes from "./rules/octalEscapes.ts";
 import octalNumbers from "./rules/octalNumbers.ts";
 import returnAssignments from "./rules/returnAssignments.ts";
@@ -94,7 +97,10 @@ export const ts = createPlugin({
 		nonOctalDecimalEscapes,
 		numericLiteralParsing,
 		objectCalls,
+		objectHasOwns,
+		objectKeyDuplicates,
 		objectProto,
+		objectPrototypeBuiltIns,
 		octalEscapes,
 		octalNumbers,
 		returnAssignments,

@@ -3,7 +3,7 @@ import markdown from "@eslint/markdown";
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import vitest from "@vitest/eslint-plugin";
 import type { Linter } from "eslint";
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 import jsdoc from "eslint-plugin-jsdoc";
 import jsonc from "eslint-plugin-jsonc";
 import n from "eslint-plugin-n";
@@ -39,18 +39,16 @@ function banJsImportExtension() {
 }
 
 export default defineConfig(
-	{
-		ignores: [
-			"**/*.snap",
-			"**/node_modules",
-			"**/.tsbuildinfo",
-			"packages/*/.astro",
-			"packages/*/dist",
-			"packages/*/lib",
-			"packages/fixtures",
-			"pnpm-lock.yaml",
-		],
-	},
+	globalIgnores([
+		"**/*.snap",
+		"**/node_modules",
+		"**/.tsbuildinfo",
+		"packages/*/.astro",
+		"packages/*/dist",
+		"packages/*/lib",
+		"packages/fixtures",
+		"pnpm-lock.yaml",
+	]),
 	{ linterOptions: { reportUnusedDisableDirectives: "error" } },
 	{
 		extends: [
@@ -85,7 +83,6 @@ export default defineConfig(
 			],
 
 			"n/no-missing-import": "off",
-			"n/no-unpublished-import": "off", // eslint-community/eslint-plugin-n#495
 			"n/no-unsupported-features/node-builtins": [
 				"error",
 				{ allowExperimental: true },
@@ -126,14 +123,9 @@ export default defineConfig(
 			n: {
 				convertPath: [
 					{
-						exclude: [
-							"**/ruleTester.ts",
-							"**/*.test.ts",
-							"**/*.test-d.ts",
-							"**/*.d.ts",
-						],
-						include: ["src/**/*.ts"],
-						replace: ["^src/(.+)$", "lib/$1"],
+						exclude: ["**/ruleTester.ts", "**/*.test.ts", "**/*.test-d.ts"],
+						include: ["packages/*/src/**/*.ts"],
+						replace: ["src/(.+).ts$", "lib/$1.js"],
 					},
 				],
 			},
