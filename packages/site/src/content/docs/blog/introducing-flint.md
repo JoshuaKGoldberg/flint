@@ -1,5 +1,10 @@
 ---
 date: 2025-12-30T14:59:23Z
+excerpt: ESLint has been the leading web ecosystem linter for a decade.
+  Its dominance is being challenged by new native speed linters such as Biome and Oxlint that implement blazing fast linting using native speed languages.
+  Even TypeScript's source is being ported from TypeScript to Go.
+  Yet, this Flint project -a new, experimental linter- is implemented in TypeScript rather than Go or Rust.
+  Why does Flint exist when there are so many other linters already, and why is it implemented the way it is?
 title: Introducing Flint
 ---
 
@@ -11,6 +16,8 @@ Yet, this Flint project -a new, experimental linter- is implemented in TypeScrip
 Why does Flint exist when there are so many other linters already, and why is it implemented the way it is?
 
 Trust us: Flint serves a real purpose, and we're excited to explain it.
+
+<!-- truncate -->
 
 ## The Great Flint Experiment
 
