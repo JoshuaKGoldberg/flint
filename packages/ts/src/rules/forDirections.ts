@@ -3,13 +3,24 @@ import * as ts from "typescript";
 import { getTSNodeRange } from "../getTSNodeRange.js";
 import { typescriptLanguage } from "../language.js";
 
-function getConditionDirection(condition: ts.Expression, counterName: string) {
+function getConditionDirection(
+	condition: ts.Expression,
+	counterName: string,
+): -1 | 1 | undefined {
 	if (!ts.isBinaryExpression(condition)) {
 		return undefined;
 	}
 
 	const leftName = getCounterName(condition.left);
 	const rightName = getCounterName(condition.right);
+
+	if (!leftName && !rightName) {
+		return condition.operatorToken.kind ===
+			ts.SyntaxKind.AmpersandAmpersandToken
+			? (getConditionDirection(condition.left, counterName) ??
+					getConditionDirection(condition.right, counterName))
+			: undefined;
+	}
 
 	const isCounterLeft = leftName === counterName;
 	const isCounterRight = rightName === counterName;
@@ -55,12 +66,12 @@ function getCounterName(node: ts.Expression) {
 	return ts.isIdentifier(node) ? node.text : undefined;
 }
 
-function getUpdateDirection(update: ts.Expression) {
+function getIncrementorDirection(incrementor: ts.Expression) {
 	if (
-		ts.isPostfixUnaryExpression(update) ||
-		ts.isPrefixUnaryExpression(update)
+		ts.isPostfixUnaryExpression(incrementor) ||
+		ts.isPrefixUnaryExpression(incrementor)
 	) {
-		switch (update.operator) {
+		switch (incrementor.operator) {
 			case ts.SyntaxKind.MinusMinusToken:
 				return -1;
 			case ts.SyntaxKind.PlusPlusToken:
@@ -70,8 +81,8 @@ function getUpdateDirection(update: ts.Expression) {
 		}
 	}
 
-	if (ts.isBinaryExpression(update)) {
-		const { operatorToken, right } = update;
+	if (ts.isBinaryExpression(incrementor)) {
+		const { operatorToken, right } = incrementor;
 
 		if (
 			operatorToken.kind === ts.SyntaxKind.PlusEqualsToken ||
@@ -125,7 +136,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				ForStatement: (node) => {
+				ForStatement: (node, { sourceFile }) => {
 					if (
 						!node.condition ||
 						!node.incrementor ||
@@ -140,7 +151,7 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const updateDirection = getUpdateDirection(node.incrementor);
+					const updateDirection = getIncrementorDirection(node.incrementor);
 					if (!updateDirection) {
 						return;
 					}
@@ -150,10 +161,10 @@ export default typescriptLanguage.createRule({
 						declaration.name.text,
 					);
 
-					if (updateDirection !== conditionDirection) {
+					if (conditionDirection && conditionDirection !== updateDirection) {
 						context.report({
 							message: "wrongDirection",
-							range: getTSNodeRange(node.incrementor, context.sourceFile),
+							range: getTSNodeRange(node.incrementor, sourceFile),
 						});
 					}
 				},

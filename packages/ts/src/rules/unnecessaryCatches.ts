@@ -25,7 +25,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CatchClause: (node) => {
+				CatchClause: (node, { sourceFile }) => {
 					if (!node.variableDeclaration || !ts.isBlock(node.block)) {
 						return;
 					}
@@ -62,8 +62,8 @@ export default typescriptLanguage.createRule({
 					}
 
 					const range = {
-						begin: node.getStart(context.sourceFile),
-						end: node.getStart(context.sourceFile) + "catch".length,
+						begin: node.getStart(sourceFile),
+						end: node.getStart(sourceFile) + "catch".length,
 					};
 
 					context.report({

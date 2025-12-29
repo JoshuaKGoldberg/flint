@@ -43,7 +43,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
 					const found = getCalleeNameAndNode(node.expression);
 					if (found === undefined) {
 						return;
@@ -52,7 +52,7 @@ export default typescriptLanguage.createRule({
 					const { name, node: nodeToReport } = found;
 					if (
 						!globalNames.has(name) ||
-						!isGlobalDeclaration(nodeToReport, context.typeChecker)
+						!isGlobalDeclaration(nodeToReport, typeChecker)
 					) {
 						return;
 					}
@@ -60,7 +60,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						data: { name },
 						message: "noAlert",
-						range: getTSNodeRange(nodeToReport, context.sourceFile),
+						range: getTSNodeRange(nodeToReport, sourceFile),
 					});
 				},
 			},

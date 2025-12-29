@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 function isImportFromNodeEvents(expression: ts.Expression) {
@@ -61,25 +65,38 @@ export default typescriptLanguage.createRule({
 			return false;
 		}
 
-		function isIdentifierEventEmitter(identifier: ts.Identifier) {
-			return context.typeChecker
+		function isIdentifierEventEmitter(
+			identifier: ts.Identifier,
+			typeChecker: ts.TypeChecker,
+		) {
+			return typeChecker
 				.getSymbolAtLocation(identifier)
 				?.getDeclarations()
 				?.some(isDeclarationEventEmitter);
 		}
 
-		function checkExpression(expression: ts.Expression) {
-			if (ts.isIdentifier(expression) && isIdentifierEventEmitter(expression)) {
+		function checkExpression(
+			expression: ts.Expression,
+			sourceFile: ts.SourceFile,
+			typeChecker: ts.TypeChecker,
+		) {
+			if (
+				ts.isIdentifier(expression) &&
+				isIdentifierEventEmitter(expression, typeChecker)
+			) {
 				context.report({
 					message: "preferEventTarget",
-					range: getTSNodeRange(expression, context.sourceFile),
+					range: getTSNodeRange(expression, sourceFile),
 				});
 			}
 		}
 
 		return {
 			visitors: {
-				ClassDeclaration(node: ts.ClassDeclaration) {
+				ClassDeclaration(
+					node: ts.ClassDeclaration,
+					{ sourceFile, typeChecker }: TypeScriptFileServices,
+				) {
 					if (!node.heritageClauses) {
 						return;
 					}
@@ -90,12 +107,15 @@ export default typescriptLanguage.createRule({
 						}
 
 						for (const type of heritageClause.types) {
-							checkExpression(type.expression);
+							checkExpression(type.expression, sourceFile, typeChecker);
 						}
 					}
 				},
-				NewExpression(node: ts.NewExpression) {
-					checkExpression(node.expression);
+				NewExpression(
+					node: ts.NewExpression,
+					{ sourceFile, typeChecker }: TypeScriptFileServices,
+				) {
+					checkExpression(node.expression, sourceFile, typeChecker);
 				},
 			},
 		};

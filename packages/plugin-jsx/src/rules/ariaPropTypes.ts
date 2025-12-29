@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 type AriaPropertyType =
@@ -270,7 +274,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(node: ts.JsxOpeningLikeElement) {
+		function checkElement(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			for (const property of node.attributes.properties) {
 				if (!ts.isJsxAttribute(property) || !ts.isIdentifier(property.name)) {
 					continue;
@@ -304,8 +311,8 @@ export default typescriptLanguage.createRule({
 					},
 					message: "invalidPropType",
 					range: property.initializer
-						? getTSNodeRange(property.initializer, context.sourceFile)
-						: getTSNodeRange(property.name, context.sourceFile),
+						? getTSNodeRange(property.initializer, sourceFile)
+						: getTSNodeRange(property.name, sourceFile),
 				});
 			}
 		}

@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const interactiveHandlers = [
@@ -228,7 +232,10 @@ export default typescriptLanguage.createRule({
 			return false;
 		}
 
-		function checkElement(node: ts.JsxOpeningLikeElement) {
+		function checkElement(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			if (!ts.isIdentifier(node.tagName)) {
 				return;
 			}
@@ -280,7 +287,7 @@ export default typescriptLanguage.createRule({
 						roleProperty && ts.isJsxAttribute(roleProperty)
 							? roleProperty
 							: node.tagName,
-						context.sourceFile,
+						sourceFile,
 					),
 				});
 			}

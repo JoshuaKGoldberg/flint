@@ -55,7 +55,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxElement(node: ts.JsxElement) {
+				JsxElement(node: ts.JsxElement, { sourceFile }) {
 					if (
 						!ts.isIdentifier(node.openingElement.tagName) ||
 						node.openingElement.tagName.text !== "a"
@@ -77,7 +77,7 @@ export default typescriptLanguage.createRule({
 						message: "ambiguousText",
 						range: getTSNodeRange(
 							textNodes[0] || node.openingElement,
-							context.sourceFile,
+							sourceFile,
 						),
 					});
 				},
