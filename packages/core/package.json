@@ -12,11 +12,7 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
-	"sideEffects": [
-		"./lib/ts-patch/install-patch.js",
-		"./lib/ts-patch/install-patch-hooks.js",
-		"./lib/ts-patch/proxy-program.ts"
-	],
+	"sideEffects": false,
 	"type": "module",
 	"exports": {
 		".": "./lib/index.js",

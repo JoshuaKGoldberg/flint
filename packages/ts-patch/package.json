@@ -12,8 +12,16 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
-	"sideEffects": false,
+	"sideEffects": [
+		"./lib/install-patch-hooks.js",
+		"./lib/install-patch.js",
+		"./lib/proxy-program.js",
+		"./lib/shared.js"
+	],
 	"type": "module",
+	"imports": {
+		"#proxy-program": "./lib/proxy-program.js"
+	},
 	"exports": {
 		"./install-patch": "./lib/install-patch.js",
 		"./install-patch-hooks": "./lib/install-patch-hooks.js"
