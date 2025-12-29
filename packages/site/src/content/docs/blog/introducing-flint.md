@@ -155,6 +155,6 @@ We're happy to assist you.
 
 ### Supporting Flint Financially
 
-Flint can receive donations on its [Open Collective](https://opencollective.com/flint.fyi).
+Flint can receive donations on its [Open Collective](https://opencollective.com/flintfyi).
 Your financial support will allow us to pay our volunteer contributors and maintainers to tackle more Flint work.
 And as thanks, we put our sponsors on the [flint.fyi homepage](/).
