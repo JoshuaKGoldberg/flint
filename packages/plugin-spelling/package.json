@@ -22,7 +22,9 @@
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.map"
+		"!lib/**/*.map",
+		"!lib/**/*.test.*",
+		"!lib/rules/ruleTester.d.ts"
 	],
 	"dependencies": {
 		"@cspell/url": "^9.2.2",
