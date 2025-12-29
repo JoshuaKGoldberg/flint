@@ -7,12 +7,5 @@
 	},
 	"extends": "../../tsconfig.base.json",
 	"include": ["bin"],
-	"references": [
-		{ "path": "../core" },
-		{ "path": "../cli" },
-		{ "path": "../json" },
-		{ "path": "../md" },
-		{ "path": "../ts" },
-		{ "path": "../yaml" }
-	]
+	"references": [{ "path": "../cli" }, { "path": "../ts-patch" }]
 }
