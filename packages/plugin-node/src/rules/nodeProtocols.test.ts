@@ -10,7 +10,7 @@ import fs from "fs";
 			snapshot: `
 import fs from "fs";
                ~~~~
-               Prefer \`node:fs\` over \`fs\`.
+               Prefer the more explicit \`node:fs\` over \`fs\`.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ import path from "path";
 			snapshot: `
 import path from "path";
                  ~~~~~~
-                 Prefer \`node:path\` over \`path\`.
+                 Prefer the more explicit \`node:path\` over \`path\`.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ import { readFile } from "fs";
 			snapshot: `
 import { readFile } from "fs";
                          ~~~~
-                         Prefer \`node:fs\` over \`fs\`.
+                         Prefer the more explicit \`node:fs\` over \`fs\`.
 `,
 		},
 		{
@@ -40,7 +40,7 @@ import { promises } from "fs";
 			snapshot: `
 import { promises } from "fs";
                          ~~~~
-                         Prefer \`node:fs\` over \`fs\`.
+                         Prefer the more explicit \`node:fs\` over \`fs\`.
 `,
 		},
 		{
@@ -50,7 +50,7 @@ import * as fs from "fs";
 			snapshot: `
 import * as fs from "fs";
                     ~~~~
-                    Prefer \`node:fs\` over \`fs\`.
+                    Prefer the more explicit \`node:fs\` over \`fs\`.
 `,
 		},
 		{
@@ -60,7 +60,7 @@ import fsPromises from "fs/promises";
 			snapshot: `
 import fsPromises from "fs/promises";
                        ~~~~~~~~~~~~~
-                       Prefer \`node:fs/promises\` over \`fs/promises\`.
+                       Prefer the more explicit \`node:fs/promises\` over \`fs/promises\`.
 `,
 		},
 		{
@@ -70,7 +70,7 @@ import { readFile } from "fs/promises";
 			snapshot: `
 import { readFile } from "fs/promises";
                          ~~~~~~~~~~~~~
-                         Prefer \`node:fs/promises\` over \`fs/promises\`.
+                         Prefer the more explicit \`node:fs/promises\` over \`fs/promises\`.
 `,
 		},
 		{
@@ -80,7 +80,7 @@ import crypto from "crypto";
 			snapshot: `
 import crypto from "crypto";
                    ~~~~~~~~
-                   Prefer \`node:crypto\` over \`crypto\`.
+                   Prefer the more explicit \`node:crypto\` over \`crypto\`.
 `,
 		},
 		{
@@ -90,7 +90,7 @@ import { createHash } from "crypto";
 			snapshot: `
 import { createHash } from "crypto";
                            ~~~~~~~~
-                           Prefer \`node:crypto\` over \`crypto\`.
+                           Prefer the more explicit \`node:crypto\` over \`crypto\`.
 `,
 		},
 		{
@@ -100,7 +100,7 @@ import assert from "assert";
 			snapshot: `
 import assert from "assert";
                    ~~~~~~~~
-                   Prefer \`node:assert\` over \`assert\`.
+                   Prefer the more explicit \`node:assert\` over \`assert\`.
 `,
 		},
 		{
@@ -110,7 +110,7 @@ import assert from "assert/strict";
 			snapshot: `
 import assert from "assert/strict";
                    ~~~~~~~~~~~~~~~
-                   Prefer \`node:assert/strict\` over \`assert/strict\`.
+                   Prefer the more explicit \`node:assert/strict\` over \`assert/strict\`.
 `,
 		},
 		{
@@ -120,7 +120,25 @@ const fs = require("fs");
 			snapshot: `
 const fs = require("fs");
                    ~~~~
-                   Prefer \`node:fs\` over \`fs\`.
+                   Prefer the more explicit \`node:fs\` over \`fs\`.
+`,
+		},
+		{
+			code: `
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+
+const fs = require("fs");
+`,
+			snapshot: `
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+
+const fs = require("fs");
+                   ~~~~
+                   Prefer the more explicit \`node:fs\` over \`fs\`.
 `,
 		},
 		{
@@ -130,7 +148,7 @@ const path = require("path");
 			snapshot: `
 const path = require("path");
                      ~~~~~~
-                     Prefer \`node:path\` over \`path\`.
+                     Prefer the more explicit \`node:path\` over \`path\`.
 `,
 		},
 		{
@@ -140,7 +158,7 @@ const { readFile } = require("fs");
 			snapshot: `
 const { readFile } = require("fs");
                              ~~~~
-                             Prefer \`node:fs\` over \`fs\`.
+                             Prefer the more explicit \`node:fs\` over \`fs\`.
 `,
 		},
 		{
@@ -150,7 +168,7 @@ import fs = require("fs");
 			snapshot: `
 import fs = require("fs");
                     ~~~~
-                    Prefer \`node:fs\` over \`fs\`.
+                    Prefer the more explicit \`node:fs\` over \`fs\`.
 `,
 		},
 		{
@@ -160,7 +178,7 @@ import path = require("path");
 			snapshot: `
 import path = require("path");
                       ~~~~~~
-                      Prefer \`node:path\` over \`path\`.
+                      Prefer the more explicit \`node:path\` over \`path\`.
 `,
 		},
 	],
@@ -185,5 +203,9 @@ import path = require("path");
 		`import myPath from "./my-path";`,
 		`const custom = require("custom-module");`,
 		`const relative = require("./relative");`,
+		`
+function require(moduleName: string) {}
+require("path");
+		`,
 	],
 });

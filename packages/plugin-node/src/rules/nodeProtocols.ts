@@ -1,8 +1,8 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// List of Node.js built-in modules that should use the node: protocol
-// Based on Node.js documentation: https://nodejs.org/api/
+import { isDeclaredInNodeTypes } from "./utils/isDeclaredInNodeTypes.js";
+
 const nodeBuiltinModules = new Set([
 	"assert",
 	"assert/strict",
@@ -60,15 +60,6 @@ const nodeBuiltinModules = new Set([
 	"zlib",
 ]);
 
-function hasNodeProtocol(moduleName: string): boolean {
-	return moduleName.startsWith("node:");
-}
-
-function isNodeBuiltinModule(moduleName: string): boolean {
-	// Check if it's a built-in module without the node: prefix
-	return nodeBuiltinModules.has(moduleName);
-}
-
 export default typescriptLanguage.createRule({
 	about: {
 		description:
@@ -78,7 +69,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		preferNodeProtocol: {
-			primary: "Prefer `node:{{ moduleName }}` over `{{ moduleName }}`.",
+			primary:
+				"Prefer the more explicit `node:{{ moduleName }}` over `{{ moduleName }}`.",
 			secondary: [
 				"The `node:` protocol makes it explicit that the module is a Node.js built-in.",
 				"This prevents confusion with npm packages that might have the same name.",
@@ -88,64 +80,37 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
+		function checkNode(node: ts.Node) {
+			if (
+				ts.isStringLiteral(node) &&
+				nodeBuiltinModules.has(node.text) &&
+				!node.text.startsWith("node:")
+			) {
+				context.report({
+					data: { moduleName: node.text },
+					message: "preferNodeProtocol",
+					range: getTSNodeRange(node, context.sourceFile),
+				});
+			}
+		}
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
-					// Handle require() calls
+				CallExpression(node, { typeChecker }) {
 					if (
 						ts.isIdentifier(node.expression) &&
 						node.expression.text === "require" &&
-						node.arguments.length > 0
+						node.arguments.length > 0 &&
+						isDeclaredInNodeTypes(node.expression, typeChecker)
 					) {
-						const firstArg = node.arguments[0];
-						if (ts.isStringLiteral(firstArg)) {
-							const moduleName = firstArg.text;
-							if (
-								isNodeBuiltinModule(moduleName) &&
-								!hasNodeProtocol(moduleName)
-							) {
-								context.report({
-									data: { moduleName },
-									message: "preferNodeProtocol",
-									range: getTSNodeRange(firstArg, context.sourceFile),
-								});
-							}
-						}
+						checkNode(node.arguments[0]);
 					}
 				},
-				ImportDeclaration(node: ts.ImportDeclaration) {
-					if (!ts.isStringLiteral(node.moduleSpecifier)) {
-						return;
-					}
-
-					const moduleName = node.moduleSpecifier.text;
-					if (isNodeBuiltinModule(moduleName) && !hasNodeProtocol(moduleName)) {
-						context.report({
-							data: { moduleName },
-							message: "preferNodeProtocol",
-							range: getTSNodeRange(node.moduleSpecifier, context.sourceFile),
-						});
-					}
+				ImportDeclaration(node) {
+					checkNode(node.moduleSpecifier);
 				},
-				ImportEqualsDeclaration(node: ts.ImportEqualsDeclaration) {
-					if (
-						ts.isExternalModuleReference(node.moduleReference) &&
-						ts.isStringLiteral(node.moduleReference.expression)
-					) {
-						const moduleName = node.moduleReference.expression.text;
-						if (
-							isNodeBuiltinModule(moduleName) &&
-							!hasNodeProtocol(moduleName)
-						) {
-							context.report({
-								data: { moduleName },
-								message: "preferNodeProtocol",
-								range: getTSNodeRange(
-									node.moduleReference.expression,
-									context.sourceFile,
-								),
-							});
-						}
+				ImportEqualsDeclaration(node) {
+					if (ts.isExternalModuleReference(node.moduleReference)) {
+						checkNode(node.moduleReference.expression);
 					}
 				},
 			},
