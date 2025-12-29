@@ -1,8 +1,8 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-// A subset of Node.js APIs with their minimum required versions
-// This is a simplified implementation - full version would need comprehensive API database
+import { isDeclaredInNodeTypes } from "./utils/isDeclaredInNodeTypes.js";
+
 const nodeAPIVersions: Partial<
 	Record<string, { apis: string[]; version: string }>
 > = {
@@ -20,49 +20,11 @@ const nodeAPIVersions: Partial<
 	},
 };
 
-function getModuleName(expression: ts.Expression): string | undefined {
-	if (ts.isStringLiteral(expression)) {
-		return expression.text.replace(/^node:/, "");
+function getModuleName(moduleSpecifier: ts.Expression): string | undefined {
+	if (!ts.isStringLiteral(moduleSpecifier)) {
+		return undefined;
 	}
-	return undefined;
-}
-
-function isNodeBuiltinModule(moduleName: string): boolean {
-	const builtins = [
-		"assert",
-		"buffer",
-		"child_process",
-		"cluster",
-		"crypto",
-		"dgram",
-		"dns",
-		"domain",
-		"events",
-		"fs",
-		"http",
-		"https",
-		"net",
-		"os",
-		"path",
-		"punycode",
-		"querystring",
-		"readline",
-		"repl",
-		"stream",
-		"string_decoder",
-		"sys",
-		"timers",
-		"tls",
-		"tty",
-		"url",
-		"util",
-		"v8",
-		"vm",
-		"zlib",
-	];
-
-	const withoutNodePrefix = moduleName.replace(/^node:/, "");
-	return builtins.includes(withoutNodePrefix);
+	return moduleSpecifier.text.replace(/^node:/, "");
 }
 
 export default typescriptLanguage.createRule({
@@ -117,7 +79,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				ImportDeclaration(node: ts.ImportDeclaration) {
 					const moduleName = getModuleName(node.moduleSpecifier);
-					if (!moduleName || !isNodeBuiltinModule(moduleName)) {
+					if (!moduleName || !nodeAPIVersions[moduleName]) {
 						return;
 					}
 
@@ -146,8 +108,14 @@ export default typescriptLanguage.createRule({
 						moduleImports.set(localName, moduleName);
 					}
 				},
-				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
-					if (!ts.isIdentifier(node.expression)) {
+				PropertyAccessExpression(
+					node: ts.PropertyAccessExpression,
+					{ typeChecker },
+				) {
+					if (
+						!ts.isIdentifier(node.expression) ||
+						!isDeclaredInNodeTypes(node.expression, typeChecker)
+					) {
 						return;
 					}
 
