@@ -9,6 +9,7 @@ import eventClasses from "./rules/eventClasses.js";
 import exportsAssignments from "./rules/exportsAssignments.js";
 import filePathsFromImportMeta from "./rules/filePathsFromImportMeta.js";
 import fileReadJSONBuffers from "./rules/fileReadJSONBuffers.js";
+import nodeProtocols from "./rules/nodeProtocols.js";
 import processExits from "./rules/processExits.js";
 
 export const node = createPlugin({
@@ -23,6 +24,7 @@ export const node = createPlugin({
 		exportsAssignments,
 		filePathsFromImportMeta,
 		fileReadJSONBuffers,
+		nodeProtocols,
 		processExits,
 	],
 });

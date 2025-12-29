@@ -5,7 +5,7 @@ import {
 } from "@typescript/vfs";
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
-import path from "path";
+import path from "node:path";
 import * as ts from "typescript";
 
 import { createTypeScriptFileFromProjectService } from "./createTypeScriptFileFromProjectService.js";

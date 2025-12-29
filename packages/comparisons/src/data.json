@@ -4500,6 +4500,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeProtocols",
 			"plugin": "node",
 			"preset": "logical"
