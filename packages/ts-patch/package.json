@@ -12,11 +12,16 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
+	"sideEffects": false,
 	"type": "module",
 	"exports": {
 		"./install-patch": "./lib/install-patch.js",
 		"./install-patch-hooks": "./lib/install-patch-hooks.js"
 	},
+	"files": [
+		"lib/",
+		"!lib/**/*.map"
+	],
 	"devDependencies": {
 		"typescript": "5.9.3"
 	},

@@ -7,9 +7,6 @@
 		".": {
 			"entry": ["flint.config.ts"]
 		},
-		"packages/core": {
-			"entry": ["src/ts-patch/proxy-program.ts"]
-		},
 		"packages/comparisons": {
 			"entry": ["src/sort-data.ts"]
 		},
