@@ -4,7 +4,7 @@ export default defineConfig({
 	attw: {
 		profile: "esm-only",
 	},
-	dts: true,
+	dts: { build: true },
 	entry: ["src/index.ts"],
 	failOnWarn: true,
 	fixedExtension: false,
