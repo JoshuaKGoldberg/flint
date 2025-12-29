@@ -24,7 +24,6 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
       - run: pnpm run build # Knip requires all exports to be generated.
-      - run: pnpm exec tsc -b # Ditto
       - run: pnpm run lint:knip
   lint_packages:
     name: Lint Packages
@@ -40,7 +39,6 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
       - run: pnpm run build # https://github.com/vitest-dev/vitest/discussions/9353
-      - run: pnpm exec tsc -b # For type tests
       - run: pnpm run test
 name: CI
 
