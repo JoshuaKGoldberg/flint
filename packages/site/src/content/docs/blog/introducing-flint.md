@@ -68,7 +68,7 @@ Full JavaScript configurations such as ESLint's bring much more power by leaning
 They can receive TypeScript types and even be written in TypeScript.
 Native ESM exports and imports allow them to compose plugins and each other.
 
-However, many users are way of JavaScript configurations because of bad experiences working with ESLint's current "flat config" approach.
+However, many users are wary of JavaScript configurations because of bad experiences working with ESLint's current "flat config" approach.
 Flat config leaned directly into being "just" JavaScript, but contains many edge cases that have tripped up recent adopters.
 
 Flint's hypothesis for configuration files is that it's possible to have a full JavaScript configuration system without confusing users over subtle edge cases.
