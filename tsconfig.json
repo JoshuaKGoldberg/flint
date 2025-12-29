@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"noEmit": true,
-		"tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo.json"
+		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
 	},
 	"extends": "./tsconfig.base.json",
 	"include": [
