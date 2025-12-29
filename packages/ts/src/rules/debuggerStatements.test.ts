@@ -39,7 +39,7 @@ function test() {
 					id: "removeDebugger",
 					updated: `
 function test() {
-
+	
 }
 `,
 				},
@@ -63,7 +63,7 @@ if (condition) {
 					id: "removeDebugger",
 					updated: `
 if (condition) {
-
+	
 }
 `,
 				},

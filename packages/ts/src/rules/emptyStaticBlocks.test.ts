@@ -23,7 +23,7 @@ class Example {
 					id: "removeEmptyStaticBlock",
 					updated: `
 class Example {
-
+    
 }
 `,
 				},
@@ -53,7 +53,7 @@ class Example {
 					id: "removeEmptyStaticBlock",
 					updated: `
 class Example {
-
+    
 }
 `,
 				},
@@ -89,7 +89,7 @@ class Multiple {
 class Multiple {
     static property = 1;
 
-
+    
 
     method() {}
 }
@@ -129,7 +129,7 @@ class MultipleBlocks {
         console.log("first");
     }
 
-
+    
 }
 `,
 				},
