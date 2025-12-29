@@ -24,7 +24,8 @@
 		"./ts-patch/install-patch-hooks": "./lib/ts-patch/install-patch-hooks.js"
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.*s.map"
 	],
 	"dependencies": {
 		"@flint.fyi/utils": "workspace:",

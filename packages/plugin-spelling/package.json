@@ -18,7 +18,8 @@
 		".": "./lib/index.js"
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.*s.map"
 	],
 	"dependencies": {
 		"@cspell/url": "^9.2.2",

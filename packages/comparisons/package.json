@@ -18,7 +18,8 @@
 		".": "./lib/index.js"
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.*s.map"
 	],
 	"dependencies": {
 		"prettier": "3.7.4"
