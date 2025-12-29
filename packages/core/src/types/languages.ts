@@ -1,5 +1,6 @@
+import type { PromiseOrSync } from "@flint.fyi/utils";
+
 import { CommentDirective } from "./directives.js";
-import { PromiseOrSync } from "./promises.js";
 import { FileReport, NormalizedReport } from "./reports.js";
 import {
 	AnyRule,
@@ -38,8 +39,10 @@ export interface CreateRule<AstNodesByName, ContextServices extends object> {
 	): Rule<About, AstNodesByName, ContextServices, MessageId, OptionsSchema>;
 }
 
-export interface Language<AstNodesByName, ContextServices extends object>
-	extends LanguageDefinition {
+export interface Language<
+	AstNodesByName,
+	ContextServices extends object,
+> extends LanguageDefinition {
 	createRule: CreateRule<AstNodesByName, ContextServices>;
 	prepare(): LanguageFileFactory;
 }

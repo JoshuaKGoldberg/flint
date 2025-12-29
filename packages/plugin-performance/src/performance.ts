@@ -7,7 +7,7 @@ import loopFunctions from "./rules/loopFunctions.js";
 import spreadAccumulators from "./rules/spreadAccumulators.js";
 
 export const performance = createPlugin({
-	name: "performance",
+	name: "Performance",
 	rules: [
 		deletes,
 		importedNamespaceDynamicAccesses,

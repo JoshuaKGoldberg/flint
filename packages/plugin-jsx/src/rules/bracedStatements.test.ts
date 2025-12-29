@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 <div>{"Hello"}</div>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <div>{"Hello"}</div>
      ~~~~~~~~~
@@ -18,7 +17,6 @@ ruleTester.describe(rule, {
 			code: `
 <div>{<span>Content</span>}</div>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <div>{<span>Content</span>}</div>
      ~~~~~~~~~~~~~~~~~~~~~~
@@ -29,7 +27,6 @@ ruleTester.describe(rule, {
 			code: `
 <div>{<Component />}</div>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <div>{<Component />}</div>
      ~~~~~~~~~~~~~~~
@@ -40,7 +37,6 @@ ruleTester.describe(rule, {
 			code: `
 <Component>{<></>}</Component>
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <Component>{<></>}</Component>
            ~~~~~~~
@@ -49,11 +45,11 @@ ruleTester.describe(rule, {
 		},
 	],
 	valid: [
-		{ code: `<div>Hello</div>`, fileName: "file.tsx" },
-		{ code: `<div><span>Content</span></div>`, fileName: "file.tsx" },
-		{ code: `<div>{variable}</div>`, fileName: "file.tsx" },
-		{ code: `<div>{someFunction()}</div>`, fileName: "file.tsx" },
-		{ code: `<div>{1 + 2}</div>`, fileName: "file.tsx" },
-		{ code: `<Component attribute={"value"} />`, fileName: "file.tsx" },
+		{ code: `<div>Hello</div>` },
+		{ code: `<div><span>Content</span></div>` },
+		{ code: `<div>{variable}</div>` },
+		{ code: `<div>{someFunction()}</div>` },
+		{ code: `<div>{1 + 2}</div>` },
+		{ code: `<Component attribute={"value"} />` },
 	],
 });
