@@ -10,7 +10,7 @@ process.exit(0);
 			snapshot: `
 process.exit(0);
 ~~~~~~~~~~~~
-Prefer throwing errors or returning exit codes over calling \`process.exit()\` directly.
+Prefer throwing errors or returning exit codes over terminating with \`process.exit()\` directly.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ process.exit(1);
 			snapshot: `
 process.exit(1);
 ~~~~~~~~~~~~
-Prefer throwing errors or returning exit codes over calling \`process.exit()\` directly.
+Prefer throwing errors or returning exit codes over terminating with \`process.exit()\` directly.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ process.exit();
 			snapshot: `
 process.exit();
 ~~~~~~~~~~~~
-Prefer throwing errors or returning exit codes over calling \`process.exit()\` directly.
+Prefer throwing errors or returning exit codes over terminating with \`process.exit()\` directly.
 `,
 		},
 		{
@@ -43,7 +43,7 @@ function exitHandler() {
 function exitHandler() {
     process.exit(1);
     ~~~~~~~~~~~~
-    Prefer throwing errors or returning exit codes over calling \`process.exit()\` directly.
+    Prefer throwing errors or returning exit codes over terminating with \`process.exit()\` directly.
 }
 `,
 		},
@@ -57,7 +57,7 @@ if (error) {
 if (error) {
     process.exit(1);
     ~~~~~~~~~~~~
-    Prefer throwing errors or returning exit codes over calling \`process.exit()\` directly.
+    Prefer throwing errors or returning exit codes over terminating with \`process.exit()\` directly.
 }
 `,
 		},
@@ -67,6 +67,9 @@ if (error) {
 		`function main() { return 1; }`,
 		`const exitCode = 1;`,
 		`const exit = () => {};`,
-		`const obj = { exit: () => {} }; obj.exit();`,
+		`
+const process = { exit: () => {} };
+process.exit();
+`,
 	],
 });

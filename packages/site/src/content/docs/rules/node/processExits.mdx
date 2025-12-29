@@ -61,6 +61,9 @@ This rule is not configurable.
 If you are working with very specific Node.js system-level code that genuinely requires immediate process termination without cleanup, you might choose not to enable this rule.
 However, such cases are rare, and most applications benefit from proper error handling.
 
+Alternately, if your application is not very large and/or doesn't intend to live for a long time, proper process flow logic might not be worth it for you to implement.
+In that case this rule might not be for you.
+
 ## Further Reading
 
 - [Node.js: process.exit()](https://nodejs.org/api/process.html#processexitcode)
