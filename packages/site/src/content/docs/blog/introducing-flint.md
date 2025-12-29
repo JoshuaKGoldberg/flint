@@ -72,9 +72,11 @@ Native ESM exports and imports allow them to compose plugins and each other.
 
 However, many users are wary of JavaScript configurations because of bad experiences working with ESLint's current "flat config" approach.
 Flat config leaned directly into being "just" JavaScript, but contains many edge cases that have tripped up recent adopters.
+ESLint's configs also include concepts such as parsers and processors that add complexity and more edge case hazards.
 
 Flint's hypothesis for configuration files is that it's possible to have a full JavaScript configuration system without confusing users over subtle edge cases.
 Flint's configs will be fully type-safe -including lint rules and their options- and will support workspace configurations.
+Parsing, processing, and other edge case hazards will be handled for users behind-the-scenes.
 
 :::note
 Check back in soon for full documentation explaining the Flint config system.
