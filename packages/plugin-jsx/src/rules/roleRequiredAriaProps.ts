@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const requiredAriaPropsForRole: Partial<Record<string, string[]>> = {
@@ -39,7 +43,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(node: ts.JsxOpeningLikeElement) {
+		function checkElement(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			const roleAttribute = node.attributes.properties.find(
 				(property) =>
 					ts.isJsxAttribute(property) &&
@@ -86,7 +93,7 @@ export default typescriptLanguage.createRule({
 						role,
 					},
 					message: "missingRequiredProps",
-					range: getTSNodeRange(roleAttribute, context.sourceFile),
+					range: getTSNodeRange(roleAttribute, sourceFile),
 				});
 			}
 		}

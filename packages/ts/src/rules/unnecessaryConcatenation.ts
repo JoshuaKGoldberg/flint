@@ -26,7 +26,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, { sourceFile }) => {
 					if (
 						node.operatorToken.kind === ts.SyntaxKind.PlusToken &&
 						ts.isStringLiteral(node.left) &&
@@ -34,7 +34,7 @@ export default typescriptLanguage.createRule({
 					) {
 						context.report({
 							message: "unnecessaryConcatenation",
-							range: getTSNodeRange(node.operatorToken, context.sourceFile),
+							range: getTSNodeRange(node.operatorToken, sourceFile),
 						});
 					}
 				},

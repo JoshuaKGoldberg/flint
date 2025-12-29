@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const validAutocompleteValues = new Set([
@@ -107,7 +111,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkNode(node: ts.JsxOpeningElement | ts.JsxSelfClosingElement) {
+		function checkNode(
+			node: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			const { attributes, tagName } = node;
 			if (!ts.isIdentifier(tagName)) {
 				return;
@@ -141,7 +148,7 @@ export default typescriptLanguage.createRule({
 			context.report({
 				data: { value },
 				message: "invalid",
-				range: getTSNodeRange(autocomplete.name, context.sourceFile),
+				range: getTSNodeRange(autocomplete.name, sourceFile),
 			});
 		}
 

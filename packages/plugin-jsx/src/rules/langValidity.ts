@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import languageTags from "language-tags";
 import * as ts from "typescript";
 
@@ -24,7 +28,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(node: ts.JsxOpeningLikeElement) {
+		function checkElement(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			const langAttribute = node.attributes.properties.find(
 				(property): property is ts.JsxAttribute =>
 					ts.isJsxAttribute(property) &&
@@ -43,10 +50,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						data: { value: langValue || "(empty)" },
 						message: "invalidLang",
-						range: getTSNodeRange(
-							langAttribute.initializer,
-							context.sourceFile,
-						),
+						range: getTSNodeRange(langAttribute.initializer, sourceFile),
 					});
 				}
 			}

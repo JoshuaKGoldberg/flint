@@ -124,12 +124,15 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				BinaryExpression(node: ts.BinaryExpression) {
+				BinaryExpression(
+					node: ts.BinaryExpression,
+					{ sourceFile, typeChecker },
+				) {
 					if (
 						node.operatorToken.kind !== ts.SyntaxKind.EqualsToken ||
 						!ts.isPropertyAccessExpression(node.left) ||
 						!eventHandlerProperties.has(node.left.name.text.toLowerCase()) ||
-						!isGlobalDeclaration(node.left, context.typeChecker)
+						!isGlobalDeclaration(node.left, typeChecker)
 					) {
 						return;
 					}
@@ -139,7 +142,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						data: { eventType, property: node.left.name.text },
 						message: "preferAddEventListener",
-						range: getTSNodeRange(node.left.name, context.sourceFile),
+						range: getTSNodeRange(node.left.name, sourceFile),
 					});
 				},
 			},

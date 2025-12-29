@@ -35,14 +35,14 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node: ts.CallExpression, { sourceFile }) {
 					if (
 						ts.isIdentifier(node.expression) &&
 						assertIdentifierNames.has(node.expression.text)
 					) {
 						context.report({
 							message: "preferAssertOk",
-							range: getTSNodeRange(node.expression, context.sourceFile),
+							range: getTSNodeRange(node.expression, sourceFile),
 						});
 					}
 				},
