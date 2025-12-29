@@ -63,7 +63,7 @@ Direct JSON is a nice and straightforward "walled garden" that shines in small p
 But it tends to fall apart at scale:
 
 - JSON doesn't benefit from full TypeScript-style types, even with editor editor extensions
-- Not being able to use native ESM imports means adding plugins support introduces a new loader system for users to learn
+- Not being able to use native ESM imports means adding plugin support introduces a new loader system for users to learn
 - Similarly, composing or extending configs together adds additional new complexity
 
 Full JavaScript configurations such as ESLint's bring much more power by leaning into native JavaScript semantics.
@@ -123,7 +123,7 @@ Modern web projects are able to use a plethora of tools: formatters, a variety o
 Each of those tools often ends up being either its own workflow in CI and/or a step in a larger CI job.
 Repositories have to choose: how much tooling power do they want, at the cost of CI time and configuration complexity?
 
-Modern linters such as Biome's and Oxlint have proven out user benefit from coordinating multiple tools for users.
+Modern linters such as Biome's and Oxlint have proven there is user benefit in integrating multiple tools for users.
 Flint aims to reduce complexity and user pain in three ways:
 
 - Flint's APIs allow for project-aware lint rules that can take on complex tasks like import cycle analysis and unused code detection
