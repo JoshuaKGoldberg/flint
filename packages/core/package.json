@@ -20,31 +20,19 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"@flint.fyi/source": {
-				"types": "./.tsbuildinfo/types/src/index.d.ts",
-				"default": "./src/index.ts"
-			},
+			"@flint.fyi/source": "./src/index.ts",
 			"default": "./lib/index.js"
 		},
 		"./ts-patch/install-patch": {
-			"@flint.fyi/source": {
-				"types": "./.tsbuildinfo/types/src/ts-patch/install-patch.d.ts",
-				"default": "./src/ts-patch/install-patch.ts"
-			},
+			"@flint.fyi/source": "./src/ts-patch/install-patch.ts",
 			"default": "./lib/ts-patch/install-patch.js"
 		},
 		"./ts-patch/install-patch-hooks": {
-			"@flint.fyi/source": {
-				"types": "./.tsbuildinfo/types/src/ts-patch/install-patch-hooks.d.ts",
-				"default": "./src/ts-patch/install-patch-hooks.ts"
-			},
+			"@flint.fyi/source": "./src/ts-patch/install-patch-hooks.ts",
 			"default": "./lib/ts-patch/install-patch-hooks.js"
 		},
 		"./ts-patch/proxy-program": {
-			"@flint.fyi/source": {
-				"types": "./.tsbuildinfo/types/src/ts-patch/proxy-program.d.ts",
-				"default": "./src/ts-patch/proxy-program.ts"
-			},
+			"@flint.fyi/source": "./src/ts-patch/proxy-program.ts",
 			"default": "./lib/ts-patch/proxy-program.js"
 		}
 	},

@@ -4,7 +4,8 @@ export default defineConfig({
 	attw: {
 		profile: "esm-only",
 	},
-	dts: { build: true },
+	clean: ["./node_modules/.cache/tsbuildinfo.json"],
+	dts: { build: true, incremental: true },
 	entry: [
 		"src/index.ts",
 		"src/ts-patch/install-patch-hooks.ts",

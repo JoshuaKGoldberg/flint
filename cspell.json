@@ -4,11 +4,11 @@
 		".all-contributorsrc",
 		".github",
 		"CHANGELOG.md",
+		"lib",
 		"node_modules",
 		"packages/comparisons/src/data.json",
 		"packages/site/dist",
-		"pnpm-lock.yaml",
-		".tsbuildinfo/"
+		"pnpm-lock.yaml"
 	],
 	"words": [
 		"affordances",

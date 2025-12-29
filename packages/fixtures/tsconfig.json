@@ -1,8 +1,9 @@
 {
 	"compilerOptions": {
-		"tsBuildInfoFile": ".tsbuildinfo/tsbuildinfo.json",
-		"outDir": ".tsbuildinfo/types",
-		"types": ["node"]
+		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+		"rootDir": "src/",
+		"outDir": "lib/",
+		"types": []
 	},
 	"extends": "../../tsconfig.base.json",
 	"include": ["src"]

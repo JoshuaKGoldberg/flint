@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo-bin.json",
+		"rootDir": "bin/",
+		"outDir": "lib/bin/",
+		"types": ["node"]
+	},
+	"extends": "../../tsconfig.base.json",
+	"include": ["bin"],
+	"references": [
+		{ "path": "../core" },
+		{ "path": "../cli" },
+		{ "path": "../json" },
+		{ "path": "../md" },
+		{ "path": "../ts" },
+		{ "path": "../yaml" }
+	]
+}

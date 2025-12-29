@@ -42,7 +42,6 @@ export default defineConfig(
 	globalIgnores([
 		"**/*.snap",
 		"**/node_modules",
-		"**/.tsbuildinfo",
 		"packages/*/.astro",
 		"packages/*/dist",
 		"packages/*/lib",
