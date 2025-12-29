@@ -96,7 +96,7 @@ The core rules bundling from linters like Biome and Oxlint is a step in the righ
 - Their rules still aren't a full representation of all the various ecosystem rules that ESLint users have created
 
 Flint's approach for plugins is that all rules which apply to a super-majority of users of the linter should be built worked on in the core project.
-By being created as part of the core project, the plugins both be more easily discoverable and will have a much more consistent look and feel for users.
+By being created as part of the core project, the plugins both become more easily discoverable and will have a much more consistent look and feel for users.
 
 To fully support that larger effort, the Flint project:
 
@@ -149,7 +149,7 @@ In that case we'll feel more confident that traditional linters such as ESLint a
 
 If you're interested in helping build out a new experimental linter, we'd love to have you join us.
 At the very least, see [About](/about) for how to get started using Flint as a user.
-Just trying out the project and telling us about your experience on the [Flint Discord](https://discord.gg/cFK3RAUDhy).
+Just trying out the project and telling us about your experience on the [Flint Discord](https://discord.gg/cFK3RAUDhy) would be immensely helpful.
 
 The [GitHub issue tracker](https://github.com/flint-fyi/flint/issues) is where you can find our list of upcoming work.
 See our [Contributing guide](https://github.com/flint-fyi/flint/blob/main/.github/CONTRIBUTING.md) for how to find issues that you can get started on.
