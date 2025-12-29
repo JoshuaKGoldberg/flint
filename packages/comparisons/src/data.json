@@ -3028,9 +3028,9 @@
 		],
 		"flint": {
 			"implemented": true,
-			"name": "processExists",
+			"name": "processExits",
 			"plugin": "node",
-			"preset": "Logical"
+			"preset": "logical"
 		},
 		"oxlint": [
 			{

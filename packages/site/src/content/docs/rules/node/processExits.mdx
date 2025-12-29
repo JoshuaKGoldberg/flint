@@ -1,6 +1,6 @@
 ---
 description: "Prevent direct use of `process.exit()` for better error handling and testing."
-title: "processExists"
+title: "processExits"
 topic: "rules"
 ---
 
@@ -9,7 +9,7 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="node" rule="processExists" />
+<RuleSummary plugin="node" rule="processExits" />
 
 Calling `process.exit()` immediately terminates the Node.js process without allowing proper cleanup or error handling.
 This makes code harder to test and can lead to resource leaks or incomplete operations.
@@ -68,4 +68,4 @@ However, such cases are rare, and most applications benefit from proper error ha
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="node" ruleId="processExists" />
+<RuleEquivalents pluginId="node" ruleId="processExits" />

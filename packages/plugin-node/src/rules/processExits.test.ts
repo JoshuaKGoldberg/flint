@@ -1,4 +1,4 @@
-import rule from "./processExists.js";
+import rule from "./processExits.js";
 import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {

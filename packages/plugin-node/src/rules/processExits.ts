@@ -5,7 +5,7 @@ export default typescriptLanguage.createRule({
 	about: {
 		description:
 			"Prevent direct use of `process.exit()` for better error handling and testing.",
-		id: "processExists",
+		id: "processExits",
 		preset: "logical",
 	},
 	messages: {
