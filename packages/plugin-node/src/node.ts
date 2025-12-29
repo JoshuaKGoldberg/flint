@@ -10,6 +10,7 @@ import exportsAssignments from "./rules/exportsAssignments.js";
 import filePathsFromImportMeta from "./rules/filePathsFromImportMeta.js";
 import fileReadJSONBuffers from "./rules/fileReadJSONBuffers.js";
 import nodeProtocols from "./rules/nodeProtocols.js";
+import processExits from "./rules/processExits.js";
 
 export const node = createPlugin({
 	name: "Node.js",
@@ -24,5 +25,6 @@ export const node = createPlugin({
 		filePathsFromImportMeta,
 		fileReadJSONBuffers,
 		nodeProtocols,
+		processExits,
 	],
 });

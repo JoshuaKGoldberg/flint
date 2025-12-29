@@ -1,6 +1,8 @@
 import { typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
+import { isDeclaredInNodeTypes } from "./utils/isDeclaredInNodeTypes.js";
+
 const consoleMethods = new Set([
 	"assert",
 	"count",
@@ -28,20 +30,7 @@ function isConsoleMethodCall(node: ts.Expression, typeChecker: ts.TypeChecker) {
 		node.expression.text === "console" &&
 		ts.isIdentifier(node.name) &&
 		consoleMethods.has(node.name.text) &&
-		isNodeConsole(node.expression, typeChecker)
-	);
-}
-
-function isNodeConsole(node: ts.Expression, typeChecker: ts.TypeChecker) {
-	const declarations = typeChecker
-		.getTypeAtLocation(node)
-		.getSymbol()
-		?.getDeclarations();
-
-	return declarations?.some((declaration) =>
-		declaration
-			.getSourceFile()
-			.fileName.includes("node_modules/@types/node/console.d.ts"),
+		isDeclaredInNodeTypes(node.expression, typeChecker)
 	);
 }
 
