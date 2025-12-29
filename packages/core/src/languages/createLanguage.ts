@@ -1,11 +1,11 @@
 import { debugForFile } from "debug-for-file";
 
-import {
+import type {
 	CreateRule,
 	Language,
 	LanguageDefinition,
 } from "../types/languages.js";
-import { AnyRuleDefinition } from "../types/rules.js";
+import type { AnyRuleDefinition } from "../types/rules.js";
 import { makeDisposable } from "./makeDisposable.js";
 
 const log = debugForFile(import.meta.filename);

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { NormalizedReportRangeObject } from "../types/reports.js";
+import type { NormalizedReportRangeObject } from "../types/reports.js";
 import { DirectivesCollector } from "./DirectivesCollector.js";
 import { directiveReports } from "./reports/directiveReports.js";
 

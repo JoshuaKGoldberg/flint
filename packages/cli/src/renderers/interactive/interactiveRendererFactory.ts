@@ -1,7 +1,7 @@
 import cliCursor from "cli-cursor";
 import readline from "node:readline";
 
-import { RendererContext, RendererFactory } from "../types.js";
+import type { RendererContext, RendererFactory } from "../types.js";
 import { createListeners } from "./createListeners.js";
 import { createState } from "./createState.js";
 import { printAllClear } from "./printAllClear.js";

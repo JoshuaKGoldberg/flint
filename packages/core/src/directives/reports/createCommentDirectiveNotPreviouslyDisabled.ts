@@ -1,4 +1,4 @@
-import { NormalizedReportRangeObject } from "../../types/reports.js";
+import type { NormalizedReportRangeObject } from "../../types/reports.js";
 
 export function createCommentDirectiveNotPreviouslyDisabled(
 	range: NormalizedReportRangeObject,

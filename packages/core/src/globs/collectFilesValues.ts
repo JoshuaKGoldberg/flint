@@ -1,4 +1,4 @@
-import { FilesValue } from "../types/files.js";
+import type { FilesValue } from "../types/files.js";
 import { flatten } from "../utils/arrays.js";
 
 export function collectFilesValues(

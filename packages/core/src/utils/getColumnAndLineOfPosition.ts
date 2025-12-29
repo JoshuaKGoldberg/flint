@@ -1,4 +1,7 @@
-import { ColumnAndLine, ColumnAndLineWithoutRaw } from "../types/ranges.js";
+import type {
+	ColumnAndLine,
+	ColumnAndLineWithoutRaw,
+} from "../types/ranges.js";
 import { binarySearch } from "./arrays.js";
 
 /** Subset of ts.SourceFileLike */

@@ -2,7 +2,7 @@ import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 
 import { readFileSafeAsJson } from "../running/readFileSafeAsJson.js";
-import { CacheStorage } from "../types/cache.js";
+import type { CacheStorage } from "../types/cache.js";
 import { cacheFilePath } from "./constants.js";
 import { getFileTouchTime } from "./getFileTouchTime.js";
 

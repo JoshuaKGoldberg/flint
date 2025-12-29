@@ -1,5 +1,8 @@
-import { CommentDirective } from "../types/directives.js";
-import { FileReport, NormalizedReportRangeObject } from "../types/reports.js";
+import type { CommentDirective } from "../types/directives.js";
+import type {
+	FileReport,
+	NormalizedReportRangeObject,
+} from "../types/reports.js";
 import { isCommentDirectiveType } from "./predicates.js";
 import { directiveReports } from "./reports/directiveReports.js";
 

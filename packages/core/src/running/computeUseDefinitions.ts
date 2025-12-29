@@ -3,7 +3,7 @@ import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 import path from "node:path";
 
-import {
+import type {
 	ConfigRuleDefinition,
 	ConfigUseDefinition,
 	ProcessedConfigDefinition,

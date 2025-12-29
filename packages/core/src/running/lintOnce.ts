@@ -3,9 +3,9 @@ import { debugForFile } from "debug-for-file";
 
 import { readFromCache } from "../cache/readFromCache.js";
 import { writeToCache } from "../cache/writeToCache.js";
-import { ProcessedConfigDefinition } from "../types/configs.js";
-import { AnyLanguage } from "../types/languages.js";
-import { FileResults, LintResults } from "../types/linting.js";
+import type { ProcessedConfigDefinition } from "../types/configs.js";
+import type { AnyLanguage } from "../types/languages.js";
+import type { FileResults, LintResults } from "../types/linting.js";
 import { computeUseDefinitions } from "./computeUseDefinitions.js";
 import { lintFile } from "./lintFile.js";
 import { readGitignore } from "./readGitignore.js";

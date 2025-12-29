@@ -1,4 +1,4 @@
-import { FileResults, hasFix } from "@flint.fyi/core";
+import { type FileResults, hasFix } from "@flint.fyi/core";
 import { styleText } from "node:util";
 
 import { pluralize } from "../../presenters/pluralize.js";

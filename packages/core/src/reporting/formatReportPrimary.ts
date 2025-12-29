@@ -1,4 +1,4 @@
-import { NormalizedReport } from "../types/reports.js";
+import type { NormalizedReport } from "../types/reports.js";
 
 /**
  * Interpolates any report data into its primary message.

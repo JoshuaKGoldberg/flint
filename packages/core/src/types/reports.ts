@@ -1,6 +1,6 @@
-import { BaseAbout } from "./about.js";
-import { Fix, Suggestion } from "./changes.js";
-import { CharacterReportRange, ColumnAndLine } from "./ranges.js";
+import type { BaseAbout } from "./about.js";
+import type { Fix, Suggestion } from "./changes.js";
+import type { CharacterReportRange, ColumnAndLine } from "./ranges.js";
 
 export interface FileReport extends NormalizedReport {
 	/**

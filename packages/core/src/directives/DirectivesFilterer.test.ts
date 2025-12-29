@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { FileReport } from "../types/reports.js";
+import type { FileReport } from "../types/reports.js";
 import { DirectivesFilterer } from "./DirectivesFilterer.js";
 
 function createReport(forLine: number, id: string) {

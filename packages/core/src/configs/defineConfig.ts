@@ -1,4 +1,4 @@
-import { Config, ConfigDefinition } from "../types/configs.js";
+import type { Config, ConfigDefinition } from "../types/configs.js";
 
 export function defineConfig(definition: ConfigDefinition): Config {
 	return {

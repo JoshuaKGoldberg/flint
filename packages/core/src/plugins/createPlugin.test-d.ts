@@ -1,6 +1,6 @@
 import { assertType, describe, expectTypeOf, it } from "vitest";
 
-import { FilesValue } from "../types/files.js";
+import type { FilesValue } from "../types/files.js";
 import { createPlugin } from "./createPlugin.js";
 
 describe("createPlugin", () => {

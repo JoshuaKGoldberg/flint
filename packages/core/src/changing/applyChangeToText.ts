@@ -1,4 +1,4 @@
-import { FileChange } from "../types/changes.js";
+import type { FileChange } from "../types/changes.js";
 
 export function applyFileChangeToText(change: FileChange, text: string) {
 	return (

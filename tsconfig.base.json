@@ -7,8 +7,6 @@
 		"declaration": true,
 		"declarationMap": true,
 		"emitDeclarationOnly": true,
-		"esModuleInterop": true,
-		"isolatedModules": true,
 		"lib": ["ESNext"],
 		"module": "NodeNext",
 		"moduleDetection": "force",
@@ -18,6 +16,7 @@
 		"sourceMap": true,
 		"strict": true,
 		"target": "ESNext",
-		"types": []
+		"types": [],
+		"verbatimModuleSyntax": true
 	}
 }

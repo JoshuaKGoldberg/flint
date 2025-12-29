@@ -1,4 +1,4 @@
-import {
+import type {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
@@ -13,7 +13,7 @@ import { createReportSnapshot } from "./createReportSnapshot.js";
 import { normalizeTestCase } from "./normalizeTestCase.js";
 import { resolveReportedSuggestions } from "./resolveReportedSuggestions.js";
 import { runTestCaseRule } from "./runTestCaseRule.js";
-import { InvalidTestCase, TestCase, ValidTestCase } from "./types.js";
+import type { InvalidTestCase, TestCase, ValidTestCase } from "./types.js";
 
 export interface RuleTesterOptions {
 	defaults?: {

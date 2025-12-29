@@ -4,7 +4,7 @@ import chalk from "chalk";
 import { presentHeader } from "../shared/header.js";
 import { presentDiagnostics } from "../shared/presentDiagnostics.js";
 import { presentSummary } from "../shared/summary.js";
-import { PresenterFactory } from "../types.js";
+import type { PresenterFactory } from "../types.js";
 import { ColorCodes, indenter } from "./constants.js";
 import { createDetailedReport } from "./createDetailedReport.js";
 import { wrapIfNeeded } from "./wrapIfNeeded.js";

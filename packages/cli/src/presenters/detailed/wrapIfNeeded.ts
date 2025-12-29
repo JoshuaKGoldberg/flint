@@ -1,4 +1,4 @@
-import { ChalkInstance } from "chalk";
+import type { ChalkInstance } from "chalk";
 import wrapAnsi from "wrap-ansi";
 
 import { indenter } from "./constants.js";

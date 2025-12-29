@@ -1,7 +1,7 @@
 import { collectFilesValues } from "../globs/collectFilesValues.js";
-import { AnyLevelDeep } from "../types/arrays.js";
-import { ProcessedConfigDefinition } from "../types/configs.js";
-import { FilesGlobObjectProcessed, FilesValue } from "../types/files.js";
+import type { AnyLevelDeep } from "../types/arrays.js";
+import type { ProcessedConfigDefinition } from "../types/configs.js";
+import type { FilesGlobObjectProcessed, FilesValue } from "../types/files.js";
 import { flatten } from "../utils/arrays.js";
 
 export function resolveUseFilesGlobs(

@@ -2,8 +2,8 @@ import debounce from "debounce";
 import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs";
 
-import { OptionsValues } from "./options.js";
-import { Renderer } from "./renderers/types.js";
+import type { OptionsValues } from "./options.js";
+import type { Renderer } from "./renderers/types.js";
 import { runCliOnce } from "./runCliOnce.js";
 
 const log = debugForFile(import.meta.filename);

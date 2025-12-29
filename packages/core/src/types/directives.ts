@@ -1,4 +1,4 @@
-import { NormalizedReportRangeObject } from "./reports.js";
+import type { NormalizedReportRangeObject } from "./reports.js";
 
 export interface CommentDirective {
 	range: NormalizedReportRangeObject;

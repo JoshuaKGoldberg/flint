@@ -1,7 +1,7 @@
 import { styleText } from "node:util";
 
 import { pluralize } from "../pluralize.js";
-import { PresenterSummarizeContext } from "../types.js";
+import type { PresenterSummarizeContext } from "../types.js";
 
 export interface SummaryCounts {
 	all: number;

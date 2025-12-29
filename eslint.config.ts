@@ -56,6 +56,7 @@ export default defineConfig(
 			},
 		},
 		rules: {
+			"@typescript-eslint/no-import-type-side-effects": "error",
 			"@typescript-eslint/no-unnecessary-condition": [
 				"error",
 				{ allowConstantLoopConditions: true },
@@ -64,6 +65,7 @@ export default defineConfig(
 				"error",
 				{ allowNumber: true },
 			],
+
 			"n/no-missing-import": "off",
 			"n/no-unpublished-import": "off", // eslint-community/eslint-plugin-n#495
 			"n/no-unsupported-features/node-builtins": [

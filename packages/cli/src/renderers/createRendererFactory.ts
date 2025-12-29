@@ -1,4 +1,4 @@
-import { OptionsValues } from "../options.js";
+import type { OptionsValues } from "../options.js";
 import { getPresenterFactory } from "../presenters/getPresenterFactory.js";
 import { interactiveRendererFactory } from "./interactive/interactiveRendererFactory.js";
 import { singleRendererFactory } from "./singleRendererFactory.js";

@@ -3,14 +3,14 @@ import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 
 import { DirectivesFilterer } from "../directives/DirectivesFilterer.js";
-import {
+import type {
 	AnyLanguage,
 	LanguageFileDiagnostic,
 	LanguageFileFactory,
 } from "../types/languages.js";
-import { FileReport } from "../types/reports.js";
+import type { FileReport } from "../types/reports.js";
 import { computeRulesWithOptions } from "./computeRulesWithOptions.js";
-import { ConfigUseDefinitionWithFiles } from "./computeUseDefinitions.js";
+import type { ConfigUseDefinitionWithFiles } from "./computeUseDefinitions.js";
 
 const log = debugForFile(import.meta.filename);
 

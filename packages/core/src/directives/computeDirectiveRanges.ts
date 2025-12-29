@@ -1,4 +1,4 @@
-import { CommentDirectiveWithinFile } from "../types/directives.js";
+import type { CommentDirectiveWithinFile } from "../types/directives.js";
 import { createSelectionMatcher } from "./createSelectionMatcher.js";
 
 export interface RangedSelection {

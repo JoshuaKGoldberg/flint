@@ -1,4 +1,4 @@
-import { FileReport } from "@flint.fyi/core";
+import type { FileReport } from "@flint.fyi/core";
 import chalk from "chalk";
 
 import { ColorCodes, indenter } from "./constants.js";

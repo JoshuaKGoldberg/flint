@@ -3,7 +3,7 @@ import type * as mdast from "mdast";
 import fsSync from "node:fs";
 
 import { createMarkdownFile } from "./createMarkdownFile.js";
-import { MarkdownNodesByName, WithPosition } from "./nodes.js";
+import type { MarkdownNodesByName, WithPosition } from "./nodes.js";
 import { prepareMarkdownFile } from "./prepareMarkdownFile.js";
 
 export interface MarkdownServices {

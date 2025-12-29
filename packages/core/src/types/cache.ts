@@ -1,5 +1,5 @@
-import { LanguageFileDiagnostic } from "./languages.js";
-import { FileReport } from "./reports.js";
+import type { LanguageFileDiagnostic } from "./languages.js";
+import type { FileReport } from "./reports.js";
 
 export interface CacheStorage {
 	configs: Record<string, number>;

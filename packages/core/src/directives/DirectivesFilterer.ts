@@ -1,8 +1,8 @@
-import {
+import type {
 	CommentDirective,
 	CommentDirectiveWithinFile,
 } from "../types/directives.js";
-import { FileReport } from "../types/reports.js";
+import type { FileReport } from "../types/reports.js";
 import { computeDirectiveRanges } from "./computeDirectiveRanges.js";
 import { createSelectionMatcher } from "./createSelectionMatcher.js";
 import { isCommentDirectiveWithinFile } from "./predicates.js";

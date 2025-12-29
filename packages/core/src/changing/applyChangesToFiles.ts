@@ -1,6 +1,6 @@
 import { debugForFile } from "debug-for-file";
 
-import { FileResults } from "../types/linting.js";
+import type { FileResults } from "../types/linting.js";
 import { applyChangesToFile } from "./applyChangesToFile.js";
 import { resolveChangesByFile } from "./resolveChangesByFile.js";
 

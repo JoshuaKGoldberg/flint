@@ -6,7 +6,7 @@ import { textTable } from "text-table-fast";
 import { presentHeader } from "./shared/header.js";
 import { presentDiagnostics } from "./shared/presentDiagnostics.js";
 import { presentSummary } from "./shared/summary.js";
-import { PresenterFactory } from "./types.js";
+import type { PresenterFactory } from "./types.js";
 
 export const briefPresenterFactory: PresenterFactory = {
 	about: {

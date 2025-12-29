@@ -1,8 +1,8 @@
 import { CachedFactory } from "cached-factory";
 
-import { FileChange } from "../types/changes.js";
-import { FileResults } from "../types/linting.js";
-import { FileReport } from "../types/reports.js";
+import type { FileChange } from "../types/changes.js";
+import type { FileResults } from "../types/linting.js";
+import type { FileReport } from "../types/reports.js";
 import { flatten } from "../utils/arrays.js";
 import { createReportSuggestionKey } from "./createReportSuggestionKey.js";
 import { resolveChange } from "./resolveChange.js";

@@ -1,6 +1,6 @@
-import { FileCacheStorage } from "./cache.js";
-import { LanguageFileDiagnostic } from "./languages.js";
-import { FileReport } from "./reports.js";
+import type { FileCacheStorage } from "./cache.js";
+import type { LanguageFileDiagnostic } from "./languages.js";
+import type { FileReport } from "./reports.js";
 
 export interface FileResults {
 	dependencies: Set<string>;

@@ -1,7 +1,7 @@
-import { OptionsValues } from "../options.js";
+import type { OptionsValues } from "../options.js";
 import { briefPresenterFactory } from "./briefPresenterFactory.js";
 import { detailedPresenterFactory } from "./detailed/detailedPresenterFactory.js";
-import { PresenterFactory } from "./types.js";
+import type { PresenterFactory } from "./types.js";
 
 export function getPresenterFactory(
 	values: Pick<OptionsValues, "interactive" | "presenter">,

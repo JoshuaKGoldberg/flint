@@ -1,4 +1,4 @@
-import { FilesComputer, FilesGlobObject } from "../types/files.js";
+import type { FilesComputer, FilesGlobObject } from "../types/files.js";
 import { flatten } from "../utils/arrays.js";
 import { collectFilesValues } from "./collectFilesValues.js";
 

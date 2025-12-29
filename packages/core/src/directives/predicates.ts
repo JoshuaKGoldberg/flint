@@ -1,4 +1,4 @@
-import {
+import type {
 	CommentDirective,
 	CommentDirectiveWithinFile,
 } from "../types/directives.js";

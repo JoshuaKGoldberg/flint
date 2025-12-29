@@ -1,7 +1,7 @@
 import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 
-import { FileChange } from "../types/changes.js";
+import type { FileChange } from "../types/changes.js";
 import { applyChangesToText } from "./applyChangesToText.js";
 
 const log = debugForFile(import.meta.filename);
