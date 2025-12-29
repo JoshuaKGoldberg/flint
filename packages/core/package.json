@@ -38,7 +38,8 @@
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.map"
+		"!lib/**/*.map",
+		"!lib/**/*.test.*"
 	],
 	"dependencies": {
 		"@flint.fyi/utils": "workspace:",

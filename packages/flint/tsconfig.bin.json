@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo-bin.json",
+		"tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo.bin.json",
 		"rootDir": "bin/",
 		"outDir": "lib/bin/",
 		"types": ["node"]
