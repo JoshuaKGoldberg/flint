@@ -11,21 +11,19 @@ import packageJson from "eslint-plugin-package-json";
 import perfectionist from "eslint-plugin-perfectionist";
 import * as regexp from "eslint-plugin-regexp";
 import yml from "eslint-plugin-yml";
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
-	{
-		ignores: [
-			"**/*.snap",
-			"**/node_modules",
-			"packages/*/.astro",
-			"packages/*/dist",
-			"packages/*/lib",
-			"packages/fixtures",
-			"pnpm-lock.yaml",
-		],
-	},
+	globalIgnores([
+		"**/*.snap",
+		"**/node_modules",
+		"packages/*/.astro",
+		"packages/*/dist",
+		"packages/*/lib",
+		"packages/fixtures",
+		"pnpm-lock.yaml",
+	]),
 	{ linterOptions: { reportUnusedDisableDirectives: "error" } },
 	{
 		extends: [
