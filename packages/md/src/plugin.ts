@@ -7,6 +7,7 @@ import definitionUses from "./rules/definitionUses.js";
 import fencedCodeLanguages from "./rules/fencedCodeLanguages.js";
 import headingDuplicates from "./rules/headingDuplicates.js";
 import headingIncrements from "./rules/headingIncrements.js";
+import headingRootDuplicates from "./rules/headingRootDuplicates.js";
 import imageAltTexts from "./rules/imageAltTexts.js";
 import imageContents from "./rules/imageContents.js";
 import labelReferences from "./rules/labelReferences.js";
@@ -18,7 +19,7 @@ export const md = createPlugin({
 	files: {
 		all: ["**/*.md"],
 	},
-	name: "md",
+	name: "Markdown",
 	rules: [
 		bareUrls,
 		definitionContents,
@@ -27,6 +28,7 @@ export const md = createPlugin({
 		fencedCodeLanguages,
 		headingDuplicates,
 		headingIncrements,
+		headingRootDuplicates,
 		imageAltTexts,
 		imageContents,
 		labelReferences,

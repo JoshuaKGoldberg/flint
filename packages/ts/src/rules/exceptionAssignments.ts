@@ -44,7 +44,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CatchClause: (node) => {
+				CatchClause: (node, { sourceFile, typeChecker }) => {
 					if (!node.variableDeclaration?.name) {
 						return;
 					}
@@ -56,15 +56,15 @@ export default typescriptLanguage.createRule({
 					for (const identifier of identifiers) {
 						const modifyingReferences = getModifyingReferences(
 							identifier,
-							context.sourceFile,
-							context.typeChecker,
+							sourceFile,
+							typeChecker,
 						);
 
 						for (const reference of modifyingReferences) {
 							context.report({
 								message: "noExAssign",
 								range: {
-									begin: reference.getStart(context.sourceFile),
+									begin: reference.getStart(sourceFile),
 									end: reference.getEnd(),
 								},
 							});

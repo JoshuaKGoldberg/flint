@@ -72,8 +72,8 @@ function process() {
 			snapshot: `
 function process() {
 	void doSomething();
- ~~~~~~~~~~~~~~~~~~
- Prefer an explicit value over using the void operator to produce undefined.
+	~~~~~~~~~~~~~~~~~~
+	Prefer an explicit value over using the void operator to produce undefined.
 }
 `,
 		},

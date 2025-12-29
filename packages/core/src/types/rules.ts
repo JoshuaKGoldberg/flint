@@ -1,42 +1,21 @@
+import type { PromiseOrSync } from "@flint.fyi/utils";
+
 import { BaseAbout } from "./about.js";
 import { RuleContext } from "./context.js";
 import { Language } from "./languages.js";
-import { PromiseOrSync } from "./promises.js";
 import { ReportMessageData } from "./reports.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type AnyRule<
 	About extends RuleAbout = RuleAbout,
-	OptionsSchema extends AnyOptionalSchema | undefined =
-		| AnyOptionalSchema
-		| undefined,
-> = Rule<
-	About,
-	// TODO: How to make types more permissive around assignability?
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	any,
-	// TODO: How to make types more permissive around assignability?
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	any,
-	string,
-	OptionsSchema
->;
+	OptionsSchema extends AnyOptionalSchema | undefined = any,
+> = Rule<About, any, any, string, OptionsSchema>;
 
 export type AnyRuleDefinition<
-	OptionsSchema extends AnyOptionalSchema | undefined =
-		| AnyOptionalSchema
-		| undefined,
-> = RuleDefinition<
-	RuleAbout,
-	// TODO: How to make types more permissive around assignability?
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	any,
-	// TODO: How to make types more permissive around assignability?
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	any,
-	string,
-	OptionsSchema
->;
+	OptionsSchema extends AnyOptionalSchema | undefined = any,
+> = RuleDefinition<RuleAbout, any, any, string, OptionsSchema>;
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
  * A single lint rule, as used by users in configs.
@@ -48,12 +27,12 @@ export interface Rule<
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > extends RuleDefinition<
-		About,
-		AstNodesByName,
-		ContextServices,
-		MessageId,
-		OptionsSchema
-	> {
+	About,
+	AstNodesByName,
+	ContextServices,
+	MessageId,
+	OptionsSchema
+> {
 	language: Language<AstNodesByName, ContextServices>;
 }
 
@@ -82,9 +61,10 @@ export interface RuleDefinition<
 	>;
 }
 
-export interface RuleRuntime<AstNodesByName> {
+export interface RuleRuntime<AstNodesByName, FileServices extends object> {
 	dependencies?: string[];
-	visitors?: RuleVisitors<AstNodesByName>;
+	teardown?: RuleTeardown;
+	visitors?: RuleVisitors<AstNodesByName, FileServices>;
 }
 
 export type RuleSetup<
@@ -95,10 +75,21 @@ export type RuleSetup<
 > = (
 	context: ContextServices & RuleContext<MessageId>,
 	options: Options,
-) => PromiseOrSync<RuleRuntime<AstNodesByName> | undefined>;
+) => PromiseOrSync<
+	| RuleRuntime<AstNodesByName, ContextServices & { options: Options }>
+	| undefined
+>;
 
-export type RuleVisitor<ASTNode> = (node: ASTNode) => void;
+export type RuleTeardown = () => PromiseOrSync<undefined>;
 
-export type RuleVisitors<AstNodesByName> = {
-	[Kind in keyof AstNodesByName]?: RuleVisitor<AstNodesByName[Kind]>;
+export type RuleVisitor<ASTNode, FileServices extends object> = (
+	node: ASTNode,
+	services: FileServices,
+) => void;
+
+export type RuleVisitors<AstNodesByName, FileServices extends object> = {
+	[Kind in keyof AstNodesByName]?: RuleVisitor<
+		AstNodesByName[Kind],
+		FileServices
+	>;
 };

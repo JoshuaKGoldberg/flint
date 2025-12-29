@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const inherentlyTabbableElements = new Set([
@@ -34,8 +38,8 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkElement(
-			tagName: ts.JsxTagNameExpression,
-			attributes: ts.JsxAttributes,
+			{ attributes, tagName }: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (ts.isIdentifier(tagName)) {
 				const firstCharacter = tagName.text.charAt(0);
@@ -83,7 +87,7 @@ export default typescriptLanguage.createRule({
 				if (ariaProperty && ts.isJsxAttribute(ariaProperty)) {
 					context.report({
 						message: "missingTabIndex",
-						range: getTSNodeRange(ariaProperty, context.sourceFile),
+						range: getTSNodeRange(ariaProperty, sourceFile),
 					});
 				}
 			}
@@ -91,12 +95,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkElement(node.tagName, node.attributes);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkElement(node.tagName, node.attributes);
-				},
+				JsxOpeningElement: checkElement,
+				JsxSelfClosingElement: checkElement,
 			},
 		};
 	},

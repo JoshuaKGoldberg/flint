@@ -20,9 +20,10 @@ This label reference has invalid whitespace between brackets.
 `,
 			snapshot: `
 [flint][
-~~~~~~~~~~
+~~~~~~~~
 This label reference has invalid whitespace between brackets.
 ]
+~
 `,
 		},
 		{

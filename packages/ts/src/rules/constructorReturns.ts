@@ -25,7 +25,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				Constructor: (node) => {
+				Constructor: (node, { sourceFile }) => {
 					if (!node.body) {
 						return;
 					}
@@ -36,7 +36,7 @@ export default typescriptLanguage.createRule({
 								context.report({
 									message: "noConstructorReturn",
 									range: {
-										begin: node.getStart(context.sourceFile),
+										begin: node.getStart(sourceFile),
 										end: node.getEnd(),
 									},
 								});

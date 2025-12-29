@@ -32,7 +32,7 @@ export default defineConfig({
 							{ label: "FAQs", link: "faqs" },
 						],
 						label: "About",
-						link: "/about",
+						link: "about",
 					},
 					{
 						icon: "list-format",
@@ -40,29 +40,48 @@ export default defineConfig({
 						items: [
 							{
 								items: [
-									{ label: "JSON", link: "/rules/json" },
-									{ label: "Markdown", link: "/rules/md" },
-									{ label: "PackageJSON", link: "/rules/package-json" },
-									{ label: "TypeScript", link: "/rules/ts" },
-									{ label: "YML", link: "/rules/yml" },
+									{ label: "Implementing", link: "rules/implementing" },
+									{ label: "Not Implementing", link: "rules/not-implementing" },
+								],
+								label: "All Rules",
+							},
+							{
+								items: [
+									{ label: "JSON", link: "rules/json" },
+									{ label: "Markdown", link: "rules/md" },
+									{ label: "PackageJSON", link: "rules/package-json" },
+									{ label: "TypeScript", link: "rules/ts" },
+									{ label: "YAML", link: "rules/yaml" },
 								],
 								label: "Core Plugins",
 							},
 							{
 								items: [
-									{ label: "Browser", link: "/rules/browser" },
-									{ label: "CSpell", link: "/rules/cspell" },
-									{ label: "Flint", link: "/rules/flint" },
-									{ label: "JSX", link: "/rules/jsx" },
-									{ label: "Node", link: "/rules/node" },
-									{ label: "Performance", link: "/rules/performance" },
-									{ label: "Sorting", link: "/rules/sorting" },
+									{ label: "Browser", link: "rules/browser" },
+									{ label: "Flint", link: "rules/flint" },
+									{ label: "JSX", link: "rules/jsx" },
+									{ label: "Node", link: "rules/node" },
+									{ label: "Performance", link: "rules/performance" },
+									{ label: "Sorting", link: "rules/sorting" },
+									{ label: "Spelling", link: "rules/spelling" },
 								],
-								label: "More Plugins",
+								label: "Focused Plugins",
+							},
+							{
+								items: [
+									{ label: "Astro", link: "rules/astro" },
+									{ label: "Next", link: "rules/next" },
+									{ label: "Nuxt", link: "rules/nuxt" },
+									{ label: "React", link: "rules/react" },
+									{ label: "SolidJS", link: "rules/solid" },
+									{ label: "Vitest", link: "rules/vitest" },
+									{ label: "Vue", link: "rules/vue" },
+								],
+								label: "Incubator Plugins",
 							},
 						],
 						label: "Rules",
-						link: "/rules",
+						link: "rules",
 					},
 				]),
 			],
@@ -89,9 +108,12 @@ export default defineConfig({
 		remarkPlugins: [remarkHeadingId],
 	},
 	site: "https://flint.fyi",
-	// https://github.com/withastro/astro/issues/14117
 	vite: {
+		resolve: {
+			conditions: ["node", "import", "default", "browser"],
+		},
 		ssr: {
+			// https://github.com/withastro/astro/issues/14117
 			noExternal: ["zod"],
 		},
 	},
