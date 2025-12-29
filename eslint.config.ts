@@ -58,7 +58,6 @@ export default defineConfig(
 				{ allowNumber: true },
 			],
 			"n/no-missing-import": "off",
-			"n/no-unpublished-import": "off", // eslint-community/eslint-plugin-n#495
 			"n/no-unsupported-features/node-builtins": [
 				"error",
 				{ allowExperimental: true },
@@ -81,14 +80,9 @@ export default defineConfig(
 			n: {
 				convertPath: [
 					{
-						exclude: [
-							"**/ruleTester.ts",
-							"**/*.test.ts",
-							"**/*.test-d.ts",
-							"**/*.d.ts",
-						],
-						include: ["src/**/*.ts"],
-						replace: ["^src/(.+)$", "lib/$1"],
+						exclude: ["**/ruleTester.ts", "**/*.test.ts", "**/*.test-d.ts"],
+						include: ["packages/*/src/**/*.ts"],
+						replace: ["src/(.+).ts$", "lib/$1.js"],
 					},
 				],
 			},
