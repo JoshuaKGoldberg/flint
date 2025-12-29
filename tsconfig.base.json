@@ -8,6 +8,7 @@
 		"declaration": true,
 		"declarationMap": true,
 		"emitDeclarationOnly": true,
+		"erasableSyntaxOnly": true,
 		"lib": ["ESNext"],
 		"module": "NodeNext",
 		"moduleDetection": "force",

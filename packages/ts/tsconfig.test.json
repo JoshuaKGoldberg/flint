@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"tsBuildInfoFile": ".tsbuildinfo/tsbuildinfo-test.json",
+		"outDir": ".tsbuildinfo/types",
+		"types": ["node"],
+		"erasableSyntaxOnly": false
+	},
+	"extends": "../../tsconfig.base.json",
+	"include": ["src/**/*.test.ts"],
+	"references": [
+		{ "path": "../core" },
+		{ "path": "../rule-tester" },
+		{ "path": "./tsconfig.src.json" }
+	]
+}
