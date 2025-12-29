@@ -8,7 +8,7 @@
 		"./@types/*/*.ts",
 		"./*.ts",
 		"./packages/*/tsdown.config.ts",
-		"packages/*/bin/index.js"
+		"./packages/*/bin/index.js"
 	],
 	"references": [
 		{ "path": "./packages/comparisons" },
