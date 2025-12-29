@@ -22,12 +22,12 @@
 	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/rule-tester": "workspace:",
 		"typescript": "^5.9.3 || ^6.0.0",
 		"unist-util-visit": "^5.0.0",
 		"yaml-unist-parser": "^3.0.0"
 	},
 	"devDependencies": {
+		"@flint.fyi/rule-tester": "workspace:",
 		"vitest": "4.0.15"
 	},
 	"engines": {

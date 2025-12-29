@@ -218,9 +218,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       typescript:
         specifier: ^5.9.0 || ^6.0.0
         version: 5.9.3
@@ -228,6 +225,9 @@ importers:
         specifier: ^4.2.1
         version: 4.2.1
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -237,9 +237,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
@@ -253,6 +250,9 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       '@types/unist':
         specifier: 3.0.3
         version: 3.0.3
@@ -274,9 +274,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
@@ -284,6 +281,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -293,9 +293,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
@@ -306,6 +303,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -315,9 +315,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
@@ -328,6 +325,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       '@types/language-tags':
         specifier: 1.0.4
         version: 1.0.4
@@ -349,9 +349,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
@@ -359,6 +356,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -377,9 +377,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
@@ -390,6 +387,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -420,9 +420,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@flint.fyi/text':
         specifier: 'workspace:'
         version: link:../text
@@ -436,6 +433,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -564,9 +564,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       '@typescript-eslint/project-service':
         specifier: ^8.46.2
         version: 8.50.1(typescript@5.9.3)
@@ -589,6 +586,9 @@ importers:
         specifier: ^4.2.1
         version: 4.2.1
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -604,9 +604,6 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
       typescript:
         specifier: ^5.9.3 || ^6.0.0
         version: 5.9.3
@@ -617,6 +614,9 @@ importers:
         specifier: ^3.0.0
         version: 3.1.0
     devDependencies:
+      '@flint.fyi/rule-tester':
+        specifier: 'workspace:'
+        version: link:../rule-tester
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
