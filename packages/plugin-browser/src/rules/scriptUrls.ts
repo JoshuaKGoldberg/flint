@@ -22,33 +22,40 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkStringValue(value: string, node: ts.Node) {
+		function checkStringValue(
+			value: string,
+			node: ts.Node,
+			sourceFile: ts.SourceFile,
+		) {
 			if (value.toLowerCase().startsWith("javascript:")) {
 				context.report({
 					message: "scriptUrl",
-					range: getTSNodeRange(node, context.sourceFile),
+					range: getTSNodeRange(node, sourceFile),
 				});
 			}
 		}
 
 		return {
 			visitors: {
-				NoSubstitutionTemplateLiteral(node: ts.NoSubstitutionTemplateLiteral) {
+				NoSubstitutionTemplateLiteral(
+					node: ts.NoSubstitutionTemplateLiteral,
+					{ sourceFile },
+				) {
 					if (!ts.isTaggedTemplateExpression(node.parent)) {
-						checkStringValue(node.text, node);
+						checkStringValue(node.text, node, sourceFile);
 					}
 				},
-				StringLiteral(node: ts.StringLiteral) {
-					checkStringValue(node.text, node);
+				StringLiteral(node: ts.StringLiteral, { sourceFile }) {
+					checkStringValue(node.text, node, sourceFile);
 				},
-				TemplateExpression(node: ts.TemplateExpression) {
+				TemplateExpression(node: ts.TemplateExpression, { sourceFile }) {
 					if (
 						!ts.isTaggedTemplateExpression(node.parent) &&
 						node.head.text.toLowerCase().startsWith("javascript:")
 					) {
 						context.report({
 							message: "scriptUrl",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: getTSNodeRange(node, sourceFile),
 						});
 					}
 				},

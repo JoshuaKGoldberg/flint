@@ -47,7 +47,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkComparison(node: ts.BinaryExpression) {
+		function checkComparison(
+			node: ts.BinaryExpression,
+			sourceFile: ts.SourceFile,
+		) {
 			const leftTypeofOperand = getTypeofOperand(node.left);
 			const rightTypeofOperand = getTypeofOperand(node.right);
 
@@ -64,14 +67,14 @@ export default typescriptLanguage.createRule({
 			if (stringValue != null && !validTypeofValues.has(stringValue)) {
 				context.report({
 					message: "invalidValue",
-					range: getTSNodeRange(comparisonValue, context.sourceFile),
+					range: getTSNodeRange(comparisonValue, sourceFile),
 				});
 			}
 		}
 
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, { sourceFile }) => {
 					if (
 						node.operatorToken.kind === ts.SyntaxKind.EqualsEqualsToken ||
 						node.operatorToken.kind === ts.SyntaxKind.EqualsEqualsEqualsToken ||
@@ -79,7 +82,7 @@ export default typescriptLanguage.createRule({
 						node.operatorToken.kind ===
 							ts.SyntaxKind.ExclamationEqualsEqualsToken
 					) {
-						checkComparison(node);
+						checkComparison(node, sourceFile);
 					}
 				},
 			},

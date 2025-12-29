@@ -1,4 +1,5 @@
 import {
+	getColumnAndLineOfPosition,
 	LanguageFileDefinition,
 	NormalizedReport,
 	RuleReport,
@@ -6,22 +7,13 @@ import {
 import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";
-import { VFile } from "vfile";
-import { location } from "vfile-location";
 
 // Eventually, it might make sense to use a native speed Markdown parser...
 // However, the remark ecosystem is quite extensive and well-supported.
 // It'll be a while before we can replace it with a native parser.
-export function createMarkdownFile(
-	filePathAbsolute: string,
-	sourceText: string,
-) {
-	const virtualFile = new VFile({
-		path: filePathAbsolute,
-		value: sourceText,
-	});
-	const fileLocation = location(virtualFile);
-	const root = unified().use(remarkParse).parse(virtualFile);
+export function createMarkdownFile(sourceText: string) {
+	const root = unified().use(remarkParse).parse(sourceText);
+	const sourceFileText = { text: sourceText };
 
 	const languageFile: LanguageFileDefinition = {
 		async runRule(rule, options) {
@@ -29,12 +21,6 @@ export function createMarkdownFile(
 
 			const context = {
 				report: (report: RuleReport) => {
-					// We can assume these always exist.
-					/* eslint-disable @typescript-eslint/no-non-null-assertion */
-					const positionBegin = fileLocation.toPoint(report.range.begin)!;
-					const positionEnd = fileLocation.toPoint(report.range.end)!;
-					/* eslint-enable @typescript-eslint/no-non-null-assertion */
-
 					reports.push({
 						...report,
 						fix:
@@ -43,16 +29,11 @@ export function createMarkdownFile(
 								: report.fix,
 						message: rule.messages[report.message],
 						range: {
-							begin: {
-								column: positionBegin.column - 1,
-								line: positionBegin.line - 1,
-								raw: report.range.begin,
-							},
-							end: {
-								column: positionEnd.column - 1,
-								line: positionEnd.line - 1,
-								raw: report.range.end,
-							},
+							begin: getColumnAndLineOfPosition(
+								sourceFileText,
+								report.range.begin,
+							),
+							end: getColumnAndLineOfPosition(sourceFileText, report.range.end),
 						},
 					});
 				},
@@ -61,14 +42,16 @@ export function createMarkdownFile(
 
 			const runtime = await rule.setup(context, options);
 
-			if (!runtime?.visitors) {
-				return reports;
+			if (runtime?.visitors) {
+				const fileServices = { options, root };
+				const { visitors } = runtime;
+
+				visit(root, (node) => {
+					visitors[node.type]?.(node, fileServices);
+				});
 			}
 
-			const { visitors } = runtime;
-			visit(root, (node) => {
-				visitors[node.type]?.(node);
-			});
+			await runtime?.teardown?.();
 
 			return reports;
 		},

@@ -1,4 +1,4 @@
-import { typescriptLanguage } from "@flint.fyi/ts";
+import { TypeScriptFileServices, typescriptLanguage } from "@flint.fyi/ts";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
@@ -42,12 +42,12 @@ export default typescriptLanguage.createRule({
 			});
 		}
 
-		function checkAssignmentInLoop(node: ts.Node) {
+		function checkAssignmentInLoop(node: ts.Node, sourceFile: ts.SourceFile) {
 			if (
 				ts.isBinaryExpression(node) &&
 				node.operatorToken.kind === ts.SyntaxKind.EqualsToken
 			) {
-				checkBinaryEqualsExpression(node);
+				checkBinaryEqualsExpression(node, sourceFile);
 			}
 
 			ts.forEachChild(node, (child) => {
@@ -61,11 +61,14 @@ export default typescriptLanguage.createRule({
 				) {
 					return;
 				}
-				checkAssignmentInLoop(child);
+				checkAssignmentInLoop(child, sourceFile);
 			});
 		}
 
-		function checkBinaryEqualsExpression(node: ts.BinaryExpression) {
+		function checkBinaryEqualsExpression(
+			node: ts.BinaryExpression,
+			sourceFile: ts.SourceFile,
+		) {
 			const leftName = getIdentifierName(node.left);
 			if (!leftName || !hasSpreadOfIdentifier(node.right, leftName)) {
 				return;
@@ -76,12 +79,12 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			const firstToken = spreadNode.getFirstToken(context.sourceFile);
+			const firstToken = spreadNode.getFirstToken(sourceFile);
 			if (firstToken?.kind !== ts.SyntaxKind.DotDotDotToken) {
 				return;
 			}
 
-			const start = firstToken.getStart(context.sourceFile);
+			const start = firstToken.getStart(sourceFile);
 			context.report({
 				message: "noAccumulatingSpread",
 				range: {
@@ -110,8 +113,11 @@ export default typescriptLanguage.createRule({
 			return result;
 		}
 
-		function checkLoopStatement(node: ts.Node & { statement: ts.Node }) {
-			checkAssignmentInLoop(node.statement);
+		function checkLoopStatement(
+			node: ts.Node & { statement: ts.Node },
+			{ sourceFile }: TypeScriptFileServices,
+		) {
+			checkAssignmentInLoop(node.statement, sourceFile);
 		}
 
 		return {

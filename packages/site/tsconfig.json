@@ -13,5 +13,12 @@
 	},
 	"extends": "astro/tsconfigs/strict",
 	"include": [".astro/types.d.ts", "*.config.*", "src"],
-	"references": [{ "path": "../comparisons" }]
+	"references": [
+		{ "path": "../comparisons" },
+		{ "path": "../plugin-browser" },
+		{ "path": "../plugin-flint" },
+		{ "path": "../plugin-node" },
+		{ "path": "../plugin-performance" },
+		{ "path": "../plugin-spelling" }
+	]
 }

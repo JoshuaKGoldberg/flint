@@ -26,15 +26,18 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
+				PropertyAccessExpression(
+					node: ts.PropertyAccessExpression,
+					{ sourceFile, typeChecker },
+				) {
 					if (
 						ts.isIdentifier(node.name) &&
 						node.name.text === "innerText" &&
-						isGlobalDeclaration(node.name, context.typeChecker)
+						isGlobalDeclaration(node.name, typeChecker)
 					) {
 						context.report({
 							message: "preferTextContent",
-							range: getTSNodeRange(node.name, context.sourceFile),
+							range: getTSNodeRange(node.name, sourceFile),
 						});
 					}
 				},

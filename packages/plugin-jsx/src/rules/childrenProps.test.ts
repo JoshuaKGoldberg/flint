@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 <div children="Hello" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <div children="Hello" />
      ~~~~~~~~~~~~~~~~
@@ -18,7 +17,6 @@ ruleTester.describe(rule, {
 			code: `
 <Component children={<span>Test</span>} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <Component children={<span>Test</span>} />
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,7 +27,6 @@ ruleTester.describe(rule, {
 			code: `
 <button children={["Click me"]} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <button children={["Click me"]} />
         ~~~~~~~~~~~~~~~~~~~~~~~
@@ -40,7 +37,6 @@ ruleTester.describe(rule, {
 			code: `
 <div children={value} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <div children={value} />
      ~~~~~~~~~~~~~~~~
@@ -49,10 +45,10 @@ ruleTester.describe(rule, {
 		},
 	],
 	valid: [
-		{ code: `<div />`, fileName: "file.tsx" },
-		{ code: `<div>Hello</div>`, fileName: "file.tsx" },
-		{ code: `<Component><span>Test</span></Component>`, fileName: "file.tsx" },
-		{ code: `<button>Click me</button>`, fileName: "file.tsx" },
-		{ code: `<div>{value}</div>`, fileName: "file.tsx" },
+		{ code: `<div />` },
+		{ code: `<div>Hello</div>` },
+		{ code: `<Component><span>Test</span></Component>` },
+		{ code: `<button>Click me</button>` },
+		{ code: `<div>{value}</div>` },
 	],
 });

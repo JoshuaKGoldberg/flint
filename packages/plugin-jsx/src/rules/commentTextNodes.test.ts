@@ -6,7 +6,6 @@ ruleTester.describe(rule, {
 		{
 			code: `
 <div>// This looks like a comment</div>`,
-			fileName: "file.tsx",
 			snapshot: `
 <div>// This looks like a comment</div>
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -15,7 +14,6 @@ ruleTester.describe(rule, {
 		{
 			code: `
 <div>/* This also looks like a comment */</div>`,
-			fileName: "file.tsx",
 			snapshot: `
 <div>/* This also looks like a comment */</div>
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,7 +24,6 @@ ruleTester.describe(rule, {
 <span>
     // comment text
 </span>`,
-			fileName: "file.tsx",
 			snapshot: `
 <span>
     // comment text
@@ -40,7 +37,6 @@ ruleTester.describe(rule, {
 <p>
     /* inline comment */
 </p>`,
-			fileName: "file.tsx",
 			snapshot: `
 <p>
     /* inline comment */
@@ -51,34 +47,29 @@ ruleTester.describe(rule, {
 		},
 	],
 	valid: [
-		{ code: `<div>Regular text</div>`, fileName: "file.tsx" },
-		{ code: `<div>{/* This is a real comment */}</div>`, fileName: "file.tsx" },
+		{ code: `<div>Regular text</div>` },
+		{ code: `<div>{/* This is a real comment */}</div>` },
 		{
 			code: `<div>
     {/* Comment inside expression */}
     Text content
 </div>`,
-			fileName: "file.tsx",
 		},
-		{ code: `<span>No comment syntax here</span>`, fileName: "file.tsx" },
+		{ code: `<span>No comment syntax here</span>` },
 		{
 			code: `<div>
     {// Single line comment in expression
     }
 </div>`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `<a href="https://example.com">Link</a>`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `<div>Text before // comment syntax</div>`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `<div>Text before /* comment */ syntax</div>`,
-			fileName: "file.tsx",
 		},
 	],
 });

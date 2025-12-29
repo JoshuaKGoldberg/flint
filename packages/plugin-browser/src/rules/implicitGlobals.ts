@@ -25,30 +25,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		const isModule = context.sourceFile.statements.some(
-			(statement) =>
-				ts.isImportDeclaration(statement) ||
-				ts.isExportDeclaration(statement) ||
-				ts.isExportAssignment(statement) ||
-				(ts.isVariableStatement(statement) &&
-					(statement.modifiers?.some(
-						(modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
-					) ??
-						false)) ||
-				(ts.isFunctionDeclaration(statement) &&
-					(statement.modifiers?.some(
-						(modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
-					) ??
-						false)),
-		);
-
-		if (isModule) {
-			return {
-				visitors: {},
-			};
-		}
-
-		function checkFunctionDeclaration(node: ts.FunctionDeclaration) {
+		function checkFunctionDeclaration(
+			node: ts.FunctionDeclaration,
+			sourceFile: ts.SourceFile,
+		) {
 			if (!node.name) {
 				return;
 			}
@@ -56,11 +36,14 @@ export default typescriptLanguage.createRule({
 			context.report({
 				data: { declarationType: "function declaration" },
 				message: "implicitGlobal",
-				range: getTSNodeRange(node.name, context.sourceFile),
+				range: getTSNodeRange(node.name, sourceFile),
 			});
 		}
 
-		function checkVariableStatement(node: ts.VariableStatement) {
+		function checkVariableStatement(
+			node: ts.VariableStatement,
+			sourceFile: ts.SourceFile,
+		) {
 			if (
 				node.modifiers?.some(
 					(modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
@@ -75,7 +58,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						data: { declarationType: "var declaration" },
 						message: "implicitGlobal",
-						range: getTSNodeRange(declaration.name, context.sourceFile),
+						range: getTSNodeRange(declaration.name, sourceFile),
 					});
 				}
 			}
@@ -84,11 +67,32 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				SourceFile(node) {
+					const isModule = node.statements.some(
+						(statement) =>
+							ts.isImportDeclaration(statement) ||
+							ts.isExportDeclaration(statement) ||
+							ts.isExportAssignment(statement) ||
+							(ts.isVariableStatement(statement) &&
+								(statement.modifiers?.some(
+									(modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
+								) ??
+									false)) ||
+							(ts.isFunctionDeclaration(statement) &&
+								(statement.modifiers?.some(
+									(modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
+								) ??
+									false)),
+					);
+
+					if (isModule) {
+						return;
+					}
+
 					for (const statement of node.statements) {
 						if (ts.isFunctionDeclaration(statement)) {
-							checkFunctionDeclaration(statement);
+							checkFunctionDeclaration(statement, node);
 						} else if (ts.isVariableStatement(statement)) {
-							checkVariableStatement(statement);
+							checkVariableStatement(statement, node);
 						}
 					}
 				},

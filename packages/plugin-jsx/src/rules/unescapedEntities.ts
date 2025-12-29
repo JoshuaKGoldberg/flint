@@ -31,8 +31,8 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxText(node: ts.JsxText) {
-					const nodeStart = node.getStart(context.sourceFile);
+				JsxText(node: ts.JsxText, { sourceFile }) {
+					const nodeStart = node.getStart(sourceFile);
 					const reports: {
 						begin: number;
 						data: { brace: string; entity: string; html: string };
