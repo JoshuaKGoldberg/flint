@@ -21,7 +21,8 @@
 		"flint": "bin/index.js"
 	},
 	"files": [
-		"lib/"
+		"lib/",
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"@flint.fyi/cli": "workspace:",
