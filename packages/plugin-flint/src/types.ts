@@ -1,5 +1,4 @@
 import type { InvalidTestCase, TestCase } from "@flint.fyi/rule-tester";
-
 import * as ts from "typescript";
 
 export interface ParsedTestCase extends TestCase {

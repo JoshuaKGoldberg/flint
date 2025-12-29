@@ -1,5 +1,4 @@
 import type * as mdast from "mdast";
-
 import { Point, Position } from "unist";
 
 export interface MarkdownNodesByName extends RootContentMapWithChildren {

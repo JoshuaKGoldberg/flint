@@ -1,5 +1,3 @@
-import type { PromiseOrSync } from "@flint.fyi/utils";
-
 import {
 	AnyLanguage,
 	AnyOptionalSchema,
@@ -9,6 +7,7 @@ import {
 	type NormalizedReport,
 	RuleAbout,
 } from "@flint.fyi/core";
+import type { PromiseOrSync } from "@flint.fyi/utils";
 import { CachedFactory } from "cached-factory";
 
 import { TestCaseNormalized } from "./normalizeTestCase.js";

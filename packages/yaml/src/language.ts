@@ -1,7 +1,6 @@
-import type * as yamlParser from "yaml-unist-parser";
-
 import { createLanguage } from "@flint.fyi/core";
 import fsSync from "node:fs";
+import type * as yamlParser from "yaml-unist-parser";
 
 import { createYamlFile } from "./createYamlFile.js";
 import { YamlNodesByName } from "./nodes.js";

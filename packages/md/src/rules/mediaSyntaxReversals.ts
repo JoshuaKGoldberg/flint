@@ -1,8 +1,7 @@
 import type { Text } from "mdast";
 
-import type { WithPosition } from "../nodes.js";
-
 import { markdownLanguage } from "../language.js";
+import type { WithPosition } from "../nodes.js";
 
 export default markdownLanguage.createRule({
 	about: {

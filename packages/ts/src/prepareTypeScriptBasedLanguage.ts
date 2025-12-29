@@ -1,8 +1,8 @@
-import { createProjectService } from "@typescript-eslint/project-service";
 import {
 	createFSBackedSystem,
 	createVirtualTypeScriptEnvironment,
 } from "@typescript/vfs";
+import { createProjectService } from "@typescript-eslint/project-service";
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 import path from "path";
