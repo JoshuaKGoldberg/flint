@@ -6,7 +6,6 @@
 	"extends": "./tsconfig.base.json",
 	"include": [
 		"./@types/*/*.ts",
-		"./*.js",
 		"./*.ts",
 		"./packages/*/tsdown.config.ts",
 		"packages/*/bin/index.js"

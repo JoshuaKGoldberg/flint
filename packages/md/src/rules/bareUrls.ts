@@ -1,7 +1,7 @@
 import type { Link } from "mdast";
 
-import { markdownLanguage } from "../language.js";
-import type { WithPosition } from "../nodes.js";
+import { markdownLanguage } from "../language.ts";
+import type { WithPosition } from "../nodes.ts";
 
 const urlTester = /(?:https?:\/\/|mailto:)\S+|[\w.+-]+@[\w.-]+\.\w+/gi;
 

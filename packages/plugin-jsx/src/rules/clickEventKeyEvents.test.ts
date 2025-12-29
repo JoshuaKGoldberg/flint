@@ -1,5 +1,5 @@
-import rule from "./clickEventKeyEvents.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./clickEventKeyEvents.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

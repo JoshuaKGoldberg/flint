@@ -3,7 +3,7 @@ import * as shikiCli from "@shikijs/cli";
 import chalk from "chalk";
 import { styleText } from "node:util";
 
-import { ColorCodes, indenter } from "./constants.js";
+import { ColorCodes, indenter } from "./constants.ts";
 
 // TODO: make reactive
 const leftWidth = 7;

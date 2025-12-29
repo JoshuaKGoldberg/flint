@@ -1,6 +1,6 @@
 import { registerHooks } from "node:module";
 
-import { transformTscContent } from "./shared.js";
+import { transformTscContent } from "./shared.ts";
 
 const typescriptUrl = import.meta.resolve("typescript");
 

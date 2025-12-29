@@ -1,6 +1,6 @@
 import type * as ts from "typescript";
 
-import { declarationsIncludeGlobal } from "./declarationsIncludeGlobal.js";
+import { declarationsIncludeGlobal } from "./declarationsIncludeGlobal.ts";
 
 /**
  * Checks if a node is a reference to a global variable (e.g., Object, undefined, NaN).

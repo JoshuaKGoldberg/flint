@@ -1,8 +1,8 @@
 import type {
 	ColumnAndLine,
 	ColumnAndLineWithoutRaw,
-} from "../types/ranges.js";
-import { binarySearch } from "./arrays.js";
+} from "../types/ranges.ts";
+import { binarySearch } from "./arrays.ts";
 
 /** Subset of ts.SourceFileLike */
 export interface HasGetLineAndCharacterOfPosition {

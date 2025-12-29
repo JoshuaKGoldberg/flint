@@ -5,7 +5,7 @@ import {
 import * as tsutils from "ts-api-utils";
 import type ts from "typescript";
 
-import { normalizeRange } from "../normalizeRange.js";
+import { normalizeRange } from "../normalizeRange.ts";
 
 export interface ExtractedDirective {
 	range: NormalizedReportRangeObject;

@@ -4,9 +4,9 @@ import type {
 	CreateRule,
 	Language,
 	LanguageDefinition,
-} from "../types/languages.js";
-import type { AnyRuleDefinition } from "../types/rules.js";
-import { makeDisposable } from "./makeDisposable.js";
+} from "../types/languages.ts";
+import type { AnyRuleDefinition } from "../types/rules.ts";
+import { makeDisposable } from "./makeDisposable.ts";
 
 const log = debugForFile(import.meta.filename);
 

@@ -1,8 +1,8 @@
 import * as ts from "typescript";
 
-import { findProperty } from "./findProperty.js";
-import { tsAstToLiteral } from "./tsAstToLiteral.js";
-import type { ParsedTestCase, ParsedTestCaseInvalid } from "./types.js";
+import { findProperty } from "./findProperty.ts";
+import { tsAstToLiteral } from "./tsAstToLiteral.ts";
+import type { ParsedTestCase, ParsedTestCaseInvalid } from "./types.ts";
 
 export function parseTestCase(node: ts.Expression): ParsedTestCase | undefined {
 	if (ts.isStringLiteralLike(node)) {

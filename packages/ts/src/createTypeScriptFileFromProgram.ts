@@ -6,10 +6,10 @@ import type {
 } from "@flint.fyi/core";
 import * as ts from "typescript";
 
-import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
-import { convertTypeScriptDiagnosticToLanguageFileDiagnostic } from "./convertTypeScriptDiagnosticToLanguageFileDiagnostic.js";
-import { getFirstEnumValues } from "./getFirstEnumValues.js";
-import { normalizeRange } from "./normalizeRange.js";
+import { collectReferencedFilePaths } from "./collectReferencedFilePaths.ts";
+import { convertTypeScriptDiagnosticToLanguageFileDiagnostic } from "./convertTypeScriptDiagnosticToLanguageFileDiagnostic.ts";
+import { getFirstEnumValues } from "./getFirstEnumValues.ts";
+import { normalizeRange } from "./normalizeRange.ts";
 
 export const NodeSyntaxKinds = getFirstEnumValues(ts.SyntaxKind);
 

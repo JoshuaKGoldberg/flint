@@ -3,8 +3,8 @@ import { debugForFile } from "debug-for-file";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
-import type { OptionsValues } from "./options.js";
-import type { Renderer } from "./renderers/types.js";
+import type { OptionsValues } from "./options.ts";
+import type { Renderer } from "./renderers/types.ts";
 
 const log = debugForFile(import.meta.filename);
 

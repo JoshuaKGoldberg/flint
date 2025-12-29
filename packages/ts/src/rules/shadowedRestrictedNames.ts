@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
 
 const restrictedNames = new Set([
 	"arguments",

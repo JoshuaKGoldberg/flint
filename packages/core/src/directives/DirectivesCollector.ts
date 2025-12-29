@@ -1,10 +1,10 @@
-import type { CommentDirective } from "../types/directives.js";
+import type { CommentDirective } from "../types/directives.ts";
 import type {
 	FileReport,
 	NormalizedReportRangeObject,
-} from "../types/reports.js";
-import { isCommentDirectiveType } from "./predicates.js";
-import { directiveReports } from "./reports/directiveReports.js";
+} from "../types/reports.ts";
+import { isCommentDirectiveType } from "./predicates.ts";
+import { directiveReports } from "./reports/directiveReports.ts";
 
 export class DirectivesCollector {
 	#directives: CommentDirective[] = [];

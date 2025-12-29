@@ -1,7 +1,7 @@
 import type { LanguageFileDefinition } from "@flint.fyi/core";
 import type { Root } from "mdast";
 
-import { parseDirectivesFromMarkdownFile } from "./directives/parseDirectivesFromMarkdownFile.js";
+import { parseDirectivesFromMarkdownFile } from "./directives/parseDirectivesFromMarkdownFile.ts";
 
 export function prepareMarkdownFile(
 	languageFile: LanguageFileDefinition,

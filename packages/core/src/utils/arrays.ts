@@ -1,4 +1,4 @@
-import type { AnyLevelDeep } from "../types/arrays.js";
+import type { AnyLevelDeep } from "../types/arrays.ts";
 
 export function flatten<T>(values: AnyLevelDeep<T>): T[] {
 	if (!Array.isArray(values)) {

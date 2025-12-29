@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"allowImportingTsExtensions": true,
 		"allowJs": true,
 		"checkJs": true,
 		"composite": true,
@@ -12,6 +13,7 @@
 		"moduleDetection": "force",
 		"moduleResolution": "NodeNext",
 		"noUncheckedSideEffectImports": true,
+		"rewriteRelativeImportExtensions": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,

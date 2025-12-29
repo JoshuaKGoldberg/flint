@@ -2,9 +2,9 @@ import { createLanguage } from "@flint.fyi/core";
 import type * as mdast from "mdast";
 import fsSync from "node:fs";
 
-import { createMarkdownFile } from "./createMarkdownFile.js";
-import type { MarkdownNodesByName, WithPosition } from "./nodes.js";
-import { prepareMarkdownFile } from "./prepareMarkdownFile.js";
+import { createMarkdownFile } from "./createMarkdownFile.ts";
+import type { MarkdownNodesByName, WithPosition } from "./nodes.ts";
+import { prepareMarkdownFile } from "./prepareMarkdownFile.ts";
 
 export interface MarkdownServices {
 	root: WithPosition<mdast.Root>;

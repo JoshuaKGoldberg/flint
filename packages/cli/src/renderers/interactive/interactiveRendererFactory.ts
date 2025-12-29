@@ -1,14 +1,14 @@
 import cliCursor from "cli-cursor";
 import readline from "node:readline";
 
-import type { RendererContext, RendererFactory } from "../types.js";
-import { createListeners } from "./createListeners.js";
-import { createState } from "./createState.js";
-import { printAllClear } from "./printAllClear.js";
-import { printControls } from "./printControls.js";
-import { printFile } from "./printFile.js";
-import { printHeader } from "./printHeader.js";
-import { printSummary } from "./printSummary.js";
+import type { RendererContext, RendererFactory } from "../types.ts";
+import { createListeners } from "./createListeners.ts";
+import { createState } from "./createState.ts";
+import { printAllClear } from "./printAllClear.ts";
+import { printControls } from "./printControls.ts";
+import { printFile } from "./printFile.ts";
+import { printHeader } from "./printHeader.ts";
+import { printSummary } from "./printSummary.ts";
 
 export const interactiveRendererFactory: RendererFactory = {
 	about: {

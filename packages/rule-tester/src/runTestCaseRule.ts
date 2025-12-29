@@ -10,7 +10,7 @@ import type {
 import type { PromiseOrSync } from "@flint.fyi/utils";
 import type { CachedFactory } from "cached-factory";
 
-import type { TestCaseNormalized } from "./normalizeTestCase.js";
+import type { TestCaseNormalized } from "./normalizeTestCase.ts";
 
 export interface TestCaseRuleConfiguration<
 	OptionsSchema extends AnyOptionalSchema | undefined,

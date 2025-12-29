@@ -1,10 +1,10 @@
 import type { PromiseOrSync } from "@flint.fyi/utils";
 
-import type { BaseAbout } from "./about.js";
-import type { RuleContext } from "./context.js";
-import type { Language } from "./languages.js";
-import type { ReportMessageData } from "./reports.js";
-import type { AnyOptionalSchema, InferredObject } from "./shapes.js";
+import type { BaseAbout } from "./about.ts";
+import type { RuleContext } from "./context.ts";
+import type { Language } from "./languages.ts";
+import type { ReportMessageData } from "./reports.ts";
+import type { AnyOptionalSchema, InferredObject } from "./shapes.ts";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type AnyRule<

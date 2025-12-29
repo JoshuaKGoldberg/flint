@@ -1,11 +1,11 @@
 import { createPlugin } from "@flint.fyi/core";
 
-import assertStrict from "./rules/assertStrict.js";
-import assertStyles from "./rules/assertStyles.js";
-import blobReadingMethods from "./rules/blobReadingMethods.js";
-import bufferAllocators from "./rules/bufferAllocators.js";
-import eventClasses from "./rules/eventClasses.js";
-import exportsAssignments from "./rules/exportsAssignments.js";
+import assertStrict from "./rules/assertStrict.ts";
+import assertStyles from "./rules/assertStyles.ts";
+import blobReadingMethods from "./rules/blobReadingMethods.ts";
+import bufferAllocators from "./rules/bufferAllocators.ts";
+import eventClasses from "./rules/eventClasses.ts";
+import exportsAssignments from "./rules/exportsAssignments.ts";
 
 export const node = createPlugin({
 	name: "Node.js",

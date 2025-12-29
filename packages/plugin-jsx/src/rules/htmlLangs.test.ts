@@ -1,5 +1,5 @@
-import rule from "./htmlLangs.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./htmlLangs.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

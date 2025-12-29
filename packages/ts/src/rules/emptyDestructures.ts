@@ -3,7 +3,7 @@ import type * as ts from "typescript";
 import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
-} from "../language.js";
+} from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {

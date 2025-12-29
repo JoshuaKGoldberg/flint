@@ -1,7 +1,7 @@
 import type { Heading, Html, Node, Root } from "mdast";
 
-import { markdownLanguage } from "../language.js";
-import type { WithPosition } from "../nodes.js";
+import { markdownLanguage } from "../language.ts";
+import type { WithPosition } from "../nodes.ts";
 
 export default markdownLanguage.createRule({
 	about: {

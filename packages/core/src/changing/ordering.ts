@@ -1,4 +1,4 @@
-import type { FileChange } from "../types/changes.js";
+import type { FileChange } from "../types/changes.ts";
 
 export const orderChangesLastToFirstWithoutOverlaps = (
 	changes: FileChange[],

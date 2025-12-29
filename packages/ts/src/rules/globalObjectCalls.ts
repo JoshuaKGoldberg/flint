@@ -1,10 +1,10 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
 import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
-} from "../language.js";
+} from "../language.ts";
 
 const globalObjects = new Set(["Atomics", "JSON", "Math", "Reflect"]);
 

@@ -1,7 +1,7 @@
 import type { LanguageFileDefinition } from "@flint.fyi/core";
 import type * as yamlParser from "yaml-unist-parser";
 
-import { parseDirectivesFromYamlFile } from "./directives/parseDirectivesFromYamlFile.js";
+import { parseDirectivesFromYamlFile } from "./directives/parseDirectivesFromYamlFile.ts";
 
 export function prepareYamlFile(
 	languageFile: LanguageFileDefinition,

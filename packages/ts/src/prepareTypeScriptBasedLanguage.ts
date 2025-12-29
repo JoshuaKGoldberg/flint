@@ -8,7 +8,7 @@ import { debugForFile } from "debug-for-file";
 import path from "path";
 import * as ts from "typescript";
 
-import { createTypeScriptFileFromProjectService } from "./createTypeScriptFileFromProjectService.js";
+import { createTypeScriptFileFromProjectService } from "./createTypeScriptFileFromProjectService.ts";
 
 const projectRoot = path.join(import.meta.dirname, "../..");
 const log = debugForFile(import.meta.filename);

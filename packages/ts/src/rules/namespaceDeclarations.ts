@@ -2,8 +2,8 @@ import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 import { z } from "zod";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {

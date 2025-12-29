@@ -1,11 +1,11 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
 import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
-} from "../language.js";
+} from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
