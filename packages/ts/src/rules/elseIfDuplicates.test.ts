@@ -1,5 +1,5 @@
-import rule from "./elseIfDuplicates.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./elseIfDuplicates.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

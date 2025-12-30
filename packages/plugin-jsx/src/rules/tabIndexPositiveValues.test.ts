@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.ts";
-import rule from "./tabIndexPositiveValues.ts";
+import { ruleTester } from "./ruleTester.js";
+import rule from "./tabIndexPositiveValues.js";
 
 ruleTester.describe(rule, {
 	invalid: [

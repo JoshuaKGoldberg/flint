@@ -1,5 +1,5 @@
-import rule from "./interactiveElementRoles.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./interactiveElementRoles.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

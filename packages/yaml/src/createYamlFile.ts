@@ -1,8 +1,8 @@
 import {
 	getColumnAndLineOfPosition,
-	type LanguageFileDefinition,
-	type NormalizedReport,
-	type RuleReport,
+	LanguageFileDefinition,
+	NormalizedReport,
+	RuleReport,
 } from "@flint.fyi/core";
 import { visit } from "unist-util-visit";
 import * as yamlParser from "yaml-unist-parser";

@@ -1,6 +1,6 @@
 import { describe, expectTypeOf, it } from "vitest";
 
-import { binarySearch } from "./arrays.ts";
+import { binarySearch } from "./arrays.js";
 
 describe("binarySearch", () => {
 	it("returns nullish without explicit no-fallback", () => {

@@ -1,6 +1,6 @@
-import type * as ts from "typescript";
+import * as ts from "typescript";
 
-import { declarationIncludesGlobal } from "./declarationIncludesGlobal.ts";
+import { declarationIncludesGlobal } from "./declarationIncludesGlobal.js";
 
 export function declarationsIncludeGlobal(declarations: ts.Declaration[]) {
 	return declarations.some(declarationIncludesGlobal);

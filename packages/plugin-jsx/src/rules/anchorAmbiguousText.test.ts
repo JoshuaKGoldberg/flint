@@ -1,5 +1,5 @@
-import rule from "./anchorAmbiguousText.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./anchorAmbiguousText.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

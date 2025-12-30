@@ -1,4 +1,4 @@
-import { readFileSafe } from "./readFileSafe.ts";
+import { readFileSafe } from "./readFileSafe.js";
 
 export async function readGitignore() {
 	return ((await readFileSafe(".gitignore")) ?? "")

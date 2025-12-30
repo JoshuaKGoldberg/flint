@@ -1,9 +1,6 @@
-import type * as ts from "typescript";
+import * as ts from "typescript";
 
-import {
-	type TypeScriptFileServices,
-	typescriptLanguage,
-} from "../language.ts";
+import { TypeScriptFileServices, typescriptLanguage } from "../language.js";
 
 const nonOctalDecimalEscapePattern = /\\[89]/g;
 

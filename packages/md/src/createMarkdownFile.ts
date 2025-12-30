@@ -1,8 +1,8 @@
 import {
 	getColumnAndLineOfPosition,
-	type LanguageFileDefinition,
-	type NormalizedReport,
-	type RuleReport,
+	LanguageFileDefinition,
+	NormalizedReport,
+	RuleReport,
 } from "@flint.fyi/core";
 import remarkParse from "remark-parse";
 import { unified } from "unified";

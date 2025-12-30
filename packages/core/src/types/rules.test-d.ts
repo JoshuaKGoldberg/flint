@@ -1,8 +1,8 @@
 import { describe, expectTypeOf, it } from "vitest";
-import type { z } from "zod";
+import { z } from "zod";
 
-import type { AnyRule, AnyRuleDefinition, Rule } from "./rules.ts";
-import type { AnyOptionalSchema, InferredObject } from "./shapes.ts";
+import { AnyRule, AnyRuleDefinition, Rule } from "./rules.js";
+import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 describe("Rule", () => {
 	it("should be assignable to AnyRule", () => {

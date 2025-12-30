@@ -1,5 +1,5 @@
-import rule from "./implicitGlobals.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./implicitGlobals.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

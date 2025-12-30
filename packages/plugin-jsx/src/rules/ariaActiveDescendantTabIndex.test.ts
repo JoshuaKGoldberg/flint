@@ -1,5 +1,5 @@
-import rule from "./ariaActiveDescendantTabIndex.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./ariaActiveDescendantTabIndex.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

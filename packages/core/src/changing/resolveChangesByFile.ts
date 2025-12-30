@@ -1,11 +1,11 @@
 import { CachedFactory } from "cached-factory";
 
-import type { FileChange } from "../types/changes.ts";
-import type { FileResults } from "../types/linting.ts";
-import type { FileReport } from "../types/reports.ts";
-import { flatten } from "../utils/arrays.ts";
-import { createReportSuggestionKey } from "./createReportSuggestionKey.ts";
-import { resolveChange } from "./resolveChange.ts";
+import { FileChange } from "../types/changes.js";
+import { FileResults } from "../types/linting.js";
+import { FileReport } from "../types/reports.js";
+import { flatten } from "../utils/arrays.js";
+import { createReportSuggestionKey } from "./createReportSuggestionKey.js";
+import { resolveChange } from "./resolveChange.js";
 
 export async function resolveChangesByFile(
 	filesResults: Map<string, FileResults>,

@@ -1,5 +1,5 @@
-import rule from "./nodeProtocols.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./nodeProtocols.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

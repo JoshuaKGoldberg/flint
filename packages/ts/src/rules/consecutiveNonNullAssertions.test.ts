@@ -1,5 +1,5 @@
-import rule from "./consecutiveNonNullAssertions.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./consecutiveNonNullAssertions.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

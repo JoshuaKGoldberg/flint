@@ -1,5 +1,5 @@
-import rule from "./labelAssociatedControls.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./labelAssociatedControls.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

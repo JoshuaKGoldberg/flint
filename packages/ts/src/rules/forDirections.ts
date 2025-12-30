@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.ts";
-import { typescriptLanguage } from "../language.ts";
+import { getTSNodeRange } from "../getTSNodeRange.js";
+import { typescriptLanguage } from "../language.js";
 
 function getConditionDirection(
 	condition: ts.Expression,

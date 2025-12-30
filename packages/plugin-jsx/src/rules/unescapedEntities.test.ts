@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.ts";
-import rule from "./unescapedEntities.ts";
+import { ruleTester } from "./ruleTester.js";
+import rule from "./unescapedEntities.js";
 
 ruleTester.describe(rule, {
 	invalid: [

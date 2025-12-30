@@ -1,5 +1,5 @@
-import rule from "./emptyMappingKeys.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./emptyMappingKeys.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

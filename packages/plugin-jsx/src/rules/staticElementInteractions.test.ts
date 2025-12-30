@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.ts";
-import rule from "./staticElementInteractions.ts";
+import { ruleTester } from "./ruleTester.js";
+import rule from "./staticElementInteractions.js";
 
 ruleTester.describe(rule, {
 	invalid: [

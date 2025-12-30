@@ -1,5 +1,5 @@
 import { DirectivesCollector } from "@flint.fyi/core";
-import type * as yamlParser from "yaml-unist-parser";
+import * as yamlParser from "yaml-unist-parser";
 
 export function parseDirectivesFromYamlFile(
 	root: yamlParser.Root,

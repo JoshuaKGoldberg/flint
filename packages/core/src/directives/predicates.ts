@@ -1,7 +1,7 @@
-import type {
+import {
 	CommentDirective,
 	CommentDirectiveWithinFile,
-} from "../types/directives.ts";
+} from "../types/directives.js";
 
 export function isCommentDirectiveType(type: string) {
 	return (

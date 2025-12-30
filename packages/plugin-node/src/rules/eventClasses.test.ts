@@ -1,5 +1,5 @@
-import rule from "./eventClasses.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./eventClasses.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

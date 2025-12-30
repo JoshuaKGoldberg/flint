@@ -1,1 +1,1 @@
-export * from "./solid.ts";
+export * from "./solid.js";

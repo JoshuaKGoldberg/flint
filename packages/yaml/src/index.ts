@@ -1,2 +1,2 @@
-export { yamlLanguage } from "./language.ts";
-export { yaml } from "./plugin.ts";
+export { yamlLanguage } from "./language.js";
+export { yaml } from "./plugin.js";

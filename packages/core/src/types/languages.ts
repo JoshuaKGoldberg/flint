@@ -1,15 +1,15 @@
 import type { PromiseOrSync } from "@flint.fyi/utils";
 
-import type { CommentDirective } from "./directives.ts";
-import type { FileReport, NormalizedReport } from "./reports.ts";
-import type {
+import { CommentDirective } from "./directives.js";
+import { FileReport, NormalizedReport } from "./reports.js";
+import {
 	AnyRule,
 	AnyRuleDefinition,
 	Rule,
 	RuleAbout,
 	RuleDefinition,
-} from "./rules.ts";
-import type { AnyOptionalSchema, InferredObject } from "./shapes.ts";
+} from "./rules.js";
+import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 export type AnyLanguage = Language<object, object>;
 

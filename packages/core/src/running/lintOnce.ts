@@ -1,14 +1,14 @@
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 
-import { readFromCache } from "../cache/readFromCache.ts";
-import { writeToCache } from "../cache/writeToCache.ts";
-import type { ProcessedConfigDefinition } from "../types/configs.ts";
-import type { AnyLanguage } from "../types/languages.ts";
-import type { FileResults, LintResults } from "../types/linting.ts";
-import { computeUseDefinitions } from "./computeUseDefinitions.ts";
-import { lintFile } from "./lintFile.ts";
-import { readGitignore } from "./readGitignore.ts";
+import { readFromCache } from "../cache/readFromCache.js";
+import { writeToCache } from "../cache/writeToCache.js";
+import { ProcessedConfigDefinition } from "../types/configs.js";
+import { AnyLanguage } from "../types/languages.js";
+import { FileResults, LintResults } from "../types/linting.js";
+import { computeUseDefinitions } from "./computeUseDefinitions.js";
+import { lintFile } from "./lintFile.js";
+import { readGitignore } from "./readGitignore.js";
 
 const log = debugForFile(import.meta.filename);
 

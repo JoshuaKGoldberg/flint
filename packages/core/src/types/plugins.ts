@@ -1,6 +1,6 @@
-import type { FilesValue } from "./files.ts";
-import type { AnyRule, Rule, RuleAbout } from "./rules.ts";
-import type { AnyOptionalSchema, InferredObject } from "./shapes.ts";
+import { FilesValue } from "./files.js";
+import { AnyRule, Rule, RuleAbout } from "./rules.js";
+import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 
 export interface Plugin<
 	About extends RuleAbout,

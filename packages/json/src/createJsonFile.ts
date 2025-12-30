@@ -1,11 +1,11 @@
-import type {
+import {
 	LanguageFileDefinition,
 	NormalizedReport,
 	RuleReport,
 } from "@flint.fyi/core";
 import * as ts from "typescript";
 
-import { normalizeRange } from "./normalizeRange.ts";
+import { normalizeRange } from "./normalizeRange.js";
 
 // TODO: Eventually, it might make sense to use a native speed JSON parser.
 // The standard TypeScript language will likely use that itself.

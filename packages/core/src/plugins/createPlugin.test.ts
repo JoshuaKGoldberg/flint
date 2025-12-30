@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import z from "zod";
 
-import { createLanguage } from "../languages/createLanguage.ts";
-import { createPlugin } from "./createPlugin.ts";
+import { createLanguage } from "../languages/createLanguage.js";
+import { createPlugin } from "./createPlugin.js";
 
 const stubLanguage = createLanguage({
 	about: { name: "Stub" },

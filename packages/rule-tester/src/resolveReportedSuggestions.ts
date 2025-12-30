@@ -1,14 +1,14 @@
 import {
 	applyChangesToText,
 	isSuggestionForFiles,
-	type NormalizedReport,
+	NormalizedReport,
 	type SuggestionForFiles,
 } from "@flint.fyi/core";
 import { isTruthy } from "@flint.fyi/utils";
 
-import type { TestCaseNormalized } from "./normalizeTestCase.ts";
-import { isTestSuggestionForFiles } from "./predicates.ts";
-import type { InvalidTestCase, TestSuggestionFileCase } from "./types.ts";
+import { TestCaseNormalized } from "./normalizeTestCase.js";
+import { isTestSuggestionForFiles } from "./predicates.js";
+import { InvalidTestCase, TestSuggestionFileCase } from "./types.js";
 
 export function resolveReportedSuggestions(
 	reports: NormalizedReport[],

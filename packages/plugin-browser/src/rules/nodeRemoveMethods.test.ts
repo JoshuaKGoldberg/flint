@@ -1,5 +1,5 @@
-import rule from "./nodeRemoveMethods.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./nodeRemoveMethods.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

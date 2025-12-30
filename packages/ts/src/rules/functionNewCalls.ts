@@ -1,12 +1,9 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.ts";
-import {
-	type TypeScriptFileServices,
-	typescriptLanguage,
-} from "../language.ts";
-import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.ts";
-import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.ts";
+import { getTSNodeRange } from "../getTSNodeRange.js";
+import { TypeScriptFileServices, typescriptLanguage } from "../language.js";
+import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
+import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.js";
 
 export default typescriptLanguage.createRule({
 	about: {

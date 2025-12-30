@@ -1,5 +1,5 @@
-import rule from "./ariaHiddenFocusables.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./ariaHiddenFocusables.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

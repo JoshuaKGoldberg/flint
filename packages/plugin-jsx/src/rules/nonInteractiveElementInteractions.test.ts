@@ -1,5 +1,5 @@
-import rule from "./nonInteractiveElementInteractions.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./nonInteractiveElementInteractions.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

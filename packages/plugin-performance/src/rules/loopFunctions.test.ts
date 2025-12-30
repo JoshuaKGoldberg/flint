@@ -1,5 +1,5 @@
-import rule from "./loopFunctions.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./loopFunctions.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 
-import { declarationIncludesGlobal } from "./declarationIncludesGlobal.ts";
+import { declarationIncludesGlobal } from "./declarationIncludesGlobal.js";
 
 /**
  * TODO: Use a scope analyzer (#400).

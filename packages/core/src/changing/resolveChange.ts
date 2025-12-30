@@ -1,7 +1,7 @@
 import * as fs from "node:fs/promises";
 
-import type { Change, ResolvedChange } from "../types/changes.ts";
-import { isSuggestionForFiles } from "../utils/predicates.ts";
+import { Change, ResolvedChange } from "../types/changes.js";
+import { isSuggestionForFiles } from "../utils/predicates.js";
 
 export async function resolveChange(
 	change: Change,

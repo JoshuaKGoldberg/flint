@@ -1,5 +1,6 @@
-import type { CharacterReportRange } from "@flint.fyi/core";
 import type * as ts from "typescript";
+
+import { CharacterReportRange } from "@flint.fyi/core";
 
 export function getTSNodeRange(
 	node: ts.Node,

@@ -1,5 +1,5 @@
-import rule from "./altTexts.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./altTexts.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

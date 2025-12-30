@@ -1,5 +1,5 @@
-import rule from "./processExits.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./processExits.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

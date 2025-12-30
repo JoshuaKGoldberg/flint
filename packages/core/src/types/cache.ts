@@ -1,5 +1,5 @@
-import type { LanguageFileDiagnostic } from "./languages.ts";
-import type { FileReport } from "./reports.ts";
+import { LanguageFileDiagnostic } from "./languages.js";
+import { FileReport } from "./reports.js";
 
 export interface CacheStorage {
 	configs: Record<string, number>;

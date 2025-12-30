@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.ts";
-import rule from "./voidOperator.ts";
+import { ruleTester } from "./ruleTester.js";
+import rule from "./voidOperator.js";
 
 ruleTester.describe(rule, {
 	invalid: [

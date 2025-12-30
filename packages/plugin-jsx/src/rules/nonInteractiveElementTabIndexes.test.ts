@@ -1,5 +1,5 @@
-import rule from "./nonInteractiveElementTabIndexes.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./nonInteractiveElementTabIndexes.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

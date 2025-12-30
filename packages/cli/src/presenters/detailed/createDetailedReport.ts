@@ -1,10 +1,10 @@
-import type { FileReport } from "@flint.fyi/core";
+import { FileReport } from "@flint.fyi/core";
 import chalk from "chalk";
 
-import { ColorCodes, indenter } from "./constants.ts";
-import { formatCode } from "./formatCode.ts";
-import { formatSuggestion } from "./formatSuggestion.ts";
-import { wrapIfNeeded } from "./wrapIfNeeded.ts";
+import { ColorCodes, indenter } from "./constants.js";
+import { formatCode } from "./formatCode.js";
+import { formatSuggestion } from "./formatSuggestion.js";
+import { wrapIfNeeded } from "./wrapIfNeeded.js";
 
 export async function* createDetailedReport(
 	report: FileReport,

@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.ts";
-import { hasSameTokens } from "../utils/hasSameTokens.ts";
+import { typescriptLanguage } from "../language.js";
+import { hasSameTokens } from "../utils/hasSameTokens.js";
 
 export default typescriptLanguage.createRule({
 	about: {

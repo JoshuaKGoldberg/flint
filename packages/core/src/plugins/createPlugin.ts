@@ -1,6 +1,6 @@
-import type { FilesValues } from "../types/files.ts";
-import type { Plugin, PluginPresets } from "../types/plugins.ts";
-import type { Rule, RuleAbout } from "../types/rules.ts";
+import { FilesValues } from "../types/files.js";
+import { Plugin, PluginPresets } from "../types/plugins.js";
+import { Rule, RuleAbout } from "../types/rules.js";
 
 export type CreatePluginOptions<
 	About extends RuleAbout,

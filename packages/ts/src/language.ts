@@ -1,9 +1,9 @@
 import { createLanguage } from "@flint.fyi/core";
-import type * as ts from "typescript";
+import * as ts from "typescript";
 
-import type { TSNodesByName } from "./nodes.ts";
-import { prepareTypeScriptBasedLanguage } from "./prepareTypeScriptBasedLanguage.ts";
-import { prepareTypeScriptFile } from "./prepareTypeScriptFile.ts";
+import { TSNodesByName } from "./nodes.js";
+import { prepareTypeScriptBasedLanguage } from "./prepareTypeScriptBasedLanguage.js";
+import { prepareTypeScriptFile } from "./prepareTypeScriptFile.js";
 
 export interface TypeScriptFileServices {
 	program: ts.Program;

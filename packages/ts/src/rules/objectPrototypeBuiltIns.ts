@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.ts";
-import { typescriptLanguage } from "../language.ts";
+import { getTSNodeRange } from "../getTSNodeRange.js";
+import { typescriptLanguage } from "../language.js";
 
 const prototypeMethods = new Set([
 	"hasOwnProperty",

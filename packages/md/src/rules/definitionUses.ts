@@ -1,7 +1,8 @@
 import type { Definition, ImageReference, Node, Root } from "mdast";
 
-import { markdownLanguage } from "../language.ts";
-import type { WithPosition } from "../nodes.ts";
+import type { WithPosition } from "../nodes.js";
+
+import { markdownLanguage } from "../language.js";
 
 export default markdownLanguage.createRule({
 	about: {

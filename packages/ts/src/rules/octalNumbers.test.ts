@@ -1,5 +1,5 @@
-import rule from "./octalNumbers.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./octalNumbers.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

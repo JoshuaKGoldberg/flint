@@ -1,10 +1,11 @@
-import { createLanguage } from "@flint.fyi/core";
-import fsSync from "node:fs";
 import type * as yamlParser from "yaml-unist-parser";
 
-import { createYamlFile } from "./createYamlFile.ts";
-import type { YamlNodesByName } from "./nodes.ts";
-import { prepareYamlFile } from "./prepareYamlFile.ts";
+import { createLanguage } from "@flint.fyi/core";
+import fsSync from "node:fs";
+
+import { createYamlFile } from "./createYamlFile.js";
+import { YamlNodesByName } from "./nodes.js";
+import { prepareYamlFile } from "./prepareYamlFile.js";
 
 export interface YamlServices {
 	root: yamlParser.Root;

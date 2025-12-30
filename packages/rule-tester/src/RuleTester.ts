@@ -1,4 +1,4 @@
-import type {
+import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
@@ -9,11 +9,11 @@ import type {
 import { CachedFactory } from "cached-factory";
 import assert from "node:assert/strict";
 
-import { createReportSnapshot } from "./createReportSnapshot.ts";
-import { normalizeTestCase } from "./normalizeTestCase.ts";
-import { resolveReportedSuggestions } from "./resolveReportedSuggestions.ts";
-import { runTestCaseRule } from "./runTestCaseRule.ts";
-import type { InvalidTestCase, TestCase, ValidTestCase } from "./types.ts";
+import { createReportSnapshot } from "./createReportSnapshot.js";
+import { normalizeTestCase } from "./normalizeTestCase.js";
+import { resolveReportedSuggestions } from "./resolveReportedSuggestions.js";
+import { runTestCaseRule } from "./runTestCaseRule.js";
+import { InvalidTestCase, TestCase, ValidTestCase } from "./types.js";
 
 export interface RuleTesterOptions {
 	defaults?: {

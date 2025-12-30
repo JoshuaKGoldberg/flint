@@ -1,5 +1,5 @@
-import rule from "./anchorContent.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./anchorContent.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

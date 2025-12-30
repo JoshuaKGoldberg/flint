@@ -1,8 +1,8 @@
 import { textLanguage } from "@flint.fyi/text";
 import { parseJsonSafe } from "@flint.fyi/utils";
-import type { DocumentValidator } from "cspell-lib";
+import { DocumentValidator } from "cspell-lib";
 
-import { createDocumentValidator } from "./createDocumentValidator.ts";
+import { createDocumentValidator } from "./createDocumentValidator.js";
 
 interface CSpellConfigLike {
 	words?: string[];

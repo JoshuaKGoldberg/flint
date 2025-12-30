@@ -1,5 +1,5 @@
-import rule from "./anyReturns.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./anyReturns.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

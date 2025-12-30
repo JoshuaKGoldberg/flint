@@ -1,5 +1,5 @@
-import rule from "./objectCalls.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./objectCalls.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

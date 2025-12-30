@@ -1,6 +1,6 @@
-import type { FormattingResults, LintResults } from "@flint.fyi/core";
+import { FormattingResults, LintResults } from "@flint.fyi/core";
 
-import type { Presenter } from "../presenters/types.ts";
+import { Presenter } from "../presenters/types.js";
 
 export interface Renderer {
 	announce(): void;

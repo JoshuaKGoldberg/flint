@@ -1,5 +1,5 @@
-import rule from "./accessKeys.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./accessKeys.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

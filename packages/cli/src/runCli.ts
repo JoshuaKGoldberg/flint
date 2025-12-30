@@ -1,11 +1,11 @@
 import { parseArgs } from "node:util";
 
 import packageData from "../package.json" with { type: "json" };
-import { findConfigFileName } from "./findConfigFileName.ts";
-import { options } from "./options.ts";
-import { createRendererFactory } from "./renderers/createRendererFactory.ts";
-import { runCliOnce } from "./runCliOnce.ts";
-import { runCliWatch } from "./runCliWatch.ts";
+import { findConfigFileName } from "./findConfigFileName.js";
+import { options } from "./options.js";
+import { createRendererFactory } from "./renderers/createRendererFactory.js";
+import { runCliOnce } from "./runCliOnce.js";
+import { runCliWatch } from "./runCliWatch.js";
 
 export async function runCli(args: string[]) {
 	const { values } = parseArgs({

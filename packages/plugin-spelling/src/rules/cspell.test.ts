@@ -1,6 +1,6 @@
 /* cspell:disable */
-import rule from "./cspell.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./cspell.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

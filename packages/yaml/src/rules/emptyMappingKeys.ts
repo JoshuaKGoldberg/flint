@@ -1,4 +1,4 @@
-import { yamlLanguage } from "../language.ts";
+import { yamlLanguage } from "../language.js";
 
 export default yamlLanguage.createRule({
 	about: {

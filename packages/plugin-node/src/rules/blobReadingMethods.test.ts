@@ -1,5 +1,5 @@
-import rule from "./blobReadingMethods.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./blobReadingMethods.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

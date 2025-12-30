@@ -1,5 +1,5 @@
-import rule from "./ariaProps.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./ariaProps.js";
+import { ruleTester } from "./ruleTester.js";
 
 // cspell:disable -- Testing misspellings of ARIA attributes
 ruleTester.describe(rule, {

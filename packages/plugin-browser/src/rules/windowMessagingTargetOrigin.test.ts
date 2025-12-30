@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.ts";
-import rule from "./windowMessagingTargetOrigin.ts";
+import { ruleTester } from "./ruleTester.js";
+import rule from "./windowMessagingTargetOrigin.js";
 
 ruleTester.describe(rule, {
 	invalid: [

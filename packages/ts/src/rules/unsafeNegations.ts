@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.ts";
-import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.ts";
+import { typescriptLanguage } from "../language.js";
+import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.js";
 
 const operatorStrings = new Map([
 	[ts.SyntaxKind.InKeyword, "in"],

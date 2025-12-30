@@ -1,5 +1,5 @@
-import rule from "./commentTextNodes.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./commentTextNodes.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

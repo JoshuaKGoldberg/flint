@@ -1,6 +1,6 @@
 import chalk from "chalk";
 
-import { ColorCodes } from "./constants.ts";
+import { ColorCodes } from "./constants.js";
 
 export function formatSuggestion(suggestion: string) {
 	return [

@@ -2,7 +2,7 @@ import { cacheFilePath } from "@flint.fyi/core";
 import chalk from "chalk";
 import fs from "node:fs";
 
-import type { PresenterInitializeContext } from "../types.ts";
+import { PresenterInitializeContext } from "../types.js";
 
 export function* presentHeader({
 	configFileName,

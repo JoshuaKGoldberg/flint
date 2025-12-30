@@ -1,8 +1,8 @@
 import { createLanguage } from "@flint.fyi/core";
 import fsSync from "node:fs";
 
-import { createTextFile } from "./createTextFile.ts";
-import type { TextNodes, TextServices } from "./types.ts";
+import { createTextFile } from "./createTextFile.js";
+import { TextNodes, TextServices } from "./types.js";
 
 export const textLanguage = createLanguage<TextNodes, TextServices>({
 	about: {

@@ -1,5 +1,5 @@
-import rule from "./documentCookies.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./documentCookies.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

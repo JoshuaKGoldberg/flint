@@ -1,5 +1,5 @@
-import rule from "./functionCurryingRedundancy.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./functionCurryingRedundancy.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

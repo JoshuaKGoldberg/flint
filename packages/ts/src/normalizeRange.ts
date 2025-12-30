@@ -1,9 +1,10 @@
-import {
-	type CharacterReportRange,
-	getColumnAndLineOfPosition,
-	type NormalizedReportRangeObject,
-} from "@flint.fyi/core";
 import type * as ts from "typescript";
+
+import {
+	CharacterReportRange,
+	getColumnAndLineOfPosition,
+	NormalizedReportRangeObject,
+} from "@flint.fyi/core";
 
 export function normalizeRange(
 	original: CharacterReportRange,

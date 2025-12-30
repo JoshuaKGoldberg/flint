@@ -1,5 +1,5 @@
-import rule from "./distractingElements.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./distractingElements.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

@@ -1,7 +1,7 @@
-import type { FileResults } from "@flint.fyi/core";
+import { FileResults } from "@flint.fyi/core";
 import { styleText } from "node:util";
 
-import { pluralize } from "../pluralize.ts";
+import { pluralize } from "../pluralize.js";
 
 export function* presentDiagnostics(filesResults: Map<string, FileResults>) {
 	const diagnostics = Array.from(filesResults.values()).flatMap(

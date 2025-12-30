@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.ts";
-import rule from "./shadowedRestrictedNames.ts";
+import { ruleTester } from "./ruleTester.js";
+import rule from "./shadowedRestrictedNames.js";
 
 ruleTester.describe(rule, {
 	invalid: [

@@ -1,4 +1,4 @@
-import { markdownLanguage } from "../language.ts";
+import { markdownLanguage } from "../language.js";
 
 export default markdownLanguage.createRule({
 	about: {

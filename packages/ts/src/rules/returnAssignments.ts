@@ -1,9 +1,9 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.ts";
-import { typescriptLanguage } from "../language.ts";
-import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.ts";
+import { getTSNodeRange } from "../getTSNodeRange.js";
+import { typescriptLanguage } from "../language.js";
+import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.js";
 
 export default typescriptLanguage.createRule({
 	about: {

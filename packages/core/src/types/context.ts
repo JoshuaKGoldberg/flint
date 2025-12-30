@@ -1,4 +1,4 @@
-import type { RuleReport } from "./reports.ts";
+import { RuleReport } from "./reports.js";
 
 export interface RuleContext<MessageId extends string> {
 	report: RuleReporter<MessageId>;

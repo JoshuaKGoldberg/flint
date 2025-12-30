@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.ts";
-import rule from "./unsafeNegations.ts";
+import { ruleTester } from "./ruleTester.js";
+import rule from "./unsafeNegations.js";
 
 ruleTester.describe(rule, {
 	invalid: [

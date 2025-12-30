@@ -1,5 +1,5 @@
-import rule from "./mediaSyntaxReversals.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./mediaSyntaxReversals.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

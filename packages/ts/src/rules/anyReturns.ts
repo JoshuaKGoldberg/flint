@@ -1,11 +1,11 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.ts";
-import { AnyType, discriminateAnyType } from "./utils/discriminateAnyType.ts";
-import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
-import { getThisExpression } from "./utils/getThisExpression.ts";
-import { isUnsafeAssignment } from "./utils/isUnsafeAssignment.ts";
+import { typescriptLanguage } from "../language.js";
+import { AnyType, discriminateAnyType } from "./utils/discriminateAnyType.js";
+import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.js";
+import { getThisExpression } from "./utils/getThisExpression.js";
+import { isUnsafeAssignment } from "./utils/isUnsafeAssignment.js";
 
 export default typescriptLanguage.createRule({
 	about: {

@@ -1,11 +1,11 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.ts";
+import { typescriptLanguage } from "../language.js";
 import {
 	isComparisonOperator,
 	isEqualityOperator,
 	isNegatedEqualityOperator,
-} from "./utils/operators.ts";
+} from "./utils/operators.js";
 
 function isNegativeZero(node: ts.Node): boolean {
 	return (

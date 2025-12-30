@@ -1,1 +1,1 @@
-export * from "./performance.ts";
+export * from "./performance.js";

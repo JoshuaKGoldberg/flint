@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"allowImportingTsExtensions": false,
 		"baseUrl": ".",
 		"composite": true,
 		"jsx": "react-jsx",
@@ -9,8 +10,7 @@
 			"~/*": ["src/*"]
 		},
 		"target": "esnext",
-		"customConditions": ["@flint.fyi/source"],
-		"emitDeclarationOnly": true
+		"customConditions": ["@flint.fyi/source"]
 	},
 	"extends": "astro/tsconfigs/strict",
 	"include": [".astro/types.d.ts", "*.config.*", "src"],

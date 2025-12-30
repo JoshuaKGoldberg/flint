@@ -1,13 +1,13 @@
-import type {
+import {
 	CommentDirective,
 	CommentDirectiveWithinFile,
-} from "../types/directives.ts";
-import type { FileReport } from "../types/reports.ts";
-import { computeDirectiveRanges } from "./computeDirectiveRanges.ts";
-import { createSelectionMatcher } from "./createSelectionMatcher.ts";
-import { isCommentDirectiveWithinFile } from "./predicates.ts";
-import { selectionMatchesDirectiveRanges } from "./selectionMatchesDirectiveRanges.ts";
-import { selectionMatchesReport } from "./selectionMatchesReport.ts";
+} from "../types/directives.js";
+import { FileReport } from "../types/reports.js";
+import { computeDirectiveRanges } from "./computeDirectiveRanges.js";
+import { createSelectionMatcher } from "./createSelectionMatcher.js";
+import { isCommentDirectiveWithinFile } from "./predicates.js";
+import { selectionMatchesDirectiveRanges } from "./selectionMatchesDirectiveRanges.js";
+import { selectionMatchesReport } from "./selectionMatchesReport.js";
 
 export class DirectivesFilterer {
 	#directivesForRanges: CommentDirectiveWithinFile[] = [];

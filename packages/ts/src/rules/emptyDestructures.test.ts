@@ -1,5 +1,5 @@
-import rule from "./emptyDestructures.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./emptyDestructures.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

@@ -1,6 +1,6 @@
-import type { FilesComputer, FilesGlobObject } from "../types/files.ts";
-import { flatten } from "../utils/arrays.ts";
-import { collectFilesValues } from "./collectFilesValues.ts";
+import { FilesComputer, FilesGlobObject } from "../types/files.js";
+import { flatten } from "../utils/arrays.js";
+import { collectFilesValues } from "./collectFilesValues.js";
 
 export const all: FilesComputer = (config): FilesGlobObject => {
 	const exclude = new Set<string>();

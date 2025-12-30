@@ -1,6 +1,6 @@
-import { typescriptLanguage } from "../language.ts";
-import { hasSameTokens } from "../utils/hasSameTokens.ts";
-import { isComparisonOperator } from "./utils/operators.ts";
+import { typescriptLanguage } from "../language.js";
+import { hasSameTokens } from "../utils/hasSameTokens.js";
+import { isComparisonOperator } from "./utils/operators.js";
 
 export default typescriptLanguage.createRule({
 	about: {

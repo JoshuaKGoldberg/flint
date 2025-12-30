@@ -1,5 +1,5 @@
-import rule from "./labelReferenceValidity.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./labelReferenceValidity.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

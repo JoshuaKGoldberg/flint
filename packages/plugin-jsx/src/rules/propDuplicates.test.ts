@@ -1,5 +1,5 @@
-import rule from "./propDuplicates.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./propDuplicates.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.ts";
-import rule from "./scriptUrls.ts";
+import { ruleTester } from "./ruleTester.js";
+import rule from "./scriptUrls.js";
 
 ruleTester.describe(rule, {
 	invalid: [

@@ -2,8 +2,8 @@ import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 import * as prettier from "prettier";
 
-import type { FormattingResults } from "../types/formatting.ts";
-import type { LintResultsMaybeWithChanges } from "../types/linting.ts";
+import { FormattingResults } from "../types/formatting.js";
+import { LintResultsMaybeWithChanges } from "../types/linting.js";
 
 const log = debugForFile(import.meta.filename);
 

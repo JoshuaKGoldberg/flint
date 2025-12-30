@@ -1,4 +1,4 @@
-import type { TestSuggestion, TestSuggestionForFiles } from "./types.ts";
+import { TestSuggestion, TestSuggestionForFiles } from "./types.js";
 
 export function isTestSuggestionForFiles(
 	suggestion: TestSuggestion,

@@ -1,7 +1,7 @@
-import { type FileResults, hasFix } from "@flint.fyi/core";
+import { FileResults, hasFix } from "@flint.fyi/core";
 import { styleText } from "node:util";
 
-import { pluralize } from "../../presenters/pluralize.ts";
+import { pluralize } from "../../presenters/pluralize.js";
 
 export function printSummary(filesWithReportResults: [string, FileResults][]) {
 	const counts = {

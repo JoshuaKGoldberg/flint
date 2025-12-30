@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.ts";
-import rule from "./sparseArrays.ts";
+import { ruleTester } from "./ruleTester.js";
+import rule from "./sparseArrays.js";
 
 ruleTester.describe(rule, {
 	invalid: [

@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.ts";
-import rule from "./spreadAccumulators.ts";
+import { ruleTester } from "./ruleTester.js";
+import rule from "./spreadAccumulators.js";
 
 ruleTester.describe(rule, {
 	invalid: [

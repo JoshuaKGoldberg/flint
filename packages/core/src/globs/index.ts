@@ -1,3 +1,3 @@
-import { all } from "./all.ts";
+import { all } from "./all.js";
 
 export const globs = { all };

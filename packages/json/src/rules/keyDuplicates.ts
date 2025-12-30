@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 import z from "zod";
 
-import { jsonLanguage } from "../language.ts";
+import { jsonLanguage } from "../language.js";
 
 export default jsonLanguage.createRule({
 	about: {

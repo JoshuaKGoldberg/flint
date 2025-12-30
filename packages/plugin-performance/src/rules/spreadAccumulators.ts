@@ -1,4 +1,4 @@
-import { type TypeScriptFileServices, typescriptLanguage } from "@flint.fyi/ts";
+import { TypeScriptFileServices, typescriptLanguage } from "@flint.fyi/ts";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 

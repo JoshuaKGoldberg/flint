@@ -1,5 +1,5 @@
-import rule from "./keyboardEventKeys.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./keyboardEventKeys.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

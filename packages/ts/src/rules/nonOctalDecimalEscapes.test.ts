@@ -1,5 +1,5 @@
-import rule from "./nonOctalDecimalEscapes.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./nonOctalDecimalEscapes.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

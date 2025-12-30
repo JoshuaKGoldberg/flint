@@ -1,9 +1,9 @@
-import type { FileReport } from "@flint.fyi/core";
+import { FileReport } from "@flint.fyi/core";
 import * as shikiCli from "@shikijs/cli";
 import chalk from "chalk";
 import { styleText } from "node:util";
 
-import { ColorCodes, indenter } from "./constants.ts";
+import { ColorCodes, indenter } from "./constants.js";
 
 // TODO: make reactive
 const leftWidth = 7;

@@ -1,4 +1,4 @@
-import type { Config } from "../types/configs.ts";
+import { Config } from "../types/configs.js";
 
 export function isConfig(value: unknown): value is Config {
 	return (

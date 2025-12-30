@@ -1,5 +1,5 @@
-import rule from "./octalEscapes.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./octalEscapes.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

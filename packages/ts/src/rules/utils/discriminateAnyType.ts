@@ -1,13 +1,12 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-export const AnyType = {
-	Any: "Any",
-	AnyArray: "AnyArray",
-	PromiseAny: "PromiseAny",
-	Safe: "Safe",
-} as const;
-export type AnyType = (typeof AnyType)[keyof typeof AnyType];
+export enum AnyType {
+	Any,
+	PromiseAny,
+	AnyArray,
+	Safe,
+}
 
 /**
  * @returns `AnyType.Any` if the type is `any`, `AnyType.AnyArray` if the type is `any[]` or `readonly any[]`, `AnyType.PromiseAny` if the type is `Promise&lt;any>`,

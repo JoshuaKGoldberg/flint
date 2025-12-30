@@ -1,5 +1,5 @@
-import rule from "./roleRedundancies.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./roleRedundancies.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

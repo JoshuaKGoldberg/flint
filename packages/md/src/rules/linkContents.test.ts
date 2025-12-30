@@ -1,5 +1,5 @@
-import rule from "./linkContents.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./linkContents.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

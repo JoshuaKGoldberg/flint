@@ -1,5 +1,5 @@
-import rule from "./chainedAssignments.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./chainedAssignments.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

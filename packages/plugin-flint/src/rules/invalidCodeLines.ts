@@ -1,8 +1,9 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-import { getRuleTesterDescribedCases } from "../getRuleTesterDescribedCases.ts";
-import type { ParsedTestCaseInvalid } from "../types.ts";
+import type { ParsedTestCaseInvalid } from "../types.js";
+
+import { getRuleTesterDescribedCases } from "../getRuleTesterDescribedCases.js";
 
 export default typescriptLanguage.createRule({
 	about: {

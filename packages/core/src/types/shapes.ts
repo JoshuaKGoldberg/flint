@@ -1,4 +1,4 @@
-import type { z } from "zod";
+import { z } from "zod";
 
 /**
  * Any object containing Zod schemas that are optional.

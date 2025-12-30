@@ -1,5 +1,5 @@
-import rule from "./debuggerStatements.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./debuggerStatements.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

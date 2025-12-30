@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.ts";
-import rule from "./unnecessaryBlocks.ts";
+import { ruleTester } from "./ruleTester.js";
+import rule from "./unnecessaryBlocks.js";
 
 ruleTester.describe(rule, {
 	invalid: [

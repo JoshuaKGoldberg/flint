@@ -1,4 +1,4 @@
-import type { FileReport } from "../types/reports.ts";
+import { FileReport } from "../types/reports.js";
 
 // TODO: There's got to be a better way.
 // Maybe an existing common one like minimatch?

@@ -1,5 +1,5 @@
-import rule from "./roleRequiredAriaProps.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./roleRequiredAriaProps.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

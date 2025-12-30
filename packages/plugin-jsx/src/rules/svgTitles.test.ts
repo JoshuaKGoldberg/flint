@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.ts";
-import rule from "./svgTitles.ts";
+import { ruleTester } from "./ruleTester.js";
+import rule from "./svgTitles.js";
 
 ruleTester.describe(rule, {
 	invalid: [

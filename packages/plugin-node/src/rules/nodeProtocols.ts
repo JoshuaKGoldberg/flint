@@ -1,7 +1,7 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-import { isDeclaredInNodeTypes } from "./utils/isDeclaredInNodeTypes.ts";
+import { isDeclaredInNodeTypes } from "./utils/isDeclaredInNodeTypes.js";
 
 const nodeBuiltinModules = new Set([
 	"assert",

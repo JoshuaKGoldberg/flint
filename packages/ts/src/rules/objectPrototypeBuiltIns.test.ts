@@ -1,5 +1,5 @@
-import rule from "./objectPrototypeBuiltIns.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./objectPrototypeBuiltIns.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

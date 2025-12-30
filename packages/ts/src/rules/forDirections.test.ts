@@ -1,5 +1,5 @@
-import rule from "./forDirections.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./forDirections.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

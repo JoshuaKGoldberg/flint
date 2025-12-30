@@ -3,7 +3,7 @@ import { describe, expect, test, vi } from "vitest";
 import {
 	getColumnAndLineOfPosition,
 	getPositionOfColumnAndLine,
-} from "./getColumnAndLineOfPosition.ts";
+} from "./getColumnAndLineOfPosition.js";
 
 describe("getColumnAndLineOfPosition", () => {
 	test("negative position", () => {

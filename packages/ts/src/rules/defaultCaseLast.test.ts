@@ -1,5 +1,5 @@
-import rule from "./defaultCaseLast.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./defaultCaseLast.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

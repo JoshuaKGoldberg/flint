@@ -1,5 +1,5 @@
-import rule from "./keyNormalization.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./keyNormalization.js";
+import { ruleTester } from "./ruleTester.js";
 
 // cspell:ignore café cafè naïve piñata résumé
 

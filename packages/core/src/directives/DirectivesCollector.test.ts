@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import type { NormalizedReportRangeObject } from "../types/reports.ts";
-import { DirectivesCollector } from "./DirectivesCollector.ts";
-import { directiveReports } from "./reports/directiveReports.ts";
+import { NormalizedReportRangeObject } from "../types/reports.js";
+import { DirectivesCollector } from "./DirectivesCollector.js";
+import { directiveReports } from "./reports/directiveReports.js";
 
 function createRange(forPosition: number) {
 	return {

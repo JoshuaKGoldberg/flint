@@ -1,5 +1,5 @@
-import rule from "./fileReadJSONBuffers.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./fileReadJSONBuffers.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

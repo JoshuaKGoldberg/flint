@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import type { FileReport } from "../types/reports.ts";
-import { DirectivesFilterer } from "./DirectivesFilterer.ts";
+import { FileReport } from "../types/reports.js";
+import { DirectivesFilterer } from "./DirectivesFilterer.js";
 
 function createReport(forLine: number, id: string) {
 	return {

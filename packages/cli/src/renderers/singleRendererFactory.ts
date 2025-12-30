@@ -1,6 +1,6 @@
 import * as fs from "node:fs/promises";
 
-import type { RendererFactory } from "./types.ts";
+import { RendererFactory } from "./types.js";
 
 export const singleRendererFactory: RendererFactory = {
 	about: {

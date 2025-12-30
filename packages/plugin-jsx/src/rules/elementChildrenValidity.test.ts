@@ -1,5 +1,5 @@
-import rule from "./elementChildrenValidity.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./elementChildrenValidity.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [

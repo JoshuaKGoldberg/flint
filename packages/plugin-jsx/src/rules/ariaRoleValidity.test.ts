@@ -1,5 +1,5 @@
-import rule from "./ariaRoleValidity.ts";
-import { ruleTester } from "./ruleTester.ts";
+import rule from "./ariaRoleValidity.js";
+import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(rule, {
 	invalid: [
