@@ -154,6 +154,13 @@ In that case we'll transition Flint to a full open source project to stand along
 Another success case would be that some or all of the hypothesis are proven wrong.
 In that case we'll feel more confident that traditional linters such as ESLint and/or native speed linters such as Biome and Oxlint are the way to go.
 
+### Current Status
+
+Flint is very early stage.
+Many features have not yet been implemented.
+
+Don't expect Flint to be ready to alpha test for several months from now, at the earliest.
+
 ### Getting Involved
 
 If you're interested in helping build out a new experimental linter, we'd love to have you join us.
