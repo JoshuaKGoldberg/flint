@@ -15,7 +15,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsdown",
-		"flint": "node packages/flint/bin/index.js",
+		"flint": "node --conditions='@flint.fyi/source' packages/flint/bin/index.js",
 		"lint": "eslint . --max-warnings 0",
 		"lint:knip": "knip",
 		"lint:packages": "pnpm dedupe --check",

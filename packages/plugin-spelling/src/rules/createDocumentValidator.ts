@@ -2,7 +2,7 @@ import { toFileDirURL, toFileURL } from "@cspell/url";
 import {
 	checkFilenameMatchesGlob,
 	createTextDocument,
-	CSpellSettings,
+	type CSpellSettings,
 	DocumentValidator,
 } from "cspell-lib";
 import path from "node:path";

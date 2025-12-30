@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
-import { isFunction } from "../utils/isFunction.js";
+import { typescriptLanguage } from "../language.ts";
+import { isFunction } from "../utils/isFunction.ts";
 
 export default typescriptLanguage.createRule({
 	about: {

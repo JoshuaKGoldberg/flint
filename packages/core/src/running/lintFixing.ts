@@ -1,9 +1,9 @@
 import { debugForFile } from "debug-for-file";
 
-import { applyChangesToFiles } from "../changing/applyChangesToFiles.js";
-import { ProcessedConfigDefinition } from "../types/configs.js";
-import { LintResultsWithChanges } from "../types/linting.js";
-import { lintOnce } from "./lintOnce.js";
+import { applyChangesToFiles } from "../changing/applyChangesToFiles.ts";
+import type { ProcessedConfigDefinition } from "../types/configs.ts";
+import type { LintResultsWithChanges } from "../types/linting.ts";
+import { lintOnce } from "./lintOnce.ts";
 
 const log = debugForFile(import.meta.filename);
 

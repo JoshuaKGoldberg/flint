@@ -1,7 +1,7 @@
 import { assertType, describe, expectTypeOf, it } from "vitest";
 
-import { FilesValue } from "../types/files.js";
-import { createPlugin } from "./createPlugin.js";
+import type { FilesValue } from "../types/files.ts";
+import { createPlugin } from "./createPlugin.ts";
 
 describe("createPlugin", () => {
 	it("should type files as undefined w/o files property", () => {

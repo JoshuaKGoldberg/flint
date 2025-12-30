@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo.json",
+		"rootDir": "src/",
+		"outDir": "lib/",
+		"types": ["node"]
+	},
+	"extends": "../../tsconfig.base.json",
+	"include": ["src"],
+	"exclude": ["src/**/*.test.ts"],
+	"references": [{ "path": "../core" }, { "path": "../rule-tester" }]
+}

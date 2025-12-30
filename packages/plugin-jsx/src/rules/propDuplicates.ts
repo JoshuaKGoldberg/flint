@@ -1,6 +1,6 @@
 import {
 	getTSNodeRange,
-	TypeScriptFileServices,
+	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";

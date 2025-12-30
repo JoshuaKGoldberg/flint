@@ -1,6 +1,6 @@
-import { AnyLevelDeep } from "./arrays.js";
-import { FilesValue } from "./files.js";
-import { AnyRule } from "./rules.js";
+import type { AnyLevelDeep } from "./arrays.ts";
+import type { FilesValue } from "./files.ts";
+import type { AnyRule } from "./rules.ts";
 
 export interface Config {
 	definition: ConfigDefinition;

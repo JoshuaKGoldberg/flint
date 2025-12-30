@@ -1,8 +1,8 @@
 import { isTruthy } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
-import { findProperty } from "./findProperty.js";
-import { parseTestCase, parseTestCaseInvalid } from "./parseTestCases.js";
+import { findProperty } from "./findProperty.ts";
+import { parseTestCase, parseTestCaseInvalid } from "./parseTestCases.ts";
 
 export function getRuleTesterDescribedCases(node: ts.CallExpression) {
 	if (

@@ -3,14 +3,14 @@ import { debugForFile } from "debug-for-file";
 import * as fs from "node:fs/promises";
 import path from "node:path";
 
-import {
+import type {
 	ConfigRuleDefinition,
 	ConfigUseDefinition,
 	ProcessedConfigDefinition,
-} from "../types/configs.js";
-import { flatten } from "../utils/arrays.js";
-import { readGitignore } from "./readGitignore.js";
-import { resolveUseFilesGlobs } from "./resolveUseFilesGlobs.js";
+} from "../types/configs.ts";
+import { flatten } from "../utils/arrays.ts";
+import { readGitignore } from "./readGitignore.ts";
+import { resolveUseFilesGlobs } from "./resolveUseFilesGlobs.ts";
 
 const log = debugForFile(import.meta.filename);
 
