@@ -23,6 +23,7 @@
 	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/ts-patch": "workspace:",
 		"@typescript-eslint/project-service": "^8.46.2",
 		"@typescript/vfs": "^1.6.1",
 		"@volar/language-core": "2.4.27",

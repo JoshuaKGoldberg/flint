@@ -4,8 +4,6 @@ import {
 	flatten,
 	createLanguage,
 	Language,
-	setTSProgramCreationProxy,
-	LanguagePreparedDefinition,
 	RuleReporter,
 	LanguageFileCacheImpacts,
 	LanguageDiagnostics,
@@ -20,6 +18,7 @@ import {
 	RuleReport,
 	isSuggestionForFiles,
 } from "@flint.fyi/core";
+import { setTSProgramCreationProxy } from "@flint.fyi/ts-patch";
 import * as ts from "typescript";
 import {
 	LanguagePlugin as VolarLanguagePlugin,

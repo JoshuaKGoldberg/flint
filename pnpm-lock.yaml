@@ -588,6 +588,9 @@ importers:
       '@flint.fyi/core':
         specifier: 'workspace:'
         version: link:../core
+      '@flint.fyi/ts-patch':
+        specifier: 'workspace:'
+        version: link:../ts-patch
       '@typescript-eslint/project-service':
         specifier: ^8.46.2
         version: 8.50.1(patch_hash=cadeb65c3b6848828ad5574161fb60ac925894a54a076179f189d14e509be53c)(typescript@5.9.3)
@@ -639,6 +642,9 @@ importers:
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
+      '@flint.fyi/ts-patch':
+        specifier: 'workspace:'
+        version: link:../ts-patch
       '@volar/language-core':
         specifier: 2.4.27
         version: 2.4.27

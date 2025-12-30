@@ -17,6 +17,7 @@
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/ts": "workspace:",
+		"@flint.fyi/ts-patch": "workspace:",
 		"@volar/language-core": "2.4.27",
 		"@volar/typescript": "2.4.27",
 		"@vue/compiler-dom": "^3.5.0",

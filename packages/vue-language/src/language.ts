@@ -10,10 +10,9 @@ import {
 	RuleContext,
 	RuleReport,
 	RuleReporter,
-	setTSExtraSupportedExtensions,
-	setTSProgramCreationProxy,
 	SourceFileWithLineMap,
 } from "@flint.fyi/core";
+import { setTSExtraSupportedExtensions } from "@flint.fyi/ts-patch";
 import {
 	Language as VolarLanguage,
 	Mapper as VolarMapper,
