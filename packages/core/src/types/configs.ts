@@ -22,8 +22,8 @@ export interface ConfigRuleDefinitionObject {
 }
 
 export interface ConfigUseDefinition {
-	files?: AnyLevelDeep<FilesValue>;
-	rules?: AnyLevelDeep<ConfigRuleDefinition>;
+	files: AnyLevelDeep<FilesValue>;
+	rules: AnyLevelDeep<ConfigRuleDefinition>;
 }
 
 /**

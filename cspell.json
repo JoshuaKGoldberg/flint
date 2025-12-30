@@ -32,6 +32,7 @@
 		"aria-valuetext",
 		"attw",
 		"autolinks",
+		"auvred",
 		"azat-io",
 		"bday",
 		"contentinfo",
@@ -42,6 +43,7 @@
 		"idlist",
 		"impp",
 		"joshuakgoldberg",
+		"lishaduck",
 		"mdast",
 		"menuitemcheckbox",
 		"menuitemradio",
@@ -56,6 +58,7 @@
 		"subtag",
 		"subtags",
 		"treegrid",
+		"tsgolint",
 		"webauthn",
 		"WHATWG"
 	]
