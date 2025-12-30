@@ -139,7 +139,7 @@ Flint aims to reduce complexity and user pain in three ways:
 - Flint coordinates a formatter ([Prettier](https://prettier.io)) out-of-the-box, running on all files being linted
 - Flint allows languages to surface "diagnostics" such as TypeScript's type errors as part of linting as well
 
-Flint's hypothesis is that providing one centralized place to coordinate all those tasks, users' repositories will become simpler and benefit from faster and less complex CI workflows.
+Flint's hypothesis is that by providing one centralized place to coordinate all those tasks, users' repositories will become simpler and benefit from faster and less complex CI workflows.
 
 ## The Flint Project
 
