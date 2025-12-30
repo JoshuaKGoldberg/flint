@@ -6,11 +6,26 @@ import {
 	Language,
 	setTSProgramCreationProxy,
 	LanguagePreparedDefinition,
+	RuleReporter,
+	LanguageFileCacheImpacts,
+	LanguageDiagnostics,
+	CommentDirective,
+	NormalizedReport,
+	RuleContext,
+	FileReport,
+	SourceFileWithLineMap,
+	CharacterReportRange,
+	NormalizedReportRangeObject,
+	getColumnAndLineOfPosition,
+	RuleReport,
+	isSuggestionForFiles,
 } from "@flint.fyi/core";
 import * as ts from "typescript";
 import {
 	LanguagePlugin as VolarLanguagePlugin,
 	Language as VolarLanguage,
+	Mapper as VolarMapper,
+	SourceScript as VolarSourceScript,
 } from "@volar/language-core";
 
 import { TSNodesByName } from "./nodes.js";
@@ -23,6 +38,7 @@ import { proxyCreateProgram } from "@volar/typescript/lib/node/proxyCreateProgra
 
 // for LanguagePlugin interface augmentation
 import "@volar/typescript";
+import { NodeSyntaxKinds } from "./createTypeScriptFileFromProgram.js";
 
 export interface TypeScriptFileServices {
 	program: ts.Program;
@@ -38,7 +54,18 @@ type VolarLanguagePluginInitializer = (
 	prepareFile: (
 		filePathAbsolute: string,
 		tsFile: TypeScriptBasedLanguageFile,
-	) => LanguagePreparedDefinition;
+		sourceScript: VolarSourceScript<string> & {
+			generated: NonNullable<VolarSourceScript<string>["generated"]>;
+		},
+	) => {
+		directives?: CommentDirective[];
+		reports?: FileReport[];
+		cache?: LanguageFileCacheImpacts;
+		getDiagnostics?(): LanguageDiagnostics;
+		extraContext?: (
+			reportTranslated: RuleReporter<string>,
+		) => Record<string, unknown>;
+	};
 };
 const volarLanguagePluginInitializers =
 	new Set<VolarLanguagePluginInitializer>();
@@ -130,8 +157,184 @@ export const typescriptLanguage = createLanguage<
 					if (sourceScript != null) {
 						const prepareFile =
 							sourceScript.generated?.languagePlugin?.__flintPrepareFile;
-						if (prepareFile != null) {
-							return prepareFile(filePathAbsolute, tsFile);
+						if (sourceScript.generated != null && prepareFile != null) {
+							if (sourceScript.snapshot == null) {
+								throw new Error("Expected sourceScript.snapshot to be set");
+							}
+							if (sourceScript.generated.languagePlugin.typescript == null) {
+								throw new Error(
+									"Expected sourceScript.generated.languagePlugin.typescript to be set",
+								);
+							}
+
+							const sourceText = sourceScript.snapshot.getText(
+								0,
+								sourceScript.snapshot.getLength(),
+							);
+							const sourceTextWithLineMap: SourceFileWithLineMap = {
+								text: sourceText,
+							};
+							function normalizeSourceRange(
+								range: CharacterReportRange,
+							): NormalizedReportRangeObject {
+								return {
+									begin: getColumnAndLineOfPosition(
+										sourceTextWithLineMap,
+										range.begin,
+									),
+									end: getColumnAndLineOfPosition(
+										sourceTextWithLineMap,
+										range.end,
+									),
+								};
+							}
+
+							const serviceScript =
+								sourceScript.generated.languagePlugin.typescript.getServiceScript(
+									sourceScript.generated.root,
+								);
+							if (serviceScript == null) {
+								throw new Error("Expected serviceScript to exist");
+							}
+
+							const map = volarLanguage.maps.get(
+								serviceScript.code,
+								sourceScript,
+							);
+							const sortedMappings = map.mappings.toSorted(
+								(a, b) => a.generatedOffsets[0] - b.generatedOffsets[0],
+							);
+							const {
+								directives,
+								reports,
+								extraContext,
+								getDiagnostics,
+								cache,
+							} = (
+								prepareFile as ReturnType<VolarLanguagePluginInitializer>["prepareFile"]
+							)(filePathAbsolute, tsFile, sourceScript);
+
+							return {
+								directives,
+								reports,
+								file: {
+									cache,
+									getDiagnostics,
+									async runRule(rule, options) {
+										const reports: NormalizedReport[] = [];
+										const context = {
+											program: tsFile.program,
+											sourceFile: tsFile.sourceFile,
+											typeChecker: tsFile.program.getTypeChecker(),
+											report: (report) => {
+												const reportRange = translateRange(
+													map,
+													report.range.begin,
+													report.range.end,
+												);
+												if (reportRange == null) {
+													return;
+												}
+
+												const translatedReport: NormalizedReport = {
+													...report,
+													fix:
+														report.fix && !Array.isArray(report.fix)
+															? [report.fix]
+															: report.fix,
+													message: rule.messages[report.message],
+													range: normalizeSourceRange(reportRange),
+												};
+
+												for (const suggestion of translatedReport.suggestions ??
+													[]) {
+													if (isSuggestionForFiles(suggestion)) {
+														throw new Error(
+															"TODO: vue - suggestions for multiple files are not yet supported",
+														);
+													}
+													const range = translateRange(
+														map,
+														suggestion.range.begin,
+														suggestion.range.end,
+													);
+													if (range == null) {
+														// TODO: maybe we should filter out these suggestions intead of erroring?
+														throw new Error(
+															"Suggestion range overlaps with virtual code",
+														);
+													}
+													suggestion.range = range;
+												}
+
+												reports.push(translatedReport);
+											},
+											...extraContext?.((report: RuleReport) => {
+												reports.push({
+													...report,
+													fix:
+														report.fix && !Array.isArray(report.fix)
+															? [report.fix]
+															: report.fix,
+													message: rule.messages[report.message],
+													range: normalizeSourceRange(report.range),
+												});
+											}),
+										} satisfies TypeScriptFileServices & RuleContext<string>;
+
+										const runtime = await rule.setup(context, options);
+
+										if (runtime?.visitors) {
+											const { visitors } = runtime;
+											let lastMappingIdx = 0;
+											const visit = (node: ts.Node) => {
+												visitors[NodeSyntaxKinds[node.kind]]?.(node, context);
+
+												node.forEachChild(visit);
+											};
+											// Visit only statements that have a mapping to the source code
+											// to avoid doing extra work
+											Statements: for (const statement of tsFile.sourceFile
+												.statements) {
+												while (true) {
+													const currentMapping = sortedMappings[lastMappingIdx];
+													if (currentMapping == null) {
+														break Statements;
+													}
+													const currentMappingLength =
+														currentMapping.generatedLengths?.[0] ??
+														currentMapping.lengths[0];
+													if (
+														currentMappingLength === 0 ||
+														statement.pos >=
+															currentMapping.generatedOffsets[0] +
+																currentMappingLength
+													) {
+														lastMappingIdx++;
+														continue;
+													}
+													if (
+														statement.end <= currentMapping.generatedOffsets[0]
+													) {
+														continue Statements;
+													}
+													break;
+												}
+
+												visit(statement);
+											}
+											visit(tsFile.sourceFile.endOfFileToken);
+										}
+
+										await runtime?.teardown?.();
+
+										return reports;
+									},
+									[Symbol.dispose]() {
+										tsFile[Symbol.dispose]?.();
+									},
+								},
+							};
 						}
 					}
 				}
@@ -163,4 +366,22 @@ export function createTypeScriptBasedLanguage<
 	};
 
 	return language;
+}
+
+export function translateRange(
+	map: VolarMapper,
+	serviceBegin: number,
+	serviceEnd: number,
+): null | { begin: number; end: number } {
+	for (const [begin, end] of map.toSourceRange(
+		serviceBegin,
+		serviceEnd,
+		true,
+	)) {
+		if (begin === end) {
+			continue;
+		}
+		return { begin, end };
+	}
+	return null;
 }
