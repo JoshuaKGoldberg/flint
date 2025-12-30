@@ -143,7 +143,7 @@ Flint's hypothesis is that by providing one centralized place to coordinate all 
 
 ## The Flint Project
 
-The goal of the Flint project is to _test its hypothesis_.
+The goal of the Flint project is to _test its hypotheses_.
 Flint is run by a set of independent volunteer maintainers as a fully open source project.
 We are not associated with any one company, and not pressured by funding to achieve any level of adoption in industry.
 
