@@ -104,7 +104,7 @@ The core rules bundling from linters like Biome and Oxlint is a step in the righ
 - Their JSON-based configuration systems make it difficult to explicitly determine which categories of rules are enabled
 - Their rules still aren't a full representation of all the various ecosystem rules that ESLint users have created
 
-Flint's approach for plugins is that all rules which apply to a super-majority of users of the linter should be built worked on in the core project.
+Flint's approach for plugins is that all rules which apply to a super-majority of users of the linter should be built in the core project.
 By being created as part of the core project, the plugins both become more easily discoverable and will have a much more consistent look and feel for users.
 
 To fully support that larger effort, the Flint project:
