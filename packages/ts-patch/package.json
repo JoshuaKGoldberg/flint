@@ -23,6 +23,7 @@
 		"#proxy-program": "./lib/proxy-program.js"
 	},
 	"exports": {
+		".": "./lib/index.js",
 		"./install-patch": "./lib/install-patch.js",
 		"./install-patch-hooks": "./lib/install-patch-hooks.js"
 	},

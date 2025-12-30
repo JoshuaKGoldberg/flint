@@ -11,14 +11,14 @@ registerHooks({
 		if (
 			url !== typescriptUrl ||
 			next.source == null ||
-			typeof next.source !== "string"
+			!(next.source instanceof Buffer)
 		) {
 			return next;
 		}
 
 		return {
 			...next,
-			source: transformTscContent(next.source),
+			source: transformTscContent(next.source.toString()),
 		};
 	},
 });
