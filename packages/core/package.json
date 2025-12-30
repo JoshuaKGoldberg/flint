@@ -44,10 +44,7 @@
 	"publishConfig": {
 		"access": "public",
 		"exports": {
-			".": "./lib/index.js",
-			"./ts-patch/install-patch": "./lib/ts-patch/install-patch.js",
-			"./ts-patch/install-patch-hooks": "./lib/ts-patch/install-patch-hooks.js",
-			"./ts-patch/proxy-program": "./lib/ts-patch/proxy-program.js"
+			".": "./lib/index.js"
 		},
 		"provenance": true
 	}

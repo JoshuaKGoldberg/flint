@@ -1,16 +1,8 @@
 {
-	"compilerOptions": {
-		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
-		"rootDir": "src/",
-		"outDir": "lib/",
-		"types": []
-	},
 	"extends": "../../tsconfig.base.json",
-	"include": ["src"],
+	"include": [],
 	"references": [
-		{ "path": "../core" },
-		{ "path": "../rule-tester" },
-		{ "path": "../ts" },
-		{ "path": "../utils" }
+		{ "path": "./tsconfig.src.json" },
+		{ "path": "./tsconfig.test.json" }
 	]
 }

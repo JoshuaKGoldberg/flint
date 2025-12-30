@@ -26,6 +26,10 @@
 		}
 	},
 	"exports": {
+		".": {
+			"@flint.fyi/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		},
 		"./install-patch": {
 			"@flint.fyi/source": "./src/install-patch.ts",
 			"default": "./lib/install-patch.js"
@@ -52,6 +56,7 @@
 	"publishConfig": {
 		"access": "public",
 		"exports": {
+			".": "./lib/index.js",
 			"./install-patch": "./lib/install-patch.js",
 			"./install-patch-hooks": "./lib/install-patch-hooks.js"
 		},

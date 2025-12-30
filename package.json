@@ -5,7 +5,7 @@
 	"description": "[Experimental] Monorepo for Flint: a fast, friendly linter. ❤️‍🔥",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/JoshuaKGoldberg/flint.git"
+		"url": "git+https://github.com/flint-fyi/flint.git"
 	},
 	"license": "MIT",
 	"author": {

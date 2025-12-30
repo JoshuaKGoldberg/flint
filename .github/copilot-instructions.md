@@ -134,7 +134,7 @@ Also, if something is based on `node.attribute.properties`, call it `property`, 
 ## Pull Requests
 
 **Make sure all scripts are passing before considering work done**!
-All `package.json` scripts that will be run in CI should pass: `pnpm build`, `pnpm lint`, `pnpm flint`, `pnpm lint:knip`, `pnpm lint:md`, `pnpm lint:packages`.
+All `package.json` scripts that will be run in CI should pass: `pnpm build`, `pnpm lint`, `pnpm flint`, `pnpm lint:knip`, and `pnpm lint:packages`.
 
 If you've made any code/file changes, re-run all those scripts to validate they pass _before_ re-requesting review.
 

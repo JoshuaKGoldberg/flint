@@ -1,15 +1,14 @@
 {
 	"compilerOptions": {
-		"tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo.test.json",
+		"tsBuildInfoFile": "node_modules/.cache/tsbuild/info.test.json",
 		"rootDir": "src/",
-		"outDir": "lib/",
+		"outDir": "node_modules/.cache/tsbuild/test",
 		"types": ["node"],
 		"erasableSyntaxOnly": false
 	},
 	"extends": "../../tsconfig.base.json",
-	"include": ["src/**/*.test.ts"],
+	"include": ["src/**/*.test.ts", "src/rules/ruleTester.ts"],
 	"references": [
-		{ "path": "../core" },
 		{ "path": "../rule-tester" },
 		{ "path": "./tsconfig.src.json" }
 	]

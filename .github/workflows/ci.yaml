@@ -40,6 +40,7 @@ jobs:
       - uses: ./.github/actions/prepare
       - run: pnpm run build # https://github.com/vitest-dev/vitest/discussions/9353
       - run: pnpm run test
+
 name: CI
 
 on:
