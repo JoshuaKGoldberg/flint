@@ -169,4 +169,14 @@ We're happy to assist you.
 
 Flint can receive donations on its [Open Collective](https://opencollective.com/flintfyi).
 Your financial support will allow us to pay our volunteer contributors and maintainers to tackle more Flint work.
-And as thanks, we put our sponsors on the [flint.fyi homepage](/).
+As thanks, we'll put you under a sponsors list on the [flint.fyi homepage](/).
+
+### Further Reading
+
+For more complete explanations on why Flint is experimenting with hybrid linting, see:
+
+1. [Hybrid Linters: The Best of Both Worlds](https://www.joshuakgoldberg.com/blog/hybrid-linters-the-best-of-both-worlds)
+2. [If I Wrote a Linter, Part 1: Architecture](https://www.joshuakgoldberg.com/blog/if-i-wrote-a-linter-part-1-architecture)
+3. [If I Wrote a Linter, Part 2: Developer Experience](https://www.joshuakgoldberg.com/blog/if-i-wrote-a-linter-part-2-developer-experience)
+4. [If I Wrote a Linter, Part 3: Ecosystem](https://www.joshuakgoldberg.com/blog/if-i-wrote-a-linter-part-3-ecosystem)
+5. [If I Wrote a Linter, Part 4: Summary](https://www.joshuakgoldberg.com/blog/if-i-wrote-a-linter-part-4-summary)
