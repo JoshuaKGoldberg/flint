@@ -25,7 +25,7 @@ export default defineConfig({
 					authors: {
 						joshuakgoldberg: {
 							name: "Josh Goldberg",
-							picture: "/josh.webp",
+							picture: "/team/joshuakgoldberg.webp",
 							title: "Creator & Maintainer",
 							url: "https://joshuakgoldberg.com",
 						},
@@ -42,6 +42,7 @@ export default defineConfig({
 								{ label: "Configuration", link: "configuration" },
 								{ label: "Glossary", link: "glossary" },
 								{ label: "FAQs", link: "faqs" },
+								{ label: "Team", link: "team" },
 							],
 							label: "About",
 							link: "about",
