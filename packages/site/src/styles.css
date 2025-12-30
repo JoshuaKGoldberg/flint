@@ -49,4 +49,5 @@ table code {
 .hero img {
 	max-height: 15rem;
 	object-position: right;
+	user-select: none;
 }
