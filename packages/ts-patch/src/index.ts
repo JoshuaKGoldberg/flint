@@ -1,4 +1,4 @@
 export {
-	setTSProgramCreationProxy,
 	setTSExtraSupportedExtensions,
+	setTSProgramCreationProxy,
 } from "./proxy-program.js";
