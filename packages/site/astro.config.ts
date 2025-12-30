@@ -30,6 +30,7 @@ export default defineConfig({
 							{ label: "Configuration", link: "configuration" },
 							{ label: "Glossary", link: "glossary" },
 							{ label: "FAQs", link: "faqs" },
+							{ label: "Team", link: "team" },
 						],
 						label: "About",
 						link: "about",
