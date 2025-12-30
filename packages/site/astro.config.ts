@@ -25,7 +25,7 @@ export default defineConfig({
 					authors: {
 						joshuakgoldberg: {
 							name: "Josh Goldberg",
-							picture: "/josh.webp",
+							picture: "/team/joshuakgoldberg.webp",
 							title: "Creator & Maintainer",
 							url: "https://joshuakgoldberg.com",
 						},
