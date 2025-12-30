@@ -19,6 +19,7 @@
 		"lint": "eslint . --max-warnings 0",
 		"lint:knip": "knip",
 		"lint:packages": "pnpm dedupe --check",
+		"lint:spelling": "cspell \"**\" \".github/**/*\"",
 		"prepare": "husky",
 		"test": "vitest --typecheck"
 	},
