@@ -9,6 +9,11 @@ overrides:
   read-pkg: 10.0.0
   unicorn-magic: 0.4.0
 
+patchedDependencies:
+  '@typescript-eslint/project-service@8.50.1':
+    hash: cadeb65c3b6848828ad5574161fb60ac925894a54a076179f189d14e509be53c
+    path: patches/@typescript-eslint__project-service@8.50.1.patch
+
 importers:
 
   .:
@@ -574,7 +579,7 @@ importers:
         version: link:../rule-tester
       '@typescript-eslint/project-service':
         specifier: ^8.46.2
-        version: 8.50.1(typescript@5.9.3)
+        version: 8.50.1(patch_hash=cadeb65c3b6848828ad5574161fb60ac925894a54a076179f189d14e509be53c)(typescript@5.9.3)
       '@typescript/vfs':
         specifier: ^1.6.1
         version: 1.6.1(typescript@5.9.3)
@@ -6674,7 +6679,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/project-service@8.50.1(typescript@5.9.3)':
+  '@typescript-eslint/project-service@8.50.1(patch_hash=cadeb65c3b6848828ad5574161fb60ac925894a54a076179f189d14e509be53c)(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.50.1(typescript@5.9.3)
       '@typescript-eslint/types': 8.50.1
@@ -6734,7 +6739,7 @@ snapshots:
 
   '@typescript-eslint/typescript-estree@8.50.1(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/project-service': 8.50.1(typescript@5.9.3)
+      '@typescript-eslint/project-service': 8.50.1(patch_hash=cadeb65c3b6848828ad5574161fb60ac925894a54a076179f189d14e509be53c)(typescript@5.9.3)
       '@typescript-eslint/tsconfig-utils': 8.50.1(typescript@5.9.3)
       '@typescript-eslint/types': 8.50.1
       '@typescript-eslint/visitor-keys': 8.50.1

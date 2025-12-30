@@ -84,6 +84,9 @@
 			"read-package-up": "12.0.0",
 			"read-pkg": "10.0.0",
 			"unicorn-magic": "0.4.0"
+		},
+		"patchedDependencies": {
+			"@typescript-eslint/project-service@8.50.1": "patches/@typescript-eslint__project-service@8.50.1.patch"
 		}
 	}
 }

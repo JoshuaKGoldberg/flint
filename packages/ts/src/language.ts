@@ -18,18 +18,18 @@ export const typescriptLanguage = createLanguage<
 	about: {
 		name: "TypeScript",
 	},
-	prepare: () => {
-		const lang = prepareTypeScriptBasedLanguage();
+	prepare: (host) => {
+		const lang = prepareTypeScriptBasedLanguage(host);
 
 		return {
-			prepareFromDisk(filePathAbsolute) {
-				return prepareTypeScriptFile(lang.createFromDisk(filePathAbsolute));
+			prepareFile(filePathAbsolute) {
+				return prepareTypeScriptFile(lang.createFile(filePathAbsolute));
 			},
-			prepareFromVirtual(filePathAbsolute, sourceText) {
-				return prepareTypeScriptFile(
-					lang.createFromVirtual(filePathAbsolute, sourceText),
-				);
-			},
+			// prepareFromVirtual(filePathAbsolute, sourceText) {
+			// 	return prepareTypeScriptFile(
+			// 		lang.createFromVirtual(filePathAbsolute, sourceText),
+			// 	);
+			// },
 		};
 	},
 });

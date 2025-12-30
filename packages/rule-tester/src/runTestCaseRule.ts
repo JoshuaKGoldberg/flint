@@ -4,6 +4,7 @@ import {
 	AnyRule,
 	InferredObject,
 	LanguageFileFactory,
+	LinterHost,
 	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
@@ -21,6 +22,7 @@ export function runTestCaseRule<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 >(
 	fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
+	linterHost: LinterHost,
 	{ options, rule }: Required<TestCaseRuleConfiguration<OptionsSchema>>,
 	{ code, fileName }: TestCaseNormalized,
 ) {
@@ -29,7 +31,7 @@ export function runTestCaseRule<
 		// See AnyRule's any
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		.get(rule.language)
-		.prepareFromVirtual(fileName, code).file;
+		.prepareFile(fileName, code).file;
 
 	return file.runRule(rule, options as InferredObject<OptionsSchema>);
 }

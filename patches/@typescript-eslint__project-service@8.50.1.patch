@@ -1,0 +1,41 @@
+diff --git a/dist/createProjectService.d.ts b/dist/createProjectService.d.ts
+index 4a3aafa6dbab7af0af17fc038b516b40cb133576..0d1ee005c79fa1a04c9821fc101180721175d831 100644
+--- a/dist/createProjectService.d.ts
++++ b/dist/createProjectService.d.ts
+@@ -41,6 +41,7 @@ export interface CreateProjectServiceSettings {
+      * Root directory for the tsconfig.json file, if not the current directory.
+      */
+     tsconfigRootDir?: string;
++		host?: ts.server.ServerHost
+ }
+ /**
+  * Creates a new Project Service instance, as well as metadata on its creation.
+diff --git a/dist/createProjectService.js b/dist/createProjectService.js
+index 43ddcebe435eaecb159877d8008161abfddf96a5..b04f3e467dc8d09fe5fd23e669089e17815a55b3 100644
+--- a/dist/createProjectService.js
++++ b/dist/createProjectService.js
+@@ -31,7 +31,7 @@ const createStubFileWatcher = () => ({
+  * service.openClientFile('index.ts');
+  * ```
+  */
+-function createProjectService({ jsDocParsingMode, options: optionsRaw = {}, tsconfigRootDir, } = {}) {
++function createProjectService({ jsDocParsingMode, options: optionsRaw = {}, tsconfigRootDir, host = tsserver.sys } = {}) {
+     const options = {
+         defaultProject: 'tsconfig.json',
+         ...optionsRaw,
+@@ -45,7 +45,6 @@ function createProjectService({ jsDocParsingMode, options: optionsRaw = {}, tsco
+     // there's a whole separate update pass in maybeInvalidateProgram at the bottom of getWatchProgramsForProjects
+     // (this "goes nuclear on TypeScript")
+     const system = {
+-        ...tsserver.sys,
+         clearImmediate,
+         clearTimeout,
+         setImmediate,
+@@ -62,6 +61,7 @@ function createProjectService({ jsDocParsingMode, options: optionsRaw = {}, tsco
+                 module: undefined,
+             }),
+         }),
++        ...host,
+     };
+     const logger = {
+         close: doNothing,

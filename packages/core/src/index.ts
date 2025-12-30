@@ -16,6 +16,9 @@ export {
 	setTSExtraSupportedExtensions,
 	setTSProgramCreationProxy,
 } from "./ts-patch/proxy-program.js";
+export { createVFSLinterHost } from "./host/createVFSLinterHost.js";
+export { createFSBackedLinterHost } from "./host/createFSBackedLinterHost.js";
+export { normalizePath } from "./host/normalizePath.js";
 export * from "./types/about.js";
 export * from "./types/cache.js";
 export * from "./types/changes.js";
@@ -23,6 +26,7 @@ export * from "./types/configs.js";
 export * from "./types/context.js";
 export * from "./types/directives.js";
 export * from "./types/formatting.js";
+export * from "./types/host.js";
 export * from "./types/languages.js";
 export * from "./types/linting.js";
 export * from "./types/modes.js";

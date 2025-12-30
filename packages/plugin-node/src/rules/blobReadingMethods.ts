@@ -52,7 +52,7 @@ export default typescriptLanguage.createRule({
 					const methodName = node.expression.name.text;
 					if (
 						!blobReadingMethods.has(methodName) ||
-						!isGlobalDeclaration(node.expression.name, typeChecker)
+						!isGlobalDeclaration(receiver.expression, typeChecker)
 					) {
 						return;
 					}

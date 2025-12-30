@@ -23,29 +23,20 @@ export function createLanguage<AstNodesByName, ContextServices extends object>(
 			};
 		}) as CreateRule<AstNodesByName, ContextServices>,
 
-		prepare() {
+		prepare(host) {
 			log(
 				"Preparing file factory for language: %s",
 				languageDefinition.about.name,
 			);
 
-			const fileFactoryDefinition = languageDefinition.prepare();
+			const fileFactoryDefinition = languageDefinition.prepare(host);
 
 			log("Prepared file factory.");
 
 			const fileFactory = makeDisposable({
 				...fileFactoryDefinition,
-				prepareFromDisk: (filePathAbsolute: string) => {
-					const { file, ...rest } =
-						fileFactoryDefinition.prepareFromDisk(filePathAbsolute);
-
-					return {
-						file: makeDisposable(file),
-						...rest,
-					};
-				},
-				prepareFromVirtual: (filePathAbsolute: string, sourceText: string) => {
-					const { file, ...rest } = fileFactoryDefinition.prepareFromVirtual(
+				prepareFile: (filePathAbsolute: string, sourceText: string) => {
+					const { file, ...rest } = fileFactoryDefinition.prepareFile(
 						filePathAbsolute,
 						sourceText,
 					);
