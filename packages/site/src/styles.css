@@ -33,10 +33,21 @@
 
 /* General customizations. */
 :root {
-	--sl-content-width: 63rem;
+	--sl-content-width: 56rem;
 }
 
 table code {
 	background: none;
 	padding: 0;
+}
+
+/* Homepage (hero) customizations. */
+.hero {
+	padding-block: clamp(1.25rem, calc(0.5rem + 5vmin), 5rem);
+}
+
+.hero img {
+	max-height: 15rem;
+	object-position: right;
+	user-select: none;
 }

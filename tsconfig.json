@@ -3,7 +3,7 @@
 		"noEmit": true
 	},
 	"extends": "./tsconfig.base.json",
-	"include": ["./*.ts"],
+	"include": ["./*.ts", "packages/*/bin/index.js", "./@types/*/*.d.ts"],
 	"references": [
 		{ "path": "./packages/comparisons" },
 		{ "path": "./packages/core" },
@@ -24,6 +24,7 @@
 		{ "path": "./packages/plugin-spelling" },
 		{ "path": "./packages/text" },
 		{ "path": "./packages/ts" },
+		{ "path": "./packages/ts-patch" },
 		{ "path": "./packages/yaml" }
 	]
 }

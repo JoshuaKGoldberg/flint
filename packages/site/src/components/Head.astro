@@ -4,6 +4,8 @@ import Default from "@astrojs/starlight/components/Head.astro";
 
 export type Props = StarlightRouteData;
 
+const ogImage = new URL(`social.webp`, Astro.site).toString();
+
 const data = Astro.props.entry?.data ?? {
 	description: "[Experimental] A fast, friendly linter. ❤️‍🔥",
 	title: "Flint",
@@ -12,7 +14,9 @@ const data = Astro.props.entry?.data ?? {
 
 <Default {...Astro.props}><slot /></Default>
 
+<meta property="og:image" content={ogImage} />
 <meta property="twitter:domain" content={Astro.site} />
 <meta property="twitter:url" content={Astro.site} />
 <meta name="twitter:description" content={data.description} />
+<meta name="twitter:image" content={ogImage} />
 <meta name="twitter:title" content={data.title} />
