@@ -26,8 +26,7 @@
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/text": "workspace:",
 		"@flint.fyi/utils": "workspace:",
-		"cspell-lib": "^9.2.2",
-		"typescript": "^5.9.3"
+		"cspell-lib": "^9.2.2"
 	},
 	"devDependencies": {
 		"@flint.fyi/rule-tester": "workspace:",

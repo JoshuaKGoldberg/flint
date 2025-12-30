@@ -12,11 +12,7 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
-	"sideEffects": [
-		"./lib/ts-patch/install-patch.js",
-		"./lib/ts-patch/install-patch-hooks.js",
-		"./lib/ts-patch/proxy-program.ts"
-	],
+	"sideEffects": false,
 	"type": "module",
 	"exports": {
 		".": "./lib/index.js",
@@ -33,7 +29,6 @@
 		"debug-for-file": "^0.2.0",
 		"omit-empty": "^1.0.0",
 		"prettier": "3.7.4",
-		"typescript": "^5.9.3 || ^6.0.0",
 		"zod": "^4.2.1"
 	},
 	"devDependencies": {
