@@ -28,6 +28,7 @@ export function createRuleTesterTSHost(
 					lib: ["esnext"],
 					target: "esnext",
 					types: [],
+					moduleResolution: "bundler",
 					...opts.defaultCompilerOptions,
 				},
 			},

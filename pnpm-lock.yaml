@@ -583,6 +583,12 @@ importers:
       '@typescript/vfs':
         specifier: ^1.6.1
         version: 1.6.1(typescript@5.9.3)
+      '@volar/language-core':
+        specifier: 2.4.27
+        version: 2.4.27
+      '@volar/typescript':
+        specifier: 2.4.27
+        version: 2.4.27
       cached-factory:
         specifier: ^0.1.0
         version: 0.1.0

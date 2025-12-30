@@ -1,11 +1,5 @@
-import path from "node:path";
-
 import rule from "./asyncComputed.js";
 import { ruleTester } from "./ruleTester.js";
-
-// TODO: the default file.ts path is packages/vfs/file.ts, so imports from
-// the vue package cannot be resolved, because vue is located in packages/vue/node_modules
-const tsFileName = path.join(import.meta.dirname, "file.ts");
 
 ruleTester.describe(rule, {
 	invalid: [
@@ -15,7 +9,7 @@ import { computed } from 'vue'
 
 computed(async () => 'hello')
 			`,
-			fileName: tsFileName,
+			fileName: "file.ts",
 			snapshot: `
 import { computed } from 'vue'
 
@@ -96,7 +90,7 @@ computed(async () => 'hello')
 	import { computed } from 'vue'
 
 	computed(() => {
-		return fetch('https://example.com')
+		return Promise.resolve()
 	})
 </script>
 			`,
@@ -107,8 +101,8 @@ computed(async () => 'hello')
 	computed(() => {
 	         ~~~~~~~
 	         Asynchronous functions in computed properties can lead to loss of reactivity.
-		return fetch('https://example.com')
-		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		return Promise.resolve()
+		~~~~~~~~~~~~~~~~~~~~~~~~
 	})
 	~
 </script>
@@ -166,7 +160,7 @@ computed(async () => 'hello')
 	import { computed } from 'vue'
 
 	computed({
-		get: () => fetch('https://example.com'),
+		get: () => Promise.resolve(),
 		set: v => {},
 	})
 </script>
@@ -178,8 +172,8 @@ computed(async () => 'hello')
 	computed({
 	         ~
 	         Asynchronous functions in computed properties can lead to loss of reactivity.
-		get: () => fetch('https://example.com'),
-		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		get: () => Promise.resolve(),
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		set: v => {},
 		~~~~~~~~~~~~~
 	})
@@ -193,7 +187,7 @@ computed(async () => 'hello')
 	import { computed } from 'vue'
 
 	computed({
-		get: () => fetch('https://example.com'),
+		get: () => Promise.resolve(),
 		set: v => {},
 	}, {
 		onTrack(e) {
@@ -209,8 +203,8 @@ computed(async () => 'hello')
 	computed({
 	         ~
 	         Asynchronous functions in computed properties can lead to loss of reactivity.
-		get: () => fetch('https://example.com'),
-		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		get: () => Promise.resolve(),
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		set: v => {},
 		~~~~~~~~~~~~~
 	}, {

@@ -1,7 +1,9 @@
-import path from "node:path";
-
 import { ruleTester } from "./ruleTester.js";
 import rule from "./scriptSetupExports.js";
+
+const fixture = {
+	"fixture.ts": `export const foo = 1`,
+};
 
 ruleTester.describe(rule, {
 	invalid: [
@@ -119,6 +121,7 @@ ruleTester.describe(rule, {
 	export { foo } from './fixture'
 </script>
 			`,
+			files: fixture,
 			snapshot: `
 <script setup lang="ts">
 	export { foo } from './fixture'
@@ -133,6 +136,7 @@ ruleTester.describe(rule, {
 	export * from './fixture'
 </script>
 			`,
+			files: fixture,
 			snapshot: `
 <script setup lang="ts">
 	export * from './fixture'
@@ -153,6 +157,7 @@ ruleTester.describe(rule, {
 	export const bar = 2
 </script>
 			`,
+			files: fixture,
 			snapshot: `
 <script lang="ts">
 	export const foo = 1

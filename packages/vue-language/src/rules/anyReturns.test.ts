@@ -2,6 +2,16 @@ import rule from "../../../ts/lib/rules/anyReturns.js";
 import { vueLanguage } from "../language.js";
 import { ruleTester } from "./ruleTester.js";
 
+const myComponentFixture = {
+	"MyComponent.vue": `
+<script lang="ts" setup>
+defineProps<{ foo: () => string }>();
+</script>
+
+<template>Hello!</template>
+	`,
+};
+
 ruleTester.describe(vueLanguage.createRule(rule), {
 	invalid: [
 		{
@@ -34,6 +44,7 @@ ruleTester.describe(vueLanguage.createRule(rule), {
 	<MyComponent :foo="() => foo"/>
 </template>
 			`,
+			files: myComponentFixture,
 			snapshot: `
 <script lang="ts" setup>
 	import MyComponent from './MyComponent.vue'
@@ -63,6 +74,7 @@ ruleTester.describe(vueLanguage.createRule(rule), {
 	] as any"/>
 </template>
 			`,
+			files: myComponentFixture,
 			snapshot: `
 <script lang="ts" setup>
 	import MyComponent from './MyComponent.vue'
@@ -85,7 +97,8 @@ ruleTester.describe(vueLanguage.createRule(rule), {
 		},
 	],
 	valid: [
-		`
+		{
+			code: `
 <script lang="ts" setup>
 	import MyComponent from './MyComponent.vue'
 
@@ -93,6 +106,8 @@ ruleTester.describe(vueLanguage.createRule(rule), {
 		return MyComponent
 	}
 </script>
-		`,
+			`,
+			files: myComponentFixture,
+		},
 	],
 });
