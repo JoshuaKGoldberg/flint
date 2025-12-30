@@ -1,10 +1,12 @@
+import type { PromiseOrSync } from "@flint.fyi/utils";
+
 import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
 	InferredObject,
 	LanguageFileFactory,
-	LinterHost,
+	type NormalizedReport,
 	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
@@ -22,16 +24,15 @@ export function runTestCaseRule<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 >(
 	fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
-	linterHost: LinterHost,
 	{ options, rule }: Required<TestCaseRuleConfiguration<OptionsSchema>>,
 	{ code, fileName }: TestCaseNormalized,
-) {
+): PromiseOrSync<NormalizedReport[]> {
 	using file = fileFactories
 		// TODO: How to make types more permissive around assignability?
 		// See AnyRule's any
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		.get(rule.language)
-		.prepareFile(fileName, code).file;
+		.prepareFromVirtual(fileName, code).file;
 
 	return file.runRule(rule, options as InferredObject<OptionsSchema>);
 }

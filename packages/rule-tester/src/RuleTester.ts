@@ -3,7 +3,6 @@ import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
-	createFSBackedLinterHost,
 	createVFSLinterHost,
 	InferredObject,
 	LanguageFileFactory,
@@ -17,7 +16,7 @@ import assert from "node:assert/strict";
 import { createReportSnapshot } from "./createReportSnapshot.js";
 import { normalizeTestCase, TestCaseNormalized } from "./normalizeTestCase.js";
 import { resolveReportedSuggestions } from "./resolveReportedSuggestions.js";
-import { InvalidTestCase, TestCase, ValidTestCase } from "./types.js";
+import { InvalidTestCase, ValidTestCase } from "./types.js";
 
 export interface RuleTesterOptions {
 	defaults?: {

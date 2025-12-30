@@ -1,15 +1,11 @@
 {
-	"$schema": "https://unpkg.com/knip@5.61.2/schema.json",
-	"ignore": ["flint.config.*", "packages/fixtures/*"],
-	"ignoreDependencies": ["flint", "^@flint\\.fyi\\/.*"],
+	"$schema": "./node_modules/knip/schema.json",
+	"ignore": ["packages/fixtures/*"],
 	"ignoreExportsUsedInFile": { "interface": true, "type": true },
-	"ignoreUnresolved": [".*/lib/ts-patch/install-patch-hooks.js"],
+	"treatConfigHintsAsErrors": true,
 	"workspaces": {
-		"packages/core": {
-			"entry": [
-				"src/ts-patch/install-patch.ts",
-				"src/ts-patch/install-patch-hooks.ts"
-			]
+		".": {
+			"entry": ["flint.config.ts"]
 		},
 		"packages/comparisons": {
 			"entry": ["src/sort-data.ts"]

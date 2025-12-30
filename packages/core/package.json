@@ -1,10 +1,10 @@
 {
 	"name": "@flint.fyi/core",
-	"version": "0.16.0",
+	"version": "0.17.0",
 	"description": "[Experimental] Core building blocks for Flint.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
 		"directory": "packages/core"
 	},
 	"license": "MIT",
@@ -12,18 +12,28 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
+	"sideEffects": false,
 	"type": "module",
-	"main": "./lib/index.js",
+	"exports": {
+		".": "./lib/index.js",
+		"./ts-patch/install-patch": "./lib/ts-patch/install-patch.js",
+		"./ts-patch/install-patch-hooks": "./lib/ts-patch/install-patch-hooks.js"
+	},
+	"files": [
+		"lib/",
+		"!lib/**/*.map"
+	],
 	"dependencies": {
 		"@flint.fyi/utils": "workspace:",
 		"cached-factory": "^0.1.0",
 		"debug-for-file": "^0.2.0",
 		"omit-empty": "^1.0.0",
 		"prettier": "3.7.4",
-		"zod": "^4.1.12"
+		"zod": "^4.2.1"
 	},
 	"devDependencies": {
-		"@types/omit-empty": "1.0.4"
+		"@types/omit-empty": "1.0.4",
+		"vitest": "4.0.15"
 	},
 	"engines": {
 		"node": ">=24.0.0"

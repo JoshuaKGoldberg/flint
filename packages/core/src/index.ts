@@ -12,10 +12,6 @@ export { createPlugin } from "./plugins/createPlugin.js";
 export { formatReportPrimary } from "./reporting/formatReportPrimary.js";
 export { lintFixing } from "./running/lintFixing.js";
 export { lintOnce } from "./running/lintOnce.js";
-export {
-	setTSExtraSupportedExtensions,
-	setTSProgramCreationProxy,
-} from "./ts-patch/proxy-program.js";
 export { createVFSLinterHost } from "./host/createVFSLinterHost.js";
 export { createFSBackedLinterHost } from "./host/createFSBackedLinterHost.js";
 export { normalizePath } from "./host/normalizePath.js";

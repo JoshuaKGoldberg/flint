@@ -1,53 +1,49 @@
+import type { Linter } from "eslint";
+
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import eslint from "@eslint/js";
+import markdown from "@eslint/markdown";
 import vitest from "@vitest/eslint-plugin";
 import jsdoc from "eslint-plugin-jsdoc";
 import jsonc from "eslint-plugin-jsonc";
-import markdown from "eslint-plugin-markdown";
 import n from "eslint-plugin-n";
 import packageJson from "eslint-plugin-package-json";
 import perfectionist from "eslint-plugin-perfectionist";
 import * as regexp from "eslint-plugin-regexp";
 import yml from "eslint-plugin-yml";
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
-	{
-		ignores: [
-			"**/*.snap",
-			"**/node_modules",
-			"packages/*/.astro",
-			"packages/*/dist",
-			"packages/*/lib",
-			"packages/fixtures",
-			"pnpm-*.yaml",
-		],
-	},
+	globalIgnores([
+		"**/*.snap",
+		"**/node_modules",
+		"packages/*/.astro",
+		"packages/*/dist",
+		"packages/*/lib",
+		"packages/fixtures",
+		"pnpm-lock.yaml",
+	]),
 	{ linterOptions: { reportUnusedDisableDirectives: "error" } },
-	eslint.configs.recommended,
-	comments.recommended,
-	jsdoc.configs["flat/contents-typescript-error"],
-	jsdoc.configs["flat/logical-typescript-error"],
-	jsdoc.configs["flat/stylistic-typescript-error"],
-	jsonc.configs["flat/recommended-with-json"],
-	markdown.configs.recommended,
-	n.configs["flat/recommended"],
-	packageJson.configs.recommended,
-	perfectionist.configs["recommended-natural"],
-	regexp.configs["flat/recommended"],
 	{
 		extends: [
+			comments.recommended,
+			eslint.configs.recommended,
+			jsdoc.configs["flat/contents-typescript-error"],
+			jsdoc.configs["flat/logical-typescript-error"],
+			jsdoc.configs["flat/stylistic-typescript-error"],
+			n.configs["flat/recommended"],
+			// https://github.com/azat-io/eslint-plugin-perfectionist/issues/655
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			perfectionist.configs!["recommended-natural"] as Linter.Config,
+			regexp.configs["flat/recommended"],
 			tseslint.configs.strictTypeChecked,
 			tseslint.configs.stylisticTypeChecked,
 		],
 		files: ["**/*.{js,ts}"],
 		languageOptions: {
 			parserOptions: {
-				projectService: {
-					allowDefaultProject: ["*.config.js", "packages/*/bin/index.js"],
-				},
-				tsconfigRootDir: import.meta.dirname,
+				projectService: true,
 			},
 		},
 		rules: {
@@ -59,7 +55,6 @@ export default defineConfig(
 				"error",
 				{ allowNumber: true },
 			],
-			"n/no-extraneous-import": "off",
 			"n/no-missing-import": "off",
 			"n/no-unsupported-features/node-builtins": [
 				"error",
@@ -75,10 +70,38 @@ export default defineConfig(
 			"no-useless-rename": "error",
 			"object-shorthand": "error",
 			"operator-assignment": "error",
+
+			// https://github.com/eslint-community/eslint-plugin-n/issues/472
+			"n/no-unpublished-bin": "off",
 		},
 		settings: {
+			n: {
+				convertPath: [
+					{
+						exclude: ["**/ruleTester.ts", "**/*.test.ts", "**/*.test-d.ts"],
+						include: ["packages/*/src/**/*.ts"],
+						replace: ["src/(.+).ts$", "lib/$1.js"],
+					},
+				],
+			},
 			perfectionist: { partitionByComment: true, type: "natural" },
-			vitest: { typecheck: true },
+		},
+	},
+	{
+		extends: [jsonc.configs["flat/recommended-with-json"]],
+		files: ["**/*.json"],
+		ignores: ["**/tsconfig.json", "**/tsconfig.*.json"],
+	},
+	{
+		extends: [jsonc.configs["flat/recommended-with-jsonc"]],
+		files: ["**/tsconfig.json", "**/tsconfig.*.json", "**/*.jsonc"],
+	},
+	{
+		extends: [markdown.configs.recommended],
+		files: ["**/*.md"],
+		rules: {
+			// https://github.com/eslint/markdown/issues/294
+			"markdown/no-missing-label-refs": "off",
 		},
 	},
 	{
@@ -90,12 +113,13 @@ export default defineConfig(
 		extends: [vitest.configs.recommended],
 		files: ["**/*.test.*"],
 		rules: { "@typescript-eslint/no-unsafe-assignment": "off" },
+		settings: { vitest: { typecheck: true } },
 	},
 	{
 		extends: [yml.configs["flat/standard"], yml.configs["flat/prettier"]],
 		files: ["**/*.{yml,yaml}"],
 		rules: {
-			"yml/file-extension": ["error", { extension: "yml" }],
+			"yml/file-extension": "error",
 			"yml/sort-keys": [
 				"error",
 				{ order: { type: "asc" }, pathPattern: "^.*$" },
@@ -105,5 +129,12 @@ export default defineConfig(
 				{ order: { type: "asc" }, pathPattern: "^.*$" },
 			],
 		},
+	},
+	{
+		extends: [packageJson.configs.recommended, packageJson.configs.stylistic],
+	},
+	{
+		extends: [packageJson.configs["recommended-publishable"]],
+		files: [["packages/*/package.json", "!packages/site/package.json"]],
 	},
 );

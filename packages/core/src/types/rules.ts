@@ -1,7 +1,8 @@
+import type { PromiseOrSync } from "@flint.fyi/utils";
+
 import { BaseAbout } from "./about.js";
 import { RuleContext } from "./context.js";
 import { Language } from "./languages.js";
-import { PromiseOrSync } from "./promises.js";
 import { ReportMessageData } from "./reports.js";
 import { AnyOptionalSchema, InferredObject } from "./shapes.js";
 

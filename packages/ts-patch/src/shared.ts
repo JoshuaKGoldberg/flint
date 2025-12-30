@@ -15,7 +15,7 @@ function replaceOrThrow(
 }
 
 const coreCreateProxyProgramPath = fileURLToPath(
-	import.meta.resolve("./proxy-program.js"),
+	import.meta.resolve("#proxy-program"),
 );
 
 // https://github.com/volarjs/volar.js/blob/e08f2f449641e1c59686d3454d931a3c29ddd99c/packages/typescript/lib/quickstart/runTsc.ts
