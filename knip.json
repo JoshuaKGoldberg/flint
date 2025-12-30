@@ -1,6 +1,7 @@
 {
 	"$schema": "./node_modules/knip/schema.json",
 	"ignore": ["packages/fixtures/*"],
+	"ignoreDependencies": ["cspell"],
 	"ignoreExportsUsedInFile": { "interface": true, "type": true },
 	"treatConfigHintsAsErrors": true,
 	"workspaces": {
