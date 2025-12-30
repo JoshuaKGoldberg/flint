@@ -4,7 +4,7 @@ export default defineConfig({
 	attw: {
 		profile: "esm-only",
 	},
-	clean: ["./node_modules/.cache/tsbuildinfo.json"],
+	clean: ["./node_modules/.cache/tsbuild/"],
 	dts: { build: true, incremental: true },
 	entry: [
 		"src/index.ts",

@@ -22,9 +22,7 @@
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.map",
-		"!lib/**/*.test.*",
-		"!lib/rules/ruleTester.d.ts"
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
