@@ -13,14 +13,15 @@
 		"email": "npm@joshuakgoldberg.com"
 	},
 	"type": "module",
-	"main": "./lib/index.js",
+	"exports": {
+		".": "./lib/index.js"
+	},
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/ts": "workspace:",
 		"@flint.fyi/ts-patch": "workspace:",
 		"@flint.fyi/volar-language": "workspace:",
 		"@volar/language-core": "2.4.27",
-		"@volar/typescript": "2.4.27",
 		"@vue/compiler-dom": "^3.5.0",
 		"@vue/language-core": "3.2.1",
 		"ts-api-utils": "^2.1.0",

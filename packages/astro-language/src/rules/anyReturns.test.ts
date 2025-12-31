@@ -1,5 +1,5 @@
 import rule from "../../../ts/lib/rules/anyReturns.js";
-import { astroLanguage } from "../index.js";
+import { astroLanguage } from "../language.js";
 import { ruleTester } from "./ruleTester.js";
 
 ruleTester.describe(astroLanguage.createRule(rule), {
@@ -29,7 +29,6 @@ function foo() {
 		{
 			code: `
 ---
-type bar = 1
 function foo() {
 	return 1
 }

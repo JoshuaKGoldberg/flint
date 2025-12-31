@@ -404,7 +404,7 @@ export function createVolarBasedLanguage<ContextServices extends object>(
 	volarLanguagePluginInitializers.add(initializer);
 	const language: Language<
 		TSNodesByName,
-		ContextServices & TypeScriptFileServices
+		Partial<ContextServices> & TypeScriptFileServices
 	> = {
 		about: {
 			name: "Volar.js-based language",
@@ -416,7 +416,7 @@ export function createVolarBasedLanguage<ContextServices extends object>(
 				// services in runRule
 				language: typescriptLanguage as Language<
 					TSNodesByName,
-					ContextServices & TypeScriptFileServices
+					Partial<ContextServices> & TypeScriptFileServices
 				>,
 			};
 		},

@@ -13,16 +13,17 @@
 		"email": "npm@joshuakgoldberg.com"
 	},
 	"type": "module",
-	"main": "./lib/index.js",
+	"exports": {
+		".": "./lib/index.js"
+	},
 	"dependencies": {
-		"@astrojs/language-server": "^2.16.2",
+		"@astrojs/ts-plugin": "^1.10.6",
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/ts": "workspace:",
-		"@volar/language-core": "2.4.27",
-		"@volar/typescript": "2.4.27",
+		"@flint.fyi/ts-patch": "workspace:",
+		"@flint.fyi/volar-language": "workspace:",
 		"ts-api-utils": "^2.1.0",
-		"typescript": ">=5.9.3",
-		"vscode-uri": "^3.1.0"
+		"typescript": ">=5.9.3"
 	},
 	"devDependencies": {
 		"@flint.fyi/rule-tester": "workspace:"

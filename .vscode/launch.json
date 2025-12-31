@@ -6,7 +6,7 @@
 			"request": "launch",
 			"name": "Run Current File Tests",
 			"program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
-			"args": ["${fileBasenameNoExtension}"],
+			"args": ["${fileDirname}/${fileBasenameNoExtension}"],
 			"sourceMaps": true,
 			"console": "integratedTerminal",
 			"internalConsoleOptions": "neverOpen"

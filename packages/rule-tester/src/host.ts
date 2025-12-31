@@ -9,6 +9,9 @@ export function createRuleTesterTSHost(
 	dirname: string,
 	opts: RuleTesterTSHostOptions = {},
 ) {
+	// TODO: should we nest dirname by some non-existent dir?
+	// This will avoid loading all test files located in the ${dirname}/
+	// in the TS program
 	const fsHost = createFSBackedLinterHost(dirname);
 	const overlay = createVFSLinterHost(dirname, {
 		...fsHost,

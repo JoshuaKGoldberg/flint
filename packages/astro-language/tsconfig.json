@@ -8,6 +8,8 @@
 	"references": [
 		{ "path": "../core" },
 		{ "path": "../ts" },
-		{ "path": "../rule-tester" }
+		{ "path": "../rule-tester" },
+		{ "path": "../ts-patch" },
+		{ "path": "../volar-language" }
 	]
 }

@@ -1,0 +1,12 @@
+diff --git a/lib/node/proxyCreateProgram.js b/lib/node/proxyCreateProgram.js
+index 18fda8087826637b592c63e61518b3e42f7187cb..ee2c78734474b153b6cb1b20b7b42e8a712736b8 100644
+--- a/lib/node/proxyCreateProgram.js
++++ b/lib/node/proxyCreateProgram.js
+@@ -138,6 +138,7 @@ function proxyCreateProgram(ts, original, create) {
+                             const parsedSourceFile = ts.createSourceFile(fileName, virtualContents, languageVersionOrOptions, undefined, serviceScript.scriptKind);
+                             // @ts-expect-error
+                             parsedSourceFile.version = originalSourceFile.version;
++                            originalSourceFile.scriptKind = serviceScript.scriptKind;
+                             parsedSourceFiles.set(originalSourceFile, parsedSourceFile);
+                         }
+                         if (getExtraServiceScripts) {

@@ -24,7 +24,7 @@ import {
 setTSExtraSupportedExtensions([".vue"]);
 
 export interface VueServices {
-	vueServices?: {
+	vueServices: {
 		codegen: VueCodegen;
 		map: VolarMapper;
 		sfc: RootNode;
