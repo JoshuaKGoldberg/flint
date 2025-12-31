@@ -13,7 +13,6 @@
 		"moduleDetection": "force",
 		"moduleResolution": "NodeNext",
 		"noUncheckedSideEffectImports": true,
-		"rewriteRelativeImportExtensions": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
