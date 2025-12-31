@@ -1,5 +1,5 @@
 {
-	"name": "@flint.fyi/vue-language",
+	"name": "@flint.fyi/volar-language",
 	"version": "0.0.1",
 	"description": "[Experimental] TypeScript language plugin for Flint.",
 	"repository": {
@@ -13,22 +13,16 @@
 		"email": "npm@joshuakgoldberg.com"
 	},
 	"type": "module",
-	"main": "./lib/index.js",
+	"exports": {
+		".": "./lib/index.js"
+	},
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
 		"@flint.fyi/ts": "workspace:",
 		"@flint.fyi/ts-patch": "workspace:",
-		"@flint.fyi/volar-language": "workspace:",
 		"@volar/language-core": "2.4.27",
 		"@volar/typescript": "2.4.27",
-		"@vue/compiler-dom": "^3.5.0",
-		"@vue/language-core": "3.2.1",
-		"ts-api-utils": "^2.1.0",
 		"typescript": ">=5.9.3"
-	},
-	"devDependencies": {
-		"@flint.fyi/rule-tester": "workspace:",
-		"vue": "~3.5.26"
 	},
 	"engines": {
 		"node": ">=24.0.0"

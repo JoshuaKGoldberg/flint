@@ -26,6 +26,7 @@
 		{ "path": "./packages/text" },
 		{ "path": "./packages/ts" },
 		{ "path": "./packages/ts-patch" },
+		{ "path": "./packages/volar-language" },
 		{ "path": "./packages/vue-language" },
 		{ "path": "./packages/yaml" }
 	]

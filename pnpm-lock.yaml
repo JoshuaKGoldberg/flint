@@ -637,6 +637,27 @@ importers:
 
   packages/utils: {}
 
+  packages/volar-language:
+    dependencies:
+      '@flint.fyi/core':
+        specifier: 'workspace:'
+        version: link:../core
+      '@flint.fyi/ts':
+        specifier: 'workspace:'
+        version: link:../ts
+      '@flint.fyi/ts-patch':
+        specifier: 'workspace:'
+        version: link:../ts-patch
+      '@volar/language-core':
+        specifier: 2.4.27
+        version: 2.4.27
+      '@volar/typescript':
+        specifier: 2.4.27
+        version: 2.4.27
+      typescript:
+        specifier: '>=5.9.3'
+        version: 5.9.3
+
   packages/vue-language:
     dependencies:
       '@flint.fyi/core':
@@ -648,6 +669,9 @@ importers:
       '@flint.fyi/ts-patch':
         specifier: 'workspace:'
         version: link:../ts-patch
+      '@flint.fyi/volar-language':
+        specifier: 'workspace:'
+        version: link:../volar-language
       '@volar/language-core':
         specifier: 2.4.27
         version: 2.4.27
