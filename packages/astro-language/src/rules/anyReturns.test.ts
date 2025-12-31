@@ -7,7 +7,6 @@ ruleTester.describe(astroLanguage.createRule(rule), {
 		{
 			code: `
 ---
-type bar = 1
 function foo() {
 	return 1 as any
 }
@@ -15,13 +14,34 @@ function foo() {
 			`,
 			snapshot: `
 ---
-type bar = 1
 function foo() {
 	return 1 as any
 	~~~~~~~~~~~~~~~
 	Unsafe return of a value of type \`any\`.
 }
 ---
+			`,
+		},
+		{
+			code: `
+---
+---
+{
+function foo() {
+	return 1 as any
+}
+}
+			`,
+			snapshot: `
+---
+---
+{
+function foo() {
+	return 1 as any
+	~~~~~~~~~~~~~~~
+	Unsafe return of a value of type \`any\`.
+}
+}
 			`,
 		},
 	],
