@@ -33,7 +33,7 @@ export async function runPrettier(
 			// It should eventually be merged into the language file factories,
 			// likely providing the result of reading the file to the factories.
 			// See investigation work around unifying TypeScript's file systems:
-			// https://github.com/JoshuaKGoldberg/flint/issues/73
+			// https://github.com/flint-fyi/flint/issues/73
 			const originalFileContent = await fs.readFile(filePath, "utf8");
 
 			const updatedFileContent = await prettier.format(originalFileContent, {
@@ -52,7 +52,7 @@ export async function runPrettier(
 			if (fix) {
 				// TODO: Eventually, the file system should be abstracted
 				// Direct fs write calls don't make sense in e.g. virtual file systems
-				// https://github.com/JoshuaKGoldberg/flint/issues/73
+				// https://github.com/flint-fyi/flint/issues/73
 				await fs.writeFile(filePath, updatedFileContent);
 			}
 

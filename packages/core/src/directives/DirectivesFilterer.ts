@@ -40,6 +40,6 @@ export class DirectivesFilterer {
 		);
 
 		// TODO: Also keep track of which directives/selections did nothing
-		// https://github.com/JoshuaKGoldberg/flint/issues/246
+		// https://github.com/flint-fyi/flint/issues/246
 	}
 }

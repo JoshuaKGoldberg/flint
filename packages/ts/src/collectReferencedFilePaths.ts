@@ -6,7 +6,7 @@ export function collectReferencedFilePaths(
 	sourceFile: ts.SourceFile,
 ) {
 	// TODO: Also handle inline import()s
-	// https://github.com/JoshuaKGoldberg/flint/issues/115
+	// https://github.com/flint-fyi/flint/issues/115
 	return sourceFile.statements
 		.filter(isImportDeclarationWithStringLiteral)
 		.map((statement) => {
@@ -15,7 +15,7 @@ export function collectReferencedFilePaths(
 				sourceFile.fileName,
 				program.getCompilerOptions(),
 				// TODO: Eventually, the file system should be abstracted
-				// https://github.com/JoshuaKGoldberg/flint/issues/73
+				// https://github.com/flint-fyi/flint/issues/73
 				ts.sys,
 			);
 

@@ -47,7 +47,7 @@ export async function runCliOnce(
 
 	// TODO: Eventually, it'd be nice to move everything fully in-memory.
 	// This would be better for performance to avoid excess file system I/O.
-	// https://github.com/JoshuaKGoldberg/flint/issues/73
+	// https://github.com/flint-fyi/flint/issues/73
 	const formattingResults = await runPrettier(lintResults, values.fix);
 
 	await renderer.render({ formattingResults, ignoreCache, lintResults });
