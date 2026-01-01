@@ -4,7 +4,7 @@
 	"description": "[Experimental] Command-line interface for Flint.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
+		"url": "git+https://github.com/flint-fyi/flint.git",
 		"directory": "packages/cli"
 	},
 	"license": "MIT",
