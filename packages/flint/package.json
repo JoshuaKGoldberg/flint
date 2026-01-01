@@ -4,7 +4,7 @@
 	"description": "[Experimental] A fast, friendly linter. ❤️‍🔥",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
+		"url": "git+https://github.com/flint-fyi/flint.git",
 		"directory": "packages/flint"
 	},
 	"license": "MIT",
@@ -33,6 +33,12 @@
 		"@flint.fyi/ts-patch": "workspace:",
 		"@flint.fyi/yaml": "workspace:",
 		"typescript": "^5.9.3"
+	},
+	"devDependencies": {
+		"prettier": "3.7.4"
+	},
+	"peerDependencies": {
+		"prettier": "^3.7.4"
 	},
 	"engines": {
 		"node": ">=24.0.0"

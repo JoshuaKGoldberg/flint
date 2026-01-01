@@ -4,7 +4,7 @@
 	"description": "[Experimental] YAML language plugin for Flint.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
+		"url": "git+https://github.com/flint-fyi/flint.git",
 		"directory": "packages/yaml"
 	},
 	"license": "MIT",
