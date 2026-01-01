@@ -9,9 +9,12 @@ export function createRuleTesterTSHost(
 	dirname: string,
 	opts: RuleTesterTSHostOptions = {},
 ) {
-	// TODO: should we nest dirname by some non-existent dir?
-	// This will avoid loading all test files located in the ${dirname}/
-	// in the TS program
+	// At the time of writing this, packages/ts/src/rules contains ~120 .ts files.
+	// If we set the VFS cwd to dirname ('packages/ts/src/rules'), all 120 .ts files
+	// will be included into TS programs. However, if we create a virtual directory
+	// that contains only test case fixtures, we will avoid doing extra work.
+	// On my machine, this speeds up `pnpm vitest --run packages/ts` from ~22.6s to ~12.5s (1.8x).
+	dirname += "/_flint-rule-tester-virtual";
 	const fsHost = createFSBackedLinterHost(dirname);
 	const overlay = createVFSLinterHost(dirname, {
 		...fsHost,

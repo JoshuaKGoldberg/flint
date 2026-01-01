@@ -11,11 +11,8 @@ overrides:
 
 patchedDependencies:
   '@typescript-eslint/project-service@8.50.1':
-    hash: cadeb65c3b6848828ad5574161fb60ac925894a54a076179f189d14e509be53c
+    hash: 72c8df0a24562534f43890bf6ae27982ba8076ad40902effd1f872cf614a355e
     path: patches/@typescript-eslint__project-service@8.50.1.patch
-  '@volar/typescript@2.4.27':
-    hash: aafa6fa3aabd60fa3c1b015842a4397edd236864bd97db78fa3437464b03b0ed
-    path: patches/@volar__typescript@2.4.27.patch
 
 importers:
 
@@ -636,7 +633,7 @@ importers:
         version: link:../ts-patch
       '@typescript-eslint/project-service':
         specifier: ^8.46.2
-        version: 8.50.1(patch_hash=cadeb65c3b6848828ad5574161fb60ac925894a54a076179f189d14e509be53c)(typescript@5.9.3)
+        version: 8.50.1(patch_hash=72c8df0a24562534f43890bf6ae27982ba8076ad40902effd1f872cf614a355e)(typescript@5.9.3)
       cached-factory:
         specifier: ^0.1.0
         version: 0.1.0
@@ -684,7 +681,7 @@ importers:
         version: 2.4.27
       '@volar/typescript':
         specifier: 2.4.27
-        version: 2.4.27(patch_hash=aafa6fa3aabd60fa3c1b015842a4397edd236864bd97db78fa3437464b03b0ed)
+        version: 2.4.27
       typescript:
         specifier: '>=5.9.3'
         version: 5.9.3
@@ -5354,7 +5351,7 @@ snapshots:
       '@astrojs/yaml2ts': 0.2.2
       '@jridgewell/sourcemap-codec': 1.5.5
       '@volar/language-core': 2.4.27
-      '@volar/typescript': 2.4.27(patch_hash=aafa6fa3aabd60fa3c1b015842a4397edd236864bd97db78fa3437464b03b0ed)
+      '@volar/typescript': 2.4.27
       semver: 7.7.3
       vscode-languageserver-textdocument: 1.0.12
 
@@ -6650,7 +6647,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/project-service@8.50.1(patch_hash=cadeb65c3b6848828ad5574161fb60ac925894a54a076179f189d14e509be53c)(typescript@5.9.3)':
+  '@typescript-eslint/project-service@8.50.1(patch_hash=72c8df0a24562534f43890bf6ae27982ba8076ad40902effd1f872cf614a355e)(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.50.1(typescript@5.9.3)
       '@typescript-eslint/types': 8.50.1
@@ -6710,7 +6707,7 @@ snapshots:
 
   '@typescript-eslint/typescript-estree@8.50.1(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/project-service': 8.50.1(patch_hash=cadeb65c3b6848828ad5574161fb60ac925894a54a076179f189d14e509be53c)(typescript@5.9.3)
+      '@typescript-eslint/project-service': 8.50.1(patch_hash=72c8df0a24562534f43890bf6ae27982ba8076ad40902effd1f872cf614a355e)(typescript@5.9.3)
       '@typescript-eslint/tsconfig-utils': 8.50.1(typescript@5.9.3)
       '@typescript-eslint/types': 8.50.1
       '@typescript-eslint/visitor-keys': 8.50.1
@@ -6865,7 +6862,7 @@ snapshots:
       path-browserify: 1.0.1
       vscode-uri: 3.1.0
 
-  '@volar/typescript@2.4.27(patch_hash=aafa6fa3aabd60fa3c1b015842a4397edd236864bd97db78fa3437464b03b0ed)':
+  '@volar/typescript@2.4.27':
     dependencies:
       '@volar/language-core': 2.4.27
       path-browserify: 1.0.1

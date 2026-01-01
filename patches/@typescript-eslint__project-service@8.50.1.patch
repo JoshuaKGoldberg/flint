@@ -1,12 +1,12 @@
 diff --git a/dist/createProjectService.d.ts b/dist/createProjectService.d.ts
-index 4a3aafa6dbab7af0af17fc038b516b40cb133576..0d1ee005c79fa1a04c9821fc101180721175d831 100644
+index 4a3aafa6dbab7af0af17fc038b516b40cb133576..042117fd48fce8440e5f816116a99affd3a9a5be 100644
 --- a/dist/createProjectService.d.ts
 +++ b/dist/createProjectService.d.ts
 @@ -41,6 +41,7 @@ export interface CreateProjectServiceSettings {
       * Root directory for the tsconfig.json file, if not the current directory.
       */
      tsconfigRootDir?: string;
-+		host?: ts.server.ServerHost
++		host?: ts.server.ServerHost | ts.System
  }
  /**
   * Creates a new Project Service instance, as well as metadata on its creation.

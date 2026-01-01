@@ -63,9 +63,14 @@ export function createVFSLinterHost(
 		},
 		readFile(filePathAbsolute) {
 			filePathAbsolute = normalizePath(filePathAbsolute);
-			return (
-				fileMap.get(filePathAbsolute) ?? baseHost?.readFile(filePathAbsolute)
-			);
+			const file = fileMap.get(filePathAbsolute);
+			if (file != null) {
+				return file;
+			}
+			if (baseHost?.stat(filePathAbsolute) === "file") {
+				return baseHost.readFile(filePathAbsolute);
+			}
+			return undefined;
 		},
 		readDirectory(directoryPathAbsolute) {
 			directoryPathAbsolute = normalizePath(directoryPathAbsolute) + "/";
@@ -94,7 +99,9 @@ export function createVFSLinterHost(
 
 			return [
 				...result.values(),
-				...(baseHost?.readDirectory(directoryPathAbsolute) ?? []),
+				...((baseHost?.stat(directoryPathAbsolute) === "directory" &&
+					baseHost.readDirectory(directoryPathAbsolute)) ||
+					[]),
 			];
 		},
 		watchFile(filePathAbsolute, callback) {

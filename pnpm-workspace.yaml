@@ -16,7 +16,6 @@ overrides:
 
 patchedDependencies:
   "@typescript-eslint/project-service@8.50.1": patches/@typescript-eslint__project-service@8.50.1.patch
-  "@volar/typescript@2.4.27": patches/@volar__typescript@2.4.27.patch
 
 strictDepBuilds: true
 
