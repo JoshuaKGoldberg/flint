@@ -24,8 +24,6 @@ function foo() {
 		},
 		{
 			code: `
----
----
 {
 function foo() {
 	return 1 as any
@@ -33,8 +31,6 @@ function foo() {
 }
 			`,
 			snapshot: `
----
----
 {
 function foo() {
 	return 1 as any
@@ -46,14 +42,12 @@ function foo() {
 		},
 	],
 	valid: [
-		{
-			code: `
+		`
 ---
 function foo() {
 	return 1
 }
 ---
 		`,
-		},
 	],
 });
