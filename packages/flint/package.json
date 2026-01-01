@@ -34,6 +34,12 @@
 		"@flint.fyi/yaml": "workspace:",
 		"typescript": "^5.9.3"
 	},
+	"devDependencies": {
+		"prettier": "3.7.4"
+	},
+	"peerDependencies": {
+		"prettier": "^3.7.4"
+	},
 	"engines": {
 		"node": ">=24.0.0"
 	},

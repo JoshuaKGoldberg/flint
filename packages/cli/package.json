@@ -33,6 +33,12 @@
 		"typescript": "^5.9.3 || ^6.0.0",
 		"wrap-ansi": "^9.0.2"
 	},
+	"devDependencies": {
+		"prettier": "3.7.4"
+	},
+	"peerDependencies": {
+		"prettier": "^3.7.4"
+	},
 	"engines": {
 		"node": ">=24.0.0"
 	},
