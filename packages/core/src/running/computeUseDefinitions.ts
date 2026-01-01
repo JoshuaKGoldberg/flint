@@ -51,7 +51,7 @@ export async function computeUseDefinitions(
 							),
 						),
 				),
-				rules: use.rules ? flatten(use.rules) : [],
+				rules: flatten(use.rules),
 			};
 		}),
 	);

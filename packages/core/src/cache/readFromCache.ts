@@ -13,7 +13,7 @@ export async function readFromCache(
 	configFilePath: string,
 ): Promise<Map<string, FileCacheStorage> | undefined> {
 	// TODO: Add some kind of validation to cache data
-	// https://github.com/JoshuaKGoldberg/flint/issues/114
+	// https://github.com/flint-fyi/flint/issues/114
 	const cache = (await readFileSafeAsJson(cacheFilePath)) as
 		| CacheStorage
 		| undefined;

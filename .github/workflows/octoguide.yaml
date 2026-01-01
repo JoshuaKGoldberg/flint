@@ -1,6 +1,5 @@
 jobs:
   octoguide:
-    if: ${{ !endsWith(github.actor, '[bot]') }}
     runs-on: ubuntu-latest
     steps:
       - uses: JoshuaKGoldberg/octoguide@a37cca1a4f04c9e07f0581c230d41d09a4571f92 # 0.18.1

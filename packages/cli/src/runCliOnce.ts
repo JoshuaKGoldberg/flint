@@ -1,8 +1,9 @@
-import { isConfig, lintFixing, lintOnce, runPrettier } from "@flint.fyi/core";
+import { isConfig, lintFixing, lintOnce } from "@flint.fyi/core";
 import { debugForFile } from "debug-for-file";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
+import { runPrettier } from "./formatting/runPrettier.js";
 import { OptionsValues } from "./options.js";
 import { Renderer } from "./renderers/types.js";
 
@@ -46,7 +47,7 @@ export async function runCliOnce(
 
 	// TODO: Eventually, it'd be nice to move everything fully in-memory.
 	// This would be better for performance to avoid excess file system I/O.
-	// https://github.com/JoshuaKGoldberg/flint/issues/73
+	// https://github.com/flint-fyi/flint/issues/73
 	const formattingResults = await runPrettier(lintResults, values.fix);
 
 	await renderer.render({ formattingResults, ignoreCache, lintResults });

@@ -18,7 +18,7 @@ export function collectTypeScriptFileCacheImpacts(
 	return {
 		dependencies: [
 			// TODO: Add support for multi-TSConfig workspaces.
-			// https://github.com/JoshuaKGoldberg/flint/issues/64 & more.
+			// https://github.com/flint-fyi/flint/issues/64 & more.
 			"tsconfig.json",
 
 			...collectReferencedFilePaths(program, sourceFile),

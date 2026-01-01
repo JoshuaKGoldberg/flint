@@ -5,17 +5,12 @@ export { defineConfig } from "./configs/defineConfig.js";
 export { isConfig } from "./configs/isConfig.js";
 export { DirectivesCollector } from "./directives/DirectivesCollector.js";
 export { directiveReports } from "./directives/reports/directiveReports.js";
-export { runPrettier } from "./formatting/runPrettier.js";
 export { globs } from "./globs/index.js";
 export { createLanguage } from "./languages/createLanguage.js";
 export { createPlugin } from "./plugins/createPlugin.js";
 export { formatReportPrimary } from "./reporting/formatReportPrimary.js";
 export { lintFixing } from "./running/lintFixing.js";
 export { lintOnce } from "./running/lintOnce.js";
-export {
-	setTSExtraSupportedExtensions,
-	setTSProgramCreationProxy,
-} from "./ts-patch/proxy-program.js";
 export * from "./types/about.js";
 export * from "./types/cache.js";
 export * from "./types/changes.js";

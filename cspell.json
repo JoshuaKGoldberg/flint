@@ -12,9 +12,6 @@
 		"tsconfig.tsbuildinfo"
 	],
 	"words": [
-		"Focusables",
-		"Oxlint",
-		"WHATWG",
 		"affordances",
 		"aria-activedescendant",
 		"aria-colcount",
@@ -35,19 +32,23 @@
 		"aria-valuenow",
 		"aria-valuetext",
 		"autolinks",
+		"auvred",
 		"bday",
 		"contentinfo",
 		"deoptimizations",
 		"destructures",
 		"extlang",
+		"Focusables",
 		"idlist",
 		"impp",
 		"joshuakgoldberg",
+		"lishaduck",
 		"mdast",
 		"menuitemcheckbox",
 		"menuitemradio",
 		"nord",
 		"oxendict",
+		"Oxlint",
 		"roletype",
 		"sectionhead",
 		"shiki",
@@ -56,6 +57,8 @@
 		"subtag",
 		"subtags",
 		"treegrid",
-		"webauthn"
+		"tsgolint",
+		"webauthn",
+		"WHATWG"
 	]
 }
