@@ -66,7 +66,7 @@ This will solve the common ["ESLint does not re-compute cross-file information o
 
 ### Built-In TypeScript Support
 
-Flint provides TypeScript support out-of-the-box, the way Biome, deno lint Oxlint, and other recent linters all do.
+Flint provides TypeScript support out-of-the-box, the way Biome, Deno lint, Oxlint, and other recent linters all do.
 We believe there is a strong correlation between users who will want to lint their code and those whose projects are worth the overhead of TypeScript.
 By making TypeScript first-class in Flint -and even making the JS/TS plugin prioritize TS- we believe this makes for a smoother user experience for most users.
 
@@ -413,7 +413,7 @@ Rule options have to make an even broader, deeper set of choices:
 
 What a list!
 
-Flint's rules attempt make the same choice consistently for their options:
+Flint's rules attempt to set a convention of making the same choice consistently for their options:
 
 - Format: an object with keys for option names
 - Name:
@@ -679,9 +679,9 @@ That organization would have guidelines for inclusion, including:
 - Actively supporting new core linter minor versions soon after release
 - Adherence to the shared linting glossary
 - Documenting all configs, rules, and rule options
-- Maximum time to (re-)triage issues and pull requests
-- Minimum numbers of consuming projects and weekly downloads
-- Not being specific to any one userland framework
+- Timely (re-)triaging of issues and pull requests
+- Numerous consuming projects and weekly downloads
+- Not being specific to any one userland metaframework
 - Providing metadata alongside the `package.json` such as:
   - Names of any dependencies the plugin is directly for (e.g. `"lodash"`, `"react"`)
   - Text of when to use the plugin and each of its configs
@@ -690,7 +690,7 @@ Flint's "incubator" plugins are each intended to eventually grow into those comm
 
 ### Plugin Registry
 
-Much of a linter's ecosystem will always be third-party plugins.
+A linter's ecosystem will always include a fair share of third-party plugins.
 Finding the right third-party linter plugins for a project today is a pain.
 ESLint does not yet have a centralized listing or one canonical approach users should take.
 Power users of ESLint often follow a strategy like:
