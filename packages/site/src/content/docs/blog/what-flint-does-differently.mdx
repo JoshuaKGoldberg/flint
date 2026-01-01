@@ -77,12 +77,12 @@ Using a separate project for TypeScript support -let alone adding in concepts li
 #### Built-In TypeScript Extensibility
 
 For many users, TypeScript is not the final "superset of JavaScript" language.
-Astro, Svelte, Vue, and other extension languages add to TypeScript syntax and even completely replace it at times.
+Astro, MDX, Svelte, Vue, and other extension languages add to TypeScript syntax and even completely replace it at times.
 However, no existing mainstream provides full API hooks for plugins to add their extension languages into TypeScript.
 
 Flint provides full extensibility for TypeScript out-of-the-box.
 Extension languages will be able to register themselves and patch Flint's TypeScript language runtime as needed.
-Flint's Vue plugin, for example, will be able to support fully typed `*.vue` imports by integrating [Volar.js](https://volarjs.dev) with Flint's TypeScript extensibility APIs.
+Flint's Vue plugin, for example, will be able to support fully typed `*.vue` imports and JS expressions in `<template>`s by integrating the [official Vue Language Tools](https://github.com/vuejs/language-tools) with Flint's [Volar.js](https://volarjs.dev)-powered TypeScript extensibility APIs.
 
 ### Cross File Caching
 
