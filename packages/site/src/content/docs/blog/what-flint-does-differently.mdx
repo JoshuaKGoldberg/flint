@@ -67,18 +67,18 @@ This will solve the common ["ESLint does not re-compute cross-file information o
 ### Built-In TypeScript Support
 
 Flint provides TypeScript support out-of-the-box, the way Biome, deno lint Oxlint, and other recent linters all do.
-We believe there is a strong correlation between users who want to lint and those whose projects are worth the overhead of TypeScript.
+We believe there is a strong correlation between users who will want to lint their code and those whose projects are worth the overhead of TypeScript.
 By making TypeScript first-class in Flint -and even making the JS/TS plugin prioritize TS- we believe this makes for a smoother user experience for most users.
 
 This is in contrast to ESLint, which delegates to typescript-eslint for TypeScript support.
 Although it is valuable to have a JavaScript-first linter in the ecosystem, Flint does not need to fill that space.
-Using a separate project for TypeScript support -let alone adding in concepts like "extension rules" is confusing for users and inconvenient to work with for both maintainers and users.
+Using a separate project for TypeScript support -let alone adding in concepts like "extension rules"- is confusing for users and inconvenient to work with for both maintainers and users.
 
 #### Built-In TypeScript Extensibility
 
 For many users, TypeScript is not the final "superset of JavaScript" language.
 Astro, MDX, Svelte, Vue, and other extension languages add to TypeScript syntax and even completely replace it at times.
-However, no existing mainstream provides full API hooks for plugins to add their extension languages into TypeScript.
+However, no existing mainstream linter provides full API hooks for plugins to add their languages into TypeScript.
 
 Flint provides full extensibility for TypeScript out-of-the-box.
 Extension languages will be able to register themselves and patch Flint's TypeScript language runtime as needed.
@@ -91,7 +91,7 @@ Most changes in real-world projects only impact a small set of files.
 However, lint result caching is unusable for many large users of linting today:
 
 - ESLint's cache does not support cross-file information such as types
-- Native speed linters such as Biome and Oxlint run so quickly (prior to typed linting) that a cache is not generally worthwhile
+- Native speed linters such as Biome and Oxlint run so quickly (prior to introducing typed linting) that a cache is not generally worthwhile
 
 Flint allows languages to describe the dependents and dependencies of files, and appropriately invalidates caches on detected file changes.
 When a cache is present, Flint will only re-run lint rules on files that are changed since last run - and accounts for transitive dependency impacts.
@@ -127,7 +127,7 @@ Flint aims to provide a consistent and high quality user experience for these la
 Two separate tools should be used for those two separate concerns.
 However, _configuring_ two tools is cumbersome for users - especially given that the list of files you'd want to _format_ is almost always roughly the same as the list of files to _lint_.
 
-One of the biggest reasons users move to Biome is that those it performs both _formatting_ and _linting_ with a single devDependency and configuration file.
+One of the biggest reasons users move to Biome is that those it performs both _formatting_ and _linting_ with a single `devDependency` and configuration file.
 In doing so, they provide a much easier setup and maintenance story, as well as sidestep many common ESLint misconfigurations that lead to performance issues.
 
 Flint embraces the Biome approach of having one tool _coordinate_ others.
@@ -295,7 +295,7 @@ Those categories are useful for surfacing to developers why a rule would -or wou
 Many developers also treat reports differently based on which category they fall into.
 
 Flint's core plugins separate their primary suggested presets into `logical` and `stylistic`.
-Third-party plugins are be encouraged -but not required- to use those categories as well.
+Third-party plugins are encouraged -but not required- to use those categories as well.
 
 That split between `logical` and `stylistic` allows developers to react to the metadata in their own tooling.
 For example, developers might want to use an equivalent of `eslint.rules.customizations` to downgrade stylistic rules to blue info squigglies instead of yellow :
@@ -449,7 +449,7 @@ Here are some canonical options from Flint's TypeScript (and JavaScript) plugin:
 
 Flint will also sort rule options alphabetically in their docs pages.
 Users should be able to O(log(N)) scan a docs page for a rule option.
-Not O(1) search through some arbitrary order.
+Not O(n) search through some arbitrary order.
 
 #### Standardized Specifiers
 
@@ -496,7 +496,7 @@ Here's how that would look for specifying `SomeType` from a specific file:
 }
 ```
 
-Rules implemented in the Flint project will only ever use the TypeOrValueSpecifier format to specify types or values.
+Rules implemented in the Flint project will only ever use the `TypeOrValueSpecifier` format to specify types or values.
 Plugins will be strongly encouraged to use the format instead of ambiguous strings.
 
 ### Typed Rules and Options
@@ -518,7 +518,7 @@ You don't get editor intellisense while authoring; instead, you have to use [`@e
 Flint's rules will take a more modern approach.
 They will allow [Standard Schema](https://standardschema.dev) descriptions for rule options, which allows TypeScript-friendly schema validations libraries such as [Zod](https://zod.dev):
 
-```ts
+```ts file="src/rules/someRule.ts"
 import { typescriptLanguage } from "@flint/ts";
 import { z } from "zod";
 
@@ -551,7 +551,7 @@ export default defineConfig({
 ```
 
 As a result, Flint's configuration is _fully typed_.
-Users receive intellisense as they type plugin rules, and all those settings can be type checked.
+Users receive IntelliSense as they type plugin rules, and all those settings can be type checked.
 Config values can additionally be verified at runtime by the schema validation library.
 
 ### Typed Plugin Settings
@@ -560,7 +560,7 @@ An even less type-safe part of many current linters' config systems is the [shar
 You can put whatever you want in there, and any plugin may read from it.
 
 In theory, cross-plugin shared settings can be used for related plugins, while plugin-specific settings are by convention namespaced under their name.
-In practice, there are approximately no plugins in common use that share settings with each other.
+In practice, there are approximately zero plugins in common use that share settings with each other.
 
 Flint will allow plugins to define their own settings with Standard Schema types.
 They will be type-safe and validated similarly to plugin rules.
@@ -693,7 +693,7 @@ Flint's "incubator" plugins are each intended to eventually grow into those comm
 Much of a linter's ecosystem will always be third-party plugins.
 Finding the right third-party linter plugins for a project today is a pain.
 ESLint does not yet have a centralized listing or one canonical approach users should take.
-Power users of
+Power users of ESLint often follow a strategy like:
 
 1. Search [dustinspecker/awesome-eslint](https://github.com/dustinspecker/awesome-eslint) for plugins that seem relevant to the project
 2. For each dependency the project relies upon, search online for "eslint plugin" and that dependency name
