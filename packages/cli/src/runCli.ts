@@ -33,11 +33,6 @@ export async function runCli(args: string[]) {
 			"    Enables auto-fixing any number of specific 'suggestions' from rule reports.",
 		);
 		console.log("");
-		console.log("  --help");
-		console.log(
-			"    Prints a help text dialog that explains options and links to this website.",
-		);
-		console.log("");
 		console.log("  --interactive");
 		console.log(
 			"    Whether to run Flint with an interactive 'one file at a time' viewer.",
