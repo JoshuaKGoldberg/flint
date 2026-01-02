@@ -1,0 +1,1 @@
+{"version":3,"file":"tryCatch.js","names":[],"sources":["../../src/utils/tryCatch.ts"],"sourcesContent":["export function tryCatch<T>(task: () => T | undefined) {\n\ttry {\n\t\treturn task();\n\t} catch {\n\t\treturn undefined;\n\t}\n}\n"],"mappings":";AAAA,SAAgB,SAAY,MAA2B;AACtD,KAAI;AACH,SAAO,MAAM;SACN;AACP"}

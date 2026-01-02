@@ -42,14 +42,16 @@ Flint's hypothesis is that the cost of re-implementing and maintaining a type in
 
 ### Type-Aware, Always
 
-Flint does not mark a distinction between type-aware rules vs. untyped rules.
+Flint does not mark a distinction between type-aware rules vs.
+untyped rules.
 Any rule may use any sort of cross-file information such as types.
 
 This is in contrast to [typescript-eslint's opt-in typed linting](https://typescript-eslint.io/getting-started/typed-linting).
 Flint's hypothesis is that the divide between untyped core rules and typed plugin rules is painful for the ecosystem:
 
 - Core rules are less powerful than they could be
-- Custom rules have to choose between being fast and easy to set up vs. slower and type-aware
+- Custom rules have to choose between being fast and easy to set up vs.
+  slower and type-aware
 - Even if the core architecture supported typed rules, it'd be extra work to make separate code paths
 - Users now have to keep track of >=1 extra concept while configuring their linter
 
@@ -77,7 +79,7 @@ Using a separate project for TypeScript support -let alone adding in concepts li
 #### Built-In TypeScript Extensibility
 
 For many users, TypeScript is not the final "superset of JavaScript" language.
-Astro, MDX, Svelte, Vue, and other extension languages add to TypeScript syntax and even completely replace it at times.
+Astro, Svelte, Vue, and other languages add to TypeScript syntax and can even completely replace it at times.
 However, no existing mainstream linter provides full API hooks for plugins to add their languages into TypeScript.
 
 Flint provides full extensibility for TypeScript out-of-the-box.
@@ -199,7 +201,8 @@ We believe warnings are a bad fit for the migration use case.
 Tools like [eslint-nibble](https://github.com/IanVS/eslint-nibble) and ESLint's new [Bulk Suppressions](https://eslint.org/docs/latest/use/suppressions) provide a more comprehensive experience.
 
 Flint does not allow changing rule report severities.
-All lint rule reports are treated as lint errors and will be visualized with the same non-red color -e.g. yellow or orange- squigglies in errors.
+All lint rule reports are treated as lint errors and will be visualized with the same non-red color -e.g.
+yellow or orange- squigglies in errors.
 Gradual onboardings of new rules or rule options are a separately managed feature akin to ESLint's bulk suppressions.
 
 ### Comprehensive Rule Reports
@@ -683,7 +686,8 @@ That organization would have guidelines for inclusion, including:
 - Numerous consuming projects and weekly downloads
 - Not being specific to any one userland metaframework
 - Providing metadata alongside the `package.json` such as:
-  - Names of any dependencies the plugin is directly for (e.g. `"lodash"`, `"react"`)
+  - Names of any dependencies the plugin is directly for (e.g.
+    `"lodash"`, `"react"`)
   - Text of when to use the plugin and each of its configs
 
 Flint's "incubator" plugins are each intended to eventually grow into those community projects.

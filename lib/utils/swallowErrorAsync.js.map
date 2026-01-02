@@ -1,0 +1,1 @@
+{"version":3,"file":"swallowErrorAsync.js","names":[],"sources":["../../src/utils/swallowErrorAsync.ts"],"sourcesContent":["export async function swallowErrorAsync<T>(task: Promise<T>) {\n\ttry {\n\t\treturn await task;\n\t} catch {\n\t\treturn undefined;\n\t}\n}\n"],"mappings":";AAAA,eAAsB,kBAAqB,MAAkB;AAC5D,KAAI;AACH,SAAO,MAAM;SACN;AACP"}

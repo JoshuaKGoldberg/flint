@@ -1,0 +1,1 @@
+{"version":3,"file":"createJobName.js","names":[],"sources":["../../../src/blocks/files/createJobName.ts"],"sourcesContent":["export function createJobName(label: string) {\n\treturn label.replaceAll(/[?()]/g, \"\").replaceAll(\" \", \"_\").toLowerCase();\n}\n"],"mappings":";AAAA,SAAgB,cAAc,OAAe;AAC5C,QAAO,MAAM,WAAW,UAAU,GAAG,CAAC,WAAW,KAAK,IAAI,CAAC,aAAa"}

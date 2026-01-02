@@ -1,0 +1,1 @@
+{"version":3,"file":"formatIgnoreFile.js","names":[],"sources":["../../../src/blocks/files/formatIgnoreFile.ts"],"sourcesContent":["export function formatIgnoreFile(lines: (string | undefined)[]) {\n\treturn [...lines.filter(Boolean), \"\"].join(\"\\n\");\n}\n"],"mappings":";AAAA,SAAgB,iBAAiB,OAA+B;AAC/D,QAAO,CAAC,GAAG,MAAM,OAAO,QAAQ,EAAE,GAAG,CAAC,KAAK,KAAK"}

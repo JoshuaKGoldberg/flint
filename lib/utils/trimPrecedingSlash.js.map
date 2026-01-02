@@ -1,0 +1,1 @@
+{"version":3,"file":"trimPrecedingSlash.js","names":[],"sources":["../../src/utils/trimPrecedingSlash.ts"],"sourcesContent":["export function trimPrecedingSlash(filePath: string | undefined) {\n\treturn filePath?.replace(/^\\.\\//, \"\");\n}\n"],"mappings":";AAAA,SAAgB,mBAAmB,UAA8B;AAChE,QAAO,UAAU,QAAQ,SAAS,GAAG"}
