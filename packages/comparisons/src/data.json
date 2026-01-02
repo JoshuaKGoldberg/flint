@@ -13336,6 +13336,31 @@
 		]
 	},
 	{
+		"biome": [
+			{
+				"name": "noUselessTernary",
+				"url": "https://biomejs.dev/linter/rules/no-useless-ternary"
+			}
+		],
+		"eslint": [
+			{
+				"name": "no-unneeded-ternary",
+				"url": "https://eslint.org/docs/latest/rules/no-unneeded-ternary"
+			}
+		],
+		"flint": {
+			"name": "noUnneededTernary",
+			"plugin": "ts",
+			"preset": "logical"
+		},
+		"oxlint": [
+			{
+				"name": "eslint/no-unneeded-ternary",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-unneeded-ternary.html"
+			}
+		]
+	},
+	{
 		"eslint": [
 			{
 				"name": "no-eq-null",
