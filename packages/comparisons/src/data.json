@@ -13145,7 +13145,7 @@
 			}
 		],
 		"flint": {
-			"name": "noNewWrappers",
+			"name": "wrapperObjects",
 			"plugin": "ts",
 			"preset": "logical"
 		},
