@@ -1,4 +1,5 @@
 import { comparisons, LinterRuleReference } from "./index.js";
+
 interface GroupedComparisons {
 	eslint: Record<
 		MaybeLiteral<"builtin">, // pluginName
