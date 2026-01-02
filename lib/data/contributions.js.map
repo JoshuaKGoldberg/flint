@@ -1,1 +1,0 @@
-{"version":3,"file":"contributions.js","names":[],"sources":["../../src/data/contributions.ts"],"sourcesContent":["export const startingOwnerContributions = [\n\t\"code\",\n\t\"content\",\n\t\"doc\",\n\t\"ideas\",\n\t\"infra\",\n\t\"maintenance\",\n\t\"projectManagement\",\n\t\"tool\",\n];\n"],"mappings":";AAAA,MAAa,6BAA6B;CACzC;CACA;CACA;CACA;CACA;CACA;CACA;CACA;CACA"}

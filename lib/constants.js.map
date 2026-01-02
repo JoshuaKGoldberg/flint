@@ -1,1 +1,0 @@
-{"version":3,"file":"constants.js","names":[],"sources":["../src/constants.ts"],"sourcesContent":["export const defaults = {\n\tnode: {\n\t\tminimum: \"20.19.0\",\n\t\tpinned: \"24.3.0\",\n\t},\n};\n"],"mappings":";AAAA,MAAa,WAAW,EACvB,MAAM;CACL,SAAS;CACT,QAAQ;CACR,EACD"}

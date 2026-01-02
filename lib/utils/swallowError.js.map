@@ -1,1 +1,0 @@
-{"version":3,"file":"swallowError.js","names":[],"sources":["../../src/utils/swallowError.ts"],"sourcesContent":["export function swallowError<T>(value: Error | T) {\n\treturn value instanceof Error ? undefined : value;\n}\n"],"mappings":";AAAA,SAAgB,aAAgB,OAAkB;AACjD,QAAO,iBAAiB,QAAQ,SAAY"}
