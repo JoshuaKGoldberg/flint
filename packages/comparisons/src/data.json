@@ -13084,6 +13084,25 @@
 	{
 		"eslint": [
 			{
+				"name": "no-duplicate-imports",
+				"url": "https://eslint.org/docs/latest/rules/no-duplicate-imports"
+			}
+		],
+		"flint": {
+			"name": "noDuplicateImports",
+			"plugin": "ts",
+			"preset": "logical"
+		},
+		"oxlint": [
+			{
+				"name": "eslint/no-duplicate-imports",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-duplicate-imports.html"
+			}
+		]
+	},
+	{
+		"eslint": [
+			{
 				"name": "@typescript-eslint/non-nullable-type-assertion-style",
 				"url": "https://typescript-eslint.io/rules/non-nullable-type-assertion-style"
 			}
