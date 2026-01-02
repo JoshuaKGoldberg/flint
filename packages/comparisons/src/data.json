@@ -13091,7 +13091,7 @@
 		"flint": {
 			"name": "noDuplicateImports",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "stylistic"
 		},
 		"oxlint": [
 			{
