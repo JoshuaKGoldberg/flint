@@ -13103,37 +13103,6 @@
 	{
 		"biome": [
 			{
-				"name": "noEmptyCharacterClassInRegex",
-				"url": "https://biomejs.dev/linter/rules/no-empty-character-class-in-regex"
-			}
-		],
-		"deno": [
-			{
-				"name": "no-empty-character-class",
-				"url": "https://docs.deno.com/lint/rules/no-empty-character-class"
-			}
-		],
-		"eslint": [
-			{
-				"name": "no-empty-character-class",
-				"url": "https://eslint.org/docs/latest/rules/no-empty-character-class"
-			}
-		],
-		"flint": {
-			"name": "noEmptyCharacterClass",
-			"plugin": "ts",
-			"preset": "logical"
-		},
-		"oxlint": [
-			{
-				"name": "eslint/no-empty-character-class",
-				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-empty-character-class.html"
-			}
-		]
-	},
-	{
-		"biome": [
-			{
 				"name": "noIrregularWhitespace",
 				"url": "https://biomejs.dev/linter/rules/no-irregular-whitespace"
 			}
@@ -14873,17 +14842,39 @@
 		}
 	},
 	{
+		"biome": [
+			{
+				"name": "noEmptyCharacterClassInRegex",
+				"url": "https://biomejs.dev/linter/rules/no-empty-character-class-in-regex"
+			}
+		],
+		"deno": [
+			{
+				"name": "no-empty-character-class",
+				"url": "https://docs.deno.com/lint/rules/no-empty-character-class"
+			}
+		],
 		"eslint": [
 			{
 				"name": "regexp/no-empty-character-class",
 				"url": "https://ota-meshi.github.io/eslint-plugin-regexp/rules/no-empty-character-class.html"
+			},
+			{
+				"name": "no-empty-character-class",
+				"url": "https://eslint.org/docs/latest/rules/no-empty-character-class"
 			}
 		],
 		"flint": {
 			"name": "regexEmptyCharacterClasses",
 			"plugin": "ts",
 			"preset": "logical"
-		}
+		},
+		"oxlint": [
+			{
+				"name": "eslint/no-empty-character-class",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-empty-character-class.html"
+			}
+		]
 	},
 	{
 		"eslint": [
