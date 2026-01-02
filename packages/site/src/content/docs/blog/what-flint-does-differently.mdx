@@ -35,7 +35,7 @@ See more details on this point in [Introducing Flint > Hybrid Linting](/blog/int
 ### TypeScript for Type Awareness
 
 Flint will use the [typescript-go port](https://devblogs.microsoft.com/typescript/typescript-native-port) for fast type-checking.
-This follows the same broad path as [Oxlint type-aware linting](https://voidzero.dev/posts/announcing-oxlint-type-aware-linting).
+This follows the same broad path as [Oxlint's type-aware linting](https://voidzero.dev/posts/announcing-oxlint-type-aware-linting).
 
 An alternate strategy would have been [Biome's custom type inference engine](https://biomejs.dev/blog/vercel-partners-biome-type-inference).
 Flint's hypothesis is that the cost of re-implementing and maintaining a type inference engine is long-term greater than that of integrating with typescript-go.
@@ -150,7 +150,7 @@ The root problem is that projects typically don't connect the type information g
 Projects effectively run a full type-check twice: once with `tsc` and once with typed linting.
 
 Flint will additionally re-use TypeScript information from typed linting to report type errors ("diagnostics") on linted files.
-This is the equivalent of [Oxlint's --type-check` flag](https://oxc.rs/docs/guide/usage/linter/type-aware.html#type-checking-diagnostics).
+This is the equivalent of [Oxlint's `--type-check` flag](https://oxc.rs/docs/guide/usage/linter/type-aware.html#type-checking-diagnostics).
 
 :::tip
 See more details on this point in [Introducing Flint > Tooling Coordination](/blog/introducing-flint#tooling-coordination).
@@ -167,7 +167,7 @@ That way, Flint can be embeddable within other tools for other workflow styles.
 A linter is in many ways the best codemod platform for many kinds of migrations.
 It allows you to define a granular, testable set of migration rules, and then keep them enforced over time so developers don't add regressions.
 
-The "one file at a time" model all of today's linters doesn't lend itself well to all the operations a codemod might need.
+The "one file at a time" model of most of today's linters doesn't lend itself well to all the operations a codemod might need.
 Rules may need to make fixes or suggestions to files other than the one being linted.
 
 Flint will provide a rich system for rule fixes and suggestions:
@@ -301,7 +301,7 @@ Flint's core plugins separate their primary suggested presets into `logical` and
 Third-party plugins are encouraged -but not required- to use those categories as well.
 
 That split between `logical` and `stylistic` allows developers to react to the metadata in their own tooling.
-For example, developers might want to use an equivalent of `eslint.rules.customizations` to downgrade stylistic rules to blue info squigglies instead of yellow :
+For example, developers might want to use an equivalent of `eslint.rules.customizations` to downgrade stylistic rules to blue info squigglies instead of yellow in the future planned Flint VS Code extension:
 
 ```json
 {
@@ -319,14 +319,14 @@ Older rules tend to have assertive and curt messages, such as:
 - [`no-console`](https://eslint.org/docs/latest/rules/no-console): `Unexpected console statement.`
 - [`no-empty`](https://eslint.org/docs/latest/rules/no-empty): `Empty block statement.`
 
-In practice, users don't generally react well to curt messages.
-They can feel like the linter saying something is _absolutely wrong_, even though most lint rules are sometimes wrong.
-There's a reason why many linters put _"When Not To Use"_ sections in their rule documentation pages.
-
 Newer or more recently updated rule messages tend to be more descriptive and speak to the actual problems the rules detect, such as:
 
 - [`no-loss-of-precision`](https://eslint.org/docs/latest/rules/no-useless-assignment): `This number literal will lose precision at runtime.`
 - [`no-useless-assignment`](https://eslint.org/docs/latest/rules/no-useless-assignment): `This assigned value is not used in subsequent statements.`
+
+In practice, users don't generally react well to curt messages.
+They can feel like the linter saying something is _absolutely wrong_, even though most lint rules are sometimes wrong.
+There's a reason why many linters put _"When Not To Use"_ sections in their rule documentation pages.
 
 All rule messages in the Flint project will have consistent phrasing describing the actual problem(s) being reported.
 Rules will attempt to never be curt or overly prescriptive about what the user "should" do.
@@ -354,16 +354,16 @@ Inconsistent answers to each of those choices lead to user confusion:
 - Prefixes:
   - Alphabetical sorting of rules places them similarly prefixed rules together, weirdly
   - Many rules have dropped their prefix after adding an option to invert behavior
-- Singularity: the least troublesome, but still a general point of confusion
+- Singularity: just one character difference can be particularly difficult to memorize
 
 In Flint, core rule names will attempt to make one choice for each of those naming options:
 
 - Abbreviation: no abbreviation, so users won't have to memorize dozens of abbreviations
-- Singularity: always plural, as that's how one would describe what rules target
 - Prefixes: no prefixes; the rules would be named for the behavior or syntax they target
+- Singularity: always plural, as that's how one would describe what rules target
 
 Flint reworks names to be consistent and fully typed out.
-Here are some canonical names from Flint's TypeScript (and JavaScript) plugin:
+Here are some reworked names from Flint's TypeScript plugin:
 
 | Current Rule Name                                                                                   | Reworked Rule Name            |
 | --------------------------------------------------------------------------------------------------- | ----------------------------- |
@@ -430,7 +430,7 @@ Flint's rules attempt to set a convention of making the same choice consistently
   - Multi-values: empty by default, so specifying values doesn't remove defaults
     - If a value is important to include by default, it should be hardcoded on
 
-Here are some canonical options from Flint's TypeScript (and JavaScript) plugin:
+Here are some rule options from Flint's TypeScript plugin:
 
 | Current Name                                                                                                                             | Reworked Name        | Current Default | Reworked Default |
 | ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | --------------- | ---------------- |
@@ -475,7 +475,7 @@ For example, [`@typescript-eslint/no-restricted-types`](https://typescript-eslin
 The problem with using plain strings to target names is that they are ambiguous.
 In the example, _any_ type named `SomeType` would be restricted, even if it is a different type than the one the user intended.
 
-Over in typescript-eslint, we developed a [TypeOrValueSpecifier](https://typescript-eslint.io/packages/type-utils/type-or-value-specifier) format for specifying types or values in options.
+Over in typescript-eslint, we developed a [`TypeOrValueSpecifier` format](https://typescript-eslint.io/packages/type-utils/type-or-value-specifier) for specifying types or values in options.
 It allows users to specify not just the name but also the source -global, package, etc.- of a type or value.
 Here's how that would look for specifying `SomeType` from a specific file:
 
@@ -506,11 +506,11 @@ Plugins will be strongly encouraged to use the format instead of ambiguous strin
 
 One of the biggest points of user pain with all linter configuration systems today is that _rules and their options are not type-checked_.
 They're only validated at runtime.
-Mainstream linters today have you specify rules as properties an object, where their string key is their plugin name and rule name, and their value is their severity and any options:
+Mainstream linters today have you specify rules as properties of an object, where their string key is their plugin name and rule name, and their value is their severity and any options:
 
 ```json
 {
-	"my-plugin/some-rule": ["error", { "setting": "..." }]
+	"my-plugin/some-rule": ["error", { "option": "..." }]
 }
 ```
 
@@ -521,8 +521,8 @@ You don't get editor intellisense while authoring; instead, you have to use [`@e
 Flint's rules will take a more modern approach.
 They will allow [Standard Schema](https://standardschema.dev) descriptions for rule options, which allows TypeScript-friendly schema validations libraries such as [Zod](https://zod.dev):
 
-```ts file="src/rules/someRule.ts"
-import { typescriptLanguage } from "@flint/ts";
+```ts title="src/rules/someRule.ts"
+import { typescriptLanguage } from "@flint/typescript-language";
 import { z } from "zod";
 
 export const someRule = typescriptLanguage.createRule({
@@ -553,7 +553,7 @@ export default defineConfig({
 });
 ```
 
-As a result, Flint's configuration is _fully typed_.
+As a result, Flint's configurations are _fully typed_.
 Users receive IntelliSense as they type plugin rules, and all those settings can be type checked.
 Config values can additionally be verified at runtime by the schema validation library.
 
@@ -565,7 +565,7 @@ You can put whatever you want in there, and any plugin may read from it.
 In theory, cross-plugin shared settings can be used for related plugins, while plugin-specific settings are by convention namespaced under their name.
 In practice, there are approximately zero plugins in common use that share settings with each other.
 
-Flint will allow plugins to define their own settings with Standard Schema types.
+Flint will also allow plugins to define their own settings with Standard Schema types.
 They will be type-safe and validated similarly to plugin rules.
 
 ### Typed Configuration Files
@@ -648,23 +648,24 @@ This is hard to keep straight even for people who work on linters.
 Now imagine how confusing this all is for someone new to linting, and/or who doesn't care much about their linter.
 
 Flint continues the [ESLint Glossary](https://eslint.org/docs/latest/use/core-concepts/glossary) work by defining single recommended terms for all the shared linting concepts.
-You can find the Flint glossary on [flint.fyi/glossary](https://flint.fyi/glossary).
+You can find the Flint glossary on [Glossary](https://flint.fyi/glossary).
 It includes definitions for common linting terms as well as what other common linters use in comparison.
 
 ### Common Core Rules
 
 Flint's approach for plugins is that all rules which apply to a super-majority of users of the linter should be built in the core project.
-By being created as part of the core project, the plugins both become more easily discoverable and will have a much more consistent look and feel for users.
+In doing so, the plugins both become more easily discoverable and will have a much more consistent look and feel for users.
 
-To fully support that larger effort, the Flint project:
+To support that larger effort, the Flint project:
 
 - Establishes three tiers of project plugins:
   - "Core": Plugins applicable to any project using their language (JavaScript/TypeScript, JSON, Markdown, YAML)
-  - "Focused": Plugins for large areas of projects or code styles that are applicable to many, but not all, likely Flint users
-  - "Incubator": Area-specific plugins that should exist under community governance, but don't yet have that dedicated team
-- Keeps a list of over 1,000 popular lint rules for reference, with rules that will be implemented categorized into Flint's plugins
+  - "Focused": Plugins for larger of projects or styles that are applicable to many, but not all, likely Flint users
+  - "Incubator": Area-specific plugins that should eventually exist under community governance
+- Keeps a list of over 1,000 popular lint rules for reference, with rules categorized into Flint's plugins
 
 Flint's hypothesis for plugins is that by taking that comprehensive, holistic approach, users of Flint will be able to easily turn on more comprehensive, powerful linting by default - without needing to deep dive into the plugin ecosystem.
+You can find the full list of plugins and rules in [Rules](/rules).
 
 :::tip
 See more details on this point in [Introducing Flint > Thorough Provided Plugins](/blog/introducing-flint#thorough-provided-plugins).
@@ -690,7 +691,7 @@ That organization would have guidelines for inclusion, including:
     `"lodash"`, `"react"`)
   - Text of when to use the plugin and each of its configs
 
-Flint's "incubator" plugins are each intended to eventually grow into those community projects.
+Many of Flint's "incubator" plugins are intended to eventually grow into those community projects.
 
 ### Plugin Registry
 
@@ -748,7 +749,7 @@ Flint will also provide and recommend using an automated migrator that converts 
 
 ESLint configurations in particular tend to be more complex than other linters' because ESLint requires configuring edge cases such as parser and plugin options.
 However, we believe most users configure ESLint in relatively common, straightforward ways.
-The FLint configuration migrator will create "best effort" configurations that capture the perceived _intent_ of existing configurations.
+The Flint configuration migrator will create "best effort" configurations that capture the perceived _intent_ of existing configurations.
 
 Flint's configuration migrator will also provide flags for whether to adopt practices recommended by the new linter:
 
@@ -757,8 +758,8 @@ Flint's configuration migrator will also provide flags for whether to adopt prac
 - If formatting rules were used, remove them and instead coordinate a formatter
 - Using the recommended configs from the linter and any enabled plugins
 
-Those flags would allow the migration tool to be used as more than just a single-shot utility.
-It would also help users migrate to best practices and more powerful linter configurations.
+Those flags will allow the migration tool to be used as more than just a single-shot utility.
+The migrator will also help users migrate to best practices and more powerful linter configurations.
 
 [ESLint's configuration migrator](https://eslint.org/docs/latest/use/configure/migration-guide#migrate-your-config-file) and [`tslint-to-eslint-config`](https://github.com/typescript-eslint/tslint-to-eslint-config) are a good references of prior art for migration tooling.
 
@@ -769,7 +770,7 @@ Many but not all of the features in this post have not yet been built.
 
 If you're interested in helping build out a new experimental linter, we'd love to have you join us.
 At the very least, see [About](/about) for how to get started using Flint as a user.
-Just trying out the project and telling us about your experience on the [Flint Discord](https://discord.gg/cFK3RAUDhy) would be immensely helpful.
+Trying out the project and telling us about your experience on the [Flint Discord](https://discord.gg/cFK3RAUDhy) would be immensely helpful.
 
 The [GitHub issue tracker](https://github.com/flint-fyi/flint/issues) is where you can find our list of upcoming work.
 See our [Contributing guide](https://github.com/flint-fyi/flint/blob/main/.github/CONTRIBUTING.md) for how to find issues that you can get started on.
