@@ -4,7 +4,7 @@
 	"description": "Comparisons of common lint rules across Flint and other web linters.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
+		"url": "git+https://github.com/flint-fyi/flint.git",
 		"directory": "packages/comparisons"
 	},
 	"license": "MIT",

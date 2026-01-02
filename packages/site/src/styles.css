@@ -48,6 +48,11 @@ table code {
 
 .hero img {
 	max-height: 15rem;
-	object-position: right;
 	user-select: none;
+}
+
+@media (width >= 800px) {
+	.hero img {
+		object-position: right;
+	}
 }

@@ -18,7 +18,7 @@ export async function runCli(args: string[]) {
 		console.log("Welcome to Flint!");
 		console.log("Flint is still very early stage and experimental.");
 		console.log(
-			"See \u001b]8;;http://github.com/JoshuaKGoldberg/flint\u0007github.com/JoshuaKGoldberg/flint\u001b]8;;\u0007 for more information.",
+			"See \u001b]8;;flint.fyi\u0007flint.fyi\u001b]8;;\u0007 for more information.",
 		);
 		return 0;
 	}

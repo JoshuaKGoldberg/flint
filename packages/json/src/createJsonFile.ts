@@ -9,7 +9,7 @@ import { normalizeRange } from "./normalizeRange.ts";
 
 // TODO: Eventually, it might make sense to use a native speed JSON parser.
 // The standard TypeScript language will likely use that itself.
-// https://github.com/JoshuaKGoldberg/flint/issues/44
+// https://github.com/flint-fyi/flint/issues/44
 export function createTypeScriptJsonFile(
 	filePathAbsolute: string,
 	sourceText: string,

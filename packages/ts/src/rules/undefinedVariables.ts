@@ -77,7 +77,7 @@ export default typescriptLanguage.createRule({
 					}
 
 					// TODO: This rule is untyped, so it should use scope analysis
-					// https://github.com/JoshuaKGoldberg/flint/issues/400
+					// https://github.com/flint-fyi/flint/issues/400
 					if (!typeChecker.getSymbolAtLocation(node)) {
 						context.report({
 							data: {

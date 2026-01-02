@@ -19,7 +19,7 @@ export async function resolveChange(
 			Object.entries(change.files).flatMap(async ([filePath, generator]) => {
 				// TODO: Eventually, the file system should be abstracted
 				// Direct fs read calls don't make sense in e.g. virtual file systems
-				// https://github.com/JoshuaKGoldberg/flint/issues/73
+				// https://github.com/flint-fyi/flint/issues/73
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const fileChanges = generator!(await fs.readFile(filePath, "utf8"));
 

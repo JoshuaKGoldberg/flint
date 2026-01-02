@@ -33,7 +33,7 @@ export async function lintFixing(
 		// TODO: Investigate reusing file contents from previous iterations.
 		// Why read file many time when few do trick?
 		// Or, at least it should all be virtual...
-		// https://github.com/JoshuaKGoldberg/flint/issues/73
+		// https://github.com/flint-fyi/flint/issues/73
 		const lintResults = await lintOnce(configDefinition, {
 			ignoreCache,
 			skipDiagnostics,

@@ -2,6 +2,7 @@ import { defineConfig } from "tsdown";
 
 export default defineConfig({
 	attw: {
+		enabled: "ci-only",
 		profile: "esm-only",
 	},
 	clean: ["./node_modules/.cache/tsbuild/"],

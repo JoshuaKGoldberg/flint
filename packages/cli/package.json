@@ -4,7 +4,7 @@
 	"description": "[Experimental] Command-line interface for Flint.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
+		"url": "git+https://github.com/flint-fyi/flint.git",
 		"directory": "packages/cli"
 	},
 	"license": "MIT",
@@ -38,7 +38,11 @@
 		"wrap-ansi": "^9.0.2"
 	},
 	"devDependencies": {
+		"prettier": "3.7.4",
 		"tsdown": "0.18.3"
+	},
+	"peerDependencies": {
+		"prettier": "^3.7.4"
 	},
 	"engines": {
 		"node": ">=24.0.0"
