@@ -13120,7 +13120,7 @@
 			}
 		],
 		"flint": {
-			"name": "noIrregularWhitespace",
+			"name": "irregularWhitespaces",
 			"plugin": "ts",
 			"preset": "logical"
 		},
