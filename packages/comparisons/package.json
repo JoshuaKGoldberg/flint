@@ -24,6 +24,10 @@
 	"dependencies": {
 		"prettier": "3.7.4"
 	},
+	"devDependencies": {
+		"eslint": "9.39.1",
+		"vitest": "4.0.15"
+	},
 	"engines": {
 		"node": ">=24.0.0"
 	},

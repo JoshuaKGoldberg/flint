@@ -158,6 +158,13 @@ importers:
       prettier:
         specifier: 3.7.4
         version: 3.7.4
+    devDependencies:
+      eslint:
+        specifier: 9.39.1
+        version: 9.39.1(jiti@2.6.1)
+      vitest:
+        specifier: 4.0.15
+        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/core:
     dependencies:
