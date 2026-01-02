@@ -10,7 +10,7 @@ export interface FileResults {
 
 export interface LintResults {
 	allFilePaths: Set<string>;
-	cached?: Map<string, FileCacheStorage>;
+	cached: Map<string, FileCacheStorage> | undefined;
 	filesResults: Map<string, FileResults>;
 }
 

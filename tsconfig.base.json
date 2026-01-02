@@ -1,14 +1,17 @@
 {
 	"compilerOptions": {
 		"allowJs": true,
+		"allowUnreachableCode": false,
 		"checkJs": true,
 		"composite": true,
 		"declaration": true,
 		"declarationMap": true,
 		"esModuleInterop": true,
+		"exactOptionalPropertyTypes": true,
 		"lib": ["ESNext"],
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
+		"noImplicitOverride": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
