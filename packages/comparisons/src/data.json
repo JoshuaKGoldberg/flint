@@ -13163,6 +13163,31 @@
 		]
 	},
 	{
+		"biome": [
+			{
+				"name": "useConsistentBuiltinInstantiation",
+				"url": "https://biomejs.dev/linter/rules/use-consistent-builtin-instantiation/"
+			}
+		],
+		"eslint": [
+			{
+				"name": "no-new-wrappers",
+				"url": "https://eslint.org/docs/latest/rules/no-new-wrappers"
+			}
+		],
+		"flint": {
+			"name": "noNewWrappers",
+			"plugin": "ts",
+			"preset": "logical"
+		},
+		"oxlint": [
+			{
+				"name": "eslint/no-new-wrappers",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-new-wrappers.html"
+			}
+		]
+	},
+	{
 		"eslint": [
 			{
 				"name": "@typescript-eslint/non-nullable-type-assertion-style",
