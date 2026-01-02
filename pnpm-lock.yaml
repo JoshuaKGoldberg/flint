@@ -155,6 +155,9 @@ importers:
         specifier: ^9.0.2
         version: 9.0.2
     devDependencies:
+      prettier:
+        specifier: 3.7.4
+        version: 3.7.4
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
@@ -183,9 +186,6 @@ importers:
       omit-empty:
         specifier: ^1.0.0
         version: 1.0.0
-      prettier:
-        specifier: 3.7.4
-        version: 3.7.4
       zod:
         specifier: ^4.2.1
         version: 4.2.1
@@ -227,6 +227,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      prettier:
+        specifier: 3.7.4
+        version: 3.7.4
       tsdown:
         specifier: 0.18.3
         version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)

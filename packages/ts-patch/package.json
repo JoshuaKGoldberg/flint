@@ -4,7 +4,7 @@
 	"description": "[Experimental] Utilities for patching TypeScript used by @flint/core.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"url": "https://github.com/flint-fyi/flint",
 		"directory": "packages/ts-patch"
 	},
 	"license": "MIT",

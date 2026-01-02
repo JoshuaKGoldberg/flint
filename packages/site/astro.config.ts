@@ -110,7 +110,7 @@ export default defineConfig({
 					label: "Discord",
 				},
 				{
-					href: "https://github.com/JoshuaKGoldberg/flint",
+					href: "https://github.com/flint-fyi/flint",
 					icon: "github",
 					label: "Github",
 				},
