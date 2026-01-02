@@ -32,6 +32,11 @@ function banJsImportExtension() {
 		},
 		{
 			message,
+			// export { foo } from 'bar.js';
+			selector: `ExportNamedDeclaration > ${literalAttributeMatcher}.source`,
+		},
+		{
+			message,
 			// type Foo = typeof import('bar.js');
 			selector: `TSImportType > TSLiteralType > ${literalAttributeMatcher}`,
 		},

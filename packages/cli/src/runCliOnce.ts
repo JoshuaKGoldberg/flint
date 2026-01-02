@@ -3,7 +3,7 @@ import { debugForFile } from "debug-for-file";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { runPrettier } from "./formatting/runPrettier.js";
+import { runPrettier } from "./formatting/runPrettier.ts";
 import type { OptionsValues } from "./options.ts";
 import type { Renderer } from "./renderers/types.ts";
 
