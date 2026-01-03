@@ -15,11 +15,15 @@
 	"sideEffects": false,
 	"type": "module",
 	"exports": {
-		".": "./lib/index.js"
+		".": {
+			"@flint.fyi/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		}
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.map"
+		"!lib/**/*.map",
+		"!lib/**/*.test.*"
 	],
 	"dependencies": {
 		"@flint.fyi/core": "workspace:",
@@ -34,7 +38,8 @@
 		"wrap-ansi": "^9.0.2"
 	},
 	"devDependencies": {
-		"prettier": "3.7.4"
+		"prettier": "3.7.4",
+		"tsdown": "0.18.3"
 	},
 	"peerDependencies": {
 		"prettier": "^3.7.4"
@@ -43,6 +48,9 @@
 		"node": ">=24.0.0"
 	},
 	"publishConfig": {
-		"access": "public"
+		"access": "public",
+		"exports": {
+			".": "./lib/index.js"
+		}
 	}
 }

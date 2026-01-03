@@ -9,7 +9,8 @@
 		"paths": {
 			"~/*": ["src/*"]
 		},
-		"target": "esnext"
+		"target": "esnext",
+		"customConditions": ["@flint.fyi/source"]
 	},
 	"extends": "astro/tsconfigs/strict",
 	"include": [".astro/types.d.ts", "*.config.*", "src"],

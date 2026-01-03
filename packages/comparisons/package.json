@@ -15,19 +15,29 @@
 	"sideEffects": false,
 	"type": "module",
 	"exports": {
-		".": "./lib/index.js"
+		".": {
+			"@flint.fyi/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		}
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.map"
+		"!lib/**/*.map",
+		"!lib/**/*.test.*"
 	],
 	"dependencies": {
 		"prettier": "3.7.4"
+	},
+	"devDependencies": {
+		"tsdown": "0.18.3"
 	},
 	"engines": {
 		"node": ">=24.0.0"
 	},
 	"publishConfig": {
-		"access": "public"
+		"access": "public",
+		"exports": {
+			".": "./lib/index.js"
+		}
 	}
 }

@@ -1,8 +1,8 @@
 import { parseArgs } from "node:util";
 
+import packageData from "../package.json" with { type: "json" };
 import { findConfigFileName } from "./findConfigFileName.js";
 import { options } from "./options.js";
-import { packageData } from "./packageData.js";
 import { createRendererFactory } from "./renderers/createRendererFactory.js";
 import { runCliOnce } from "./runCliOnce.js";
 import { runCliWatch } from "./runCliWatch.js";
