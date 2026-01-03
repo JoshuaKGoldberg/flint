@@ -26,7 +26,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				TryStatement: (node) => {
+				TryStatement: (node, { sourceFile }) => {
 					if (!node.finallyBlock) {
 						return;
 					}
@@ -38,7 +38,7 @@ export default typescriptLanguage.createRule({
 							ts.isBreakStatement(statement) ||
 							ts.isContinueStatement(statement)
 						) {
-							const firstToken = statement.getFirstToken(context.sourceFile);
+							const firstToken = statement.getFirstToken(sourceFile);
 							if (!firstToken) {
 								return;
 							}
@@ -46,9 +46,9 @@ export default typescriptLanguage.createRule({
 							context.report({
 								message: "unsafeFinally",
 								range: {
-									begin: statement.getStart(context.sourceFile),
+									begin: statement.getStart(sourceFile),
 									end:
-										statement.getStart(context.sourceFile) +
+										statement.getStart(sourceFile) +
 										firstToken.getText().length,
 								},
 							});

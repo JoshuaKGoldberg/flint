@@ -28,7 +28,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression(node, { typeChecker }) {
+				CallExpression(node, { sourceFile, typeChecker }) {
 					if (
 						ts.isPropertyAccessExpression(node.expression) &&
 						ts.isIdentifier(node.expression.expression) &&
@@ -39,7 +39,7 @@ export default typescriptLanguage.createRule({
 					) {
 						context.report({
 							message: "noProcessExit",
-							range: getTSNodeRange(node.expression, context.sourceFile),
+							range: getTSNodeRange(node.expression, sourceFile),
 						});
 					}
 				},

@@ -1,8 +1,6 @@
 import {
 	LanguageFileCacheImpacts,
 	LanguageFileDefinition,
-	NormalizedReport,
-	RuleReport,
 } from "@flint.fyi/core";
 import * as ts from "typescript";
 
@@ -39,45 +37,20 @@ export function createTypeScriptFileFromProgram(
 				.getPreEmitDiagnostics(program, sourceFile)
 				.map(convertTypeScriptDiagnosticToLanguageFileDiagnostic);
 		},
-		async runRule(rule, options) {
-			const reports: NormalizedReport[] = [];
+		normalizeRange: (range) => normalizeRange(range, sourceFile),
+		runVisitors(runtime, options) {
+			const typeChecker = program.getTypeChecker();
+			const fileServices = { options, program, sourceFile, typeChecker };
+			const { visitors } = runtime;
 
-			const context = {
-				program,
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: rule.messages[report.message],
-						range: normalizeRange(report.range, sourceFile),
-					});
-				},
-				sourceFile,
-				typeChecker: program.getTypeChecker(),
-			};
-
-			const runtime = await rule.setup(context, options);
-
-			if (runtime?.visitors) {
-				const typeChecker = program.getTypeChecker();
-				const fileServices = { options, program, sourceFile, typeChecker };
-				const { visitors } = runtime;
-
+			if (visitors) {
 				const visit = (node: ts.Node) => {
 					visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
-
 					node.forEachChild(visit);
 				};
 
 				visit(sourceFile);
 			}
-
-			await runtime?.teardown?.();
-
-			return reports;
 		},
 	};
 }
