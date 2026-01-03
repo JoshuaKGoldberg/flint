@@ -8,8 +8,7 @@
 		"node_modules",
 		"packages/comparisons/src/data.json",
 		"packages/site/dist",
-		"pnpm-lock.yaml",
-		"tsconfig.tsbuildinfo"
+		"pnpm-lock.yaml"
 	],
 	"words": [
 		"affordances",
@@ -31,8 +30,10 @@
 		"aria-setsize",
 		"aria-valuenow",
 		"aria-valuetext",
+		"attw",
 		"autolinks",
 		"auvred",
+		"azat-io",
 		"bday",
 		"codemod",
 		"contentinfo",

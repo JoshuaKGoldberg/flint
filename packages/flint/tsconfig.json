@@ -1,17 +1,8 @@
 {
-	"compilerOptions": {
-		"outDir": "lib",
-		"rootDir": "src"
-	},
 	"extends": "../../tsconfig.base.json",
-	"include": ["src"],
+	"include": [],
 	"references": [
-		{ "path": "../core" },
-		{ "path": "../cli" },
-		{ "path": "../json" },
-		{ "path": "../md" },
-		{ "path": "../ts" },
-		{ "path": "../ts-patch" },
-		{ "path": "../yaml" }
+		{ "path": "./tsconfig.bin.json" },
+		{ "path": "./tsconfig.src.json" }
 	]
 }

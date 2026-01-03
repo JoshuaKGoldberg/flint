@@ -5,40 +5,40 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
-      - run: pnpm build --noCheck
-      - run: pnpm run -r build
-      - run: pnpm flint
+      - run: pnpm run build
+      - run: pnpm run -r build # Build packages/site
+      - run: pnpm run flint
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
-      - run: pnpm build --noCheck
-      - run: pnpm run -r build
-      - run: pnpm lint
+      - run: pnpm run build
+      - run: pnpm run -r prebuild # Generate packages/site/.astro without a full build.
+      - run: pnpm run lint
   lint_knip:
     name: Lint Knip
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
-      - run: pnpm build
-      - run: pnpm lint:knip
+      - run: pnpm run build # Knip requires all exports to be generated.
+      - run: pnpm run lint:knip
   lint_packages:
     name: Lint Packages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
-      - run: pnpm lint:packages
+      - run: pnpm run lint:packages
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
-      - run: pnpm build --noCheck
+      - run: pnpm run build # https://github.com/vitest-dev/vitest/discussions/9353
       - run: pnpm run test
 
 name: CI

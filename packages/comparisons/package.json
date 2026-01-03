@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/comparisons",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "Comparisons of common lint rules across Flint and other web linters.",
 	"repository": {
 		"type": "git",
@@ -15,17 +15,22 @@
 	"sideEffects": false,
 	"type": "module",
 	"exports": {
-		".": "./lib/index.js"
+		".": {
+			"@flint.fyi/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		}
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.map"
+		"!lib/**/*.map",
+		"!lib/**/*.test.*"
 	],
 	"dependencies": {
 		"prettier": "3.7.4"
 	},
 	"devDependencies": {
 		"eslint": "9.39.2",
+		"tsdown": "0.18.3",
 		"vitest": "4.0.15"
 	},
 	"engines": {
@@ -33,6 +38,8 @@
 	},
 	"publishConfig": {
 		"access": "public",
-		"provenance": true
+		"exports": {
+			".": "./lib/index.js"
+		}
 	}
 }

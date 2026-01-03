@@ -1,5 +1,5 @@
-import { typescriptLanguage } from "../language.js";
-import { getModifyingReferences } from "../utils/getModifyingReferences.js";
+import { typescriptLanguage } from "../language.ts";
+import { getModifyingReferences } from "../utils/getModifyingReferences.ts";
 
 export default typescriptLanguage.createRule({
 	about: {

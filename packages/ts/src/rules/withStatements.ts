@@ -1,4 +1,4 @@
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 const withKeyword = "with";
 

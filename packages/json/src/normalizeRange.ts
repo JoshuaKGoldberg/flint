@@ -1,10 +1,9 @@
-import type * as ts from "typescript";
-
 import {
-	CharacterReportRange,
+	type CharacterReportRange,
 	getColumnAndLineOfPosition,
-	NormalizedReportRangeObject,
+	type NormalizedReportRangeObject,
 } from "@flint.fyi/core";
+import type * as ts from "typescript";
 
 // TODO: This duplicates the packages/ts normalizeRange...
 // Should there be a Flint tsutils / ts-api-utils equivalent?

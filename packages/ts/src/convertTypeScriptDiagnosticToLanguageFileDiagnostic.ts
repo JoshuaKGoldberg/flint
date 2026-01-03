@@ -8,8 +8,8 @@
 import {
 	getColumnAndLineOfPosition,
 	getPositionOfColumnAndLine,
-	LanguageFileDiagnostic,
-	SourceFileWithLineMapAndFileName,
+	type LanguageFileDiagnostic,
+	type SourceFileWithLineMapAndFileName,
 } from "@flint.fyi/core";
 import ts, { flattenDiagnosticMessageText } from "typescript";
 
