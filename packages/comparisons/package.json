@@ -22,8 +22,7 @@
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.map",
-		"!lib/**/*.test.*"
+		"!lib/**/*.map"
 	],
 	"dependencies": {
 		"prettier": "3.7.4"
