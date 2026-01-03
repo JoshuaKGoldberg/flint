@@ -1,3 +1,4 @@
+// flint-disable-file unnecessaryBlocks
 import fs from "node:fs";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
@@ -106,6 +107,8 @@ describe("createDiskBackedLinterHost", () => {
 			const onEvent = vi.fn();
 			using _ = host.watchFile(filePath, onEvent, 10);
 
+			await sleep(50);
+
 			fs.writeFileSync(filePath, "first");
 			await vi.waitFor(() => {
 				expect(onEvent).toHaveBeenCalledWith("created");
@@ -119,6 +122,8 @@ describe("createDiskBackedLinterHost", () => {
 			const onEvent = vi.fn();
 			using _ = host.watchFile(filePath, onEvent);
 
+			await sleep(50);
+
 			fs.writeFileSync(filePath, "second");
 			await vi.waitFor(() => {
 				expect(onEvent).toHaveBeenCalledWith("changed");
@@ -131,6 +136,8 @@ describe("createDiskBackedLinterHost", () => {
 			fs.writeFileSync(filePath, "first");
 			const onEvent = vi.fn();
 			using _ = host.watchFile(filePath, onEvent);
+
+			await sleep(50);
 
 			fs.rmSync(filePath);
 			await vi.waitFor(() => {
@@ -171,6 +178,8 @@ describe("createDiskBackedLinterHost", () => {
 			const filePath = path.join(secondDir, "deep.txt");
 			const onEvent = vi.fn();
 			using _ = host.watchFile(filePath, onEvent, 10);
+
+			await sleep(50);
 
 			fs.mkdirSync(firstDir, { recursive: true });
 			fs.mkdirSync(secondDir, { recursive: true });
@@ -233,7 +242,6 @@ describe("createDiskBackedLinterHost", () => {
 				using _ = host.watchFile(filePath, onEvent, 10);
 				await sleep(50);
 				fs.writeFileSync(filePath, "first");
-				await sleep(50);
 				await vi.waitFor(() => {
 					expect(onEvent).toHaveBeenCalledWith("created");
 				});
@@ -252,8 +260,8 @@ describe("createDiskBackedLinterHost", () => {
 			fs.writeFileSync(filePath, "first");
 			{
 				using _ = host.watchFile(filePath, onEvent, 10);
-				fs.rmSync(filePath);
 				await sleep(50);
+				fs.rmSync(filePath);
 				await vi.waitFor(() => {
 					expect(onEvent).toHaveBeenCalledWith("deleted");
 				});
@@ -272,6 +280,8 @@ describe("createDiskBackedLinterHost", () => {
 			const onEvent = vi.fn();
 			using _ = host.watchFile(targetPath, onEvent, 10);
 
+			await sleep(50);
+
 			fs.writeFileSync(otherPath, "content");
 
 			await sleep(50);
@@ -284,6 +294,8 @@ describe("createDiskBackedLinterHost", () => {
 			const onEvent = vi.fn();
 			fs.mkdirSync(dirPath, { recursive: true });
 			using _ = host.watchFile(dirPath, onEvent, 10);
+
+			await sleep(50);
 
 			fs.rmSync(dirPath, { force: true, recursive: true });
 			await vi.waitFor(() => {
@@ -304,6 +316,8 @@ describe("createDiskBackedLinterHost", () => {
 			const onEvent = vi.fn();
 			fs.mkdirSync(dirPath, { recursive: true });
 			using _ = host.watchFile(dirPath, onEvent, 10);
+
+			await sleep(50);
 
 			fs.writeFileSync(filePath, "content");
 			await sleep(50);
@@ -347,6 +361,8 @@ describe("createDiskBackedLinterHost", () => {
 			const onEvent = vi.fn();
 			using _ = host.watchDirectory(directoryPath, true, onEvent);
 
+			await sleep(50);
+
 			const nestedFile = path.join(nestedPath, "nested.txt");
 			fs.writeFileSync(nestedFile, "nested");
 
@@ -367,6 +383,8 @@ describe("createDiskBackedLinterHost", () => {
 			const onEvent = vi.fn();
 			using _ = host.watchDirectory(baseDir, true, onEvent);
 
+			await sleep(50);
+
 			fs.mkdirSync(path.join(baseDir, ".git"), { recursive: true });
 			fs.writeFileSync(path.join(baseDir, ".git", "config"), "content");
 			fs.writeFileSync(path.join(baseDir, "src.txt"), "content");
@@ -385,6 +403,8 @@ describe("createDiskBackedLinterHost", () => {
 			fs.mkdirSync(baseDir, { recursive: true });
 			const onEvent = vi.fn();
 			using _ = host.watchDirectory(baseDir, true, onEvent);
+
+			await sleep(50);
 
 			fs.mkdirSync(path.join(baseDir, "node_modules", "pkg"), {
 				recursive: true,
@@ -409,6 +429,8 @@ describe("createDiskBackedLinterHost", () => {
 			fs.mkdirSync(baseDir, { recursive: true });
 			const onEvent = vi.fn();
 			using _ = host.watchDirectory(baseDir, true, onEvent);
+
+			await sleep(50);
 
 			const filePath = path.join(baseDir, ".gitignore");
 			fs.writeFileSync(filePath, "content");
@@ -449,6 +471,9 @@ describe("createDiskBackedLinterHost", () => {
 			fs.mkdirSync(directoryPath, { recursive: true });
 
 			using _ = host.watchDirectory(directoryPath, false, onEvent, 10);
+
+			await sleep(50);
+
 			fs.rmSync(directoryPath, { force: true, recursive: true });
 
 			await vi.waitFor(() => {
@@ -462,6 +487,8 @@ describe("createDiskBackedLinterHost", () => {
 			const onEvent = vi.fn();
 			fs.mkdirSync(directoryPath, { recursive: true });
 			using _ = host.watchDirectory(directoryPath, false, onEvent, 10);
+
+			await sleep(50);
 
 			const firstFile = path.join(directoryPath, "first.txt");
 			fs.writeFileSync(firstFile, "first");

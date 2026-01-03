@@ -15,7 +15,7 @@ import { normalizedDirname, normalizePath } from "./normalizePath.js";
  * VFS is not directory-aware:
  *		- In non-recursive watchDirectory, every change to deeply nested children
  *			emits event on the immediate watched directory child.
- *		- created/deleted events are emitted without ackhowledging whether
+ *		- created/deleted events are emitted without acknowledging whether
  *			the base host has directories containing the target file path.
  *		- Base host events are not filtered; if you delete a file from the base host,
  *			but not from the VFS, a deleted event will still be emitted.
@@ -68,29 +68,25 @@ export function createVFSLinterHost(
 			watcher(fileEvent);
 		}
 
-		{
-			let currentFile = normalizedFilePathAbsolute;
-			let currentDir = normalizedDirname(currentFile);
-			do {
-				for (const watcher of directoryWatchers.get(currentDir) ?? []) {
-					watcher(currentFile);
-				}
-				currentFile = currentDir;
-				currentDir = normalizedDirname(currentFile);
-			} while (currentFile !== currentDir);
-		}
+		let currentFile = normalizedFilePathAbsolute;
+		let currentDir = normalizedDirname(currentFile);
+		do {
+			for (const watcher of directoryWatchers.get(currentDir) ?? []) {
+				watcher(currentFile);
+			}
+			currentFile = currentDir;
+			currentDir = normalizedDirname(currentFile);
+		} while (currentFile !== currentDir);
 
-		{
-			let dir = normalizedDirname(normalizedFilePathAbsolute);
-			while (true) {
-				for (const watcher of recursiveDirectoryWatchers.get(dir) ?? []) {
-					watcher(normalizedFilePathAbsolute);
-				}
-				const prevDir = dir;
-				dir = normalizedDirname(dir);
-				if (prevDir === dir) {
-					break;
-				}
+		let dir = normalizedDirname(normalizedFilePathAbsolute);
+		while (true) {
+			for (const watcher of recursiveDirectoryWatchers.get(dir) ?? []) {
+				watcher(normalizedFilePathAbsolute);
+			}
+			const prevDir = dir;
+			dir = normalizedDirname(dir);
+			if (prevDir === dir) {
+				break;
 			}
 		}
 	}

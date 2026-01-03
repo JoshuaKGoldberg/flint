@@ -1,3 +1,4 @@
+// flint-disable-file unnecessaryBlocks
 import { describe, expect, it, vi } from "vitest";
 
 import { createVFSLinterHost } from "./createVFSLinterHost.js";
