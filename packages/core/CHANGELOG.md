@@ -1,5 +1,11 @@
 # @flint/core
 
+## 0.18.0
+
+### Minor Changes
+
+- 1d81a8f: fix!: move runPrettier to @flint/cli, add peer dependency on prettier to prevent skew-induced crashes
+
 ## 0.17.0
 
 ### Minor Changes
