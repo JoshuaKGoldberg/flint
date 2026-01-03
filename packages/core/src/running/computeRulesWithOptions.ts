@@ -1,5 +1,5 @@
-import { AnyRule } from "../types/rules.js";
-import { ConfigUseDefinitionWithFiles } from "./computeUseDefinitions.js";
+import type { AnyRule } from "../types/rules.ts";
+import type { ConfigUseDefinitionWithFiles } from "./computeUseDefinitions.ts";
 
 // TODO: This is very slow and the whole thing should be refactored 🙌.
 // The separate lintFile function recomputes rule options repeatedly.

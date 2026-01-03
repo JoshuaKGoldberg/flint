@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/ts-patch",
-	"version": "0.13.2",
+	"version": "0.13.3",
 	"description": "[Experimental] Utilities for patching TypeScript used by @flint/core.",
 	"repository": {
 		"type": "git",
@@ -20,18 +20,31 @@
 	],
 	"type": "module",
 	"imports": {
-		"#proxy-program": "./lib/proxy-program.js"
+		"#proxy-program": {
+			"@flint.fyi/source": "./src/proxy-program.ts",
+			"default": "./lib/proxy-program.js"
+		}
 	},
 	"exports": {
-		".": "./lib/index.js",
-		"./install-patch": "./lib/install-patch.js",
-		"./install-patch-hooks": "./lib/install-patch-hooks.js"
+		".": {
+			"@flint.fyi/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		},
+		"./install-patch": {
+			"@flint.fyi/source": "./src/install-patch.ts",
+			"default": "./lib/install-patch.js"
+		},
+		"./install-patch-hooks": {
+			"@flint.fyi/source": "./src/install-patch-hooks.ts",
+			"default": "./lib/install-patch-hooks.js"
+		}
 	},
 	"files": [
 		"lib/",
 		"!lib/**/*.map"
 	],
 	"devDependencies": {
+		"tsdown": "0.18.3",
 		"typescript": "5.9.3"
 	},
 	"peerDependencies": {
@@ -42,6 +55,10 @@
 	},
 	"publishConfig": {
 		"access": "public",
-		"provenance": true
+		"exports": {
+			".": "./lib/index.js",
+			"./install-patch": "./lib/install-patch.js",
+			"./install-patch-hooks": "./lib/install-patch-hooks.js"
+		}
 	}
 }

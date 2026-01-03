@@ -1,5 +1,5 @@
 import { typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import type * as ts from "typescript";
 
 const problematicEntities = [
 	{ entity: '"', toBrace: '{"\\""}', toHTML: "&quot;" },

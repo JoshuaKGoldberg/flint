@@ -1,5 +1,5 @@
-import rule from "./iframeTitles.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./iframeTitles.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

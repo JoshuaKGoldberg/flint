@@ -15,7 +15,10 @@
 	"sideEffects": false,
 	"type": "module",
 	"exports": {
-		".": "./lib/index.js"
+		".": {
+			"@flint.fyi/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		}
 	},
 	"files": [
 		"lib/",
@@ -27,6 +30,7 @@
 		"cached-factory": "^0.1.0"
 	},
 	"devDependencies": {
+		"tsdown": "0.18.3",
 		"vitest": "4.0.15"
 	},
 	"engines": {
@@ -34,6 +38,8 @@
 	},
 	"publishConfig": {
 		"access": "public",
-		"provenance": true
+		"exports": {
+			".": "./lib/index.js"
+		}
 	}
 }

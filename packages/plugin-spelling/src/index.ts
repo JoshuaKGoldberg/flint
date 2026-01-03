@@ -1,1 +1,1 @@
-export * from "./spelling.js";
+export * from "./spelling.ts";
