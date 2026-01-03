@@ -4746,6 +4746,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unsupportedSyntax",
 			"plugin": "node",
 			"preset": "logical"
