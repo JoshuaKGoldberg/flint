@@ -1,6 +1,6 @@
 {
 	"name": "flint",
-	"version": "0.14.1",
+	"version": "0.15.0",
 	"description": "[Experimental] A fast, friendly linter. ❤️‍🔥",
 	"repository": {
 		"type": "git",
@@ -52,7 +52,6 @@
 	"publishConfig": {
 		"exports": {
 			".": "./lib/index.js"
-		},
-		"provenance": true
+		}
 	}
 }

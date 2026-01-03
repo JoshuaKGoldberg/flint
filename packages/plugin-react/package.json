@@ -38,7 +38,6 @@
 		"access": "public",
 		"exports": {
 			".": "./lib/index.js"
-		},
-		"provenance": true
+		}
 	}
 }
