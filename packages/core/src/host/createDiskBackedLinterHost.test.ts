@@ -161,7 +161,7 @@ describe("createDiskBackedLinterHost", () => {
 			});
 		});
 
-		it.only("watches deeply nested files across directory removal and recreation", async () => {
+		it("watches deeply nested files across directory removal and recreation", async () => {
 			const host = createDiskBackedLinterHost(integrationRoot);
 			const firstDir = path.join(integrationRoot, "first");
 			const secondDir = path.join(firstDir, "second");
@@ -194,7 +194,6 @@ describe("createDiskBackedLinterHost", () => {
 				]);
 			});
 
-			console.log("rm first");
 			fs.rmSync(firstDir, { recursive: true, force: true });
 
 			await vi.waitFor(() => {
