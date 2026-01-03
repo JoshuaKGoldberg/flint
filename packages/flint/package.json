@@ -26,7 +26,6 @@
 	"files": [
 		"lib/",
 		"!lib/**/*.map",
-		"!lib/**/*.test.*",
 		"!lib/bin/**"
 	],
 	"dependencies": {
