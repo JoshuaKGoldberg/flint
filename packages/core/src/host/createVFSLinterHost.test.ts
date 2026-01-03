@@ -1,5 +1,9 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
 import { createVFSLinterHost } from "./createVFSLinterHost.js";
+
+/* eslint @typescript-eslint/no-unused-vars: ["error", { "varsIgnorePattern": "^_$" }] */
+/* eslint-disable @typescript-eslint/no-empty-function */
 
 describe(createVFSLinterHost, () => {
 	it("normalizes cwd", () => {
@@ -549,3 +553,5 @@ describe(createVFSLinterHost, () => {
 		});
 	});
 });
+
+/* eslint-enable @typescript-eslint/no-empty-function */

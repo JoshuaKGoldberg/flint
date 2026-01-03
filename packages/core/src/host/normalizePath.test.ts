@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { normalizedDirname, normalizePath } from "./normalizePath.js";
 
 describe("normalizePath", () => {

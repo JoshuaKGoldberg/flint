@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import { createDiskBackedLinterHost } from "./createDiskBackedLinterHost.js";
 import { normalizePath } from "./normalizePath.js";
 
@@ -22,6 +23,8 @@ function findUpNodeModules(startDir: string): string {
 	}
 }
 
+/* eslint @typescript-eslint/no-unused-vars: ["error", { "varsIgnorePattern": "^_$" }] */
+
 describe("createDiskBackedLinterHost", () => {
 	const integrationRoot = path.join(
 		findUpNodeModules(import.meta.dirname),
@@ -29,12 +32,12 @@ describe("createDiskBackedLinterHost", () => {
 	);
 
 	beforeEach(() => {
-		fs.rmSync(integrationRoot, { recursive: true, force: true });
+		fs.rmSync(integrationRoot, { force: true, recursive: true });
 		fs.mkdirSync(integrationRoot, { recursive: true });
 	});
 
 	afterEach(() => {
-		fs.rmSync(integrationRoot, { recursive: true, force: true });
+		fs.rmSync(integrationRoot, { force: true, recursive: true });
 	});
 
 	it("normalizes cwd", () => {
@@ -178,7 +181,7 @@ describe("createDiskBackedLinterHost", () => {
 			});
 			onEvent.mockClear();
 
-			fs.rmSync(secondDir, { recursive: true, force: true });
+			fs.rmSync(secondDir, { force: true, recursive: true });
 
 			await vi.waitFor(() => {
 				expect(onEvent).toHaveBeenCalledWith("deleted");
@@ -193,7 +196,7 @@ describe("createDiskBackedLinterHost", () => {
 			});
 			onEvent.mockClear();
 
-			fs.rmSync(firstDir, { recursive: true, force: true });
+			fs.rmSync(firstDir, { force: true, recursive: true });
 
 			await vi.waitFor(() => {
 				expect(onEvent).toHaveBeenCalledWith("deleted");
@@ -282,7 +285,7 @@ describe("createDiskBackedLinterHost", () => {
 			fs.mkdirSync(dirPath, { recursive: true });
 			using _ = host.watchFile(dirPath, onEvent, 10);
 
-			fs.rmSync(dirPath, { recursive: true, force: true });
+			fs.rmSync(dirPath, { force: true, recursive: true });
 			await vi.waitFor(() => {
 				expect(onEvent).toHaveBeenCalledWith("deleted");
 			});
@@ -446,7 +449,7 @@ describe("createDiskBackedLinterHost", () => {
 			fs.mkdirSync(directoryPath, { recursive: true });
 
 			using _ = host.watchDirectory(directoryPath, false, onEvent, 10);
-			fs.rmSync(directoryPath, { recursive: true, force: true });
+			fs.rmSync(directoryPath, { force: true, recursive: true });
 
 			await vi.waitFor(() => {
 				expect(onEvent).toHaveBeenCalledWith(normalizedDirectory);
@@ -473,7 +476,7 @@ describe("createDiskBackedLinterHost", () => {
 			});
 			onEvent.mockClear();
 
-			fs.rmSync(directoryPath, { recursive: true, force: true });
+			fs.rmSync(directoryPath, { force: true, recursive: true });
 
 			const normalizedDirectory = normalizePath(
 				directoryPath,
@@ -529,13 +532,13 @@ describe("createDiskBackedLinterHost", () => {
 			});
 			onEvent.mockClear();
 
-			fs.rmSync(subDirectoryPath, { recursive: true, force: true });
+			fs.rmSync(subDirectoryPath, { force: true, recursive: true });
 			await vi.waitFor(() => {
 				expect(onEvent).toHaveBeenCalledWith(subDirectoryPath);
 			});
 			onEvent.mockClear();
 
-			fs.rmSync(directoryPath, { recursive: true, force: true });
+			fs.rmSync(directoryPath, { force: true, recursive: true });
 			await vi.waitFor(() => {
 				expect(onEvent).toHaveBeenCalledWith(directoryPath);
 			});

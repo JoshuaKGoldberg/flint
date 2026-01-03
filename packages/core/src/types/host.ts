@@ -1,34 +1,34 @@
-export interface LinterHostDirectoryEntry {
-	type: "file" | "directory";
-	name: string;
-}
-
-export type LinterHostFileWatcherEvent = "created" | "changed" | "deleted";
-export type LinterHostFileWatcher = (event: LinterHostFileWatcherEvent) => void;
-
-export type LinterHostDirectoryWatcher = (filePathAbsolute: string) => void;
-
 export interface LinterHost {
 	getCurrentDirectory(): string;
 	isCaseSensitiveFS(): boolean;
-	stat(pathAbsolute: string): "file" | "directory" | undefined;
-	readFile(filePathAbsolute: string): string | undefined;
 	readDirectory(directoryPathAbsolute: string): LinterHostDirectoryEntry[];
-	watchFile(
-		filePathAbsolute: string,
-		callback: LinterHostFileWatcher,
-		pollingInterval?: number | undefined,
-	): Disposable;
+	readFile(filePathAbsolute: string): string | undefined;
+	stat(pathAbsolute: string): "directory" | "file" | undefined;
 	watchDirectory(
 		directoryPathAbsolute: string,
 		recursive: boolean,
 		callback: LinterHostDirectoryWatcher,
-		pollingInterval?: number | undefined,
+		pollingInterval?: number,
+	): Disposable;
+	watchFile(
+		filePathAbsolute: string,
+		callback: LinterHostFileWatcher,
+		pollingInterval?: number,
 	): Disposable;
 }
 
+export interface LinterHostDirectoryEntry {
+	name: string;
+	type: "directory" | "file";
+}
+export type LinterHostDirectoryWatcher = (filePathAbsolute: string) => void;
+
+export type LinterHostFileWatcher = (event: LinterHostFileWatcherEvent) => void;
+
+export type LinterHostFileWatcherEvent = "changed" | "created" | "deleted";
+
 export interface VFSLinterHost extends LinterHost {
-	vfsUpsertFile(filePathAbsolute: string, content: string): void;
 	vfsDeleteFile(filePathAbsolute: string): void;
 	vfsListFiles(): ReadonlyMap<string, string>;
+	vfsUpsertFile(filePathAbsolute: string, content: string): void;
 }

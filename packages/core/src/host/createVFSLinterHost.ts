@@ -14,28 +14,28 @@ import { normalizedDirname, normalizePath } from "./normalizePath.js";
  *
  * VFS is not directory-aware:
  *		- In non-recursive watchDirectory, every change to deeply nested children
- *			emits event on the immediate watched directory child
+ *			emits event on the immediate watched directory child.
  *		- created/deleted events are emitted without ackhowledging whether
- *			the base host has directories containing the target file path
+ *			the base host has directories containing the target file path.
  *		- Base host events are not filtered; if you delete a file from the base host,
- *			but not from the VFS, a deleted event will still be emitted
- *		- You cannot watch directory via watchFile
+ *			but not from the VFS, a deleted event will still be emitted.
+ *		- You cannot watch directory via watchFile.
  *
  * Other limitations:
  *		- VFS is file-only; empty directories cannot be represented, and directory
- * 		existence is inferred from file paths
+ * 			existence is inferred from file paths.
  */
 export function createVFSLinterHost(
 	baseHost: LinterHost,
-	cwd?: string | undefined,
+	cwd?: string,
 ): VFSLinterHost;
 export function createVFSLinterHost(
 	cwd: string,
-	caseSensitiveFS?: boolean | undefined,
+	caseSensitiveFS?: boolean,
 ): VFSLinterHost;
 export function createVFSLinterHost(
-	cwdOrBaseHost: string | LinterHost,
-	cwdOrCaseSensitiveFS?: boolean | string | undefined,
+	cwdOrBaseHost: LinterHost | string,
+	cwdOrCaseSensitiveFS?: boolean | string,
 ): VFSLinterHost {
 	let cwd: string;
 	let baseHost: LinterHost | undefined;
@@ -101,29 +101,6 @@ export function createVFSLinterHost(
 		isCaseSensitiveFS() {
 			return caseSensitiveFS;
 		},
-		stat(pathAbsolute) {
-			pathAbsolute = normalizePath(pathAbsolute, caseSensitiveFS);
-			for (const filePath of fileMap.keys()) {
-				if (pathAbsolute === filePath) {
-					return "file";
-				}
-				if (filePath.startsWith(pathAbsolute + "/")) {
-					return "directory";
-				}
-			}
-			return baseHost?.stat(pathAbsolute);
-		},
-		readFile(filePathAbsolute) {
-			filePathAbsolute = normalizePath(filePathAbsolute, caseSensitiveFS);
-			const file = fileMap.get(filePathAbsolute);
-			if (file != null) {
-				return file;
-			}
-			if (baseHost?.stat(filePathAbsolute) === "file") {
-				return baseHost.readFile(filePathAbsolute);
-			}
-			return undefined;
-		},
 		readDirectory(directoryPathAbsolute) {
 			directoryPathAbsolute =
 				normalizePath(directoryPathAbsolute, caseSensitiveFS) + "/";
@@ -136,13 +113,13 @@ export function createVFSLinterHost(
 				filePath = filePath.slice(directoryPathAbsolute.length);
 				const slashIndex = filePath.indexOf("/");
 				let dirent: LinterHostDirectoryEntry = {
-					type: "file",
 					name: filePath,
+					type: "file",
 				};
 				if (slashIndex >= 0) {
 					dirent = {
-						type: "directory",
 						name: filePath.slice(0, slashIndex),
+						type: "directory",
 					};
 				}
 				if (!result.get(dirent.name)) {
@@ -152,35 +129,51 @@ export function createVFSLinterHost(
 
 			return [
 				...result.values(),
-				...((baseHost?.stat(directoryPathAbsolute) === "directory" &&
-					baseHost
-						.readDirectory(directoryPathAbsolute)
-						.filter(({ name }) => !result.has(name))) ||
-					[]),
+				...(baseHost?.stat(directoryPathAbsolute) === "directory"
+					? baseHost
+							.readDirectory(directoryPathAbsolute)
+							.filter(({ name }) => !result.has(name))
+					: []),
 			];
 		},
-		watchFile(filePathAbsolute, callback, pollingInterval) {
+		readFile(filePathAbsolute) {
 			filePathAbsolute = normalizePath(filePathAbsolute, caseSensitiveFS);
-			let watchers = fileWatchers.get(filePathAbsolute);
-			if (watchers == null) {
-				watchers = new Set();
-				fileWatchers.set(filePathAbsolute, watchers);
+			const file = fileMap.get(filePathAbsolute);
+			if (file != null) {
+				return file;
 			}
-			watchers.add(callback);
-			const baseWatcher = baseHost?.watchFile(
-				filePathAbsolute,
-				callback,
-				pollingInterval,
-			);
-			return {
-				[Symbol.dispose]() {
-					watchers.delete(callback);
-					if (watchers.size === 0) {
-						fileWatchers.delete(filePathAbsolute);
-					}
-					baseWatcher?.[Symbol.dispose]();
-				},
-			};
+			if (baseHost?.stat(filePathAbsolute) === "file") {
+				return baseHost.readFile(filePathAbsolute);
+			}
+			return undefined;
+		},
+		stat(pathAbsolute) {
+			pathAbsolute = normalizePath(pathAbsolute, caseSensitiveFS);
+			for (const filePath of fileMap.keys()) {
+				if (pathAbsolute === filePath) {
+					return "file";
+				}
+				if (filePath.startsWith(pathAbsolute + "/")) {
+					return "directory";
+				}
+			}
+			return baseHost?.stat(pathAbsolute);
+		},
+		vfsDeleteFile(filePathAbsolute) {
+			filePathAbsolute = normalizePath(filePathAbsolute, caseSensitiveFS);
+			if (!fileMap.delete(filePathAbsolute)) {
+				return;
+			}
+			watchEvent(filePathAbsolute, "deleted");
+		},
+		vfsListFiles() {
+			return fileMap;
+		},
+		vfsUpsertFile(filePathAbsolute, content) {
+			filePathAbsolute = normalizePath(filePathAbsolute, caseSensitiveFS);
+			const fileEvent = fileMap.has(filePathAbsolute) ? "changed" : "created";
+			fileMap.set(filePathAbsolute, content);
+			watchEvent(filePathAbsolute, fileEvent);
 		},
 		watchDirectory(
 			directoryPathAbsolute,
@@ -217,21 +210,28 @@ export function createVFSLinterHost(
 				},
 			};
 		},
-		vfsUpsertFile(filePathAbsolute, content) {
+		watchFile(filePathAbsolute, callback, pollingInterval) {
 			filePathAbsolute = normalizePath(filePathAbsolute, caseSensitiveFS);
-			const fileEvent = fileMap.has(filePathAbsolute) ? "changed" : "created";
-			fileMap.set(filePathAbsolute, content);
-			watchEvent(filePathAbsolute, fileEvent);
-		},
-		vfsDeleteFile(filePathAbsolute) {
-			filePathAbsolute = normalizePath(filePathAbsolute, caseSensitiveFS);
-			if (!fileMap.delete(filePathAbsolute)) {
-				return;
+			let watchers = fileWatchers.get(filePathAbsolute);
+			if (watchers == null) {
+				watchers = new Set();
+				fileWatchers.set(filePathAbsolute, watchers);
 			}
-			watchEvent(filePathAbsolute, "deleted");
-		},
-		vfsListFiles() {
-			return fileMap;
+			watchers.add(callback);
+			const baseWatcher = baseHost?.watchFile(
+				filePathAbsolute,
+				callback,
+				pollingInterval,
+			);
+			return {
+				[Symbol.dispose]() {
+					watchers.delete(callback);
+					if (watchers.size === 0) {
+						fileWatchers.delete(filePathAbsolute);
+					}
+					baseWatcher?.[Symbol.dispose]();
+				},
+			};
 		},
 	};
 }

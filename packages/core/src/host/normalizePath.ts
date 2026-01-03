@@ -1,5 +1,14 @@
 import { normalize } from "node:path";
 
+export function normalizedDirname(path: string) {
+	const lastSlashIdx = path.lastIndexOf("/");
+	path = path.slice(0, lastSlashIdx + 1);
+	if (path.indexOf("/") === lastSlashIdx && path.endsWith("/")) {
+		return path;
+	}
+	return path.slice(0, lastSlashIdx);
+}
+
 export function normalizePath(path: string, caseSensitiveFS: boolean): string {
 	let result = normalize(path).replaceAll("\\", "/");
 	if (result.indexOf("/") !== result.lastIndexOf("/") && result.endsWith("/")) {
@@ -9,13 +18,4 @@ export function normalizePath(path: string, caseSensitiveFS: boolean): string {
 		result = result.toLowerCase();
 	}
 	return result;
-}
-
-export function normalizedDirname(path: string) {
-	const lastSlashIdx = path.lastIndexOf("/");
-	path = path.slice(0, lastSlashIdx + 1);
-	if (path.indexOf("/") === lastSlashIdx && path.endsWith("/")) {
-		return path;
-	}
-	return path.slice(0, lastSlashIdx);
 }
