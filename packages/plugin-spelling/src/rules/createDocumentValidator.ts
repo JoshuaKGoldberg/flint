@@ -50,7 +50,7 @@ export async function createDocumentValidator(fileName: string, text: string) {
 
 /**
  * Loads the cspell.json configuration file.
- * @throws {Error} If the config file is missing, throws an error with `name === "Flint"` and `exitCode === 2`.
+ * @throws {Error} If the config file is missing, throws an error with `name === "Flint"`.
  *                  The CLI should handle this as a configuration error (exit code 2).
  */
 async function loadConfigFile(url: string, path: string) {
