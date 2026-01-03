@@ -1,7 +1,10 @@
 ---
 import { Icon } from "@astrojs/starlight/components";
 import type { StarlightIcon } from "@astrojs/starlight/types";
+
 import InlineMarkdown from "../InlineMarkdown.astro";
+import www from "./www.svg";
+import { Image } from "astro:assets";
 
 export interface Props {
 	description: string;
@@ -32,7 +35,7 @@ const {
 		<ol class="services">
 			{
 				[["github", `https://github.com/${username}`] as const, ...links]
-					.sort(([a], [b]) => a.localeCompare(b))
+					.sort(([a], [b]) => (a === "seti:html" ? 1 : a.localeCompare(b)))
 					.map(([service, url]) => (
 						<li class="service">
 							<a
