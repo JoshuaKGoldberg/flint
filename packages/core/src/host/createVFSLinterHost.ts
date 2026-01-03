@@ -1,0 +1,196 @@
+import {
+	LinterHost,
+	LinterHostDirectoryEntry,
+	LinterHostDirectoryWatcher,
+	LinterHostFileWatcher,
+	LinterHostFileWatcherEvent,
+	VFSLinterHost,
+} from "../types/host.js";
+import { normalizePath } from "./normalizePath.js";
+
+export function createVFSLinterHost(
+	baseHost: LinterHost,
+	cwd?: string | undefined,
+): VFSLinterHost;
+export function createVFSLinterHost(
+	cwd: string,
+	caseSensitiveFS: boolean,
+): VFSLinterHost;
+export function createVFSLinterHost(
+	cwdOrBaseHost: string | LinterHost,
+	cwdOrCaseSensitiveFS?: boolean | string | undefined,
+): VFSLinterHost {
+	let cwd: string;
+	let baseHost: LinterHost | undefined;
+	let caseSensitiveFS: boolean;
+	if (typeof cwdOrBaseHost === "string") {
+		caseSensitiveFS = cwdOrCaseSensitiveFS as boolean;
+		cwd = normalizePath(cwdOrBaseHost, caseSensitiveFS);
+	} else {
+		baseHost = cwdOrBaseHost;
+		cwd =
+			(cwdOrCaseSensitiveFS as string | undefined) ??
+			cwdOrBaseHost.getCurrentDirectory();
+		caseSensitiveFS = cwdOrBaseHost.isCaseSensitiveFS();
+	}
+
+	const fileMap = new Map<string, string>();
+	const fileWatchers = new Map<string, Set<LinterHostFileWatcher>>();
+	const directoryWatchers = new Map<string, Set<LinterHostDirectoryWatcher>>();
+	const recursiveDirectoryWatchers = new Map<
+		string,
+		Set<LinterHostDirectoryWatcher>
+	>();
+	function watchEvent(
+		normalizedFilePathAbsolute: string,
+		fileEvent: LinterHostFileWatcherEvent,
+	) {
+		for (const watcher of fileWatchers.get(normalizedFilePathAbsolute) ?? []) {
+			watcher(fileEvent);
+		}
+		let slashIdx = normalizedFilePathAbsolute.lastIndexOf("/");
+		if (slashIdx < 0) {
+			return;
+		}
+		let directoryPathAbsolute = normalizedFilePathAbsolute.slice(0, slashIdx);
+		for (const watcher of directoryWatchers.get(directoryPathAbsolute) ?? []) {
+			watcher(normalizedFilePathAbsolute);
+		}
+		do {
+			directoryPathAbsolute = directoryPathAbsolute.slice(0, slashIdx);
+			for (const watcher of recursiveDirectoryWatchers.get(
+				directoryPathAbsolute,
+			) ?? []) {
+				watcher(normalizedFilePathAbsolute);
+			}
+		} while ((slashIdx = directoryPathAbsolute.lastIndexOf("/")) >= 0);
+	}
+	return {
+		getCurrentDirectory() {
+			return cwd;
+		},
+		isCaseSensitiveFS() {
+			return caseSensitiveFS;
+		},
+		stat(pathAbsolute) {
+			pathAbsolute = normalizePath(pathAbsolute, caseSensitiveFS);
+			for (const filePath of fileMap.keys()) {
+				if (pathAbsolute === filePath) {
+					return "file";
+				}
+				if (filePath.startsWith(pathAbsolute + "/")) {
+					return "directory";
+				}
+			}
+			return baseHost?.stat(pathAbsolute);
+		},
+		readFile(filePathAbsolute) {
+			filePathAbsolute = normalizePath(filePathAbsolute, caseSensitiveFS);
+			const file = fileMap.get(filePathAbsolute);
+			if (file != null) {
+				return file;
+			}
+			if (baseHost?.stat(filePathAbsolute) === "file") {
+				return baseHost.readFile(filePathAbsolute);
+			}
+			return undefined;
+		},
+		readDirectory(directoryPathAbsolute) {
+			directoryPathAbsolute =
+				normalizePath(directoryPathAbsolute, caseSensitiveFS) + "/";
+			const result = new Map<string, LinterHostDirectoryEntry>();
+
+			for (let filePath of fileMap.keys()) {
+				if (!filePath.startsWith(directoryPathAbsolute)) {
+					continue;
+				}
+				filePath = filePath.slice(directoryPathAbsolute.length);
+				const slashIndex = filePath.indexOf("/");
+				let dirent: LinterHostDirectoryEntry = {
+					type: "file",
+					name: filePath,
+				};
+				if (slashIndex >= 0) {
+					dirent = {
+						type: "directory",
+						name: filePath.slice(0, slashIndex),
+					};
+				}
+				if (!result.get(dirent.name)) {
+					result.set(dirent.name, dirent);
+				}
+			}
+
+			return [
+				...result.values(),
+				...((baseHost?.stat(directoryPathAbsolute) === "directory" &&
+					baseHost.readDirectory(directoryPathAbsolute)) ||
+					[]),
+			];
+		},
+		watchFile(filePathAbsolute, callback) {
+			filePathAbsolute = normalizePath(filePathAbsolute, caseSensitiveFS);
+			let watchers = fileWatchers.get(filePathAbsolute);
+			if (watchers == null) {
+				watchers = new Set();
+				fileWatchers.set(filePathAbsolute, watchers);
+			}
+			watchers.add(callback);
+			const baseWatcher = baseHost?.watchFile(filePathAbsolute, callback);
+			return {
+				[Symbol.dispose]() {
+					watchers.delete(callback);
+					if (watchers.size === 0) {
+						fileWatchers.delete(filePathAbsolute);
+					}
+					baseWatcher?.[Symbol.dispose]();
+				},
+			};
+		},
+		watchDirectory(directoryPathAbsolute, recursive, callback) {
+			directoryPathAbsolute = normalizePath(
+				directoryPathAbsolute,
+				caseSensitiveFS,
+			);
+			const collection = recursive
+				? recursiveDirectoryWatchers
+				: directoryWatchers;
+			let watchers = collection.get(directoryPathAbsolute);
+			if (watchers == null) {
+				watchers = new Set();
+				collection.set(directoryPathAbsolute, watchers);
+			}
+			watchers.add(callback);
+			const baseWatcher = baseHost?.watchDirectory(
+				directoryPathAbsolute,
+				recursive,
+				callback,
+			);
+			return {
+				[Symbol.dispose]() {
+					watchers.delete(callback);
+					if (watchers.size === 0) {
+						collection.delete(directoryPathAbsolute);
+					}
+					baseWatcher?.[Symbol.dispose]();
+				},
+			};
+		},
+		vfsUpsertFile(filePathAbsolute, content) {
+			filePathAbsolute = normalizePath(filePathAbsolute, caseSensitiveFS);
+			const fileEvent = fileMap.has(filePathAbsolute) ? "changed" : "created";
+			fileMap.set(filePathAbsolute, content);
+			watchEvent(filePathAbsolute, fileEvent);
+		},
+		vfsDeleteFile(filePathAbsolute) {
+			filePathAbsolute = normalizePath(filePathAbsolute, caseSensitiveFS);
+			if (!fileMap.delete(filePathAbsolute)) {
+				return;
+			}
+			watchEvent(filePathAbsolute, "deleted");
+		},
+		vfsListFiles() {
+			return fileMap;
+		},
+	};
+}
