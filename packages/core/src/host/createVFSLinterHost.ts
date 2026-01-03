@@ -6,15 +6,32 @@ import {
 	LinterHostFileWatcherEvent,
 	VFSLinterHost,
 } from "../types/host.js";
-import { normalizePath } from "./normalizePath.js";
+import { isFileSystemCaseSensitive } from "./isFileSystemCaseSensitive.js";
+import { normalizedDirname, normalizePath } from "./normalizePath.js";
 
+/**
+ * Current limitations in watch mode:
+ *
+ * VFS is not directory-aware:
+ *		- In non-recursive watchDirectory, every change to deeply nested children
+ *			emits event on the immediate watched directory child
+ *		- created/deleted events are emitted without ackhowledging whether
+ *			the base host has directories containing the target file path
+ *		- Base host events are not filtered; if you delete a file from the base host,
+ *			but not from the VFS, a deleted event will still be emitted
+ *		- You cannot watch directory via watchFile
+ *
+ * Other limitations:
+ *		- VFS is file-only; empty directories cannot be represented, and directory
+ * 		existence is inferred from file paths
+ */
 export function createVFSLinterHost(
 	baseHost: LinterHost,
 	cwd?: string | undefined,
 ): VFSLinterHost;
 export function createVFSLinterHost(
 	cwd: string,
-	caseSensitiveFS: boolean,
+	caseSensitiveFS?: boolean | undefined,
 ): VFSLinterHost;
 export function createVFSLinterHost(
 	cwdOrBaseHost: string | LinterHost,
@@ -24,7 +41,9 @@ export function createVFSLinterHost(
 	let baseHost: LinterHost | undefined;
 	let caseSensitiveFS: boolean;
 	if (typeof cwdOrBaseHost === "string") {
-		caseSensitiveFS = cwdOrCaseSensitiveFS as boolean;
+		caseSensitiveFS =
+			(cwdOrCaseSensitiveFS as boolean | undefined) ??
+			isFileSystemCaseSensitive();
 		cwd = normalizePath(cwdOrBaseHost, caseSensitiveFS);
 	} else {
 		baseHost = cwdOrBaseHost;
@@ -48,22 +67,32 @@ export function createVFSLinterHost(
 		for (const watcher of fileWatchers.get(normalizedFilePathAbsolute) ?? []) {
 			watcher(fileEvent);
 		}
-		let slashIdx = normalizedFilePathAbsolute.lastIndexOf("/");
-		if (slashIdx < 0) {
-			return;
+
+		{
+			let currentFile = normalizedFilePathAbsolute;
+			let currentDir = normalizedDirname(currentFile);
+			do {
+				for (const watcher of directoryWatchers.get(currentDir) ?? []) {
+					watcher(currentFile);
+				}
+				currentFile = currentDir;
+				currentDir = normalizedDirname(currentFile);
+			} while (currentFile !== currentDir);
 		}
-		let directoryPathAbsolute = normalizedFilePathAbsolute.slice(0, slashIdx);
-		for (const watcher of directoryWatchers.get(directoryPathAbsolute) ?? []) {
-			watcher(normalizedFilePathAbsolute);
-		}
-		do {
-			directoryPathAbsolute = directoryPathAbsolute.slice(0, slashIdx);
-			for (const watcher of recursiveDirectoryWatchers.get(
-				directoryPathAbsolute,
-			) ?? []) {
-				watcher(normalizedFilePathAbsolute);
+
+		{
+			let dir = normalizedDirname(normalizedFilePathAbsolute);
+			while (true) {
+				for (const watcher of recursiveDirectoryWatchers.get(dir) ?? []) {
+					watcher(normalizedFilePathAbsolute);
+				}
+				const prevDir = dir;
+				dir = normalizedDirname(dir);
+				if (prevDir === dir) {
+					break;
+				}
 			}
-		} while ((slashIdx = directoryPathAbsolute.lastIndexOf("/")) >= 0);
+		}
 	}
 	return {
 		getCurrentDirectory() {
@@ -124,11 +153,13 @@ export function createVFSLinterHost(
 			return [
 				...result.values(),
 				...((baseHost?.stat(directoryPathAbsolute) === "directory" &&
-					baseHost.readDirectory(directoryPathAbsolute)) ||
+					baseHost
+						.readDirectory(directoryPathAbsolute)
+						.filter(({ name }) => !result.has(name))) ||
 					[]),
 			];
 		},
-		watchFile(filePathAbsolute, callback) {
+		watchFile(filePathAbsolute, callback, pollingInterval) {
 			filePathAbsolute = normalizePath(filePathAbsolute, caseSensitiveFS);
 			let watchers = fileWatchers.get(filePathAbsolute);
 			if (watchers == null) {
@@ -136,7 +167,11 @@ export function createVFSLinterHost(
 				fileWatchers.set(filePathAbsolute, watchers);
 			}
 			watchers.add(callback);
-			const baseWatcher = baseHost?.watchFile(filePathAbsolute, callback);
+			const baseWatcher = baseHost?.watchFile(
+				filePathAbsolute,
+				callback,
+				pollingInterval,
+			);
 			return {
 				[Symbol.dispose]() {
 					watchers.delete(callback);
@@ -147,7 +182,12 @@ export function createVFSLinterHost(
 				},
 			};
 		},
-		watchDirectory(directoryPathAbsolute, recursive, callback) {
+		watchDirectory(
+			directoryPathAbsolute,
+			recursive,
+			callback,
+			pollingInterval,
+		) {
 			directoryPathAbsolute = normalizePath(
 				directoryPathAbsolute,
 				caseSensitiveFS,
@@ -165,6 +205,7 @@ export function createVFSLinterHost(
 				directoryPathAbsolute,
 				recursive,
 				callback,
+				pollingInterval,
 			);
 			return {
 				[Symbol.dispose]() {

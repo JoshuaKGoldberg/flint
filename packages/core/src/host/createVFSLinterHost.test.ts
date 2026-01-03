@@ -24,173 +24,528 @@ describe(createVFSLinterHost, () => {
 		expect(host.isCaseSensitiveFS()).toEqual(true);
 	});
 
-	it("stats files and directories from the vfs", () => {
-		const host = createVFSLinterHost("/root", true);
+	describe("stat", () => {
+		it("existing file", () => {
+			const host = createVFSLinterHost("/root", true);
 
-		host.vfsUpsertFile("/root/file.ts", "content");
-		host.vfsUpsertFile("/root/nested/file.ts", "content");
+			host.vfsUpsertFile("/root/file.ts", "content");
+			host.vfsUpsertFile("/root/nested/file.ts", "content");
 
-		expect(host.stat("/root/file.ts")).toEqual("file");
-		expect(host.stat("/root/nested")).toEqual("directory");
-		expect(host.stat("/root/missing")).toEqual(undefined);
+			expect(host.stat("/root/file.ts")).toEqual("file");
+			expect(host.stat("/root/nested/file.ts")).toEqual("file");
+		});
+
+		it("existing directory", () => {
+			const host = createVFSLinterHost("/root", true);
+
+			host.vfsUpsertFile("/root/nested/file.ts", "content");
+
+			expect(host.stat("/root/nested")).toEqual("directory");
+		});
+
+		it("non-existent file", () => {
+			const host = createVFSLinterHost("/root", true);
+
+			expect(host.stat("/root/missing")).toBeUndefined();
+		});
+
+		it("propagates to base host", () => {
+			const baseHost = createVFSLinterHost("/root", true);
+			const host = createVFSLinterHost(baseHost);
+
+			baseHost.vfsUpsertFile("/root/file.ts", "content");
+
+			expect(host.stat("/root/file.ts")).toEqual("file");
+		});
+
+		it("prefers overlay file over base dir", () => {
+			const baseHost = createVFSLinterHost("/root", true);
+			const host = createVFSLinterHost(baseHost);
+
+			baseHost.vfsUpsertFile("/root/file.ts/file.ts", "content");
+			host.vfsUpsertFile("/root/file.ts", "content");
+
+			expect(host.stat("/root/file.ts")).toEqual("file");
+		});
+
+		it("prefers overlay dir over base file", () => {
+			const baseHost = createVFSLinterHost("/root", true);
+			const host = createVFSLinterHost(baseHost);
+
+			baseHost.vfsUpsertFile("/root/file.ts", "content");
+			host.vfsUpsertFile("/root/file.ts/file.ts", "content");
+
+			expect(host.stat("/root/file.ts")).toEqual("directory");
+		});
 	});
 
-	it("returns undefined when reading a missing file", () => {
-		const host = createVFSLinterHost("/root", true);
+	describe("readFile", () => {
+		it("returns undefined when reading a missing file", () => {
+			const host = createVFSLinterHost("/root", true);
 
-		expect(host.readFile("/root/missing.txt")).toEqual(undefined);
+			expect(host.readFile("/root/missing.txt")).toBeUndefined();
+		});
+
+		it("reads existing file", () => {
+			const host = createVFSLinterHost("/root", true);
+			host.vfsUpsertFile("/root/file.ts", "content");
+
+			expect(host.readFile("/root/file.ts")).toEqual("content");
+		});
+
+		it("propagates to base host", () => {
+			const baseHost = createVFSLinterHost("/root", true);
+			baseHost.vfsUpsertFile("/root/base.txt", "base");
+
+			const host = createVFSLinterHost(baseHost);
+
+			expect(host.readFile("/root/base.txt")).toEqual("base");
+		});
+
+		it("prefers overlay over base", () => {
+			const baseHost = createVFSLinterHost("/root", true);
+			baseHost.vfsUpsertFile("/root/file.txt", "base");
+
+			const host = createVFSLinterHost(baseHost);
+			host.vfsUpsertFile("/root/file.txt", "vfs");
+
+			expect(host.readFile("/root/file.txt")).toEqual("vfs");
+		});
+
+		it("returns undefined when reading directory", () => {
+			const host = createVFSLinterHost("/root", true);
+			host.vfsUpsertFile("/root/nested/file.txt", "vfs");
+
+			expect(host.readFile("/root/nested")).toBeUndefined();
+		});
 	});
 
-	it("falls back to the base host for stat and readFile", () => {
-		const baseHost = createVFSLinterHost("/root", true);
-		baseHost.vfsUpsertFile("/root/base.txt", "base");
+	describe("readDirectory", () => {
+		it("skips non-matching files when reading a directory", () => {
+			const host = createVFSLinterHost("/root", true);
+			host.vfsUpsertFile("/root/other/file.txt", "content");
 
-		const host = createVFSLinterHost(baseHost);
+			expect(host.readDirectory("/root/dir")).toEqual([]);
+		});
 
-		expect(host.stat("/root/base.txt")).toEqual("file");
-		expect(host.readFile("/root/base.txt")).toEqual("base");
+		it("returns nothing when reading file", () => {
+			const host = createVFSLinterHost("/root", true);
+			host.vfsUpsertFile("/root/file.txt", "content");
+
+			expect(host.readDirectory("/root/file.txt")).toEqual([]);
+		});
+
+		it("lists files", () => {
+			const host = createVFSLinterHost("/root", true);
+			host.vfsUpsertFile("/root/file.txt", "content");
+			host.vfsUpsertFile("/root/sub/file.txt", "content");
+
+			expect(host.readDirectory("/root")).toEqual([
+				{
+					name: "file.txt",
+					type: "file",
+				},
+				{
+					name: "sub",
+					type: "directory",
+				},
+			]);
+		});
+
+		it("filters out duplicates", () => {
+			const baseHost = createVFSLinterHost("/root", true);
+			baseHost.vfsUpsertFile("/root/file.txt", "base");
+			baseHost.vfsUpsertFile("/root/sub/file.txt", "base");
+
+			const host = createVFSLinterHost(baseHost);
+			host.vfsUpsertFile("/root/file.txt", "vfs");
+			host.vfsUpsertFile("/root/sub/file.txt", "vfs");
+
+			const entries = host.readDirectory("/root");
+
+			expect(entries).toEqual([
+				{
+					name: "file.txt",
+					type: "file",
+				},
+				{
+					name: "sub",
+					type: "directory",
+				},
+			]);
+		});
+
+		it("propagates from base", () => {
+			const baseHost = createVFSLinterHost("/root", true);
+			baseHost.vfsUpsertFile("/root/base.txt", "base");
+			baseHost.vfsUpsertFile("/root/base-sub/file.txt", "base");
+
+			const host = createVFSLinterHost(baseHost);
+			host.vfsUpsertFile("/root/vfs.txt", "vfs");
+			host.vfsUpsertFile("/root/vfs-sub/file.txt", "vfs");
+
+			const entries = host.readDirectory("/root");
+
+			expect(entries).toEqual([
+				{
+					name: "vfs.txt",
+					type: "file",
+				},
+				{
+					name: "vfs-sub",
+					type: "directory",
+				},
+				{
+					name: "base.txt",
+					type: "file",
+				},
+				{
+					name: "base-sub",
+					type: "directory",
+				},
+			]);
+		});
+
+		it("prefers overlay file over base dir", () => {
+			const baseHost = createVFSLinterHost("/root", true);
+			baseHost.vfsUpsertFile("/root/file.txt/file.txt", "base");
+
+			const host = createVFSLinterHost(baseHost);
+			host.vfsUpsertFile("/root/file.txt", "vfs");
+
+			const entries = host.readDirectory("/root");
+
+			expect(entries).toEqual([
+				{
+					name: "file.txt",
+					type: "file",
+				},
+			]);
+		});
+
+		it("prefers overlay dir over base file", () => {
+			const baseHost = createVFSLinterHost("/root", true);
+			baseHost.vfsUpsertFile("/root/file.txt", "base");
+
+			const host = createVFSLinterHost(baseHost);
+			host.vfsUpsertFile("/root/file.txt/file.txt", "host");
+
+			const entries = host.readDirectory("/root");
+
+			expect(entries).toEqual([
+				{
+					name: "file.txt",
+					type: "directory",
+				},
+			]);
+		});
 	});
 
-	it("prefers vfs contents over the base host for readFile", () => {
-		const baseHost = createVFSLinterHost("/root", true);
-		baseHost.vfsUpsertFile("/root/file.txt", "base");
+	describe("vfsUpsertFile", () => {
+		it("creates file", () => {
+			const host = createVFSLinterHost("/root", true);
 
-		const host = createVFSLinterHost(baseHost);
-		host.vfsUpsertFile("/root/file.txt", "vfs");
+			expect(host.vfsListFiles()).toEqual(new Map());
 
-		expect(host.readFile("/root/file.txt")).toEqual("vfs");
+			host.vfsUpsertFile("/root/file.txt", "content");
+
+			expect(host.vfsListFiles()).toEqual(
+				new Map([["/root/file.txt", "content"]]),
+			);
+		});
+
+		it("updates file", () => {
+			const host = createVFSLinterHost("/root", true);
+
+			expect(host.vfsListFiles()).toEqual(new Map());
+
+			host.vfsUpsertFile("/root/file.txt", "content");
+			host.vfsUpsertFile("/root/file.txt", "new content");
+
+			expect(host.vfsListFiles()).toEqual(
+				new Map([["/root/file.txt", "new content"]]),
+			);
+		});
 	});
 
-	it("skips non-matching files when reading a directory", () => {
-		const host = createVFSLinterHost("/root", true);
-		host.vfsUpsertFile("/root/other/file.txt", "content");
+	describe("vfsDeleteFile", () => {
+		it("deletes file", () => {
+			const host = createVFSLinterHost("/root", true);
 
-		expect(host.readDirectory("/root/dir")).toEqual([]);
+			expect(host.vfsListFiles()).toEqual(new Map());
+
+			host.vfsUpsertFile("/root/file.txt", "content");
+			host.vfsDeleteFile("/root/file.txt");
+
+			expect(host.vfsListFiles()).toEqual(new Map());
+		});
+
+		it("does nothing when file does not exist", () => {
+			const host = createVFSLinterHost("/root", true);
+
+			expect(host.vfsListFiles()).toEqual(new Map());
+
+			host.vfsUpsertFile("/root/file.txt", "content");
+			host.vfsDeleteFile("/root/file2.txt");
+
+			expect(host.vfsListFiles()).toEqual(
+				new Map([["/root/file.txt", "content"]]),
+			);
+		});
 	});
 
-	it("reads directories from vfs and base host without duplicates", () => {
-		const baseHost = createVFSLinterHost("/root", true);
-		baseHost.vfsUpsertFile("/root/dir/base.txt", "base");
-		baseHost.vfsUpsertFile("/root/dir/shared.txt", "base");
+	describe("watchFile", () => {
+		it("reports creation", () => {
+			const host = createVFSLinterHost("/root", true);
+			const onEvent = vi.fn();
 
-		const host = createVFSLinterHost(baseHost);
-		host.vfsUpsertFile("/root/dir/file.txt", "vfs");
-		host.vfsUpsertFile("/root/dir/shared.txt", "vfs");
-		host.vfsUpsertFile("/root/dir/sub/child.txt", "vfs");
+			using _ = host.watchFile("/root/file.txt", onEvent);
+			expect(onEvent).not.toHaveBeenCalled();
+			host.vfsUpsertFile("/root/file.txt", "content");
+			expect(onEvent).toHaveBeenCalledExactlyOnceWith("created");
+		});
 
-		const entries = host.readDirectory("/root/dir");
-		const asMap = new Map(entries.map((entry) => [entry.name, entry.type]));
+		it("reports editing", () => {
+			const host = createVFSLinterHost("/root", true);
+			const onEvent = vi.fn();
 
-		expect(asMap.get("file.txt")).toEqual("file");
-		expect(asMap.get("shared.txt")).toEqual("file");
-		expect(asMap.get("base.txt")).toEqual("file");
-		expect(asMap.get("sub")).toEqual("directory");
-		expect(asMap.size).toEqual(4);
+			host.vfsUpsertFile("/root/file.txt", "content");
+			using _ = host.watchFile("/root/file.txt", onEvent);
+
+			expect(onEvent).not.toHaveBeenCalled();
+
+			host.vfsUpsertFile("/root/file.txt", "new content");
+
+			expect(onEvent).toHaveBeenCalledExactlyOnceWith("changed");
+		});
+
+		it("reports deletion", () => {
+			const host = createVFSLinterHost("/root", true);
+			const onEvent = vi.fn();
+
+			host.vfsUpsertFile("/root/file.txt", "content");
+			using _ = host.watchFile("/root/file.txt", onEvent);
+
+			expect(onEvent).not.toHaveBeenCalled();
+
+			host.vfsDeleteFile("/root/file.txt");
+
+			expect(onEvent).toHaveBeenCalledExactlyOnceWith("deleted");
+		});
+
+		it("disposes onEvent", () => {
+			const host = createVFSLinterHost("/root", true);
+			const onEvent = vi.fn();
+
+			{
+				using _ = host.watchFile("/root/file.txt", onEvent);
+			}
+			host.vfsUpsertFile("/root/file.txt", "content");
+
+			expect(onEvent).not.toHaveBeenCalled();
+		});
+
+		it("propagates base host events", () => {
+			const baseHost = createVFSLinterHost("/root", true);
+			const host = createVFSLinterHost(baseHost);
+			const onEvent = vi.fn();
+
+			using _ = host.watchFile("/root/file.txt", onEvent);
+			expect(onEvent).not.toHaveBeenCalled();
+
+			baseHost.vfsUpsertFile("/root/file.txt", "content");
+
+			expect(onEvent).toHaveBeenCalledExactlyOnceWith("created");
+		});
+
+		it("propagates correct params to base host watcher", () => {
+			const baseHost = {
+				...createVFSLinterHost("/root", true),
+				watchFile: vi.fn(() => ({ [Symbol.dispose]() {} })),
+			};
+			const host = createVFSLinterHost(baseHost);
+
+			using _ = host.watchFile("/root/file.txt", () => {}, 555);
+
+			expect(baseHost.watchFile).toHaveBeenCalledExactlyOnceWith(
+				"/root/file.txt",
+				expect.any(Function),
+				555,
+			);
+		});
+
+		it("disposes base host watcher", () => {
+			const dispose = vi.fn();
+			const baseHost = {
+				...createVFSLinterHost("/root", true),
+				watchFile: () => ({ [Symbol.dispose]: dispose }),
+			};
+			const host = createVFSLinterHost(baseHost);
+
+			{
+				using _ = host.watchFile("/root/file.txt", () => {});
+				expect(dispose).not.toHaveBeenCalled();
+			}
+
+			expect(dispose).toHaveBeenCalledExactlyOnceWith();
+		});
 	});
 
-	it("does not notify directory watchers for paths without a slash", () => {
-		const host = createVFSLinterHost("/root", true);
-		const fileWatcher = vi.fn();
-		const dirWatcher = vi.fn();
+	describe("watchDirectory", () => {
+		describe("non-recursive", () => {
+			it("reports file creation", () => {
+				const host = createVFSLinterHost("/root", true);
+				const onEvent = vi.fn();
 
-		host.watchFile("file.ts", fileWatcher);
-		host.watchDirectory("file.ts", false, dirWatcher);
-		host.vfsUpsertFile("file.ts", "content");
+				using _ = host.watchDirectory("/root", false, onEvent);
+				host.vfsUpsertFile("/root/file.txt", "content");
 
-		expect(fileWatcher).toHaveBeenCalledWith("created");
-		expect(dirWatcher).not.toHaveBeenCalled();
-	});
+				expect(onEvent).toHaveBeenCalledExactlyOnceWith("/root/file.txt");
+			});
 
-	it("sends file watcher events for create, change, and delete", () => {
-		const host = createVFSLinterHost("/root", true);
-		const watcher = vi.fn();
+			it("reports directory creation", () => {
+				const host = createVFSLinterHost("/root", true);
+				const onEvent = vi.fn();
 
-		host.watchFile("/root/file.ts", watcher);
-		host.vfsUpsertFile("/root/file.ts", "content");
-		host.vfsUpsertFile("/root/file.ts", "next");
-		host.vfsDeleteFile("/root/file.ts");
+				using _ = host.watchDirectory("/root", false, onEvent);
+				host.vfsUpsertFile("/root/dir/file.txt", "content");
 
-		expect(watcher).toHaveBeenNthCalledWith(1, "created");
-		expect(watcher).toHaveBeenNthCalledWith(2, "changed");
-		expect(watcher).toHaveBeenNthCalledWith(3, "deleted");
-	});
+				expect(onEvent).toHaveBeenCalledExactlyOnceWith("/root/dir");
+			});
 
-	it("does not notify file watchers when deleting a missing file", () => {
-		const host = createVFSLinterHost("/root", true);
-		const watcher = vi.fn();
+			it("reports directory creation 2", () => {
+				const host = createVFSLinterHost("/root", true);
+				const onEvent = vi.fn();
 
-		host.watchFile("/root/missing.ts", watcher);
-		host.vfsDeleteFile("/root/missing.ts");
+				using _ = host.watchDirectory("/", false, onEvent);
+				host.vfsUpsertFile("/root/dir/file.txt", "content");
 
-		expect(watcher).not.toHaveBeenCalled();
-	});
+				expect(onEvent).toHaveBeenCalledExactlyOnceWith("/root");
+			});
 
-	it("notifies non-recursive directory watchers for direct children", () => {
-		const host = createVFSLinterHost("/root", true);
-		const watcher = vi.fn();
+			it("reports file creation win32", () => {
+				const host = createVFSLinterHost("C:/", false);
+				const onEvent = vi.fn();
 
-		host.watchDirectory("/root/dir", false, watcher);
-		host.vfsUpsertFile("/root/dir/file.ts", "content");
-		host.vfsUpsertFile("/root/dir/sub/file.ts", "content");
+				using _ = host.watchDirectory("C:\\", false, onEvent);
+				host.vfsUpsertFile("C:\\file.txt", "content");
 
-		expect(watcher).toHaveBeenCalledTimes(1);
-		expect(watcher).toHaveBeenCalledWith("/root/dir/file.ts");
-	});
+				expect(onEvent).toHaveBeenCalledExactlyOnceWith("c:/file.txt");
+			});
 
-	it("notifies recursive directory watchers for nested children", () => {
-		const host = createVFSLinterHost("/root", true);
-		const watcher = vi.fn();
+			it("reports file editing", () => {
+				const host = createVFSLinterHost("/root", true);
+				const onEvent = vi.fn();
 
-		host.watchDirectory("/root", true, watcher);
-		host.vfsUpsertFile("/root/dir/sub/file.ts", "content");
+				host.vfsUpsertFile("/root/file.txt", "content");
+				using _ = host.watchDirectory("/root", false, onEvent);
+				expect(onEvent).not.toHaveBeenCalled();
 
-		expect(watcher).toHaveBeenCalledTimes(1);
-		expect(watcher).toHaveBeenCalledWith("/root/dir/sub/file.ts");
-	});
+				host.vfsUpsertFile("/root/file.txt", "new content");
+				expect(onEvent).toHaveBeenCalledExactlyOnceWith("/root/file.txt");
+			});
 
-	it("disposes directory watchers and stops base forwarding", () => {
-		const baseHost = createVFSLinterHost("/root", true);
-		const host = createVFSLinterHost(baseHost);
-		const watcher = vi.fn();
+			it("reports file deletion", () => {
+				const host = createVFSLinterHost("/root", true);
+				const onEvent = vi.fn();
 
-		const disposable = host.watchDirectory("/root", true, watcher);
-		disposable[Symbol.dispose]();
+				host.vfsUpsertFile("/root/file.txt", "content");
+				using _ = host.watchDirectory("/root", false, onEvent);
+				expect(onEvent).not.toHaveBeenCalled();
 
-		baseHost.vfsUpsertFile("/root/file.ts", "content");
+				host.vfsDeleteFile("/root/file.txt");
+				expect(onEvent).toHaveBeenCalledExactlyOnceWith("/root/file.txt");
+			});
 
-		expect(watcher).not.toHaveBeenCalled();
-	});
+			it("reports directory deletion", () => {
+				const host = createVFSLinterHost("/root", true);
+				const onEvent = vi.fn();
 
-	it("disposes watchers and stops notifications", () => {
-		const host = createVFSLinterHost("/root", true);
-		const watcher = vi.fn();
+				host.vfsUpsertFile("/root/nested/file.txt", "content");
+				using _ = host.watchDirectory("/root", false, onEvent);
+				expect(onEvent).not.toHaveBeenCalled();
 
-		const disposable = host.watchFile("/root/file.ts", watcher);
-		disposable[Symbol.dispose]();
+				host.vfsDeleteFile("/root/nested/file.txt");
+				expect(onEvent).toHaveBeenCalledExactlyOnceWith("/root/nested");
+			});
+		});
 
-		host.vfsUpsertFile("/root/file.ts", "content");
+		describe("recursive", () => {
+			it("reports file creation", () => {
+				const host = createVFSLinterHost("/root", true);
+				const onEvent = vi.fn();
 
-		expect(watcher).not.toHaveBeenCalled();
-	});
+				using _ = host.watchDirectory("/root", true, onEvent);
 
-	it("proxies watchers to the base host", () => {
-		const baseHost = createVFSLinterHost("/root", true);
-		const host = createVFSLinterHost(baseHost);
-		const watcher = vi.fn();
+				host.vfsUpsertFile("/root/nested/file.txt", "content");
 
-		host.watchFile("/root/file.ts", watcher);
-		baseHost.vfsUpsertFile("/root/file.ts", "content");
+				expect(onEvent).toHaveBeenCalledExactlyOnceWith(
+					"/root/nested/file.txt",
+				);
+			});
 
-		expect(watcher).toHaveBeenCalledWith("created");
-	});
+			it("reports file editing", () => {
+				const host = createVFSLinterHost("/root", true);
+				const onEvent = vi.fn();
 
-	it("lists vfs files", () => {
-		const host = createVFSLinterHost("/root", true);
+				host.vfsUpsertFile("/root/nested/file.txt", "content");
+				using _ = host.watchDirectory("/root", true, onEvent);
+				expect(onEvent).not.toHaveBeenCalled();
 
-		host.vfsUpsertFile("/root/file.ts", "content");
+				host.vfsUpsertFile("/root/nested/file.txt", "new content");
 
-		expect([...host.vfsListFiles().entries()]).toEqual([
-			["/root/file.ts", "content"],
-		]);
+				expect(onEvent).toHaveBeenCalledExactlyOnceWith(
+					"/root/nested/file.txt",
+				);
+			});
+
+			it("reports file deletion", () => {
+				const host = createVFSLinterHost("/root", true);
+				const onEvent = vi.fn();
+
+				host.vfsUpsertFile("/root/nested/file.txt", "content");
+				using _ = host.watchDirectory("/root", true, onEvent);
+				expect(onEvent).not.toHaveBeenCalled();
+
+				host.vfsDeleteFile("/root/nested/file.txt");
+
+				expect(onEvent).toHaveBeenCalledExactlyOnceWith(
+					"/root/nested/file.txt",
+				);
+			});
+		});
+
+		it("propagates correct params to base host watcher", () => {
+			const baseHost = {
+				...createVFSLinterHost("/root", true),
+				watchDirectory: vi.fn(() => ({ [Symbol.dispose]() {} })),
+			};
+			const host = createVFSLinterHost(baseHost);
+
+			using _ = host.watchDirectory("/root/file.txt", false, () => {}, 555);
+
+			expect(baseHost.watchDirectory).toHaveBeenCalledExactlyOnceWith(
+				"/root/file.txt",
+				false,
+				expect.any(Function),
+				555,
+			);
+		});
+
+		it("disposes base host watcher", () => {
+			const dispose = vi.fn();
+			const baseHost = {
+				...createVFSLinterHost("/root", true),
+				watchDirectory: () => ({ [Symbol.dispose]: dispose }),
+			};
+			const host = createVFSLinterHost(baseHost);
+
+			{
+				using _ = host.watchDirectory("/root/file.txt", false, () => {});
+				expect(dispose).not.toHaveBeenCalled();
+			}
+
+			expect(dispose).toHaveBeenCalledExactlyOnceWith();
+		});
 	});
 });

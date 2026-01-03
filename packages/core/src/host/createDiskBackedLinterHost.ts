@@ -49,54 +49,81 @@ export function createDiskBackedLinterHost(cwd: string): LinterHost {
 		// fs.watch is more performant than fs.watchFile,
 		// we use it when file exists on disk
 		function watchPresent() {
-			const watcher = fs.watch(
-				normalizedWatchPath,
-				{ persistent: false, recursive },
-				(event, filename) => {
-					if (filename === normalizedWatchBasename) {
-						let changedPath = normalizedWatchPath;
-						// /foo/bar is a directory
-						// /foo/bar/bar is a file
-						// fs.watch('/foo/bar')
-						// /foo/bar/bar deleted -> filename === bar
-						// /foo/bar deleted -> filename === bar
-						if (
-							fs
-								.statSync(normalizedWatchPath, { throwIfNoEntry: false })
-								?.isDirectory()
-						) {
-							changedPath = normalizePath(
-								path.join(normalizedWatchPath, filename),
-								caseSensitiveFS,
-							);
-						}
-						if (statAndEmitIfChanged(changedPath)) {
+			const watcher = fs
+				.watch(
+					normalizedWatchPath,
+					{ persistent: false, recursive },
+					(event, filename) => {
+						if (unwatched) {
 							return;
 						}
-					} else if (
-						statAndEmitIfChanged(
-							filename == null
-								? null
-								: normalizePath(
-										path.join(normalizedWatchPath, filename),
-										caseSensitiveFS,
-									),
-						)
-					) {
+						// C:/foo is a directory
+						// fs.watch('C:/foo')
+						// C:/foo deleted
+						// fs.watch emits \\?\C:\foo
+						// See https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats
+						if (filename?.startsWith("\\\\?\\")) {
+							filename = filename.slice("\\\\?\\".length);
+						}
+						if (filename === normalizedWatchBasename) {
+							let changedPath = normalizedWatchPath;
+							// /foo/bar is a directory
+							// /foo/bar/bar is a file
+							// fs.watch('/foo/bar')
+							// /foo/bar/bar deleted -> filename === bar
+							// /foo/bar deleted -> filename === bar
+							if (
+								fs
+									.statSync(normalizedWatchPath, { throwIfNoEntry: false })
+									?.isDirectory()
+							) {
+								changedPath = normalizePath(
+									path.resolve(normalizedWatchPath, filename),
+									caseSensitiveFS,
+								);
+							}
+							if (statAndEmitIfChanged(changedPath)) {
+								return;
+							}
+						} else if (
+							statAndEmitIfChanged(
+								filename == null
+									? null
+									: normalizePath(
+											path.resolve(normalizedWatchPath, filename),
+											caseSensitiveFS,
+										),
+							)
+						) {
+							return;
+						}
+						unwatchSelf();
+						unwatch = watchMissing();
+					},
+				)
+				.on("error", () => {
+					// parent dir deleted
+					if (unwatched) {
 						return;
 					}
-					watcher.close();
-					unwatch();
+					unwatchSelf();
 					unwatch = watchMissing();
-				},
-			);
-			return () => watcher.close();
+				});
+			let unwatched = false;
+			const unwatchSelf = () => {
+				unwatched = true;
+				watcher.close();
+			};
+			return unwatchSelf;
 		}
 
 		// fs.watchFile uses polling and therefore is less performant,
 		// we fallback to it when the file doesn't exist on disk
 		function watchMissing() {
 			const listener: fs.StatsListener = (curr, prev) => {
+				if (unwatched) {
+					return;
+				}
 				if (curr.mtimeMs === prev.mtimeMs || curr.mtimeMs === 0) {
 					return;
 				}
@@ -104,7 +131,7 @@ export function createDiskBackedLinterHost(cwd: string): LinterHost {
 					return;
 				}
 				fs.unwatchFile(normalizedWatchPath, listener);
-				unwatch();
+				unwatchSelf();
 				unwatch = watchPresent();
 			};
 			fs.watchFile(
@@ -112,7 +139,12 @@ export function createDiskBackedLinterHost(cwd: string): LinterHost {
 				{ persistent: false, interval: pollingInterval },
 				listener,
 			);
-			return () => fs.unwatchFile(normalizedWatchPath, listener);
+			let unwatched = false;
+			const unwatchSelf = () => {
+				unwatched = true;
+				fs.unwatchFile(normalizedWatchPath, listener);
+			};
+			return unwatchSelf;
 		}
 		return {
 			[Symbol.dispose]() {
@@ -200,12 +232,15 @@ export function createDiskBackedLinterHost(cwd: string): LinterHost {
 				(normalizedChangedFilePath) => {
 					normalizedChangedFilePath ??= directoryPathAbsolute;
 					if (normalizedChangedFilePath !== directoryPathAbsolute) {
-						let p = normalizedChangedFilePath;
-						if (p.startsWith(directoryPathAbsolute + "/")) {
-							p = p.slice(directoryPathAbsolute.length);
+						let relative = normalizedChangedFilePath;
+						if (relative.startsWith(directoryPathAbsolute + "/")) {
+							relative = relative.slice(directoryPathAbsolute.length);
 						}
 						for (const ignored of ignoredPaths) {
-							if (p.endsWith(ignored) || p.includes(ignored + "/")) {
+							if (
+								relative.endsWith(ignored) ||
+								relative.includes(ignored + "/")
+							) {
 								return;
 							}
 						}
@@ -213,70 +248,6 @@ export function createDiskBackedLinterHost(cwd: string): LinterHost {
 					callback(normalizedChangedFilePath);
 				},
 			);
-			// let wasDirectory =
-			// 	getStat(directoryPathAbsolute)?.isDirectory() ?? false;
-			// let unwatch: () => void = wasDirectory ? watchPresent() : watchMissing();
-			//
-			// function statDirectoryAndEmitIfChanged() {
-			// 	const isDirectoryNow =
-			// 		getStat(directoryPathAbsolute)?.isDirectory() ?? false;
-			// 	if (isDirectoryNow !== wasDirectory) {
-			// 		emitEvent(directoryPathAbsolute);
-			// 	}
-			// 	wasDirectory = isDirectoryNow;
-			// 	return isDirectoryNow;
-			// }
-			//
-			// function watchPresent() {
-			// 	const watcher = fs.watch(
-			// 		directoryPathAbsolute,
-			// 		{ persistent: true, recursive },
-			// 		(_event, filename) => {
-			// 			if (!statDirectoryAndEmitIfChanged()) {
-			// 				watcher.close();
-			// 				unwatch();
-			// 				unwatch = watchMissing();
-			// 				return;
-			// 			}
-			// 			if (filename != null) {
-			// 				const entryPath = normalizePath(
-			// 					path.join(directoryPathAbsolute, filename),
-			// 					caseSensitiveFS,
-			// 				);
-			// 				emitEvent(entryPath);
-			// 				return;
-			// 			}
-			// 			emitEvent(directoryPathAbsolute);
-			// 		},
-			// 	);
-			// 	return () => watcher.close();
-			// }
-			//
-			// function watchMissing() {
-			// 	const listener: fs.StatsListener = (curr, prev) => {
-			// 		if (curr.mtimeMs === prev.mtimeMs || curr.mtimeMs === 0) {
-			// 			return;
-			// 		}
-			// 		if (!statDirectoryAndEmitIfChanged()) {
-			// 			return;
-			// 		}
-			// 		fs.unwatchFile(directoryPathAbsolute, listener);
-			// 		unwatch();
-			// 		unwatch = watchPresent();
-			// 	};
-			// 	fs.watchFile(
-			// 		directoryPathAbsolute,
-			// 		{ persistent: false, interval: pollingInterval },
-			// 		listener,
-			// 	);
-			// 	return () => fs.unwatchFile(directoryPathAbsolute, listener);
-			// }
-			//
-			// return {
-			// 	[Symbol.dispose]() {
-			// 		unwatch();
-			// 	},
-			// };
 		},
 	};
 }

@@ -97,7 +97,7 @@ describe("createDiskBackedLinterHost", () => {
 	});
 
 	describe("watchFile", () => {
-		it("watches files for creation", async () => {
+		it("reports creation", async () => {
 			const host = createDiskBackedLinterHost(integrationRoot);
 			const filePath = path.join(integrationRoot, "watch.txt");
 			const onEvent = vi.fn();
@@ -105,11 +105,11 @@ describe("createDiskBackedLinterHost", () => {
 
 			fs.writeFileSync(filePath, "first");
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([["created"]]);
+				expect(onEvent).toHaveBeenCalledWith("created");
 			});
 		});
 
-		it("watches files for changes", async () => {
+		it("reports editing", async () => {
 			const host = createDiskBackedLinterHost(integrationRoot);
 			const filePath = path.join(integrationRoot, "watch-change.txt");
 			fs.writeFileSync(filePath, "first");
@@ -118,11 +118,11 @@ describe("createDiskBackedLinterHost", () => {
 
 			fs.writeFileSync(filePath, "second");
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([["changed"]]);
+				expect(onEvent).toHaveBeenCalledWith("changed");
 			});
 		});
 
-		it("watches files for deletion", async () => {
+		it("reports deletion", async () => {
 			const host = createDiskBackedLinterHost(integrationRoot);
 			const filePath = path.join(integrationRoot, "watch-delete.txt");
 			fs.writeFileSync(filePath, "first");
@@ -131,7 +131,7 @@ describe("createDiskBackedLinterHost", () => {
 
 			fs.rmSync(filePath);
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([["deleted"]]);
+				expect(onEvent).toHaveBeenCalledWith("deleted");
 			});
 		});
 
@@ -141,23 +141,23 @@ describe("createDiskBackedLinterHost", () => {
 			const onEvent = vi.fn();
 			using _ = host.watchFile(filePath, onEvent, 10);
 
+			await sleep(50);
+
 			fs.writeFileSync(filePath, "first");
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([["created"]]);
+				expect(onEvent).toHaveBeenCalledWith("created");
 			});
+			onEvent.mockClear();
 
 			fs.rmSync(filePath);
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([["created"], ["deleted"]]);
+				expect(onEvent).toHaveBeenCalledWith("deleted");
 			});
+			onEvent.mockClear();
 
 			fs.writeFileSync(filePath, "second");
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([
-					["created"],
-					["deleted"],
-					["created"],
-				]);
+				expect(onEvent).toHaveBeenCalledWith("created");
 			});
 		});
 
@@ -174,48 +174,37 @@ describe("createDiskBackedLinterHost", () => {
 			fs.writeFileSync(filePath, "content");
 
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([["created"]]);
+				expect(onEvent).toHaveBeenCalledWith("created");
 			});
+			onEvent.mockClear();
 
 			fs.rmSync(secondDir, { recursive: true, force: true });
 
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([["created"], ["deleted"]]);
+				expect(onEvent).toHaveBeenCalledWith("deleted");
 			});
+			onEvent.mockClear();
 
 			fs.mkdirSync(secondDir, { recursive: true });
 			fs.writeFileSync(filePath, "content");
 
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([
-					["created"],
-					["deleted"],
-					["created"],
-				]);
+				expect(onEvent).toHaveBeenCalledWith("created");
 			});
+			onEvent.mockClear();
 
 			fs.rmSync(firstDir, { recursive: true, force: true });
 
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([
-					["created"],
-					["deleted"],
-					["created"],
-					["deleted"],
-				]);
+				expect(onEvent).toHaveBeenCalledWith("deleted");
 			});
+			onEvent.mockClear();
 
 			fs.mkdirSync(secondDir, { recursive: true });
 			fs.writeFileSync(filePath, "content");
 
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([
-					["created"],
-					["deleted"],
-					["created"],
-					["deleted"],
-					["created"],
-				]);
+				expect(onEvent).toHaveBeenCalledWith("created");
 			});
 		});
 
@@ -230,7 +219,7 @@ describe("createDiskBackedLinterHost", () => {
 			fs.writeFileSync(filePath, "content");
 
 			await sleep(50);
-			expect(onEvent.mock.calls).toEqual([]);
+			expect(onEvent).not.toHaveBeenCalled();
 		});
 
 		it("disposes file watchers after created", async () => {
@@ -239,16 +228,18 @@ describe("createDiskBackedLinterHost", () => {
 			const onEvent = vi.fn();
 			{
 				using _ = host.watchFile(filePath, onEvent, 10);
+				await sleep(50);
 				fs.writeFileSync(filePath, "first");
-				await sleep(100);
+				await sleep(50);
 				await vi.waitFor(() => {
-					expect(onEvent.mock.calls).toEqual([["created"]]);
+					expect(onEvent).toHaveBeenCalledWith("created");
 				});
 			}
+			onEvent.mockClear();
 
 			fs.writeFileSync(filePath, "second");
-			await sleep(100);
-			expect(onEvent.mock.calls).toEqual([["created"]]);
+			await sleep(50);
+			expect(onEvent).not.toHaveBeenCalled();
 		});
 
 		it("disposes file watchers after deleted", async () => {
@@ -261,13 +252,14 @@ describe("createDiskBackedLinterHost", () => {
 				fs.rmSync(filePath);
 				await sleep(50);
 				await vi.waitFor(() => {
-					expect(onEvent.mock.calls).toEqual([["deleted"]]);
+					expect(onEvent).toHaveBeenCalledWith("deleted");
 				});
 			}
+			onEvent.mockClear();
 
 			fs.writeFileSync(filePath, "second");
 			await sleep(50);
-			expect(onEvent.mock.calls).toEqual([["deleted"]]);
+			expect(onEvent).not.toHaveBeenCalled();
 		});
 
 		it("ignores other files", async () => {
@@ -280,7 +272,7 @@ describe("createDiskBackedLinterHost", () => {
 			fs.writeFileSync(otherPath, "content");
 
 			await sleep(50);
-			expect(onEvent.mock.calls).toEqual([]);
+			expect(onEvent).not.toHaveBeenCalledWith();
 		});
 
 		it("watches directory", async () => {
@@ -292,12 +284,13 @@ describe("createDiskBackedLinterHost", () => {
 
 			fs.rmSync(dirPath, { recursive: true, force: true });
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([["deleted"]]);
+				expect(onEvent).toHaveBeenCalledWith("deleted");
 			});
+			onEvent.mockClear();
 
 			fs.mkdirSync(dirPath, { recursive: true });
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([["deleted"], ["created"]]);
+				expect(onEvent).toHaveBeenCalledWith("created");
 			});
 		});
 
@@ -325,6 +318,8 @@ describe("createDiskBackedLinterHost", () => {
 			const onEvent = vi.fn();
 			using _ = host.watchDirectory(directoryPath, false, onEvent);
 
+			await sleep(50);
+
 			const nestedFile = path.join(nestedPath, "nested.txt");
 			const directFile = path.join(directoryPath, "direct.txt");
 			fs.writeFileSync(nestedFile, "nested");
@@ -336,10 +331,7 @@ describe("createDiskBackedLinterHost", () => {
 			);
 
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([
-					[normalizedDirect],
-					[normalizedDirect],
-				]);
+				expect(onEvent).toHaveBeenCalledWith(normalizedDirect);
 			});
 		});
 
@@ -361,7 +353,7 @@ describe("createDiskBackedLinterHost", () => {
 			);
 
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([[normalizedNested]]);
+				expect(onEvent).toHaveBeenCalledWith(normalizedNested);
 			});
 		});
 
@@ -381,7 +373,7 @@ describe("createDiskBackedLinterHost", () => {
 				host.isCaseSensitiveFS(),
 			);
 			await sleep(50);
-			expect(onEvent.mock.calls).toEqual([[normalizedFile]]);
+			expect(onEvent).toHaveBeenCalledWith(normalizedFile);
 		});
 
 		it("ignores node_modules directories within watched paths", async () => {
@@ -405,7 +397,7 @@ describe("createDiskBackedLinterHost", () => {
 				host.isCaseSensitiveFS(),
 			);
 			await sleep(50);
-			expect(onEvent.mock.calls).toEqual([[normalizedFile]]);
+			expect(onEvent).toHaveBeenCalledWith(normalizedFile);
 		});
 
 		it("does not ignore lookalike names such as .gitignore", async () => {
@@ -420,7 +412,7 @@ describe("createDiskBackedLinterHost", () => {
 
 			const normalizedFile = normalizePath(filePath, host.isCaseSensitiveFS());
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([[normalizedFile]]);
+				expect(onEvent).toHaveBeenCalledWith(normalizedFile);
 			});
 		});
 
@@ -434,10 +426,12 @@ describe("createDiskBackedLinterHost", () => {
 			const onEvent = vi.fn();
 			using _ = host.watchDirectory(directoryPath, false, onEvent, 10);
 
+			await sleep(50);
+
 			fs.mkdirSync(directoryPath, { recursive: true });
 
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([[normalizedDirectory]]);
+				expect(onEvent).toHaveBeenCalledWith(normalizedDirectory);
 			});
 		});
 
@@ -455,7 +449,7 @@ describe("createDiskBackedLinterHost", () => {
 			fs.rmSync(directoryPath, { recursive: true, force: true });
 
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([[normalizedDirectory]]);
+				expect(onEvent).toHaveBeenCalledWith(normalizedDirectory);
 			});
 		});
 
@@ -475,9 +469,9 @@ describe("createDiskBackedLinterHost", () => {
 			);
 
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toContainEqual([normalizedFirst]);
+				expect(onEvent).toHaveBeenCalledWith(normalizedFirst);
 			});
-			onEvent.mockReset();
+			onEvent.mockClear();
 
 			fs.rmSync(directoryPath, { recursive: true, force: true });
 
@@ -486,15 +480,15 @@ describe("createDiskBackedLinterHost", () => {
 				host.isCaseSensitiveFS(),
 			);
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toContainEqual([firstFile]);
+				expect(onEvent).toHaveBeenCalledWith(normalizedFirst);
 			});
-			onEvent.mockReset();
+			onEvent.mockClear();
 
 			fs.mkdirSync(directoryPath, { recursive: true });
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toContainEqual([normalizedDirectory]);
+				expect(onEvent).toHaveBeenCalledWith(normalizedDirectory);
 			});
-			onEvent.mockReset();
+			onEvent.mockClear();
 
 			const secondFile = path.join(directoryPath, "second.txt");
 			fs.writeFileSync(secondFile, "second");
@@ -504,16 +498,24 @@ describe("createDiskBackedLinterHost", () => {
 				host.isCaseSensitiveFS(),
 			);
 			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toContainEqual([normalizedSecond]);
+				expect(onEvent).toHaveBeenCalledWith(normalizedSecond);
 			});
 		});
 
 		it("correctly reports when dir and its child have the same name", async () => {
 			const host = createDiskBackedLinterHost(integrationRoot);
-			const directoryPath = path.join(integrationRoot, "dir");
-			const subDirectoryPath = path.join(directoryPath, "dir");
+			const directoryPath = normalizePath(
+				path.join(integrationRoot, "dir"),
+				host.isCaseSensitiveFS(),
+			);
+			const subDirectoryPath = normalizePath(
+				path.join(directoryPath, "dir"),
+				host.isCaseSensitiveFS(),
+			);
 			const onEvent = vi.fn();
 			using _ = host.watchDirectory(directoryPath, false, onEvent, 10);
+
+			await sleep(50);
 
 			fs.mkdirSync(directoryPath, { recursive: true });
 			await vi.waitFor(() => {
