@@ -34,6 +34,7 @@ export async function createDocumentValidator(fileName: string, text: string) {
 				with: { type: "json" },
 			})) as { default: CSpellSettings }
 		).default;
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	} catch (_error) {
 		// fail silently (add debug logging later)
 	}
