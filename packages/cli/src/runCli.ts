@@ -37,32 +37,15 @@ export async function runCli(args: string[]) {
 	const getRenderer = createRendererFactory(configFileName, values);
 
 	if (values.watch) {
-		try {
-			await runCliWatch(configFileName, getRenderer, values);
-			console.log("👋 Thanks for using Flint!");
-			return 0;
-		} catch (error) {
-			return handleCliError(error);
-		}
+		await runCliWatch(configFileName, getRenderer, values);
+		console.log("👋 Thanks for using Flint!");
+		return 0;
 	}
 
 	const renderer = getRenderer();
-	try {
-		const exitCode = await runCliOnce(configFileName, renderer, values);
-		renderer.dispose?.();
-		return exitCode;
-	} catch (error) {
-		renderer.dispose?.();
-		return handleCliError(error);
-	}
-}
+	const exitCode = await runCliOnce(configFileName, renderer, values);
 
-function handleCliError(error: unknown) {
-	// For expected configuration errors (marked with name "Flint"), print just the message.
-	// For unexpected errors, print the full stack trace for debugging.
-	if (error instanceof Error && error.name === "Flint") {
-		console.error(error.message);
-		return 2;
-	}
-	throw error;
+	renderer.dispose?.();
+
+	return exitCode;
 }
