@@ -11,3 +11,11 @@ export const json = createPlugin({
 	name: "JSON",
 	rules: [keyDuplicates, keyNormalization, valueSafety],
 });
+
+export const packageJson = createPlugin({
+	files: {
+		all: ["**/package.json"],
+	},
+	name: "PackageJSON",
+	rules: [keyDuplicates, keyNormalization, valueSafety],
+});
