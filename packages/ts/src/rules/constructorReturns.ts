@@ -1,7 +1,7 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {

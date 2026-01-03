@@ -1,4 +1,4 @@
-import {
+import type {
 	FormattingResults,
 	LintResultsMaybeWithChanges,
 } from "@flint.fyi/core";

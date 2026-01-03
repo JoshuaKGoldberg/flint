@@ -3,7 +3,8 @@
 		"tsBuildInfoFile": "node_modules/.cache/tsbuild/info.test.json",
 		"rootDir": "src/",
 		"outDir": "node_modules/.cache/tsbuild/test",
-		"types": ["node"]
+		"types": ["node"],
+		"erasableSyntaxOnly": false
 	},
 	"extends": "../../tsconfig.base.json",
 	"include": ["src/**/*.test.ts", "src/rules/ruleTester.ts"],

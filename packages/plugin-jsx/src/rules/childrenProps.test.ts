@@ -1,5 +1,5 @@
-import rule from "./childrenProps.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./childrenProps.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

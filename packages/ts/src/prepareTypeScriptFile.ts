@@ -1,6 +1,6 @@
-import { createTypeScriptFileFromProgram } from "./createTypeScriptFileFromProgram.js";
-import { parseDirectivesFromTypeScriptFile } from "./directives/parseDirectivesFromTypeScriptFile.js";
-import { TypeScriptBasedLanguageFile } from "./prepareTypeScriptBasedLanguage.js";
+import { createTypeScriptFileFromProgram } from "./createTypeScriptFileFromProgram.ts";
+import { parseDirectivesFromTypeScriptFile } from "./directives/parseDirectivesFromTypeScriptFile.ts";
+import type { TypeScriptBasedLanguageFile } from "./prepareTypeScriptBasedLanguage.ts";
 
 export function prepareTypeScriptFile(file: TypeScriptBasedLanguageFile) {
 	const { program, sourceFile, [Symbol.dispose]: onDispose } = file;

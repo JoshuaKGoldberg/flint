@@ -1,13 +1,13 @@
 {
 	"compilerOptions": {
+		"allowImportingTsExtensions": true,
 		"allowJs": true,
 		"checkJs": true,
 		"composite": true,
 		"declaration": true,
 		"declarationMap": true,
 		"emitDeclarationOnly": true,
-		"esModuleInterop": true,
-		"isolatedModules": true,
+		"erasableSyntaxOnly": true,
 		"lib": ["ESNext"],
 		"module": "NodeNext",
 		"moduleDetection": "force",
@@ -17,6 +17,7 @@
 		"sourceMap": true,
 		"strict": true,
 		"target": "ESNext",
-		"types": []
+		"types": [],
+		"verbatimModuleSyntax": true
 	}
 }

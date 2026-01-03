@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { binarySearch, flatten } from "./arrays.js";
+import { binarySearch, flatten } from "./arrays.ts";
 
 describe("flatten", () => {
 	it("works with plain arrays", () => {
