@@ -13,6 +13,7 @@
 	],
 	"words": [
 		"affordances",
+		"Amiel",
 		"aria-activedescendant",
 		"aria-colcount",
 		"aria-colindex",
@@ -34,6 +35,7 @@
 		"autolinks",
 		"auvred",
 		"bday",
+		"bradzacher",
 		"codemod",
 		"contentinfo",
 		"deoptimizations",
@@ -44,6 +46,7 @@
 		"idlist",
 		"impp",
 		"joshuakgoldberg",
+		"kirkwaiblinger",
 		"lishaduck",
 		"mdast",
 		"menuitemcheckbox",
@@ -52,7 +55,10 @@
 		"oxendict",
 		"Oxlint",
 		"roletype",
+		"ronami",
+		"Ronen",
 		"sectionhead",
+		"seti",
 		"shiki",
 		"shikijs",
 		"spinbutton",
@@ -61,6 +67,8 @@
 		"thenables",
 		"treegrid",
 		"tsgolint",
+		"typelang",
+		"Waiblinger",
 		"webauthn",
 		"WHATWG"
 	]
