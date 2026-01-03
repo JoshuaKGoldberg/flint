@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/ts-patch",
-	"version": "0.13.2",
+	"version": "0.13.3",
 	"description": "[Experimental] Utilities for patching TypeScript used by @flint/core.",
 	"repository": {
 		"type": "git",
@@ -41,7 +41,6 @@
 		"node": ">=24.0.0"
 	},
 	"publishConfig": {
-		"access": "public",
-		"provenance": true
+		"access": "public"
 	}
 }

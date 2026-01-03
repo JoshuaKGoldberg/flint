@@ -1,6 +1,6 @@
 {
 	"name": "@flint.fyi/core",
-	"version": "0.17.0",
+	"version": "0.18.0",
 	"description": "[Experimental] Core building blocks for Flint.",
 	"repository": {
 		"type": "git",
@@ -36,7 +36,6 @@
 		"node": ">=24.0.0"
 	},
 	"publishConfig": {
-		"access": "public",
-		"provenance": true
+		"access": "public"
 	}
 }

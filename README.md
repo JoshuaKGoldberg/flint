@@ -52,7 +52,7 @@ It also brings in several improvements over traditional linter paradigms:
 
 Coming soon.
 
-![Terminal screenshot of a colored linter output. ~/repos/flint $ node bin/index.js      /Users/josh/repos/flint/src/example-lint-failures.ts   1:25  Consecutive non-null assertion operators are unnecessary.                    consecutiveNonNullAssertions   4:0   For-in loops over arrays have surprising behavior that often leads to bugs.  forInArrays  ✖ Found 2 reports across 1 file. ~/repos/flint $ ](https://github.com/user-attachments/assets/f703224e-916f-442e-aa7b-bc2a16b6ad72)
+![Terminal screenshot of a colored linter output. Light mode view of the Flint terminal in --interactive --watch mode, showing 1 file's ts/forInArrays violation with details out of 4 files.](./packages/site/public/screenshots/flint-interactive-light.webp)
 
 ## Development
 

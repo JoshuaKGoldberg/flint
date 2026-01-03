@@ -1,5 +1,11 @@
 # @flint.fyi/comparisons
 
+## 0.1.3
+
+### Patch Changes
+
+- 0221e1e: fix(comparisons): mention missing non-deprecated builtin rules of ESLint
+
 ## 0.1.2
 
 ### Patch Changes
