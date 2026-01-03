@@ -5,7 +5,6 @@ import {
 	CSpellSettings,
 	DocumentValidator,
 } from "cspell-lib";
-import * as fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -25,33 +24,9 @@ export async function createDocumentValidator(fileName: string, text: string) {
 	// However, even with unique timestamps, cspell seemed to cache the import.
 	// See: https://github.com/flint-fyi/flint/issues/203
 	const configFilePath = path.join(cwd, "cspell.json");
-	try {
-		await fs.access(configFilePath);
-	} catch (error) {
-		const maybeErrno = error as { code?: unknown; message?: unknown };
-		if (maybeErrno.code === "ENOENT") {
-			const missingConfigError = new Error(
-				`Missing required cspell.json for the spelling plugin (expected at ${configFilePath}).\n` +
-					'Create a `cspell.json` in your repo root or disable the "spelling/cspell" rule.',
-			);
-			missingConfigError.name = "Flint";
-			// Avoid a scary stack trace for a common configuration issue.
-			// Node prints uncaught errors using the `.stack` property when present.
-			// Deleting it results in a concise error without stack frames.
-			delete missingConfigError.stack;
-			throw missingConfigError;
-		}
-
-		throw error;
-	}
-
 	const configFileUrlBase = pathToFileURL(configFilePath).href;
 	const configFileUrl = `${configFileUrlBase}?timestamp=${performance.now()}`;
-	const configFile = (await import(configFileUrl, {
-		// eslint-disable-next-line jsdoc/no-bad-blocks
-		/* @vite-ignore */
-		with: { type: "json" },
-	})) as { default: CSpellSettings };
+	const configFile = await loadConfigFile(configFileUrl, configFilePath);
 
 	const validator = new DocumentValidator(
 		document,
@@ -71,4 +46,33 @@ export async function createDocumentValidator(fileName: string, text: string) {
 	}
 
 	return validator;
+}
+
+/**
+ * Loads the cspell.json configuration file.
+ * @throws {Error} If the config file is missing, throws an error with `name === "Flint"` and `exitCode === 2`.
+ *                  The CLI should handle this as a configuration error (exit code 2).
+ */
+async function loadConfigFile(url: string, path: string) {
+	try {
+		return (await import(url, {
+			with: { type: "json" },
+		})) as { default: CSpellSettings };
+	} catch (error) {
+		const maybeErrno = error as { code?: unknown; message?: unknown };
+		if (maybeErrno.code === "ERR_MODULE_NOT_FOUND") {
+			const missingConfigError = new Error(
+				`Missing required cspell.json for the spelling plugin (expected at ${path}).\n` +
+					'Create a `cspell.json` in your repo root or disable the "spelling/cspell" rule.',
+			);
+			missingConfigError.name = "Flint";
+			// Avoid a scary stack trace for a common configuration issue.
+			// Node prints uncaught errors using the `.stack` property when present.
+			// Deleting it results in a concise error without stack frames.
+			delete missingConfigError.stack;
+			throw missingConfigError;
+		}
+
+		throw error;
+	}
 }

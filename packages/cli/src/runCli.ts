@@ -42,13 +42,7 @@ export async function runCli(args: string[]) {
 			console.log("👋 Thanks for using Flint!");
 			return 0;
 		} catch (error) {
-			// For expected configuration errors (marked with name "Flint"), print just the message.
-			// For unexpected errors, print the full stack trace for debugging.
-			if (error instanceof Error && error.name === "Flint") {
-				console.error(error.message);
-				return 2;
-			}
-			throw error;
+			return handleCliError(error);
 		}
 	}
 
@@ -59,12 +53,16 @@ export async function runCli(args: string[]) {
 		return exitCode;
 	} catch (error) {
 		renderer.dispose?.();
-		// For expected configuration errors (marked with name "Flint"), print just the message.
-		// For unexpected errors, print the full stack trace for debugging.
-		if (error instanceof Error && error.name === "Flint") {
-			console.error(error.message);
-			return 2;
-		}
-		throw error;
+		return handleCliError(error);
 	}
+}
+
+function handleCliError(error: unknown) {
+	// For expected configuration errors (marked with name "Flint"), print just the message.
+	// For unexpected errors, print the full stack trace for debugging.
+	if (error instanceof Error && error.name === "Flint") {
+		console.error(error.message);
+		return 2;
+	}
+	throw error;
 }
