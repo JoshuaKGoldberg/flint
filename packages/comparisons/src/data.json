@@ -18450,6 +18450,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "unusedLabels",
 			"plugin": "ts",
 			"preset": "stylistic"

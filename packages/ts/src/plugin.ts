@@ -54,6 +54,7 @@ import unnecessaryBlocks from "./rules/unnecessaryBlocks.js";
 import unnecessaryCatches from "./rules/unnecessaryCatches.js";
 import unnecessaryConcatenation from "./rules/unnecessaryConcatenation.js";
 import unsafeNegations from "./rules/unsafeNegations.js";
+import unusedLabels from "./rules/unusedLabels.js";
 import variableDeletions from "./rules/variableDeletions.js";
 import voidOperator from "./rules/voidOperator.js";
 import withStatements from "./rules/withStatements.js";
@@ -118,6 +119,7 @@ export const ts = createPlugin({
 		unnecessaryCatches,
 		unnecessaryConcatenation,
 		unsafeNegations,
+		unusedLabels,
 		variableDeletions,
 		voidOperator,
 		withStatements,
