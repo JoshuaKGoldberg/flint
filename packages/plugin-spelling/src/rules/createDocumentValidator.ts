@@ -27,10 +27,16 @@ export async function createDocumentValidator(fileName: string, text: string) {
 	const configFileUrlBase = pathToFileURL(configFilePath).href;
 	const configFileUrl = `${configFileUrlBase}?timestamp=${performance.now()}`;
 
-	const configFile = (await import(configFileUrl, {
-		with: { type: "json" },
-	})) as undefined | { default: CSpellSettings };
-	const config = configFile?.default ?? {};
+	let config: CSpellSettings = {};
+	try {
+		config = (
+			(await import(configFileUrl, {
+				with: { type: "json" },
+			})) as { default: CSpellSettings }
+		).default;
+	} catch (_error) {
+		// fail silently (add debug logging later)
+	}
 
 	const validator = new DocumentValidator(
 		document,
