@@ -1,19 +1,22 @@
+import path from "node:path";
 import {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
+	createVFSLinterHost,
 	InferredObject,
 	LanguageFileFactory,
+	LinterHost,
 	RuleAbout,
+	VFSLinterHost,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
 import assert from "node:assert/strict";
 
 import { createReportSnapshot } from "./createReportSnapshot.js";
-import { normalizeTestCase } from "./normalizeTestCase.js";
+import { normalizeTestCase, TestCaseNormalized } from "./normalizeTestCase.js";
 import { resolveReportedSuggestions } from "./resolveReportedSuggestions.js";
-import { runTestCaseRule } from "./runTestCaseRule.js";
-import { InvalidTestCase, TestCase, ValidTestCase } from "./types.js";
+import { InvalidTestCase, ValidTestCase } from "./types.js";
 
 export interface RuleTesterOptions {
 	defaults?: {
@@ -24,6 +27,7 @@ export interface RuleTesterOptions {
 	only?: TesterSetupIt;
 	scope?: Record<string, unknown>;
 	skip?: TesterSetupIt;
+	host?: LinterHost | undefined;
 }
 
 export interface TestCases<Options extends object | undefined> {
@@ -41,9 +45,17 @@ export type TesterSetupIt = (
 	setup: () => Promise<void>,
 ) => void;
 
+interface TestCaseRuleConfiguration<
+	OptionsSchema extends AnyOptionalSchema | undefined,
+> {
+	options?: InferredObject<OptionsSchema>;
+	rule: AnyRule<RuleAbout, OptionsSchema>;
+}
+
 export class RuleTester {
 	#fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>;
-	#testerOptions: Required<RuleTesterOptions>;
+	#linterHost: VFSLinterHost;
+	#testerOptions: Required<Omit<RuleTesterOptions, "host">>;
 
 	constructor({
 		defaults,
@@ -52,9 +64,15 @@ export class RuleTester {
 		only,
 		scope = globalThis,
 		skip,
-	}: RuleTesterOptions = {}) {
+		host,
+	}: RuleTesterOptions) {
+		this.#linterHost = createVFSLinterHost(
+			host?.getCurrentDirectory() ?? process.cwd(),
+			host,
+		);
+
 		this.#fileFactories = new CachedFactory((language: AnyLanguage) =>
-			language.prepare(),
+			language.prepare(this.#linterHost),
 		);
 
 		it = defaultTo(it, scope, "it");
@@ -101,6 +119,37 @@ export class RuleTester {
 		});
 	}
 
+	#runTestCaseRule<OptionsSchema extends AnyOptionalSchema | undefined>(
+		{ options, rule }: Required<TestCaseRuleConfiguration<OptionsSchema>>,
+		{ code, fileName, files }: TestCaseNormalized,
+	) {
+		const preparedLanguage = this.#fileFactories
+			// TODO: How to make types more permissive around assignability?
+			// See AnyRule's any
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			.get(rule.language);
+		for (const oldFile of this.#linterHost.vfsListFiles().keys()) {
+			this.#linterHost.vfsDeleteFile(oldFile);
+		}
+		for (const [name, content] of Object.entries({
+			...files,
+			[fileName]: code,
+		})) {
+			const filePath = path.resolve(
+				this.#linterHost.getCurrentDirectory(),
+				name,
+			);
+			this.#linterHost.vfsUpsertFile(filePath, content);
+		}
+		const filePath = path.resolve(
+			this.#linterHost.getCurrentDirectory(),
+			fileName,
+		);
+		using file = preparedLanguage.prepareFile(filePath, code).file;
+
+		return file.runRule(rule, options as InferredObject<OptionsSchema>);
+	}
+
 	#itInvalidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
 		rule: AnyRule<RuleAbout, OptionsSchema>,
 		testCase: InvalidTestCase<InferredObject<OptionsSchema>>,
@@ -111,8 +160,7 @@ export class RuleTester {
 		);
 
 		this.#itTestCase(testCaseNormalized, async () => {
-			const reports = await runTestCaseRule(
-				this.#fileFactories,
+			const reports = await this.#runTestCaseRule(
 				{
 					// TODO: Figure out a way around the type assertion...
 					options: testCase.options ?? ({} as InferredObject<OptionsSchema>),
@@ -132,7 +180,7 @@ export class RuleTester {
 		});
 	}
 
-	#itTestCase(testCase: TestCase, setup: () => Promise<void>) {
+	#itTestCase(testCase: TestCaseNormalized, setup: () => Promise<void>) {
 		let test = testCase.only
 			? this.#testerOptions.only
 			: this.#testerOptions.it;
@@ -145,7 +193,25 @@ export class RuleTester {
 			}
 		}
 
-		test(testCase.code, setup);
+		test(
+			"files" in testCase
+				? JSON.stringify(
+						{ [testCase.fileName]: testCase.code, ...testCase.files },
+						null,
+						2,
+					)
+				: testCase.code,
+			() => {
+				if (testCase.files != null) {
+					assert.notEqual(
+						Object.keys(testCase.files),
+						0,
+						'"files" must have at least one file',
+					);
+				}
+				return setup();
+			},
+		);
 	}
 
 	#itValidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
@@ -160,8 +226,7 @@ export class RuleTester {
 		);
 
 		this.#itTestCase(testCaseNormalized, async () => {
-			const reports = await runTestCaseRule(
-				this.#fileFactories,
+			const reports = await this.#runTestCaseRule(
 				{
 					// TODO: Figure out a way around the type assertion...
 					options: (testCase.options ?? {}) as InferredObject<OptionsSchema>,

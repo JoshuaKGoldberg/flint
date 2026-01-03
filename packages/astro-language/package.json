@@ -1,0 +1,39 @@
+{
+	"name": "@flint.fyi/astro-language",
+	"version": "0.0.1",
+	"description": "[Experimental] TypeScript language plugin for Flint.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"directory": "packages/ts"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"type": "module",
+	"exports": {
+		".": "./lib/index.js"
+	},
+	"dependencies": {
+		"@astrojs/compiler": "^2.13.0",
+		"@astrojs/ts-plugin": "^1.10.6",
+		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/ts": "workspace:",
+		"@flint.fyi/ts-patch": "workspace:",
+		"@flint.fyi/volar-language": "workspace:",
+		"ts-api-utils": "^2.1.0",
+		"typescript": ">=5.9.3"
+	},
+	"devDependencies": {
+		"@flint.fyi/rule-tester": "workspace:"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	}
+}

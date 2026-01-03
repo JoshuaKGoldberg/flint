@@ -1,3 +1,6 @@
+packages:
+  - packages/*
+
 autoInstallPeers: false
 
 disallowWorkspaceCycles: true
@@ -11,8 +14,8 @@ overrides:
   read-pkg: 10.0.0
   unicorn-magic: 0.4.0
 
-packages:
-  - packages/*
+patchedDependencies:
+  "@typescript-eslint/project-service@8.50.1": patches/@typescript-eslint__project-service@8.50.1.patch
 
 strictDepBuilds: true
 

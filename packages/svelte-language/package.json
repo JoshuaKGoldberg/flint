@@ -1,0 +1,41 @@
+{
+	"name": "@flint.fyi/svelte-language",
+	"version": "0.0.1",
+	"description": "[Experimental] TypeScript language plugin for Flint.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JoshuaKGoldberg/flint",
+		"directory": "packages/ts"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"type": "module",
+	"exports": {
+		".": "./lib/index.js"
+	},
+	"dependencies": {
+		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/ts": "workspace:",
+		"@flint.fyi/ts-patch": "workspace:",
+		"@flint.fyi/volar-language": "workspace:",
+		"@jridgewell/sourcemap-codec": "^1.5.5",
+		"@volar/language-core": "2.4.27",
+		"svelte2tsx": "^0.7.46",
+		"ts-api-utils": "^2.1.0",
+		"typescript": ">=5.9.3"
+	},
+	"devDependencies": {
+		"@flint.fyi/rule-tester": "workspace:",
+		"svelte": "^5.46.1"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	}
+}

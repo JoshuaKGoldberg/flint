@@ -1,6 +1,7 @@
 import type { PromiseOrSync } from "@flint.fyi/utils";
 
 import { CommentDirective } from "./directives.js";
+import { LinterHost } from "./host.js";
 import { FileReport, NormalizedReport } from "./reports.js";
 import {
 	AnyRule,
@@ -44,7 +45,6 @@ export interface Language<
 	ContextServices extends object,
 > extends LanguageDefinition {
 	createRule: CreateRule<AstNodesByName, ContextServices>;
-	prepare(): LanguageFileFactory;
 }
 
 export interface LanguageAbout {
@@ -63,7 +63,7 @@ export interface LanguageFileDiagnostic {
  */
 export interface LanguageDefinition {
 	about: LanguageAbout;
-	prepare(): LanguageFileFactoryDefinition;
+	prepare(host: LinterHost): LanguageFileFactoryDefinition;
 }
 
 export interface LanguageFileCacheImpacts {
@@ -106,11 +106,7 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
  * Creates wrappers around files to be linted.
  */
 export interface LanguageFileFactory extends Disposable {
-	prepareFromDisk(filePathAbsolute: string): LanguagePrepared;
-	prepareFromVirtual(
-		filePathAbsolute: string,
-		sourceText: string,
-	): LanguagePrepared;
+	prepareFile(filePathAbsolute: string, sourceText: string): LanguagePrepared;
 }
 
 /**
@@ -126,8 +122,7 @@ export interface LanguagePrepared {
  * Internal definition of how to create wrappers around files to be linted.
  */
 export interface LanguageFileFactoryDefinition extends Partial<Disposable> {
-	prepareFromDisk(filePathAbsolute: string): LanguagePreparedDefinition;
-	prepareFromVirtual(
+	prepareFile(
 		filePathAbsolute: string,
 		sourceText: string,
 	): LanguagePreparedDefinition;

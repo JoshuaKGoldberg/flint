@@ -28,7 +28,7 @@ export async function lintFile(
 	const reports: FileReport[] = [];
 
 	const languageFiles = new CachedFactory((language: AnyLanguage) =>
-		languageFactories.get(language).prepareFromDisk(filePathAbsolute),
+		languageFactories.get(language).prepareFile(filePathAbsolute),
 	);
 	const rulesWithOptions = computeRulesWithOptions(filePath, useDefinitions);
 
