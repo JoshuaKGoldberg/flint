@@ -6,7 +6,7 @@ const routes = await getStaticPaths({} as GetStaticPathsOptions);
 
 const paths = new Set(routes.map(({ params }) => params.path));
 
-export function getOgImageUrl(path: string): string {
+export function getOgImageUrl(path: string) {
 	const normalizedPath = path.replace(/^\//, "").replace(/\/$/, "");
 
 	const ogPath = `${normalizedPath}.png`;

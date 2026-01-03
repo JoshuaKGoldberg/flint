@@ -28,7 +28,7 @@
 		"@types/react": "^19.2.5",
 		"@types/react-dom": "^19.2.3",
 		"astro": "^5.15.8",
-		"astro-og-canvas": "^0.8.0",
+		"astro-og-canvas": "^0.10.0",
 		"canvaskit-wasm": "^0.40.0",
 		"clsx": "^2.1.1",
 		"flint": "workspace:",

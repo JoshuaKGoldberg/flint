@@ -8,21 +8,19 @@ const pages = Object.fromEntries(
 	}),
 );
 
-export const { GET, getStaticPaths } = OGImageRoute({
+export const { GET, getStaticPaths } = await OGImageRoute({
 	getImageOptions: (_, { data }) => ({
 		bgGradient: [
 			[31, 42, 28],
 			[31, 42, 28],
 		],
-		// https://github.com/delucis/astro-og-canvas/issues/115
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 		description: data.description,
+		format: "WEBP",
 		logo: {
 			path: "./public/logo.png",
 			size: [100],
 		},
 		padding: 80,
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 		title: data.title,
 	}),
 
