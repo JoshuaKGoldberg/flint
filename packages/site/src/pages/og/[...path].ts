@@ -11,20 +11,18 @@ const pages = Object.fromEntries(
 export const { GET, getStaticPaths } = await OGImageRoute({
 	getImageOptions: (_, { data }) => ({
 		bgGradient: [
-			[31, 42, 28],
-			[31, 42, 28],
+			[35, 42, 28],
+			[14, 21, 7],
 		],
 		description: data.description,
 		format: "WEBP",
 		logo: {
 			path: "./public/logo.png",
-			size: [100],
+			size: [138],
 		},
 		padding: 80,
 		title: data.title,
 	}),
-
 	pages,
-
 	param: "path",
 });
