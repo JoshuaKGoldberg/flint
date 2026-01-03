@@ -300,6 +300,19 @@ describe("createDiskBackedLinterHost", () => {
 				expect(onEvent.mock.calls).toEqual([["deleted"], ["created"]]);
 			});
 		});
+
+		it("does not report child file changes when watches directory", async () => {
+			const host = createDiskBackedLinterHost(integrationRoot);
+			const dirPath = path.join(integrationRoot, "directory");
+			const filePath = path.join(dirPath, "file.txt");
+			const onEvent = vi.fn();
+			fs.mkdirSync(dirPath, { recursive: true });
+			using _ = host.watchFile(dirPath, onEvent, 10);
+
+			fs.writeFileSync(filePath, "content");
+			await sleep(50);
+			expect(onEvent).not.toHaveBeenCalled();
+		});
 	});
 
 	describe("watchDirectory", () => {
@@ -350,33 +363,6 @@ describe("createDiskBackedLinterHost", () => {
 			await vi.waitFor(() => {
 				expect(onEvent.mock.calls).toEqual([[normalizedNested]]);
 			});
-		});
-
-		it("watches missing directories after creation", async () => {
-			const host = createDiskBackedLinterHost(integrationRoot);
-			const missingDir = path.join(integrationRoot, "missing-dir");
-			const onEvent = vi.fn();
-			using _ = host.watchDirectory(missingDir, false, onEvent);
-
-			fs.mkdirSync(missingDir, { recursive: true });
-
-			const normalizedMissing = normalizePath(
-				missingDir,
-				host.isCaseSensitiveFS(),
-			);
-			await vi.waitFor(() => {
-				expect(onEvent.mock.calls).toEqual([[normalizedMissing]]);
-			});
-		});
-
-		it("keeps watching when directories are still missing", async () => {
-			const host = createDiskBackedLinterHost(integrationRoot);
-			const missingDir = path.join(integrationRoot, "still-missing");
-			const onEvent = vi.fn();
-			using _ = host.watchDirectory(missingDir, false, onEvent);
-
-			await sleep(50);
-			expect(onEvent.mock.calls).toEqual([]);
 		});
 
 		it("ignores .git directories within watched paths", async () => {
@@ -436,6 +422,134 @@ describe("createDiskBackedLinterHost", () => {
 			await vi.waitFor(() => {
 				expect(onEvent.mock.calls).toEqual([[normalizedFile]]);
 			});
+		});
+
+		it("emits when watching directory is created", async () => {
+			const host = createDiskBackedLinterHost(integrationRoot);
+			const directoryPath = path.join(integrationRoot, "recreate-dir");
+			const normalizedDirectory = normalizePath(
+				directoryPath,
+				host.isCaseSensitiveFS(),
+			);
+			const onEvent = vi.fn();
+			using _ = host.watchDirectory(directoryPath, false, onEvent, 10);
+
+			fs.mkdirSync(directoryPath, { recursive: true });
+
+			await vi.waitFor(() => {
+				expect(onEvent.mock.calls).toEqual([[normalizedDirectory]]);
+			});
+		});
+
+		it("emits when watching directory is deleted", async () => {
+			const host = createDiskBackedLinterHost(integrationRoot);
+			const directoryPath = path.join(integrationRoot, "recreate-dir");
+			const normalizedDirectory = normalizePath(
+				directoryPath,
+				host.isCaseSensitiveFS(),
+			);
+			const onEvent = vi.fn();
+			fs.mkdirSync(directoryPath, { recursive: true });
+
+			using _ = host.watchDirectory(directoryPath, false, onEvent, 10);
+			fs.rmSync(directoryPath, { recursive: true, force: true });
+
+			await vi.waitFor(() => {
+				expect(onEvent.mock.calls).toEqual([[normalizedDirectory]]);
+			});
+		});
+
+		it("reattaches watchers after deletion and recreation", async () => {
+			const host = createDiskBackedLinterHost(integrationRoot);
+			const directoryPath = path.join(integrationRoot, "recreate-dir");
+			const onEvent = vi.fn();
+			fs.mkdirSync(directoryPath, { recursive: true });
+			using _ = host.watchDirectory(directoryPath, false, onEvent, 10);
+
+			const firstFile = path.join(directoryPath, "first.txt");
+			fs.writeFileSync(firstFile, "first");
+
+			const normalizedFirst = normalizePath(
+				firstFile,
+				host.isCaseSensitiveFS(),
+			);
+
+			await vi.waitFor(() => {
+				expect(onEvent.mock.calls).toContainEqual([normalizedFirst]);
+			});
+			onEvent.mockReset();
+
+			fs.rmSync(directoryPath, { recursive: true, force: true });
+
+			const normalizedDirectory = normalizePath(
+				directoryPath,
+				host.isCaseSensitiveFS(),
+			);
+			await vi.waitFor(() => {
+				expect(onEvent.mock.calls).toContainEqual([firstFile]);
+			});
+			onEvent.mockReset();
+
+			fs.mkdirSync(directoryPath, { recursive: true });
+			await vi.waitFor(() => {
+				expect(onEvent.mock.calls).toContainEqual([normalizedDirectory]);
+			});
+			onEvent.mockReset();
+
+			const secondFile = path.join(directoryPath, "second.txt");
+			fs.writeFileSync(secondFile, "second");
+
+			const normalizedSecond = normalizePath(
+				secondFile,
+				host.isCaseSensitiveFS(),
+			);
+			await vi.waitFor(() => {
+				expect(onEvent.mock.calls).toContainEqual([normalizedSecond]);
+			});
+		});
+
+		it("correctly reports when dir and its child have the same name", async () => {
+			const host = createDiskBackedLinterHost(integrationRoot);
+			const directoryPath = path.join(integrationRoot, "dir");
+			const subDirectoryPath = path.join(directoryPath, "dir");
+			const onEvent = vi.fn();
+			using _ = host.watchDirectory(directoryPath, false, onEvent, 10);
+
+			fs.mkdirSync(directoryPath, { recursive: true });
+			await vi.waitFor(() => {
+				expect(onEvent).toHaveBeenCalledWith(directoryPath);
+			});
+			onEvent.mockClear();
+
+			fs.mkdirSync(subDirectoryPath, { recursive: true });
+			await vi.waitFor(() => {
+				expect(onEvent).toHaveBeenCalledWith(subDirectoryPath);
+			});
+			onEvent.mockClear();
+
+			fs.rmSync(subDirectoryPath, { recursive: true, force: true });
+			await vi.waitFor(() => {
+				expect(onEvent).toHaveBeenCalledWith(subDirectoryPath);
+			});
+			onEvent.mockClear();
+
+			fs.rmSync(directoryPath, { recursive: true, force: true });
+			await vi.waitFor(() => {
+				expect(onEvent).toHaveBeenCalledWith(directoryPath);
+			});
+			onEvent.mockClear();
+
+			fs.mkdirSync(subDirectoryPath, { recursive: true });
+			await vi.waitFor(() => {
+				expect(onEvent).toHaveBeenCalledWith(directoryPath);
+			});
+			onEvent.mockClear();
+
+			fs.rmSync(directoryPath, { recursive: true });
+			await vi.waitFor(() => {
+				expect(onEvent).toHaveBeenCalledWith(directoryPath);
+			});
+			onEvent.mockClear();
 		});
 	});
 });
