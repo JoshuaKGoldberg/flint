@@ -3121,6 +3121,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "headingDuplicates",
 			"plugin": "md",
 			"preset": "stylistic",
