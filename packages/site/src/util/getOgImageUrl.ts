@@ -6,10 +6,9 @@ const routes = await getStaticPaths({} as GetStaticPathsOptions);
 
 const paths = new Set(routes.map(({ params }) => params.path));
 
-export function getOgImageUrl(path: string): string | undefined {
+export function getOgImageUrl(path: string): string {
 	const normalizedPath = path.replace(/^\//, "").replace(/\/$/, "");
 
-	if (paths.has(normalizedPath)) {
-		return `/og/${normalizedPath}.png`;
-	}
+	const ogPath = `${normalizedPath}.png`;
+	return paths.has(ogPath) ? `/og/${ogPath}` : "social.webp";
 }

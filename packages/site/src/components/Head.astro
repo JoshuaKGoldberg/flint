@@ -11,7 +11,7 @@ const data = Astro.props.entry?.data ?? {
 };
 
 const currentPath = Astro.url.pathname;
-const ogImageUrl = getOgImageUrl(currentPath) ?? "social.webp";
+const ogImageUrl = getOgImageUrl(currentPath);
 const ogImage = new URL(ogImageUrl, Astro.site).toString();
 ---
 
