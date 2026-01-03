@@ -1,10 +1,10 @@
-import { type Comparison, comparisons, LinterRuleReference } from "./index.js";
+import { comparisons, LinterRuleReference } from "./index.js";
 interface GroupedComparisons {
 	eslint: Record<
-		MaybeLiteral<"builtin">,
+		MaybeLiteral<"builtin">, // pluginName
 		Record<
 			string, // ruleName
-			Comparison
+			LinterRuleReference[] | undefined
 		>
 	>;
 }
@@ -24,7 +24,7 @@ export function groupByLinterAndPlugin(
 			// will work after enabling `noUncheckedIndexedAccess` in tsconfig
 			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			eslint[plugin] ||= {};
-			eslint[plugin][ruleName] = comparison;
+			eslint[plugin][ruleName] = comparison.eslint;
 		}
 	}
 
