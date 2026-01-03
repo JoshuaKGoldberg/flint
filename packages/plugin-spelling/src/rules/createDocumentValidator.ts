@@ -8,6 +8,9 @@ import {
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
+// Track whether we've already shown the missing config warning
+let hasShownConfigWarning = false;
+
 export async function createDocumentValidator(fileName: string, text: string) {
 	const cwd = process.cwd();
 	const document = createTextDocument({
@@ -26,14 +29,36 @@ export async function createDocumentValidator(fileName: string, text: string) {
 	const configFilePath = path.join(cwd, "cspell.json");
 	const configFileUrlBase = pathToFileURL(configFilePath).href;
 	const configFileUrl = `${configFileUrlBase}?timestamp=${performance.now()}`;
-	const configFile = (await import(configFileUrl, {
-		with: { type: "json" },
-	})) as { default: CSpellSettings };
+
+	let config: CSpellSettings = {};
+	try {
+		const configFile = (await import(configFileUrl, {
+			with: { type: "json" },
+		})) as { default: CSpellSettings };
+		config = configFile.default;
+	} catch (error) {
+		// If cspell.json is not found, use an empty config and log a warning
+		if (
+			error instanceof Error &&
+			"code" in error &&
+			error.code === "ERR_MODULE_NOT_FOUND"
+		) {
+			if (!hasShownConfigWarning) {
+				console.warn(
+					"Warning: cspell.json config file not found. Using default configuration.",
+				);
+				hasShownConfigWarning = true;
+			}
+		} else {
+			// Re-throw if it's a different error
+			throw error;
+		}
+	}
 
 	const validator = new DocumentValidator(
 		document,
 		{ resolveImportsRelativeTo },
-		configFile.default,
+		config,
 	);
 
 	await validator.prepare();
