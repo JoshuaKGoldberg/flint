@@ -31,6 +31,8 @@ export async function createDocumentValidator(fileName: string, text: string) {
 	try {
 		config = (
 			(await import(configFileUrl, {
+				// eslint-disable-next-line jsdoc/no-bad-blocks
+				/* @vite-ignore */
 				with: { type: "json" },
 			})) as { default: CSpellSettings }
 		).default;
