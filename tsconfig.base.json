@@ -9,7 +9,6 @@
 		"declarationMap": true,
 		"emitDeclarationOnly": true,
 		"erasableSyntaxOnly": true,
-		"esModuleInterop": true,
 		"exactOptionalPropertyTypes": true,
 		"lib": ["ESNext"],
 		"module": "NodeNext",
