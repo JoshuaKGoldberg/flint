@@ -34,7 +34,6 @@
 		"autolinks",
 		"auvred",
 		"bday",
-		// TODO: Remove after https://github.com/streetsidesoftware/cspell-dicts/pull/5125 is merged
 		"canvaskit",
 		"codemod",
 		"contentinfo",

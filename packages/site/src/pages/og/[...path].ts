@@ -1,5 +1,5 @@
 import { OGImageRoute } from "astro-og-canvas";
-import { type CollectionEntry, getCollection } from "astro:content";
+import { getCollection } from "astro:content";
 
 const paths = await getCollection("docs");
 const pages = Object.fromEntries(
@@ -22,6 +22,7 @@ export const { GET, getStaticPaths } = OGImageRoute({
 			size: [100],
 		},
 		padding: 80,
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 		title: data.title,
 	}),
 
