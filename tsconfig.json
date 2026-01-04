@@ -11,6 +11,7 @@
 		{ "path": "./packages/flint" },
 		{ "path": "./packages/json" },
 		{ "path": "./packages/md" },
+		{ "path": "./packages/package-json" },
 		{ "path": "./packages/plugin-astro" },
 		{ "path": "./packages/plugin-browser" },
 		{ "path": "./packages/plugin-flint" },

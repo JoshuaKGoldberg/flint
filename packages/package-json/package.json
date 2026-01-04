@@ -1,0 +1,39 @@
+{
+	"name": "@flint.fyi/package-json",
+	"version": "0.15.0",
+	"description": "[Experimental] Package.json plugin for Flint.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/flint-fyi/flint.git",
+		"directory": "packages/package-json"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "JoshuaKGoldberg",
+		"email": "npm@joshuakgoldberg.com"
+	},
+	"sideEffects": false,
+	"type": "module",
+	"exports": {
+		".": "./lib/index.js"
+	},
+	"files": [
+		"lib/",
+		"!lib/**/*.map"
+	],
+	"dependencies": {
+		"@flint.fyi/core": "workspace:",
+		"typescript": "^5.9.0 || ^6.0.0",
+		"zod": "^4.2.1"
+	},
+	"devDependencies": {
+		"@flint.fyi/rule-tester": "workspace:",
+		"vitest": "4.0.15"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}

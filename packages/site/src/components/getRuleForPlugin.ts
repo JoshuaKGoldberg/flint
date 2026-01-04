@@ -4,7 +4,7 @@ import { jsx } from "@flint.fyi/plugin-jsx";
 import { node } from "@flint.fyi/plugin-node";
 import { performance } from "@flint.fyi/plugin-performance";
 import { spelling } from "@flint.fyi/plugin-spelling";
-import { type AnyRule, json, md, ts, yaml } from "flint";
+import { type AnyRule, json, md, packageJson, ts, yaml } from "flint";
 
 const plugins = {
 	browser,
@@ -13,6 +13,7 @@ const plugins = {
 	jsx,
 	md,
 	node,
+	"package-json": packageJson,
 	performance,
 	spelling,
 	ts,

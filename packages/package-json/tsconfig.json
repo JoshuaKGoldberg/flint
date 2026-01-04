@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"outDir": "lib",
+		"rootDir": "src"
+	},
+	"extends": "../../tsconfig.base.json",
+	"include": ["src"],
+	"references": [
+		{ "path": "../core" },
+		{ "path": "../json" },
+		{ "path": "../rule-tester" }
+	]
+}
