@@ -53,8 +53,8 @@ export interface Language<
 	AstNodesByName,
 	FileServices extends object,
 > extends LanguageDefinition<AstNodesByName, FileServices> {
+	createFileFactory(): LanguageFileFactory<AstNodesByName, FileServices>;
 	createRule: CreateRule<AstNodesByName, FileServices>;
-	prepare(): LanguageFileFactory<AstNodesByName, FileServices>;
 }
 
 export interface LanguageAbout {
@@ -76,7 +76,10 @@ export interface LanguageDefinition<
 	FileServices extends object,
 > {
 	about: LanguageAbout;
-	prepare(): LanguageFileFactoryDefinition<AstNodesByName, FileServices>;
+	createFileFactory(): LanguageFileFactoryDefinition<
+		AstNodesByName,
+		FileServices
+	>;
 }
 
 export interface LanguageFileCacheImpacts {

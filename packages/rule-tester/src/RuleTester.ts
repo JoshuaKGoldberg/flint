@@ -54,7 +54,7 @@ export class RuleTester {
 		skip,
 	}: RuleTesterOptions = {}) {
 		this.#fileFactories = new CachedFactory((language: AnyLanguage) =>
-			language.prepare(),
+			language.createFileFactory(),
 		);
 
 		it = defaultTo(it, scope, "it");

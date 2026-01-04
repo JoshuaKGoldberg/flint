@@ -14,7 +14,7 @@ export const jsonLanguage = createLanguage<JsonNodesByName, JsonFileServices>({
 	about: {
 		name: "JSON",
 	},
-	prepare: () => {
+	createFileFactory: () => {
 		return {
 			prepareFromDisk: (data) => {
 				return {

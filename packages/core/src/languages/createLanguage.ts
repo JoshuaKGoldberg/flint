@@ -18,20 +18,13 @@ export function createLanguage<AstNodesByName, FileServices extends object>(
 	const language: Language<AstNodesByName, FileServices> = {
 		...languageDefinition,
 
-		createRule: ((ruleDefinition: AnyRuleDefinition) => {
-			return {
-				...ruleDefinition,
-				language,
-			};
-		}) as CreateRule<AstNodesByName, FileServices>,
-
-		prepare() {
+		createFileFactory() {
 			log(
 				"Preparing file factory for language: %s",
 				languageDefinition.about.name,
 			);
 
-			const fileFactoryDefinition = languageDefinition.prepare();
+			const fileFactoryDefinition = languageDefinition.createFileFactory();
 
 			log("Prepared file factory.");
 
@@ -58,6 +51,13 @@ export function createLanguage<AstNodesByName, FileServices extends object>(
 
 			return fileFactory;
 		},
+
+		createRule: ((ruleDefinition: AnyRuleDefinition) => {
+			return {
+				...ruleDefinition,
+				language,
+			};
+		}) as CreateRule<AstNodesByName, FileServices>,
 	};
 
 	return language;

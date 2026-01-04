@@ -21,6 +21,7 @@ export async function runConfig(
 ): Promise<LintResults> {
 	// 1. Based on the original config definition, collect:
 	//   - The full list of all file paths to be linted
+	//   - Any cached results amongst those file paths
 	//   - The language (virtual) file representations
 	//   - For each rule, the options it'll run with on each of its files
 	const {
