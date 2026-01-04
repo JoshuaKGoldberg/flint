@@ -1,4 +1,5 @@
 import type {
+	FileAboutData,
 	LanguageFileCacheImpacts,
 	LanguageFileDefinition,
 } from "@flint.fyi/core";
@@ -7,7 +8,8 @@ import * as ts from "typescript";
 import { collectReferencedFilePaths } from "./collectReferencedFilePaths.ts";
 import { convertTypeScriptDiagnosticToLanguageFileDiagnostic } from "./convertTypeScriptDiagnosticToLanguageFileDiagnostic.ts";
 import { getFirstEnumValues } from "./getFirstEnumValues.ts";
-import { normalizeRange } from "./normalizeRange.ts";
+import type { TypeScriptFileServices } from "./language.ts";
+import type { TypeScriptNodesByName } from "./nodes.ts";
 
 export const NodeSyntaxKinds = getFirstEnumValues(ts.SyntaxKind);
 
@@ -27,30 +29,38 @@ export function collectTypeScriptFileCacheImpacts(
 }
 
 export function createTypeScriptFileFromProgram(
+	data: FileAboutData,
 	program: ts.Program,
 	sourceFile: ts.SourceFile,
-): LanguageFileDefinition {
+): LanguageFileDefinition<TypeScriptNodesByName, TypeScriptFileServices> {
 	return {
+		about: {
+			...data,
+			sourceText: sourceFile.text,
+		},
 		cache: collectTypeScriptFileCacheImpacts(program, sourceFile),
 		getDiagnostics() {
 			return ts
 				.getPreEmitDiagnostics(program, sourceFile)
 				.map(convertTypeScriptDiagnosticToLanguageFileDiagnostic);
 		},
-		normalizeRange: (range) => normalizeRange(range, sourceFile),
-		runVisitors(runtime, options) {
+		runVisitors(options, runtime) {
+			if (!runtime.visitors) {
+				return;
+			}
+
+			const { visitors } = runtime;
 			const typeChecker = program.getTypeChecker();
 			const fileServices = { options, program, sourceFile, typeChecker };
-			const { visitors } = runtime;
 
-			if (visitors) {
-				const visit = (node: ts.Node) => {
-					visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
-					node.forEachChild(visit);
-				};
+			const visit = (node: ts.Node) => {
+				// @ts-expect-error - This should work...?
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+				visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
+				node.forEachChild(visit);
+			};
 
-				visit(sourceFile);
-			}
+			visit(sourceFile);
 		},
 	};
 }

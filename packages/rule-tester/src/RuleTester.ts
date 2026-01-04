@@ -1,9 +1,9 @@
 import type {
 	AnyLanguage,
+	AnyLanguageFileFactory,
 	AnyOptionalSchema,
 	AnyRule,
 	InferredObject,
-	LanguageFileFactory,
 	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
@@ -42,7 +42,7 @@ export type TesterSetupIt = (
 ) => void;
 
 export class RuleTester {
-	#fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>;
+	#fileFactories: CachedFactory<AnyLanguage, AnyLanguageFileFactory>;
 	#testerOptions: Required<RuleTesterOptions>;
 
 	constructor({

@@ -48,6 +48,14 @@ export interface RuleReport<Message extends string = string> {
 	 */
 	dependencies?: string[];
 
+	/**
+	 * Relative file path to the file to place the report in.
+	 * If omitted:
+	 * - If in a rule visitor: defaults to the current file being visited
+	 * - In a setup() or teardown() method: throws an error
+	 */
+	filePath?: string;
+
 	fix?: Fix | Fix[] | undefined;
 	message: Message;
 	suggestions?: Suggestion[] | undefined;

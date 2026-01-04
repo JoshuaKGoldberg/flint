@@ -1,32 +1,33 @@
-import {
-	getColumnAndLineOfPosition,
-	type LanguageFileDefinition,
-} from "@flint.fyi/core";
+import type { FileDiskData, LanguageFileDefinition } from "@flint.fyi/core";
 import { visit } from "unist-util-visit";
 import * as yamlParser from "yaml-unist-parser";
+
+import type { YamlFileServices } from "./language.ts";
+import type { YamlNodesByName } from "./nodes.ts";
 
 // Eventually, it might make sense to use a native speed Yaml parser...
 // However, the unist ecosystem is quite extensive and well-supported.
 // It'll be a while before we can replace it with a native parser.
-export function createYamlFile(sourceText: string) {
-	const root = yamlParser.parse(sourceText);
-	const sourceFileText = { text: sourceText };
+export function createYamlFile(data: FileDiskData) {
+	const root = yamlParser.parse(data.sourceText);
 
-	const languageFile: LanguageFileDefinition = {
-		normalizeRange: (range) => ({
-			begin: getColumnAndLineOfPosition(sourceFileText, range.begin),
-			end: getColumnAndLineOfPosition(sourceFileText, range.end),
-		}),
-		runVisitors(runtime, options) {
-			const fileServices = { options, root };
+	const languageFile: LanguageFileDefinition<
+		YamlNodesByName,
+		YamlFileServices
+	> = {
+		about: data,
+		runVisitors(options, runtime) {
+			if (!runtime.visitors) {
+				return;
+			}
 
 			const { visitors } = runtime;
+			const fileServices = { options, root };
 
-			if (visitors) {
-				visit(root, (node) => {
-					visitors[node.type]?.(node, fileServices);
-				});
-			}
+			visit(root, (node) => {
+				// @ts-expect-error -- This should work...?
+				visitors[node.type]?.(node, fileServices);
+			});
 		},
 	};
 

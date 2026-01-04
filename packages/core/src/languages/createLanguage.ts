@@ -2,8 +2,8 @@ import { debugForFile } from "debug-for-file";
 
 import type {
 	CreateRule,
+	FileAboutData,
 	FileDiskData,
-	FileDiskSummary,
 	Language,
 	LanguageDefinition,
 } from "../types/languages.ts";
@@ -13,7 +13,7 @@ import { makeDisposable } from "./makeDisposable.ts";
 const log = debugForFile(import.meta.filename);
 
 export function createLanguage<AstNodesByName, FileServices extends object>(
-	languageDefinition: LanguageDefinition,
+	languageDefinition: LanguageDefinition<AstNodesByName, FileServices>,
 ) {
 	const language: Language<AstNodesByName, FileServices> = {
 		...languageDefinition,
@@ -37,7 +37,7 @@ export function createLanguage<AstNodesByName, FileServices extends object>(
 
 			const fileFactory = makeDisposable({
 				...fileFactoryDefinition,
-				prepareFromDisk: (data: FileDiskSummary) => {
+				prepareFromDisk: (data: FileAboutData) => {
 					const { file, ...rest } = fileFactoryDefinition.prepareFromDisk(data);
 
 					return {

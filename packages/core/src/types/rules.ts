@@ -15,9 +15,6 @@ export type AnyRule<
 export type AnyRuleDefinition<
 	OptionsSchema extends AnyOptionalSchema | undefined = any,
 > = RuleDefinition<RuleAbout, any, any, string, OptionsSchema>;
-
-export type AnyRuleRuntime<Options extends object | undefined = any> =
-	RuleRuntime<any, object, Options>;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
@@ -64,14 +61,10 @@ export interface RuleDefinition<
 	>;
 }
 
-export interface RuleRuntime<
-	AstNodesByName,
-	FileServices extends object,
-	Options,
-> {
+export interface RuleRuntime<AstNodesByName, FileServices extends object> {
 	dependencies?: string[];
 	teardown?: RuleTeardown;
-	visitors?: RuleVisitors<AstNodesByName, FileServices, Options>;
+	visitors?: RuleVisitors<AstNodesByName, FileServices>;
 }
 
 export type RuleSetup<
@@ -81,27 +74,20 @@ export type RuleSetup<
 	Options,
 > = (
 	context: RuleContext<MessageId>,
-) => PromiseOrSync<RuleRuntime<AstNodesByName, FileServices, Options>>;
+) => PromiseOrSync<
+	RuleRuntime<AstNodesByName, FileServices & { options: Options }> | undefined
+>;
 
 export type RuleTeardown = () => PromiseOrSync<undefined>;
 
-export type RuleVisitor<ASTNode, FileServices extends object, Options> = (
+export type RuleVisitor<ASTNode, FileServices extends object> = (
 	node: ASTNode,
-	data: RuleVisitorData<FileServices, Options>,
+	services: FileServices,
 ) => void;
 
-export type RuleVisitorData<FileServices, Options> = FileServices & {
-	options: Options;
-};
-
-export type RuleVisitors<
-	AstNodesByName,
-	FileServices extends object,
-	Options,
-> = {
+export type RuleVisitors<AstNodesByName, FileServices extends object> = {
 	[Kind in keyof AstNodesByName]?: RuleVisitor<
 		AstNodesByName[Kind],
-		FileServices,
-		Options
+		FileServices
 	>;
 };

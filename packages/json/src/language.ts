@@ -3,30 +3,30 @@ import fsSync from "node:fs";
 import type * as ts from "typescript";
 
 import { createTypeScriptJsonFile } from "./createJsonFile.ts";
-import type { TSNodesByName } from "./nodes.ts";
+import type { JsonNodesByName } from "./nodes.ts";
 
-export interface JsonServices {
+export interface JsonFileServices {
 	sourceFile: ts.JsonSourceFile;
 }
 
 // TODO: It would be nice to limit TSNodesByName to just nodes in JSON files...
-export const jsonLanguage = createLanguage<TSNodesByName, JsonServices>({
+export const jsonLanguage = createLanguage<JsonNodesByName, JsonFileServices>({
 	about: {
 		name: "JSON",
 	},
 	prepare: () => {
 		return {
-			prepareFromDisk: ({ filePathAbsolute }) => {
+			prepareFromDisk: (data) => {
 				return {
-					file: createTypeScriptJsonFile(
-						filePathAbsolute,
-						fsSync.readFileSync(filePathAbsolute, "utf8"),
-					),
+					file: createTypeScriptJsonFile({
+						...data,
+						sourceText: fsSync.readFileSync(data.filePathAbsolute, "utf8"),
+					}),
 				};
 			},
-			prepareFromVirtual: ({ filePathAbsolute, sourceText }) => {
+			prepareFromVirtual: (data) => {
 				return {
-					file: createTypeScriptJsonFile(filePathAbsolute, sourceText),
+					file: createTypeScriptJsonFile(data),
 				};
 			},
 		};

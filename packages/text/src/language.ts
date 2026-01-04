@@ -2,25 +2,25 @@ import { createLanguage } from "@flint.fyi/core";
 import fsSync from "node:fs";
 
 import { createTextFile } from "./createTextFile.ts";
-import type { TextNodes, TextServices } from "./types.ts";
+import type { TextFileServices, TextNodes } from "./types.ts";
 
-export const textLanguage = createLanguage<TextNodes, TextServices>({
+export const textLanguage = createLanguage<TextNodes, TextFileServices>({
 	about: {
-		name: "Text",
+		name: "YAML",
 	},
 	prepare: () => {
 		return {
-			prepareFromDisk: ({ filePathAbsolute }) => {
+			prepareFromDisk: (data) => {
 				return {
-					file: createTextFile(
-						filePathAbsolute,
-						fsSync.readFileSync(filePathAbsolute, "utf8"),
-					),
+					file: createTextFile({
+						...data,
+						sourceText: fsSync.readFileSync(data.filePathAbsolute, "utf8"),
+					}),
 				};
 			},
-			prepareFromVirtual: ({ filePathAbsolute, sourceText }) => {
+			prepareFromVirtual: (data) => {
 				return {
-					file: createTextFile(filePathAbsolute, sourceText),
+					file: createTextFile(data),
 				};
 			},
 		};

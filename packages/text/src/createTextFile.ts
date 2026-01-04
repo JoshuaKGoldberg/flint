@@ -1,32 +1,28 @@
-import type { LanguageFileDefinition } from "@flint.fyi/core";
-import indexToPosition from "index-to-position";
+import type { FileDiskData, LanguageFileDefinition } from "@flint.fyi/core";
+
+import type { TextFileServices, TextNodes } from "./types.ts";
 
 export function createTextFile(
-	filePathAbsolute: string,
-	sourceText: string,
-): LanguageFileDefinition {
+	data: FileDiskData,
+): LanguageFileDefinition<TextNodes, TextFileServices> {
 	return {
-		normalizeRange: (range) => ({
-			begin: {
-				...indexToPosition(sourceText, range.begin),
-				raw: range.begin,
-			},
-			end: {
-				...indexToPosition(sourceText, range.end),
-				raw: range.end,
-			},
-		}),
-		runVisitors(runtime, options) {
-			const fileServices = { filePathAbsolute, options, sourceText };
+		about: data,
+		runVisitors(options, runtime) {
+			if (!runtime.visitors) {
+				return;
+			}
 
-			if (runtime.visitors) {
-				runtime.visitors.file?.(sourceText, fileServices);
+			const fileServices = {
+				filePathAbsolute: data.filePathAbsolute,
+				options,
+				sourceText: data.sourceText,
+			};
 
-				if (runtime.visitors.line) {
-					const lines = sourceText.split(/\r\n|\n|\r/);
-					for (const line of lines) {
-						runtime.visitors.line(line, fileServices);
-					}
+			runtime.visitors.file?.(data.sourceText, fileServices);
+
+			if (runtime.visitors.line) {
+				for (const line of data.sourceText.split(/\r\n|\n|\r/)) {
+					runtime.visitors.line(line, fileServices);
 				}
 			}
 		},

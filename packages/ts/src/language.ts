@@ -1,7 +1,7 @@
 import { createLanguage } from "@flint.fyi/core";
 import type * as ts from "typescript";
 
-import type { TSNodesByName } from "./nodes.ts";
+import type { TypeScriptNodesByName } from "./nodes.ts";
 import { prepareTypeScriptBasedLanguage } from "./prepareTypeScriptBasedLanguage.ts";
 import { prepareTypeScriptFile } from "./prepareTypeScriptFile.ts";
 
@@ -12,22 +12,26 @@ export interface TypeScriptFileServices {
 }
 
 export const typescriptLanguage = createLanguage<
-	TSNodesByName,
+	TypeScriptNodesByName,
 	TypeScriptFileServices
 >({
 	about: {
 		name: "TypeScript",
 	},
 	prepare: () => {
-		const lang = prepareTypeScriptBasedLanguage();
+		const language = prepareTypeScriptBasedLanguage();
 
 		return {
-			prepareFromDisk({ filePathAbsolute }) {
-				return prepareTypeScriptFile(lang.createFromDisk(filePathAbsolute));
-			},
-			prepareFromVirtual({ filePathAbsolute, sourceText }) {
+			prepareFromDisk(data) {
 				return prepareTypeScriptFile(
-					lang.createFromVirtual(filePathAbsolute, sourceText),
+					data,
+					language.createFromDisk(data.filePathAbsolute),
+				);
+			},
+			prepareFromVirtual(data) {
+				return prepareTypeScriptFile(
+					data,
+					language.createFromVirtual(data.filePathAbsolute, data.sourceText),
 				);
 			},
 		};

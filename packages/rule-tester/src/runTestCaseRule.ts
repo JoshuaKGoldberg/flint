@@ -1,13 +1,13 @@
-import type {
-	AnyLanguage,
-	AnyOptionalSchema,
-	AnyRule,
-	FileReport,
-	InferredObject,
-	LanguageFileFactory,
-	RuleAbout,
+import {
+	type AnyLanguage,
+	type AnyLanguageFileFactory,
+	type AnyOptionalSchema,
+	type AnyRule,
+	getColumnAndLineOfPosition,
+	type InferredObject,
+	type NormalizedReport,
+	type RuleAbout,
 } from "@flint.fyi/core";
-import { makeAbsolute } from "@flint.fyi/utils";
 import type { CachedFactory } from "cached-factory";
 
 import type { TestCaseNormalized } from "./normalizeTestCase.ts";
@@ -22,12 +22,10 @@ export interface TestCaseRuleConfiguration<
 export async function runTestCaseRule<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 >(
-	fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
+	fileFactories: CachedFactory<AnyLanguage, AnyLanguageFileFactory>,
 	{ options, rule }: Required<TestCaseRuleConfiguration<OptionsSchema>>,
 	{ code, fileName }: TestCaseNormalized,
-) {
-	const reports: FileReport[] = [];
-
+): Promise<NormalizedReport[]> {
 	using file = fileFactories
 		// TODO: How to make types more permissive around assignability?
 		// See AnyRule's any
@@ -35,29 +33,40 @@ export async function runTestCaseRule<
 		.get(rule.language)
 		.prepareFromVirtual({
 			filePath: fileName,
-			filePathAbsolute: makeAbsolute(fileName),
+			filePathAbsolute: fileName,
 			sourceText: code,
 		}).file;
+
+	const reports: NormalizedReport[] = [];
 
 	const ruleRuntime = await rule.setup({
 		report(ruleReport) {
 			reports.push({
 				...ruleReport,
-				about: rule.about,
 				fix:
 					ruleReport.fix && !Array.isArray(ruleReport.fix)
 						? [ruleReport.fix]
 						: ruleReport.fix,
 				message: rule.messages[ruleReport.message],
-				range: file.normalizeRange(ruleReport.range),
+				range: {
+					begin: getColumnAndLineOfPosition(
+						file.about.sourceText,
+						ruleReport.range.begin,
+					),
+					end: getColumnAndLineOfPosition(
+						file.about.sourceText,
+						ruleReport.range.end,
+					),
+				},
 			});
 		},
 	});
 
-	// TODO: How to make types more permissive around assignability?
-	// See AnyRuleRuntime's any
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-	await file.runVisitors(ruleRuntime, options as InferredObject<OptionsSchema>);
+	if (ruleRuntime) {
+		// TODO: How to make types more permissive around assignability?
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		file.runVisitors(options as InferredObject<OptionsSchema>, ruleRuntime);
+	}
 
 	return reports;
 }
