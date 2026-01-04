@@ -173,7 +173,6 @@ export default defineConfig(
 	},
 	{
 		extends: [
-			// typecasting these until this issue is resolved:
 			// https://github.com/ota-meshi/eslint-plugin-yml/issues/510
 			yml.configs["flat/standard"] as unknown as Linter.Config[],
 			yml.configs["flat/prettier"] as unknown as Linter.Config[],
