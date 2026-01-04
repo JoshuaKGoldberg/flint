@@ -1,5 +1,11 @@
 # @flint.fyi/ts-patch
 
+## 0.13.4
+
+### Patch Changes
+
+- 602c75c: chore: rework packaging with tsdown
+
 ## 0.13.3
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @flint/core
 
+## 0.18.1
+
+### Patch Changes
+
+- 602c75c: chore: rework packaging with tsdown
+- Updated dependencies [602c75c]
+  - @flint.fyi/utils@0.13.4
+
 ## 0.18.0
 
 ### Minor Changes
