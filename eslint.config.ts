@@ -76,6 +76,17 @@ export default defineConfig(
 			},
 		},
 		rules: {
+			"@typescript-eslint/no-deprecated": [
+				"error",
+				{
+					allow: [
+						{
+							from: "lib",
+							name: "builtinRules",
+						},
+					],
+				},
+			],
 			"@typescript-eslint/no-import-type-side-effects": "error",
 			"@typescript-eslint/no-unnecessary-condition": [
 				"error",
