@@ -203,28 +203,28 @@ importers:
   packages/flint:
     dependencies:
       '@flint.fyi/cli':
-        specifier: workspace:^
+        specifier: 'workspace:'
         version: link:../cli
       '@flint.fyi/core':
-        specifier: workspace:^
+        specifier: 'workspace:'
         version: link:../core
       '@flint.fyi/json':
-        specifier: workspace:^
+        specifier: 'workspace:'
         version: link:../json
       '@flint.fyi/md':
-        specifier: workspace:^
+        specifier: 'workspace:'
         version: link:../md
       '@flint.fyi/package-json':
         specifier: 'workspace:'
         version: link:../package-json
       '@flint.fyi/ts':
-        specifier: workspace:^
+        specifier: 'workspace:'
         version: link:../ts
       '@flint.fyi/ts-patch':
-        specifier: workspace:^
+        specifier: 'workspace:'
         version: link:../ts-patch
       '@flint.fyi/yaml':
-        specifier: workspace:^
+        specifier: 'workspace:'
         version: link:../yaml
       typescript:
         specifier: ^5.9.3
@@ -290,24 +290,11 @@ importers:
   packages/package-json:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
-      '@flint.fyi/json':
-        specifier: 'workspace:'
-        version: link:../json
       typescript:
         specifier: ^5.9.0 || ^6.0.0
         version: 5.9.3
-      zod:
-        specifier: ^4.2.1
-        version: 4.2.1
-    devDependencies:
-      '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
-        version: link:../rule-tester
-      vitest:
-        specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-astro:
     dependencies:

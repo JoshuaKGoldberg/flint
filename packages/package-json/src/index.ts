@@ -1,1 +1,1 @@
-export { packageJson } from "./plugin.js";
+export { packageJson } from "./plugin.ts";
