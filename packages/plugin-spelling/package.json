@@ -26,13 +26,13 @@
 	],
 	"dependencies": {
 		"@cspell/url": "^9.2.2",
-		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/text": "workspace:",
-		"@flint.fyi/utils": "workspace:",
+		"@flint.fyi/core": "workspace:^",
+		"@flint.fyi/text": "workspace:^",
+		"@flint.fyi/utils": "workspace:^",
 		"cspell-lib": "^9.2.2"
 	},
 	"devDependencies": {
-		"@flint.fyi/rule-tester": "workspace:",
+		"@flint.fyi/rule-tester": "workspace:^",
 		"tsdown": "0.18.3",
 		"vitest": "4.0.15"
 	},
