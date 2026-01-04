@@ -13,6 +13,11 @@ export default defineConfig({
 		"src/install-patch-hooks.ts",
 		"src/proxy-program.ts",
 	],
+	exports: {
+		devExports: "@flint.fyi/source",
+		exclude: ["proxy-program"],
+		packageJson: false,
+	},
 	failOnWarn: true,
 	fixedExtension: false,
 	outDir: "lib",

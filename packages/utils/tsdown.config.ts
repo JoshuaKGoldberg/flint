@@ -8,6 +8,10 @@ export default defineConfig({
 	clean: ["./node_modules/.cache/tsbuild/"],
 	dts: { build: true, incremental: true },
 	entry: ["src/index.ts"],
+	exports: {
+		devExports: "@flint.fyi/source",
+		packageJson: false,
+	},
 	failOnWarn: true,
 	fixedExtension: false,
 	outDir: "lib",
