@@ -1,13 +1,13 @@
-import {
+import type {
 	LinterHost,
 	LinterHostDirectoryEntry,
 	LinterHostDirectoryWatcher,
 	LinterHostFileWatcher,
 	LinterHostFileWatcherEvent,
 	VFSLinterHost,
-} from "../types/host.js";
-import { isFileSystemCaseSensitive } from "./isFileSystemCaseSensitive.js";
-import { normalizedDirname, normalizePath } from "./normalizePath.js";
+} from "../types/host.ts";
+import { isFileSystemCaseSensitive } from "./isFileSystemCaseSensitive.ts";
+import { normalizedDirname, normalizePath } from "./normalizePath.ts";
 
 /**
  * Current limitations in watch mode:

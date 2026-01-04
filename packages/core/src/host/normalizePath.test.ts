@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { normalizedDirname, normalizePath } from "./normalizePath.js";
+import { normalizedDirname, normalizePath } from "./normalizePath.ts";
 
 describe("normalizePath", () => {
 	it("normalizes Windows path", () => {

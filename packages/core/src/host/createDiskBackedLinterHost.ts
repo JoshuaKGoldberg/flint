@@ -1,13 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import {
+import type {
 	LinterHost,
 	LinterHostDirectoryEntry,
 	LinterHostFileWatcherEvent,
-} from "../types/host.js";
-import { isFileSystemCaseSensitive } from "./isFileSystemCaseSensitive.js";
-import { normalizePath } from "./normalizePath.js";
+} from "../types/host.ts";
+import { isFileSystemCaseSensitive } from "./isFileSystemCaseSensitive.ts";
+import { normalizePath } from "./normalizePath.ts";
 
 const ignoredPaths = ["/node_modules", "/.git"];
 

@@ -1,7 +1,7 @@
 // flint-disable-file unnecessaryBlocks
 import { describe, expect, it, vi } from "vitest";
 
-import { createVFSLinterHost } from "./createVFSLinterHost.js";
+import { createVFSLinterHost } from "./createVFSLinterHost.ts";
 
 /* eslint @typescript-eslint/no-unused-vars: ["error", { "varsIgnorePattern": "^_$" }] */
 /* eslint-disable @typescript-eslint/no-empty-function */
