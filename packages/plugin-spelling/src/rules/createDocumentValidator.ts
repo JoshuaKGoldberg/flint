@@ -26,16 +26,24 @@ export async function createDocumentValidator(fileName: string, text: string) {
 	const configFilePath = path.join(cwd, "cspell.json");
 	const configFileUrlBase = pathToFileURL(configFilePath).href;
 	const configFileUrl = `${configFileUrlBase}?timestamp=${performance.now()}`;
-	const configFile = (await import(configFileUrl, {
-		// eslint-disable-next-line jsdoc/no-bad-blocks
-		/* @vite-ignore */
-		with: { type: "json" },
-	})) as { default: CSpellSettings };
+
+	let config: CSpellSettings = {};
+	try {
+		config = (
+			(await import(configFileUrl, {
+				// eslint-disable-next-line jsdoc/no-bad-blocks
+				/* @vite-ignore */
+				with: { type: "json" },
+			})) as { default: CSpellSettings }
+		).default;
+	} catch {
+		// fail silently (add debug logging later)
+	}
 
 	const validator = new DocumentValidator(
 		document,
 		{ resolveImportsRelativeTo },
-		configFile.default,
+		config,
 	);
 
 	await validator.prepare();
