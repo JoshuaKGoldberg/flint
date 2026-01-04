@@ -62,8 +62,6 @@ export async function runTestCaseRule<
 		},
 	});
 
-	console.log({ ruleRuntime });
-
 	if (ruleRuntime) {
 		// TODO: How to make types more permissive around assignability?
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
