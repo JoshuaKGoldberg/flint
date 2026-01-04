@@ -145,7 +145,7 @@ export default defineConfig(
 	},
 	{
 		extends: [
-			// same typecast issue as above
+			// https://github.com/ota-meshi/eslint-plugin-jsonc/issues/385
 			jsonc.configs[
 				"flat/recommended-with-jsonc"
 			] as unknown as Linter.Config[],
@@ -173,7 +173,7 @@ export default defineConfig(
 	},
 	{
 		extends: [
-			// typecasting here until this issue is resolved:
+			// typecasting these until this issue is resolved:
 			// https://github.com/ota-meshi/eslint-plugin-yml/issues/510
 			yml.configs["flat/standard"] as unknown as Linter.Config[],
 			yml.configs["flat/prettier"] as unknown as Linter.Config[],
