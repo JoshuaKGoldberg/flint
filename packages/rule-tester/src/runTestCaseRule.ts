@@ -5,9 +5,9 @@ import type {
 	FileReport,
 	InferredObject,
 	LanguageFileFactory,
-	NormalizedReport,
 	RuleAbout,
 } from "@flint.fyi/core";
+import { makeAbsolute } from "@flint.fyi/utils";
 import type { CachedFactory } from "cached-factory";
 
 import type { TestCaseNormalized } from "./normalizeTestCase.ts";
@@ -33,7 +33,11 @@ export async function runTestCaseRule<
 		// See AnyRule's any
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		.get(rule.language)
-		.prepareFromVirtual(fileName, code).file;
+		.prepareFromVirtual({
+			filePath: fileName,
+			filePathAbsolute: makeAbsolute(fileName),
+			sourceText: code,
+		}).file;
 
 	const ruleRuntime = await rule.setup({
 		report(ruleReport) {
