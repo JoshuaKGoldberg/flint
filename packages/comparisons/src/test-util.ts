@@ -1,4 +1,4 @@
-import { comparisons, LinterRuleReference } from "./index.js";
+import { comparisons, type LinterRuleReference } from "./index.ts";
 
 interface GroupedComparisons {
 	eslint: Record<
@@ -22,9 +22,7 @@ export function groupByLinterAndPlugin(
 	for (const comparison of comp) {
 		for (const rule of comparison.eslint ?? []) {
 			const [plugin, ruleName] = extractESLintRuleMeta(rule);
-			// will work after enabling `noUncheckedIndexedAccess` in tsconfig
-			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-			eslint[plugin] ||= {};
+			eslint[plugin] ??= {};
 			eslint[plugin][ruleName] = comparison.eslint;
 		}
 	}
@@ -40,9 +38,17 @@ function extractESLintRuleMeta(
 	}
 
 	const [plugin, ruleName] = rule.name.split("/");
-	// After add prefix for all non-builtin rules, this check can be enabled
-	// if (!ruleName) {
-	// 	throw new Error(`Could not extract plugin and rule name from ${rule.name}`);
-	// }
-	return [plugin, ruleName];
+	if (
+		!plugin
+		// After adding a prefix to all non-builtin rules, this check can be enabled
+		// || !ruleName
+	) {
+		throw new Error(`Could not extract plugin and rule name from ${rule.name}`);
+	}
+
+	return [
+		plugin,
+		// After adding a prefix to all non-builtin rules, remove the coalesce.
+		ruleName ?? "",
+	];
 }
