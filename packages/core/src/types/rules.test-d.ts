@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 
-import { AnyRule, AnyRuleDefinition, Rule } from "./rules.js";
+import type { AnyRule, AnyRuleDefinition, Rule } from "./rules.ts";
 
 describe("Rule", () => {
 	it("should be assignable to AnyRule", () => {

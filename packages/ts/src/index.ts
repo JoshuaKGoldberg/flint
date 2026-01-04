@@ -1,22 +1,22 @@
-export { convertTypeScriptDiagnosticToLanguageFileDiagnostic } from "./convertTypeScriptDiagnosticToLanguageFileDiagnostic.js";
+export { convertTypeScriptDiagnosticToLanguageFileDiagnostic } from "./convertTypeScriptDiagnosticToLanguageFileDiagnostic.ts";
 export {
 	collectTypeScriptFileCacheImpacts,
 	NodeSyntaxKinds,
-} from "./createTypeScriptFileFromProgram.js";
+} from "./createTypeScriptFileFromProgram.ts";
 export {
 	extractDirectivesFromTypeScriptFile,
-	ExtractedDirective,
-} from "./directives/parseDirectivesFromTypeScriptFile.js";
-export { getTSNodeRange } from "./getTSNodeRange.js";
-export * from "./language.js";
-export { TSNodesByName } from "./nodes.js";
-export { ts } from "./plugin.js";
+	type ExtractedDirective,
+} from "./directives/parseDirectivesFromTypeScriptFile.ts";
+export { getTSNodeRange } from "./getTSNodeRange.ts";
+export * from "./language.ts";
+export type { TSNodesByName } from "./nodes.ts";
+export { ts } from "./plugin.ts";
 export {
 	prepareTypeScriptBasedLanguage,
-	TypeScriptBasedLanguageFile,
-	TypeScriptBasedLanguageFileFactoryDefinition,
-} from "./prepareTypeScriptBasedLanguage.js";
-export { getDeclarationsIfGlobal } from "./utils/getDeclarationsIfGlobal.js";
-export { isGlobalDeclaration } from "./utils/isGlobalDeclaration.js";
-export { isGlobalDeclarationOfName } from "./utils/isGlobalDeclarationOfName.js";
-export { isGlobalVariable } from "./utils/isGlobalVariable.js";
+	type TypeScriptBasedLanguageFile,
+	type TypeScriptBasedLanguageFileFactoryDefinition,
+} from "./prepareTypeScriptBasedLanguage.ts";
+export { getDeclarationsIfGlobal } from "./utils/getDeclarationsIfGlobal.ts";
+export { isGlobalDeclaration } from "./utils/isGlobalDeclaration.ts";
+export { isGlobalDeclarationOfName } from "./utils/isGlobalDeclarationOfName.ts";
+export { isGlobalVariable } from "./utils/isGlobalVariable.ts";

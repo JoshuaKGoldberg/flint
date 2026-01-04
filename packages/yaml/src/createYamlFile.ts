@@ -1,6 +1,6 @@
 import {
 	getColumnAndLineOfPosition,
-	LanguageFileDefinition,
+	type LanguageFileDefinition,
 } from "@flint.fyi/core";
 import { visit } from "unist-util-visit";
 import * as yamlParser from "yaml-unist-parser";

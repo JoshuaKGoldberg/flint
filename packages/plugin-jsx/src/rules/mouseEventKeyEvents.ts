@@ -1,7 +1,7 @@
 import {
 	getTSNodeRange,
+	type TypeScriptFileServices,
 	typescriptLanguage,
-	TypeScriptServices,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -34,7 +34,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkMouseEvents(
 			node: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
-			{ sourceFile }: TypeScriptServices,
+			{ sourceFile }: TypeScriptFileServices,
 		) {
 			const { attributes } = node;
 			const presentAttributes = new Set<string>();

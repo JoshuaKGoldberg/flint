@@ -2,17 +2,17 @@ import { makeAbsolute } from "@flint.fyi/utils";
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 
-import { DirectivesFilterer } from "../directives/DirectivesFilterer.js";
-import {
+import { DirectivesFilterer } from "../directives/DirectivesFilterer.ts";
+import type {
 	AnyLanguage,
 	LanguageFileDefinition,
 	LanguageFileDiagnostic,
 	LanguageFileFactory,
-} from "../types/languages.js";
-import { FileReport } from "../types/reports.js";
-import { AnyRule, AnyRuleRuntime } from "../types/rules.js";
-import { computeRulesWithOptions } from "./computeRulesWithOptions.js";
-import { ConfigUseDefinitionWithFiles } from "./computeUseDefinitions.js";
+} from "../types/languages.ts";
+import type { FileReport } from "../types/reports.ts";
+import { computeRulesWithOptions } from "./computeRulesWithOptions.ts";
+import type { ConfigUseDefinitionWithFiles } from "./computeUseDefinitions.ts";
+import type { AnyRule, AnyRuleRuntime } from "../types/rules.ts";
 
 const log = debugForFile(import.meta.filename);
 

@@ -1,9 +1,12 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage, type TypeScriptServices } from "../language.js";
-import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
-import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import {
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "../language.ts";
+import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.ts";
+import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -29,7 +32,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkNode(
 			node: ts.CallExpression | ts.NewExpression,
-			{ sourceFile, typeChecker }: TypeScriptServices,
+			{ sourceFile, typeChecker }: TypeScriptFileServices,
 		) {
 			if (isFunctionConstructor(node, typeChecker)) {
 				context.report({

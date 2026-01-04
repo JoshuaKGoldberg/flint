@@ -1,8 +1,7 @@
 import type { Definition, Node, Root, Text } from "mdast";
 
-import type { WithPosition } from "../nodes.js";
-
-import { markdownLanguage } from "../language.js";
+import { markdownLanguage } from "../language.ts";
+import type { WithPosition } from "../nodes.ts";
 
 // Pattern to match label references: ![text][label], [text][label], [label][], or [label]
 // Includes optional ! for images

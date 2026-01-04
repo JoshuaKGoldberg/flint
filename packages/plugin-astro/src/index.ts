@@ -1,1 +1,1 @@
-export * from "./astro.js";
+export * from "./astro.ts";

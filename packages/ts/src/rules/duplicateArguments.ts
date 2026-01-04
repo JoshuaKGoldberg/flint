@@ -1,7 +1,10 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage, TypeScriptServices } from "../language.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import {
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -25,7 +28,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkNode(
 			{ parameters }: ts.FunctionLikeDeclaration,
-			{ sourceFile }: TypeScriptServices,
+			{ sourceFile }: TypeScriptFileServices,
 		) {
 			const seenNames = new Set<string>();
 

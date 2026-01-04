@@ -1,10 +1,13 @@
-import { PromiseOrSync } from "@flint.fyi/utils";
-
-import { CommentDirective } from "./directives.js";
-import { CharacterReportRange } from "./ranges.js";
-import { FileReport, NormalizedReportRangeObject } from "./reports.js";
-import { AnyRuleRuntime, Rule, RuleAbout, RuleDefinition } from "./rules.js";
-import { AnyOptionalSchema, InferredObject } from "./shapes.js";
+import type { CommentDirective } from "./directives.ts";
+import type { CharacterReportRange } from "./ranges.ts";
+import type { FileReport, NormalizedReportRangeObject } from "./reports.ts";
+import type {
+	AnyRuleRuntime,
+	Rule,
+	RuleAbout,
+	RuleDefinition,
+} from "./rules.ts";
+import type { AnyOptionalSchema, InferredObject } from "./shapes.ts";
 
 export type AnyLanguage = Language<object, object>;
 

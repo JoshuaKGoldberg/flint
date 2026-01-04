@@ -1,4 +1,4 @@
-import { LanguageFileDefinition } from "@flint.fyi/core";
+import type { LanguageFileDefinition } from "@flint.fyi/core";
 import indexToPosition from "index-to-position";
 
 export function createTextFile(

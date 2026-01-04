@@ -1,6 +1,6 @@
 import {
 	getColumnAndLineOfPosition,
-	LanguageFileDefinition,
+	type LanguageFileDefinition,
 } from "@flint.fyi/core";
 import remarkParse from "remark-parse";
 import { unified } from "unified";

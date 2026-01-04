@@ -1,5 +1,5 @@
-import rule from "./autoFocusProps.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./autoFocusProps.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

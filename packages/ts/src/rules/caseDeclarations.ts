@@ -1,8 +1,11 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage, TypeScriptServices } from "../language.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import {
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -53,7 +56,7 @@ export default typescriptLanguage.createRule({
 
 		function checkClause(
 			node: ts.CaseClause | ts.DefaultClause,
-			{ sourceFile }: TypeScriptServices,
+			{ sourceFile }: TypeScriptFileServices,
 		): void {
 			const declarationNode = getLexicalDeclaration(
 				node.statements,

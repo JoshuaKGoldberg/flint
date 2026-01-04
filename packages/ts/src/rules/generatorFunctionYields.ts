@@ -1,7 +1,10 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { typescriptLanguage, TypeScriptServices } from "../language.js";
+import {
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -38,7 +41,7 @@ export default typescriptLanguage.createRule({
 				| ts.FunctionDeclaration
 				| ts.FunctionExpression
 				| ts.MethodDeclaration,
-			{ sourceFile }: TypeScriptServices,
+			{ sourceFile }: TypeScriptFileServices,
 		): void {
 			if (!node.asteriskToken || !node.body || blockContainsYield(node.body)) {
 				return;

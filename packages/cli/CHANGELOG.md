@@ -1,5 +1,18 @@
 # @flint/cli
 
+## 0.16.0
+
+### Minor Changes
+
+- 98de4a9: feat: implement a more complete \`--help\` output
+- 1d81a8f: fix!: move runPrettier to @flint/cli, add peer dependency on prettier to prevent skew-induced crashes
+
+### Patch Changes
+
+- e5a1471: fix: additional repo owner updates
+- Updated dependencies [1d81a8f]
+  - @flint.fyi/core@0.18.0
+
 ## 0.15.4
 
 ### Patch Changes

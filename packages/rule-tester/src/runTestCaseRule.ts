@@ -1,15 +1,16 @@
-import {
+import type {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
 	FileReport,
 	InferredObject,
 	LanguageFileFactory,
+	NormalizedReport,
 	RuleAbout,
 } from "@flint.fyi/core";
-import { CachedFactory } from "cached-factory";
+import type { CachedFactory } from "cached-factory";
 
-import { TestCaseNormalized } from "./normalizeTestCase.js";
+import type { TestCaseNormalized } from "./normalizeTestCase.ts";
 
 export interface TestCaseRuleConfiguration<
 	OptionsSchema extends AnyOptionalSchema | undefined,

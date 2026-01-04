@@ -2,6 +2,9 @@ import { readdirSync } from "node:fs";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
+	resolve: {
+		conditions: ["@flint.fyi/source"],
+	},
 	test: {
 		projects: readdirSync("./packages").map((name) => ({
 			test: {
