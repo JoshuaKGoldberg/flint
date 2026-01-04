@@ -25,7 +25,7 @@
 		"!lib/**/*.map"
 	],
 	"dependencies": {
-		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/core": "workspace:^",
 		"index-to-position": "^1.2.0"
 	},
 	"devDependencies": {

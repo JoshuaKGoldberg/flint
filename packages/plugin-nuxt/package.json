@@ -25,7 +25,7 @@
 		"!lib/**/*.map"
 	],
 	"dependencies": {
-		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/core": "workspace:^",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
