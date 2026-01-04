@@ -22,11 +22,10 @@
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.map",
-		"!lib/**/*.test.*"
+		"!lib/**/*.map"
 	],
 	"dependencies": {
-		"@flint.fyi/utils": "workspace:",
+		"@flint.fyi/utils": "workspace:^",
 		"cached-factory": "^0.1.0",
 		"debug-for-file": "^0.2.0",
 		"omit-empty": "^1.0.0",

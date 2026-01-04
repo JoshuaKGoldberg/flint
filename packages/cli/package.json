@@ -22,12 +22,11 @@
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.map",
-		"!lib/**/*.test.*"
+		"!lib/**/*.map"
 	],
 	"dependencies": {
-		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/utils": "workspace:",
+		"@flint.fyi/core": "workspace:^",
+		"@flint.fyi/utils": "workspace:^",
 		"@shikijs/cli": "^3.13.0",
 		"chalk": "^5.6.2",
 		"cli-cursor": "^5.0.0",

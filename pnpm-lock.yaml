@@ -125,10 +125,10 @@ importers:
   packages/cli:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/utils':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../utils
       '@shikijs/cli':
         specifier: ^3.13.0
@@ -175,7 +175,7 @@ importers:
   packages/core:
     dependencies:
       '@flint.fyi/utils':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../utils
       cached-factory:
         specifier: ^0.1.0
@@ -203,25 +203,25 @@ importers:
   packages/flint:
     dependencies:
       '@flint.fyi/cli':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../cli
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/json':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../json
       '@flint.fyi/md':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../md
       '@flint.fyi/ts':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../ts
       '@flint.fyi/ts-patch':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../ts-patch
       '@flint.fyi/yaml':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../yaml
       typescript:
         specifier: ^5.9.3
@@ -237,7 +237,7 @@ importers:
   packages/json:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       typescript:
         specifier: ^5.9.0 || ^6.0.0
@@ -247,7 +247,7 @@ importers:
         version: 4.2.1
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
         specifier: 0.19.0-beta.2
@@ -259,7 +259,7 @@ importers:
   packages/md:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       remark-parse:
         specifier: ^11.0.0
@@ -272,7 +272,7 @@ importers:
         version: 5.0.0
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       '@types/unist':
         specifier: 3.0.3
@@ -287,7 +287,7 @@ importers:
   packages/plugin-astro:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       typescript:
         specifier: ^5.9.3
@@ -300,17 +300,17 @@ importers:
   packages/plugin-browser:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/ts':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../ts
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
         specifier: 0.19.0-beta.2
@@ -322,20 +322,20 @@ importers:
   packages/plugin-flint:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/ts':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../ts
       '@flint.fyi/utils':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../utils
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
         specifier: 0.19.0-beta.2
@@ -347,10 +347,10 @@ importers:
   packages/plugin-jsx:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/ts':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../ts
       language-tags:
         specifier: ^2.1.0
@@ -360,7 +360,7 @@ importers:
         version: 5.9.3
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       '@types/language-tags':
         specifier: 1.0.4
@@ -375,7 +375,7 @@ importers:
   packages/plugin-next:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       typescript:
         specifier: ^5.9.3
@@ -388,17 +388,17 @@ importers:
   packages/plugin-node:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/ts':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../ts
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
         specifier: 0.19.0-beta.2
@@ -410,7 +410,7 @@ importers:
   packages/plugin-nuxt:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       typescript:
         specifier: ^5.9.3
@@ -423,10 +423,10 @@ importers:
   packages/plugin-performance:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/ts':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../ts
       ts-api-utils:
         specifier: ^2.1.0
@@ -436,7 +436,7 @@ importers:
         version: 5.9.3
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
         specifier: 0.19.0-beta.2
@@ -448,7 +448,7 @@ importers:
   packages/plugin-react:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       typescript:
         specifier: ^5.9.3
@@ -461,7 +461,7 @@ importers:
   packages/plugin-solid:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       typescript:
         specifier: ^5.9.3
@@ -477,20 +477,20 @@ importers:
         specifier: ^9.2.2
         version: 9.4.0
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/text':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../text
       '@flint.fyi/utils':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../utils
       cspell-lib:
         specifier: ^9.2.2
         version: 9.4.0
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
         specifier: 0.19.0-beta.2
@@ -502,10 +502,10 @@ importers:
   packages/rule-tester:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/utils':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../utils
       cached-factory:
         specifier: ^0.1.0
@@ -530,25 +530,25 @@ importers:
         specifier: ^0.37.0
         version: 0.37.0(astro@5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2))
       '@flint.fyi/comparisons':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../comparisons
       '@flint.fyi/plugin-browser':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../plugin-browser
       '@flint.fyi/plugin-flint':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../plugin-flint
       '@flint.fyi/plugin-jsx':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../plugin-jsx
       '@flint.fyi/plugin-node':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../plugin-node
       '@flint.fyi/plugin-performance':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../plugin-performance
       '@flint.fyi/plugin-spelling':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../plugin-spelling
       '@konami-emoji-blast/astro':
         specifier: ^0.2.0
@@ -565,11 +565,17 @@ importers:
       astro:
         specifier: ^5.15.8
         version: 5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2)
+      astro-og-canvas:
+        specifier: ^0.10.0
+        version: 0.10.0(astro@5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2))
+      canvaskit-wasm:
+        specifier: ^0.40.0
+        version: 0.40.0
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
       flint:
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../flint
       konami-emoji-blast:
         specifier: ^0.6.0
@@ -612,7 +618,7 @@ importers:
   packages/text:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       index-to-position:
         specifier: ^1.2.0
@@ -625,7 +631,7 @@ importers:
   packages/ts:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@typescript-eslint/project-service':
         specifier: ^8.46.2
@@ -650,7 +656,7 @@ importers:
         version: 4.2.1
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
         specifier: 0.19.0-beta.2
@@ -677,7 +683,7 @@ importers:
   packages/yaml:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       unist-util-visit:
         specifier: ^5.0.0
@@ -687,7 +693,7 @@ importers:
         version: 3.1.0
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
         specifier: 0.19.0-beta.2
@@ -2293,6 +2299,9 @@ packages:
   '@vscode/l10n@0.0.18':
     resolution: {integrity: sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ==}
 
+  '@webgpu/types@0.1.21':
+    resolution: {integrity: sha512-pUrWq3V5PiSGFLeLxoGqReTZmiiXwY3jRkIG5sLLKjyqNxrwm/04b4nw7LSmGWJcKk59XOM/YRTUwOzo4MMlow==}
+
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -2388,6 +2397,11 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^5.0.0-beta || ^3.3.0
 
+  astro-og-canvas@0.10.0:
+    resolution: {integrity: sha512-JkSIYEo2sTJiuht7iVQ2CNT38+rrlvkRpJkqjA58WDFHdymgWktoT9zLkjEkn2u9K2zeZx2GTev16IBJzIoZNQ==}
+    peerDependencies:
+      astro: ^5.0.0 || ^6.0.0-alpha
+
   astro-remote@0.3.4:
     resolution: {integrity: sha512-jL5skNQLA0YBc1R3bVGXyHew3FqGqsT7AgLzWAVeTLzFkwVMUYvs4/lKJSmS7ygcF1GnHnoKG6++8GL9VtWwGQ==}
     engines: {node: '>=18.14.1'}
@@ -2473,6 +2487,9 @@ packages:
 
   caniuse-lite@1.0.30001743:
     resolution: {integrity: sha512-e6Ojr7RV14Un7dz6ASD0aZDmQPT/A+eZU+nuTNfjqmRrmkmQlnTNWH0SKmqagx9PeW87UVqapSurtAXifmtdmw==}
+
+  canvaskit-wasm@0.40.0:
+    resolution: {integrity: sha512-Od2o+ZmoEw9PBdN/yCGvzfu0WVqlufBPEWNG452wY7E9aT8RBE+ChpZF526doOlg7zumO4iCS+RAeht4P0Gbpw==}
 
   ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
@@ -2816,6 +2833,10 @@ packages:
 
   entities@6.0.1:
     resolution: {integrity: sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g==}
+    engines: {node: '>=0.12'}
+
+  entities@7.0.0:
+    resolution: {integrity: sha512-FDWG5cmEYf2Z00IkYRhbFrwIwvdFKH07uV8dvNy0omp/Qb1xcyCWp2UDtcwJF4QZZvk0sLudP6/hAu42TaqVhQ==}
     engines: {node: '>=0.12'}
 
   env-paths@3.0.0:
@@ -6979,6 +7000,8 @@ snapshots:
 
   '@vscode/l10n@0.0.18': {}
 
+  '@webgpu/types@0.1.21': {}
+
   acorn-jsx@5.3.2(acorn@8.15.0):
     dependencies:
       acorn: 8.15.0
@@ -7057,6 +7080,13 @@ snapshots:
     dependencies:
       astro: 5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2)
       rehype-expressive-code: 0.41.3
+
+  astro-og-canvas@0.10.0(astro@5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2)):
+    dependencies:
+      astro: 5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2)
+      canvaskit-wasm: 0.40.0
+      deterministic-object-hash: 2.0.2
+      entities: 7.0.0
 
   astro-remote@0.3.4:
     dependencies:
@@ -7241,6 +7271,10 @@ snapshots:
   camelcase@8.0.0: {}
 
   caniuse-lite@1.0.30001743: {}
+
+  canvaskit-wasm@0.40.0:
+    dependencies:
+      '@webgpu/types': 0.1.21
 
   ccount@2.0.1: {}
 
@@ -7554,6 +7588,8 @@ snapshots:
   entities@4.5.0: {}
 
   entities@6.0.1: {}
+
+  entities@7.0.0: {}
 
   env-paths@3.0.0: {}
 
