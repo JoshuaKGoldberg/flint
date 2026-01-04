@@ -9,7 +9,7 @@ import type {
 import { isFileSystemCaseSensitive } from "./isFileSystemCaseSensitive.ts";
 import { normalizePath } from "./normalizePath.ts";
 
-const ignoredPaths = ["/node_modules", "/.git"];
+const ignoredPaths = ["/node_modules", "/.git", "/.jj"];
 
 export function createDiskBackedLinterHost(cwd: string): LinterHost {
 	const caseSensitiveFS = isFileSystemCaseSensitive();
