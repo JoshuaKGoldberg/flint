@@ -1,4 +1,4 @@
-import { CharacterReportRange } from "@flint.fyi/core";
+import type { CharacterReportRange } from "@flint.fyi/core";
 import { typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 

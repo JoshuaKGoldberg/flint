@@ -1,6 +1,6 @@
-import * as ts from "typescript";
+import type * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 /**
  * Finds the position and length of an octal escape sequence in a string.

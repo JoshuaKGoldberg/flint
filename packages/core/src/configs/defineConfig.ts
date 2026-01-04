@@ -1,4 +1,4 @@
-import { Config, ConfigDefinition } from "../types/configs.js";
+import type { Config, ConfigDefinition } from "../types/configs.ts";
 
 /**
  * Defines a new linter configuration for a Flint config file.

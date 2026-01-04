@@ -1,17 +1,16 @@
-import type { PromiseOrSync } from "@flint.fyi/utils";
-
-import {
+import type {
 	AnyLanguage,
 	AnyOptionalSchema,
 	AnyRule,
 	InferredObject,
 	LanguageFileFactory,
-	type NormalizedReport,
+	NormalizedReport,
 	RuleAbout,
 } from "@flint.fyi/core";
-import { CachedFactory } from "cached-factory";
+import type { PromiseOrSync } from "@flint.fyi/utils";
+import type { CachedFactory } from "cached-factory";
 
-import { TestCaseNormalized } from "./normalizeTestCase.js";
+import type { TestCaseNormalized } from "./normalizeTestCase.ts";
 
 export interface TestCaseRuleConfiguration<
 	OptionsSchema extends AnyOptionalSchema | undefined,

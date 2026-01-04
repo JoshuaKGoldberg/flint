@@ -1,1 +1,1 @@
-export * from "./react.js";
+export * from "./react.ts";
