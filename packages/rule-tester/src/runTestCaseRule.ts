@@ -62,10 +62,14 @@ export async function runTestCaseRule<
 		},
 	});
 
+	console.log({ ruleRuntime });
+
 	if (ruleRuntime) {
 		// TODO: How to make types more permissive around assignability?
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		file.runVisitors(options as InferredObject<OptionsSchema>, ruleRuntime);
+
+		await ruleRuntime.teardown?.();
 	}
 
 	return reports;
