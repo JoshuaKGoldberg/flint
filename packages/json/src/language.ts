@@ -16,7 +16,7 @@ export const jsonLanguage = createLanguage<TSNodesByName, JsonServices>({
 	},
 	prepare: () => {
 		return {
-			prepareFromDisk: (filePathAbsolute) => {
+			prepareFromDisk: ({ filePathAbsolute }) => {
 				return {
 					file: createTypeScriptJsonFile(
 						filePathAbsolute,
@@ -24,7 +24,7 @@ export const jsonLanguage = createLanguage<TSNodesByName, JsonServices>({
 					),
 				};
 			},
-			prepareFromVirtual: (filePathAbsolute, sourceText) => {
+			prepareFromVirtual: ({ filePathAbsolute, sourceText }) => {
 				return {
 					file: createTypeScriptJsonFile(filePathAbsolute, sourceText),
 				};

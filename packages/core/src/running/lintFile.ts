@@ -61,7 +61,7 @@ export async function lintFile(
 
 		const fileFactory = languageFileFactoryFactory
 			.get(language)
-			.prepareFromDisk(filePathAbsolute);
+			.prepareFromDisk({ filePath, filePathAbsolute });
 
 		if (fileFactory.file.cache?.dependencies) {
 			for (const dependency of fileFactory.file.cache.dependencies) {

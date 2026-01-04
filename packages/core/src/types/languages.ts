@@ -106,11 +106,8 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
  * Creates wrappers around files to be linted.
  */
 export interface LanguageFileFactory extends Disposable {
-	prepareFromDisk(filePathAbsolute: string): LanguagePrepared;
-	prepareFromVirtual(
-		filePathAbsolute: string,
-		sourceText: string,
-	): LanguagePrepared;
+	prepareFromDisk(data: FileDiskSummary): LanguagePrepared;
+	prepareFromVirtual(data: FileDiskData): LanguagePrepared;
 }
 
 /**
@@ -126,11 +123,17 @@ export interface LanguagePrepared {
  * Internal definition of how to create wrappers around files to be linted.
  */
 export interface LanguageFileFactoryDefinition extends Partial<Disposable> {
-	prepareFromDisk(filePathAbsolute: string): LanguagePreparedDefinition;
-	prepareFromVirtual(
-		filePathAbsolute: string,
-		sourceText: string,
-	): LanguagePreparedDefinition;
+	prepareFromDisk(data: FileDiskSummary): LanguagePreparedDefinition;
+	prepareFromVirtual(data: FileDiskData): LanguagePreparedDefinition;
+}
+
+export interface FileDiskSummary {
+	filePath: string;
+	filePathAbsolute: string;
+}
+
+export interface FileDiskData extends FileDiskSummary {
+	sourceText: string;
 }
 
 /**

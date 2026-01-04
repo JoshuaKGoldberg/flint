@@ -10,7 +10,7 @@ export const textLanguage = createLanguage<TextNodes, TextServices>({
 	},
 	prepare: () => {
 		return {
-			prepareFromDisk: (filePathAbsolute) => {
+			prepareFromDisk: ({ filePathAbsolute }) => {
 				return {
 					file: createTextFile(
 						filePathAbsolute,
@@ -18,7 +18,7 @@ export const textLanguage = createLanguage<TextNodes, TextServices>({
 					),
 				};
 			},
-			prepareFromVirtual: (filePathAbsolute, sourceText) => {
+			prepareFromVirtual: ({ filePathAbsolute, sourceText }) => {
 				return {
 					file: createTextFile(filePathAbsolute, sourceText),
 				};

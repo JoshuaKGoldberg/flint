@@ -1,7 +1,10 @@
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
-import { typescriptLanguage, type TypeScriptServices } from "../language.ts";
+import {
+	typescriptLanguage,
+	type TypeScriptFileServices,
+} from "../language.ts";
 import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.ts";
 
 export default typescriptLanguage.createRule({
@@ -29,7 +32,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkNode(
 			node: ts.CallExpression | ts.NewExpression,
-			{ sourceFile, typeChecker }: TypeScriptServices,
+			{ sourceFile, typeChecker }: TypeScriptFileServices,
 		): void {
 			if (
 				!ts.isIdentifier(node.expression) ||

@@ -22,10 +22,10 @@ export const typescriptLanguage = createLanguage<
 		const lang = prepareTypeScriptBasedLanguage();
 
 		return {
-			prepareFromDisk(filePathAbsolute) {
+			prepareFromDisk({ filePathAbsolute }) {
 				return prepareTypeScriptFile(lang.createFromDisk(filePathAbsolute));
 			},
-			prepareFromVirtual(filePathAbsolute, sourceText) {
+			prepareFromVirtual({ filePathAbsolute, sourceText }) {
 				return prepareTypeScriptFile(
 					lang.createFromVirtual(filePathAbsolute, sourceText),
 				);

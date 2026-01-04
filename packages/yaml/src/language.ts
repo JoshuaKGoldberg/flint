@@ -16,13 +16,13 @@ export const yamlLanguage = createLanguage<YamlNodesByName, YamlServices>({
 	},
 	prepare: () => {
 		return {
-			prepareFromDisk: (filePathAbsolute) => {
+			prepareFromDisk: ({ filePathAbsolute }) => {
 				const sourceText = fsSync.readFileSync(filePathAbsolute, "utf8");
 				const { languageFile, root } = createYamlFile(sourceText);
 
 				return prepareYamlFile(languageFile, root, sourceText);
 			},
-			prepareFromVirtual: (filePathAbsolute, sourceText) => {
+			prepareFromVirtual: ({ sourceText }) => {
 				const { languageFile, root } = createYamlFile(sourceText);
 
 				return prepareYamlFile(languageFile, root, sourceText);
