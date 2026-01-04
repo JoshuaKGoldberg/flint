@@ -481,6 +481,42 @@ describe("createDiskBackedLinterHost", () => {
 			});
 		});
 
+		it("don't reattach watchers on child deletion", async () => {
+			const host = createDiskBackedLinterHost(integrationRoot);
+			const directoryPath = path.join(integrationRoot, "recreate-dir");
+			const onEvent = vi.fn();
+			fs.mkdirSync(directoryPath, { recursive: true });
+
+			const firstFile = path.join(directoryPath, "first.txt");
+			fs.writeFileSync(firstFile, "first");
+			const normalizedFirst = normalizePath(
+				firstFile,
+				host.isCaseSensitiveFS(),
+			);
+			const secondFile = path.join(directoryPath, "second.txt");
+			fs.writeFileSync(secondFile, "second");
+			const normalizedSecond = normalizePath(
+				secondFile,
+				host.isCaseSensitiveFS(),
+			);
+
+			using _ = host.watchDirectory(directoryPath, false, onEvent, 10);
+
+			await sleep(50);
+
+			fs.rmSync(firstFile);
+			await vi.waitFor(() => {
+				expect(onEvent).toHaveBeenCalledWith(normalizedFirst);
+			});
+			onEvent.mockClear();
+
+			fs.rmSync(secondFile);
+			await vi.waitFor(() => {
+				expect(onEvent).toHaveBeenCalledWith(normalizedSecond);
+			});
+			onEvent.mockClear();
+		});
+
 		it("reattaches watchers after deletion and recreation", async () => {
 			const host = createDiskBackedLinterHost(integrationRoot);
 			const directoryPath = path.join(integrationRoot, "recreate-dir");
@@ -510,7 +546,7 @@ describe("createDiskBackedLinterHost", () => {
 				host.isCaseSensitiveFS(),
 			);
 			await vi.waitFor(() => {
-				expect(onEvent).toHaveBeenCalledWith(normalizedFirst);
+				expect(onEvent).toHaveBeenCalledWith(normalizedDirectory);
 			});
 			onEvent.mockClear();
 

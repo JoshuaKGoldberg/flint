@@ -86,6 +86,9 @@ export function createDiskBackedLinterHost(cwd: string): LinterHost {
 							if (statAndEmitIfChanged(changedPath)) {
 								return;
 							}
+						}
+						if (!fs.existsSync(normalizedWatchPath)) {
+							statAndEmitIfChanged(normalizedWatchPath, false);
 						} else if (
 							statAndEmitIfChanged(
 								filename == null
