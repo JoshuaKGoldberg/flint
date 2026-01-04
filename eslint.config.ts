@@ -1,18 +1,47 @@
-import type { Linter } from "eslint";
-
-import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import eslint from "@eslint/js";
 import markdown from "@eslint/markdown";
+import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import vitest from "@vitest/eslint-plugin";
+import type { Linter } from "eslint";
+import { defineConfig, globalIgnores } from "eslint/config";
 import jsdoc from "eslint-plugin-jsdoc";
 import jsonc from "eslint-plugin-jsonc";
 import n from "eslint-plugin-n";
 import packageJson from "eslint-plugin-package-json";
 import perfectionist from "eslint-plugin-perfectionist";
+import { Alphabet } from "eslint-plugin-perfectionist/alphabet";
 import * as regexp from "eslint-plugin-regexp";
 import yml from "eslint-plugin-yml";
-import { defineConfig, globalIgnores } from "eslint/config";
 import tseslint from "typescript-eslint";
+
+const importAlphabet = Alphabet.generateRecommendedAlphabet()
+	.sortByNaturalSort()
+	.placeCharacterBefore({ characterAfter: "-", characterBefore: "/" })
+	.placeCharacterBefore({ characterAfter: "/", characterBefore: "." })
+	.getCharacters();
+
+// https://typescript-eslint.io/troubleshooting/typed-linting/performance#importextensions-enforcing-extensions-are-not-used
+function banJsImportExtension() {
+	const message = `Unexpected use of .js file extension (.js) in import; please use .ts`;
+	const literalAttributeMatcher = `Literal[value=/\\.js$/]`;
+	return [
+		{
+			message,
+			// import foo from 'bar.js';
+			selector: `ImportDeclaration > ${literalAttributeMatcher}.source`,
+		},
+		{
+			message,
+			// export { foo } from 'bar.js';
+			selector: `ExportNamedDeclaration > ${literalAttributeMatcher}.source`,
+		},
+		{
+			message,
+			// type Foo = typeof import('bar.js');
+			selector: `TSImportType > TSLiteralType > ${literalAttributeMatcher}`,
+		},
+	];
+}
 
 export default defineConfig(
 	globalIgnores([
@@ -47,6 +76,7 @@ export default defineConfig(
 			},
 		},
 		rules: {
+			"@typescript-eslint/no-import-type-side-effects": "error",
 			"@typescript-eslint/no-unnecessary-condition": [
 				"error",
 				{ allowConstantLoopConditions: true },
@@ -73,6 +103,24 @@ export default defineConfig(
 
 			// https://github.com/eslint-community/eslint-plugin-n/issues/472
 			"n/no-unpublished-bin": "off",
+
+			"no-restricted-syntax": ["error", ...banJsImportExtension()],
+
+			"perfectionist/sort-imports": [
+				"error",
+				{
+					alphabet: importAlphabet,
+					groups: [
+						"side-effect",
+						["builtin", "external"],
+						["parent", "sibling", "index", "subpath"],
+						"unknown",
+					],
+
+					partitionByNewLine: false,
+					type: "custom",
+				},
+			],
 		},
 		settings: {
 			n: {

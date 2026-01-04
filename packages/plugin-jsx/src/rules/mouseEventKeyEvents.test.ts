@@ -1,5 +1,5 @@
-import rule from "./mouseEventKeyEvents.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./mouseEventKeyEvents.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

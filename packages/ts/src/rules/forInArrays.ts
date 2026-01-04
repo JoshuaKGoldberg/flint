@@ -1,9 +1,9 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
-import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.js";
-import { isTypeRecursive } from "./utils/isTypeRecursive.js";
+import { typescriptLanguage } from "../language.ts";
+import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
+import { isTypeRecursive } from "./utils/isTypeRecursive.ts";
 
 export default typescriptLanguage.createRule({
 	about: {

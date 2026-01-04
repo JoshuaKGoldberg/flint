@@ -1,6 +1,6 @@
-import { FileReport } from "../types/reports.js";
-import { RangedSelection } from "./computeDirectiveRanges.js";
-import { selectionMatchesReport } from "./selectionMatchesReport.js";
+import type { FileReport } from "../types/reports.ts";
+import type { RangedSelection } from "./computeDirectiveRanges.ts";
+import { selectionMatchesReport } from "./selectionMatchesReport.ts";
 
 export function selectionMatchesDirectiveRanges(
 	directiveRanges: RangedSelection[],
