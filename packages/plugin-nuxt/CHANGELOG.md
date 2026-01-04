@@ -1,5 +1,13 @@
 # @flint.fyi/plugin-nuxt
 
+## 0.1.2
+
+### Patch Changes
+
+- 602c75c: chore: rework packaging with tsdown
+- Updated dependencies [602c75c]
+  - @flint.fyi/core@0.18.1
+
 ## 0.1.1
 
 ### Patch Changes
