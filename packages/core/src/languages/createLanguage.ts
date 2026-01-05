@@ -18,13 +18,13 @@ export function createLanguage<AstNodesByName, ContextServices extends object>(
 
 		createFileFactory() {
 			log(
-				"Preparing file factory for language: %s",
+				"Creating file factory for language: %s",
 				languageDefinition.about.name,
 			);
 
 			const fileFactoryDefinition = languageDefinition.createFileFactory();
 
-			log("Prepared file factory.");
+			log("Created file factory.");
 
 			const fileFactory = makeDisposable({
 				...fileFactoryDefinition,
