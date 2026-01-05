@@ -6,7 +6,7 @@ import type { TextNodes, TextServices } from "./types.ts";
 
 export const textLanguage = createLanguage<TextNodes, TextServices>({
 	about: {
-		name: "TEXT",
+		name: "Text",
 	},
 	prepare: () => {
 		return {
