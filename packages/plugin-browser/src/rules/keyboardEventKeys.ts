@@ -47,6 +47,7 @@ export default typescriptLanguage.createRule({
 
 			return (
 				declarations.length === 1 &&
+				declarations[0]?.parent &&
 				ts.isInterfaceDeclaration(declarations[0].parent) &&
 				["KeyboardEvent", "UIEvent"].includes(declarations[0].parent.name.text)
 			);

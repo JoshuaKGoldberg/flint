@@ -68,12 +68,16 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			const stringValue = getStringValue(node.arguments[0]);
+			const stringValue = node.arguments[0]
+				? getStringValue(node.arguments[0])
+				: undefined;
 			if (!stringValue) {
 				return;
 			}
 
-			const radixValue = getRadixValue(node.arguments[1]);
+			const radixValue = node.arguments[1]
+				? getRadixValue(node.arguments[1])
+				: undefined;
 			if (!radixValue) {
 				return;
 			}

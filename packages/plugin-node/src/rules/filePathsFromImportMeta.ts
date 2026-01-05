@@ -37,13 +37,19 @@ function isImportMetaUrl(node: ts.Node) {
 function isNewURLWithDot(
 	node: ts.Node,
 ): node is ts.NewExpression & { arguments: ts.NodeArray<ts.Expression> } {
+	if (
+		!ts.isNewExpression(node) ||
+		!ts.isIdentifier(node.expression) ||
+		node.expression.text !== "URL" ||
+		node.arguments?.length !== 2
+	) {
+		return false;
+	}
+	const firstArgument = node.arguments[0];
 	return (
-		ts.isNewExpression(node) &&
-		ts.isIdentifier(node.expression) &&
-		node.expression.text === "URL" &&
-		node.arguments?.length === 2 &&
-		ts.isStringLiteral(node.arguments[0]) &&
-		node.arguments[0].text === "."
+		firstArgument !== undefined &&
+		ts.isStringLiteral(firstArgument) &&
+		firstArgument.text === "."
 	);
 }
 
@@ -94,9 +100,12 @@ export default typescriptLanguage.createRule({
 					// Check for path.dirname(import.meta.filename)
 					// These must be checked first to avoid double-reporting
 					if (isPathDirnameCall(node)) {
+						const pathDirnameArg = node.arguments[0];
 						if (
-							isFileURLToPathCall(node.arguments[0]) &&
-							isImportMetaUrl(node.arguments[0].arguments[0])
+							pathDirnameArg &&
+							isFileURLToPathCall(pathDirnameArg) &&
+							pathDirnameArg.arguments[0] &&
+							isImportMetaUrl(pathDirnameArg.arguments[0])
 						) {
 							context.report({
 								message: "preferImportMetaDirname",
@@ -105,7 +114,7 @@ export default typescriptLanguage.createRule({
 							return;
 						}
 
-						if (isImportMetaFilename(node.arguments[0])) {
+						if (pathDirnameArg && isImportMetaFilename(pathDirnameArg)) {
 							context.report({
 								message: "preferImportMetaDirname",
 								range: getTSNodeRange(node, sourceFile),
@@ -118,9 +127,12 @@ export default typescriptLanguage.createRule({
 					// Check for fileURLToPath(import.meta.url)
 					// This must be checked last to avoid double-reporting when inside path.dirname()
 					if (isFileURLToPathCall(node)) {
+						const fileURLToPathArg = node.arguments[0];
 						if (
-							isNewURLWithDot(node.arguments[0]) &&
-							isImportMetaUrl(node.arguments[0].arguments[1])
+							fileURLToPathArg &&
+							isNewURLWithDot(fileURLToPathArg) &&
+							fileURLToPathArg.arguments[1] &&
+							isImportMetaUrl(fileURLToPathArg.arguments[1])
 						) {
 							context.report({
 								message: "preferImportMetaDirname",
@@ -129,7 +141,7 @@ export default typescriptLanguage.createRule({
 							return;
 						}
 
-						if (isImportMetaUrl(node.arguments[0])) {
+						if (fileURLToPathArg && isImportMetaUrl(fileURLToPathArg)) {
 							// Don't report if this is inside a path.dirname call
 							if (
 								ts.isCallExpression(node.parent) &&

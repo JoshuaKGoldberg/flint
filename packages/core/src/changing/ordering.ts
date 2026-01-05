@@ -9,7 +9,7 @@ export const orderChangesLastToFirstWithoutOverlaps = (
 
 	for (let i = ordered.length - 1; i >= 0; i -= 1) {
 		const change = ordered[i];
-		if (change.range.end > lastStart) {
+		if (!change || change.range.end > lastStart) {
 			continue;
 		}
 

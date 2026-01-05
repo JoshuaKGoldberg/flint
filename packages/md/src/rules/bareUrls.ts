@@ -52,10 +52,16 @@ export default markdownLanguage.createRule({
 
 		function checkTextNode(node: WithPosition<Link>) {
 			const textNode = node.children[0];
+			if (!textNode) {
+				return;
+			}
 			const textPosition = textNode.position;
+			if (!textPosition) {
+				return;
+			}
 
 			if (
-				textPosition?.start.offset === undefined ||
+				textPosition.start.offset === undefined ||
 				textPosition.end.offset === undefined
 			) {
 				return;
@@ -76,7 +82,7 @@ export default markdownLanguage.createRule({
 			visitors: {
 				link(node) {
 					if (
-						node.children[0].type === "text" &&
+						node.children[0]?.type === "text" &&
 						node.children[0].value === node.url
 					) {
 						checkTextNode(node);

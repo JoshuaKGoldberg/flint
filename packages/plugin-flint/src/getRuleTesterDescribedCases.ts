@@ -19,7 +19,7 @@ export function getRuleTesterDescribedCases(node: ts.CallExpression) {
 	// https://github.com/flint-fyi/flint/issues/152
 
 	const argument = node.arguments[1];
-	if (!ts.isObjectLiteralExpression(argument)) {
+	if (!argument || !ts.isObjectLiteralExpression(argument)) {
 		return undefined;
 	}
 

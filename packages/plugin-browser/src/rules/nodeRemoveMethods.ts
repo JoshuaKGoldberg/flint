@@ -38,7 +38,7 @@ export default typescriptLanguage.createRule({
 					}
 
 					const parentText = node.expression.expression.getText(sourceFile);
-					const childText = node.arguments[0].getText(sourceFile);
+					const childText = node.arguments[0]?.getText(sourceFile) ?? "";
 
 					context.report({
 						data: {

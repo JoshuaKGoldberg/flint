@@ -81,7 +81,9 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const attributeName = getStringLiteralValue(node.arguments[0]);
+					const attributeName = node.arguments[0]
+						? getStringLiteralValue(node.arguments[0])
+						: undefined;
 					if (!attributeName) {
 						return;
 					}

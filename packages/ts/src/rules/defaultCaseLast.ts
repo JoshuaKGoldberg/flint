@@ -42,8 +42,9 @@ export default typescriptLanguage.createRule({
 					context.report({
 						message: "defaultCaseShouldBeLast",
 						range: {
-							begin: defaultClause.getStart(sourceFile),
-							end: defaultClause.getStart(sourceFile) + "default".length,
+							begin: defaultClause?.getStart(sourceFile) ?? 0,
+							end:
+								(defaultClause?.getStart(sourceFile) ?? 0) + "default".length,
 						},
 					});
 				},

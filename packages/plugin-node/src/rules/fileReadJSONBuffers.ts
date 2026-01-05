@@ -29,7 +29,7 @@ export default typescriptLanguage.createRule({
 						node.expression.expression.text !== "JSON" ||
 						!ts.isIdentifier(node.expression.name) ||
 						node.expression.name.text !== "parse" ||
-						node.arguments.length !== 1
+						!node.arguments[0]
 					) {
 						return;
 					}
@@ -44,13 +44,16 @@ export default typescriptLanguage.createRule({
 					}
 
 					const encoding = argument.arguments[1];
-					if (ts.isSpreadElement(encoding) || !isUtf8Encoding(encoding)) {
+					if (
+						encoding &&
+						(ts.isSpreadElement(encoding) || !isUtf8Encoding(encoding))
+					) {
 						return;
 					}
 
 					context.report({
 						message: "preferBufferReading",
-						range: getTSNodeRange(encoding, sourceFile),
+						range: getTSNodeRange(encoding ?? node.arguments[0], sourceFile),
 					});
 				},
 			},
@@ -81,6 +84,7 @@ function isUtf8Encoding(node: ts.Expression): boolean {
 
 		const property = node.properties[0];
 		if (
+			!property ||
 			!ts.isPropertyAssignment(property) ||
 			!ts.isIdentifier(property.name) ||
 			property.name.text !== "encoding"

@@ -47,12 +47,14 @@ export default typescriptLanguage.createRule({
 						ts.isPropertyAccessExpression(node.expression) &&
 						ts.isIdentifier(node.expression.name) &&
 						legacyMethods.has(node.expression.name.text) &&
-						isGlobalDeclaration(node.expression.name, typeChecker)
+						isGlobalDeclaration(node.expression.name, typeChecker) &&
+						methodReplacements[node.expression.name.text]
 					) {
 						context.report({
 							data: {
 								method: node.expression.name.text,
-								replacement: methodReplacements[node.expression.name.text],
+								replacement:
+									methodReplacements[node.expression.name.text] ?? "",
 							},
 							message: "preferQuerySelector",
 							range: getTSNodeRange(node.expression.name, sourceFile),

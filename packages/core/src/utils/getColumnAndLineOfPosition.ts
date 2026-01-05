@@ -66,8 +66,9 @@ function computeColumnAndLineOfPosition(
 	}
 	if (position > source.length) {
 		const line = lineStarts.length - 1;
+		const lineStart = lineStarts[line] ?? 0;
 		return {
-			column: Math.max(source.length - lineStarts[line], 0),
+			column: Math.max(source.length - lineStart, 0),
 			line,
 			raw: Math.max(source.length - 1, 0),
 		};
@@ -160,9 +161,11 @@ function computePositionOfColumnAndLine(
 ): number {
 	line = Math.min(Math.max(line, 0), lineStarts.length - 1);
 
-	const res = lineStarts[line] + column;
+	const lineStart = lineStarts[line] ?? 0;
+	const nextLineStart = lineStarts[line + 1] ?? sourceText.length;
+	const res = lineStart + column;
 	if (line === lineStarts.length - 1) {
 		return Math.min(res, sourceText.length);
 	}
-	return Math.min(res, lineStarts[line + 1] - 1);
+	return Math.min(res, nextLineStart - 1);
 }

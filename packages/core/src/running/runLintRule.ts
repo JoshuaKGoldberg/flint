@@ -30,6 +30,13 @@ export async function runLintRule(
 
 			log("Adding %s report for file path %s", ruleReport.message, filePath);
 
+			const messageData = rule.messages[ruleReport.message];
+			if (!messageData) {
+				throw new Error(
+					`Rule "${rule.about.id}" reported message "${ruleReport.message}" which is not defined in its messages.`,
+				);
+			}
+
 			reportsByFilePath.get(filePath).push({
 				...ruleReport,
 				about: rule.about,
@@ -37,7 +44,7 @@ export async function runLintRule(
 					ruleReport.fix && !Array.isArray(ruleReport.fix)
 						? [ruleReport.fix]
 						: ruleReport.fix,
-				message: rule.messages[ruleReport.message],
+				message: messageData,
 				range: {
 					begin: getColumnAndLineOfPosition(
 						currentFile.about.sourceText,

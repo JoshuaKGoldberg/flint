@@ -24,6 +24,9 @@ export function computeDirectiveRanges(
 
 	if (directives.length === 1) {
 		const [directive] = directives;
+		if (!directive) {
+			return [];
+		}
 		switch (directive.type) {
 			case "disable-lines-begin":
 				return [
@@ -55,14 +58,14 @@ export function computeDirectiveRanges(
 
 	const rangedSelections: RangedSelection[] = [];
 	let previousDirective = directivesSorted[0];
-	let currentSelections = directivesSorted[0].selections;
+	let currentSelections = directivesSorted[0]?.selections ?? [];
 
 	for (const directive of directivesSorted.slice(1)) {
 		rangedSelections.push({
 			lines: {
 				begin:
-					previousDirective.range.begin.line +
-					(previousDirective.type === "disable-next-line" ? 2 : 1),
+					(previousDirective?.range.begin.line ?? 0) +
+					(previousDirective?.type === "disable-next-line" ? 2 : 1),
 				end: directive.range.begin.line,
 			},
 			selections: currentSelections.map(createSelectionMatcher),
@@ -98,7 +101,7 @@ export function computeDirectiveRanges(
 		previousDirective = directive;
 	}
 
-	if (currentSelections.length) {
+	if (currentSelections.length && previousDirective) {
 		rangedSelections.push({
 			lines: {
 				begin:

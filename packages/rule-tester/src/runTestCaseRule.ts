@@ -41,13 +41,20 @@ export async function runTestCaseRule<
 
 	const ruleRuntime = await rule.setup({
 		report(ruleReport) {
+			const messageData = rule.messages[ruleReport.message];
+			if (!messageData) {
+				throw new Error(
+					`Rule "${rule.about.id}" reported message "${ruleReport.message}" which is not defined in its messages.`,
+				);
+			}
+
 			reports.push({
 				...ruleReport,
 				fix:
 					ruleReport.fix && !Array.isArray(ruleReport.fix)
 						? [ruleReport.fix]
 						: ruleReport.fix,
-				message: rule.messages[ruleReport.message],
+				message: messageData,
 				range: {
 					begin: getColumnAndLineOfPosition(
 						file.about.sourceText,

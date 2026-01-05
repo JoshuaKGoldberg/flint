@@ -94,6 +94,10 @@ function isUnsafeAssignmentWorker(
 			const arg = typeArguments[i];
 			const receiverArg = receiverTypeArguments[i];
 
+			if (!arg || !receiverArg) {
+				continue;
+			}
+
 			const unsafe = isUnsafeAssignmentWorker(
 				arg,
 				receiverArg,

@@ -15,7 +15,7 @@ function getModernMethodName(methodName: string, node: ts.CallExpression) {
 		case "insertAdjacentElement":
 		case "insertAdjacentText": {
 			const firstArgument = node.arguments[0];
-			if (!ts.isStringLiteral(firstArgument)) {
+			if (!firstArgument || !ts.isStringLiteral(firstArgument)) {
 				return undefined;
 			}
 

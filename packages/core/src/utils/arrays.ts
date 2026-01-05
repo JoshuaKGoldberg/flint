@@ -43,14 +43,20 @@ export function binarySearch<T>(
 	let high = array.length - 1;
 	while (low <= high) {
 		const mid = low + ((high - low) >> 1);
-		const res = compare(array[mid]);
+		const element = array[mid];
+		if (element === undefined) {
+			throw new Error(
+				`Binary search index ${mid} is out of bounds for array of length ${array.length}`,
+			);
+		}
+		const res = compare(element);
 		if (res < 0) {
 			low = mid + 1;
 		} else if (res > 0) {
 			high = mid - 1;
 		} else {
 			return {
-				element: array[mid],
+				element,
 				index: mid,
 			};
 		}

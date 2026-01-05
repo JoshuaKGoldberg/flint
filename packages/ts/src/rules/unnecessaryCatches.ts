@@ -37,6 +37,9 @@ export default typescriptLanguage.createRule({
 					}
 
 					const statement = statements[0];
+					if (!statement) {
+						return;
+					}
 
 					if (!ts.isThrowStatement(statement)) {
 						return;

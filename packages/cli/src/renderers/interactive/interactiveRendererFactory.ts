@@ -101,7 +101,12 @@ export const interactiveRendererFactory: RendererFactory = {
 					return;
 				}
 
-				const [filePath, fileResults] = filesWithReportResults[getFile()];
+				const fileEntry = filesWithReportResults[getFile()];
+				if (!fileEntry) {
+					return;
+				}
+
+				const [filePath, fileResults] = fileEntry;
 
 				console.log(
 					[

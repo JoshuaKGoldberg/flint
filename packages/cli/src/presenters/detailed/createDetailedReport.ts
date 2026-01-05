@@ -54,13 +54,16 @@ export async function* createDetailedReport(
 			].join("\n"),
 		);
 	} else {
-		yield `${indenter} `;
-		yield wrapIfNeeded(
-			chalk.hex(ColorCodes.suggestionTextHighlight),
-			`  Suggestion: ${formatSuggestion(report.message.suggestions[0])}`,
-			width,
-		);
-		yield "\n";
+		const firstSuggestion = report.message.suggestions[0];
+		if (firstSuggestion) {
+			yield `${indenter} `;
+			yield wrapIfNeeded(
+				chalk.hex(ColorCodes.suggestionTextHighlight),
+				`  Suggestion: ${formatSuggestion(firstSuggestion)}`,
+				width,
+			);
+			yield "\n";
+		}
 	}
 
 	yield `${indenter} `;

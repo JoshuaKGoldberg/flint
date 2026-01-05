@@ -34,7 +34,7 @@ export async function readFromCache(
 			return undefined;
 		}
 
-		const timestampCached = cache.configs[filePath];
+		const timestampCached = cache.configs[filePath] ?? 0;
 		const timestampTouched = getFileTouchTime(filePath);
 		if (timestampTouched > timestampCached) {
 			log(

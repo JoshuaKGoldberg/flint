@@ -25,6 +25,9 @@ function createReportSnapshotAt(sourceText: string, report: NormalizedReport) {
 
 	for (let i = begin.line; i <= end.line; i++) {
 		const line = lines[i - begin.line];
+		if (!line) {
+			continue;
+		}
 		output.push(line);
 
 		const prevLineIndent = /^[\t ]*/.exec(line)?.[0] ?? "";

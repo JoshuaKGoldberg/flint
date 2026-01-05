@@ -71,29 +71,35 @@ export default typescriptLanguage.createRule({
 
 					for (let i = 0; i < node.arguments.length; i++) {
 						const argument = node.arguments[i];
-						if (!ts.isStringLiteral(argument) || argument.text.length === 0) {
+						if (
+							!argument ||
+							!ts.isStringLiteral(argument) ||
+							argument.text.length === 0
+						) {
 							continue;
 						}
 
 						const startSpaces = /^(\s+)/.exec(argument.text);
-						if (startSpaces && i !== 0) {
+						const startSpacesGroup = startSpaces?.[1];
+						if (startSpacesGroup && i !== 0) {
 							const start = argument.getStart(sourceFile);
 							context.report({
 								message: "leading",
 								range: {
 									begin: start + 1,
-									end: start + startSpaces[1].length + 1,
+									end: start + startSpacesGroup.length + 1,
 								},
 							});
 						}
 
 						const endSpaces = /(\s+)$/.exec(argument.text);
-						if (endSpaces) {
+						const endSpacesGroup = endSpaces?.[1];
+						if (endSpacesGroup) {
 							const end = node.getEnd();
 							context.report({
 								message: "trailing",
 								range: {
-									begin: end - endSpaces[1].length - 2,
+									begin: end - endSpacesGroup.length - 2,
 									end: end - 2,
 								},
 							});

@@ -42,6 +42,7 @@ export default typescriptLanguage.createRule({
 
 					const firstArgument = node.arguments[0];
 					if (
+						firstArgument &&
 						firstArgument.kind !== ts.SyntaxKind.NullKeyword &&
 						!(
 							ts.isIdentifier(firstArgument) &&
@@ -84,12 +85,11 @@ function createApplyFixText(
 	methodArguments: ts.Expression[],
 	sourceFile: ts.SourceFile,
 ) {
-	if (methodArguments.length > 0) {
-		const argsArray = methodArguments[0];
+	const argsArray = methodArguments[0];
+	if (argsArray) {
 		return `${functionExpression}(...${argsArray.getText(sourceFile)})`;
-	} else {
-		return `${functionExpression}()`;
 	}
+	return `${functionExpression}()`;
 }
 
 function createCallFixText(

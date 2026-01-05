@@ -102,7 +102,10 @@ export default typescriptLanguage.createRule({
 						node.arguments.length > 0 &&
 						isDeclaredInNodeTypes(node.expression, typeChecker)
 					) {
-						checkNode(node.arguments[0], sourceFile);
+						const argument = node.arguments[0];
+						if (argument) {
+							checkNode(argument, sourceFile);
+						}
 					}
 				},
 				ImportDeclaration(node, { sourceFile }) {

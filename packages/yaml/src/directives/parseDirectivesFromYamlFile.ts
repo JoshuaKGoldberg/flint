@@ -15,6 +15,10 @@ export function parseDirectivesFromYamlFile(
 		}
 
 		const [type, selection] = match.slice(1);
+		if (!type || !selection) {
+			break;
+		}
+
 		collector.add(
 			{
 				begin: {

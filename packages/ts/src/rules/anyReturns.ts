@@ -148,15 +148,18 @@ export default typescriptLanguage.createRule({
 					}
 					if (
 						anyType === AnyType.AnyArray &&
-						typeChecker.isArrayType(functionReturnType) &&
-						tsutils.isTypeFlagSet(
-							typeChecker.getTypeArguments(
-								functionReturnType as ts.TypeReference,
-							)[0],
-							ts.TypeFlags.Unknown,
-						)
+						typeChecker.isArrayType(functionReturnType)
 					) {
-						return;
+						const typeArguments = typeChecker.getTypeArguments(
+							functionReturnType as ts.TypeReference,
+						);
+						const firstTypeArgument = typeArguments[0];
+						if (
+							firstTypeArgument &&
+							tsutils.isTypeFlagSet(firstTypeArgument, ts.TypeFlags.Unknown)
+						) {
+							return;
+						}
 					}
 					const awaitedType = typeChecker.getAwaitedType(functionReturnType);
 					if (

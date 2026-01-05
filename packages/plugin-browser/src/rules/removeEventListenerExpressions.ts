@@ -43,8 +43,9 @@ export default typescriptLanguage.createRule({
 
 					const listener = node.arguments[1];
 					if (
-						!ts.isArrowFunction(listener) &&
-						!ts.isFunctionExpression(listener)
+						!listener ||
+						(!ts.isArrowFunction(listener) &&
+							!ts.isFunctionExpression(listener))
 					) {
 						return;
 					}

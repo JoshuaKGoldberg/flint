@@ -15,6 +15,9 @@ export function parseDirectivesFromMarkdownFile(
 		const regex = /<!--([\s\S]*?)-->/g;
 		let commentMatch: null | RegExpExecArray;
 		while ((commentMatch = regex.exec(node.value)) !== null) {
+			if (!commentMatch[1]) {
+				return;
+			}
 			const directiveMatch = /^\s*flint-(\S+)(?:\s+(.+))?/.exec(
 				commentMatch[1],
 			);
@@ -26,6 +29,9 @@ export function parseDirectivesFromMarkdownFile(
 			const position = node.position!;
 
 			const [type, selection] = directiveMatch.slice(1);
+			if (!type || !selection) {
+				return;
+			}
 			collector.add(
 				{
 					begin: {

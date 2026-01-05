@@ -36,12 +36,11 @@ function discriminateAnyTypeWorker(
 	if (tsutils.isTypeFlagSet(type, ts.TypeFlags.Any)) {
 		return AnyType.Any;
 	}
+	const typeArguments = checker.getTypeArguments(type as ts.TypeReference);
 	if (
 		checker.isArrayType(type) &&
-		tsutils.isTypeFlagSet(
-			checker.getTypeArguments(type as ts.TypeReference)[0],
-			ts.TypeFlags.Any,
-		)
+		typeArguments[0] &&
+		tsutils.isTypeFlagSet(typeArguments[0], ts.TypeFlags.Any)
 	) {
 		return AnyType.AnyArray;
 	}

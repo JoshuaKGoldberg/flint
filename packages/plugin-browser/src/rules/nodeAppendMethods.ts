@@ -68,6 +68,7 @@ export default typescriptLanguage.createRule({
 
 							const secondArgument = node.arguments[1];
 							if (
+								secondArgument &&
 								secondArgument.kind !== ts.SyntaxKind.NullKeyword &&
 								!isFirstChildAccess(secondArgument)
 							) {
@@ -76,10 +77,12 @@ export default typescriptLanguage.createRule({
 
 							context.report({
 								data:
+									secondArgument &&
 									secondArgument.kind === ts.SyntaxKind.NullKeyword
 										? { method: "insertBefore" }
 										: {},
 								message:
+									secondArgument &&
 									secondArgument.kind === ts.SyntaxKind.NullKeyword
 										? "preferAppend"
 										: "preferPrepend",

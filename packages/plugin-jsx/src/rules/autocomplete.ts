@@ -74,13 +74,13 @@ const billingAndShippingValues = new Set([
 function isValidAutocompleteValue(value: string): boolean {
 	const parts = value.trim().split(/\s+/);
 
-	if (parts.length === 1) {
+	if (parts.length === 1 && parts[0]) {
 		return validAutocompleteValues.has(parts[0]);
 	}
 
 	if (parts.length === 2) {
 		const [prefix, token] = parts;
-		if (prefix === "billing" || prefix === "shipping") {
+		if (prefix && token && (prefix === "billing" || prefix === "shipping")) {
 			return billingAndShippingValues.has(token);
 		}
 	}

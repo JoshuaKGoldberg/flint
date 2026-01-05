@@ -33,6 +33,7 @@ export default typescriptLanguage.createRule({
 					if (
 						text.length > 1 &&
 						text.startsWith("0") &&
+						text[1] &&
 						text[1] >= "0" &&
 						text[1] <= "7" &&
 						!/^0[xobi]/i.test(text)
