@@ -15,7 +15,7 @@ import type { TestCaseNormalized } from "./normalizeTestCase.ts";
 export interface TestCaseRuleConfiguration<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
-	options?: InferredOutputObject<OptionsSchema>;
+	options?: InferredOutputObject<OptionsSchema | undefined>;
 	rule: AnyRule<RuleAbout, OptionsSchema>;
 }
 
@@ -58,10 +58,7 @@ export async function runTestCaseRule<
 	});
 
 	if (ruleRuntime) {
-		file.runVisitors(
-			options as InferredOutputObject<OptionsSchema>,
-			ruleRuntime,
-		);
+		file.runVisitors(options, ruleRuntime);
 
 		await ruleRuntime.teardown?.();
 	}

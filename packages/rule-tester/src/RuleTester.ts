@@ -4,7 +4,6 @@ import {
 	type AnyOptionalSchema,
 	type AnyRule,
 	type InferredInputObject,
-	type InferredOutputObject,
 	parseOptions,
 	type RuleAbout,
 } from "@flint.fyi/core";
@@ -115,14 +114,7 @@ export class RuleTester {
 		this.#itTestCase(testCaseNormalized, async () => {
 			const reports = await runTestCaseRule(
 				this.#fileFactories,
-				{
-					// TODO: Figure out a way around the type assertion...
-					options: parseOptions(
-						rule.options,
-						testCase.options,
-					) as InferredOutputObject<OptionsSchema>,
-					rule,
-				},
+				{ options: parseOptions(rule.options, testCase.options), rule },
 				testCaseNormalized,
 			);
 			const actualSnapshot = createReportSnapshot(testCase.code, reports);
@@ -167,14 +159,7 @@ export class RuleTester {
 		this.#itTestCase(testCaseNormalized, async () => {
 			const reports = await runTestCaseRule(
 				this.#fileFactories,
-				{
-					// TODO: Figure out a way around the type assertion...
-					options: parseOptions(
-						rule.options,
-						testCase.options,
-					) as InferredOutputObject<OptionsSchema>,
-					rule,
-				},
+				{ options: parseOptions(rule.options, testCase.options), rule },
 				testCaseNormalized,
 			);
 
