@@ -14,7 +14,7 @@ export const jsonLanguage = createLanguage<TSNodesByName, JsonServices>({
 	about: {
 		name: "JSON",
 	},
-	prepare: () => {
+	createFileFactory: () => {
 		return {
 			prepareFromDisk: (filePathAbsolute) => {
 				return {

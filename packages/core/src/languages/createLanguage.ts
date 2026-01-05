@@ -16,20 +16,13 @@ export function createLanguage<AstNodesByName, ContextServices extends object>(
 	const language: Language<AstNodesByName, ContextServices> = {
 		...languageDefinition,
 
-		createRule: ((ruleDefinition: AnyRuleDefinition) => {
-			return {
-				...ruleDefinition,
-				language,
-			};
-		}) as CreateRule<AstNodesByName, ContextServices>,
-
-		prepare() {
+		createFileFactory() {
 			log(
 				"Preparing file factory for language: %s",
 				languageDefinition.about.name,
 			);
 
-			const fileFactoryDefinition = languageDefinition.prepare();
+			const fileFactoryDefinition = languageDefinition.createFileFactory();
 
 			log("Prepared file factory.");
 
@@ -59,6 +52,13 @@ export function createLanguage<AstNodesByName, ContextServices extends object>(
 
 			return fileFactory;
 		},
+
+		createRule: ((ruleDefinition: AnyRuleDefinition) => {
+			return {
+				...ruleDefinition,
+				language,
+			};
+		}) as CreateRule<AstNodesByName, ContextServices>,
 	};
 
 	return language;

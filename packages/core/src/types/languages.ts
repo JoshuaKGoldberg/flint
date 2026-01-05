@@ -43,8 +43,8 @@ export interface Language<
 	AstNodesByName,
 	ContextServices extends object,
 > extends LanguageDefinition {
+	createFileFactory(): LanguageFileFactory;
 	createRule: CreateRule<AstNodesByName, ContextServices>;
-	prepare(): LanguageFileFactory;
 }
 
 export interface LanguageAbout {
@@ -63,7 +63,7 @@ export interface LanguageFileDiagnostic {
  */
 export interface LanguageDefinition {
 	about: LanguageAbout;
-	prepare(): LanguageFileFactoryDefinition;
+	createFileFactory(): LanguageFileFactoryDefinition;
 }
 
 export interface LanguageFileCacheImpacts {
@@ -106,17 +106,17 @@ export interface LanguageFileDefinition extends Partial<Disposable> {
  * Creates wrappers around files to be linted.
  */
 export interface LanguageFileFactory extends Disposable {
-	prepareFromDisk(filePathAbsolute: string): LanguagePrepared;
+	prepareFromDisk(filePathAbsolute: string): LanguageFileMetadata;
 	prepareFromVirtual(
 		filePathAbsolute: string,
 		sourceText: string,
-	): LanguagePrepared;
+	): LanguageFileMetadata;
 }
 
 /**
  * Prepared information about a file to be linted.
  */
-export interface LanguagePrepared {
+export interface LanguageFileMetadata {
 	directives?: CommentDirective[];
 	file: LanguageFile;
 	reports?: FileReport[];

@@ -6,7 +6,7 @@ import { createPlugin } from "./createPlugin.ts";
 
 const stubLanguage = createLanguage({
 	about: { name: "Stub" },
-	prepare: vi.fn(),
+	createFileFactory: vi.fn(),
 });
 
 const stubMessages = { "": { primary: "", secondary: [], suggestions: [] } };
