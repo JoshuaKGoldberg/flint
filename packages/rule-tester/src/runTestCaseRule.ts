@@ -4,7 +4,7 @@ import {
 	type AnyOptionalSchema,
 	type AnyRule,
 	getColumnAndLineOfPosition,
-	type InferredObject,
+	type InferredOutputObject,
 	type NormalizedReport,
 	type RuleAbout,
 } from "@flint.fyi/core";
@@ -15,7 +15,7 @@ import type { TestCaseNormalized } from "./normalizeTestCase.ts";
 export interface TestCaseRuleConfiguration<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
-	options?: InferredObject<OptionsSchema>;
+	options?: InferredOutputObject<OptionsSchema>;
 	rule: AnyRule<RuleAbout, OptionsSchema>;
 }
 
@@ -26,16 +26,11 @@ export async function runTestCaseRule<
 	{ options, rule }: Required<TestCaseRuleConfiguration<OptionsSchema>>,
 	{ code, fileName }: TestCaseNormalized,
 ): Promise<NormalizedReport[]> {
-	using file = fileFactories
-		// TODO: How to make types more permissive around assignability?
-		// See AnyRule's any
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		.get(rule.language)
-		.prepareFromVirtual({
-			filePath: fileName,
-			filePathAbsolute: fileName,
-			sourceText: code,
-		}).file;
+	using file = fileFactories.get(rule.language).prepareFromVirtual({
+		filePath: fileName,
+		filePathAbsolute: fileName,
+		sourceText: code,
+	}).file;
 
 	const reports: NormalizedReport[] = [];
 
@@ -63,9 +58,10 @@ export async function runTestCaseRule<
 	});
 
 	if (ruleRuntime) {
-		// TODO: How to make types more permissive around assignability?
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		file.runVisitors(options as InferredObject<OptionsSchema>, ruleRuntime);
+		file.runVisitors(
+			options as InferredOutputObject<OptionsSchema>,
+			ruleRuntime,
+		);
 
 		await ruleRuntime.teardown?.();
 	}

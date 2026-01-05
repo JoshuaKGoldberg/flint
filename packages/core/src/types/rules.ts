@@ -4,18 +4,20 @@ import type { BaseAbout } from "./about.ts";
 import type { RuleContext } from "./context.ts";
 import type { Language } from "./languages.ts";
 import type { ReportMessageData } from "./reports.ts";
-import type { AnyOptionalSchema, InferredObject } from "./shapes.ts";
+import type { AnyOptionalSchema, InferredOutputObject } from "./shapes.ts";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export type AnyRule<
 	About extends RuleAbout = RuleAbout,
-	OptionsSchema extends AnyOptionalSchema | undefined = any,
-> = Rule<About, any, any, string, OptionsSchema>;
+	OptionsSchema extends AnyOptionalSchema | undefined =
+		| AnyOptionalSchema
+		| undefined,
+> = Rule<About, unknown, object, string, OptionsSchema>;
 
 export type AnyRuleDefinition<
-	OptionsSchema extends AnyOptionalSchema | undefined = any,
-> = RuleDefinition<RuleAbout, any, any, string, OptionsSchema>;
-/* eslint-enable @typescript-eslint/no-explicit-any */
+	OptionsSchema extends AnyOptionalSchema | undefined =
+		| AnyOptionalSchema
+		| undefined,
+> = RuleDefinition<RuleAbout, unknown, object, string, OptionsSchema>;
 
 /**
  * A single lint rule, as used by users in configs.
@@ -57,7 +59,7 @@ export interface RuleDefinition<
 		AstNodesByName,
 		FileServices,
 		MessageId,
-		InferredObject<OptionsSchema>
+		InferredOutputObject<OptionsSchema>
 	>;
 }
 
@@ -71,7 +73,7 @@ export type RuleSetup<
 	AstNodesByName,
 	FileServices extends object,
 	MessageId extends string,
-	Options,
+	Options extends Record<string, unknown> | undefined,
 > = (
 	context: RuleContext<MessageId>,
 ) => PromiseOrSync<
