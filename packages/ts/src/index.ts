@@ -9,7 +9,7 @@ export {
 } from "./directives/parseDirectivesFromTypeScriptFile.ts";
 export { getTSNodeRange } from "./getTSNodeRange.ts";
 export * from "./language.ts";
-export type { TSNodesByName } from "./nodes.ts";
+export type { TypeScriptNodesByName } from "./nodes.ts";
 export { ts } from "./plugin.ts";
 export {
 	prepareTypeScriptBasedLanguage,
