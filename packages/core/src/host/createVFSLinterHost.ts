@@ -9,6 +9,18 @@ import type {
 import { isFileSystemCaseSensitive } from "./isFileSystemCaseSensitive.ts";
 import { normalizedDirname, normalizePath } from "./normalizePath.ts";
 
+export type CreateVFSLinterHostOpts =
+	| {
+			cwd?: string | undefined;
+			baseHost: LinterHost;
+			caseSensitiveFS?: never;
+	  }
+	| {
+			cwd: string;
+			caseSensitiveFS?: boolean | undefined;
+			baseHost?: never;
+	  };
+
 /**
  * Current limitations in watch mode:
  *
@@ -26,31 +38,18 @@ import { normalizedDirname, normalizePath } from "./normalizePath.ts";
  * 			existence is inferred from file paths.
  */
 export function createVFSLinterHost(
-	baseHost: LinterHost,
-	cwd?: string,
-): VFSLinterHost;
-export function createVFSLinterHost(
-	cwd: string,
-	caseSensitiveFS?: boolean,
-): VFSLinterHost;
-export function createVFSLinterHost(
-	cwdOrBaseHost: LinterHost | string,
-	cwdOrCaseSensitiveFS?: boolean | string,
+	opts: CreateVFSLinterHostOpts,
 ): VFSLinterHost {
 	let cwd: string;
 	let baseHost: LinterHost | undefined;
 	let caseSensitiveFS: boolean;
-	if (typeof cwdOrBaseHost === "string") {
-		caseSensitiveFS =
-			(cwdOrCaseSensitiveFS as boolean | undefined) ??
-			isFileSystemCaseSensitive();
-		cwd = normalizePath(cwdOrBaseHost, caseSensitiveFS);
+	if (opts.baseHost == null) {
+		caseSensitiveFS = opts.caseSensitiveFS ?? isFileSystemCaseSensitive();
+		cwd = normalizePath(opts.cwd, caseSensitiveFS);
 	} else {
-		baseHost = cwdOrBaseHost;
-		cwd =
-			(cwdOrCaseSensitiveFS as string | undefined) ??
-			cwdOrBaseHost.getCurrentDirectory();
-		caseSensitiveFS = cwdOrBaseHost.isCaseSensitiveFS();
+		baseHost = opts.baseHost;
+		cwd = opts.cwd ?? baseHost.getCurrentDirectory();
+		caseSensitiveFS = baseHost.isCaseSensitiveFS();
 	}
 
 	const fileMap = new Map<string, string>();

@@ -7,7 +7,10 @@ export { DirectivesCollector } from "./directives/DirectivesCollector.ts";
 export { directiveReports } from "./directives/reports/directiveReports.ts";
 export { globs } from "./globs/index.ts";
 export { createDiskBackedLinterHost } from "./host/createDiskBackedLinterHost.ts";
-export { createVFSLinterHost } from "./host/createVFSLinterHost.ts";
+export {
+	createVFSLinterHost,
+	type CreateVFSLinterHostOpts,
+} from "./host/createVFSLinterHost.ts";
 export { isFileSystemCaseSensitive } from "./host/isFileSystemCaseSensitive.ts";
 export { normalizedDirname, normalizePath } from "./host/normalizePath.ts";
 export { createLanguage } from "./languages/createLanguage.ts";
