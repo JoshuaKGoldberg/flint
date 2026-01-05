@@ -13,6 +13,8 @@ export async function runLintRule(
 	rule: AnyRule,
 	filesAndOptions: LanguageFilesWithOptions[],
 ) {
+	// 1. Set up the rule's runtime, which receives and processes reports
+
 	const reportsByFilePath = new CachedFactory<string, FileReport[]>(() => []);
 	let currentFile: AnyLanguageFileDefinition | undefined;
 
@@ -50,17 +52,23 @@ export async function runLintRule(
 		},
 	});
 
-	if (ruleRuntime) {
-		for (const { languageFiles, options } of filesAndOptions) {
-			for (const file of languageFiles) {
-				currentFile = file;
+	// 2. If the rule requested a runtime presence, ...
 
-				// TODO: How to make types more permissive around assignability?
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-				file.runVisitors(options as object | undefined, ruleRuntime);
+	if (ruleRuntime) {
+		// 2a. If the rule has visitors, run them on every file to lint, with options
+		if (ruleRuntime.visitors) {
+			for (const { languageFiles, options } of filesAndOptions) {
+				for (const file of languageFiles) {
+					currentFile = file;
+
+					// TODO: How to make types more permissive around assignability?
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+					file.runVisitors(options as object | undefined, ruleRuntime);
+				}
 			}
 		}
 
+		// 2b. If the rule has a teardown, run that after any visitors are done
 		await ruleRuntime.teardown?.();
 	}
 
