@@ -11,14 +11,14 @@ import { normalizedDirname, normalizePath } from "./normalizePath.ts";
 
 export type CreateVFSLinterHostOpts =
 	| {
-			cwd?: string | undefined;
 			baseHost: LinterHost;
-			caseSensitiveFS?: never;
+			caseSensitive?: never;
+			cwd?: string | undefined;
 	  }
 	| {
-			cwd: string;
-			caseSensitiveFS?: boolean | undefined;
 			baseHost?: never;
+			caseSensitive?: boolean | undefined;
+			cwd: string;
 	  };
 
 /**
@@ -44,7 +44,7 @@ export function createVFSLinterHost(
 	let baseHost: LinterHost | undefined;
 	let caseSensitiveFS: boolean;
 	if (opts.baseHost == null) {
-		caseSensitiveFS = opts.caseSensitiveFS ?? isFileSystemCaseSensitive();
+		caseSensitiveFS = opts.caseSensitive ?? isFileSystemCaseSensitive();
 		cwd = normalizePath(opts.cwd, caseSensitiveFS);
 	} else {
 		baseHost = opts.baseHost;
