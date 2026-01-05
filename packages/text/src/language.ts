@@ -8,7 +8,7 @@ export const textLanguage = createLanguage<TextNodes, TextServices>({
 	about: {
 		name: "YAML",
 	},
-	prepare: () => {
+	createFileFactory: () => {
 		return {
 			prepareFromDisk: (filePathAbsolute) => {
 				return {

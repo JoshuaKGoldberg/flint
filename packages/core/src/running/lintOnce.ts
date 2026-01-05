@@ -35,7 +35,7 @@ export async function lintOnce(
 	let totalReports = 0;
 
 	const languageFactories = new CachedFactory((language: AnyLanguage) => {
-		return language.prepare();
+		return language.createFileFactory();
 	});
 
 	const cached = ignoreCache

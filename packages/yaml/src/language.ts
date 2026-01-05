@@ -14,7 +14,7 @@ export const yamlLanguage = createLanguage<YamlNodesByName, YamlServices>({
 	about: {
 		name: "YAML",
 	},
-	prepare: () => {
+	createFileFactory: () => {
 		return {
 			prepareFromDisk: (filePathAbsolute) => {
 				const sourceText = fsSync.readFileSync(filePathAbsolute, "utf8");

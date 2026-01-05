@@ -17,7 +17,7 @@ export const markdownLanguage = createLanguage<
 	about: {
 		name: "Markdown",
 	},
-	prepare: () => {
+	createFileFactory: () => {
 		return {
 			prepareFromDisk: (filePathAbsolute) => {
 				const sourceText = fsSync.readFileSync(filePathAbsolute, "utf8");

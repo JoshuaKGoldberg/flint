@@ -18,7 +18,7 @@ export const typescriptLanguage = createLanguage<
 	about: {
 		name: "TypeScript",
 	},
-	prepare: () => {
+	createFileFactory: () => {
 		const lang = prepareTypeScriptBasedLanguage();
 
 		return {
