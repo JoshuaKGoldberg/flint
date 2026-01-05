@@ -1,7 +1,7 @@
 import { createLanguage } from "@flint.fyi/core";
 import type * as ts from "typescript";
 
-import type { TSNodesByName } from "./nodes.ts";
+import type { TypeScriptNodesByName } from "./nodes.ts";
 import { prepareTypeScriptBasedLanguage } from "./prepareTypeScriptBasedLanguage.ts";
 import { prepareTypeScriptFile } from "./prepareTypeScriptFile.ts";
 
@@ -12,7 +12,7 @@ export interface TypeScriptFileServices {
 }
 
 export const typescriptLanguage = createLanguage<
-	TSNodesByName,
+	TypeScriptNodesByName,
 	TypeScriptFileServices
 >({
 	about: {
