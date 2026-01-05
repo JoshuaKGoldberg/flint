@@ -41,7 +41,6 @@ function extractESLintRuleMeta(
 	if (
 		!plugin
 		// After adding a prefix to all non-builtin rules, this check can be enabled
-		// https://github.com/flint-fyi/flint/issues/248
 		// || !ruleName
 	) {
 		throw new Error(`Could not extract plugin and rule name from ${rule.name}`);
@@ -50,7 +49,6 @@ function extractESLintRuleMeta(
 	return [
 		plugin,
 		// After adding a prefix to all non-builtin rules, remove the coalesce.
-		// https://github.com/flint-fyi/flint/issues/248
 		ruleName ?? "",
 	];
 }
