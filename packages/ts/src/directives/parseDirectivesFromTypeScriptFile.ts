@@ -31,11 +31,11 @@ export function extractDirectivesFromTypeScriptFile(sourceFile: ts.SourceFile) {
 		const range = normalizeRange(commentRange, sourceFile);
 		const [type, selection] = match.slice(1);
 
-		if (!type || !selection) {
+		if (!type) {
 			return;
 		}
 
-		directives.push({ range, selection, type });
+		directives.push({ range, selection: selection ?? "", type });
 	});
 
 	return directives;
