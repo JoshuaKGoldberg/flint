@@ -43,7 +43,7 @@ export function collectReferencedFilePaths(
 			path = node.argument.literal.text;
 		}
 
-		const resolvedPath = path ? resolveModulePath(path) : undefined;
+		const resolvedPath = path && resolveModulePath(path);
 		if (resolvedPath) {
 			modulePaths.add(resolvedPath);
 		}
