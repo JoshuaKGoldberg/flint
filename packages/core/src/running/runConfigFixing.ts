@@ -54,7 +54,7 @@ export async function runConfigFixing(
 
 		if (!fixedFilePaths.length) {
 			log("No file changes found, stopping.");
-			return { changed, ...lintResults };
+			return { ...lintResults, changed };
 		}
 
 		log("Applied changes to %d files.", fixedFilePaths.length);
@@ -63,7 +63,7 @@ export async function runConfigFixing(
 
 		if (iteration >= maximumIterations) {
 			log("Passed maximum iterations of %d, halting.", maximumIterations);
-			return { changed, ...lintResults };
+			return { ...lintResults, changed };
 		}
 	}
 }
