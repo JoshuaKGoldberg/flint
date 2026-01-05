@@ -27,22 +27,23 @@ export function collectReferencedFilePaths(
 	}
 
 	function visit(node: ts.Node) {
-		let resolvedPath: string | undefined;
+		let path: string | undefined;
 
 		if (isImportDeclaration(node)) {
 			// import { x } from "./foo";
-			resolvedPath = resolveModulePath(node.moduleSpecifier.text);
+			path = node.moduleSpecifier.text;
 		} else if (isImportCall(node)) {
 			// const x = import("./foo")
-			resolvedPath = resolveModulePath(node.arguments[0].text);
+			path = node.arguments[0].text;
 		} else if (isAwaitImportCall(node)) {
 			// const x = await import("./foo")
-			resolvedPath = resolveModulePath(node.expression.arguments[0].text);
+			path = node.expression.arguments[0].text;
 		} else if (isImportTypeNode(node)) {
 			// type T = import("./foo") or type T = typeof import("./foo");
-			resolvedPath = resolveModulePath(node.argument.literal.text);
+			path = node.argument.literal.text;
 		}
 
+		const resolvedPath = path ? resolveModulePath(path) : undefined;
 		if (resolvedPath) {
 			modulePaths.add(resolvedPath);
 		}
