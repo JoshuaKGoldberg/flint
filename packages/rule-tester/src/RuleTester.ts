@@ -1,9 +1,9 @@
 import type {
 	AnyLanguage,
+	AnyLanguageFileFactory,
 	AnyOptionalSchema,
 	AnyRule,
 	InferredObject,
-	LanguageFileFactory,
 	RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
@@ -42,7 +42,7 @@ export type TesterSetupIt = (
 ) => void;
 
 export class RuleTester {
-	#fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>;
+	#fileFactories: CachedFactory<AnyLanguage, AnyLanguageFileFactory>;
 	#testerOptions: Required<RuleTesterOptions>;
 
 	constructor({
@@ -54,7 +54,7 @@ export class RuleTester {
 		skip,
 	}: RuleTesterOptions = {}) {
 		this.#fileFactories = new CachedFactory((language: AnyLanguage) =>
-			language.prepare(),
+			language.createFileFactory(),
 		);
 
 		it = defaultTo(it, scope, "it");
@@ -164,7 +164,7 @@ export class RuleTester {
 				this.#fileFactories,
 				{
 					// TODO: Figure out a way around the type assertion...
-					options: (testCase.options ?? {}) as InferredObject<OptionsSchema>,
+					options: testCase.options ?? ({} as InferredObject<OptionsSchema>),
 					rule,
 				},
 				testCaseNormalized,
