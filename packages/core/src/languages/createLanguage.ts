@@ -2,6 +2,8 @@ import { debugForFile } from "debug-for-file";
 
 import type {
 	CreateRule,
+	FileAboutData,
+	FileDiskData,
 	Language,
 	LanguageDefinition,
 } from "../types/languages.ts";
@@ -10,10 +12,10 @@ import { makeDisposable } from "./makeDisposable.ts";
 
 const log = debugForFile(import.meta.filename);
 
-export function createLanguage<AstNodesByName, ContextServices extends object>(
-	languageDefinition: LanguageDefinition,
+export function createLanguage<AstNodesByName, FileServices extends object>(
+	languageDefinition: LanguageDefinition<AstNodesByName, FileServices>,
 ) {
-	const language: Language<AstNodesByName, ContextServices> = {
+	const language: Language<AstNodesByName, FileServices> = {
 		...languageDefinition,
 
 		createFileFactory() {
@@ -28,20 +30,17 @@ export function createLanguage<AstNodesByName, ContextServices extends object>(
 
 			const fileFactory = makeDisposable({
 				...fileFactoryDefinition,
-				prepareFromDisk: (filePathAbsolute: string) => {
-					const { file, ...rest } =
-						fileFactoryDefinition.prepareFromDisk(filePathAbsolute);
+				prepareFromDisk: (data: FileAboutData) => {
+					const { file, ...rest } = fileFactoryDefinition.prepareFromDisk(data);
 
 					return {
 						file: makeDisposable(file),
 						...rest,
 					};
 				},
-				prepareFromVirtual: (filePathAbsolute: string, sourceText: string) => {
-					const { file, ...rest } = fileFactoryDefinition.prepareFromVirtual(
-						filePathAbsolute,
-						sourceText,
-					);
+				prepareFromVirtual: (data: FileDiskData) => {
+					const { file, ...rest } =
+						fileFactoryDefinition.prepareFromVirtual(data);
 
 					return {
 						file: makeDisposable(file),
@@ -58,7 +57,7 @@ export function createLanguage<AstNodesByName, ContextServices extends object>(
 				...ruleDefinition,
 				language,
 			};
-		}) as CreateRule<AstNodesByName, ContextServices>,
+		}) as CreateRule<AstNodesByName, FileServices>,
 	};
 
 	return language;

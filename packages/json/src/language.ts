@@ -16,17 +16,17 @@ export const jsonLanguage = createLanguage<JsonNodesByName, JsonFileServices>({
 	},
 	createFileFactory: () => {
 		return {
-			prepareFromDisk: (filePathAbsolute) => {
+			prepareFromDisk: (data) => {
 				return {
-					file: createTypeScriptJsonFile(
-						filePathAbsolute,
-						fsSync.readFileSync(filePathAbsolute, "utf8"),
-					),
+					file: createTypeScriptJsonFile({
+						...data,
+						sourceText: fsSync.readFileSync(data.filePathAbsolute, "utf8"),
+					}),
 				};
 			},
-			prepareFromVirtual: (filePathAbsolute, sourceText) => {
+			prepareFromVirtual: (data) => {
 				return {
-					file: createTypeScriptJsonFile(filePathAbsolute, sourceText),
+					file: createTypeScriptJsonFile(data),
 				};
 			},
 		};

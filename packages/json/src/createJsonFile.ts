@@ -1,57 +1,35 @@
-import type {
-	LanguageFileDefinition,
-	NormalizedReport,
-	RuleReport,
-} from "@flint.fyi/core";
+import type { FileDiskData, LanguageFileDefinition } from "@flint.fyi/core";
 import * as ts from "typescript";
 
-import { normalizeRange } from "./normalizeRange.ts";
+import type { JsonFileServices } from "./language.ts";
+import type { JsonNodesByName } from "./nodes.ts";
 
 // TODO: Eventually, it might make sense to use a native speed JSON parser.
 // The standard TypeScript language will likely use that itself.
 // https://github.com/flint-fyi/flint/issues/44
 export function createTypeScriptJsonFile(
-	filePathAbsolute: string,
-	sourceText: string,
-): LanguageFileDefinition {
-	const sourceFile = ts.parseJsonText(filePathAbsolute, sourceText);
+	data: FileDiskData,
+): LanguageFileDefinition<JsonNodesByName, JsonFileServices> {
+	const sourceFile = ts.parseJsonText(data.filePathAbsolute, data.sourceText);
 
 	return {
-		async runRule(rule, options) {
-			const reports: NormalizedReport[] = [];
-
-			const context = {
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: rule.messages[report.message],
-						range: normalizeRange(report.range, sourceFile),
-					});
-				},
-				sourceFile,
-			};
-
-			const runtime = await rule.setup(context, options);
-			if (runtime?.visitors) {
-				const fileServices = { options, sourceFile };
-				const { visitors } = runtime;
-
-				const visit = (node: ts.Node) => {
-					visitors[ts.SyntaxKind[node.kind]]?.(node, fileServices);
-
-					node.forEachChild(visit);
-				};
-
-				sourceFile.forEachChild(visit);
+		about: data,
+		runVisitors(options, runtime) {
+			if (!runtime.visitors) {
+				return;
 			}
 
-			await runtime?.teardown?.();
+			const { visitors } = runtime;
+			const fileServices = { options, sourceFile };
 
-			return reports;
+			const visit = (node: ts.Node) => {
+				// @ts-expect-error -- This should work...?
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+				visitors[ts.SyntaxKind[node.kind]]?.(node, fileServices);
+				node.forEachChild(visit);
+			};
+
+			sourceFile.forEachChild(visit);
 		},
 	};
 }
