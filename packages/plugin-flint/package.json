@@ -25,14 +25,14 @@
 		"!lib/**/*.map"
 	],
 	"dependencies": {
-		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/ts": "workspace:",
-		"@flint.fyi/utils": "workspace:",
+		"@flint.fyi/core": "workspace:^",
+		"@flint.fyi/ts": "workspace:^",
+		"@flint.fyi/utils": "workspace:^",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
-		"@flint.fyi/rule-tester": "workspace:",
-		"tsdown": "0.18.3",
+		"@flint.fyi/rule-tester": "workspace:^",
+		"tsdown": "0.19.0-beta.2",
 		"vitest": "4.0.15"
 	},
 	"engines": {

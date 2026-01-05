@@ -147,12 +147,20 @@ export default defineConfig(
 		},
 	},
 	{
-		extends: [jsonc.configs["flat/recommended-with-json"]],
+		extends: [
+			// https://github.com/ota-meshi/eslint-plugin-jsonc/issues/385
+			jsonc.configs["flat/recommended-with-json"] as unknown as Linter.Config[],
+		],
 		files: ["**/*.json"],
 		ignores: ["**/tsconfig.json", "**/tsconfig.*.json"],
 	},
 	{
-		extends: [jsonc.configs["flat/recommended-with-jsonc"]],
+		extends: [
+			// https://github.com/ota-meshi/eslint-plugin-jsonc/issues/385
+			jsonc.configs[
+				"flat/recommended-with-jsonc"
+			] as unknown as Linter.Config[],
+		],
 		files: ["**/tsconfig.json", "**/tsconfig.*.json", "**/*.jsonc"],
 	},
 	{
@@ -175,7 +183,11 @@ export default defineConfig(
 		settings: { vitest: { typecheck: true } },
 	},
 	{
-		extends: [yml.configs["flat/standard"], yml.configs["flat/prettier"]],
+		extends: [
+			// https://github.com/ota-meshi/eslint-plugin-yml/issues/510
+			yml.configs["flat/standard"] as unknown as Linter.Config[],
+			yml.configs["flat/prettier"] as unknown as Linter.Config[],
+		],
 		files: ["**/*.{yml,yaml}"],
 		rules: {
 			"yml/file-extension": "error",

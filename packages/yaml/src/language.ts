@@ -6,26 +6,26 @@ import { createYamlFile } from "./createYamlFile.ts";
 import type { YamlNodesByName } from "./nodes.ts";
 import { prepareYamlFile } from "./prepareYamlFile.ts";
 
-export interface YamlServices {
+export interface YamlFileServices {
 	root: yamlParser.Root;
 }
 
-export const yamlLanguage = createLanguage<YamlNodesByName, YamlServices>({
+export const yamlLanguage = createLanguage<YamlNodesByName, YamlFileServices>({
 	about: {
 		name: "YAML",
 	},
-	prepare: () => {
+	createFileFactory: () => {
 		return {
-			prepareFromDisk: (filePathAbsolute) => {
-				const sourceText = fsSync.readFileSync(filePathAbsolute, "utf8");
-				const { languageFile, root } = createYamlFile(sourceText);
+			prepareFromDisk: (data) => {
+				const sourceText = fsSync.readFileSync(data.filePathAbsolute, "utf8");
+				const { languageFile, root } = createYamlFile({ ...data, sourceText });
 
 				return prepareYamlFile(languageFile, root, sourceText);
 			},
-			prepareFromVirtual: (filePathAbsolute, sourceText) => {
-				const { languageFile, root } = createYamlFile(sourceText);
+			prepareFromVirtual: (data) => {
+				const { languageFile, root } = createYamlFile(data);
 
-				return prepareYamlFile(languageFile, root, sourceText);
+				return prepareYamlFile(languageFile, root, data.sourceText);
 			},
 		};
 	},

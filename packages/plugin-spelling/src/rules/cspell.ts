@@ -26,15 +26,7 @@ export default textLanguage.createRule({
 			suggestions: ["TODO"],
 		},
 	},
-	async setup(context) {
-		const documentValidator = await createDocumentValidator(
-			context.filePathAbsolute,
-			context.sourceText,
-		);
-		if (!documentValidator) {
-			return undefined;
-		}
-
+	setup(context) {
 		const fileTasks: FileTask[] = [];
 
 		return {

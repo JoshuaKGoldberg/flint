@@ -110,8 +110,8 @@ importers:
         specifier: 0.18.0
         version: 0.18.0(prettier@3.7.4)
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -125,10 +125,10 @@ importers:
   packages/cli:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/utils':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../utils
       '@shikijs/cli':
         specifier: ^3.13.0
@@ -159,8 +159,8 @@ importers:
         specifier: 3.7.4
         version: 3.7.4
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/comparisons:
     dependencies:
@@ -172,8 +172,8 @@ importers:
         specifier: 9.39.2
         version: 9.39.2(jiti@2.6.1)
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -181,7 +181,7 @@ importers:
   packages/core:
     dependencies:
       '@flint.fyi/utils':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../utils
       cached-factory:
         specifier: ^0.1.0
@@ -200,8 +200,8 @@ importers:
         specifier: 1.0.4
         version: 1.0.4
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -220,6 +220,9 @@ importers:
       '@flint.fyi/md':
         specifier: 'workspace:'
         version: link:../md
+      '@flint.fyi/package-json':
+        specifier: 'workspace:'
+        version: link:../package-json
       '@flint.fyi/ts':
         specifier: 'workspace:'
         version: link:../ts
@@ -237,13 +240,13 @@ importers:
         specifier: 3.7.4
         version: 3.7.4
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/json:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       typescript:
         specifier: ^5.9.0 || ^6.0.0
@@ -253,11 +256,11 @@ importers:
         version: 4.2.1
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -265,7 +268,7 @@ importers:
   packages/md:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       remark-parse:
         specifier: ^11.0.0
@@ -278,49 +281,62 @@ importers:
         version: 5.0.0
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       '@types/unist':
         specifier: 3.0.3
         version: 3.0.3
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
+  packages/package-json:
+    dependencies:
+      '@flint.fyi/core':
+        specifier: workspace:^
+        version: link:../core
+      typescript:
+        specifier: ^5.9.0 || ^6.0.0
+        version: 5.9.3
+    devDependencies:
+      tsdown:
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+
   packages/plugin-astro:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-browser:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/ts':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../ts
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -328,24 +344,24 @@ importers:
   packages/plugin-flint:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/ts':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../ts
       '@flint.fyi/utils':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../utils
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -353,10 +369,10 @@ importers:
   packages/plugin-jsx:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/ts':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../ts
       language-tags:
         specifier: ^2.1.0
@@ -366,14 +382,14 @@ importers:
         version: 5.9.3
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       '@types/language-tags':
         specifier: 1.0.4
         version: 1.0.4
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -381,34 +397,34 @@ importers:
   packages/plugin-next:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-node:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/ts':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../ts
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -416,23 +432,23 @@ importers:
   packages/plugin-nuxt:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-performance:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/ts':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../ts
       ts-api-utils:
         specifier: ^2.1.0
@@ -442,11 +458,11 @@ importers:
         version: 5.9.3
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -454,28 +470,28 @@ importers:
   packages/plugin-react:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-solid:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/plugin-spelling:
     dependencies:
@@ -483,24 +499,24 @@ importers:
         specifier: ^9.2.2
         version: 9.4.0
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/text':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../text
       '@flint.fyi/utils':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../utils
       cspell-lib:
         specifier: ^9.2.2
         version: 9.4.0
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -508,18 +524,18 @@ importers:
   packages/rule-tester:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@flint.fyi/utils':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../utils
       cached-factory:
         specifier: ^0.1.0
         version: 0.1.0
     devDependencies:
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -536,25 +552,25 @@ importers:
         specifier: ^0.37.0
         version: 0.37.0(astro@5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2))
       '@flint.fyi/comparisons':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../comparisons
       '@flint.fyi/plugin-browser':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../plugin-browser
       '@flint.fyi/plugin-flint':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../plugin-flint
       '@flint.fyi/plugin-jsx':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../plugin-jsx
       '@flint.fyi/plugin-node':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../plugin-node
       '@flint.fyi/plugin-performance':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../plugin-performance
       '@flint.fyi/plugin-spelling':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../plugin-spelling
       '@konami-emoji-blast/astro':
         specifier: ^0.2.0
@@ -571,11 +587,17 @@ importers:
       astro:
         specifier: ^5.15.8
         version: 5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2)
+      astro-og-canvas:
+        specifier: ^0.10.0
+        version: 0.10.0(astro@5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2))
+      canvaskit-wasm:
+        specifier: ^0.40.0
+        version: 0.40.0
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
       flint:
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../flint
       konami-emoji-blast:
         specifier: ^0.6.0
@@ -618,20 +640,17 @@ importers:
   packages/text:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
-      index-to-position:
-        specifier: ^1.2.0
-        version: 1.2.0
     devDependencies:
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/ts:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       '@typescript-eslint/project-service':
         specifier: ^8.46.2
@@ -656,11 +675,11 @@ importers:
         version: 4.2.1
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -668,8 +687,8 @@ importers:
   packages/ts-patch:
     devDependencies:
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -677,13 +696,13 @@ importers:
   packages/utils:
     devDependencies:
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
 
   packages/yaml:
     dependencies:
       '@flint.fyi/core':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../core
       unist-util-visit:
         specifier: ^5.0.0
@@ -693,11 +712,11 @@ importers:
         version: 3.1.0
     devDependencies:
       '@flint.fyi/rule-tester':
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../rule-tester
       tsdown:
-        specifier: 0.18.3
-        version: 0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
+        specifier: 0.19.0-beta.2
+        version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -1609,8 +1628,8 @@ packages:
   '@mdx-js/mdx@3.1.0':
     resolution: {integrity: sha512-/QxEhPAvGwbQmy1Px8F899L5Uc2KZ6JtXwlCgJmjSTBedwOZkByYcBG4GceIGPXRDsmfxhHazuS+hlOShRLeDw==}
 
-  '@napi-rs/wasm-runtime@1.1.0':
-    resolution: {integrity: sha512-Fq6DJW+Bb5jaWE69/qOE0D1TUN9+6uWhCeZpdnSBk14pjLcCWR7Q8n49PTSPHazM37JqrsdpEthXy2xn6jWWiA==}
+  '@napi-rs/wasm-runtime@1.1.1':
+    resolution: {integrity: sha512-p64ah1M1ld8xjWv3qbvFwHiFVWrq1yFvV4f7w+mzaqiR4IlSgkqhcRdHwsGgomwzBH51sRY4NEowLxnaBjcW/A==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1627,8 +1646,8 @@ packages:
   '@oslojs/encoding@1.1.0':
     resolution: {integrity: sha512-70wQhgYmndg4GCPxPPxPGevRKqTIJ2Nh4OkiMWmDAVYsTQ+Ta7Sq+rPevXyXGdzr30/qZBnyOalCszoMxlyldQ==}
 
-  '@oxc-project/types@0.103.0':
-    resolution: {integrity: sha512-bkiYX5kaXWwUessFRSoXFkGIQTmc6dLGdxuRTrC+h8PSnIdZyuXHHlLAeTmOue5Br/a0/a7dHH0Gca6eXn9MKg==}
+  '@oxc-project/types@0.106.0':
+    resolution: {integrity: sha512-QdsH3rZq480VnOHSHgPYOhjL8O8LBdcnSjM408BpPCCUc0JYYZPG9Gafl9i3OcGk/7137o+gweb4cCv3WAUykg==}
 
   '@oxc-resolver/binding-android-arm-eabi@11.15.0':
     resolution: {integrity: sha512-Q+lWuFfq7whNelNJIP1dhXaVz4zO9Tu77GcQHyxDWh3MaCoO2Bisphgzmsh4ZoUe2zIchQh6OvQL99GlWHg9Tw==}
@@ -1769,79 +1788,79 @@ packages:
     resolution: {integrity: sha512-Tb5wIMvBf/nLejTQ61krK644/CEMB/cpiaIFXqGApfGqO3GwcR3qnI0DbmkFVCl2OyEp8LnLX3EkucoL0+tbFg==}
     engines: {node: ^v12.20.0 || ^14.13.0 || >=16.0.0}
 
-  '@rolldown/binding-android-arm64@1.0.0-beta.57':
-    resolution: {integrity: sha512-GoOVDy8bjw9z1K30Oo803nSzXJS/vWhFijFsW3kzvZCO8IZwFnNa6pGctmbbJstKl3Fv6UBwyjJQN6msejW0IQ==}
+  '@rolldown/binding-android-arm64@1.0.0-beta.58':
+    resolution: {integrity: sha512-mWj5eE4Qc8TbPdGGaaLvBb9XfDPvE1EmZkJQgiGKwchkWH4oAJcRAKMTw7ZHnb1L+t7Ah41sBkAecaIsuUgsug==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [android]
 
-  '@rolldown/binding-darwin-arm64@1.0.0-beta.57':
-    resolution: {integrity: sha512-9c4FOhRGpl+PX7zBK5p17c5efpF9aSpTPgyigv57hXf5NjQUaJOOiejPLAtFiKNBIfm5Uu6yFkvLKzOafNvlTw==}
+  '@rolldown/binding-darwin-arm64@1.0.0-beta.58':
+    resolution: {integrity: sha512-wFxUymI/5R8bH8qZFYDfAxAN9CyISEIYke+95oZPiv6EWo88aa5rskjVcCpKA532R+klFmdqjbbaD56GNmTF4Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [darwin]
 
-  '@rolldown/binding-darwin-x64@1.0.0-beta.57':
-    resolution: {integrity: sha512-6RsB8Qy4LnGqNGJJC/8uWeLWGOvbRL/KG5aJ8XXpSEupg/KQtlBEiFaYU/Ma5Usj1s+bt3ItkqZYAI50kSplBA==}
+  '@rolldown/binding-darwin-x64@1.0.0-beta.58':
+    resolution: {integrity: sha512-ybp3MkPj23VDV9PhtRwdU5qrGhlViWRV5BjKwO6epaSlUD5lW0WyY+roN3ZAzbma/9RrMTgZ/a/gtQq8YXOcqw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [darwin]
 
-  '@rolldown/binding-freebsd-x64@1.0.0-beta.57':
-    resolution: {integrity: sha512-uA9kG7+MYkHTbqwv67Tx+5GV5YcKd33HCJIi0311iYBd25yuwyIqvJfBdt1VVB8tdOlyTb9cPAgfCki8nhwTQg==}
+  '@rolldown/binding-freebsd-x64@1.0.0-beta.58':
+    resolution: {integrity: sha512-Evxj3yh7FWvyklUYZa0qTVT9N2zX9TPDqGF056hl8hlCZ9/ndQ2xMv6uw9PD1VlLpukbsqL+/C6M0qwipL0QMg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [freebsd]
 
-  '@rolldown/binding-linux-arm-gnueabihf@1.0.0-beta.57':
-    resolution: {integrity: sha512-3KkS0cHsllT2T+Te+VZMKHNw6FPQihYsQh+8J4jkzwgvAQpbsbXmrqhkw3YU/QGRrD8qgcOvBr6z5y6Jid+rmw==}
+  '@rolldown/binding-linux-arm-gnueabihf@1.0.0-beta.58':
+    resolution: {integrity: sha512-tYeXprDOrEgVHUbPXH6MPso4cM/c6RTkmJNICMQlYdki4hGMh92aj3yU6CKs+4X5gfG0yj5kVUw/L4M685SYag==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@rolldown/binding-linux-arm64-gnu@1.0.0-beta.57':
-    resolution: {integrity: sha512-A3/wu1RgsHhqP3rVH2+sM81bpk+Qd2XaHTl8LtX5/1LNR7QVBFBCpAoiXwjTdGnI5cMdBVi7Z1pi52euW760Fw==}
+  '@rolldown/binding-linux-arm64-gnu@1.0.0-beta.58':
+    resolution: {integrity: sha512-N78vmZzP6zG967Ohr+MasCjmKtis0geZ1SOVmxrA0/bklTQSzH5kHEjW5Qn+i1taFno6GEre1E40v0wuWsNOQw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
 
-  '@rolldown/binding-linux-arm64-musl@1.0.0-beta.57':
-    resolution: {integrity: sha512-d0kIVezTQtazpyWjiJIn5to8JlwfKITDqwsFv0Xc6s31N16CD2PC/Pl2OtKgS7n8WLOJbfqgIp5ixYzTAxCqMg==}
+  '@rolldown/binding-linux-arm64-musl@1.0.0-beta.58':
+    resolution: {integrity: sha512-l+p4QVtG72C7wI2SIkNQw/KQtSjuYwS3rV6AKcWrRBF62ClsFUcif5vLaZIEbPrCXu5OFRXigXFJnxYsVVZqdQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
 
-  '@rolldown/binding-linux-x64-gnu@1.0.0-beta.57':
-    resolution: {integrity: sha512-E199LPijo98yrLjPCmETx8EF43sZf9t3guSrLee/ej1rCCc3zDVTR4xFfN9BRAapGVl7/8hYqbbiQPTkv73kUg==}
+  '@rolldown/binding-linux-x64-gnu@1.0.0-beta.58':
+    resolution: {integrity: sha512-urzJX0HrXxIh0FfxwWRjfPCMeInU9qsImLQxHBgLp5ivji1EEUnOfux8KxPPnRQthJyneBrN2LeqUix9DYrNaQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
 
-  '@rolldown/binding-linux-x64-musl@1.0.0-beta.57':
-    resolution: {integrity: sha512-++EQDpk/UJ33kY/BNsh7A7/P1sr/jbMuQ8cE554ZIy+tCUWCivo9zfyjDUoiMdnxqX6HLJEqqGnbGQOvzm2OMQ==}
+  '@rolldown/binding-linux-x64-musl@1.0.0-beta.58':
+    resolution: {integrity: sha512-7ijfVK3GISnXIwq/1FZo+KyAUJjL3kWPJ7rViAL6MWeEBhEgRzJ0yEd9I8N9aut8Y8ab+EKFJyRNMWZuUBwQ0A==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
 
-  '@rolldown/binding-openharmony-arm64@1.0.0-beta.57':
-    resolution: {integrity: sha512-voDEBcNqxbUv/GeXKFtxXVWA+H45P/8Dec4Ii/SbyJyGvCqV1j+nNHfnFUIiRQ2Q40DwPe/djvgYBs9PpETiMA==}
+  '@rolldown/binding-openharmony-arm64@1.0.0-beta.58':
+    resolution: {integrity: sha512-/m7sKZCS+cUULbzyJTIlv8JbjNohxbpAOA6cM+lgWgqVzPee3U6jpwydrib328JFN/gF9A99IZEnuGYqEDJdww==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
 
-  '@rolldown/binding-wasm32-wasi@1.0.0-beta.57':
-    resolution: {integrity: sha512-bRhcF7NLlCnpkzLVlVhrDEd0KH22VbTPkPTbMjlYvqhSmarxNIq5vtlQS8qmV7LkPKHrNLWyJW/V/sOyFba26Q==}
+  '@rolldown/binding-wasm32-wasi@1.0.0-beta.58':
+    resolution: {integrity: sha512-6SZk7zMgv+y3wFFQ9qE5P9NnRHcRsptL1ypmudD26PDY+PvFCvfHRkJNfclWnvacVGxjowr7JOL3a9fd1wWhUw==}
     engines: {node: '>=14.0.0'}
     cpu: [wasm32]
 
-  '@rolldown/binding-win32-arm64-msvc@1.0.0-beta.57':
-    resolution: {integrity: sha512-rnDVGRks2FQ2hgJ2g15pHtfxqkGFGjJQUDWzYznEkE8Ra2+Vag9OffxdbJMZqBWXHVM0iS4dv8qSiEn7bO+n1Q==}
+  '@rolldown/binding-win32-arm64-msvc@1.0.0-beta.58':
+    resolution: {integrity: sha512-sFqfYPnBZ6xBhMkadB7UD0yjEDRvs7ipR3nCggblN+N4ODCXY6qhg/bKL39+W+dgQybL7ErD4EGERVbW9DAWvg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [win32]
 
-  '@rolldown/binding-win32-x64-msvc@1.0.0-beta.57':
-    resolution: {integrity: sha512-OqIUyNid1M4xTj6VRXp/Lht/qIP8fo25QyAZlCP+p6D2ATCEhyW4ZIFLnC9zAGN/HMbXoCzvwfa8Jjg/8J4YEg==}
+  '@rolldown/binding-win32-x64-msvc@1.0.0-beta.58':
+    resolution: {integrity: sha512-AnFWJdAqB8+IDPcGrATYs67Kik/6tnndNJV2jGRmwlbeNiQQ8GhRJU8ETRlINfII0pqi9k4WWLnb00p1QCxw/Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
@@ -1849,8 +1868,8 @@ packages:
   '@rolldown/pluginutils@1.0.0-beta.27':
     resolution: {integrity: sha512-+d0F4MKMCbeVUJwG96uQ4SgAznZNSq93I3V+9NHA4OpvqG8mRCpGdKmK8l/dl02h2CCDHwW2FqilnTyDcAnqjA==}
 
-  '@rolldown/pluginutils@1.0.0-beta.57':
-    resolution: {integrity: sha512-aQNelgx14tGA+n2tNSa9x6/jeoCL9fkDeCei7nOKnHx0fEFRRMu5ReiITo+zZD5TzWDGGRjbSYCs93IfRIyTuQ==}
+  '@rolldown/pluginutils@1.0.0-beta.58':
+    resolution: {integrity: sha512-qWhDs6yFGR5xDfdrwiSa3CWGIHxD597uGE/A9xGqytBjANvh4rLCTTkq7szhMV4+Ygh+PMS90KVJ8xWG/TkX4w==}
 
   '@rollup/pluginutils@5.3.0':
     resolution: {integrity: sha512-5EdhGZtnu3V88ces7s53hhfK5KSASnJZv8Lulpc04cWO3REESroJXg73DFsOmgbU2BhwV0E20bu2IDZb3VKW4Q==}
@@ -2303,6 +2322,9 @@ packages:
   '@vscode/l10n@0.0.18':
     resolution: {integrity: sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ==}
 
+  '@webgpu/types@0.1.21':
+    resolution: {integrity: sha512-pUrWq3V5PiSGFLeLxoGqReTZmiiXwY3jRkIG5sLLKjyqNxrwm/04b4nw7LSmGWJcKk59XOM/YRTUwOzo4MMlow==}
+
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -2398,6 +2420,11 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^5.0.0-beta || ^3.3.0
 
+  astro-og-canvas@0.10.0:
+    resolution: {integrity: sha512-JkSIYEo2sTJiuht7iVQ2CNT38+rrlvkRpJkqjA58WDFHdymgWktoT9zLkjEkn2u9K2zeZx2GTev16IBJzIoZNQ==}
+    peerDependencies:
+      astro: ^5.0.0 || ^6.0.0-alpha
+
   astro-remote@0.3.4:
     resolution: {integrity: sha512-jL5skNQLA0YBc1R3bVGXyHew3FqGqsT7AgLzWAVeTLzFkwVMUYvs4/lKJSmS7ygcF1GnHnoKG6++8GL9VtWwGQ==}
     engines: {node: '>=18.14.1'}
@@ -2483,6 +2510,9 @@ packages:
 
   caniuse-lite@1.0.30001743:
     resolution: {integrity: sha512-e6Ojr7RV14Un7dz6ASD0aZDmQPT/A+eZU+nuTNfjqmRrmkmQlnTNWH0SKmqagx9PeW87UVqapSurtAXifmtdmw==}
+
+  canvaskit-wasm@0.40.0:
+    resolution: {integrity: sha512-Od2o+ZmoEw9PBdN/yCGvzfu0WVqlufBPEWNG452wY7E9aT8RBE+ChpZF526doOlg7zumO4iCS+RAeht4P0Gbpw==}
 
   ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
@@ -2826,6 +2856,10 @@ packages:
 
   entities@6.0.1:
     resolution: {integrity: sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g==}
+    engines: {node: '>=0.12'}
+
+  entities@7.0.0:
+    resolution: {integrity: sha512-FDWG5cmEYf2Z00IkYRhbFrwIwvdFKH07uV8dvNy0omp/Qb1xcyCWp2UDtcwJF4QZZvk0sLudP6/hAu42TaqVhQ==}
     engines: {node: '>=0.12'}
 
   env-paths@3.0.0:
@@ -4308,8 +4342,8 @@ packages:
       vue-tsc:
         optional: true
 
-  rolldown@1.0.0-beta.57:
-    resolution: {integrity: sha512-lMMxcNN71GMsSko8RyeTaFoATHkCh4IWU7pYF73ziMYjhHZWfVesC6GQ+iaJCvZmVjvgSks9Ks1aaqEkBd8udg==}
+  rolldown@1.0.0-beta.58:
+    resolution: {integrity: sha512-v1FCjMZCan7f+xGAHBi+mqiE4MlH7I+SXEHSQSJoMOGNNB2UYtvMiejsq9YuUOiZjNeUeV/a21nSFbrUR+4ZCQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -4629,8 +4663,8 @@ packages:
       typescript:
         optional: true
 
-  tsdown@0.18.3:
-    resolution: {integrity: sha512-OVFzktKDTglFAUh/WO8WamBUbZoBlJ9m7NgZZrVyIKe32BfXBeRZ+soFFpuOGVP8g8OU4tOLOpTyPTELWvcTFw==}
+  tsdown@0.19.0-beta.2:
+    resolution: {integrity: sha512-hIn4nKz9YY5rUEiD/JPFIX0SI733ktgEESyn9o/iS1fnfryhxe7/FfJ0KuM2enxOKHqpAdHU/DiC0DPzBC5CVg==}
     engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
@@ -4763,8 +4797,8 @@ packages:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
     engines: {node: '>= 4.0.0'}
 
-  unrun@0.2.21:
-    resolution: {integrity: sha512-VuwI4YKtwBpDvM7hCEop2Im/ezS82dliqJpkh9pvS6ve8HcUsBDvESHxMmUfImXR03GkmfdDynyrh/pUJnlguw==}
+  unrun@0.2.22:
+    resolution: {integrity: sha512-vlQce4gTLNyCZxGylEQXGG+fSrrEFWiM/L8aghtp+t6j8xXh+lmsBtQJknG7ZSvv7P+/MRgbQtHWHBWk981uTg==}
     engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
@@ -6327,7 +6361,7 @@ snapshots:
       - acorn
       - supports-color
 
-  '@napi-rs/wasm-runtime@1.1.0':
+  '@napi-rs/wasm-runtime@1.1.1':
     dependencies:
       '@emnapi/core': 1.7.1
       '@emnapi/runtime': 1.7.1
@@ -6348,7 +6382,7 @@ snapshots:
 
   '@oslojs/encoding@1.1.0': {}
 
-  '@oxc-project/types@0.103.0': {}
+  '@oxc-project/types@0.106.0': {}
 
   '@oxc-resolver/binding-android-arm-eabi@11.15.0':
     optional: true
@@ -6400,7 +6434,7 @@ snapshots:
 
   '@oxc-resolver/binding-wasm32-wasi@11.15.0':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.0
+      '@napi-rs/wasm-runtime': 1.1.1
     optional: true
 
   '@oxc-resolver/binding-win32-arm64-msvc@11.15.0':
@@ -6437,50 +6471,50 @@ snapshots:
 
   '@reteps/dockerfmt@0.3.6': {}
 
-  '@rolldown/binding-android-arm64@1.0.0-beta.57':
+  '@rolldown/binding-android-arm64@1.0.0-beta.58':
     optional: true
 
-  '@rolldown/binding-darwin-arm64@1.0.0-beta.57':
+  '@rolldown/binding-darwin-arm64@1.0.0-beta.58':
     optional: true
 
-  '@rolldown/binding-darwin-x64@1.0.0-beta.57':
+  '@rolldown/binding-darwin-x64@1.0.0-beta.58':
     optional: true
 
-  '@rolldown/binding-freebsd-x64@1.0.0-beta.57':
+  '@rolldown/binding-freebsd-x64@1.0.0-beta.58':
     optional: true
 
-  '@rolldown/binding-linux-arm-gnueabihf@1.0.0-beta.57':
+  '@rolldown/binding-linux-arm-gnueabihf@1.0.0-beta.58':
     optional: true
 
-  '@rolldown/binding-linux-arm64-gnu@1.0.0-beta.57':
+  '@rolldown/binding-linux-arm64-gnu@1.0.0-beta.58':
     optional: true
 
-  '@rolldown/binding-linux-arm64-musl@1.0.0-beta.57':
+  '@rolldown/binding-linux-arm64-musl@1.0.0-beta.58':
     optional: true
 
-  '@rolldown/binding-linux-x64-gnu@1.0.0-beta.57':
+  '@rolldown/binding-linux-x64-gnu@1.0.0-beta.58':
     optional: true
 
-  '@rolldown/binding-linux-x64-musl@1.0.0-beta.57':
+  '@rolldown/binding-linux-x64-musl@1.0.0-beta.58':
     optional: true
 
-  '@rolldown/binding-openharmony-arm64@1.0.0-beta.57':
+  '@rolldown/binding-openharmony-arm64@1.0.0-beta.58':
     optional: true
 
-  '@rolldown/binding-wasm32-wasi@1.0.0-beta.57':
+  '@rolldown/binding-wasm32-wasi@1.0.0-beta.58':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.0
+      '@napi-rs/wasm-runtime': 1.1.1
     optional: true
 
-  '@rolldown/binding-win32-arm64-msvc@1.0.0-beta.57':
+  '@rolldown/binding-win32-arm64-msvc@1.0.0-beta.58':
     optional: true
 
-  '@rolldown/binding-win32-x64-msvc@1.0.0-beta.57':
+  '@rolldown/binding-win32-x64-msvc@1.0.0-beta.58':
     optional: true
 
   '@rolldown/pluginutils@1.0.0-beta.27': {}
 
-  '@rolldown/pluginutils@1.0.0-beta.57': {}
+  '@rolldown/pluginutils@1.0.0-beta.58': {}
 
   '@rollup/pluginutils@5.3.0(rollup@4.52.5)':
     dependencies:
@@ -7006,6 +7040,8 @@ snapshots:
 
   '@vscode/l10n@0.0.18': {}
 
+  '@webgpu/types@0.1.21': {}
+
   acorn-jsx@5.3.2(acorn@8.15.0):
     dependencies:
       acorn: 8.15.0
@@ -7084,6 +7120,13 @@ snapshots:
     dependencies:
       astro: 5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2)
       rehype-expressive-code: 0.41.3
+
+  astro-og-canvas@0.10.0(astro@5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2)):
+    dependencies:
+      astro: 5.16.2(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.2)
+      canvaskit-wasm: 0.40.0
+      deterministic-object-hash: 2.0.2
+      entities: 7.0.0
 
   astro-remote@0.3.4:
     dependencies:
@@ -7268,6 +7311,10 @@ snapshots:
   camelcase@8.0.0: {}
 
   caniuse-lite@1.0.30001743: {}
+
+  canvaskit-wasm@0.40.0:
+    dependencies:
+      '@webgpu/types': 0.1.21
 
   ccount@2.0.1: {}
 
@@ -7581,6 +7628,8 @@ snapshots:
   entities@4.5.0: {}
 
   entities@6.0.1: {}
+
+  entities@7.0.0: {}
 
   env-paths@3.0.0: {}
 
@@ -9619,7 +9668,7 @@ snapshots:
 
   rfdc@1.4.1: {}
 
-  rolldown-plugin-dts@0.20.0(oxc-resolver@11.15.0)(rolldown@1.0.0-beta.57)(typescript@5.9.3):
+  rolldown-plugin-dts@0.20.0(oxc-resolver@11.15.0)(rolldown@1.0.0-beta.58)(typescript@5.9.3):
     dependencies:
       '@babel/generator': 7.28.5
       '@babel/parser': 7.28.5
@@ -9629,30 +9678,30 @@ snapshots:
       dts-resolver: 2.1.3(oxc-resolver@11.15.0)
       get-tsconfig: 4.13.0
       obug: 2.1.1
-      rolldown: 1.0.0-beta.57
+      rolldown: 1.0.0-beta.58
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:
       - oxc-resolver
 
-  rolldown@1.0.0-beta.57:
+  rolldown@1.0.0-beta.58:
     dependencies:
-      '@oxc-project/types': 0.103.0
-      '@rolldown/pluginutils': 1.0.0-beta.57
+      '@oxc-project/types': 0.106.0
+      '@rolldown/pluginutils': 1.0.0-beta.58
     optionalDependencies:
-      '@rolldown/binding-android-arm64': 1.0.0-beta.57
-      '@rolldown/binding-darwin-arm64': 1.0.0-beta.57
-      '@rolldown/binding-darwin-x64': 1.0.0-beta.57
-      '@rolldown/binding-freebsd-x64': 1.0.0-beta.57
-      '@rolldown/binding-linux-arm-gnueabihf': 1.0.0-beta.57
-      '@rolldown/binding-linux-arm64-gnu': 1.0.0-beta.57
-      '@rolldown/binding-linux-arm64-musl': 1.0.0-beta.57
-      '@rolldown/binding-linux-x64-gnu': 1.0.0-beta.57
-      '@rolldown/binding-linux-x64-musl': 1.0.0-beta.57
-      '@rolldown/binding-openharmony-arm64': 1.0.0-beta.57
-      '@rolldown/binding-wasm32-wasi': 1.0.0-beta.57
-      '@rolldown/binding-win32-arm64-msvc': 1.0.0-beta.57
-      '@rolldown/binding-win32-x64-msvc': 1.0.0-beta.57
+      '@rolldown/binding-android-arm64': 1.0.0-beta.58
+      '@rolldown/binding-darwin-arm64': 1.0.0-beta.58
+      '@rolldown/binding-darwin-x64': 1.0.0-beta.58
+      '@rolldown/binding-freebsd-x64': 1.0.0-beta.58
+      '@rolldown/binding-linux-arm-gnueabihf': 1.0.0-beta.58
+      '@rolldown/binding-linux-arm64-gnu': 1.0.0-beta.58
+      '@rolldown/binding-linux-arm64-musl': 1.0.0-beta.58
+      '@rolldown/binding-linux-x64-gnu': 1.0.0-beta.58
+      '@rolldown/binding-linux-x64-musl': 1.0.0-beta.58
+      '@rolldown/binding-openharmony-arm64': 1.0.0-beta.58
+      '@rolldown/binding-wasm32-wasi': 1.0.0-beta.58
+      '@rolldown/binding-win32-arm64-msvc': 1.0.0-beta.58
+      '@rolldown/binding-win32-x64-msvc': 1.0.0-beta.58
 
   rollup@4.52.5:
     dependencies:
@@ -10025,7 +10074,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  tsdown@0.18.3(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3):
+  tsdown@0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3):
     dependencies:
       ansis: 4.2.0
       cac: 6.7.14
@@ -10035,14 +10084,14 @@ snapshots:
       import-without-cache: 0.2.5
       obug: 2.1.1
       picomatch: 4.0.3
-      rolldown: 1.0.0-beta.57
-      rolldown-plugin-dts: 0.20.0(oxc-resolver@11.15.0)(rolldown@1.0.0-beta.57)(typescript@5.9.3)
+      rolldown: 1.0.0-beta.58
+      rolldown-plugin-dts: 0.20.0(oxc-resolver@11.15.0)(rolldown@1.0.0-beta.58)(typescript@5.9.3)
       semver: 7.7.3
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
       tree-kill: 1.2.2
       unconfig-core: 7.4.2
-      unrun: 0.2.21(synckit@0.11.11)
+      unrun: 0.2.22(synckit@0.11.11)
     optionalDependencies:
       '@arethetypeswrong/core': 0.18.2
       typescript: 5.9.3
@@ -10183,9 +10232,9 @@ snapshots:
 
   universalify@0.1.2: {}
 
-  unrun@0.2.21(synckit@0.11.11):
+  unrun@0.2.22(synckit@0.11.11):
     dependencies:
-      rolldown: 1.0.0-beta.57
+      rolldown: 1.0.0-beta.58
     optionalDependencies:
       synckit: 0.11.11
 

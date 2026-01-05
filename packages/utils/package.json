@@ -22,11 +22,10 @@
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.map",
-		"!lib/**/*.test.*"
+		"!lib/**/*.map"
 	],
 	"devDependencies": {
-		"tsdown": "0.18.3"
+		"tsdown": "0.19.0-beta.2"
 	},
 	"engines": {
 		"node": ">=24.0.0"
