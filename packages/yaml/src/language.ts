@@ -6,11 +6,11 @@ import { createYamlFile } from "./createYamlFile.ts";
 import type { YamlNodesByName } from "./nodes.ts";
 import { prepareYamlFile } from "./prepareYamlFile.ts";
 
-export interface YamlServices {
+export interface YamlFileServices {
 	root: yamlParser.Root;
 }
 
-export const yamlLanguage = createLanguage<YamlNodesByName, YamlServices>({
+export const yamlLanguage = createLanguage<YamlNodesByName, YamlFileServices>({
 	about: {
 		name: "YAML",
 	},
