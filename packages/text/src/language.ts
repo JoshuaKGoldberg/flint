@@ -6,7 +6,7 @@ import type { TextFileServices, TextNodes } from "./types.ts";
 
 export const textLanguage = createLanguage<TextNodes, TextFileServices>({
 	about: {
-		name: "YAML",
+		name: "Text",
 	},
 	createFileFactory: () => {
 		return {
