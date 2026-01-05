@@ -9,7 +9,7 @@ export interface JsonFileServices {
 	sourceFile: ts.JsonSourceFile;
 }
 
-// TODO: It would be nice to limit TSNodesByName to just nodes in JSON files...
+// TODO: It would be nice to limit JsonNodesByName to just nodes in JSON files...
 export const jsonLanguage = createLanguage<JsonNodesByName, JsonFileServices>({
 	about: {
 		name: "JSON",
