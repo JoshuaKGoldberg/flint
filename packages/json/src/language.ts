@@ -1,9 +1,9 @@
 import { createLanguage } from "@flint.fyi/core";
 import fsSync from "node:fs";
-import * as ts from "typescript";
+import type * as ts from "typescript";
 
-import { createTypeScriptJsonFile } from "./createJsonFile.js";
-import { TSNodesByName } from "./nodes.js";
+import { createTypeScriptJsonFile } from "./createJsonFile.ts";
+import type { TSNodesByName } from "./nodes.ts";
 
 export interface JsonServices {
 	sourceFile: ts.JsonSourceFile;

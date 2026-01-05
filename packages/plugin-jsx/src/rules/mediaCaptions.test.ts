@@ -1,5 +1,5 @@
-import rule from "./mediaCaptions.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./mediaCaptions.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

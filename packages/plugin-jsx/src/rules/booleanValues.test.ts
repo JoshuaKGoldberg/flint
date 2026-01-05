@@ -1,5 +1,5 @@
-import rule from "./booleanValues.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./booleanValues.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

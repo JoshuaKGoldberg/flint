@@ -1,5 +1,5 @@
-import { ruleTester } from "./ruleTester.js";
-import rule from "./scopeProps.js";
+import { ruleTester } from "./ruleTester.ts";
+import rule from "./scopeProps.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

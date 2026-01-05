@@ -1,7 +1,10 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { TypeScriptFileServices, typescriptLanguage } from "../language.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import {
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {

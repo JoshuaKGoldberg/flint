@@ -20,18 +20,31 @@
 	],
 	"type": "module",
 	"imports": {
-		"#proxy-program": "./lib/proxy-program.js"
+		"#proxy-program": {
+			"@flint.fyi/source": "./src/proxy-program.ts",
+			"default": "./lib/proxy-program.js"
+		}
 	},
 	"exports": {
-		".": "./lib/index.js",
-		"./install-patch": "./lib/install-patch.js",
-		"./install-patch-hooks": "./lib/install-patch-hooks.js"
+		".": {
+			"@flint.fyi/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		},
+		"./install-patch": {
+			"@flint.fyi/source": "./src/install-patch.ts",
+			"default": "./lib/install-patch.js"
+		},
+		"./install-patch-hooks": {
+			"@flint.fyi/source": "./src/install-patch-hooks.ts",
+			"default": "./lib/install-patch-hooks.js"
+		}
 	},
 	"files": [
 		"lib/",
 		"!lib/**/*.map"
 	],
 	"devDependencies": {
+		"tsdown": "0.19.0-beta.2",
 		"typescript": "5.9.3"
 	},
 	"peerDependencies": {
@@ -41,6 +54,11 @@
 		"node": ">=24.0.0"
 	},
 	"publishConfig": {
-		"access": "public"
+		"access": "public",
+		"exports": {
+			".": "./lib/index.js",
+			"./install-patch": "./lib/install-patch.js",
+			"./install-patch-hooks": "./lib/install-patch-hooks.js"
+		}
 	}
 }

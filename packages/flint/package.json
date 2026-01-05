@@ -15,27 +15,32 @@
 	"sideEffects": false,
 	"type": "module",
 	"exports": {
-		".": "./lib/index.js"
+		".": {
+			"@flint.fyi/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		}
 	},
 	"bin": {
 		"flint": "bin/index.js"
 	},
 	"files": [
 		"lib/",
-		"!lib/**/*.map"
+		"!lib/**/*.map",
+		"!lib/bin/**"
 	],
 	"dependencies": {
-		"@flint.fyi/cli": "workspace:",
-		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/json": "workspace:",
-		"@flint.fyi/md": "workspace:",
-		"@flint.fyi/ts": "workspace:",
-		"@flint.fyi/ts-patch": "workspace:",
-		"@flint.fyi/yaml": "workspace:",
+		"@flint.fyi/cli": "workspace:^",
+		"@flint.fyi/core": "workspace:^",
+		"@flint.fyi/json": "workspace:^",
+		"@flint.fyi/md": "workspace:^",
+		"@flint.fyi/ts": "workspace:^",
+		"@flint.fyi/ts-patch": "workspace:^",
+		"@flint.fyi/yaml": "workspace:^",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
-		"prettier": "3.7.4"
+		"prettier": "3.7.4",
+		"tsdown": "0.19.0-beta.2"
 	},
 	"peerDependencies": {
 		"prettier": "^3.7.4"
@@ -44,6 +49,8 @@
 		"node": ">=24.0.0"
 	},
 	"publishConfig": {
-		"provenance": true
+		"exports": {
+			".": "./lib/index.js"
+		}
 	}
 }

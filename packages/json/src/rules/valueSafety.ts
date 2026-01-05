@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 
-import { jsonLanguage } from "../language.js";
+import { jsonLanguage } from "../language.ts";
 
 const MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER;
 const MIN_SAFE_INTEGER = Number.MIN_SAFE_INTEGER;

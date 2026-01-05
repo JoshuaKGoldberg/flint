@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
-import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
+import { typescriptLanguage } from "../language.ts";
+import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
