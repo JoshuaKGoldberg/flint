@@ -1,7 +1,7 @@
 {
 	"name": "@flint.fyi/package-json",
 	"version": "0.15.0",
-	"description": "[Experimental] Package.json plugin for Flint.",
+	"description": "[Experimental] package.json plugin for Flint.",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/flint-fyi/flint.git",
