@@ -6,13 +6,13 @@ import { createMarkdownFile } from "./createMarkdownFile.ts";
 import type { MarkdownNodesByName, WithPosition } from "./nodes.ts";
 import { prepareMarkdownFile } from "./prepareMarkdownFile.ts";
 
-export interface MarkdownServices {
+export interface MarkdownFileServices {
 	root: WithPosition<mdast.Root>;
 }
 
 export const markdownLanguage = createLanguage<
 	MarkdownNodesByName,
-	MarkdownServices
+	MarkdownFileServices
 >({
 	about: {
 		name: "Markdown",

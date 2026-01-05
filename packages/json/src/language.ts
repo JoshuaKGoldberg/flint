@@ -5,12 +5,12 @@ import type * as ts from "typescript";
 import { createTypeScriptJsonFile } from "./createJsonFile.ts";
 import type { JsonNodesByName } from "./nodes.ts";
 
-export interface JsonServices {
+export interface JsonFileServices {
 	sourceFile: ts.JsonSourceFile;
 }
 
 // TODO: It would be nice to limit JsonNodesByName to just nodes in JSON files...
-export const jsonLanguage = createLanguage<JsonNodesByName, JsonServices>({
+export const jsonLanguage = createLanguage<JsonNodesByName, JsonFileServices>({
 	about: {
 		name: "JSON",
 	},
