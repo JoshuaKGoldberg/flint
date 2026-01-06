@@ -1,3 +1,5 @@
+import type * as yaml from "yaml-unist-parser";
+
 import { yamlLanguage } from "../language.ts";
 
 export default yamlLanguage.createRule({
@@ -26,35 +28,34 @@ export default yamlLanguage.createRule({
 			visitors: {
 				document: (node, { root }) => {
 					const [documentHead, documentBody] = node.children;
-					if (documentBody.children.length === 0) {
-						const documentStart = node.position.start.offset;
-						let documentEnd = node.position.end.offset;
-
-						const documentIndex = root.children.indexOf(node);
-						const hasNextDocument = documentIndex < root.children.length - 1;
-
-						if (hasNextDocument) {
-							const nextDocument = root.children[documentIndex + 1];
-							documentEnd = nextDocument.position.start.offset;
-						}
-
-						context.report({
-							fix: {
-								range: {
-									begin: documentStart,
-									end: documentEnd,
-								},
-								text: "",
-							},
-							message: "emptyDocument",
-							range: {
-								begin: documentHead.position.start.offset,
-								end: documentHead.position.end.offset,
-							},
-						});
+					if (documentBody.children.length !== 0) {
+						return;
 					}
+
+					context.report({
+						fix: {
+							range: {
+								begin: node.position.start.offset,
+								end: getDocumentEnd(node, root),
+							},
+							text: "",
+						},
+						message: "emptyDocument",
+						range: {
+							begin: documentHead.position.start.offset,
+							end: documentHead.position.end.offset,
+						},
+					});
 				},
 			},
 		};
 	},
 });
+
+function getDocumentEnd(node: yaml.Document, root: yaml.Root) {
+	const documentIndex = root.children.indexOf(node);
+
+	return documentIndex < root.children.length - 1
+		? root.children[documentIndex + 1].position.start.offset
+		: node.position.end.offset;
+}
