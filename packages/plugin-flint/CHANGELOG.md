@@ -1,5 +1,18 @@
 # @flint.fyi/plugin-flint
 
+## 0.2.2
+
+### Patch Changes
+
+- 602c75c: chore: rework packaging with tsdown
+- Updated dependencies [9a8ecc1]
+- Updated dependencies [f1a6f9e]
+- Updated dependencies [ff52cb1]
+- Updated dependencies [602c75c]
+  - @flint.fyi/utils@0.14.0
+  - @flint.fyi/ts@0.15.1
+  - @flint.fyi/core@0.18.1
+
 ## 0.2.1
 
 ### Patch Changes
