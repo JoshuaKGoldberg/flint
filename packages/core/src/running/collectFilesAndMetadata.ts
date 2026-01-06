@@ -68,14 +68,20 @@ export async function collectFilesAndMetadata(
 		Array.from(rulesOptionsByFile).map(([rule, optionsByFile]) => [
 			rule,
 			Array.from(optionsByFile)
-				.filter(([filePath]) => !cached?.has(filePath))
 				.map(([filePath, options]) => ({
+					metadata: languageFileMetadataByFilePath.get(filePath),
+					options,
+				}))
+				.filter(
+					(
+						i,
+					): i is typeof i & {
+						metadata: NonNullable<(typeof i)["metadata"]>;
+					} => i.metadata != null,
+				)
+				.map(({ metadata, options }) => ({
 					languageFiles: Array.from(
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						languageFileMetadataByFilePath
-							.get(filePath)!
-							.values()
-							.map((value) => value.fileMetadata.file),
+						metadata.values().map((value) => value.fileMetadata.file),
 					),
 					options,
 				})),
