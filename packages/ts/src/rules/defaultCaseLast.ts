@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -24,7 +24,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				SwitchStatement: (node) => {
+				SwitchStatement: (node, { sourceFile }) => {
 					const clauses = node.caseBlock.clauses;
 					const defaultClauseIndex = clauses.findIndex(
 						(clause) => clause.kind === ts.SyntaxKind.DefaultClause,
@@ -42,9 +42,8 @@ export default typescriptLanguage.createRule({
 					context.report({
 						message: "defaultCaseShouldBeLast",
 						range: {
-							begin: defaultClause.getStart(context.sourceFile),
-							end:
-								defaultClause.getStart(context.sourceFile) + "default".length,
+							begin: defaultClause.getStart(sourceFile),
+							end: defaultClause.getStart(sourceFile) + "default".length,
 						},
 					});
 				},

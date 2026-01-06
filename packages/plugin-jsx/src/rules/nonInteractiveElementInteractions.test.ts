@@ -1,5 +1,5 @@
-import rule from "./nonInteractiveElementInteractions.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./nonInteractiveElementInteractions.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [
@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 <h1 onClick={() => {}} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <h1 onClick={() => {}} />
  ~~
@@ -18,7 +17,6 @@ ruleTester.describe(rule, {
 			code: `
 <main onKeyDown={handler} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <main onKeyDown={handler} />
  ~~~~
@@ -29,7 +27,6 @@ ruleTester.describe(rule, {
 			code: `
 <p onMouseDown={() => {}} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <p onMouseDown={() => {}} />
  ~
@@ -40,7 +37,6 @@ ruleTester.describe(rule, {
 			code: `
 <img onClick={handler} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <img onClick={handler} />
  ~~~
@@ -51,7 +47,6 @@ ruleTester.describe(rule, {
 			code: `
 <li onClick={() => {}} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <li onClick={() => {}} />
  ~~
@@ -62,7 +57,6 @@ ruleTester.describe(rule, {
 			code: `
 <ul onKeyPress={handler} />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <ul onKeyPress={handler} />
  ~~
@@ -73,7 +67,6 @@ ruleTester.describe(rule, {
 			code: `
 <section onClick={handler} role="article" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <section onClick={handler} role="article" />
  ~~~~~~~
@@ -82,19 +75,18 @@ ruleTester.describe(rule, {
 		},
 	],
 	valid: [
-		{ code: `<h1 />`, fileName: "file.tsx" },
-		{ code: `<main />`, fileName: "file.tsx" },
-		{ code: `<p>Some text</p>`, fileName: "file.tsx" },
-		{ code: `<button onClick={() => {}} />`, fileName: "file.tsx" },
-		{ code: `<a onClick={() => {}} />`, fileName: "file.tsx" },
-		{ code: `<input onClick={() => {}} />`, fileName: "file.tsx" },
-		{ code: `<div onClick={() => {}} role="button" />`, fileName: "file.tsx" },
-		{ code: `<h1 onClick={() => {}} role="button" />`, fileName: "file.tsx" },
-		{ code: `<li onClick={() => {}} role="menuitem" />`, fileName: "file.tsx" },
+		{ code: `<h1 />` },
+		{ code: `<main />` },
+		{ code: `<p>Some text</p>` },
+		{ code: `<button onClick={() => {}} />` },
+		{ code: `<a onClick={() => {}} />` },
+		{ code: `<input onClick={() => {}} />` },
+		{ code: `<div onClick={() => {}} role="button" />` },
+		{ code: `<h1 onClick={() => {}} role="button" />` },
+		{ code: `<li onClick={() => {}} role="menuitem" />` },
 		{
 			code: `<span onClick={() => {}} role="checkbox" />`,
-			fileName: "file.tsx",
 		},
-		{ code: `<CustomElement onClick={() => {}} />`, fileName: "file.tsx" },
+		{ code: `<CustomElement onClick={() => {}} />` },
 	],
 });

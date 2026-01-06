@@ -21,7 +21,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxExpression(node) {
+				JsxExpression(node, { sourceFile }) {
 					if (
 						!node.expression ||
 						(!ts.isJsxElement(node.parent) && !ts.isJsxFragment(node.parent))
@@ -45,7 +45,7 @@ export default typescriptLanguage.createRule({
 						context.report({
 							data: { type: unnecessaryType },
 							message: "unnecessaryBraces",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: getTSNodeRange(node, sourceFile),
 						});
 					}
 				},

@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -63,7 +67,10 @@ export default typescriptLanguage.createRule({
 			});
 		}
 
-		function checkElement(node: ts.JsxElement | ts.JsxSelfClosingElement) {
+		function checkElement(
+			node: ts.JsxElement | ts.JsxSelfClosingElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			const tagName = ts.isJsxElement(node)
 				? node.openingElement.tagName
 				: node.tagName;
@@ -86,7 +93,7 @@ export default typescriptLanguage.createRule({
 
 			context.report({
 				message: "missingTitle",
-				range: getTSNodeRange(tagName, context.sourceFile),
+				range: getTSNodeRange(tagName, sourceFile),
 			});
 		}
 

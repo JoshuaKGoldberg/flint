@@ -24,7 +24,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
+				JsxOpeningElement(node: ts.JsxOpeningElement, { sourceFile }) {
 					if (
 						ts.isIdentifier(node.tagName) &&
 						node.tagName.text === "html" &&
@@ -37,7 +37,7 @@ export default typescriptLanguage.createRule({
 					) {
 						context.report({
 							message: "missingLang",
-							range: getTSNodeRange(node.tagName, context.sourceFile),
+							range: getTSNodeRange(node.tagName, sourceFile),
 						});
 					}
 				},

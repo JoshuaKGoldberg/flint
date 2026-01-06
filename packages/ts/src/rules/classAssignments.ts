@@ -1,5 +1,5 @@
-import { typescriptLanguage } from "../language.js";
-import { getModifyingReferences } from "../utils/getModifyingReferences.js";
+import { typescriptLanguage } from "../language.ts";
+import { getModifyingReferences } from "../utils/getModifyingReferences.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -23,22 +23,22 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				ClassDeclaration: (node) => {
+				ClassDeclaration: (node, { sourceFile, typeChecker }) => {
 					if (!node.name) {
 						return;
 					}
 
 					const modifyingReferences = getModifyingReferences(
 						node.name,
-						context.sourceFile,
-						context.typeChecker,
+						sourceFile,
+						typeChecker,
 					);
 
 					for (const reference of modifyingReferences) {
 						context.report({
 							message: "noClassAssign",
 							range: {
-								begin: reference.getStart(context.sourceFile),
+								begin: reference.getStart(sourceFile),
 								end: reference.getEnd(),
 							},
 						});

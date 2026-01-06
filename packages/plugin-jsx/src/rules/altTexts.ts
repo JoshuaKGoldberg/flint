@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const alternateProperties = new Set(["aria-label", "aria-labelledby", "title"]);
@@ -26,7 +30,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkNode(node: ts.JsxOpeningElement | ts.JsxSelfClosingElement) {
+		function checkNode(
+			node: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			const { attributes, tagName } = node;
 			if (!ts.isIdentifier(tagName)) {
 				return;
@@ -35,11 +42,11 @@ export default typescriptLanguage.createRule({
 			const elementName = tagName.text.toLowerCase();
 
 			if (elementName === "img" || elementName === "area") {
-				checkAltAttribute(attributes, tagName, elementName);
+				checkAltAttribute(attributes, tagName, elementName, sourceFile);
 			} else if (elementName === "input") {
-				checkInputElement(attributes, tagName);
+				checkInputElement(attributes, tagName, sourceFile);
 			} else if (elementName === "object") {
-				checkObjectAccessibility(attributes, tagName);
+				checkObjectAccessibility(attributes, tagName, sourceFile);
 			}
 		}
 
@@ -47,6 +54,7 @@ export default typescriptLanguage.createRule({
 			attributes: ts.JsxAttributes,
 			tagName: ts.JsxTagNameExpression,
 			elementName: string,
+			sourceFile: ts.SourceFile,
 		) {
 			const properties = attributes.properties.find(
 				(attr) =>
@@ -72,7 +80,7 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { element: elementName },
 					message: "missingAlt",
-					range: getTSNodeRange(tagName, context.sourceFile),
+					range: getTSNodeRange(tagName, sourceFile),
 				});
 				return;
 			}
@@ -82,7 +90,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						data: { element: elementName },
 						message: "missingAlt",
-						range: getTSNodeRange(tagName, context.sourceFile),
+						range: getTSNodeRange(tagName, sourceFile),
 					});
 				} else if (ts.isJsxExpression(properties.initializer)) {
 					const { expression } = properties.initializer;
@@ -94,7 +102,7 @@ export default typescriptLanguage.createRule({
 						context.report({
 							data: { element: elementName },
 							message: "missingAlt",
-							range: getTSNodeRange(tagName, context.sourceFile),
+							range: getTSNodeRange(tagName, sourceFile),
 						});
 					}
 				}
@@ -104,6 +112,7 @@ export default typescriptLanguage.createRule({
 		function checkInputElement(
 			attributes: ts.JsxAttributes,
 			tagName: ts.JsxTagNameExpression,
+			sourceFile: ts.SourceFile,
 		) {
 			const typeAttribute = attributes.properties.find(
 				(properties) =>
@@ -118,7 +127,12 @@ export default typescriptLanguage.createRule({
 					ts.isStringLiteral(typeAttribute.initializer) &&
 					typeAttribute.initializer.text === "image"
 				) {
-					checkAltAttribute(attributes, tagName, "input[type='image']");
+					checkAltAttribute(
+						attributes,
+						tagName,
+						"input[type='image']",
+						sourceFile,
+					);
 				}
 			}
 		}
@@ -126,6 +140,7 @@ export default typescriptLanguage.createRule({
 		function checkObjectAccessibility(
 			attributes: ts.JsxAttributes,
 			tagName: ts.JsxTagNameExpression,
+			sourceFile: ts.SourceFile,
 		) {
 			if (
 				!attributes.properties.some(
@@ -139,7 +154,7 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { element: "object" },
 					message: "missingAlt",
-					range: getTSNodeRange(tagName, context.sourceFile),
+					range: getTSNodeRange(tagName, sourceFile),
 				});
 			}
 		}

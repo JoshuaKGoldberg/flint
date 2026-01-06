@@ -68,7 +68,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxElement(node: ts.JsxElement) {
+				JsxElement(node, { sourceFile }) {
 					const openingElement = node.openingElement;
 					if (
 						ts.isIdentifier(openingElement.tagName) &&
@@ -78,11 +78,11 @@ export default typescriptLanguage.createRule({
 					) {
 						context.report({
 							message: "missingContent",
-							range: getTSNodeRange(openingElement, context.sourceFile),
+							range: getTSNodeRange(openingElement, sourceFile),
 						});
 					}
 				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
+				JsxSelfClosingElement(node, { sourceFile }) {
 					if (
 						ts.isIdentifier(node.tagName) &&
 						node.tagName.text === "a" &&
@@ -90,7 +90,7 @@ export default typescriptLanguage.createRule({
 					) {
 						context.report({
 							message: "missingContent",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: getTSNodeRange(node, sourceFile),
 						});
 					}
 				},

@@ -1,14 +1,14 @@
-import { FilesValues } from "../types/files.js";
-import { Plugin, PluginPresets } from "../types/plugins.js";
-import { Rule, RuleAbout } from "../types/rules.js";
+import type { FilesValues } from "../types/files.ts";
+import type { Plugin, PluginPresets } from "../types/plugins.ts";
+import type { Rule, RuleAbout } from "../types/rules.ts";
 
 export type CreatePluginOptions<
 	About extends RuleAbout,
 	FilesKey extends string | undefined,
 	Rules extends UnsafeAnyRule<About>[],
-> = FilesKey extends string
-	? CreatePluginOptionsWithFiles<About, FilesKey, Rules>
-	: CreatePluginOptionsWithoutFiles<About, Rules>;
+> = FilesKey extends undefined
+	? CreatePluginOptionsWithoutFiles<About, Rules>
+	: CreatePluginOptionsWithFiles<About, FilesKey & string, Rules>;
 
 export interface CreatePluginOptionsWithFiles<
 	About extends RuleAbout,
