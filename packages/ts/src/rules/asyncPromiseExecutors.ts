@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
-import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
+import { typescriptLanguage } from "../language.ts";
+import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -27,9 +27,9 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				NewExpression: (node) => {
+				NewExpression: (node, { sourceFile, typeChecker }) => {
 					if (
-						!isGlobalDeclaration(node.expression, context.typeChecker) ||
+						!isGlobalDeclaration(node.expression, typeChecker) ||
 						!node.arguments?.length
 					) {
 						return;
@@ -50,7 +50,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						message: "asyncPromiseExecutor",
 						range: {
-							begin: asyncModifier.getStart(context.sourceFile),
+							begin: asyncModifier.getStart(sourceFile),
 							end: asyncModifier.getEnd(),
 						},
 					});

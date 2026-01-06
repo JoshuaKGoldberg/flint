@@ -1,9 +1,9 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
-import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
+import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -25,7 +25,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkForAssignment(node: ts.Expression): void {
+		function checkForAssignment(
+			node: ts.Expression,
+			sourceFile: ts.SourceFile,
+		): void {
 			const unwrapped = unwrapParenthesizedExpression(node);
 
 			if (
@@ -34,21 +37,21 @@ export default typescriptLanguage.createRule({
 			) {
 				context.report({
 					message: "noReturnAssign",
-					range: getTSNodeRange(unwrapped.operatorToken, context.sourceFile),
+					range: getTSNodeRange(unwrapped.operatorToken, sourceFile),
 				});
 			}
 		}
 
 		return {
 			visitors: {
-				ArrowFunction: (node) => {
+				ArrowFunction: (node, { sourceFile }) => {
 					if (!ts.isBlock(node.body)) {
-						checkForAssignment(node.body);
+						checkForAssignment(node.body, sourceFile);
 					}
 				},
-				ReturnStatement: (node) => {
+				ReturnStatement: (node, { sourceFile }) => {
 					if (node.expression) {
-						checkForAssignment(node.expression);
+						checkForAssignment(node.expression, sourceFile);
 					}
 				},
 			},

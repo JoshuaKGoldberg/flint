@@ -1,7 +1,7 @@
-import { Link } from "mdast";
+import type { Link } from "mdast";
 
-import { markdownLanguage } from "../language.js";
-import { WithPosition } from "../nodes.js";
+import { markdownLanguage } from "../language.ts";
+import type { WithPosition } from "../nodes.ts";
 
 const urlTester = /(?:https?:\/\/|mailto:)\S+|[\w.+-]+@[\w.-]+\.\w+/gi;
 
@@ -28,7 +28,7 @@ export default markdownLanguage.createRule({
 	setup(context) {
 		// TODO: Add parent nodes to AST?
 		// That way this will be compatible with createOnce-style API in:
-		// https://github.com/JoshuaKGoldberg/flint/issues/356
+		// https://github.com/flint-fyi/flint/issues/356
 		const textInValidLinks = new Set<number>();
 
 		function report(begin: number, end: number, urlText: string) {

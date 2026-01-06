@@ -1,8 +1,11 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import {
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -27,6 +30,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function getLexicalDeclaration(
 			statements: ts.NodeArray<ts.Statement>,
+			sourceFile: ts.SourceFile,
 		): ts.Node | undefined {
 			for (const statement of statements) {
 				if (
@@ -36,26 +40,32 @@ export default typescriptLanguage.createRule({
 						ts.NodeFlags.Let | ts.NodeFlags.Const,
 					)
 				) {
-					return statement.declarationList.getChildAt(0, context.sourceFile);
+					return statement.declarationList.getChildAt(0, sourceFile);
 				}
 
 				if (
 					ts.isClassDeclaration(statement) ||
 					ts.isFunctionDeclaration(statement)
 				) {
-					return statement.getChildAt(0, context.sourceFile);
+					return statement.getChildAt(0, sourceFile);
 				}
 			}
 
 			return undefined;
 		}
 
-		function checkClause(node: ts.CaseClause | ts.DefaultClause): void {
-			const declarationNode = getLexicalDeclaration(node.statements);
+		function checkClause(
+			node: ts.CaseClause | ts.DefaultClause,
+			{ sourceFile }: TypeScriptFileServices,
+		): void {
+			const declarationNode = getLexicalDeclaration(
+				node.statements,
+				sourceFile,
+			);
 			if (declarationNode) {
 				context.report({
 					message: "unexpectedLexicalDeclaration",
-					range: getTSNodeRange(declarationNode, context.sourceFile),
+					range: getTSNodeRange(declarationNode, sourceFile),
 				});
 			}
 		}

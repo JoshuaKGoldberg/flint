@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const headingElements = new Set(["h1", "h2", "h3", "h4", "h5", "h6"]);
@@ -24,7 +28,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkHeading(node: ts.JsxElement | ts.JsxSelfClosingElement) {
+		function checkHeading(
+			node: ts.JsxElement | ts.JsxSelfClosingElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			const tagName = ts.isJsxElement(node)
 				? node.openingElement.tagName
 				: node.tagName;
@@ -74,7 +81,7 @@ export default typescriptLanguage.createRule({
 
 			context.report({
 				message: "emptyHeading",
-				range: getTSNodeRange(tagName, context.sourceFile),
+				range: getTSNodeRange(tagName, sourceFile),
 			});
 		}
 

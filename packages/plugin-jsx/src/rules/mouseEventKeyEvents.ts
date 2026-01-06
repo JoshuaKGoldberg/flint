@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const mouseNamesToKeyboardNames = new Map([
@@ -30,6 +34,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkMouseEvents(
 			node: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+			{ sourceFile }: TypeScriptFileServices,
 		) {
 			const { attributes } = node;
 			const presentAttributes = new Set<string>();
@@ -52,7 +57,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						data: { keyEvent, mouseEvent },
 						message: "missingKeyEvent",
-						range: getTSNodeRange(property.name, context.sourceFile),
+						range: getTSNodeRange(property.name, sourceFile),
 					});
 				}
 			}
