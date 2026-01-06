@@ -87,10 +87,8 @@ export default yamlLanguage.createRule({
 		return {
 			visitors: {
 				flowMapping: (node, services) => {
-					const canFix = canConvertToBlock(node);
-
 					context.report({
-						fix: canFix
+						fix: canConvertToBlock(node)
 							? {
 									range: {
 										begin: node.position.start.offset,

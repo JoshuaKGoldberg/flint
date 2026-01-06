@@ -8,7 +8,7 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="yml" rule="blockMappings" />
+<RuleSummary plugin="yaml" rule="blockMappings" />
 
 Flow-style mappings (e.g., `{key: value}`) can be harder to read and maintain, especially with nested structures.
 Block-style mappings use indentation to show structure, making the YAML more readable and consistent with common YAML conventions.
@@ -18,23 +18,23 @@ Block-style mappings use indentation to show structure, making the YAML more rea
 <Tabs>
 <TabItem label="❌ Incorrect">
 
-```yml
+```yaml
 key: { nested: value }
 ```
 
-```yml
+```yaml
 outer: { inner: value, another: data }
 ```
 
 </TabItem>
 <TabItem label="✅ Correct">
 
-```yml
+```yaml
 key:
   nested: value
 ```
 
-```yml
+```yaml
 outer:
   inner: value
   another: data
@@ -47,6 +47,11 @@ outer:
 
 This rule is not configurable.
 
+## When Not To Use It
+
+If you're working with a large existing YAML codebase that predominantly uses flow-style mappings and refactoring would be too disruptive, you might choose to disable this rule.
+However, block-style mappings are generally more readable and maintainable, especially as configurations grow in complexity.
+
 ## Further Reading
 
 - [YAML Specification: Flow Mappings](https://yaml.org/spec/1.2.2/#flow-mappings)
@@ -54,4 +59,4 @@ This rule is not configurable.
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="yml" ruleId="blockMappings" />
+<RuleEquivalents pluginId="yaml" ruleId="blockMappings" />
