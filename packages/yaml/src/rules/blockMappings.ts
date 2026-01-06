@@ -5,7 +5,7 @@ import { yamlLanguage } from "../language.ts";
 /**
  * Calculate the expected indentation for a flow mapping's pairs when converted to block style.
  */
-function calculateIndent(node: yaml.FlowMapping, sourceText: string): string {
+function calculateIndent(node: yaml.FlowMapping, sourceText: string) {
 	const lineStart =
 		sourceText.lastIndexOf("\n", node.position.start.offset) + 1;
 	const beforeNode = sourceText.substring(
@@ -21,7 +21,7 @@ function calculateIndent(node: yaml.FlowMapping, sourceText: string): string {
 function getNodeText(
 	node: yaml.MappingKey | yaml.MappingValue,
 	sourceText: string,
-): string {
+) {
 	return sourceText.substring(
 		node.children[0]?.position.start.offset ?? node.position.start.offset,
 		node.children[0]?.position.end.offset ?? node.position.end.offset,
@@ -31,7 +31,7 @@ function getNodeText(
 /**
  * Check if a flow mapping can be safely converted to block style.
  */
-function canConvertToBlock(node: yaml.FlowMapping): boolean {
+function canConvertToBlock(node: yaml.FlowMapping) {
 	for (const child of node.children) {
 		const keyNode = child.children[0];
 		const valueNode = child.children[1];
@@ -46,14 +46,12 @@ function canConvertToBlock(node: yaml.FlowMapping): boolean {
 /**
  * Convert a flow mapping to block style.
  */
-function convertToBlock(node: yaml.FlowMapping, sourceText: string): string {
+function convertToBlock(node: yaml.FlowMapping, sourceText: string) {
 	const indent = calculateIndent(node, sourceText);
 	const pairs: string[] = [];
 
 	for (const child of node.children) {
-		const keyNode = child.children[0];
-		const valueNode = child.children[1];
-
+		const [keyNode, valueNode] = child.children;
 		const keyText = getNodeText(keyNode, sourceText);
 		const valueChild = valueNode.children[0];
 
@@ -90,7 +88,7 @@ export default yamlLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				flowMapping: (node, services) => {
+				flowMapping: (node, { sourceText }) => {
 					context.report({
 						fix: canConvertToBlock(node)
 							? {
@@ -98,7 +96,7 @@ export default yamlLanguage.createRule({
 										begin: node.position.start.offset,
 										end: node.position.end.offset,
 									},
-									text: convertToBlock(node, services.sourceText),
+									text: convertToBlock(node, sourceText),
 								}
 							: undefined,
 						message: "preferBlock",
