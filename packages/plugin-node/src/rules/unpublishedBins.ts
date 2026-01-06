@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/restrict-plus-operands */
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
-import fs from "node:fs";
-import path from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, join, relative, resolve } from "node:path";
 import * as ts from "typescript";
 
 interface PackageJson {
@@ -9,7 +10,7 @@ interface PackageJson {
 }
 
 function checkIgnoreFile(relativePath: string, ignorePath: string): boolean {
-	const content = fs.readFileSync(ignorePath, "utf8");
+	const content = readFileSync(ignorePath, "utf8");
 	const lines = content.split("\n");
 	const normalizedPath = relativePath.replace(/\\/g, "/");
 
@@ -52,12 +53,12 @@ function findPackageJson(startPath: string): string | undefined {
 	let currentPath = startPath;
 
 	while (true) {
-		const packageJsonPath = path.join(currentPath, "package.json");
-		if (fs.existsSync(packageJsonPath)) {
+		const packageJsonPath: string = join(currentPath, "package.json");
+		if (existsSync(packageJsonPath)) {
 			return packageJsonPath;
 		}
 
-		const parentPath = path.dirname(currentPath);
+		const parentPath: string = dirname(currentPath);
 		if (parentPath === currentPath) {
 			return undefined;
 		}
@@ -75,11 +76,11 @@ function isBinFile(
 	}
 
 	if (typeof bin === "string") {
-		return path.resolve(basedir, bin) === filePath;
+		return resolve(basedir, bin) === filePath;
 	}
 
 	return Object.values(bin).some(
-		(binPath) => path.resolve(basedir, binPath) === filePath,
+		(binPath) => resolve(basedir, binPath) === filePath,
 	);
 }
 
@@ -112,10 +113,10 @@ function isIgnoredByFiles(
 }
 
 function isIgnoredByNpmignore(relativePath: string, basedir: string): boolean {
-	const npmignorePath = path.join(basedir, ".npmignore");
-	if (!fs.existsSync(npmignorePath)) {
-		const gitignorePath = path.join(basedir, ".gitignore");
-		if (!fs.existsSync(gitignorePath)) {
+	const npmignorePath = join(basedir, ".npmignore");
+	if (!existsSync(npmignorePath)) {
+		const gitignorePath = join(basedir, ".gitignore");
+		if (!existsSync(gitignorePath)) {
 			return false;
 		}
 		return checkIgnoreFile(relativePath, gitignorePath);
@@ -147,28 +148,26 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				SourceFile(node: ts.SourceFile) {
+				SourceFile(node: ts.SourceFile, { sourceFile }) {
 					const rawFilePath = node.fileName;
 					if (rawFilePath === "<input>") {
 						return;
 					}
 
-					const filePath = path.resolve(rawFilePath);
+					const filePath = resolve(rawFilePath);
 
-					const packageJsonPath = findPackageJson(path.dirname(filePath));
+					const packageJsonPath = findPackageJson(dirname(filePath));
 					if (!packageJsonPath) {
 						return;
 					}
 
-					const basedir = path.dirname(packageJsonPath);
-					const relativePath = path
-						.relative(basedir, filePath)
-						.replace(/\\/g, "/");
+					const basedir = dirname(packageJsonPath);
+					const relativePath = relative(basedir, filePath).replace(/\\/g, "/");
 
 					let packageJson: PackageJson;
 					try {
 						packageJson = JSON.parse(
-							fs.readFileSync(packageJsonPath, "utf8"),
+							readFileSync(packageJsonPath, "utf8"),
 						) as PackageJson;
 					} catch {
 						return;
@@ -193,7 +192,7 @@ export default typescriptLanguage.createRule({
 								name: relativePath,
 							},
 							message: "unpublishedBin",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: getTSNodeRange(node, sourceFile),
 						});
 					}
 				},
@@ -201,3 +200,4 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+/* eslint-enable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/restrict-plus-operands */

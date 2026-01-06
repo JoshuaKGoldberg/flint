@@ -1,9 +1,10 @@
-import path from "node:path";
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { join, resolve } from "node:path";
 
-import { ruleTester } from "./ruleTester.js";
-import rule from "./unpublishedBins.js";
+import { ruleTester } from "./ruleTester.ts";
+import rule from "./unpublishedBins.ts";
 
-const fixturesPath = path.resolve(import.meta.dirname, "../../../fixtures");
+const fixturesPath = resolve(import.meta.dirname, "../../../fixtures");
 
 ruleTester.describe(rule, {
 	invalid: [
@@ -12,7 +13,7 @@ ruleTester.describe(rule, {
 #!/usr/bin/env node
 console.log("Hello from CLI");
 `,
-			fileName: path.join(fixturesPath, "unpublished-bin-ignored/bin/cli.ts"),
+			fileName: join(fixturesPath, "unpublished-bin-ignored/bin/cli.ts"),
 			snapshot: `
 #!/usr/bin/env node
 ~~~~~~~~~~~~~~~~~~~
@@ -27,7 +28,7 @@ console.log("Hello from CLI");
 #!/usr/bin/env node
 console.log("CLI tool");
 `,
-			fileName: path.join(fixturesPath, "unpublished-bin-npmignore/bin/cli.ts"),
+			fileName: join(fixturesPath, "unpublished-bin-npmignore/bin/cli.ts"),
 			snapshot: `
 #!/usr/bin/env node
 ~~~~~~~~~~~~~~~~~~~
@@ -43,14 +44,12 @@ console.log("CLI tool");
 			code: `#!/usr/bin/env node
 console.log("Hello from CLI");
 `,
-			fileName: path.join(fixturesPath, "unpublished-bin-included/bin/cli.ts"),
+			fileName: join(fixturesPath, "unpublished-bin-included/bin/cli.ts"),
 		},
 		{
 			code: `console.log("regular file");`,
-			fileName: path.join(
-				fixturesPath,
-				"unpublished-bin-included/lib/index.ts",
-			),
+			fileName: join(fixturesPath, "unpublished-bin-included/lib/index.ts"),
 		},
 	],
 });
+/* eslint-enable @typescript-eslint/no-unsafe-call */
