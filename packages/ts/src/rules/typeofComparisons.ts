@@ -15,6 +15,7 @@ const validTypeofValues = new Set([
 ]);
 
 // TODO: Reuse a shared getStaticValue-style utility?
+// https://github.com/flint-fyi/flint/issues/1298
 function getStringValue(node: ts.Expression) {
 	return ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)
 		? node.text

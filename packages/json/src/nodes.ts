@@ -2,6 +2,7 @@ import type * as ts from "typescript";
 
 // TODO: This copies the @flint/ts TypeScriptNodesByName.
 // It should be trimmed down to just the JSON nodes.
+// https://github.com/flint-fyi/flint/issues/1294
 
 // TODO: Surely there's a better way to do this...
 // ...but I haven't checked how to do it without slow type operations.

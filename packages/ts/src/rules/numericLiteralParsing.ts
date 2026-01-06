@@ -36,6 +36,7 @@ function getRadixValue(node: ts.Expression): number | undefined {
 }
 
 // TODO: Use a util like getStaticValue
+// https://github.com/flint-fyi/flint/issues/1298
 function getStringValue(node: ts.Expression): string | undefined {
 	return ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)
 		? node.text
