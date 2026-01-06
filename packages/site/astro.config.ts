@@ -105,7 +105,7 @@ export default defineConfig({
 			],
 			social: [
 				{
-					href: "https://discord.gg/cFK3RAUDhy",
+					href: "https://flint.fyi/discord",
 					icon: "discord",
 					label: "Discord",
 				},
@@ -124,6 +124,9 @@ export default defineConfig({
 	],
 	markdown: {
 		remarkPlugins: [remarkHeadingId],
+	},
+	redirects: {
+		"/discord": "https://discord.gg/cFK3RAUDhy",
 	},
 	site: "https://flint.fyi",
 	vite: {
