@@ -18,13 +18,24 @@ function calculateIndent(node: yaml.FlowMapping, sourceText: string): string {
 	return leadingWhitespace + "  ";
 }
 
+function getNodeText(
+	node: yaml.MappingKey | yaml.MappingValue,
+	sourceText: string,
+): string {
+	return sourceText.substring(
+		node.children[0]?.position.start.offset ?? node.position.start.offset,
+		node.children[0]?.position.end.offset ?? node.position.end.offset,
+	);
+}
+
 /**
  * Check if a flow mapping can be safely converted to block style.
  */
 function canConvertToBlock(node: yaml.FlowMapping): boolean {
 	for (const child of node.children) {
-		const [key, value] = child.children;
-		if (key.children.length === 0 || value.children.length === 0) {
+		const keyNode = child.children[0];
+		const valueNode = child.children[1];
+		if (keyNode.children.length === 0 || valueNode.children.length === 0) {
 			return false;
 		}
 	}
@@ -40,15 +51,12 @@ function convertToBlock(node: yaml.FlowMapping, sourceText: string): string {
 	const pairs: string[] = [];
 
 	for (const child of node.children) {
-		const [keyNode, valueNode] = child.children;
+		const keyNode = child.children[0];
+		const valueNode = child.children[1];
 
-		const keyText = sourceText.substring(
-			keyNode.children[0]?.position.start.offset ??
-				keyNode.position.start.offset,
-			keyNode.children[0]?.position.end.offset ?? keyNode.position.end.offset,
-		);
-
+		const keyText = getNodeText(keyNode, sourceText);
 		const valueChild = valueNode.children[0];
+
 		if (valueChild) {
 			const valueText = sourceText.substring(
 				valueChild.position.start.offset,
