@@ -1,5 +1,5 @@
 import { typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import type * as ts from "typescript";
 
 const problematicEntities = [
 	{ entity: '"', toBrace: '{"\\""}', toHTML: "&quot;" },
@@ -31,8 +31,8 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxText(node: ts.JsxText) {
-					const nodeStart = node.getStart(context.sourceFile);
+				JsxText(node: ts.JsxText, { sourceFile }) {
+					const nodeStart = node.getStart(sourceFile);
 					const reports: {
 						begin: number;
 						data: { brace: string; entity: string; html: string };

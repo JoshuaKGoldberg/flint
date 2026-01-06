@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -20,7 +24,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkElement(node: ts.JsxOpeningLikeElement) {
+		function checkElement(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			for (const property of node.attributes.properties) {
 				if (
 					ts.isJsxAttribute(property) &&
@@ -32,7 +39,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						data: { name: property.name.text },
 						message: "preferShorthand",
-						range: getTSNodeRange(property, context.sourceFile),
+						range: getTSNodeRange(property, sourceFile),
 					});
 				}
 			}

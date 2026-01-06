@@ -1,10 +1,10 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
-import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.js";
-import { unwrapParenthesizedExpressionsParent } from "../utils/unwrapParentParenthesizedExpressions.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
+import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.ts";
+import { unwrapParenthesizedExpressionsParent } from "../utils/unwrapParentParenthesizedExpressions.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -29,13 +29,16 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, { sourceFile }) => {
 					if (!tsutils.isAssignmentKind(node.operatorToken.kind)) {
 						return;
 					}
 
 					const rightSide = unwrapParenthesizedExpression(node.right);
-					if (!ts.isBinaryExpression(rightSide)) {
+					if (
+						!ts.isBinaryExpression(rightSide) ||
+						!tsutils.isAssignmentKind(rightSide.operatorToken.kind)
+					) {
 						return;
 					}
 
@@ -46,7 +49,7 @@ export default typescriptLanguage.createRule({
 
 					context.report({
 						message: "noChainedAssignment",
-						range: getTSNodeRange(node.operatorToken, context.sourceFile),
+						range: getTSNodeRange(node.operatorToken, sourceFile),
 					});
 				},
 			},

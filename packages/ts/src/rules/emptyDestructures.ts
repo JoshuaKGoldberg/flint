@@ -1,6 +1,9 @@
-import * as ts from "typescript";
+import type * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import {
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -26,12 +29,13 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkBindingPattern(
 			node: ts.ArrayBindingPattern | ts.ObjectBindingPattern,
+			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (node.elements.length === 0) {
 				context.report({
 					message: "emptyPattern",
 					range: {
-						begin: node.getStart(context.sourceFile),
+						begin: node.getStart(sourceFile),
 						end: node.getEnd(),
 					},
 				});

@@ -1,5 +1,5 @@
-import rule from "./importedNamespaceDynamicAccesses.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./importedNamespaceDynamicAccesses.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

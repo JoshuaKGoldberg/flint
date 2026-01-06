@@ -51,22 +51,18 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, { sourceFile, typeChecker }) => {
 					if (
 						node.operatorToken.kind == ts.SyntaxKind.EqualsToken &&
 						ts.isIdentifier(node.left) &&
 						node.left.text === "exports" &&
-						!isLocalExportsVariable(
-							node.left,
-							context.sourceFile,
-							context.typeChecker,
-						) &&
+						!isLocalExportsVariable(node.left, sourceFile, typeChecker) &&
 						!isModuleExportsAccessAssignment(node.right) &&
 						!isModuleExportsAccessAssignment(node.parent)
 					) {
 						context.report({
 							message: "noExportsAssign",
-							range: getTSNodeRange(node.left, context.sourceFile),
+							range: getTSNodeRange(node.left, sourceFile),
 						});
 					}
 				},

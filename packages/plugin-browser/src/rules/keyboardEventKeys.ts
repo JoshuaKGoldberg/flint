@@ -26,15 +26,21 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function isKeyboardEvent(expression: ts.LeftHandSideExpression) {
+		function isKeyboardEvent(
+			expression: ts.LeftHandSideExpression,
+			typeChecker: ts.TypeChecker,
+		) {
 			return (
-				context.typeChecker.getTypeAtLocation(expression).getSymbol()?.name ===
+				typeChecker.getTypeAtLocation(expression).getSymbol()?.name ===
 				"KeyboardEvent"
 			);
 		}
 
-		function isKeyboardEventProperty(name: ts.Identifier) {
-			const declarations = getDeclarationsIfGlobal(name, context.typeChecker);
+		function isKeyboardEventProperty(
+			name: ts.Identifier,
+			typeChecker: ts.TypeChecker,
+		) {
+			const declarations = getDeclarationsIfGlobal(name, typeChecker);
 			if (!declarations) {
 				return;
 			}
@@ -48,17 +54,20 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
+				PropertyAccessExpression(
+					node: ts.PropertyAccessExpression,
+					{ sourceFile, typeChecker },
+				) {
 					if (
 						ts.isIdentifier(node.name) &&
 						deprecatedProperties.has(node.name.text) &&
-						isKeyboardEvent(node.expression) &&
-						isKeyboardEventProperty(node.name)
+						isKeyboardEvent(node.expression, typeChecker) &&
+						isKeyboardEventProperty(node.name, typeChecker)
 					) {
 						context.report({
 							data: { property: node.name.text },
 							message: "preferKey",
-							range: getTSNodeRange(node.name, context.sourceFile),
+							range: getTSNodeRange(node.name, sourceFile),
 						});
 					}
 				},

@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const controlElements = new Set([
@@ -90,7 +94,10 @@ export default typescriptLanguage.createRule({
 			});
 		}
 
-		function checkLabel(node: ts.JsxElement | ts.JsxSelfClosingElement) {
+		function checkLabel(
+			node: ts.JsxElement | ts.JsxSelfClosingElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			if (ts.isJsxElement(node) && hasNestedControl(node.children)) {
 				return;
 			}
@@ -113,7 +120,7 @@ export default typescriptLanguage.createRule({
 
 			context.report({
 				message: "missingAssociatedControl",
-				range: getTSNodeRange(tagName, context.sourceFile),
+				range: getTSNodeRange(tagName, sourceFile),
 			});
 		}
 

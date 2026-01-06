@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -78,7 +82,10 @@ export default typescriptLanguage.createRule({
 			return href === "#" || href.startsWith("javascript:");
 		}
 
-		function checkAnchor(node: ts.JsxOpeningLikeElement) {
+		function checkAnchor(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			if (!ts.isIdentifier(node.tagName) || node.tagName.text !== "a") {
 				return;
 			}
@@ -89,7 +96,7 @@ export default typescriptLanguage.createRule({
 			if (href === undefined) {
 				context.report({
 					message: hasClick ? "shouldBeButton" : "missingHref",
-					range: getTSNodeRange(node, context.sourceFile),
+					range: getTSNodeRange(node, sourceFile),
 				});
 				return;
 			}
@@ -98,7 +105,7 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { href },
 					message: hasClick ? "shouldBeButton" : "invalidHref",
-					range: getTSNodeRange(node, context.sourceFile),
+					range: getTSNodeRange(node, sourceFile),
 				});
 			}
 		}

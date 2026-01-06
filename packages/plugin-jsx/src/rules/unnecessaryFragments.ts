@@ -1,4 +1,4 @@
-import { CharacterReportRange } from "@flint.fyi/core";
+import type { CharacterReportRange } from "@flint.fyi/core";
 import { typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -50,21 +50,21 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxElement(node) {
+				JsxElement(node, { sourceFile }) {
 					if (
 						ts.isIdentifier(node.openingElement.tagName) &&
 						!node.openingElement.attributes.properties.length &&
 						node.openingElement.tagName.text === "Fragment"
 					) {
 						checkNodeChildren(node, {
-							begin: node.openingElement.getStart(context.sourceFile),
+							begin: node.openingElement.getStart(sourceFile),
 							end: node.closingElement.getEnd(),
 						});
 					}
 				},
-				JsxFragment(node: ts.JsxFragment) {
+				JsxFragment(node: ts.JsxFragment, { sourceFile }) {
 					checkNodeChildren(node, {
-						begin: node.openingFragment.getStart(context.sourceFile),
+						begin: node.openingFragment.getStart(sourceFile),
 						end: node.closingFragment.getEnd(),
 					});
 				},

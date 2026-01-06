@@ -99,7 +99,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression(node) {
+				CallExpression(node, { sourceFile }) {
 					const nameNode = getPropertyNameNode(node.expression);
 					if (nameNode === undefined) {
 						return;
@@ -112,7 +112,7 @@ export default typescriptLanguage.createRule({
 
 					context.report({
 						message: modernMethod,
-						range: getTSNodeRange(nameNode, context.sourceFile),
+						range: getTSNodeRange(nameNode, sourceFile),
 					});
 				},
 			},

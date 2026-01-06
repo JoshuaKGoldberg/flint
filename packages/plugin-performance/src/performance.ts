@@ -1,13 +1,13 @@
 import { createPlugin } from "@flint.fyi/core";
 
-import deletes from "./rules/deletes.js";
-import importedNamespaceDynamicAccesses from "./rules/importedNamespaceDynamicAccesses.js";
-import loopAwaits from "./rules/loopAwaits.js";
-import loopFunctions from "./rules/loopFunctions.js";
-import spreadAccumulators from "./rules/spreadAccumulators.js";
+import deletes from "./rules/deletes.ts";
+import importedNamespaceDynamicAccesses from "./rules/importedNamespaceDynamicAccesses.ts";
+import loopAwaits from "./rules/loopAwaits.ts";
+import loopFunctions from "./rules/loopFunctions.ts";
+import spreadAccumulators from "./rules/spreadAccumulators.ts";
 
 export const performance = createPlugin({
-	name: "performance",
+	name: "Performance",
 	rules: [
 		deletes,
 		importedNamespaceDynamicAccesses,

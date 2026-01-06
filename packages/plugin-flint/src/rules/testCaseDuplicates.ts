@@ -1,8 +1,8 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import type * as ts from "typescript";
 
-import type { ParsedTestCase } from "../types.js";
-
-import { getRuleTesterDescribedCases } from "../getRuleTesterDescribedCases.js";
+import { getRuleTesterDescribedCases } from "../getRuleTesterDescribedCases.ts";
+import type { ParsedTestCase } from "../types.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -25,7 +25,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkTestCases(testCases: ParsedTestCase[]) {
+		function checkTestCases(
+			testCases: ParsedTestCase[],
+			sourceFile: ts.SourceFile,
+		) {
 			const seen = new Set<string>();
 
 			for (const testCase of testCases) {
@@ -38,7 +41,7 @@ export default typescriptLanguage.createRule({
 				if (seen.has(key)) {
 					context.report({
 						message: "duplicateTest",
-						range: getTSNodeRange(testCase.nodes.case, context.sourceFile),
+						range: getTSNodeRange(testCase.nodes.case, sourceFile),
 					});
 				} else {
 					seen.add(key);
@@ -48,14 +51,14 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression(node) {
+				CallExpression(node, { sourceFile }) {
 					const describedCases = getRuleTesterDescribedCases(node);
 					if (!describedCases) {
 						return;
 					}
 
-					checkTestCases(describedCases.invalid);
-					checkTestCases(describedCases.valid);
+					checkTestCases(describedCases.invalid, sourceFile);
+					checkTestCases(describedCases.valid, sourceFile);
 				},
 			},
 		};
