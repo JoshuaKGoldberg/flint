@@ -6,7 +6,7 @@ export function getTSNodeRange(
 	sourceFile: ts.SourceFile,
 ): CharacterReportRange {
 	return {
-		begin: node.getStart(sourceFile),
+		begin: node.getStart(sourceFile as unknown as ts.SourceFile),
 		end: node.getEnd(),
 	};
 }

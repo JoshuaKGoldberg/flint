@@ -1,4 +1,5 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -112,7 +113,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkNode(
-			node: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			const { attributes, tagName } = node;
@@ -162,7 +163,7 @@ export default typescriptLanguage.createRule({
 });
 
 // TODO: Use a util like getStaticValue
-function getStringLiteralValue(node: ts.Expression): string | undefined {
+function getStringLiteralValue(node: AST.Expression): string | undefined {
 	if (ts.isStringLiteral(node)) {
 		return node.text;
 	}

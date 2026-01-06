@@ -1,9 +1,11 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -26,7 +28,7 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function hasValidAriaLabel(attributes: ts.JsxAttributes): boolean {
+		function hasValidAriaLabel(attributes: AST.JsxAttributes): boolean {
 			return attributes.properties.some((property) => {
 				if (
 					!ts.isJsxAttribute(property) ||
@@ -68,26 +70,31 @@ export default typescriptLanguage.createRule({
 		}
 
 		function checkElement(
-			node: ts.JsxElement | ts.JsxSelfClosingElement,
+			node: AST.JsxElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
-			const tagName = ts.isJsxElement(node)
-				? node.openingElement.tagName
-				: node.tagName;
+			const tagName =
+				node.kind == SyntaxKind.JsxElement
+					? node.openingElement.tagName
+					: node.tagName;
 
 			if (!ts.isIdentifier(tagName) || tagName.text.toLowerCase() !== "svg") {
 				return;
 			}
 
-			const attributes = ts.isJsxElement(node)
-				? node.openingElement.attributes
-				: node.attributes;
+			const attributes =
+				node.kind == SyntaxKind.JsxElement
+					? node.openingElement.attributes
+					: node.attributes;
 
 			if (hasValidAriaLabel(attributes)) {
 				return;
 			}
 
-			if (ts.isJsxElement(node) && node.children.some(isTitleElement)) {
+			if (
+				node.kind == SyntaxKind.JsxElement &&
+				node.children.some(isTitleElement)
+			) {
 				return;
 			}
 

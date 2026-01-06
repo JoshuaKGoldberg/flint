@@ -2,9 +2,10 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import * as AST from "../types/ast.ts";
 
 function getConditionDirection(
-	condition: ts.Expression,
+	condition: AST.Expression,
 	counterName: string,
 ): -1 | 1 | undefined {
 	if (!ts.isBinaryExpression(condition)) {
@@ -62,11 +63,11 @@ function getConditionDirection(
 	return undefined;
 }
 
-function getCounterName(node: ts.Expression) {
+function getCounterName(node: AST.Expression) {
 	return ts.isIdentifier(node) ? node.text : undefined;
 }
 
-function getIncrementorDirection(incrementor: ts.Expression) {
+function getIncrementorDirection(incrementor: AST.Expression) {
 	if (
 		ts.isPostfixUnaryExpression(incrementor) ||
 		ts.isPrefixUnaryExpression(incrementor)

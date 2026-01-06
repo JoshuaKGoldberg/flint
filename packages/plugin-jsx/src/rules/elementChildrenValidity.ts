@@ -47,10 +47,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxElement(
-					node: ts.JsxElement,
-					{ sourceFile }: TypeScriptFileServices,
-				) {
+				JsxElement(node, { sourceFile }: TypeScriptFileServices) {
 					if (!node.children.length) {
 						return;
 					}

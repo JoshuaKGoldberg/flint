@@ -1,4 +1,4 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -24,7 +24,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function hasAccessibleContent(
-			element: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+			element: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 		): boolean {
 			return element.attributes.properties.some(
 				(property) =>
@@ -37,7 +37,7 @@ export default typescriptLanguage.createRule({
 			);
 		}
 
-		function hasTextContent(element: ts.JsxElement) {
+		function hasTextContent(element: AST.JsxElement) {
 			return element.children.some((child) => {
 				if (ts.isJsxText(child) && child.text.trim()) {
 					return true;

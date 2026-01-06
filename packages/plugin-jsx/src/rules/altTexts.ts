@@ -1,4 +1,5 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -31,7 +32,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkNode(
-			node: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			const { attributes, tagName } = node;
@@ -51,8 +52,8 @@ export default typescriptLanguage.createRule({
 		}
 
 		function checkAltAttribute(
-			attributes: ts.JsxAttributes,
-			tagName: ts.JsxTagNameExpression,
+			attributes: AST.JsxAttributes,
+			tagName: AST.JsxTagNameExpression,
 			elementName: string,
 			sourceFile: ts.SourceFile,
 		) {
@@ -110,8 +111,8 @@ export default typescriptLanguage.createRule({
 		}
 
 		function checkInputElement(
-			attributes: ts.JsxAttributes,
-			tagName: ts.JsxTagNameExpression,
+			attributes: AST.JsxAttributes,
+			tagName: AST.JsxTagNameExpression,
 			sourceFile: ts.SourceFile,
 		) {
 			const typeAttribute = attributes.properties.find(
@@ -138,8 +139,8 @@ export default typescriptLanguage.createRule({
 		}
 
 		function checkObjectAccessibility(
-			attributes: ts.JsxAttributes,
-			tagName: ts.JsxTagNameExpression,
+			attributes: AST.JsxAttributes,
+			tagName: AST.JsxTagNameExpression,
 			sourceFile: ts.SourceFile,
 		) {
 			if (

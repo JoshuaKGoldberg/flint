@@ -1,4 +1,4 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -26,8 +26,8 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkFunctionDeclaration(
-			node: ts.FunctionDeclaration,
-			sourceFile: ts.SourceFile,
+			node: AST.FunctionDeclaration,
+			sourceFile: AST.SourceFile,
 		) {
 			if (!node.name) {
 				return;
@@ -36,13 +36,16 @@ export default typescriptLanguage.createRule({
 			context.report({
 				data: { declarationType: "function declaration" },
 				message: "implicitGlobal",
-				range: getTSNodeRange(node.name, sourceFile),
+				range: getTSNodeRange(
+					node.name,
+					sourceFile as unknown as ts.SourceFile,
+				),
 			});
 		}
 
 		function checkVariableStatement(
-			node: ts.VariableStatement,
-			sourceFile: ts.SourceFile,
+			node: AST.VariableStatement,
+			sourceFile: AST.SourceFile,
 		) {
 			if (
 				node.modifiers?.some(
@@ -58,7 +61,10 @@ export default typescriptLanguage.createRule({
 					context.report({
 						data: { declarationType: "var declaration" },
 						message: "implicitGlobal",
-						range: getTSNodeRange(declaration.name, sourceFile),
+						range: getTSNodeRange(
+							declaration.name,
+							sourceFile as unknown as ts.SourceFile,
+						),
 					});
 				}
 			}

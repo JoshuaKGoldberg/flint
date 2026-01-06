@@ -1,4 +1,5 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -29,11 +30,11 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkElement(
-			node: ts.JsxOpeningLikeElement,
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			const langAttribute = node.attributes.properties.find(
-				(property): property is ts.JsxAttribute =>
+				(property): property is AST.JsxAttribute =>
 					ts.isJsxAttribute(property) &&
 					ts.isIdentifier(property.name) &&
 					property.name.text === "lang",

@@ -1,9 +1,11 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 const focusableElements = new Set([
 	"a",
@@ -38,7 +40,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkElement(
-			node: ts.JsxOpeningLikeElement,
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			const { attributes, tagName } = node;
@@ -86,11 +88,13 @@ export default typescriptLanguage.createRule({
 	},
 });
 
-function findTabIndexValue(node: ts.JsxOpeningLikeElement) {
+function findTabIndexValue(
+	node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
+) {
 	const tabIndexProperty = node.attributes.properties.find(
-		(property): property is ts.JsxAttribute =>
-			ts.isJsxAttribute(property) &&
-			ts.isIdentifier(property.name) &&
+		(property): property is AST.JsxAttribute =>
+			property.kind == SyntaxKind.JsxAttribute &&
+			property.name.kind == SyntaxKind.Identifier &&
 			property.name.text.toLowerCase() === "tabindex",
 	);
 
@@ -98,14 +102,14 @@ function findTabIndexValue(node: ts.JsxOpeningLikeElement) {
 		return undefined;
 	}
 
-	if (ts.isJsxExpression(tabIndexProperty.initializer)) {
+	if (tabIndexProperty.initializer.kind == SyntaxKind.JsxExpression) {
 		const expression = tabIndexProperty.initializer.expression;
-		if (expression && ts.isNumericLiteral(expression)) {
+		if (expression && expression.kind == SyntaxKind.NumericLiteral) {
 			return Number(expression.text);
 		}
 	}
 
-	if (ts.isStringLiteral(tabIndexProperty.initializer)) {
+	if (tabIndexProperty.initializer.kind == SyntaxKind.StringLiteral) {
 		return Number(tabIndexProperty.initializer.text);
 	}
 

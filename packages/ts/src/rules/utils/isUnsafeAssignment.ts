@@ -1,6 +1,8 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
+import type { Checker } from "../../types/checker.ts";
+
 /**
  * Does a simple check to see if there is an any being assigned to a non-any type.
  *
@@ -12,7 +14,7 @@ import * as ts from "typescript";
 export function isUnsafeAssignment(
 	type: ts.Type,
 	receiver: ts.Type,
-	checker: ts.TypeChecker,
+	checker: Checker,
 	senderNode: null | ts.Node,
 ): false | { receiver: ts.Type; sender: ts.Type } {
 	return isUnsafeAssignmentWorker(
@@ -27,7 +29,7 @@ export function isUnsafeAssignment(
 function isUnsafeAssignmentWorker(
 	type: ts.Type,
 	receiver: ts.Type,
-	checker: ts.TypeChecker,
+	checker: Checker,
 	senderNode: null | ts.Node,
 	visited: Map<ts.Type, Set<ts.Type>>,
 ): false | { receiver: ts.Type; sender: ts.Type } {

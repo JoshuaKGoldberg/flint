@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 
+import type { AST } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
 import {
 	isComparisonOperator,
@@ -7,7 +8,7 @@ import {
 	isNegatedEqualityOperator,
 } from "./utils/operators.ts";
 
-function isNegativeZero(node: ts.Node): boolean {
+function isNegativeZero(node: AST.Expression): boolean {
 	return (
 		ts.isPrefixUnaryExpression(node) &&
 		node.operator === ts.SyntaxKind.MinusToken &&
@@ -35,7 +36,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function generateObjectIsText(
-			node: ts.BinaryExpression,
+			node: AST.BinaryExpression,
 			isNegated: boolean,
 			sourceFile: ts.SourceFile,
 		) {

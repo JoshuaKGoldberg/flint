@@ -1,9 +1,11 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 const headingElements = new Set(["h1", "h2", "h3", "h4", "h5", "h6"]);
 
@@ -29,12 +31,13 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkHeading(
-			node: ts.JsxElement | ts.JsxSelfClosingElement,
+			node: AST.JsxElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
-			const tagName = ts.isJsxElement(node)
-				? node.openingElement.tagName
-				: node.tagName;
+			const tagName =
+				node.kind == SyntaxKind.JsxElement
+					? node.openingElement.tagName
+					: node.tagName;
 
 			if (
 				!ts.isIdentifier(tagName) ||
@@ -43,9 +46,10 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			const attributes = ts.isJsxElement(node)
-				? node.openingElement.attributes
-				: node.attributes;
+			const attributes =
+				node.kind == SyntaxKind.JsxElement
+					? node.openingElement.attributes
+					: node.attributes;
 
 			if (
 				attributes.properties.some((property) => {

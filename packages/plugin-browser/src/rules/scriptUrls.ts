@@ -37,18 +37,15 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				NoSubstitutionTemplateLiteral(
-					node: ts.NoSubstitutionTemplateLiteral,
-					{ sourceFile },
-				) {
+				NoSubstitutionTemplateLiteral(node, { sourceFile }) {
 					if (!ts.isTaggedTemplateExpression(node.parent)) {
 						checkStringValue(node.text, node, sourceFile);
 					}
 				},
-				StringLiteral(node: ts.StringLiteral, { sourceFile }) {
+				StringLiteral(node, { sourceFile }) {
 					checkStringValue(node.text, node, sourceFile);
 				},
-				TemplateExpression(node: ts.TemplateExpression, { sourceFile }) {
+				TemplateExpression(node, { sourceFile }) {
 					if (
 						!ts.isTaggedTemplateExpression(node.parent) &&
 						node.head.text.toLowerCase().startsWith("javascript:")

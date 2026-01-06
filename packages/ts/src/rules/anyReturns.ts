@@ -1,7 +1,10 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
+import type * as AST from "../types/ast.ts";
+import type { Checker } from "../types/checker.ts";
 import { AnyType, discriminateAnyType } from "./utils/discriminateAnyType.ts";
 import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
 import { getThisExpression } from "./utils/getThisExpression.ts";
@@ -51,10 +54,10 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkReturn(
-			returnNode: ts.Node,
+			returnNode: AST.Expression,
 			reportingNode: ts.Node,
 			program: ts.Program,
-			typeChecker: ts.TypeChecker,
+			typeChecker: Checker,
 		): void {
 			const type = typeChecker.getTypeAtLocation(returnNode);
 
@@ -89,8 +92,8 @@ export default typescriptLanguage.createRule({
 			// const foo1: () => Set<string> = () => new Set<any>();
 			// the return type of the arrow function is Set<any> even though the variable is typed as Set<string>
 			let functionType =
-				ts.isFunctionExpression(functionNode) ||
-				ts.isArrowFunction(functionNode)
+				functionNode.kind == SyntaxKind.FunctionExpression ||
+				functionNode.kind == SyntaxKind.ArrowFunction
 					? typeChecker.getContextualType(functionNode)
 					: typeChecker.getTypeAtLocation(functionNode);
 			functionType ??= typeChecker.getTypeAtLocation(functionNode);
@@ -150,9 +153,7 @@ export default typescriptLanguage.createRule({
 						anyType === AnyType.AnyArray &&
 						typeChecker.isArrayType(functionReturnType) &&
 						tsutils.isTypeFlagSet(
-							typeChecker.getTypeArguments(
-								functionReturnType as ts.TypeReference,
-							)[0],
+							typeChecker.getTypeArguments(functionReturnType)[0],
 							ts.TypeFlags.Unknown,
 						)
 					) {
@@ -252,7 +253,7 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				ArrowFunction: (node, { program, typeChecker }) => {
-					if (!ts.isBlock(node.body)) {
+					if (node.body.kind != SyntaxKind.Block) {
 						checkReturn(node.body, node.body, program, typeChecker);
 					}
 				},

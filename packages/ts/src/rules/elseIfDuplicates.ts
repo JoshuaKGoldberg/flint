@@ -2,6 +2,7 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import * as AST from "../types/ast.ts";
 import { hasSameTokens } from "../utils/hasSameTokens.ts";
 
 export default typescriptLanguage.createRule({
@@ -25,9 +26,12 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkIfStatement(node: ts.IfStatement, sourceFile: ts.SourceFile) {
-			const seen: ts.Expression[] = [];
-			let current: ts.IfStatement = node;
+		function checkIfStatement(
+			node: AST.IfStatement,
+			sourceFile: ts.SourceFile,
+		) {
+			const seen: AST.Expression[] = [];
+			let current: AST.IfStatement = node;
 
 			while (true) {
 				if (

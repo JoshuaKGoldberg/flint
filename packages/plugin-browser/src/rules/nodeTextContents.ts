@@ -26,10 +26,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				PropertyAccessExpression(
-					node: ts.PropertyAccessExpression,
-					{ sourceFile, typeChecker },
-				) {
+				PropertyAccessExpression(node, { sourceFile, typeChecker }) {
 					if (
 						ts.isIdentifier(node.name) &&
 						node.name.text === "innerText" &&

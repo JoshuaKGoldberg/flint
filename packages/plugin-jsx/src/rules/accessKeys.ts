@@ -24,7 +24,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxAttribute(node: ts.JsxAttribute, { sourceFile }) {
+				JsxAttribute(node, { sourceFile }) {
 					if (!ts.isIdentifier(node.name)) {
 						return;
 					}

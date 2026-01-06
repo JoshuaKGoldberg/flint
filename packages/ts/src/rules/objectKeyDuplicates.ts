@@ -2,6 +2,7 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import * as AST from "../types/ast.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -76,7 +77,7 @@ function getNameText(name: ts.PropertyName) {
 	return undefined;
 }
 
-function getPropertyKeyName(property: ts.ObjectLiteralElementLike) {
+function getPropertyKeyName(property: AST.ObjectLiteralElementLike) {
 	if (ts.isShorthandPropertyAssignment(property)) {
 		return {
 			group: "values",

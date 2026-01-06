@@ -35,7 +35,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression, { sourceFile }) {
+				CallExpression(node, { sourceFile }) {
 					if (
 						ts.isIdentifier(node.expression) &&
 						assertIdentifierNames.has(node.expression.text)
@@ -46,7 +46,7 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
-				ImportDeclaration(node: ts.ImportDeclaration) {
+				ImportDeclaration(node) {
 					if (
 						!ts.isStringLiteral(node.moduleSpecifier) ||
 						!isAssertImport(node.moduleSpecifier.text) ||
@@ -75,7 +75,7 @@ export default typescriptLanguage.createRule({
 						}
 					}
 				},
-				ImportEqualsDeclaration(node: ts.ImportEqualsDeclaration) {
+				ImportEqualsDeclaration(node) {
 					if (
 						ts.isExternalModuleReference(node.moduleReference) &&
 						ts.isStringLiteral(node.moduleReference.expression) &&

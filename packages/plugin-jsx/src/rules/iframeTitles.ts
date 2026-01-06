@@ -1,4 +1,5 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -27,7 +28,10 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkIframe(
-			{ attributes, tagName }: ts.JsxOpeningLikeElement,
+			{
+				attributes,
+				tagName,
+			}: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (

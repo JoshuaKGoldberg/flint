@@ -1,4 +1,4 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 type ModernMethodName = "after" | "append" | "before" | "prepend";
@@ -10,7 +10,7 @@ const insertAdjacentPositionMap: Record<string, ModernMethodName> = {
 	beforeend: "append",
 };
 
-function getModernMethodName(methodName: string, node: ts.CallExpression) {
+function getModernMethodName(methodName: string, node: AST.CallExpression) {
 	switch (methodName) {
 		case "insertAdjacentElement":
 		case "insertAdjacentText": {
@@ -31,7 +31,7 @@ function getModernMethodName(methodName: string, node: ts.CallExpression) {
 	}
 }
 
-function getPropertyNameNode(node: ts.Expression) {
+function getPropertyNameNode(node: AST.LeftHandSideExpression) {
 	if (!ts.isPropertyAccessExpression(node)) {
 		return undefined;
 	}

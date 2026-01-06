@@ -1,9 +1,11 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 const controlElements = new Set([
 	"input",
@@ -36,7 +38,7 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function hasHtmlForAttribute(attributes: ts.JsxAttributes): boolean {
+		function hasHtmlForAttribute(attributes: AST.JsxAttributes): boolean {
 			return attributes.properties.some((property) => {
 				if (
 					!ts.isJsxAttribute(property) ||
@@ -72,9 +74,9 @@ export default typescriptLanguage.createRule({
 			});
 		}
 
-		function hasNestedControl(children: ts.NodeArray<ts.JsxChild>): boolean {
+		function hasNestedControl(children: ts.NodeArray<AST.JsxChild>): boolean {
 			return children.some((child) => {
-				if (ts.isJsxElement(child)) {
+				if (child.kind == SyntaxKind.JsxElement) {
 					const { tagName } = child.openingElement;
 					return (
 						(ts.isIdentifier(tagName) &&
@@ -95,24 +97,29 @@ export default typescriptLanguage.createRule({
 		}
 
 		function checkLabel(
-			node: ts.JsxElement | ts.JsxSelfClosingElement,
+			node: AST.JsxElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
-			if (ts.isJsxElement(node) && hasNestedControl(node.children)) {
+			if (
+				node.kind == SyntaxKind.JsxElement &&
+				hasNestedControl(node.children)
+			) {
 				return;
 			}
 
-			const tagName = ts.isJsxElement(node)
-				? node.openingElement.tagName
-				: node.tagName;
+			const tagName =
+				node.kind == SyntaxKind.JsxElement
+					? node.openingElement.tagName
+					: node.tagName;
 
 			if (!ts.isIdentifier(tagName) || tagName.text.toLowerCase() !== "label") {
 				return;
 			}
 
-			const attributes = ts.isJsxElement(node)
-				? node.openingElement.attributes
-				: node.attributes;
+			const attributes =
+				node.kind == SyntaxKind.JsxElement
+					? node.openingElement.attributes
+					: node.attributes;
 
 			if (hasHtmlForAttribute(attributes)) {
 				return;

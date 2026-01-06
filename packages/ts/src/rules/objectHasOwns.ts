@@ -2,6 +2,8 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import * as AST from "../types/ast.ts";
+import type { Checker } from "../types/checker.ts";
 import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.ts";
 
 export default typescriptLanguage.createRule({
@@ -28,8 +30,8 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function isObjectPrototypeHasOwnProperty(
-			node: ts.Expression,
-			typeChecker: ts.TypeChecker,
+			node: AST.Expression,
+			typeChecker: Checker,
 		) {
 			return (
 				ts.isPropertyAccessExpression(node) &&
@@ -40,13 +42,13 @@ export default typescriptLanguage.createRule({
 			);
 		}
 
-		function isObjectLiteralHasOwnProperty(node: ts.Expression) {
+		function isObjectLiteralHasOwnProperty(node: AST.Expression) {
 			return ts.isObjectLiteralExpression(node) && node.properties.length === 0;
 		}
 
 		function isHasOwnProperty(
-			node: ts.Expression,
-			typeChecker: ts.TypeChecker,
+			node: AST.Expression,
+			typeChecker: Checker,
 		): boolean {
 			if (
 				!ts.isPropertyAccessExpression(node) ||

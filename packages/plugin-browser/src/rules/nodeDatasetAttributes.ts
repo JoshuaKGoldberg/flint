@@ -1,4 +1,5 @@
 import {
+	type AST,
 	getTSNodeRange,
 	isGlobalDeclaration,
 	typescriptLanguage,
@@ -21,7 +22,7 @@ function convertDataAttributeToDatasetKey(
 		: undefined;
 }
 
-function getMethodDetails(node: ts.CallExpression) {
+function getMethodDetails(node: AST.CallExpression) {
 	if (
 		node.arguments.length === 0 ||
 		!ts.isPropertyAccessExpression(node.expression) ||
@@ -75,7 +76,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
+				CallExpression(node, { sourceFile, typeChecker }) {
 					const details = getMethodDetails(node);
 					if (!details) {
 						return;
@@ -107,7 +108,7 @@ export default typescriptLanguage.createRule({
 });
 
 // TODO: Use a util like getStaticValue
-function getStringLiteralValue(node: ts.Expression): string | undefined {
+function getStringLiteralValue(node: AST.Expression): string | undefined {
 	if (ts.isStringLiteral(node)) {
 		return node.text;
 	}

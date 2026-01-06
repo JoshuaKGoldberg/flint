@@ -1,5 +1,5 @@
 import type { CharacterReportRange } from "@flint.fyi/core";
-import { typescriptLanguage } from "@flint.fyi/ts";
+import { type AST, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -24,7 +24,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkNodeChildren(
-			node: ts.JsxElement | ts.JsxFragment,
+			node: AST.JsxElement | AST.JsxFragment,
 			range: CharacterReportRange,
 		) {
 			const children = node.children.filter(
@@ -62,7 +62,7 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
-				JsxFragment(node: ts.JsxFragment, { sourceFile }) {
+				JsxFragment(node, { sourceFile }) {
 					checkNodeChildren(node, {
 						begin: node.openingFragment.getStart(sourceFile),
 						end: node.closingFragment.getEnd(),

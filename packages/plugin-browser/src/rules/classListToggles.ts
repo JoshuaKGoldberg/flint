@@ -1,5 +1,5 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -22,17 +22,19 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function getClassListMethodCall(node: ts.Node) {
-			if (!ts.isExpressionStatement(node)) {
+		function getClassListMethodCall(node: AST.Statement) {
+			if (node.kind !== SyntaxKind.ExpressionStatement) {
 				return undefined;
 			}
 
 			const expression = node.expression;
-			if (!ts.isCallExpression(expression)) {
+			if (!(expression.kind == SyntaxKind.CallExpression)) {
 				return undefined;
 			}
 
-			if (!ts.isPropertyAccessExpression(expression.expression)) {
+			if (
+				!(expression.expression.kind == SyntaxKind.PropertyAccessExpression)
+			) {
 				return undefined;
 			}
 
@@ -40,19 +42,21 @@ export default typescriptLanguage.createRule({
 			const method = propertyAccess.name;
 
 			if (
-				!ts.isIdentifier(method) ||
+				!(method.kind == SyntaxKind.Identifier) ||
 				(method.text !== "add" && method.text !== "remove")
 			) {
 				return undefined;
 			}
 
-			if (!ts.isPropertyAccessExpression(propertyAccess.expression)) {
+			if (
+				!(propertyAccess.expression.kind == SyntaxKind.PropertyAccessExpression)
+			) {
 				return undefined;
 			}
 
 			const classList = propertyAccess.expression;
 			if (
-				!ts.isIdentifier(classList.name) ||
+				!(classList.name.kind == SyntaxKind.Identifier) ||
 				classList.name.text !== "classList"
 			) {
 				return undefined;
@@ -64,7 +68,7 @@ export default typescriptLanguage.createRule({
 			}
 
 			const arg = args[0];
-			if (!ts.isStringLiteral(arg)) {
+			if (!(arg.kind == SyntaxKind.StringLiteral)) {
 				return undefined;
 			}
 
@@ -75,20 +79,21 @@ export default typescriptLanguage.createRule({
 			};
 		}
 
-		function getObjectAndClassName(node: ts.Node) {
+		function getObjectAndClassName(node: AST.Statement) {
 			const call = getClassListMethodCall(node);
 			if (!call) {
 				return undefined;
 			}
 
-			const exprStatement = node as ts.ExpressionStatement;
-			const callExpr = exprStatement.expression as ts.CallExpression;
-			const propertyAccess = callExpr.expression as ts.PropertyAccessExpression;
+			const exprStatement = node as AST.ExpressionStatement;
+			const callExpr = exprStatement.expression as AST.CallExpression;
+			const propertyAccess =
+				callExpr.expression as AST.PropertyAccessExpression;
 			const classList =
-				propertyAccess.expression as ts.PropertyAccessExpression;
+				propertyAccess.expression as AST.PropertyAccessExpression;
 			const object = classList.expression;
 
-			if (!ts.isIdentifier(object)) {
+			if (!(object.kind == SyntaxKind.Identifier)) {
 				return undefined;
 			}
 
@@ -100,7 +105,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				IfStatement(node: ts.IfStatement, { sourceFile }) {
+				IfStatement(node, { sourceFile }) {
 					const thenStatement = node.thenStatement;
 					const elseStatement = node.elseStatement;
 
@@ -108,12 +113,14 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const thenBlock = ts.isBlock(thenStatement)
-						? thenStatement.statements
-						: [thenStatement];
-					const elseBlock = ts.isBlock(elseStatement)
-						? elseStatement.statements
-						: [elseStatement];
+					const thenBlock =
+						thenStatement.kind == SyntaxKind.Block
+							? thenStatement.statements
+							: [thenStatement];
+					const elseBlock: readonly AST.Statement[] =
+						elseStatement.kind == SyntaxKind.Block
+							? elseStatement.statements
+							: [elseStatement];
 
 					if (thenBlock.length !== 1 || elseBlock.length !== 1) {
 						return;

@@ -1,6 +1,8 @@
 import * as path from "node:path";
 import * as ts from "typescript";
 
+import type * as AST from "./types/ast.ts";
+
 export function collectReferencedFilePaths(
 	program: ts.Program,
 	sourceFile: ts.SourceFile,
@@ -56,7 +58,7 @@ export function collectReferencedFilePaths(
 	return Array.from(modulePaths);
 }
 
-function isAwaitImportCall(node: ts.Node): node is ts.AwaitExpression & {
+function isAwaitImportCall(node: ts.Node): node is AST.AwaitExpression & {
 	expression: ts.CallExpression & { arguments: [ts.StringLiteral] };
 } {
 	return ts.isAwaitExpression(node) && isImportCall(node.expression);
@@ -75,7 +77,7 @@ function isImportCall(
 
 function isImportDeclaration(
 	node: ts.Node,
-): node is ts.ImportDeclaration & { moduleSpecifier: ts.StringLiteral } {
+): node is AST.ImportDeclaration & { moduleSpecifier: AST.StringLiteral } {
 	return (
 		ts.isImportDeclaration(node) && ts.isStringLiteral(node.moduleSpecifier)
 	);

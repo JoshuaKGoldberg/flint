@@ -1,4 +1,5 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -73,7 +74,7 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function getTabIndexValue(attr: ts.JsxAttribute) {
+		function getTabIndexValue(attr: AST.JsxAttribute) {
 			if (!attr.initializer) {
 				return undefined;
 			}
@@ -94,7 +95,7 @@ export default typescriptLanguage.createRule({
 			return undefined;
 		}
 
-		function getRoleValue(attributes: ts.JsxAttributes) {
+		function getRoleValue(attributes: AST.JsxAttributes) {
 			const roleProperty = attributes.properties.find(
 				(property) =>
 					ts.isJsxAttribute(property) &&
@@ -115,7 +116,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		function checkTabIndex(
-			node: ts.JsxOpeningLikeElement,
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (!ts.isIdentifier(node.tagName)) {

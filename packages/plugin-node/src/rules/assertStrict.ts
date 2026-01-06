@@ -1,14 +1,14 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-function isImportFromNodeAssert(expression: ts.Expression) {
+function isImportFromNodeAssert(expression: AST.Expression) {
 	return (
 		ts.isStringLiteral(expression) &&
 		(expression.text === "assert" || expression.text === "node:assert")
 	);
 }
 
-function isStrictAssertImport(expression: ts.Expression) {
+function isStrictAssertImport(expression: AST.Expression) {
 	return (
 		ts.isStringLiteral(expression) &&
 		(expression.text === "assert/strict" ||
@@ -40,7 +40,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				ImportDeclaration(node: ts.ImportDeclaration, { sourceFile }) {
+				ImportDeclaration(node, { sourceFile }) {
 					if (
 						isStrictAssertImport(node.moduleSpecifier) ||
 						!isImportFromNodeAssert(node.moduleSpecifier)
@@ -68,10 +68,7 @@ export default typescriptLanguage.createRule({
 						});
 					}
 				},
-				ImportEqualsDeclaration(
-					node: ts.ImportEqualsDeclaration,
-					{ sourceFile },
-				) {
+				ImportEqualsDeclaration(node, { sourceFile }) {
 					if (
 						ts.isExternalModuleReference(node.moduleReference) &&
 						isImportFromNodeAssert(node.moduleReference.expression)

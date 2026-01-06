@@ -5,6 +5,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "../language.ts";
+import * as AST from "../types/ast.ts";
 
 const globalObjects = new Set(["Atomics", "JSON", "Math", "Reflect"]);
 
@@ -29,7 +30,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function reportGlobalObjectCall(
-			expression: ts.Expression,
+			expression: AST.Expression,
 			name: string,
 			sourceFile: ts.SourceFile,
 		): void {
@@ -41,7 +42,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		function checkNode(
-			{ expression }: ts.CallExpression | ts.NewExpression,
+			{ expression }: AST.CallExpression | AST.NewExpression,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (ts.isIdentifier(expression) && globalObjects.has(expression.text)) {

@@ -42,7 +42,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
+				CallExpression(node, { sourceFile, typeChecker }) {
 					if (
 						ts.isPropertyAccessExpression(node.expression) &&
 						ts.isIdentifier(node.expression.name) &&

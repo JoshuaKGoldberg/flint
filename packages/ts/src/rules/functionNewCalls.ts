@@ -5,6 +5,8 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "../language.ts";
+import * as AST from "../types/ast.ts";
+import type { Checker } from "../types/checker.ts";
 import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.ts";
 import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.ts";
 
@@ -31,7 +33,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkNode(
-			node: ts.CallExpression | ts.NewExpression,
+			node: AST.CallExpression | AST.NewExpression,
 			{ sourceFile, typeChecker }: TypeScriptFileServices,
 		) {
 			if (isFunctionConstructor(node, typeChecker)) {
@@ -43,8 +45,8 @@ export default typescriptLanguage.createRule({
 		}
 
 		function isFunctionConstructor(
-			node: ts.CallExpression | ts.NewExpression,
-			typeChecker: ts.TypeChecker,
+			node: AST.CallExpression | AST.NewExpression,
+			typeChecker: Checker,
 		) {
 			if (ts.isIdentifier(node.expression)) {
 				if (

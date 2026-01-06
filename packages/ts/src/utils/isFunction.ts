@@ -1,6 +1,8 @@
-import type * as ts from "typescript";
+import type ts from "typescript";
 
-export function isFunction(node: ts.Expression, typeChecker: ts.TypeChecker) {
+import type { Checker } from "../types/checker.ts";
+
+export function isFunction(node: ts.Expression, typeChecker: Checker) {
 	const objectType = typeChecker.getTypeAtLocation(node);
 	const callSignatures = objectType.getCallSignatures();
 

@@ -124,10 +124,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				BinaryExpression(
-					node: ts.BinaryExpression,
-					{ sourceFile, typeChecker },
-				) {
+				BinaryExpression(node, { sourceFile, typeChecker }) {
 					if (
 						node.operatorToken.kind !== ts.SyntaxKind.EqualsToken ||
 						!ts.isPropertyAccessExpression(node.left) ||

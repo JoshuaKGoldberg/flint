@@ -1,4 +1,4 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import { isGlobalDeclaration } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -24,7 +24,7 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function getCalleeNameAndNode(node: ts.Expression) {
+		function getCalleeNameAndNode(node: AST.LeftHandSideExpression) {
 			if (ts.isIdentifier(node)) {
 				return { name: node.text, node };
 			}
@@ -43,7 +43,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
+				CallExpression(node, { sourceFile, typeChecker }) {
 					const found = getCalleeNameAndNode(node.expression);
 					if (found === undefined) {
 						return;

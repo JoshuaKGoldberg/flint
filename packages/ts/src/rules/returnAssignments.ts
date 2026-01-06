@@ -3,6 +3,7 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import * as AST from "../types/ast.ts";
 import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.ts";
 
 export default typescriptLanguage.createRule({
@@ -26,7 +27,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkForAssignment(
-			node: ts.Expression,
+			node: AST.ConciseBody | AST.Expression,
 			sourceFile: ts.SourceFile,
 		): void {
 			const unwrapped = unwrapParenthesizedExpression(node);

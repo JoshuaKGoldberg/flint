@@ -1,4 +1,4 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const ambiguousWords = new Set([
@@ -35,7 +35,7 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function getTextContent(node: ts.JsxElement): string {
+		function getTextContent(node: AST.JsxElement): string {
 			let text = "";
 
 			for (const child of node.children) {
@@ -55,7 +55,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				JsxElement(node: ts.JsxElement, { sourceFile }) {
+				JsxElement(node, { sourceFile }) {
 					if (
 						!ts.isIdentifier(node.openingElement.tagName) ||
 						node.openingElement.tagName.text !== "a"

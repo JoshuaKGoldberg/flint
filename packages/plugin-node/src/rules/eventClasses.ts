@@ -1,4 +1,6 @@
 import {
+	type AST,
+	type Checker,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -67,7 +69,7 @@ export default typescriptLanguage.createRule({
 
 		function isIdentifierEventEmitter(
 			identifier: ts.Identifier,
-			typeChecker: ts.TypeChecker,
+			typeChecker: Checker,
 		) {
 			return typeChecker
 				.getSymbolAtLocation(identifier)
@@ -76,9 +78,9 @@ export default typescriptLanguage.createRule({
 		}
 
 		function checkExpression(
-			expression: ts.Expression,
+			expression: AST.Expression,
 			sourceFile: ts.SourceFile,
-			typeChecker: ts.TypeChecker,
+			typeChecker: Checker,
 		) {
 			if (
 				ts.isIdentifier(expression) &&
@@ -94,7 +96,7 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				ClassDeclaration(
-					node: ts.ClassDeclaration,
+					node,
 					{ sourceFile, typeChecker }: TypeScriptFileServices,
 				) {
 					if (!node.heritageClauses) {
@@ -112,7 +114,7 @@ export default typescriptLanguage.createRule({
 					}
 				},
 				NewExpression(
-					node: ts.NewExpression,
+					node,
 					{ sourceFile, typeChecker }: TypeScriptFileServices,
 				) {
 					checkExpression(node.expression, sourceFile, typeChecker);

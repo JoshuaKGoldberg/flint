@@ -4,10 +4,11 @@
 // Changing from the switch to manual ifs is due to:
 // https://github.com/Microsoft/TypeScript/issues/56275
 
+import type { AST } from "@flint.fyi/ts";
 import ts from "typescript";
 
-export function tsAstToLiteral(node: ts.ArrayLiteralExpression): unknown[];
-export function tsAstToLiteral(node: ts.ObjectLiteralExpression): object;
+export function tsAstToLiteral(node: AST.ArrayLiteralExpression): unknown[];
+export function tsAstToLiteral(node: AST.ObjectLiteralExpression): object;
 export function tsAstToLiteral(node: ts.Node): unknown;
 export function tsAstToLiteral(node: ts.Node): unknown {
 	switch (node.kind) {

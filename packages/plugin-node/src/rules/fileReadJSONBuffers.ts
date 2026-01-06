@@ -1,4 +1,4 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -58,7 +58,7 @@ export default typescriptLanguage.createRule({
 	},
 });
 
-function isReadFileCall(node: ts.Expression): node is ts.CallExpression {
+function isReadFileCall(node: AST.Expression): node is AST.CallExpression {
 	return (
 		ts.isCallExpression(node) &&
 		ts.isPropertyAccessExpression(node.expression) &&
@@ -69,7 +69,7 @@ function isReadFileCall(node: ts.Expression): node is ts.CallExpression {
 	);
 }
 
-function isUtf8Encoding(node: ts.Expression): boolean {
+function isUtf8Encoding(node: AST.Expression): boolean {
 	if (ts.isStringLiteral(node)) {
 		return isUtf8EncodingString(node.text);
 	}
@@ -100,7 +100,7 @@ function isUtf8EncodingString(value: unknown): boolean {
 	return typeof value === "string" && /utf-?8/i.test(value);
 }
 
-function unwrapAwaitExpression(node: ts.Expression): ts.Expression {
+function unwrapAwaitExpression(node: AST.Expression): AST.Expression {
 	while (ts.isAwaitExpression(node)) {
 		node = node.expression;
 	}

@@ -1,4 +1,5 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -29,7 +30,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkElement(
-			{ tagName }: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+			{ tagName }: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (!ts.isIdentifier(tagName)) {

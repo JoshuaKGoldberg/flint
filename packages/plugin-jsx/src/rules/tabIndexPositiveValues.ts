@@ -1,4 +1,4 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -26,7 +26,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxAttribute(node: ts.JsxAttribute, { sourceFile }) {
+				JsxAttribute(node, { sourceFile }) {
 					if (
 						!ts.isIdentifier(node.name) ||
 						node.name.text.toLowerCase() !== "tabindex" ||
@@ -49,7 +49,7 @@ export default typescriptLanguage.createRule({
 	},
 });
 
-function getInitializerValue(initializer: ts.JsxAttributeValue) {
+function getInitializerValue(initializer: AST.JsxAttributeValue) {
 	if (ts.isStringLiteral(initializer)) {
 		const parsed = Number(initializer.text);
 

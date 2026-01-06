@@ -2,6 +2,7 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import * as AST from "../types/ast.ts";
 
 const allowedParents = new Set([
 	ts.SyntaxKind.ArrowFunction,
@@ -33,7 +34,7 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function hasComments(block: ts.Block, sourceFile: ts.SourceFile): boolean {
+		function hasComments(block: AST.Block, sourceFile: ts.SourceFile): boolean {
 			const fullText = sourceFile.getFullText();
 
 			const openBrace = block.getStart(sourceFile);
@@ -45,7 +46,10 @@ export default typescriptLanguage.createRule({
 			return /\S+/.test(innerText.trim());
 		}
 
-		function isEmptyBlock(block: ts.Block, sourceFile: ts.SourceFile): boolean {
+		function isEmptyBlock(
+			block: AST.Block,
+			sourceFile: ts.SourceFile,
+		): boolean {
 			return block.statements.length === 0 && !hasComments(block, sourceFile);
 		}
 

@@ -1,4 +1,5 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -47,7 +48,7 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function getHrefValue(attributes: ts.JsxAttributes) {
+		function getHrefValue(attributes: AST.JsxAttributes) {
 			const hrefProperty = attributes.properties.find(
 				(property) =>
 					ts.isJsxAttribute(property) &&
@@ -69,7 +70,7 @@ export default typescriptLanguage.createRule({
 			return "";
 		}
 
-		function hasOnClick(attributes: ts.JsxAttributes) {
+		function hasOnClick(attributes: AST.JsxAttributes) {
 			return attributes.properties.some(
 				(property) =>
 					ts.isJsxAttribute(property) &&
@@ -83,7 +84,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		function checkAnchor(
-			node: ts.JsxOpeningLikeElement,
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (!ts.isIdentifier(node.tagName) || node.tagName.text !== "a") {

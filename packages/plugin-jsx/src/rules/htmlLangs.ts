@@ -24,7 +24,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement, { sourceFile }) {
+				JsxOpeningElement(node, { sourceFile }) {
 					if (
 						ts.isIdentifier(node.tagName) &&
 						node.tagName.text === "html" &&

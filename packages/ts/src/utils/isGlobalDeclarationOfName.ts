@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 
+import type { Checker } from "../types/checker.ts";
 import { declarationIncludesGlobal } from "./declarationIncludesGlobal.ts";
 
 /**
@@ -8,7 +9,7 @@ import { declarationIncludesGlobal } from "./declarationIncludesGlobal.ts";
 export function isGlobalDeclarationOfName(
 	node: ts.Node,
 	name: string,
-	typeChecker: ts.TypeChecker,
+	typeChecker: Checker,
 ): boolean {
 	const declarations = typeChecker.getSymbolAtLocation(node)?.getDeclarations();
 	if (!declarations) {

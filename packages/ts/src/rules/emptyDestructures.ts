@@ -1,5 +1,4 @@
-import type * as ts from "typescript";
-
+import type { AST } from "../index.ts";
 import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -28,7 +27,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkBindingPattern(
-			node: ts.ArrayBindingPattern | ts.ObjectBindingPattern,
+			node: AST.ArrayBindingPattern | AST.ObjectBindingPattern,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (node.elements.length === 0) {

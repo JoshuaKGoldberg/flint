@@ -1,4 +1,9 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	type AST,
+	type Checker,
+	getTSNodeRange,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import { isGlobalVariable } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
@@ -32,8 +37,8 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function isWindowLikeIdentifier(
-			node: ts.Expression,
-			typeChecker: ts.TypeChecker,
+			node: AST.LeftHandSideExpression,
+			typeChecker: Checker,
 		): boolean {
 			return (
 				ts.isIdentifier(node) &&
@@ -44,7 +49,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
+				CallExpression(node, { sourceFile, typeChecker }) {
 					if (
 						node.arguments.length < 2 &&
 						ts.isPropertyAccessExpression(node.expression) &&

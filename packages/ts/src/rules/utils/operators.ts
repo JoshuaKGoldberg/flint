@@ -1,6 +1,8 @@
 import * as ts from "typescript";
 
-export function isComparisonOperator(token: ts.BinaryOperatorToken) {
+import * as AST from "../../types/ast.ts";
+
+export function isComparisonOperator(token: AST.BinaryOperatorToken) {
 	switch (token.kind) {
 		case ts.SyntaxKind.EqualsEqualsEqualsToken:
 		case ts.SyntaxKind.EqualsEqualsToken:
@@ -16,7 +18,7 @@ export function isComparisonOperator(token: ts.BinaryOperatorToken) {
 	}
 }
 
-export function isEqualityOperator(token: ts.BinaryOperatorToken) {
+export function isEqualityOperator(token: AST.BinaryOperatorToken) {
 	switch (token.kind) {
 		case ts.SyntaxKind.EqualsEqualsEqualsToken:
 		case ts.SyntaxKind.EqualsEqualsToken:
@@ -28,7 +30,7 @@ export function isEqualityOperator(token: ts.BinaryOperatorToken) {
 	}
 }
 
-export function isNegatedEqualityOperator(token: ts.BinaryOperatorToken) {
+export function isNegatedEqualityOperator(token: AST.BinaryOperatorToken) {
 	switch (token.kind) {
 		case ts.SyntaxKind.ExclamationEqualsEqualsToken:
 		case ts.SyntaxKind.ExclamationEqualsToken:

@@ -1,4 +1,5 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -122,9 +123,11 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function getTabIndexValue(node: ts.JsxOpeningLikeElement) {
+		function getTabIndexValue(
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
+		) {
 			const tabIndex = node.attributes.properties.find(
-				(property): property is ts.JsxAttribute =>
+				(property): property is AST.JsxAttribute =>
 					ts.isJsxAttribute(property) &&
 					ts.isIdentifier(property.name) &&
 					property.name.text === "tabIndex",
@@ -148,7 +151,9 @@ export default typescriptLanguage.createRule({
 			return undefined;
 		}
 
-		function getRoleValue(node: ts.JsxOpeningLikeElement) {
+		function getRoleValue(
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
+		) {
 			const role = node.attributes.properties.find(
 				(property) =>
 					ts.isJsxAttribute(property) &&
@@ -168,7 +173,9 @@ export default typescriptLanguage.createRule({
 			return undefined;
 		}
 
-		function isAriaHidden(node: ts.JsxOpeningLikeElement) {
+		function isAriaHidden(
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
+		) {
 			const ariaHidden = node.attributes.properties.find(
 				(property) =>
 					ts.isJsxAttribute(property) &&
@@ -197,7 +204,9 @@ export default typescriptLanguage.createRule({
 			return false;
 		}
 
-		function hasInteractiveHandler(node: ts.JsxOpeningLikeElement) {
+		function hasInteractiveHandler(
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
+		) {
 			return node.attributes.properties.some(
 				(property) =>
 					ts.isJsxAttribute(property) &&
@@ -206,7 +215,9 @@ export default typescriptLanguage.createRule({
 			);
 		}
 
-		function isDisabled(node: ts.JsxOpeningLikeElement) {
+		function isDisabled(
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
+		) {
 			const disabledProperty = node.attributes.properties.find(
 				(property) =>
 					ts.isJsxAttribute(property) &&
@@ -233,7 +244,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		function checkElement(
-			node: ts.JsxOpeningLikeElement,
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (!ts.isIdentifier(node.tagName)) {

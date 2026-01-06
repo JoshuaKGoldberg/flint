@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	type Checker,
+	getTSNodeRange,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -32,7 +36,7 @@ export default typescriptLanguage.createRule({
 
 		function isIdentifierNamespaceImport(
 			identifier: ts.Identifier,
-			typeChecker: ts.TypeChecker,
+			typeChecker: Checker,
 		) {
 			return typeChecker
 				.getSymbolAtLocation(identifier)
@@ -42,10 +46,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				ElementAccessExpression(
-					node: ts.ElementAccessExpression,
-					{ sourceFile, typeChecker },
-				) {
+				ElementAccessExpression(node, { sourceFile, typeChecker }) {
 					if (
 						ts.isIdentifier(node.expression) &&
 						isIdentifierNamespaceImport(node.expression, typeChecker)

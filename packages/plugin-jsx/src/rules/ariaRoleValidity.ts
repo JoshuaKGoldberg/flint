@@ -1,4 +1,5 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -101,7 +102,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkRole(
-			node: ts.JsxOpeningLikeElement,
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (
@@ -112,7 +113,7 @@ export default typescriptLanguage.createRule({
 			}
 
 			const roleProperty = node.attributes.properties.find(
-				(property): property is ts.JsxAttribute =>
+				(property): property is AST.JsxAttribute =>
 					ts.isJsxAttribute(property) && ts.isIdentifier(property.name),
 			);
 

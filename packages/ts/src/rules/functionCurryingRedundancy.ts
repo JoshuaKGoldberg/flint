@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
+import * as AST from "../types/ast.ts";
 import { isFunction } from "../utils/isFunction.ts";
 
 export default typescriptLanguage.createRule({
@@ -81,7 +82,7 @@ export default typescriptLanguage.createRule({
 
 function createApplyFixText(
 	functionExpression: string,
-	methodArguments: ts.Expression[],
+	methodArguments: AST.Expression[],
 	sourceFile: ts.SourceFile,
 ) {
 	if (methodArguments.length > 0) {
@@ -94,7 +95,7 @@ function createApplyFixText(
 
 function createCallFixText(
 	functionExpression: string,
-	methodArguments: ts.Expression[],
+	methodArguments: AST.Expression[],
 	sourceFile: ts.SourceFile,
 ) {
 	const argsText = methodArguments

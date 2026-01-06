@@ -1,4 +1,4 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 function isFileURLToPathCall(node: ts.Node): node is ts.CallExpression {
@@ -35,8 +35,8 @@ function isImportMetaUrl(node: ts.Node) {
 }
 
 function isNewURLWithDot(
-	node: ts.Node,
-): node is ts.NewExpression & { arguments: ts.NodeArray<ts.Expression> } {
+	node: AST.Expression,
+): node is AST.NewExpression & { arguments: ts.NodeArray<AST.Expression> } {
 	return (
 		ts.isNewExpression(node) &&
 		ts.isIdentifier(node.expression) &&

@@ -1,4 +1,5 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -44,7 +45,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkElement(
-			node: ts.JsxOpeningLikeElement,
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (!ts.isIdentifier(node.tagName)) {
@@ -57,7 +58,7 @@ export default typescriptLanguage.createRule({
 			}
 
 			const typeAttribute = node.attributes.properties.find(
-				(property): property is ts.JsxAttribute =>
+				(property): property is AST.JsxAttribute =>
 					ts.isJsxAttribute(property) &&
 					ts.isIdentifier(property.name) &&
 					property.name.text.toLowerCase() === "type",
@@ -92,7 +93,7 @@ export default typescriptLanguage.createRule({
 });
 
 // TODO: Use a util like getStaticValue
-function getTypeValue(attribute: ts.JsxAttribute): string | undefined {
+function getTypeValue(attribute: AST.JsxAttribute): string | undefined {
 	if (!attribute.initializer) {
 		return undefined;
 	}

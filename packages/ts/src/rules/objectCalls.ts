@@ -1,6 +1,7 @@
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
+import type { AST } from "../index.ts";
 import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -31,18 +32,18 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkNode(
-			node: ts.CallExpression | ts.NewExpression,
+			node: AST.CallExpression | AST.NewExpression,
 			{ sourceFile, typeChecker }: TypeScriptFileServices,
 		): void {
 			if (
-				!ts.isIdentifier(node.expression) ||
+				!(node.expression.kind == SyntaxKind.Identifier) ||
 				!isGlobalDeclarationOfName(node.expression, "Object", typeChecker)
 			) {
 				return;
 			}
 
 			const reportNode =
-				node.kind === ts.SyntaxKind.NewExpression
+				node.kind === SyntaxKind.NewExpression
 					? node.getChildAt(0, sourceFile)
 					: node.expression;
 

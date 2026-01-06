@@ -1,4 +1,6 @@
 import {
+	type AST,
+	type Checker,
 	getDeclarationsIfGlobal,
 	getTSNodeRange,
 	typescriptLanguage,
@@ -27,8 +29,8 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function isKeyboardEvent(
-			expression: ts.LeftHandSideExpression,
-			typeChecker: ts.TypeChecker,
+			expression: AST.LeftHandSideExpression,
+			typeChecker: Checker,
 		) {
 			return (
 				typeChecker.getTypeAtLocation(expression).getSymbol()?.name ===
@@ -37,8 +39,8 @@ export default typescriptLanguage.createRule({
 		}
 
 		function isKeyboardEventProperty(
-			name: ts.Identifier,
-			typeChecker: ts.TypeChecker,
+			name: AST.Identifier,
+			typeChecker: Checker,
 		) {
 			const declarations = getDeclarationsIfGlobal(name, typeChecker);
 			if (!declarations) {
@@ -54,10 +56,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				PropertyAccessExpression(
-					node: ts.PropertyAccessExpression,
-					{ sourceFile, typeChecker },
-				) {
+				PropertyAccessExpression(node, { sourceFile, typeChecker }) {
 					if (
 						ts.isIdentifier(node.name) &&
 						deprecatedProperties.has(node.name.text) &&

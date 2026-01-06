@@ -2,6 +2,7 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import * as AST from "../types/ast.ts";
 
 const validTypeofValues = new Set([
 	"bigint",
@@ -15,13 +16,13 @@ const validTypeofValues = new Set([
 ]);
 
 // TODO: Reuse a shared getStaticValue-style utility?
-function getStringValue(node: ts.Expression) {
+function getStringValue(node: AST.Expression) {
 	return ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)
 		? node.text
 		: undefined;
 }
 
-function getTypeofOperand(node: ts.Expression) {
+function getTypeofOperand(node: AST.Expression) {
 	return ts.isTypeOfExpression(node) && node.expression;
 }
 
@@ -48,13 +49,13 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkComparison(
-			node: ts.BinaryExpression,
+			node: AST.BinaryExpression,
 			sourceFile: ts.SourceFile,
 		) {
 			const leftTypeofOperand = getTypeofOperand(node.left);
 			const rightTypeofOperand = getTypeofOperand(node.right);
 
-			let comparisonValue: ts.Expression | undefined;
+			let comparisonValue: AST.Expression | undefined;
 			if (leftTypeofOperand) {
 				comparisonValue = node.right;
 			} else if (rightTypeofOperand) {

@@ -1,4 +1,5 @@
 import {
+	type AST,
 	getTSNodeRange,
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -33,7 +34,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkMouseEvents(
-			node: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			const { attributes } = node;

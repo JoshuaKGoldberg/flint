@@ -2,6 +2,7 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import * as AST from "../types/ast.ts";
 
 const prototypeMethods = new Set([
 	"hasOwnProperty",
@@ -87,7 +88,7 @@ export default typescriptLanguage.createRule({
 });
 
 function findToken(
-	node: ts.Node,
+	node: AST.CallExpression,
 	token: ts.SyntaxKind,
 	sourceFile: ts.SourceFile,
 ) {

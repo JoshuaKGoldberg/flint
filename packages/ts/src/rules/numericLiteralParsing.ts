@@ -2,6 +2,7 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import * as AST from "../types/ast.ts";
 import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.ts";
 
 function convertToLiteral(value: string, radix: number): string {
@@ -22,7 +23,7 @@ function convertToLiteral(value: string, radix: number): string {
 	}
 }
 
-function getRadixValue(node: ts.Expression): number | undefined {
+function getRadixValue(node: AST.Expression): number | undefined {
 	if (!ts.isNumericLiteral(node)) {
 		return undefined;
 	}
@@ -36,7 +37,7 @@ function getRadixValue(node: ts.Expression): number | undefined {
 }
 
 // TODO: Use a util like getStaticValue
-function getStringValue(node: ts.Expression): string | undefined {
+function getStringValue(node: AST.Expression): string | undefined {
 	return ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)
 		? node.text
 		: undefined;
@@ -61,7 +62,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkParseIntCall(
-			node: ts.CallExpression,
+			node: AST.CallExpression,
 			sourceFile: ts.SourceFile,
 		) {
 			if (node.arguments.length !== 2) {
