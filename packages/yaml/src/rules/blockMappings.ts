@@ -13,7 +13,7 @@ function calculateIndent(node: yaml.FlowMapping, sourceText: string): string {
 		node.position.start.offset,
 	);
 
-	const leadingWhitespace = beforeNode.match(/^\s*/)?.[0] ?? "";
+	const leadingWhitespace = /^\s*/.exec(beforeNode)?.[0] ?? "";
 
 	return leadingWhitespace + "  ";
 }
@@ -23,11 +23,9 @@ function calculateIndent(node: yaml.FlowMapping, sourceText: string): string {
  */
 function canConvertToBlock(node: yaml.FlowMapping): boolean {
 	for (const child of node.children) {
-		if (child.type === "flowMappingItem") {
-			const [key, value] = child.children;
-			if (key.children.length === 0 || value.children.length === 0) {
-				return false;
-			}
+		const [key, value] = child.children;
+		if (key.children.length === 0 || value.children.length === 0) {
+			return false;
 		}
 	}
 
@@ -42,24 +40,22 @@ function convertToBlock(node: yaml.FlowMapping, sourceText: string): string {
 	const pairs: string[] = [];
 
 	for (const child of node.children) {
-		if (child.type === "flowMappingItem") {
-			const [keyNode, valueNode] = child.children;
+		const [keyNode, valueNode] = child.children;
 
-			const keyText = sourceText.substring(
-				keyNode.children[0]?.position.start.offset ??
-					keyNode.position.start.offset,
-				keyNode.children[0]?.position.end.offset ?? keyNode.position.end.offset,
+		const keyText = sourceText.substring(
+			keyNode.children[0]?.position.start.offset ??
+				keyNode.position.start.offset,
+			keyNode.children[0]?.position.end.offset ?? keyNode.position.end.offset,
+		);
+
+		const valueChild = valueNode.children[0];
+		if (valueChild) {
+			const valueText = sourceText.substring(
+				valueChild.position.start.offset,
+				valueChild.position.end.offset,
 			);
 
-			const valueChild = valueNode.children[0];
-			if (valueChild) {
-				const valueText = sourceText.substring(
-					valueChild.position.start.offset,
-					valueChild.position.end.offset,
-				);
-
-				pairs.push(`${indent}${keyText}: ${valueText}`);
-			}
+			pairs.push(`${indent}${keyText}: ${valueText}`);
 		}
 	}
 
