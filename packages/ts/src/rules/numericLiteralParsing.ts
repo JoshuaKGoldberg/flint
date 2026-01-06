@@ -68,12 +68,15 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			const stringValue = getStringValue(node.arguments[0]);
+			/* eslint-disable @typescript-eslint/no-non-null-assertion */
+			// node.arguments[0] and node.arguments[1] are guaranteed to be non-null by the length check above
+			const stringValue = getStringValue(node.arguments[0]!);
 			if (!stringValue) {
 				return;
 			}
 
-			const radixValue = getRadixValue(node.arguments[1]);
+			const radixValue = getRadixValue(node.arguments[1]!);
+			/* eslint-enable @typescript-eslint/no-non-null-assertion */
 			if (!radixValue) {
 				return;
 			}

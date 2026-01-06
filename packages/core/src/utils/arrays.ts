@@ -49,7 +49,9 @@ export function binarySearch<T>(
 	let high = array.length - 1;
 	while (low <= high) {
 		const mid = low + ((high - low) >> 1);
-		const res = compare(array[mid]);
+		// mid is bounded by the loop condition
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const res = compare(array[mid]!);
 		if (res < 0) {
 			low = mid + 1;
 		} else if (res > 0) {

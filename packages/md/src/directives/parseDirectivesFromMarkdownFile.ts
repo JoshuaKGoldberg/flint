@@ -16,7 +16,9 @@ export function parseDirectivesFromMarkdownFile(
 		let commentMatch: null | RegExpExecArray;
 		while ((commentMatch = regex.exec(node.value)) !== null) {
 			const directiveMatch = /^\s*flint-(\S+)(?:\s+(.+))?/.exec(
-				commentMatch[1],
+				// Confirmed by the regex match
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				commentMatch[1]!,
 			);
 			if (!directiveMatch) {
 				return;
@@ -41,8 +43,11 @@ export function parseDirectivesFromMarkdownFile(
 						raw: position.end.offset!,
 					},
 				},
-				selection,
-				type,
+				// Confirmed by the regex match
+				/* eslint-disable @typescript-eslint/no-non-null-assertion */
+				selection!,
+				type!,
+				/* eslint-enable @typescript-eslint/no-non-null-assertion */
 			);
 		}
 	});

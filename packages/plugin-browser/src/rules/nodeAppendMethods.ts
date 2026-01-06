@@ -66,7 +66,9 @@ export default typescriptLanguage.createRule({
 								break;
 							}
 
-							const secondArgument = node.arguments[1];
+							// Confirmed by the length check above
+							// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+							const secondArgument = node.arguments[1]!;
 							if (
 								secondArgument.kind !== ts.SyntaxKind.NullKeyword &&
 								!isFirstChildAccess(secondArgument)

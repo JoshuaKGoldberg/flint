@@ -38,7 +38,9 @@ export default typescriptLanguage.createRule({
 					}
 
 					const parentText = node.expression.expression.getText(sourceFile);
-					const childText = node.arguments[0].getText(sourceFile);
+					// node.arguments[0] is guaranteed to be non-null by the length check above
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const childText = node.arguments[0]!.getText(sourceFile);
 
 					context.report({
 						data: {

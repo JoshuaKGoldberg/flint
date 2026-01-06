@@ -101,7 +101,9 @@ export const interactiveRendererFactory: RendererFactory = {
 					return;
 				}
 
-				const [filePath, fileResults] = filesWithReportResults[getFile()];
+				// Confirmed by the length check above
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				const [filePath, fileResults] = filesWithReportResults[getFile()]!;
 
 				console.log(
 					[

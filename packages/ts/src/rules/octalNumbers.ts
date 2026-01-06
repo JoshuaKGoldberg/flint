@@ -33,8 +33,11 @@ export default typescriptLanguage.createRule({
 					if (
 						text.length > 1 &&
 						text.startsWith("0") &&
-						text[1] >= "0" &&
-						text[1] <= "7" &&
+						/* eslint-disable @typescript-eslint/no-non-null-assertion */
+						// text[1] is guaranteed to be non-null by the length check above
+						text[1]! >= "0" &&
+						text[1]! <= "7" &&
+						/* eslint-enable @typescript-eslint/no-non-null-assertion */
 						!/^0[xobi]/i.test(text)
 					) {
 						const range = {

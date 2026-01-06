@@ -102,7 +102,9 @@ export default typescriptLanguage.createRule({
 						node.arguments.length > 0 &&
 						isDeclaredInNodeTypes(node.expression, typeChecker)
 					) {
-						checkNode(node.arguments[0], sourceFile);
+						// Confirmed by the length check above
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						checkNode(node.arguments[0]!, sourceFile);
 					}
 				},
 				ImportDeclaration(node, { sourceFile }) {

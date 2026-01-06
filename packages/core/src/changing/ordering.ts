@@ -8,7 +8,9 @@ export const orderChangesLastToFirstWithoutOverlaps = (
 	let lastStart = Infinity;
 
 	for (let i = ordered.length - 1; i >= 0; i -= 1) {
-		const change = ordered[i];
+		// Confirmed by the loop condition
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const change = ordered[i]!;
 		if (change.range.end > lastStart) {
 			continue;
 		}

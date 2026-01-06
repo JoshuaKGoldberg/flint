@@ -75,13 +75,17 @@ function isValidAutocompleteValue(value: string): boolean {
 	const parts = value.trim().split(/\s+/);
 
 	if (parts.length === 1) {
-		return validAutocompleteValues.has(parts[0]);
+		// Confirmed by the length check above
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		return validAutocompleteValues.has(parts[0]!);
 	}
 
 	if (parts.length === 2) {
 		const [prefix, token] = parts;
 		if (prefix === "billing" || prefix === "shipping") {
-			return billingAndShippingValues.has(token);
+			// Confirmed by the length check above
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			return billingAndShippingValues.has(token!);
 		}
 	}
 

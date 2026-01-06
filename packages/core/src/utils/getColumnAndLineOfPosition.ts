@@ -67,7 +67,9 @@ function computeColumnAndLineOfPosition(
 	if (position > source.length) {
 		const line = lineStarts.length - 1;
 		return {
-			column: Math.max(source.length - lineStarts[line], 0),
+			// line is bounded by the length check above
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			column: Math.max(source.length - lineStarts[line]!, 0),
 			line,
 			raw: Math.max(source.length - 1, 0),
 		};
@@ -160,9 +162,13 @@ function computePositionOfColumnAndLine(
 ): number {
 	line = Math.min(Math.max(line, 0), lineStarts.length - 1);
 
-	const res = lineStarts[line] + column;
+	// line is bounded by the Math.min check above
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	const res = lineStarts[line]! + column;
 	if (line === lineStarts.length - 1) {
 		return Math.min(res, sourceText.length);
 	}
-	return Math.min(res, lineStarts[line + 1] - 1);
+	// line is bounded by the Math.min check above
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	return Math.min(res, lineStarts[line + 1]! - 1);
 }

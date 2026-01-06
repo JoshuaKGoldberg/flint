@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import type { Link } from "mdast";
 
 import { markdownLanguage } from "../language.ts";
@@ -51,7 +52,10 @@ export default markdownLanguage.createRule({
 		}
 
 		function checkTextNode(node: WithPosition<Link>) {
-			const textNode = node.children[0];
+			const textNode = nullThrows(
+				node.children[0],
+				`First node child should be defined for link node ${node.position.start.offset}`,
+			);
 			const textPosition = textNode.position;
 
 			if (
@@ -75,9 +79,13 @@ export default markdownLanguage.createRule({
 		return {
 			visitors: {
 				link(node) {
+					const firstNodeChild = nullThrows(
+						node.children[0],
+						`First node child should be defined for link node ${node.position.start.offset}`,
+					);
 					if (
-						node.children[0].type === "text" &&
-						node.children[0].value === node.url
+						firstNodeChild.type === "text" &&
+						firstNodeChild.value === node.url
 					) {
 						checkTextNode(node);
 					} else {

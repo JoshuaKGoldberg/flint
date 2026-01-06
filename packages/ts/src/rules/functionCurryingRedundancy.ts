@@ -40,7 +40,9 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const firstArgument = node.arguments[0];
+					// Confirmed by the length check above
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const firstArgument = node.arguments[0]!;
 					if (
 						firstArgument.kind !== ts.SyntaxKind.NullKeyword &&
 						!(
@@ -85,7 +87,9 @@ function createApplyFixText(
 	sourceFile: ts.SourceFile,
 ) {
 	if (methodArguments.length > 0) {
-		const argsArray = methodArguments[0];
+		// Confirmed by the length check above
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const argsArray = methodArguments[0]!;
 		return `${functionExpression}(...${argsArray.getText(sourceFile)})`;
 	} else {
 		return `${functionExpression}()`;

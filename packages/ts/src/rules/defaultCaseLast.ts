@@ -37,7 +37,9 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const defaultClause = clauses[defaultClauseIndex];
+					// Confirmed by the length check above
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const defaultClause = clauses[defaultClauseIndex]!;
 
 					context.report({
 						message: "defaultCaseShouldBeLast",

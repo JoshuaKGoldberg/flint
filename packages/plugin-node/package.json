@@ -27,6 +27,7 @@
 	"dependencies": {
 		"@flint.fyi/core": "workspace:^",
 		"@flint.fyi/ts": "workspace:^",
+		"@flint.fyi/utils": "workspace:^",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {

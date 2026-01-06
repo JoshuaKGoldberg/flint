@@ -41,7 +41,9 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const listener = node.arguments[1];
+					// Confirmed by the length check above
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const listener = node.arguments[1]!;
 					if (
 						!ts.isArrowFunction(listener) &&
 						!ts.isFunctionExpression(listener)

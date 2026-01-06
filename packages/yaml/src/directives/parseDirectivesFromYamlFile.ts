@@ -28,8 +28,11 @@ export function parseDirectivesFromYamlFile(
 					raw: comment.position.end.offset,
 				},
 			},
-			selection,
-			type,
+			/* eslint-disable @typescript-eslint/no-non-null-assertion */
+			// selection and type are guaranteed to be non-null by the regex match
+			selection!,
+			type!,
+			/* eslint-enable @typescript-eslint/no-non-null-assertion */
 		);
 	}
 

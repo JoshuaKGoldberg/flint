@@ -23,7 +23,9 @@ export function computeDirectiveRanges(
 	}
 
 	if (directives.length === 1) {
-		const [directive] = directives;
+		// Confirmed by the length check above
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const directive = directives[0]!;
 		switch (directive.type) {
 			case "disable-lines-begin":
 				return [
@@ -54,8 +56,11 @@ export function computeDirectiveRanges(
 	);
 
 	const rangedSelections: RangedSelection[] = [];
-	let previousDirective = directivesSorted[0];
-	let currentSelections = directivesSorted[0].selections;
+	// Confirmed by the length check above
+	/* eslint-disable @typescript-eslint/no-non-null-assertion */
+	let previousDirective = directivesSorted[0]!;
+	let currentSelections = directivesSorted[0]!.selections;
+	/* eslint-enable  @typescript-eslint/no-non-null-assertion */
 
 	for (const directive of directivesSorted.slice(1)) {
 		rangedSelections.push({

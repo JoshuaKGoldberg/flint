@@ -24,7 +24,10 @@ function createReportSnapshotAt(sourceText: string, report: NormalizedReport) {
 	const output: string[] = [];
 
 	for (let i = begin.line; i <= end.line; i++) {
-		const line = lines[i - begin.line];
+		// lines[i - begin.line] is guaranteed to be non-null by the loop condition
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const line = lines[i - begin.line]!;
+
 		output.push(line);
 
 		const prevLineIndent = /^[\t ]*/.exec(line)?.[0] ?? "";

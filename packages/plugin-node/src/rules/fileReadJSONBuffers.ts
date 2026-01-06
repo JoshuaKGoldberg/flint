@@ -34,7 +34,12 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const argument = unwrapAwaitExpression(node.arguments[0]);
+					const argument = unwrapAwaitExpression(
+						/* eslint-disable @typescript-eslint/no-non-null-assertion */
+						// node.arguments[0] is guaranteed to be non-null by the length check above
+						node.arguments[0]!,
+						/* eslint-enable @typescript-eslint/no-non-null-assertion */
+					);
 					if (
 						ts.isSpreadElement(argument) ||
 						!isReadFileCall(argument) ||
@@ -43,7 +48,10 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const encoding = argument.arguments[1];
+					/* eslint-disable @typescript-eslint/no-non-null-assertion */
+					// argument.arguments[1] is guaranteed to be non-null by the length check above
+					const encoding = argument.arguments[1]!;
+					/* eslint-enable @typescript-eslint/no-non-null-assertion */
 					if (ts.isSpreadElement(encoding) || !isUtf8Encoding(encoding)) {
 						return;
 					}
@@ -79,7 +87,10 @@ function isUtf8Encoding(node: ts.Expression): boolean {
 			return false;
 		}
 
-		const property = node.properties[0];
+		/* eslint-disable @typescript-eslint/no-non-null-assertion */
+		// node.properties[0] is guaranteed to be non-null by the length check above
+		const property = node.properties[0]!;
+		/* eslint-enable @typescript-eslint/no-non-null-assertion */
 		if (
 			!ts.isPropertyAssignment(property) ||
 			!ts.isIdentifier(property.name) ||

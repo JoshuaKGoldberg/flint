@@ -70,7 +70,9 @@ export default typescriptLanguage.createRule({
 					}
 
 					for (let i = 0; i < node.arguments.length; i++) {
-						const argument = node.arguments[i];
+						// node.arguments[i] is guaranteed to be non-null by the loop condition
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						const argument = node.arguments[i]!;
 						if (!ts.isStringLiteral(argument) || argument.text.length === 0) {
 							continue;
 						}
@@ -82,7 +84,9 @@ export default typescriptLanguage.createRule({
 								message: "leading",
 								range: {
 									begin: start + 1,
-									end: start + startSpaces[1].length + 1,
+									// startSpaces[1] is guaranteed to be non-null by the regex match
+									// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+									end: start + startSpaces[1]!.length + 1,
 								},
 							});
 						}
@@ -93,7 +97,9 @@ export default typescriptLanguage.createRule({
 							context.report({
 								message: "trailing",
 								range: {
-									begin: end - endSpaces[1].length - 2,
+									// endSpaces[1] is guaranteed to be non-null by the regex match
+									// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+									begin: end - endSpaces[1]!.length - 2,
 									end: end - 2,
 								},
 							});

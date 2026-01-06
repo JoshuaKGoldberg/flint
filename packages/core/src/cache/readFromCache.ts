@@ -34,7 +34,9 @@ export async function readFromCache(
 			return undefined;
 		}
 
-		const timestampCached = cache.configs[filePath];
+		// Confirmed by the Object.hasOwn check above
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const timestampCached = cache.configs[filePath]!;
 		const timestampTouched = getFileTouchTime(filePath);
 		if (timestampTouched > timestampCached) {
 			log(

@@ -52,7 +52,9 @@ export default typescriptLanguage.createRule({
 						context.report({
 							data: {
 								method: node.expression.name.text,
-								replacement: methodReplacements[node.expression.name.text],
+								// confirmed by the has check above
+								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+								replacement: methodReplacements[node.expression.name.text]!,
 							},
 							message: "preferQuerySelector",
 							range: getTSNodeRange(node.expression.name, sourceFile),

@@ -29,7 +29,12 @@ export function extractDirectivesFromTypeScriptFile(sourceFile: ts.SourceFile) {
 		};
 
 		const range = normalizeRange(commentRange, sourceFile);
-		const [type, selection] = match.slice(1);
+		const matches = match.slice(1);
+		/* eslint-disable @typescript-eslint/no-non-null-assertion */
+		// matches[0] and matches[1] are guaranteed to be non-null by the regex match
+		const type = matches[0]!;
+		const selection = matches[1]!;
+		/* eslint-enable @typescript-eslint/no-non-null-assertion */
 
 		directives.push({ range, selection, type });
 	});

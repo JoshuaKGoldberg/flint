@@ -63,7 +63,9 @@ export default typescriptLanguage.createRule({
 				return undefined;
 			}
 
-			const arg = args[0];
+			// Confirmed by the length check above
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const arg = args[0]!;
 			if (!ts.isStringLiteral(arg)) {
 				return undefined;
 			}
@@ -119,8 +121,13 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const thenCall = getClassListMethodCall(thenBlock[0]);
-					const elseCall = getClassListMethodCall(elseBlock[0]);
+					/* eslint-disable @typescript-eslint/no-non-null-assertion */
+					// thenBlock and elseBlock are guaranteed to have one statement by the length check above
+					const thenBlockStatement = thenBlock[0]!;
+					const elseBlockStatement = elseBlock[0]!;
+					/* eslint-enable @typescript-eslint/no-non-null-assertion */
+					const thenCall = getClassListMethodCall(thenBlockStatement);
+					const elseCall = getClassListMethodCall(elseBlockStatement);
 
 					if (
 						!thenCall ||
@@ -134,12 +141,12 @@ export default typescriptLanguage.createRule({
 						(thenCall.method === "add" && elseCall.method === "remove") ||
 						(thenCall.method === "remove" && elseCall.method === "add")
 					) {
-						const thenInfo = getObjectAndClassName(thenBlock[0]);
+						const thenInfo = getObjectAndClassName(thenBlockStatement);
 						if (!thenInfo) {
 							return;
 						}
 
-						const elseInfo = getObjectAndClassName(elseBlock[0]);
+						const elseInfo = getObjectAndClassName(elseBlockStatement);
 						if (!elseInfo || thenInfo.object !== elseInfo.object) {
 							return;
 						}

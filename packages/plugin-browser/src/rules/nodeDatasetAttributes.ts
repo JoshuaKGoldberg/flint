@@ -81,7 +81,11 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const attributeName = getStringLiteralValue(node.arguments[0]);
+					const attributeName = getStringLiteralValue(
+						// Confirmed by the length checking in `getMethodDetails` above
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						node.arguments[0]!,
+					);
 					if (!attributeName) {
 						return;
 					}
