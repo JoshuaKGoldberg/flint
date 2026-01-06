@@ -19,6 +19,26 @@ key: {nested: value}
 		},
 		{
 			code: `
+config: {: emptyKey}
+`,
+			snapshot: `
+config: {: emptyKey}
+        ~~~~~~~~~~~~
+        Prefer block-style mappings over flow-style mappings for improved readability.
+`,
+		},
+		{
+			code: `
+config: {emptyValue:}
+`,
+			snapshot: `
+config: {emptyValue:}
+        ~~~~~~~~~~~~~
+        Prefer block-style mappings over flow-style mappings for improved readability.
+`,
+		},
+		{
+			code: `
 outer: {inner: value, another: data}
 `,
 			output: `
@@ -72,6 +92,58 @@ items:
       Prefer block-style mappings over flow-style mappings for improved readability.
 `,
 		},
+		{
+			code: `
+nested: {outer: {inner: value}}
+`,
+			output: `
+nested:
+  outer: {inner: value}
+`,
+			snapshot: `
+nested: {outer: {inner: value}}
+        ~~~~~~~~~~~~~~~~~~~~~~~
+        Prefer block-style mappings over flow-style mappings for improved readability.
+                ~~~~~~~~~~~~~~
+                Prefer block-style mappings over flow-style mappings for improved readability.
+`,
+		},
+		{
+			code: `
+multiple: {first: 1, second: 2, third: 3}
+`,
+			output: `
+multiple:
+  first: 1
+  second: 2
+  third: 3
+`,
+			snapshot: `
+multiple: {first: 1, second: 2, third: 3}
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          Prefer block-style mappings over flow-style mappings for improved readability.
+`,
+		},
+		{
+			code: `
+data:
+    level1:
+        level2: {key: value}
+`,
+			output: `
+data:
+    level1:
+        level2:
+          key: value
+`,
+			snapshot: `
+data:
+    level1:
+        level2: {key: value}
+                ~~~~~~~~~~~~
+                Prefer block-style mappings over flow-style mappings for improved readability.
+`,
+		},
 	],
 	valid: [
 		`key: value`,
@@ -93,6 +165,18 @@ parent:
 items:
     - name: first
     - name: second
+`,
+		`
+deeply:
+    nested:
+        structure:
+            key: value
+`,
+		`
+list:
+    - item1
+    - item2
+    - item3
 `,
 	],
 });
