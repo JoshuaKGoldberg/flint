@@ -1,5 +1,5 @@
-import rule from "./bufferAllocators.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./bufferAllocators.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

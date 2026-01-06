@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -22,7 +26,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkMediaElement(node: ts.JsxElement | ts.JsxSelfClosingElement) {
+		function checkMediaElement(
+			node: ts.JsxElement | ts.JsxSelfClosingElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			const tagName = ts.isJsxElement(node)
 				? node.openingElement.tagName
 				: node.tagName;
@@ -57,18 +64,14 @@ export default typescriptLanguage.createRule({
 
 			context.report({
 				message: "missingCaptions",
-				range: getTSNodeRange(tagName, context.sourceFile),
+				range: getTSNodeRange(tagName, sourceFile),
 			});
 		}
 
 		return {
 			visitors: {
-				JsxElement(node: ts.JsxElement) {
-					checkMediaElement(node);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkMediaElement(node);
-				},
+				JsxElement: checkMediaElement,
+				JsxSelfClosingElement: checkMediaElement,
 			},
 		};
 	},

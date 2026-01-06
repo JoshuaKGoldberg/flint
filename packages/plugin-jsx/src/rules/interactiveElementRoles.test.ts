@@ -1,5 +1,5 @@
-import rule from "./interactiveElementRoles.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./interactiveElementRoles.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [
@@ -7,7 +7,6 @@ ruleTester.describe(rule, {
 			code: `
 <button role="article" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <button role="article" />
         ~~~~~~~~~~~~~~
@@ -18,7 +17,6 @@ ruleTester.describe(rule, {
 			code: `
 <a role="img" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <a role="img" />
    ~~~~~~~~~~
@@ -29,7 +27,6 @@ ruleTester.describe(rule, {
 			code: `
 <input role="navigation" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <input role="navigation" />
        ~~~~~~~~~~~~~~~~~
@@ -40,7 +37,6 @@ ruleTester.describe(rule, {
 			code: `
 <textarea role="tooltip" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <textarea role="tooltip" />
           ~~~~~~~~~~~~~~
@@ -51,7 +47,6 @@ ruleTester.describe(rule, {
 			code: `
 <select role="main" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <select role="main" />
         ~~~~~~~~~~~
@@ -62,7 +57,6 @@ ruleTester.describe(rule, {
 			code: `
 <audio role="status" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <audio role="status" />
        ~~~~~~~~~~~~~
@@ -73,7 +67,6 @@ ruleTester.describe(rule, {
 			code: `
 <video role="presentation" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <video role="presentation" />
        ~~~~~~~~~~~~~~~~~~~
@@ -84,7 +77,6 @@ ruleTester.describe(rule, {
 			code: `
 <details role="none" />
 `,
-			fileName: "file.tsx",
 			snapshot: `
 <details role="none" />
          ~~~~~~~~~~~
@@ -93,11 +85,11 @@ ruleTester.describe(rule, {
 		},
 	],
 	valid: [
-		{ code: `<button />`, fileName: "file.tsx" },
-		{ code: `<button role="button" />`, fileName: "file.tsx" },
-		{ code: `<a role="link" />`, fileName: "file.tsx" },
-		{ code: `<input role="textbox" />`, fileName: "file.tsx" },
-		{ code: `<div role="article" />`, fileName: "file.tsx" },
-		{ code: `<CustomElement role="article" />`, fileName: "file.tsx" },
+		{ code: `<button />` },
+		{ code: `<button role="button" />` },
+		{ code: `<a role="link" />` },
+		{ code: `<input role="textbox" />` },
+		{ code: `<div role="article" />` },
+		{ code: `<CustomElement role="article" />` },
 	],
 });

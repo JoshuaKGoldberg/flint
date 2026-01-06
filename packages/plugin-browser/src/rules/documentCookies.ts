@@ -25,17 +25,20 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				PropertyAccessExpression(node: ts.PropertyAccessExpression) {
+				PropertyAccessExpression(
+					node: ts.PropertyAccessExpression,
+					{ sourceFile, typeChecker },
+				) {
 					if (
 						ts.isIdentifier(node.name) &&
 						node.name.text === "cookie" &&
 						ts.isIdentifier(node.expression) &&
 						node.expression.text === "document" &&
-						isGlobalDeclaration(node.expression, context.typeChecker)
+						isGlobalDeclaration(node.expression, typeChecker)
 					) {
 						context.report({
 							message: "noCookie",
-							range: getTSNodeRange(node.name, context.sourceFile),
+							range: getTSNodeRange(node.name, sourceFile),
 						});
 					}
 				},

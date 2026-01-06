@@ -1,9 +1,9 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
-import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.js";
-import { isTypeRecursive } from "./utils/isTypeRecursive.js";
+import { typescriptLanguage } from "../language.ts";
+import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
+import { isTypeRecursive } from "./utils/isTypeRecursive.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -26,7 +26,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function hasNumberLikeLength(type: ts.Type): boolean {
+		function hasNumberLikeLength(
+			type: ts.Type,
+			typeChecker: ts.TypeChecker,
+		): boolean {
 			const lengthProperty = type.getProperty("length");
 
 			if (lengthProperty == null) {
@@ -34,27 +37,28 @@ export default typescriptLanguage.createRule({
 			}
 
 			return tsutils.isTypeFlagSet(
-				context.typeChecker.getTypeOfSymbol(lengthProperty),
+				typeChecker.getTypeOfSymbol(lengthProperty),
 				ts.TypeFlags.NumberLike,
 			);
 		}
 
-		function isArrayLike(type: ts.Type): boolean {
+		function isArrayLike(type: ts.Type, typeChecker: ts.TypeChecker): boolean {
 			return isTypeRecursive(
 				type,
-				(t) => t.getNumberIndexType() != null && hasNumberLikeLength(t),
+				(t) =>
+					t.getNumberIndexType() != null && hasNumberLikeLength(t, typeChecker),
 			);
 		}
 
 		return {
 			visitors: {
-				ForInStatement: (node) => {
+				ForInStatement: (node, { typeChecker }) => {
 					const type = getConstrainedTypeAtLocation(
 						node.expression,
-						context.typeChecker,
+						typeChecker,
 					);
 
-					if (isArrayLike(type)) {
+					if (isArrayLike(type, typeChecker)) {
 						context.report({
 							message: "forIn",
 							range: {

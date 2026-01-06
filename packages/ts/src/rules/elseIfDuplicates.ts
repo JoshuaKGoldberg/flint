@@ -1,8 +1,8 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
-import { hasSameTokens } from "../utils/hasSameTokens.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
+import { hasSameTokens } from "../utils/hasSameTokens.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -25,19 +25,19 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkIfStatement(node: ts.IfStatement) {
+		function checkIfStatement(node: ts.IfStatement, sourceFile: ts.SourceFile) {
 			const seen: ts.Expression[] = [];
 			let current: ts.IfStatement = node;
 
 			while (true) {
 				if (
 					seen.some((previous) =>
-						hasSameTokens(previous, current.expression, context.sourceFile),
+						hasSameTokens(previous, current.expression, sourceFile),
 					)
 				) {
 					context.report({
 						message: "duplicateCondition",
-						range: getTSNodeRange(current.expression, context.sourceFile),
+						range: getTSNodeRange(current.expression, sourceFile),
 					});
 				}
 
@@ -55,12 +55,12 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				IfStatement: (node) => {
+				IfStatement: (node, { sourceFile }) => {
 					if (
 						!ts.isIfStatement(node.parent) ||
 						node.parent.elseStatement !== node
 					) {
-						checkIfStatement(node);
+						checkIfStatement(node, sourceFile);
 					}
 				},
 			},

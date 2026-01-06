@@ -26,7 +26,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				NewExpression(node: ts.NewExpression) {
+				NewExpression(node: ts.NewExpression, { sourceFile }) {
 					if (
 						!ts.isIdentifier(node.expression) ||
 						node.expression.text !== "Buffer"
@@ -36,7 +36,7 @@ export default typescriptLanguage.createRule({
 
 					context.report({
 						message: "useBufferAllocators",
-						range: getTSNodeRange(node, context.sourceFile),
+						range: getTSNodeRange(node, sourceFile),
 					});
 				},
 			},

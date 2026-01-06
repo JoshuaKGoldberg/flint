@@ -1,12 +1,11 @@
-import { ruleTester } from "./ruleTester.js";
-import rule from "./unescapedEntities.js";
+import { ruleTester } from "./ruleTester.ts";
+import rule from "./unescapedEntities.ts";
 
 ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
 <div>Greater than > sign</div>`,
-			fileName: "file.tsx",
 			snapshot: `
 <div>Greater than > sign</div>
                   ~
@@ -15,7 +14,6 @@ ruleTester.describe(rule, {
 		{
 			code: `
 <span>Double "quote" example</span>`,
-			fileName: "file.tsx",
 			snapshot: `
 <span>Double "quote" example</span>
              ~
@@ -26,7 +24,6 @@ ruleTester.describe(rule, {
 		{
 			code: `
 <p>Single 'quote' example</p>`,
-			fileName: "file.tsx",
 			snapshot: `
 <p>Single 'quote' example</p>
           ~
@@ -37,7 +34,6 @@ ruleTester.describe(rule, {
 		{
 			code: `
 <div>Closing } brace</div>`,
-			fileName: "file.tsx",
 			snapshot: `
 <div>Closing } brace</div>
              ~
@@ -46,7 +42,6 @@ ruleTester.describe(rule, {
 		{
 			code: `
 <Component>Text with > and "</Component>`,
-			fileName: "file.tsx",
 			snapshot: `
 <Component>Text with > and "</Component>
                      ~
@@ -57,7 +52,6 @@ ruleTester.describe(rule, {
 		{
 			code: `
 <div>Multiple >> problems</div>`,
-			fileName: "file.tsx",
 			snapshot: `
 <div>Multiple >> problems</div>
               ~
@@ -67,25 +61,23 @@ ruleTester.describe(rule, {
 		},
 	],
 	valid: [
-		{ code: `<div>Regular text</div>`, fileName: "file.tsx" },
-		{ code: `<div>Text with &gt; entity</div>`, fileName: "file.tsx" },
-		{ code: `<div>Text with &quot; entity</div>`, fileName: "file.tsx" },
-		{ code: `<div>Text with &#39; entity</div>`, fileName: "file.tsx" },
-		{ code: `<div>Text with &#125; entity</div>`, fileName: "file.tsx" },
-		{ code: `<div>{'>'}{'<'}</div>`, fileName: "file.tsx" },
-		{ code: `<div>{'"'}</div>`, fileName: "file.tsx" },
-		{ code: `<div>{"'"}</div>`, fileName: "file.tsx" },
-		{ code: `<div>{'}'}</div>`, fileName: "file.tsx" },
-		{ code: `<div>No special characters here</div>`, fileName: "file.tsx" },
+		{ code: `<div>Regular text</div>` },
+		{ code: `<div>Text with &gt; entity</div>` },
+		{ code: `<div>Text with &quot; entity</div>` },
+		{ code: `<div>Text with &#39; entity</div>` },
+		{ code: `<div>Text with &#125; entity</div>` },
+		{ code: `<div>{'>'}{'<'}</div>` },
+		{ code: `<div>{'"'}</div>` },
+		{ code: `<div>{"'"}</div>` },
+		{ code: `<div>{'}'}</div>` },
+		{ code: `<div>No special characters here</div>` },
 		{
 			code: `<div>
     Regular text content
 </div>`,
-			fileName: "file.tsx",
 		},
 		{
 			code: `<a href="https://example.com">Link</a>`,
-			fileName: "file.tsx",
 		},
 	],
 });

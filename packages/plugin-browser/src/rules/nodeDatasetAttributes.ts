@@ -75,7 +75,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression) {
+				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
 					const details = getMethodDetails(node);
 					if (!details) {
 						return;
@@ -91,13 +91,13 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					if (!isGlobalDeclaration(node.expression, context.typeChecker)) {
+					if (!isGlobalDeclaration(node.expression, typeChecker)) {
 						return;
 					}
 
 					context.report({
 						message: "preferDataset",
-						range: getTSNodeRange(details.methodNode, context.sourceFile),
+						range: getTSNodeRange(details.methodNode, sourceFile),
 						// TODO: add an automated changer
 					});
 				},
@@ -107,6 +107,7 @@ export default typescriptLanguage.createRule({
 });
 
 // TODO: Use a util like getStaticValue
+// https://github.com/flint-fyi/flint/issues/1298
 function getStringLiteralValue(node: ts.Expression): string | undefined {
 	if (ts.isStringLiteral(node)) {
 		return node.text;

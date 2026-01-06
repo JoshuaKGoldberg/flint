@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const implicitRoles: Record<string, string> = {
@@ -48,7 +52,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkRedundantRole(node: ts.JsxOpeningLikeElement) {
+		function checkRedundantRole(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			if (!ts.isIdentifier(node.tagName)) {
 				return;
 			}
@@ -74,7 +81,7 @@ export default typescriptLanguage.createRule({
 				ts.isStringLiteral(roleProperty.initializer) &&
 				roleProperty.initializer.text === implicitRole
 			) {
-				const range = getTSNodeRange(roleProperty, context.sourceFile);
+				const range = getTSNodeRange(roleProperty, sourceFile);
 				context.report({
 					data: {
 						element,

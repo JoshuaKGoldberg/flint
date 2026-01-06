@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const interactiveElements = new Set([
@@ -77,6 +81,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkElement(
 			element: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (!ts.isIdentifier(element.tagName)) {
 				return;
@@ -109,19 +114,15 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { element: elementName, role },
 					message: "invalidRole",
-					range: getTSNodeRange(roleProperty, context.sourceFile),
+					range: getTSNodeRange(roleProperty, sourceFile),
 				});
 			}
 		}
 
 		return {
 			visitors: {
-				JsxOpeningElement(node: ts.JsxOpeningElement) {
-					checkElement(node);
-				},
-				JsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
-					checkElement(node);
-				},
+				JsxOpeningElement: checkElement,
+				JsxSelfClosingElement: checkElement,
 			},
 		};
 	},
