@@ -1,5 +1,15 @@
 # @flint/ts
 
+## 0.15.1
+
+### Patch Changes
+
+- f1a6f9e: fix: support dynamic and type imports in reference collection
+- 602c75c: chore: rework packaging with tsdown
+- Updated dependencies [ff52cb1]
+- Updated dependencies [602c75c]
+  - @flint.fyi/core@0.18.1
+
 ## 0.15.0
 
 ### Minor Changes

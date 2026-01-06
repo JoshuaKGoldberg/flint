@@ -1,5 +1,14 @@
 # @flint/md
 
+## 0.14.3
+
+### Patch Changes
+
+- 602c75c: chore: rework packaging with tsdown
+- Updated dependencies [ff52cb1]
+- Updated dependencies [602c75c]
+  - @flint.fyi/core@0.18.1
+
 ## 0.14.2
 
 ### Patch Changes
