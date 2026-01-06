@@ -1,6 +1,6 @@
-import { FilesValue } from "./files.js";
-import { AnyRule, Rule, RuleAbout } from "./rules.js";
-import { AnyOptionalSchema, InferredObject } from "./shapes.js";
+import type { FilesValue } from "./files.ts";
+import type { AnyRule, Rule, RuleAbout } from "./rules.ts";
+import type { AnyOptionalSchema, InferredInputObject } from "./shapes.ts";
 
 export interface Plugin<
 	About extends RuleAbout,
@@ -31,5 +31,5 @@ export type PluginRulesFactory<Rules extends AnyRule[]> = (
 export type PluginRulesOptions<Rules extends AnyRule[]> = {
 	[Rule in Rules[number] as Rule["about"]["id"]]?: Rule["options"] extends undefined
 		? boolean
-		: boolean | InferredObject<Rule["options"]>;
+		: boolean | InferredInputObject<Rule["options"]>;
 };

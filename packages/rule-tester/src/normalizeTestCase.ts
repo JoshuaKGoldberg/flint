@@ -1,4 +1,4 @@
-import { TestCase } from "./types.js";
+import type { TestCase } from "./types.ts";
 
 export interface TestCaseNormalized extends TestCase {
 	fileName: string;

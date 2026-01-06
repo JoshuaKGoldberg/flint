@@ -1,9 +1,9 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
-import { isGlobalVariable } from "../utils/isGlobalVariable.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
+import { isGlobalVariable } from "../utils/isGlobalVariable.ts";
 
 export default typescriptLanguage.createRule({
 	about: {

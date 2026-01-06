@@ -1,15 +1,15 @@
-import {
+import type {
+	FileAboutData,
 	LanguageFileCacheImpacts,
 	LanguageFileDefinition,
-	NormalizedReport,
-	RuleReport,
 } from "@flint.fyi/core";
 import * as ts from "typescript";
 
-import { collectReferencedFilePaths } from "./collectReferencedFilePaths.js";
-import { convertTypeScriptDiagnosticToLanguageFileDiagnostic } from "./convertTypeScriptDiagnosticToLanguageFileDiagnostic.js";
-import { getFirstEnumValues } from "./getFirstEnumValues.js";
-import { normalizeRange } from "./normalizeRange.js";
+import { collectReferencedFilePaths } from "./collectReferencedFilePaths.ts";
+import { convertTypeScriptDiagnosticToLanguageFileDiagnostic } from "./convertTypeScriptDiagnosticToLanguageFileDiagnostic.ts";
+import { getFirstEnumValues } from "./getFirstEnumValues.ts";
+import type { TypeScriptFileServices } from "./language.ts";
+import type { TypeScriptNodesByName } from "./nodes.ts";
 
 export const NodeSyntaxKinds = getFirstEnumValues(ts.SyntaxKind);
 
@@ -20,7 +20,7 @@ export function collectTypeScriptFileCacheImpacts(
 	return {
 		dependencies: [
 			// TODO: Add support for multi-TSConfig workspaces.
-			// https://github.com/JoshuaKGoldberg/flint/issues/64 & more.
+			// https://github.com/flint-fyi/flint/issues/64 & more.
 			"tsconfig.json",
 
 			...collectReferencedFilePaths(program, sourceFile),
@@ -29,55 +29,38 @@ export function collectTypeScriptFileCacheImpacts(
 }
 
 export function createTypeScriptFileFromProgram(
+	data: FileAboutData,
 	program: ts.Program,
 	sourceFile: ts.SourceFile,
-): LanguageFileDefinition {
+): LanguageFileDefinition<TypeScriptNodesByName, TypeScriptFileServices> {
 	return {
+		about: {
+			...data,
+			sourceText: sourceFile.text,
+		},
 		cache: collectTypeScriptFileCacheImpacts(program, sourceFile),
 		getDiagnostics() {
 			return ts
 				.getPreEmitDiagnostics(program, sourceFile)
 				.map(convertTypeScriptDiagnosticToLanguageFileDiagnostic);
 		},
-		async runRule(rule, options) {
-			const reports: NormalizedReport[] = [];
-
-			const context = {
-				program,
-				report: (report: RuleReport) => {
-					reports.push({
-						...report,
-						fix:
-							report.fix && !Array.isArray(report.fix)
-								? [report.fix]
-								: report.fix,
-						message: rule.messages[report.message],
-						range: normalizeRange(report.range, sourceFile),
-					});
-				},
-				sourceFile,
-				typeChecker: program.getTypeChecker(),
-			};
-
-			const runtime = await rule.setup(context, options);
-
-			if (runtime?.visitors) {
-				const typeChecker = program.getTypeChecker();
-				const fileServices = { options, program, sourceFile, typeChecker };
-				const { visitors } = runtime;
-
-				const visit = (node: ts.Node) => {
-					visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
-
-					node.forEachChild(visit);
-				};
-
-				visit(sourceFile);
+		runVisitors(options, runtime) {
+			if (!runtime.visitors) {
+				return;
 			}
 
-			await runtime?.teardown?.();
+			const { visitors } = runtime;
+			const typeChecker = program.getTypeChecker();
+			const fileServices = { options, program, sourceFile, typeChecker };
 
-			return reports;
+			const visit = (node: ts.Node) => {
+				// @ts-expect-error - This should work...?
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+				visitors[NodeSyntaxKinds[node.kind]]?.(node, fileServices);
+				node.forEachChild(visit);
+			};
+
+			visit(sourceFile);
 		},
 	};
 }

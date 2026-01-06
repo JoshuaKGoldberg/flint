@@ -1,11 +1,11 @@
 import {
 	DirectivesCollector,
-	NormalizedReportRangeObject,
+	type NormalizedReportRangeObject,
 } from "@flint.fyi/core";
 import * as tsutils from "ts-api-utils";
-import ts from "typescript";
+import type ts from "typescript";
 
-import { normalizeRange } from "../normalizeRange.js";
+import { normalizeRange } from "../normalizeRange.ts";
 
 export interface ExtractedDirective {
 	range: NormalizedReportRangeObject;

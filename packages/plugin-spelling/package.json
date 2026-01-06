@@ -1,10 +1,10 @@
 {
 	"name": "@flint.fyi/plugin-spelling",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"description": "[Experimental] A spell-checker plugin for Flint powered by CSpell.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
+		"url": "git+https://github.com/flint-fyi/flint.git",
 		"directory": "packages/plugin-spelling"
 	},
 	"license": "MIT",
@@ -15,7 +15,10 @@
 	"sideEffects": false,
 	"type": "module",
 	"exports": {
-		".": "./lib/index.js"
+		".": {
+			"@flint.fyi/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		}
 	},
 	"files": [
 		"lib/",
@@ -23,14 +26,14 @@
 	],
 	"dependencies": {
 		"@cspell/url": "^9.2.2",
-		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/text": "workspace:",
-		"@flint.fyi/utils": "workspace:",
-		"cspell-lib": "^9.2.2",
-		"typescript": "^5.9.3"
+		"@flint.fyi/core": "workspace:^",
+		"@flint.fyi/text": "workspace:^",
+		"@flint.fyi/utils": "workspace:^",
+		"cspell-lib": "^9.2.2"
 	},
 	"devDependencies": {
-		"@flint.fyi/rule-tester": "workspace:",
+		"@flint.fyi/rule-tester": "workspace:^",
+		"tsdown": "0.19.0-beta.2",
 		"vitest": "4.0.15"
 	},
 	"engines": {
@@ -38,6 +41,8 @@
 	},
 	"publishConfig": {
 		"access": "public",
-		"provenance": true
+		"exports": {
+			".": "./lib/index.js"
+		}
 	}
 }

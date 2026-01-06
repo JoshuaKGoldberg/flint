@@ -1,7 +1,7 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import * as ts from "typescript";
 
-import { isDeclaredInNodeTypes } from "./utils/isDeclaredInNodeTypes.js";
+import { isDeclaredInNodeTypes } from "./utils/isDeclaredInNodeTypes.ts";
 
 const nodeBuiltinModules = new Set([
 	"assert",
@@ -80,7 +80,7 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkNode(node: ts.Node) {
+		function checkNode(node: ts.Node, sourceFile: ts.SourceFile) {
 			if (
 				ts.isStringLiteral(node) &&
 				nodeBuiltinModules.has(node.text) &&
@@ -89,28 +89,28 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { moduleName: node.text },
 					message: "preferNodeProtocol",
-					range: getTSNodeRange(node, context.sourceFile),
+					range: getTSNodeRange(node, sourceFile),
 				});
 			}
 		}
 		return {
 			visitors: {
-				CallExpression(node, { typeChecker }) {
+				CallExpression(node, { sourceFile, typeChecker }) {
 					if (
 						ts.isIdentifier(node.expression) &&
 						node.expression.text === "require" &&
 						node.arguments.length > 0 &&
 						isDeclaredInNodeTypes(node.expression, typeChecker)
 					) {
-						checkNode(node.arguments[0]);
+						checkNode(node.arguments[0], sourceFile);
 					}
 				},
-				ImportDeclaration(node) {
-					checkNode(node.moduleSpecifier);
+				ImportDeclaration(node, { sourceFile }) {
+					checkNode(node.moduleSpecifier, sourceFile);
 				},
-				ImportEqualsDeclaration(node) {
+				ImportEqualsDeclaration(node, { sourceFile }) {
 					if (ts.isExternalModuleReference(node.moduleReference)) {
-						checkNode(node.moduleReference.expression);
+						checkNode(node.moduleReference.expression, sourceFile);
 					}
 				},
 			},

@@ -1,4 +1,4 @@
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {

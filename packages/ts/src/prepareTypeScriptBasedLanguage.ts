@@ -1,14 +1,14 @@
-import { createProjectService } from "@typescript-eslint/project-service";
 import {
 	createFSBackedSystem,
 	createVirtualTypeScriptEnvironment,
 } from "@typescript/vfs";
+import { createProjectService } from "@typescript-eslint/project-service";
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 import path from "node:path";
 import * as ts from "typescript";
 
-import { createTypeScriptFileFromProjectService } from "./createTypeScriptFileFromProjectService.js";
+import { createTypeScriptFileFromProjectService } from "./createTypeScriptFileFromProjectService.ts";
 
 const projectRoot = path.join(import.meta.dirname, "../..");
 const log = debugForFile(import.meta.filename);

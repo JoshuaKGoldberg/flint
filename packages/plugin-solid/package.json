@@ -1,10 +1,10 @@
 {
 	"name": "@flint.fyi/plugin-solid",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "[Experimental] A Flint plugin for SolidJS code.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
+		"url": "git+https://github.com/flint-fyi/flint.git",
 		"directory": "packages/plugin-solid"
 	},
 	"license": "MIT",
@@ -15,21 +15,29 @@
 	"sideEffects": false,
 	"type": "module",
 	"exports": {
-		".": "./lib/index.js"
+		".": {
+			"@flint.fyi/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		}
 	},
 	"files": [
 		"lib/",
 		"!lib/**/*.map"
 	],
 	"dependencies": {
-		"@flint.fyi/core": "workspace:",
+		"@flint.fyi/core": "workspace:^",
 		"typescript": "^5.9.3"
+	},
+	"devDependencies": {
+		"tsdown": "0.19.0-beta.2"
 	},
 	"engines": {
 		"node": ">=24.0.0"
 	},
 	"publishConfig": {
 		"access": "public",
-		"provenance": true
+		"exports": {
+			".": "./lib/index.js"
+		}
 	}
 }

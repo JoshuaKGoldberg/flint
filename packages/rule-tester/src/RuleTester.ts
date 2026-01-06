@@ -1,19 +1,20 @@
 import {
-	AnyLanguage,
-	AnyOptionalSchema,
-	AnyRule,
-	InferredObject,
-	LanguageFileFactory,
-	RuleAbout,
+	type AnyLanguage,
+	type AnyLanguageFileFactory,
+	type AnyOptionalSchema,
+	type AnyRule,
+	type InferredInputObject,
+	parseOptions,
+	type RuleAbout,
 } from "@flint.fyi/core";
 import { CachedFactory } from "cached-factory";
 import assert from "node:assert/strict";
 
-import { createReportSnapshot } from "./createReportSnapshot.js";
-import { normalizeTestCase } from "./normalizeTestCase.js";
-import { resolveReportedSuggestions } from "./resolveReportedSuggestions.js";
-import { runTestCaseRule } from "./runTestCaseRule.js";
-import { InvalidTestCase, TestCase, ValidTestCase } from "./types.js";
+import { createReportSnapshot } from "./createReportSnapshot.ts";
+import { normalizeTestCase } from "./normalizeTestCase.ts";
+import { resolveReportedSuggestions } from "./resolveReportedSuggestions.ts";
+import { runTestCaseRule } from "./runTestCaseRule.ts";
+import type { InvalidTestCase, TestCase, ValidTestCase } from "./types.ts";
 
 export interface RuleTesterOptions {
 	defaults?: {
@@ -42,7 +43,7 @@ export type TesterSetupIt = (
 ) => void;
 
 export class RuleTester {
-	#fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>;
+	#fileFactories: CachedFactory<AnyLanguage, AnyLanguageFileFactory>;
 	#testerOptions: Required<RuleTesterOptions>;
 
 	constructor({
@@ -54,7 +55,7 @@ export class RuleTester {
 		skip,
 	}: RuleTesterOptions = {}) {
 		this.#fileFactories = new CachedFactory((language: AnyLanguage) =>
-			language.prepare(),
+			language.createFileFactory(),
 		);
 
 		it = defaultTo(it, scope, "it");
@@ -84,7 +85,7 @@ export class RuleTester {
 
 	describe<OptionsSchema extends AnyOptionalSchema | undefined>(
 		rule: AnyRule<RuleAbout, OptionsSchema>,
-		{ invalid, valid }: TestCases<InferredObject<OptionsSchema>>,
+		{ invalid, valid }: TestCases<InferredInputObject<OptionsSchema>>,
 	) {
 		this.#testerOptions.describe(rule.about.id, () => {
 			this.#testerOptions.describe("invalid", () => {
@@ -103,7 +104,7 @@ export class RuleTester {
 
 	#itInvalidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
 		rule: AnyRule<RuleAbout, OptionsSchema>,
-		testCase: InvalidTestCase<InferredObject<OptionsSchema>>,
+		testCase: InvalidTestCase<InferredInputObject<OptionsSchema>>,
 	) {
 		const testCaseNormalized = normalizeTestCase(
 			testCase,
@@ -113,11 +114,7 @@ export class RuleTester {
 		this.#itTestCase(testCaseNormalized, async () => {
 			const reports = await runTestCaseRule(
 				this.#fileFactories,
-				{
-					// TODO: Figure out a way around the type assertion...
-					options: testCase.options ?? ({} as InferredObject<OptionsSchema>),
-					rule,
-				},
+				{ options: parseOptions(rule.options, testCase.options), rule },
 				testCaseNormalized,
 			);
 			const actualSnapshot = createReportSnapshot(testCase.code, reports);
@@ -150,7 +147,7 @@ export class RuleTester {
 
 	#itValidCase<OptionsSchema extends AnyOptionalSchema | undefined>(
 		rule: AnyRule<RuleAbout, OptionsSchema>,
-		testCaseRaw: ValidTestCase<InferredObject<OptionsSchema>>,
+		testCaseRaw: ValidTestCase<InferredInputObject<OptionsSchema>>,
 	) {
 		const testCase =
 			typeof testCaseRaw === "string" ? { code: testCaseRaw } : testCaseRaw;
@@ -162,11 +159,7 @@ export class RuleTester {
 		this.#itTestCase(testCaseNormalized, async () => {
 			const reports = await runTestCaseRule(
 				this.#fileFactories,
-				{
-					// TODO: Figure out a way around the type assertion...
-					options: (testCase.options ?? {}) as InferredObject<OptionsSchema>,
-					rule,
-				},
+				{ options: parseOptions(rule.options, testCase.options), rule },
 				testCaseNormalized,
 			);
 

@@ -1,19 +1,19 @@
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 
-import { readFileSafeAsJson } from "../running/readFileSafeAsJson.js";
-import { CacheStorage } from "../types/cache.js";
-import { cacheFilePath } from "./constants.js";
-import { getFileTouchTime } from "./getFileTouchTime.js";
+import { readFileSafeAsJson } from "../running/readFileSafeAsJson.ts";
+import type { CacheStorage, FileCacheStorage } from "../types/cache.ts";
+import { cacheFilePath } from "./constants.ts";
+import { getFileTouchTime } from "./getFileTouchTime.ts";
 
 const log = debugForFile(import.meta.filename);
 
 export async function readFromCache(
 	allFilePaths: Set<string>,
 	configFilePath: string,
-) {
+): Promise<Map<string, FileCacheStorage> | undefined> {
 	// TODO: Add some kind of validation to cache data
-	// https://github.com/JoshuaKGoldberg/flint/issues/114
+	// https://github.com/flint-fyi/flint/issues/114
 	const cache = (await readFileSafeAsJson(cacheFilePath)) as
 		| CacheStorage
 		| undefined;

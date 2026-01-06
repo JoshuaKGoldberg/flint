@@ -5,7 +5,7 @@ body:
       options:
         - label: I am using the latest published version of all Flint packages.
           required: true
-        - label: I have [searched for related issues](https://github.com/JoshuaKGoldberg/flint/issues?q=is%3Aissue) and found none that matched my issue.
+        - label: I have [searched for related issues](https://github.com/flint-fyi/flint/issues?q=is%3Aissue) and found none that matched my issue.
           required: true
     type: checkboxes
   - attributes:

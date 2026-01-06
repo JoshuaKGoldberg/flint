@@ -1,10 +1,10 @@
 {
 	"name": "@flint.fyi/rule-tester",
-	"version": "0.15.0",
+	"version": "0.15.1",
 	"description": "[Experimental] Rule unit tests for Flint.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/JoshuaKGoldberg/flint.git",
+		"url": "git+https://github.com/flint-fyi/flint.git",
 		"directory": "packages/rule-tester"
 	},
 	"license": "MIT",
@@ -15,19 +15,22 @@
 	"sideEffects": false,
 	"type": "module",
 	"exports": {
-		".": "./lib/index.js"
+		".": {
+			"@flint.fyi/source": "./src/index.ts",
+			"default": "./lib/index.js"
+		}
 	},
 	"files": [
 		"lib/",
 		"!lib/**/*.map"
 	],
 	"dependencies": {
-		"@flint.fyi/core": "workspace:",
-		"@flint.fyi/utils": "workspace:",
-		"cached-factory": "^0.1.0",
-		"typescript": "^5.9.3"
+		"@flint.fyi/core": "workspace:^",
+		"@flint.fyi/utils": "workspace:^",
+		"cached-factory": "^0.1.0"
 	},
 	"devDependencies": {
+		"tsdown": "0.19.0-beta.2",
 		"vitest": "4.0.15"
 	},
 	"engines": {
@@ -35,6 +38,8 @@
 	},
 	"publishConfig": {
 		"access": "public",
-		"provenance": true
+		"exports": {
+			".": "./lib/index.js"
+		}
 	}
 }

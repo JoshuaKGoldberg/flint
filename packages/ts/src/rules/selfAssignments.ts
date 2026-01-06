@@ -1,8 +1,8 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
-import { hasSameTokens } from "../utils/hasSameTokens.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
+import { hasSameTokens } from "../utils/hasSameTokens.ts";
 
 export default typescriptLanguage.createRule({
 	about: {

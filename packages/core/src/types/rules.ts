@@ -1,21 +1,23 @@
 import type { PromiseOrSync } from "@flint.fyi/utils";
 
-import { BaseAbout } from "./about.js";
-import { RuleContext } from "./context.js";
-import { Language } from "./languages.js";
-import { ReportMessageData } from "./reports.js";
-import { AnyOptionalSchema, InferredObject } from "./shapes.js";
+import type { BaseAbout } from "./about.ts";
+import type { RuleContext } from "./context.ts";
+import type { Language } from "./languages.ts";
+import type { ReportMessageData } from "./reports.ts";
+import type { AnyOptionalSchema, InferredOutputObject } from "./shapes.ts";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export type AnyRule<
 	About extends RuleAbout = RuleAbout,
-	OptionsSchema extends AnyOptionalSchema | undefined = any,
-> = Rule<About, any, any, string, OptionsSchema>;
+	OptionsSchema extends AnyOptionalSchema | undefined =
+		| AnyOptionalSchema
+		| undefined,
+> = Rule<About, unknown, object, string, OptionsSchema>;
 
 export type AnyRuleDefinition<
-	OptionsSchema extends AnyOptionalSchema | undefined = any,
-> = RuleDefinition<RuleAbout, any, any, string, OptionsSchema>;
-/* eslint-enable @typescript-eslint/no-explicit-any */
+	OptionsSchema extends AnyOptionalSchema | undefined =
+		| AnyOptionalSchema
+		| undefined,
+> = RuleDefinition<RuleAbout, unknown, object, string, OptionsSchema>;
 
 /**
  * A single lint rule, as used by users in configs.
@@ -23,17 +25,17 @@ export type AnyRuleDefinition<
 export interface Rule<
 	About extends RuleAbout,
 	AstNodesByName,
-	ContextServices extends object,
+	FileServices extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > extends RuleDefinition<
 	About,
 	AstNodesByName,
-	ContextServices,
+	FileServices,
 	MessageId,
 	OptionsSchema
 > {
-	language: Language<AstNodesByName, ContextServices>;
+	language: Language<AstNodesByName, FileServices>;
 }
 
 export interface RuleAbout extends BaseAbout {
@@ -46,7 +48,7 @@ export interface RuleAbout extends BaseAbout {
 export interface RuleDefinition<
 	About extends RuleAbout,
 	AstNodesByName,
-	ContextServices extends object,
+	FileServices extends object,
 	MessageId extends string,
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
@@ -55,9 +57,9 @@ export interface RuleDefinition<
 	options?: OptionsSchema;
 	setup: RuleSetup<
 		AstNodesByName,
-		ContextServices,
+		FileServices,
 		MessageId,
-		InferredObject<OptionsSchema>
+		InferredOutputObject<OptionsSchema>
 	>;
 }
 
@@ -69,15 +71,13 @@ export interface RuleRuntime<AstNodesByName, FileServices extends object> {
 
 export type RuleSetup<
 	AstNodesByName,
-	ContextServices extends object,
+	FileServices extends object,
 	MessageId extends string,
-	Options,
+	Options extends Record<string, unknown> | undefined,
 > = (
-	context: ContextServices & RuleContext<MessageId>,
-	options: Options,
+	context: RuleContext<MessageId>,
 ) => PromiseOrSync<
-	| RuleRuntime<AstNodesByName, ContextServices & { options: Options }>
-	| undefined
+	RuleRuntime<AstNodesByName, FileServices & { options: Options }> | undefined
 >;
 
 export type RuleTeardown = () => PromiseOrSync<undefined>;

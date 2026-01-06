@@ -1,4 +1,4 @@
-import { formatReportPrimary, NormalizedReport } from "@flint.fyi/core";
+import { formatReportPrimary, type NormalizedReport } from "@flint.fyi/core";
 
 export function createReportSnapshot(
 	sourceText: string,

@@ -13085,6 +13085,81 @@
 	{
 		"eslint": [
 			{
+				"name": "no-duplicate-imports",
+				"url": "https://eslint.org/docs/latest/rules/no-duplicate-imports"
+			}
+		],
+		"flint": {
+			"name": "importDuplicates",
+			"plugin": "ts",
+			"preset": "stylistic"
+		},
+		"oxlint": [
+			{
+				"name": "eslint/no-duplicate-imports",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-duplicate-imports.html"
+			}
+		]
+	},
+	{
+		"biome": [
+			{
+				"name": "noIrregularWhitespace",
+				"url": "https://biomejs.dev/linter/rules/no-irregular-whitespace"
+			}
+		],
+		"deno": [
+			{
+				"name": "no-irregular-whitespace",
+				"url": "https://docs.deno.com/lint/rules/no-irregular-whitespace"
+			}
+		],
+		"eslint": [
+			{
+				"name": "no-irregular-whitespace",
+				"url": "https://eslint.org/docs/latest/rules/no-irregular-whitespace"
+			}
+		],
+		"flint": {
+			"name": "irregularWhitespaces",
+			"plugin": "ts",
+			"preset": "logical"
+		},
+		"oxlint": [
+			{
+				"name": "eslint/no-irregular-whitespace",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-irregular-whitespace.html"
+			}
+		]
+	},
+	{
+		"biome": [
+			{
+				"name": "useConsistentBuiltinInstantiation",
+				"url": "https://biomejs.dev/linter/rules/use-consistent-builtin-instantiation/"
+			}
+		],
+		"eslint": [
+			{
+				"name": "no-new-wrappers",
+				"url": "https://eslint.org/docs/latest/rules/no-new-wrappers"
+			}
+		],
+		"flint": {
+			"name": "wrapperObjects",
+			"plugin": "ts",
+			"preset": "logical"
+		},
+		"oxlint": [
+			{
+				"name": "eslint/no-new-wrappers",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-new-wrappers.html"
+			}
+		]
+	},
+	{
+		"eslint": [
+			{
 				"name": "@typescript-eslint/non-nullable-type-assertion-style",
 				"url": "https://typescript-eslint.io/rules/non-nullable-type-assertion-style"
 			}
@@ -14743,17 +14818,39 @@
 		}
 	},
 	{
+		"biome": [
+			{
+				"name": "noEmptyCharacterClassInRegex",
+				"url": "https://biomejs.dev/linter/rules/no-empty-character-class-in-regex"
+			}
+		],
+		"deno": [
+			{
+				"name": "no-empty-character-class",
+				"url": "https://docs.deno.com/lint/rules/no-empty-character-class"
+			}
+		],
 		"eslint": [
 			{
 				"name": "regexp/no-empty-character-class",
 				"url": "https://ota-meshi.github.io/eslint-plugin-regexp/rules/no-empty-character-class.html"
+			},
+			{
+				"name": "no-empty-character-class",
+				"url": "https://eslint.org/docs/latest/rules/no-empty-character-class"
 			}
 		],
 		"flint": {
 			"name": "regexEmptyCharacterClasses",
 			"plugin": "ts",
 			"preset": "logical"
-		}
+		},
+		"oxlint": [
+			{
+				"name": "eslint/no-empty-character-class",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-empty-character-class.html"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -17853,10 +17950,20 @@
 		]
 	},
 	{
+		"biome": [
+			{
+				"name": "noUselessTernary",
+				"url": "https://biomejs.dev/linter/rules/no-useless-ternary"
+			}
+		],
 		"eslint": [
 			{
 				"name": "unicorn/prefer-logical-operator-over-ternary",
 				"url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/HEAD/docs/rules/prefer-logical-operator-over-ternary.md"
+			},
+			{
+				"name": "no-unneeded-ternary",
+				"url": "https://eslint.org/docs/latest/rules/no-unneeded-ternary"
 			}
 		],
 		"flint": {
@@ -17866,6 +17973,10 @@
 			"strictness": "strict"
 		},
 		"oxlint": [
+			{
+				"name": "eslint/no-unneeded-ternary",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-unneeded-ternary.html"
+			},
 			{
 				"name": "unicorn/prefer-logical-operator-over-ternary",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/prefer-logical-operator-over-ternary.html"
@@ -21339,6 +21450,7 @@
 			}
 		],
 		"flint": {
+			"status": "implemented",
 			"name": "emptyDocuments",
 			"plugin": "yaml",
 			"preset": "logical"

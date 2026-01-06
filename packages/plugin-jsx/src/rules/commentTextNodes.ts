@@ -1,5 +1,5 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import type * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {

@@ -1,5 +1,19 @@
 # @flint.fyi/plugin-spelling
 
+## 0.1.4
+
+### Patch Changes
+
+- 6f6a1d8: fix: added cspell plugin missing config error message and docs update
+- 602c75c: chore: rework packaging with tsdown
+- Updated dependencies [9a8ecc1]
+- Updated dependencies [8b8f8d3]
+- Updated dependencies [ff52cb1]
+- Updated dependencies [602c75c]
+  - @flint.fyi/utils@0.14.0
+  - @flint.fyi/text@0.14.2
+  - @flint.fyi/core@0.18.1
+
 ## 0.1.3
 
 ### Patch Changes

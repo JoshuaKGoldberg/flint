@@ -1,5 +1,29 @@
 # @flint/cli
 
+## 0.16.1
+
+### Patch Changes
+
+- 602c75c: chore: rework packaging with tsdown
+- Updated dependencies [9a8ecc1]
+- Updated dependencies [ff52cb1]
+- Updated dependencies [602c75c]
+  - @flint.fyi/utils@0.14.0
+  - @flint.fyi/core@0.18.1
+
+## 0.16.0
+
+### Minor Changes
+
+- 98de4a9: feat: implement a more complete \`--help\` output
+- 1d81a8f: fix!: move runPrettier to @flint/cli, add peer dependency on prettier to prevent skew-induced crashes
+
+### Patch Changes
+
+- e5a1471: fix: additional repo owner updates
+- Updated dependencies [1d81a8f]
+  - @flint.fyi/core@0.18.0
+
 ## 0.15.4
 
 ### Patch Changes

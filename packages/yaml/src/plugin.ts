@@ -1,11 +1,12 @@
 import { createPlugin } from "@flint.fyi/core";
 
-import emptyMappingKeys from "./rules/emptyMappingKeys.js";
+import emptyDocuments from "./rules/emptyDocuments.ts";
+import emptyMappingKeys from "./rules/emptyMappingKeys.ts";
 
 export const yaml = createPlugin({
 	files: {
 		all: ["**/*.{yaml,yml}"],
 	},
 	name: "YAML",
-	rules: [emptyMappingKeys],
+	rules: [emptyDocuments, emptyMappingKeys],
 });

@@ -1,8 +1,8 @@
 import { textLanguage } from "@flint.fyi/text";
 import { parseJsonSafe } from "@flint.fyi/utils";
-import { DocumentValidator } from "cspell-lib";
+import type { DocumentValidator } from "cspell-lib";
 
-import { createDocumentValidator } from "./createDocumentValidator.js";
+import { createDocumentValidator } from "./createDocumentValidator.ts";
 
 interface CSpellConfigLike {
 	words?: string[];
@@ -26,15 +26,7 @@ export default textLanguage.createRule({
 			suggestions: ["TODO"],
 		},
 	},
-	async setup(context) {
-		const documentValidator = await createDocumentValidator(
-			context.filePathAbsolute,
-			context.sourceText,
-		);
-		if (!documentValidator) {
-			return undefined;
-		}
-
+	setup(context) {
 		const fileTasks: FileTask[] = [];
 
 		return {

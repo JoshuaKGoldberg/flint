@@ -1,38 +1,67 @@
-import type { PromiseOrSync } from "@flint.fyi/utils";
-
 import {
-	AnyLanguage,
-	AnyOptionalSchema,
-	AnyRule,
-	InferredObject,
-	LanguageFileFactory,
+	type AnyLanguage,
+	type AnyLanguageFileFactory,
+	type AnyOptionalSchema,
+	type AnyRule,
+	getColumnAndLineOfPosition,
+	type InferredOutputObject,
 	type NormalizedReport,
-	RuleAbout,
+	type RuleAbout,
 } from "@flint.fyi/core";
-import { CachedFactory } from "cached-factory";
+import type { CachedFactory } from "cached-factory";
 
-import { TestCaseNormalized } from "./normalizeTestCase.js";
+import type { TestCaseNormalized } from "./normalizeTestCase.ts";
 
 export interface TestCaseRuleConfiguration<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 > {
-	options?: InferredObject<OptionsSchema>;
+	options?: InferredOutputObject<OptionsSchema | undefined>;
 	rule: AnyRule<RuleAbout, OptionsSchema>;
 }
 
-export function runTestCaseRule<
+export async function runTestCaseRule<
 	OptionsSchema extends AnyOptionalSchema | undefined,
 >(
-	fileFactories: CachedFactory<AnyLanguage, LanguageFileFactory>,
+	fileFactories: CachedFactory<AnyLanguage, AnyLanguageFileFactory>,
 	{ options, rule }: Required<TestCaseRuleConfiguration<OptionsSchema>>,
 	{ code, fileName }: TestCaseNormalized,
-): PromiseOrSync<NormalizedReport[]> {
-	using file = fileFactories
-		// TODO: How to make types more permissive around assignability?
-		// See AnyRule's any
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		.get(rule.language)
-		.prepareFromVirtual(fileName, code).file;
+): Promise<NormalizedReport[]> {
+	using file = fileFactories.get(rule.language).prepareFromVirtual({
+		filePath: fileName,
+		filePathAbsolute: fileName,
+		sourceText: code,
+	}).file;
 
-	return file.runRule(rule, options as InferredObject<OptionsSchema>);
+	const reports: NormalizedReport[] = [];
+
+	const ruleRuntime = await rule.setup({
+		report(ruleReport) {
+			reports.push({
+				...ruleReport,
+				fix:
+					ruleReport.fix && !Array.isArray(ruleReport.fix)
+						? [ruleReport.fix]
+						: ruleReport.fix,
+				message: rule.messages[ruleReport.message],
+				range: {
+					begin: getColumnAndLineOfPosition(
+						file.about.sourceText,
+						ruleReport.range.begin,
+					),
+					end: getColumnAndLineOfPosition(
+						file.about.sourceText,
+						ruleReport.range.end,
+					),
+				},
+			});
+		},
+	});
+
+	if (ruleRuntime) {
+		file.runVisitors(options, ruleRuntime);
+
+		await ruleRuntime.teardown?.();
+	}
+
+	return reports;
 }
