@@ -11,7 +11,7 @@ ruleTester.describe(rule, {
 			snapshot: `
 ---
 ~~~
-This document is empty and contains no content, which is often a mistake.
+This YAML document contains no content beyond document markers.
 `,
 		},
 		{
@@ -23,7 +23,7 @@ This document is empty and contains no content, which is often a mistake.
 			snapshot: `
 ---
 ~~~
-This document is empty and contains no content, which is often a mistake.
+This YAML document contains no content beyond document markers.
 ...
 `,
 		},
@@ -41,60 +41,69 @@ key: value
 			snapshot: `
 ---
 ~~~
-This document is empty and contains no content, which is often a mistake.
+This YAML document contains no content beyond document markers.
 
 ---
 key: value
 `,
 		},
 		{
-			code: `---
+			code: `
+---
 key: value
 ---
 `,
-			output: `---
+			output: `
+---
 key: value
 `,
-			snapshot: `---
+			snapshot: `
+---
 key: value
 ---
 ~~~
-This document is empty and contains no content, which is often a mistake.
+This YAML document contains no content beyond document markers.
 `,
 		},
 		{
-			code: `---
+			code: `
+---
 key1: value1
 ---
 ---
 key2: value2
 `,
-			output: `---
+			output: `
+---
 key1: value1
 ---
 key2: value2
 `,
-			snapshot: `---
+			snapshot: `
+---
 key1: value1
 ---
 ~~~
-This document is empty and contains no content, which is often a mistake.
+This YAML document contains no content beyond document markers.
 ---
 key2: value2
 `,
 		},
 		{
-			code: `---
+			code: `
+---
 ...
 ---
 key: value
 `,
-			output: `---
+			output: `
+---
 key: value
 `,
-			snapshot: `---
+			snapshot: `
+---
 ~~~
-This document is empty and contains no content, which is often a mistake.
+This YAML document contains no content beyond document markers.
 ...
 ---
 key: value

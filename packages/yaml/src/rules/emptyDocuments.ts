@@ -10,14 +10,14 @@ export default yamlLanguage.createRule({
 	messages: {
 		emptyDocument: {
 			primary:
-				"This document is empty and contains no content, which is often a mistake.",
+				"This YAML document contains no content beyond document markers.",
 			secondary: [
-				"Empty documents can be confusing and may indicate incomplete or incorrect YAML structure.",
-				"Consider removing the empty document or adding content to it.",
+				"Empty YAML documents serve no purpose and typically result from editing mistakes or incomplete refactoring.",
+				"Removing empty documents improves file clarity and prevents potential confusion when parsing or maintaining YAML files.",
 			],
 			suggestions: [
 				"Remove the empty document entirely.",
-				"Add content to the document if it was meant to contain data.",
+				"Add content to the document if it was intended to hold data.",
 			],
 		},
 	},
