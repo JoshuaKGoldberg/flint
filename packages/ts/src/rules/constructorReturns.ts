@@ -1,7 +1,7 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -25,7 +25,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				Constructor: (node) => {
+				Constructor: (node, { sourceFile }) => {
 					if (!node.body) {
 						return;
 					}
@@ -36,7 +36,7 @@ export default typescriptLanguage.createRule({
 								context.report({
 									message: "noConstructorReturn",
 									range: {
-										begin: node.getStart(context.sourceFile),
+										begin: node.getStart(sourceFile),
 										end: node.getEnd(),
 									},
 								});

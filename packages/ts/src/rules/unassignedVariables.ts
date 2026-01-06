@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
-import { getModifyingReferences } from "../utils/getModifyingReferences.js";
+import { typescriptLanguage } from "../language.ts";
+import { getModifyingReferences } from "../utils/getModifyingReferences.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -36,7 +36,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				VariableDeclaration: (node) => {
+				VariableDeclaration: (node, { sourceFile, typeChecker }) => {
 					if (node.initializer || !ts.isIdentifier(node.name)) {
 						return;
 					}
@@ -48,16 +48,14 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					if (
-						!hasAssignments(node.name, context.sourceFile, context.typeChecker)
-					) {
+					if (!hasAssignments(node.name, sourceFile, typeChecker)) {
 						context.report({
 							data: {
 								name: node.name.text,
 							},
 							message: "noUnassigned",
 							range: {
-								begin: node.name.getStart(context.sourceFile),
+								begin: node.name.getStart(sourceFile),
 								end: node.name.getEnd(),
 							},
 						});

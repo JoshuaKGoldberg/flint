@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -23,7 +23,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				Identifier: (node) => {
+				Identifier: (node, { sourceFile, typeChecker }) => {
 					if (
 						ts.isVariableDeclaration(node.parent) &&
 						node.parent.name === node
@@ -77,15 +77,15 @@ export default typescriptLanguage.createRule({
 					}
 
 					// TODO: This rule is untyped, so it should use scope analysis
-					// https://github.com/JoshuaKGoldberg/flint/issues/400
-					if (!context.typeChecker.getSymbolAtLocation(node)) {
+					// https://github.com/flint-fyi/flint/issues/400
+					if (!typeChecker.getSymbolAtLocation(node)) {
 						context.report({
 							data: {
 								name: node.text,
 							},
 							message: "undefinedVariable",
 							range: {
-								begin: node.getStart(context.sourceFile),
+								begin: node.getStart(sourceFile),
 								end: node.getEnd(),
 							},
 						});

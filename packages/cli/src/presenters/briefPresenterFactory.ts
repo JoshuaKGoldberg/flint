@@ -3,10 +3,10 @@ import { makeAbsolute } from "@flint.fyi/utils";
 import { styleText } from "node:util";
 import { textTable } from "text-table-fast";
 
-import { presentHeader } from "./shared/header.js";
-import { presentDiagnostics } from "./shared/presentDiagnostics.js";
-import { presentSummary } from "./shared/summary.js";
-import { PresenterFactory } from "./types.js";
+import { presentHeader } from "./shared/header.ts";
+import { presentDiagnostics } from "./shared/presentDiagnostics.ts";
+import { presentSummary } from "./shared/summary.ts";
+import type { PresenterFactory } from "./types.ts";
 
 export const briefPresenterFactory: PresenterFactory = {
 	about: {

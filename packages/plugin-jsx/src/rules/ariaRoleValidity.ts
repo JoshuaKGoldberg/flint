@@ -1,4 +1,8 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import {
+	getTSNodeRange,
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "@flint.fyi/ts";
 import * as ts from "typescript";
 
 const validAriaRoles = new Set([
@@ -96,7 +100,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkRole(node: ts.JsxOpeningLikeElement) {
+		function checkRole(
+			node: ts.JsxOpeningLikeElement,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			if (
 				!ts.isIdentifier(node.tagName) ||
 				node.tagName.text.toLowerCase() !== node.tagName.text
@@ -122,7 +129,7 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: { role: role || "(empty)" },
 					message: "invalidRole",
-					range: getTSNodeRange(roleProperty, context.sourceFile),
+					range: getTSNodeRange(roleProperty, sourceFile),
 				});
 			}
 		}

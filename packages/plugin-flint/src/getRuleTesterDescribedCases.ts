@@ -1,8 +1,8 @@
 import { isTruthy } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
-import { findProperty } from "./findProperty.js";
-import { parseTestCase, parseTestCaseInvalid } from "./parseTestCases.js";
+import { findProperty } from "./findProperty.ts";
+import { parseTestCase, parseTestCaseInvalid } from "./parseTestCases.ts";
 
 export function getRuleTesterDescribedCases(node: ts.CallExpression) {
 	if (
@@ -16,7 +16,7 @@ export function getRuleTesterDescribedCases(node: ts.CallExpression) {
 	}
 
 	// TODO: Check node.expression.expression's type for being a RuleTester
-	// https://github.com/JoshuaKGoldberg/flint/issues/152
+	// https://github.com/flint-fyi/flint/issues/152
 
 	const argument = node.arguments[1];
 	if (!ts.isObjectLiteralExpression(argument)) {

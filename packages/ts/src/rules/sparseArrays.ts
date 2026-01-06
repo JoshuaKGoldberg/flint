@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -25,21 +25,21 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				OmittedExpression: (node) => {
+				OmittedExpression: (node, { sourceFile }) => {
 					const parent = node.parent;
 					if (!ts.isArrayLiteralExpression(parent)) {
 						return;
 					}
 
 					const syntaxList = parent
-						.getChildren(context.sourceFile)
+						.getChildren(sourceFile)
 						.find((child) => child.kind === ts.SyntaxKind.SyntaxList);
 
 					if (!syntaxList) {
 						return;
 					}
 
-					const children = syntaxList.getChildren(context.sourceFile);
+					const children = syntaxList.getChildren(sourceFile);
 					const omittedIndex = children.indexOf(node);
 
 					for (let i = omittedIndex + 1; i < children.length; i++) {
@@ -47,7 +47,7 @@ export default typescriptLanguage.createRule({
 							context.report({
 								message: "noSparseArray",
 								range: {
-									begin: children[i].getStart(context.sourceFile),
+									begin: children[i].getStart(sourceFile),
 									end: children[i].getEnd(),
 								},
 							});

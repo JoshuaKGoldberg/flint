@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -72,13 +72,13 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				Block: (node) => {
+				Block: (node, { sourceFile }) => {
 					if (!isValidBlock(node)) {
 						context.report({
 							message: "unnecessaryBlock",
 							range: {
-								begin: node.getStart(context.sourceFile),
-								end: node.getStart(context.sourceFile) + 1,
+								begin: node.getStart(sourceFile),
+								end: node.getStart(sourceFile) + 1,
 							},
 						});
 					}

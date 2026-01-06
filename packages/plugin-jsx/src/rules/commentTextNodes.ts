@@ -1,5 +1,5 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import type * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -26,13 +26,13 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				JsxText(node: ts.JsxText) {
+				JsxText(node: ts.JsxText, { sourceFile }) {
 					const text = node.text;
 
 					if (/^\s*(?:\/\/|\/\*)/.test(text)) {
 						context.report({
 							message: "commentAsText",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: getTSNodeRange(node, sourceFile),
 						});
 					}
 				},

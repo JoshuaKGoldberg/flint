@@ -1,5 +1,5 @@
-import rule from "./assertStrict.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./assertStrict.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [

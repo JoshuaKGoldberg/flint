@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
-import { getModifyingReferences } from "../utils/getModifyingReferences.js";
+import { typescriptLanguage } from "../language.ts";
+import { getModifyingReferences } from "../utils/getModifyingReferences.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -42,7 +42,7 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				VariableDeclarationList: (node) => {
+				VariableDeclarationList: (node, { sourceFile, typeChecker }) => {
 					if (
 						!(node.flags & ts.NodeFlags.Const) ||
 						node.declarations.length === 0
@@ -56,15 +56,15 @@ export default typescriptLanguage.createRule({
 						for (const identifier of identifiers) {
 							const modifyingReferences = getModifyingReferences(
 								identifier,
-								context.sourceFile,
-								context.typeChecker,
+								sourceFile,
+								typeChecker,
 							);
 
 							for (const reference of modifyingReferences) {
 								context.report({
 									message: "noConstAssign",
 									range: {
-										begin: reference.getStart(context.sourceFile),
+										begin: reference.getStart(sourceFile),
 										end: reference.getEnd(),
 									},
 								});
