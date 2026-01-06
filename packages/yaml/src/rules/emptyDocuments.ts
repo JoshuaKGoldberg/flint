@@ -2,7 +2,8 @@ import { yamlLanguage } from "../language.ts";
 
 export default yamlLanguage.createRule({
 	about: {
-		description: "Reports empty documents in YAML files.",
+		description:
+			"Reports empty YAML documents that contain only document markers.",
 		id: "emptyDocuments",
 		preset: "logical",
 	},
@@ -23,23 +24,17 @@ export default yamlLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				document: (node) => {
+				document: (node, { root }) => {
 					const [documentHead, documentBody] = node.children;
 					if (documentBody.children.length === 0) {
-						// Determine the range to remove for the fix
-						// We want to remove the entire document including trailing whitespace
 						const documentStart = node.position.start.offset;
 						let documentEnd = node.position.end.offset;
 
-						// Check if there's a next sibling document
-						const parent = context.root;
-						const documentIndex = parent.children.indexOf(node);
-						const hasNextDocument = documentIndex < parent.children.length - 1;
+						const documentIndex = root.children.indexOf(node);
+						const hasNextDocument = documentIndex < root.children.length - 1;
 
-						// If there's a next document, we want to remove up to (but not including) it
-						// Otherwise, remove the entire document including trailing content
 						if (hasNextDocument) {
-							const nextDocument = parent.children[documentIndex + 1];
+							const nextDocument = root.children[documentIndex + 1];
 							documentEnd = nextDocument.position.start.offset;
 						}
 
