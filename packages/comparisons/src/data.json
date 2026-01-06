@@ -21449,7 +21449,7 @@
 			}
 		],
 		"flint": {
-			"implemented": true,
+			"status": "implemented",
 			"name": "emptyDocuments",
 			"plugin": "yaml",
 			"preset": "logical"
