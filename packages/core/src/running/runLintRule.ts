@@ -4,7 +4,12 @@ import { debugForFile } from "debug-for-file";
 import type { AnyLanguageFileDefinition } from "../types/languages.ts";
 import type { FileReport } from "../types/reports.ts";
 import type { AnyRule } from "../types/rules.ts";
+import type {
+	InferredInputObject,
+	InferredOutputObject,
+} from "../types/shapes.ts";
 import { getColumnAndLineOfPosition } from "../utils/getColumnAndLineOfPosition.ts";
+import { parseOptions } from "./parseOptions.ts";
 import type { LanguageFilesWithOptions } from "./types.ts";
 
 const log = debugForFile(import.meta.filename);
@@ -58,12 +63,17 @@ export async function runLintRule(
 		// 2a. If the rule has visitors, run them on every file to lint, with options
 		if (ruleRuntime.visitors) {
 			for (const { languageFiles, options } of filesAndOptions) {
+				const parsedOptions: InferredOutputObject<(typeof rule)["options"]> =
+					parseOptions(
+						rule.options,
+						// TODO: Figure out a way around the type assertion...
+						options as InferredInputObject<(typeof rule)["options"]>,
+					);
+
 				for (const file of languageFiles) {
 					currentFile = file;
 
-					// TODO: How to make types more permissive around assignability?
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-					file.runVisitors(options as object | undefined, ruleRuntime);
+					file.runVisitors(parsedOptions, ruleRuntime);
 				}
 			}
 		}

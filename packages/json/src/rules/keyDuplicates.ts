@@ -46,7 +46,7 @@ export default jsonLanguage.createRule({
 						}
 
 						const key = property.name.text;
-						if (options.allowKeys?.includes(key)) {
+						if (options.allowKeys.includes(key)) {
 							continue;
 						}
 

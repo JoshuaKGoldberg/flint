@@ -1,7 +1,7 @@
 import type { CommentDirective } from "./directives.ts";
 import type { FileReport } from "./reports.ts";
 import type { Rule, RuleAbout, RuleDefinition, RuleRuntime } from "./rules.ts";
-import type { AnyOptionalSchema, InferredObject } from "./shapes.ts";
+import type { AnyOptionalSchema, InferredOutputObject } from "./shapes.ts";
 
 export type AnyLanguage = Language<object, object>;
 export type AnyLanguageFileDefinition = LanguageFileDefinition<object, object>;
@@ -105,7 +105,7 @@ export interface LanguageFile<
 			| AnyOptionalSchema
 			| undefined,
 	>(
-		options: InferredObject<OptionsSchema>,
+		options: InferredOutputObject<OptionsSchema>,
 		runtime: RuleRuntime<AstNodesByName, FileServices>,
 	): void;
 }
@@ -125,7 +125,7 @@ export interface LanguageFileDefinition<
 			| AnyOptionalSchema
 			| undefined,
 	>(
-		options: InferredObject<OptionsSchema>,
+		options: InferredOutputObject<OptionsSchema>,
 		runtime: RuleRuntime<AstNodesByName, FileServices>,
 	): void;
 }
