@@ -176,7 +176,7 @@ importers:
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/core:
     dependencies:
@@ -204,7 +204,7 @@ importers:
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/flint:
     dependencies:
@@ -263,7 +263,7 @@ importers:
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/md:
     dependencies:
@@ -291,7 +291,7 @@ importers:
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/package-json:
     dependencies:
@@ -339,7 +339,7 @@ importers:
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-flint:
     dependencies:
@@ -364,7 +364,7 @@ importers:
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-jsx:
     dependencies:
@@ -392,7 +392,7 @@ importers:
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-next:
     dependencies:
@@ -422,12 +422,15 @@ importers:
       '@flint.fyi/rule-tester':
         specifier: workspace:^
         version: link:../rule-tester
+      '@types/node':
+        specifier: ^25.0.3
+        version: 25.0.3
       tsdown:
         specifier: 0.19.0-beta.2
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-nuxt:
     dependencies:
@@ -465,7 +468,7 @@ importers:
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/plugin-react:
     dependencies:
@@ -519,7 +522,7 @@ importers:
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/rule-tester:
     dependencies:
@@ -538,7 +541,7 @@ importers:
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/site:
     dependencies:
@@ -682,7 +685,7 @@ importers:
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   packages/ts-patch:
     devDependencies:
@@ -719,7 +722,7 @@ importers:
         version: 0.19.0-beta.2(@arethetypeswrong/core@0.18.2)(oxc-resolver@11.15.0)(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: 4.0.15
-        version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+        version: 4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
 packages:
 
@@ -2117,6 +2120,9 @@ packages:
 
   '@types/node@24.10.1':
     resolution: {integrity: sha512-GNWcUTRBgIRJD5zj+Tq0fKOJ5XZajIiBroOF0yvj2bSU1WvNdYS/dn9UxwsujGW4JX06dnHyjV2y9rRaybH0iQ==}
+
+  '@types/node@25.0.3':
+    resolution: {integrity: sha512-W609buLVRVmeW693xKfzHeIV6nJGGz98uCPfeXI1ELMLXVeKYZ9m15fAMSaUPBHYLGFsVRcMmSCksQOrZV9BYA==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -6755,6 +6761,10 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
+  '@types/node@25.0.3':
+    dependencies:
+      undici-types: 7.16.0
+
   '@types/normalize-package-data@2.4.4': {}
 
   '@types/omit-empty@1.0.4': {}
@@ -6967,6 +6977,14 @@ snapshots:
       magic-string: 0.30.21
     optionalDependencies:
       vite: 7.1.12(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+
+  '@vitest/mocker@4.0.15(vite@7.1.12(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2))':
+    dependencies:
+      '@vitest/spy': 4.0.15
+      estree-walker: 3.0.3
+      magic-string: 0.30.21
+    optionalDependencies:
+      vite: 7.1.12(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
 
   '@vitest/pretty-format@4.0.15':
     dependencies:
@@ -10313,6 +10331,20 @@ snapshots:
       jiti: 2.6.1
       yaml: 2.8.2
 
+  vite@7.1.12(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2):
+    dependencies:
+      esbuild: 0.25.11
+      fdir: 6.5.0(picomatch@4.0.3)
+      picomatch: 4.0.3
+      postcss: 8.5.6
+      rollup: 4.52.5
+      tinyglobby: 0.2.15
+    optionalDependencies:
+      '@types/node': 25.0.3
+      fsevents: 2.3.3
+      jiti: 2.6.1
+      yaml: 2.8.2
+
   vitefu@1.1.1(vite@6.4.1(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)):
     optionalDependencies:
       vite: 6.4.1(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
@@ -10341,6 +10373,43 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 24.10.1
+    transitivePeerDependencies:
+      - jiti
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - terser
+      - tsx
+      - yaml
+
+  vitest@4.0.15(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2):
+    dependencies:
+      '@vitest/expect': 4.0.15
+      '@vitest/mocker': 4.0.15(vite@7.1.12(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2))
+      '@vitest/pretty-format': 4.0.15
+      '@vitest/runner': 4.0.15
+      '@vitest/snapshot': 4.0.15
+      '@vitest/spy': 4.0.15
+      '@vitest/utils': 4.0.15
+      es-module-lexer: 1.7.0
+      expect-type: 1.2.2
+      magic-string: 0.30.21
+      obug: 2.1.1
+      pathe: 2.0.3
+      picomatch: 4.0.3
+      std-env: 3.10.0
+      tinybench: 2.9.0
+      tinyexec: 1.0.2
+      tinyglobby: 0.2.15
+      tinyrainbow: 3.0.3
+      vite: 7.1.12(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.2)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 25.0.3
     transitivePeerDependencies:
       - jiti
       - less

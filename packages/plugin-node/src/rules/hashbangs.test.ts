@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import path from "node:path";
 
-import rule from "./hashbangs.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./hashbangs.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 const testFixtureDir = path.resolve(
 	import.meta.dirname,
@@ -18,7 +19,7 @@ console.log("hello");
 			snapshot: `
 console.log("hello");
 ~~~~~~~~~~~~~~~~~~~~~
-Executable files must start with a hashbang.
+Files listed in package.json's bin field require a hashbang to execute properly.
 `,
 		},
 		{
@@ -28,7 +29,7 @@ console.log("hello");
 			fileName: path.join(testFixtureDir, "src/index.ts"),
 			snapshot: `#!/usr/bin/env node
 ~~~~~~~~~~~~~~~~~~~
-Non-executable files must not have a hashbang.
+Hashbangs are only needed for files listed in package.json's bin field.
 console.log("hello");
 
 `,
@@ -49,3 +50,4 @@ console.log("hello");
 		`console.log("no package.json");`,
 	],
 });
+/* eslint-enable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
