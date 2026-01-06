@@ -17,7 +17,7 @@ console.log("Hello from CLI");
 			snapshot: `
 #!/usr/bin/env node
 ~~~~~~~~~~~~~~~~~~~
-npm ignores 'bin/cli.ts'. Ensure it is included in the 'files' field of 'package.json' or not excluded by '.npmignore'.
+This bin file 'bin/cli.ts' will not be published with the package.
 console.log("Hello from CLI");
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -32,7 +32,7 @@ console.log("CLI tool");
 			snapshot: `
 #!/usr/bin/env node
 ~~~~~~~~~~~~~~~~~~~
-npm ignores 'bin/cli.ts'. Ensure it is included in the 'files' field of 'package.json' or not excluded by '.npmignore'.
+This bin file 'bin/cli.ts' will not be published with the package.
 console.log("CLI tool");
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

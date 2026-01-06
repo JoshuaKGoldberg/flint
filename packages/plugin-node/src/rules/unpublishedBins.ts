@@ -134,14 +134,16 @@ export default typescriptLanguage.createRule({
 	messages: {
 		unpublishedBin: {
 			primary:
-				"npm ignores '{{ name }}'. Ensure it is included in the 'files' field of 'package.json' or not excluded by '.npmignore'.",
+				"This bin file '{{ name }}' will not be published with the package.",
 			secondary: [
 				"npm packages with a `bin` field must ensure those files are published.",
-				"Files can be excluded by missing them from the `files` field or by `.npmignore` patterns.",
+				"When a `files` field is specified in package.json, only matching files are published.",
+				"Files can also be excluded by `.npmignore` or `.gitignore` patterns when no `.npmignore` exists.",
 			],
 			suggestions: [
 				"Add '{{ name }}' to the 'files' field in package.json",
 				"Remove '{{ name }}' from .npmignore",
+				"Update ignore patterns to include this file",
 			],
 		},
 	},
