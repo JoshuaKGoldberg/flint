@@ -69,7 +69,13 @@ export async function runCli(args: string[]) {
 
 	const configFileName = await findConfigFileName(process.cwd());
 	if (!configFileName) {
-		console.error("No flint.config.* file found");
+		console.error("No flint.config.* file found.");
+		console.error(
+			"The Flint CLI auto-initializer is not yet implemented. Check back soon!",
+		);
+		console.error(
+			`In the meantime, why not join \u001b]8;;https://flint.fyi/discord\u0007flint.fyi/discord\u001b]8;;\u0007 and chat with us? ❤️`,
+		);
 		return 2;
 	}
 
