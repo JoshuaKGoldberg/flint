@@ -1,5 +1,5 @@
-import rule from "./multilineAmbiguities.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./multilineAmbiguities.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [
@@ -111,6 +111,30 @@ class MyClass {
 }
 `,
 		},
+		{
+			code: `
+const value = identifier /* comment with ( */
+(expression).doSomething()
+`,
+			snapshot: `
+const value = identifier /* comment with ( */
+(expression).doSomething()
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+This ambiguous line break before parentheses will be misinterpreted as a function call.
+`,
+		},
+		{
+			code: `
+const value = identifier // comment with [
+[element].forEach(callback)
+`,
+			snapshot: `
+const value = identifier // comment with [
+[element].forEach(callback)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This ambiguous line break before brackets will be misinterpreted as a property access.
+`,
+		},
 	],
 	valid: [
 		`const value = identifier(expression).doSomething()`,
@@ -160,5 +184,8 @@ callee(
     : c
 );
 `,
+		`const value = identifier/* ( */("arg")`,
+		`const value = identifier/* [ */[0]`,
+		"const value = identifier/* ` */`template`",
 	],
 });
