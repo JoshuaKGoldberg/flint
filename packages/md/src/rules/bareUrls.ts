@@ -81,7 +81,7 @@ export default markdownLanguage.createRule({
 				link(node) {
 					const firstNodeChild = nullThrows(
 						node.children[0],
-						`First node child should be defined for link node ${node.position.start.offset}`,
+						`First node child should be defined for link node`,
 					);
 					if (
 						firstNodeChild.type === "text" &&
