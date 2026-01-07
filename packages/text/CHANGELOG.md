@@ -1,5 +1,15 @@
 # @flint.fyi/text
 
+## 0.14.2
+
+### Patch Changes
+
+- 8b8f8d3: fix(text): update incorrect language-about value
+- 602c75c: chore: rework packaging with tsdown
+- Updated dependencies [ff52cb1]
+- Updated dependencies [602c75c]
+  - @flint.fyi/core@0.18.1
+
 ## 0.14.1
 
 ### Patch Changes

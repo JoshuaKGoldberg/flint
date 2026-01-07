@@ -1,5 +1,16 @@
 # @flint.fyi/plugin-browser
 
+## 0.1.2
+
+### Patch Changes
+
+- 602c75c: chore: rework packaging with tsdown
+- Updated dependencies [f1a6f9e]
+- Updated dependencies [ff52cb1]
+- Updated dependencies [602c75c]
+  - @flint.fyi/ts@0.15.1
+  - @flint.fyi/core@0.18.1
+
 ## 0.1.1
 
 ### Patch Changes

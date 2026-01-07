@@ -1,5 +1,15 @@
 # @flint/core
 
+## 0.18.1
+
+### Patch Changes
+
+- ff52cb1: fix: filter out cached files when collecting metadata
+- 602c75c: chore: rework packaging with tsdown
+- Updated dependencies [9a8ecc1]
+- Updated dependencies [602c75c]
+  - @flint.fyi/utils@0.14.0
+
 ## 0.18.0
 
 ### Minor Changes

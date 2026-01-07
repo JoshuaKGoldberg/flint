@@ -1,7 +1,7 @@
 import type * as ts from "typescript";
 
 // TODO: Surely there's a better way to do this...
-// ...but I haven't checked how to do it without slow type operations.
+// https://github.com/flint-fyi/flint/issues/1295
 
 export interface TypeScriptNodesByName {
 	ArrayBindingPattern: ts.ArrayBindingPattern;

@@ -1,5 +1,15 @@
 # @flint/utils
 
+## 0.14.0
+
+### Minor Changes
+
+- 9a8ecc1: feat(utils): add assertion helpers
+
+### Patch Changes
+
+- 602c75c: chore: rework packaging with tsdown
+
 ## 0.13.3
 
 ### Patch Changes

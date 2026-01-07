@@ -10,6 +10,7 @@ export interface JsonFileServices {
 }
 
 // TODO: It would be nice to limit JsonNodesByName to just nodes in JSON files...
+// https://github.com/flint-fyi/flint/issues/1294
 export const jsonLanguage = createLanguage<JsonNodesByName, JsonFileServices>({
 	about: {
 		name: "JSON",
