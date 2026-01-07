@@ -1,0 +1,69 @@
+---
+description: "Use rest parameters instead of `arguments`."
+title: "arguments"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="arguments" />
+
+The `arguments` object is an array-like object available inside non-arrow functions that contains the values of the arguments passed to that function.
+While it can be useful, it has several drawbacks compared to rest parameters:
+
+- It is not a real array, so methods like `map`, `filter`, and `forEach` are not available
+- Arrow functions do not have their own `arguments` binding
+- It makes code less readable and harder to understand
+
+Rest parameters (`...args`) provide a real array and are the modern way to access variadic function arguments.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+function sum() {
+	let total = 0;
+	for (let i = 0; i < arguments.length; i++) {
+		total += arguments[i];
+	}
+	return total;
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+function sum(...args: number[]) {
+	let total = 0;
+	for (const arg of args) {
+		total += arg;
+	}
+	return total;
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you need to support very old JavaScript environments that do not support rest parameters (ES5 or earlier), you may need to disable this rule.
+However, most modern environments support rest parameters.
+
+## Further Reading
+
+- [MDN documentation on rest parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
+- [MDN documentation on the `arguments` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="arguments" />
