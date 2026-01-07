@@ -1,6 +1,6 @@
 import type * as yamlParser from "yaml-unist-parser";
 
-import { ymlLanguage } from "../language.js";
+import { yamlLanguage } from "../language.ts";
 
 /**
  * Calculate the expected indentation for a sequence based on its parent context
@@ -61,7 +61,7 @@ function buildBlockSequenceFix(
 	return items.join("");
 }
 
-export default ymlLanguage.createRule({
+export default yamlLanguage.createRule({
 	about: {
 		description: "Prefer block style sequences over flow style sequences.",
 		id: "blockSequences",
@@ -82,8 +82,8 @@ export default ymlLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				flowSequence: (node) => {
-					const fixText = buildBlockSequenceFix(node, context.sourceText);
+				flowSequence: (node, services) => {
+					const fixText = buildBlockSequenceFix(node, services.sourceText);
 
 					context.report({
 						fix: {
