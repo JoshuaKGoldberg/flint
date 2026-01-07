@@ -46,10 +46,6 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			if (declarations.length !== 1) {
-				return false;
-			}
-
 			const declaration = nullThrows(
 				declarations[0],
 				"Declaration is expected to be present by the length check",
