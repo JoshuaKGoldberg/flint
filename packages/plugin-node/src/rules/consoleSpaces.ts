@@ -72,7 +72,7 @@ export default typescriptLanguage.createRule({
 					for (let i = 0; i < node.arguments.length; i++) {
 						const argument = node.arguments[i];
 						if (
-							!(argument.kind == SyntaxKind.StringLiteral) ||
+							argument.kind != SyntaxKind.StringLiteral ||
 							argument.text.length === 0
 						) {
 							continue;

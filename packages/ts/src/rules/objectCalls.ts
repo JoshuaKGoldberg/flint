@@ -36,7 +36,7 @@ export default typescriptLanguage.createRule({
 			{ sourceFile, typeChecker }: TypeScriptFileServices,
 		): void {
 			if (
-				!(node.expression.kind == SyntaxKind.Identifier) ||
+				node.expression.kind != SyntaxKind.Identifier ||
 				!isGlobalDeclarationOfName(node.expression, "Object", typeChecker)
 			) {
 				return;

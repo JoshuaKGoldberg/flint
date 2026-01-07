@@ -36,7 +36,7 @@ export default typescriptLanguage.createRule({
 					? node.openingElement.tagName
 					: node.tagName;
 
-			if (!(tagName.kind == SyntaxKind.Identifier)) {
+			if (tagName.kind != SyntaxKind.Identifier) {
 				return;
 			}
 
@@ -85,8 +85,8 @@ export default typescriptLanguage.createRule({
 
 function isCaptionsTrack(node: AST.JsxChild) {
 	if (
-		!(node.kind == SyntaxKind.JsxElement) &&
-		!(node.kind == SyntaxKind.JsxSelfClosingElement)
+		node.kind != SyntaxKind.JsxElement &&
+		node.kind != SyntaxKind.JsxSelfClosingElement
 	) {
 		return false;
 	}
@@ -97,7 +97,7 @@ function isCaptionsTrack(node: AST.JsxChild) {
 			: node.tagName;
 
 	if (
-		!(childTagName.kind == SyntaxKind.Identifier) ||
+		childTagName.kind != SyntaxKind.Identifier ||
 		childTagName.text !== "track"
 	) {
 		return false;
@@ -110,8 +110,8 @@ function isCaptionsTrack(node: AST.JsxChild) {
 
 	return childAttributes.properties.some((property) => {
 		if (
-			!(property.kind == SyntaxKind.JsxAttribute) ||
-			!(property.name.kind == SyntaxKind.Identifier) ||
+			property.kind != SyntaxKind.JsxAttribute ||
+			property.name.kind != SyntaxKind.Identifier ||
 			property.name.text !== "kind"
 		) {
 			return false;

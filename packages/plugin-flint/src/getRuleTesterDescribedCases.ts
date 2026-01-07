@@ -7,9 +7,9 @@ import { parseTestCase, parseTestCaseInvalid } from "./parseTestCases.ts";
 
 export function getRuleTesterDescribedCases(node: AST.CallExpression) {
 	if (
-		!(node.expression.kind == SyntaxKind.PropertyAccessExpression) ||
-		!(node.expression.expression.kind == SyntaxKind.Identifier) ||
-		!(node.expression.name.kind == SyntaxKind.Identifier) ||
+		node.expression.kind != SyntaxKind.PropertyAccessExpression ||
+		node.expression.expression.kind != SyntaxKind.Identifier ||
+		node.expression.name.kind != SyntaxKind.Identifier ||
 		node.expression.name.text !== "describe" ||
 		node.arguments.length !== 2
 	) {

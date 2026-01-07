@@ -46,8 +46,8 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				CallExpression(node, { sourceFile, typeChecker }) {
 					if (
-						!(node.expression.kind == SyntaxKind.PropertyAccessExpression) ||
-						!(node.expression.name.kind == SyntaxKind.Identifier) ||
+						node.expression.kind != SyntaxKind.PropertyAccessExpression ||
+						node.expression.name.kind != SyntaxKind.Identifier ||
 						!isGlobalDeclaration(node.expression.name, typeChecker)
 					) {
 						return;

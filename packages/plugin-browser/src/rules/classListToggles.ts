@@ -28,13 +28,11 @@ export default typescriptLanguage.createRule({
 			}
 
 			const expression = node.expression;
-			if (!(expression.kind == SyntaxKind.CallExpression)) {
+			if (expression.kind !== SyntaxKind.CallExpression) {
 				return undefined;
 			}
 
-			if (
-				!(expression.expression.kind == SyntaxKind.PropertyAccessExpression)
-			) {
+			if (expression.expression.kind != SyntaxKind.PropertyAccessExpression) {
 				return undefined;
 			}
 
@@ -42,21 +40,21 @@ export default typescriptLanguage.createRule({
 			const method = propertyAccess.name;
 
 			if (
-				!(method.kind == SyntaxKind.Identifier) ||
+				method.kind != SyntaxKind.Identifier ||
 				(method.text !== "add" && method.text !== "remove")
 			) {
 				return undefined;
 			}
 
 			if (
-				!(propertyAccess.expression.kind == SyntaxKind.PropertyAccessExpression)
+				propertyAccess.expression.kind != SyntaxKind.PropertyAccessExpression
 			) {
 				return undefined;
 			}
 
 			const classList = propertyAccess.expression;
 			if (
-				!(classList.name.kind == SyntaxKind.Identifier) ||
+				classList.name.kind != SyntaxKind.Identifier ||
 				classList.name.text !== "classList"
 			) {
 				return undefined;
@@ -68,7 +66,7 @@ export default typescriptLanguage.createRule({
 			}
 
 			const arg = args[0];
-			if (!(arg.kind == SyntaxKind.StringLiteral)) {
+			if (arg.kind != SyntaxKind.StringLiteral) {
 				return undefined;
 			}
 
@@ -93,7 +91,7 @@ export default typescriptLanguage.createRule({
 				propertyAccess.expression as AST.PropertyAccessExpression;
 			const object = classList.expression;
 
-			if (!(object.kind == SyntaxKind.Identifier)) {
+			if (object.kind != SyntaxKind.Identifier) {
 				return undefined;
 			}
 
