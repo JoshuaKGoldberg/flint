@@ -1,0 +1,79 @@
+---
+description: "Reports identity callbacks in `flatMap` calls that can be replaced with `flat`."
+title: "arrayMapIdentities"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="arrayMapIdentities" />
+
+Using `.flatMap()` with a callback that returns its input unchanged is equivalent to calling `.flat()`.
+The `.flat()` method is more concise and makes the intent clearer.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const nested = [[1], [2], [3]];
+const flat = nested.flatMap((value) => value);
+```
+
+```ts
+const items = [["a"], ["b"]];
+const flat = items.flatMap((item) => {
+	return item;
+});
+```
+
+```ts
+const data = [
+	[1, 2],
+	[3, 4],
+];
+const flat = data.flatMap(function (element) {
+	return element;
+});
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const nested = [[1], [2], [3]];
+const flat = nested.flat();
+```
+
+```ts
+const values = [1, 2, 3];
+const doubled = values.flatMap((value) => [value, value]);
+```
+
+```ts
+const items = [["a", "b"], ["c"]];
+const transformed = items.flatMap((item) => item.map((i) => i.toUpperCase()));
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you prefer the explicit callback style for consistency with other array method chains, or if you're working with a codebase that uses `.flatMap()` with identity callbacks for documentation purposes, you may want to disable this rule.
+
+## Further Reading
+
+- [MDN: Array.prototype.flat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)
+- [MDN: Array.prototype.flatMap()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="arrayMapIdentities" />
