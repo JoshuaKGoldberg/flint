@@ -26,7 +26,6 @@ export const md = createPlugin({
 		definitionDuplicates,
 		definitionUses,
 		fencedCodeLanguages,
-		labelReferences,
 		headingIncrements,
 		headingRootDuplicates,
 		imageAltTexts,
