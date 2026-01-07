@@ -2,47 +2,6 @@ import type * as yamlParser from "yaml-unist-parser";
 
 import { yamlLanguage } from "../language.ts";
 
-/**
- * Calculate the expected indentation for a sequence based on its parent context
- */
-function getExpectedIndent(node: yamlParser.FlowSequence): string {
-	// Find the mapping value that contains this sequence
-	let current: yamlParser.YamlUnistNode | null | undefined = node._parent;
-
-	while (current) {
-		if (current.type === "mappingValue" && current._parent) {
-			const mappingItem = current._parent;
-			if (mappingItem.type === "mappingItem" && mappingItem._parent) {
-				const mapping = mappingItem._parent;
-				// Get the column of the mapping item (which has the key)
-				const mappingItemColumn = mappingItem.position.start.column;
-				// Add 2 spaces for standard YAML indentation
-				return " ".repeat(mappingItemColumn + 1);
-			}
-		}
-		current = current._parent;
-	}
-
-	// Default to 2 spaces if we can't determine parent indentation
-	return "  ";
-}
-
-/**
- * Extract the text content of a node's value
- */
-function getNodeText(
-	node: yamlParser.YamlUnistNode,
-	sourceText: string,
-): string {
-	return sourceText.substring(
-		node.position.start.offset,
-		node.position.end.offset,
-	);
-}
-
-/**
- * Build fix text to convert flow sequence to block sequence
- */
 function buildBlockSequenceFix(
 	node: yamlParser.FlowSequence,
 	sourceText: string,
@@ -59,6 +18,33 @@ function buildBlockSequenceFix(
 	}
 
 	return items.join("");
+}
+
+function getExpectedIndent(node: yamlParser.FlowSequence): string {
+	let current: null | undefined | yamlParser.YamlUnistNode = node._parent;
+
+	while (current) {
+		if (current.type === "mappingValue" && current._parent) {
+			const mappingItem = current._parent;
+			if (mappingItem.type === "mappingItem" && mappingItem._parent) {
+				const mappingItemColumn = mappingItem.position.start.column;
+				return " ".repeat(mappingItemColumn + 1);
+			}
+		}
+		current = current._parent;
+	}
+
+	return "  ";
+}
+
+function getNodeText(
+	node: yamlParser.YamlUnistNode,
+	sourceText: string,
+): string {
+	return sourceText.substring(
+		node.position.start.offset,
+		node.position.end.offset,
+	);
 }
 
 export default yamlLanguage.createRule({
