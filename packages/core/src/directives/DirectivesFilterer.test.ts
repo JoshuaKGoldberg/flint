@@ -34,36 +34,42 @@ describe(DirectivesFilterer, () => {
 
 			const actual = filterer.filter(reports);
 
-			expect(actual).toEqual(reports);
+			expect(actual.reports).toEqual(reports);
+			expect(actual.unusedDirectives.fileDirectives).toEqual([]);
+			expect(actual.unusedDirectives.rangeDirectives).toEqual([]);
 		});
 
 		it("returns all reports when no directives apply to them", () => {
 			const filterer = new DirectivesFilterer();
 
-			filterer.add([
-				{
-					range: {
-						begin: {
-							column: 0,
-							line: 0,
-							raw: 0,
-						},
-						end: {
-							column: 0,
-							line: 0,
-							raw: 0,
-						},
+			const directive = {
+				range: {
+					begin: {
+						column: 0,
+						line: 0,
+						raw: 0,
 					},
-					selections: ["*other*"],
-					type: "disable-next-line",
+					end: {
+						column: 0,
+						line: 0,
+						raw: 0,
+					},
 				},
-			]);
+				selections: ["*other*"],
+				type: "disable-next-line" as const,
+			};
+
+			filterer.add([directive]);
 
 			const reports = [createReport(0, "example"), createReport(1, "example")];
 
 			const actual = filterer.filter(reports);
 
-			expect(actual).toEqual(reports);
+			expect(actual.reports).toEqual(reports);
+			expect(actual.unusedDirectives.rangeDirectives).toHaveLength(1);
+			expect(actual.unusedDirectives.rangeDirectives[0].selections).toEqual([
+				"*other*",
+			]);
 		});
 
 		it("returns unfiltered reports when a directive filters one report", () => {
@@ -92,7 +98,8 @@ describe(DirectivesFilterer, () => {
 
 			const actual = filterer.filter(reports);
 
-			expect(actual).toEqual([reports[0]]);
+			expect(actual.reports).toEqual([reports[0]]);
+			expect(actual.unusedDirectives.rangeDirectives).toEqual([]);
 		});
 	});
 });

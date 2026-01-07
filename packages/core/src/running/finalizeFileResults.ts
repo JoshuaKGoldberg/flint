@@ -1,6 +1,7 @@
 import { debugForFile } from "debug-for-file";
 
 import { DirectivesFilterer } from "../directives/DirectivesFilterer.ts";
+import { directiveReports } from "../directives/reports/directiveReports.ts";
 import type { LanguageFileDiagnostic } from "../types/languages.ts";
 import type { FileReport } from "../types/reports.ts";
 import type { LanguageAndFilesMetadata } from "./types.ts";
@@ -64,9 +65,32 @@ export function finalizeFileResults(
 		log("Disposed language %s for file %s", language.about.name, filePath);
 	}
 
+	const filterResult = directivesFilterer.filter(reports);
+
+	// Collect directive reports from all language files (e.g., directiveUnknown, directiveNoSelection)
+	const directiveReportsFromCollector: FileReport[] = [];
+	for (const { fileMetadata } of languageAndFilesMetadata) {
+		if (fileMetadata.reports) {
+			directiveReportsFromCollector.push(...fileMetadata.reports);
+		}
+	}
+
+	// Generate reports for unused directives
+	const unusedDirectiveReports: FileReport[] = [];
+	for (const directive of filterResult.unusedDirectives.fileDirectives) {
+		unusedDirectiveReports.push(directiveReports.createUnused(directive));
+	}
+	for (const directive of filterResult.unusedDirectives.rangeDirectives) {
+		unusedDirectiveReports.push(directiveReports.createUnused(directive));
+	}
+
 	return {
 		dependencies: fileDependencies,
 		diagnostics: fileDiagnostics,
-		reports: directivesFilterer.filter(reports),
+		reports: [
+			...filterResult.reports,
+			...directiveReportsFromCollector,
+			...unusedDirectiveReports,
+		],
 	};
 }
