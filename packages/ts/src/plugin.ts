@@ -1,6 +1,7 @@
 import { createPlugin } from "@flint.fyi/core";
 
 import anyReturns from "./rules/anyReturns.js";
+import argumentsRule from "./rules/arguments.js";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.js";
 import caseDeclarations from "./rules/caseDeclarations.js";
 import caseDuplicates from "./rules/caseDuplicates.js";
@@ -54,6 +55,7 @@ export const ts = createPlugin({
 	},
 	name: "ts",
 	rules: [
+		argumentsRule,
 		anyReturns,
 		asyncPromiseExecutors,
 		caseDeclarations,

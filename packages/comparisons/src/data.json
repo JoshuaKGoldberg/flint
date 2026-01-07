@@ -3723,6 +3723,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "arguments",
 			"plugin": "ts",
 			"preset": "Logical"
