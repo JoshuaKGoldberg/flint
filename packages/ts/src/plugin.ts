@@ -4,6 +4,7 @@ import anyReturns from "./rules/anyReturns.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
+import caseFallthroughs from "./rules/caseFallthroughs.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
 import classAssignments from "./rules/classAssignments.ts";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.ts";
@@ -68,6 +69,7 @@ export const ts = createPlugin({
 		asyncPromiseExecutors,
 		caseDeclarations,
 		caseDuplicates,
+		caseFallthroughs,
 		chainedAssignments,
 		classAssignments,
 		consecutiveNonNullAssertions,
