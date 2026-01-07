@@ -1,5 +1,8 @@
 import type * as AST from "./types/ast.ts";
 
+// TODO: Surely there's a better way to do this...
+// https://github.com/flint-fyi/flint/issues/1295
+
 export interface TypeScriptNodesByName {
 	AnyKeyword: AST.AnyKeyword;
 	ArrayBindingPattern: AST.ArrayBindingPattern;

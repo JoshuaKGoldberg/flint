@@ -1,5 +1,11 @@
 # @flint.fyi/comparisons
 
+## 0.1.4
+
+### Patch Changes
+
+- 602c75c: chore: rework packaging with tsdown
+
 ## 0.1.3
 
 ### Patch Changes

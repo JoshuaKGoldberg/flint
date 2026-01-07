@@ -34,10 +34,7 @@ export default jsonLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				ObjectLiteralExpression(
-					node,
-					{ options: { form = "NFC" }, sourceFile },
-				) {
+				ObjectLiteralExpression(node, { options: { form }, sourceFile }) {
 					for (const property of node.properties) {
 						if (
 							!ts.isPropertyAssignment(property) ||

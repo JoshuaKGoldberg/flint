@@ -3,6 +3,7 @@ concurrency:
 
 jobs:
   release:
+    if: github.event.repository.fork != true
     name: Release
     runs-on: ubuntu-latest
     steps:

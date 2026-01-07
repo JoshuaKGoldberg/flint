@@ -38,13 +38,11 @@ export function collectLanguageMetadataByFilePath(
 			}
 
 			const fileMetadata = languageFilesMetadataByLanguage
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 				.get(rule.language)
 				.get(filePath);
 
 			languageFileMetadataByFilePath
 				.get(filePath)
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 				.set(rule.language, fileMetadata);
 		}
 	}

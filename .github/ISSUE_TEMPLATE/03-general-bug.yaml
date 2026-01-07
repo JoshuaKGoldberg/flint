@@ -17,12 +17,14 @@ body:
   - attributes:
       description: What happened instead?
       label: Actual
+    id: actual
     type: textarea
     validations:
       required: true
   - attributes:
       description: Any additional info you'd like to provide.
       label: Additional Info
+    id: additional_info
     type: textarea
 
 description: Report a non-rule-specific bug with Flint, its integrations, or its plugins

@@ -93,6 +93,7 @@ export default typescriptLanguage.createRule({
 });
 
 // TODO: Use a util like getStaticValue
+// https://github.com/flint-fyi/flint/issues/1298
 function getTypeValue(attribute: AST.JsxAttribute): string | undefined {
 	if (!attribute.initializer) {
 		return undefined;

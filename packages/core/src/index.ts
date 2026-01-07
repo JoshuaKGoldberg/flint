@@ -9,6 +9,7 @@ export { globs } from "./globs/index.ts";
 export { createLanguage } from "./languages/createLanguage.ts";
 export { createPlugin } from "./plugins/createPlugin.ts";
 export { formatReportPrimary } from "./reporting/formatReportPrimary.ts";
+export { parseOptions } from "./running/parseOptions.ts";
 export { runConfig } from "./running/runConfig.ts";
 export { runConfigFixing } from "./running/runConfigFixing.ts";
 export { runLintRule } from "./running/runLintRule.ts";

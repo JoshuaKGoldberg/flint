@@ -60,6 +60,7 @@ export default typescriptLanguage.createRule({
 });
 
 // TODO: Reuse a shared getStaticValue-style utility?
+// https://github.com/flint-fyi/flint/issues/1298
 function getNameText(name: ts.PropertyName) {
 	if (
 		ts.isIdentifier(name) ||
