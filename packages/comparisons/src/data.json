@@ -8353,6 +8353,7 @@
 			"name": "caughtErrorCauses",
 			"plugin": "ts",
 			"preset": "logical",
+			"status": "implemented",
 			"strictness": "strict"
 		}
 	},
