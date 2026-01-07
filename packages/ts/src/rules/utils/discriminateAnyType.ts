@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
@@ -39,7 +40,10 @@ function discriminateAnyTypeWorker(
 	if (
 		checker.isArrayType(type) &&
 		tsutils.isTypeFlagSet(
-			checker.getTypeArguments(type as ts.TypeReference)[0],
+			nullThrows(
+				checker.getTypeArguments(type as ts.TypeReference)[0],
+				"Array type should have at least one type argument",
+			),
 			ts.TypeFlags.Any,
 		)
 	) {

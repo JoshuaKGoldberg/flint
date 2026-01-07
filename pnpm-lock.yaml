@@ -270,6 +270,9 @@ importers:
       '@flint.fyi/core':
         specifier: workspace:^
         version: link:../core
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
@@ -327,6 +330,9 @@ importers:
       '@flint.fyi/ts':
         specifier: workspace:^
         version: link:../ts
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -374,6 +380,9 @@ importers:
       '@flint.fyi/ts':
         specifier: workspace:^
         version: link:../ts
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       language-tags:
         specifier: ^2.1.0
         version: 2.1.0
@@ -415,6 +424,9 @@ importers:
       '@flint.fyi/ts':
         specifier: workspace:^
         version: link:../ts
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -652,6 +664,9 @@ importers:
       '@flint.fyi/core':
         specifier: workspace:^
         version: link:../core
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       '@typescript-eslint/project-service':
         specifier: ^8.46.2
         version: 8.50.1(typescript@5.9.3)
@@ -707,6 +722,9 @@ importers:
       '@flint.fyi/core':
         specifier: workspace:^
         version: link:../core
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
