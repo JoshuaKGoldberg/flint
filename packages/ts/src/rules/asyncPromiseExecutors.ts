@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
@@ -35,7 +36,10 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const executor = node.arguments[0];
+					const executor = nullThrows(
+						node.arguments[0],
+						"Expected there to be a promise executor!",
+					);
 					if (
 						executor.kind !== SyntaxKind.FunctionExpression &&
 						executor.kind !== SyntaxKind.ArrowFunction
