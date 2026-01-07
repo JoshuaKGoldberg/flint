@@ -56,11 +56,9 @@ export function computeDirectiveRanges(
 	);
 
 	const rangedSelections: RangedSelection[] = [];
-	// Confirmed by the length check above
-	/* eslint-disable @typescript-eslint/no-non-null-assertion */
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	let previousDirective = directivesSorted[0]!;
-	let currentSelections = directivesSorted[0]!.selections;
-	/* eslint-enable  @typescript-eslint/no-non-null-assertion */
+	let currentSelections = previousDirective.selections;
 
 	for (const directive of directivesSorted.slice(1)) {
 		rangedSelections.push({
