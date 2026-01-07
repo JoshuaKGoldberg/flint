@@ -1,0 +1,91 @@
+---
+description: "Enforces consistent style when checking if an index exists."
+title: "arrayExistenceChecksConsistency"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="arrayExistenceChecksConsistency" />
+
+When checking if an element exists in an array or string using index-returning methods like `indexOf`, `lastIndexOf`, `findIndex`, or `findLastIndex`, there are multiple ways to express the check.
+This rule enforces using explicit equality checks with `-1` instead of comparison operators.
+
+This rule reports:
+
+- `index < 0` → prefer `index === -1`
+- `index >= 0` → prefer `index !== -1`
+- `index > -1` → prefer `index !== -1`
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+declare const array: string[];
+const index = array.indexOf("value");
+if (index < 0) {
+}
+```
+
+```ts
+declare const array: string[];
+const index = array.indexOf("value");
+if (index >= 0) {
+}
+```
+
+```ts
+declare const array: string[];
+const index = array.indexOf("value");
+if (index > -1) {
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+declare const array: string[];
+const index = array.indexOf("value");
+if (index === -1) {
+}
+```
+
+```ts
+declare const array: string[];
+const index = array.indexOf("value");
+if (index !== -1) {
+}
+```
+
+```ts
+declare const array: number[];
+const index = array.findIndex((value) => value > 10);
+if (index === -1) {
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your team prefers the comparison operator style (`>= 0` or `< 0`) for checking index existence, you can disable this rule.
+Some developers find the comparison style more intuitive when thinking about array indices.
+
+## Further Reading
+
+- [MDN: Array.prototype.indexOf()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf)
+- [MDN: Array.prototype.findIndex()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="arrayExistenceChecksConsistency" />
