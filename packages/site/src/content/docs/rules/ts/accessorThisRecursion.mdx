@@ -1,0 +1,112 @@
+---
+description: "Reports recursive access to `this` within getters and setters, which causes infinite recursion."
+title: "accessorThisRecursion"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="accessorThisRecursion" />
+
+When a getter accesses `this.propertyName` where `propertyName` is the same as the getter's name, it creates infinite recursion.
+Similarly, when a setter assigns to `this.propertyName` where `propertyName` is the same as the setter's name, it also creates infinite recursion.
+Both patterns cause a stack overflow at runtime.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const value = {
+	get name() {
+		return this.name;
+	},
+};
+```
+
+```ts
+const value = {
+	set name(input) {
+		this.name = input;
+	},
+};
+```
+
+```ts
+class Example {
+	get name() {
+		return this.name;
+	}
+}
+```
+
+```ts
+class Example {
+	set name(input) {
+		this.name = input;
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const value = {
+	get name() {
+		return this._name;
+	},
+};
+```
+
+```ts
+const value = {
+	set name(input) {
+		this._name = input;
+	},
+};
+```
+
+```ts
+class Example {
+	private _name = "";
+
+	get name() {
+		return this._name;
+	}
+}
+```
+
+```ts
+class Example {
+	private _name = "";
+
+	set name(input: string) {
+		this._name = input;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+There are no valid reasons to use recursive accessor access.
+If you believe you have a false positive, please report it as a bug.
+
+## Further Reading
+
+- [MDN: Getter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get)
+- [MDN: Setter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="accessorThisRecursion" />
