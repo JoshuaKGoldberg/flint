@@ -1,0 +1,98 @@
+---
+description: "Reports unnecessary Promise.resolve() or Promise.reject() in async functions or promise callbacks."
+title: "asyncUnnecessaryPromiseWrappers"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="asyncUnnecessaryPromiseWrappers" />
+
+Return values in async functions and promise callbacks are automatically wrapped in a Promise.
+Using `Promise.resolve()` is redundant in these contexts.
+Similarly, errors thrown in async functions are automatically caught and wrapped in a rejected Promise, making `Promise.reject()` unnecessary.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+async function getData() {
+	return Promise.resolve(42);
+}
+```
+
+```ts
+async function handleError() {
+	return Promise.reject(new Error("failed"));
+}
+```
+
+```ts
+promise.then(() => {
+	return Promise.resolve(result);
+});
+```
+
+```ts
+async function* generator() {
+	yield Promise.resolve(value);
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+async function getData() {
+	return 42;
+}
+```
+
+```ts
+async function handleError() {
+	throw new Error("failed");
+}
+```
+
+```ts
+promise.then(() => {
+	return result;
+});
+```
+
+```ts
+async function* generator() {
+	yield value;
+}
+```
+
+```ts
+function createPromise() {
+	return Promise.resolve(42);
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you prefer explicit Promise wrapping for consistency or readability, or if your codebase has patterns that intentionally use `Promise.resolve()` for type inference purposes, you can disable this rule.
+
+## Further Reading
+
+- [MDN: async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+- [MDN: Promise.resolve()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve)
+- [MDN: Promise.reject()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="asyncUnnecessaryPromiseWrappers" />
