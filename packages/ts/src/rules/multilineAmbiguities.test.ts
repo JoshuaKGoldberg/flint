@@ -187,5 +187,13 @@ callee(
 		`const value = identifier/* ( */("arg")`,
 		`const value = identifier/* [ */[0]`,
 		"const value = identifier/* ` */`template`",
+		`
+const value = createLanguage<
+    TypeA,
+    TypeB
+>({
+    name: "test"
+})
+`,
 	],
 });

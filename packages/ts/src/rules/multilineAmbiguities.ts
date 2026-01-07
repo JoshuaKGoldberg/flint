@@ -2,25 +2,6 @@ import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
 
-function findChildToken(
-	node: ts.Node,
-	kind: ts.SyntaxKind,
-	sourceFile: ts.SourceFile,
-) {
-	for (const child of node.getChildren(sourceFile)) {
-		if (child.kind === kind) {
-			return child;
-		}
-	}
-	return undefined;
-}
-
-function getLineEndPosition(lineNumber: number, sourceFile: ts.SourceFile) {
-	const lineStarts = sourceFile.getLineStarts();
-	const nextLineStart = lineStarts[lineNumber + 1] as number | undefined;
-	return nextLineStart === undefined ? sourceFile.getEnd() : nextLineStart - 1;
-}
-
 export default typescriptLanguage.createRule({
 	about: {
 		description:
@@ -83,8 +64,12 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
+					// When there are type arguments, compare from the closing > token
+					// rather than the expression end
+					const precedingEnd = getExpressionEnd(node, sourceFile);
+
 					checkMultilineDelimiter(
-						node.expression.getEnd(),
+						precedingEnd,
 						openParen.getStart(sourceFile),
 						"parentheses",
 						"function call",
@@ -126,3 +111,30 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
+
+function findChildToken(
+	node: ts.Node,
+	kind: ts.SyntaxKind,
+	sourceFile: ts.SourceFile,
+) {
+	for (const child of node.getChildren(sourceFile)) {
+		if (child.kind === kind) {
+			return child;
+		}
+	}
+	return undefined;
+}
+
+function getExpressionEnd(node: ts.CallExpression, sourceFile: ts.SourceFile) {
+	const greaterThan =
+		node.typeArguments &&
+		findChildToken(node, ts.SyntaxKind.GreaterThanToken, sourceFile);
+
+	return greaterThan?.getEnd() ?? node.expression.getEnd();
+}
+
+function getLineEndPosition(lineNumber: number, sourceFile: ts.SourceFile) {
+	const lineStarts = sourceFile.getLineStarts();
+	const nextLineStart = lineStarts[lineNumber + 1] as number | undefined;
+	return nextLineStart === undefined ? sourceFile.getEnd() : nextLineStart - 1;
+}
