@@ -19,12 +19,6 @@
 		"./lib/shared.js"
 	],
 	"type": "module",
-	"imports": {
-		"#proxy-program": {
-			"@flint.fyi/source": "./src/proxy-program.ts",
-			"default": "./lib/proxy-program.js"
-		}
-	},
 	"exports": {
 		".": {
 			"@flint.fyi/source": "./src/index.ts",
