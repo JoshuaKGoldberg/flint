@@ -1,6 +1,9 @@
-import * as ts from "typescript";
+import type * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import {
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "../language.ts";
 
 const nonOctalDecimalEscapePattern = /\\[89]/g;
 
@@ -29,8 +32,9 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		function checkNode(
 			node: ts.NoSubstitutionTemplateLiteral | ts.StringLiteral,
+			{ sourceFile }: TypeScriptFileServices,
 		) {
-			const text = node.getText(context.sourceFile);
+			const text = node.getText(sourceFile);
 			const matches = [...text.matchAll(nonOctalDecimalEscapePattern)];
 
 			for (const match of matches) {
@@ -48,7 +52,7 @@ export default typescriptLanguage.createRule({
 					continue;
 				}
 
-				const start = node.getStart(context.sourceFile) + matchIndex;
+				const start = node.getStart(sourceFile) + matchIndex;
 
 				context.report({
 					message: "unexpectedEscape",

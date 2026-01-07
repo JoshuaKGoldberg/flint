@@ -1,7 +1,10 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import {
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -23,7 +26,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkNode({ parameters }: ts.FunctionLikeDeclaration) {
+		function checkNode(
+			{ parameters }: ts.FunctionLikeDeclaration,
+			{ sourceFile }: TypeScriptFileServices,
+		) {
 			const seenNames = new Set<string>();
 
 			for (const parameter of parameters) {
@@ -37,7 +43,7 @@ export default typescriptLanguage.createRule({
 				if (existingParameter) {
 					context.report({
 						message: "duplicateParam",
-						range: getTSNodeRange(parameter.name, context.sourceFile),
+						range: getTSNodeRange(parameter.name, sourceFile),
 					});
 				} else {
 					seenNames.add(parameterName);

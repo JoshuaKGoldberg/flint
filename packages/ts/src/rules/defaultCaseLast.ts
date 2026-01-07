@@ -1,6 +1,7 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -24,7 +25,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				SwitchStatement: (node) => {
+				SwitchStatement: (node, { sourceFile }) => {
 					const clauses = node.caseBlock.clauses;
 					const defaultClauseIndex = clauses.findIndex(
 						(clause) => clause.kind === ts.SyntaxKind.DefaultClause,
@@ -37,14 +38,16 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const defaultClause = clauses[defaultClauseIndex];
+					const defaultClause = nullThrows(
+						clauses[defaultClauseIndex],
+						"Default clause is expected to be present by prior length check",
+					);
 
 					context.report({
 						message: "defaultCaseShouldBeLast",
 						range: {
-							begin: defaultClause.getStart(context.sourceFile),
-							end:
-								defaultClause.getStart(context.sourceFile) + "default".length,
+							begin: defaultClause.getStart(sourceFile),
+							end: defaultClause.getStart(sourceFile) + "default".length,
 						},
 					});
 				},

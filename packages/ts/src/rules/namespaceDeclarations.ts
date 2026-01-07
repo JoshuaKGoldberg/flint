@@ -2,8 +2,8 @@ import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 import { z } from "zod";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -37,14 +37,17 @@ export default typescriptLanguage.createRule({
 				"Whether to allow namespaces in `.d.ts` and other definition files.",
 			),
 	},
-	setup(context, { allowDeclarations, allowDefinitionFiles }) {
-		if (allowDefinitionFiles && context.sourceFile.isDeclarationFile) {
-			return;
-		}
-
+	setup(context) {
 		return {
 			visitors: {
-				ModuleDeclaration: (node) => {
+				ModuleDeclaration: (
+					node,
+					{ options: { allowDeclarations, allowDefinitionFiles }, sourceFile },
+				) => {
+					if (allowDefinitionFiles && sourceFile.isDeclarationFile) {
+						return;
+					}
+
 					if (
 						node.parent.kind !== ts.SyntaxKind.SourceFile ||
 						node.name.kind !== ts.SyntaxKind.Identifier ||
@@ -65,7 +68,7 @@ export default typescriptLanguage.createRule({
 
 					context.report({
 						message: "preferModules",
-						range: getTSNodeRange(node.getChildAt(0), context.sourceFile),
+						range: getTSNodeRange(node.getChildAt(0), sourceFile),
 					});
 				},
 			},

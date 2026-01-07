@@ -1,8 +1,9 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
-import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
+import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.ts";
 
 function convertToLiteral(value: string, radix: number): string {
 	const parsed = Number.parseInt(value, radix);
@@ -36,6 +37,7 @@ function getRadixValue(node: ts.Expression): number | undefined {
 }
 
 // TODO: Use a util like getStaticValue
+// https://github.com/flint-fyi/flint/issues/1298
 function getStringValue(node: ts.Expression): string | undefined {
 	return ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)
 		? node.text
@@ -60,17 +62,30 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkParseIntCall(node: ts.CallExpression) {
+		function checkParseIntCall(
+			node: ts.CallExpression,
+			sourceFile: ts.SourceFile,
+		) {
 			if (node.arguments.length !== 2) {
 				return;
 			}
 
-			const stringValue = getStringValue(node.arguments[0]);
+			const stringValue = getStringValue(
+				nullThrows(
+					node.arguments[0],
+					"First argument is expected to be present by prior length check",
+				),
+			);
 			if (!stringValue) {
 				return;
 			}
 
-			const radixValue = getRadixValue(node.arguments[1]);
+			const radixValue = getRadixValue(
+				nullThrows(
+					node.arguments[1],
+					"Second argument is expected to be present by prior length check",
+				),
+			);
 			if (!radixValue) {
 				return;
 			}
@@ -81,19 +96,19 @@ export default typescriptLanguage.createRule({
 					radix: String(radixValue),
 				},
 				message: "preferLiteral",
-				range: getTSNodeRange(node, context.sourceFile),
+				range: getTSNodeRange(node, sourceFile),
 			});
 		}
 
 		return {
 			visitors: {
-				CallExpression: (node) => {
+				CallExpression: (node, { sourceFile, typeChecker }) => {
 					if (ts.isIdentifier(node.expression)) {
 						if (
 							node.expression.text === "parseInt" &&
-							isGlobalDeclaration(node.expression, context.typeChecker)
+							isGlobalDeclaration(node.expression, typeChecker)
 						) {
-							checkParseIntCall(node);
+							checkParseIntCall(node, sourceFile);
 						}
 					} else if (ts.isPropertyAccessExpression(node.expression)) {
 						if (
@@ -101,12 +116,9 @@ export default typescriptLanguage.createRule({
 							node.expression.expression.text === "Number" &&
 							ts.isIdentifier(node.expression.name) &&
 							node.expression.name.text === "parseInt" &&
-							isGlobalDeclaration(
-								node.expression.expression,
-								context.typeChecker,
-							)
+							isGlobalDeclaration(node.expression.expression, typeChecker)
 						) {
-							checkParseIntCall(node);
+							checkParseIntCall(node, sourceFile);
 						}
 					}
 				},

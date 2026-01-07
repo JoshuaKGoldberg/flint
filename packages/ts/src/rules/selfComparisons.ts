@@ -1,6 +1,6 @@
-import { typescriptLanguage } from "../language.js";
-import { hasSameTokens } from "../utils/hasSameTokens.js";
-import { isComparisonOperator } from "./utils/operators.js";
+import { typescriptLanguage } from "../language.ts";
+import { hasSameTokens } from "../utils/hasSameTokens.ts";
+import { isComparisonOperator } from "./utils/operators.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -25,15 +25,15 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, { sourceFile }) => {
 					if (
 						isComparisonOperator(node.operatorToken) &&
-						hasSameTokens(node.left, node.right, context.sourceFile)
+						hasSameTokens(node.left, node.right, sourceFile)
 					) {
 						context.report({
 							message: "noSelfComparison",
 							range: {
-								begin: node.getStart(context.sourceFile),
+								begin: node.getStart(sourceFile),
 								end: node.getEnd(),
 							},
 						});

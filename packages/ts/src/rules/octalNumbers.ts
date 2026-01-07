@@ -1,4 +1,6 @@
-import { typescriptLanguage } from "../language.js";
+import { nullThrows } from "@flint.fyi/utils";
+
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -24,8 +26,8 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				NumericLiteral: (node) => {
-					const text = node.getText(context.sourceFile);
+				NumericLiteral: (node, { sourceFile }) => {
+					const text = node.getText(sourceFile);
 
 					// Check for legacy octal literal: starts with 0 followed by octal digits (0-7)
 					// But not just "0" alone, and not modern formats like 0x, 0o, 0b
@@ -33,12 +35,18 @@ export default typescriptLanguage.createRule({
 					if (
 						text.length > 1 &&
 						text.startsWith("0") &&
-						text[1] >= "0" &&
-						text[1] <= "7" &&
+						nullThrows(
+							text[1],
+							"Second character is expected to be present by prior length check",
+						) >= "0" &&
+						nullThrows(
+							text[1],
+							"Second character is expected to be present by prior length check",
+						) <= "7" &&
 						!/^0[xobi]/i.test(text)
 					) {
 						const range = {
-							begin: node.getStart(context.sourceFile),
+							begin: node.getStart(sourceFile),
 							end: node.getEnd(),
 						};
 

@@ -1,35 +1,40 @@
 import { createPlugin } from "@flint.fyi/core";
 
-import bareUrls from "./rules/bareUrls.js";
-import definitionContents from "./rules/definitionContents.js";
-import definitionDuplicates from "./rules/definitionDuplicates.js";
-import definitionUses from "./rules/definitionUses.js";
-import fencedCodeLanguages from "./rules/fencedCodeLanguages.js";
-import headingIncrements from "./rules/headingIncrements.js";
-import imageAltTexts from "./rules/imageAltTexts.js";
-import imageContents from "./rules/imageContents.js";
-import labelReferences from "./rules/labelReferences.js";
-import labelReferenceValidity from "./rules/labelReferenceValidity.js";
-import linkContents from "./rules/linkContents.js";
-import referenceLikeUrls from "./rules/referenceLikeUrls.js";
+import bareUrls from "./rules/bareUrls.ts";
+import definitionContents from "./rules/definitionContents.ts";
+import definitionDuplicates from "./rules/definitionDuplicates.ts";
+import definitionUses from "./rules/definitionUses.ts";
+import fencedCodeLanguages from "./rules/fencedCodeLanguages.ts";
+import headingIncrements from "./rules/headingIncrements.ts";
+import headingRootDuplicates from "./rules/headingRootDuplicates.ts";
+import imageAltTexts from "./rules/imageAltTexts.ts";
+import imageContents from "./rules/imageContents.ts";
+import labelReferences from "./rules/labelReferences.ts";
+import labelReferenceValidity from "./rules/labelReferenceValidity.ts";
+import linkContents from "./rules/linkContents.ts";
+import mediaSyntaxReversals from "./rules/mediaSyntaxReversals.ts";
+import referenceLikeUrls from "./rules/referenceLikeUrls.ts";
 
 export const md = createPlugin({
 	files: {
 		all: ["**/*.md"],
 	},
-	name: "md",
+	name: "Markdown",
 	rules: [
 		bareUrls,
-		definitionDuplicates,
 		definitionContents,
-		labelReferenceValidity,
+		definitionDuplicates,
 		definitionUses,
 		fencedCodeLanguages,
 		labelReferences,
-		referenceLikeUrls,
 		headingIncrements,
+		headingRootDuplicates,
 		imageAltTexts,
 		imageContents,
+		labelReferences,
+		labelReferenceValidity,
 		linkContents,
+		mediaSyntaxReversals,
+		referenceLikeUrls,
 	],
 });

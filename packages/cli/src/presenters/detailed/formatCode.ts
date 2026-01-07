@@ -1,15 +1,12 @@
-import { FileReport } from "@flint.fyi/core";
+import type { FileReport } from "@flint.fyi/core";
 import * as shikiCli from "@shikijs/cli";
 import chalk from "chalk";
 import { styleText } from "node:util";
 
-import { ColorCodes, indenter } from "./constants.js";
-
-// TODO: make reactive
-const leftWidth = 7;
+import { ColorCodes, indenter } from "./constants.ts";
 
 export async function formatCode(report: FileReport, sourceFileText: string) {
-	const start = `${report.range.begin.line}:${report.range.begin.column}`;
+	const start = `${report.range.begin.line + 1}:${report.range.begin.column + 1}`;
 	const sourceFileLines = sourceFileText.split("\n");
 	const source = sourceFileLines
 		.slice(report.range.begin.line, report.range.end.line + 1)
@@ -20,6 +17,8 @@ export async function formatCode(report: FileReport, sourceFileText: string) {
 	).trim();
 
 	const highlightedLines = highlighted.split("\n");
+
+	const leftWidth = `${start} │ `.length;
 
 	return [
 		indenter,

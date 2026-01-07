@@ -3,10 +3,10 @@ import { makeAbsolute } from "@flint.fyi/utils";
 import { styleText } from "node:util";
 import { textTable } from "text-table-fast";
 
-import { presentHeader } from "./shared/header.js";
-import { presentDiagnostics } from "./shared/presentDiagnostics.js";
-import { presentSummary } from "./shared/summary.js";
-import { PresenterFactory } from "./types.js";
+import { presentHeader } from "./shared/header.ts";
+import { presentDiagnostics } from "./shared/presentDiagnostics.ts";
+import { presentSummary } from "./shared/summary.ts";
+import type { PresenterFactory } from "./types.ts";
 
 export const briefPresenterFactory: PresenterFactory = {
 	about: {
@@ -36,7 +36,7 @@ export const briefPresenterFactory: PresenterFactory = {
 						.map((report) => [
 							styleText(
 								"gray",
-								`  ${report.range.begin.line}:${report.range.begin.column}`,
+								`  ${report.range.begin.line + 1}:${report.range.begin.column + 1}`,
 							),
 							formatReportPrimary(report),
 							styleText("yellow", report.about.id),

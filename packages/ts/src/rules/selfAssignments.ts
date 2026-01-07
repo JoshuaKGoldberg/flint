@@ -1,8 +1,8 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
-import { hasSameTokens } from "../utils/hasSameTokens.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
+import { hasSameTokens } from "../utils/hasSameTokens.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -25,7 +25,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, { sourceFile }) => {
 					if (
 						node.operatorToken.kind !== ts.SyntaxKind.EqualsToken &&
 						node.operatorToken.kind !==
@@ -37,10 +37,10 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					if (hasSameTokens(node.left, node.right, context.sourceFile)) {
+					if (hasSameTokens(node.left, node.right, sourceFile)) {
 						context.report({
 							message: "selfAssignment",
-							range: getTSNodeRange(node, context.sourceFile),
+							range: getTSNodeRange(node, sourceFile),
 						});
 					}
 				},
