@@ -1,0 +1,91 @@
+---
+description: "Reports async functions that do not use await expressions."
+title: "asyncFunctionAwaits"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="asyncFunctionAwaits" />
+
+Async functions return a Promise implicitly and allow use of the `await` operator.
+Without an await expression, the function gains no benefit from being async and may indicate incomplete implementation or unintentional leftover from refactoring.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+async function fetchData() {
+	return data;
+}
+```
+
+```ts
+const process = async () => {
+	doSomething();
+};
+```
+
+```ts
+class Service {
+	async getResult() {
+		return this.compute();
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+async function fetchData() {
+	return await fetch("/api/data");
+}
+```
+
+```ts
+const process = async () => {
+	await doSomethingAsync();
+};
+```
+
+```ts
+class Service {
+	async getResult() {
+		return await this.computeAsync();
+	}
+}
+```
+
+```ts
+async function iterateAsync() {
+	for await (const item of asyncIterable) {
+		process(item);
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you use `async` functions to intentionally wrap return values in Promises without needing to await, such as for consistent API surfaces or to ensure thrown errors are caught as Promise rejections, you can disable this rule.
+
+## Further Reading
+
+- [MDN: async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+- [MDN: await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await)
+- [MDN: for await...of](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="asyncFunctionAwaits" />
