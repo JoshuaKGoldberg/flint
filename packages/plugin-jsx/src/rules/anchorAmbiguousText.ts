@@ -79,7 +79,7 @@ export default typescriptLanguage.createRule({
 						data: { text: textContent.trim() },
 						message: "ambiguousText",
 						range: getTSNodeRange(
-							textNodes[0] || node.openingElement,
+							textNodes[0] ?? node.openingElement,
 							sourceFile,
 						),
 					});

@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as path from "node:path";
 import * as tsutils from "ts-api-utils";
 import ts from "typescript";
@@ -72,7 +73,12 @@ function isImportCall(
 		ts.isCallExpression(node) &&
 		tsutils.isImportExpression(node.expression) &&
 		node.arguments.length > 0 &&
-		ts.isStringLiteral(node.arguments[0])
+		ts.isStringLiteral(
+			nullThrows(
+				node.arguments[0],
+				"First argument is expected to be present by prior length check",
+			),
+		)
 	);
 }
 

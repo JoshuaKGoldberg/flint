@@ -3,6 +3,7 @@ import {
 	isGlobalDeclaration,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import { SyntaxKind } from "typescript";
 
 const legacyMethods = new Set([
@@ -52,7 +53,10 @@ export default typescriptLanguage.createRule({
 						context.report({
 							data: {
 								method: node.expression.name.text,
-								replacement: methodReplacements[node.expression.name.text],
+								replacement: nullThrows(
+									methodReplacements[node.expression.name.text],
+									"Replacement is expected to be present by the has check",
+								),
 							},
 							message: "preferQuerySelector",
 							range: getTSNodeRange(node.expression.name, sourceFile),

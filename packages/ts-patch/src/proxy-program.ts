@@ -18,10 +18,6 @@ globalTyped._flintCreateProgramProxies ??= new Set();
 globalTyped._flintExtraSupportedExtensions ??= new Set();
 /* eslint-enable @typescript-eslint/no-unnecessary-condition */
 
-export function getExtraSupportedExtensions() {
-	return Array.from(globalTyped._flintExtraSupportedExtensions);
-}
-
 export function setTSExtraSupportedExtensions(extensions: string[]) {
 	for (const ext of extensions) {
 		globalTyped._flintExtraSupportedExtensions.add(ext);
@@ -42,16 +38,4 @@ export function setTSProgramCreationProxy(
 	globalTyped._flintCreateProgramProxies.add(proxy);
 
 	return () => globalTyped._flintCreateProgramProxies.delete(proxy);
-}
-
-// Called by the patched createProgram function from the typescript package
-export function proxyCreateProgram(
-	ts: typeof import("typescript"),
-	original: typeof createProgram,
-) {
-	let proxied = original;
-	for (const proxy of globalTyped._flintCreateProgramProxies) {
-		proxied = proxy(ts, proxied);
-	}
-	return proxied;
 }

@@ -1,4 +1,5 @@
 import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -34,7 +35,12 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const argument = unwrapAwaitExpression(node.arguments[0]);
+					const argument = unwrapAwaitExpression(
+						nullThrows(
+							node.arguments[0],
+							"First argument is expected to be present by prior length check",
+						),
+					);
 					if (
 						argument.kind === SyntaxKind.SpreadElement ||
 						!isReadFileCall(argument) ||
@@ -43,7 +49,10 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const encoding = argument.arguments[1];
+					const encoding = nullThrows(
+						argument.arguments[1],
+						"Second argument is expected to be present by prior length check",
+					);
 					if (
 						encoding.kind === SyntaxKind.SpreadElement ||
 						!isUtf8Encoding(encoding)
@@ -82,7 +91,10 @@ function isUtf8Encoding(node: AST.Expression): boolean {
 			return false;
 		}
 
-		const property = node.properties[0];
+		const property = nullThrows(
+			node.properties[0],
+			"First property is expected to be present by prior length check",
+		);
 		if (
 			property.kind !== SyntaxKind.PropertyAssignment ||
 			property.name.kind !== SyntaxKind.Identifier ||

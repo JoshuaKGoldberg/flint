@@ -4,6 +4,7 @@ import {
 	isGlobalDeclaration,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import { SyntaxKind } from "typescript";
 
 type AttributeMethodName =
@@ -82,7 +83,12 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const attributeName = getStringLiteralValue(node.arguments[0]);
+					const attributeName = getStringLiteralValue(
+						nullThrows(
+							node.arguments[0],
+							"First argument is expected to be present by prior length check",
+						),
+					);
 					if (!attributeName) {
 						return;
 					}

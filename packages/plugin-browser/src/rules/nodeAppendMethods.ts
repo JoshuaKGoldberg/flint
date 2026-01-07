@@ -4,6 +4,7 @@ import {
 	isGlobalDeclaration,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -67,7 +68,10 @@ export default typescriptLanguage.createRule({
 								break;
 							}
 
-							const secondArgument = node.arguments[1];
+							const secondArgument = nullThrows(
+								node.arguments[1],
+								"Second argument is expected to be present by the length check",
+							);
 							if (
 								secondArgument.kind !== SyntaxKind.NullKeyword &&
 								!isFirstChildAccess(secondArgument)

@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import ts, { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
@@ -71,12 +72,22 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			const stringValue = getStringValue(node.arguments[0]);
+			const stringValue = getStringValue(
+				nullThrows(
+					node.arguments[0],
+					"First argument is expected to be present by prior length check",
+				),
+			);
 			if (!stringValue) {
 				return;
 			}
 
-			const radixValue = getRadixValue(node.arguments[1]);
+			const radixValue = getRadixValue(
+				nullThrows(
+					node.arguments[1],
+					"Second argument is expected to be present by prior length check",
+				),
+			);
 			if (!radixValue) {
 				return;
 			}

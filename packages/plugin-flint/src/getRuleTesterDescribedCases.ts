@@ -1,5 +1,5 @@
 import type { AST } from "@flint.fyi/ts";
-import { isTruthy } from "@flint.fyi/utils";
+import { isTruthy, nullThrows } from "@flint.fyi/utils";
 import { SyntaxKind } from "typescript";
 
 import { findProperty } from "./findProperty.ts";
@@ -19,7 +19,10 @@ export function getRuleTesterDescribedCases(node: AST.CallExpression) {
 	// TODO: Check node.expression.expression's type for being a RuleTester
 	// https://github.com/flint-fyi/flint/issues/152
 
-	const argument = node.arguments[1];
+	const argument = nullThrows(
+		node.arguments[1],
+		"Second argument is expected to be present by prior length check",
+	);
 	if (argument.kind != SyntaxKind.ObjectLiteralExpression) {
 		return undefined;
 	}

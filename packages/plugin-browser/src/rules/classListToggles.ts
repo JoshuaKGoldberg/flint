@@ -1,4 +1,5 @@
 import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -65,7 +66,10 @@ export default typescriptLanguage.createRule({
 				return undefined;
 			}
 
-			const arg = args[0];
+			const arg = nullThrows(
+				args[0],
+				"Argument is expected to be present by earlier length check",
+			);
 			if (arg.kind != SyntaxKind.StringLiteral) {
 				return undefined;
 			}
@@ -124,8 +128,16 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const thenCall = getClassListMethodCall(thenBlock[0]);
-					const elseCall = getClassListMethodCall(elseBlock[0]);
+					const thenBlockStatement = nullThrows(
+						thenBlock[0],
+						"Then block statement is expected to be present by prior length check",
+					);
+					const elseBlockStatement = nullThrows(
+						elseBlock[0],
+						"Else block statement is expected to be present by prior length check",
+					);
+					const thenCall = getClassListMethodCall(thenBlockStatement);
+					const elseCall = getClassListMethodCall(elseBlockStatement);
 
 					if (
 						!thenCall ||
@@ -139,12 +151,12 @@ export default typescriptLanguage.createRule({
 						(thenCall.method === "add" && elseCall.method === "remove") ||
 						(thenCall.method === "remove" && elseCall.method === "add")
 					) {
-						const thenInfo = getObjectAndClassName(thenBlock[0]);
+						const thenInfo = getObjectAndClassName(thenBlockStatement);
 						if (!thenInfo) {
 							return;
 						}
 
-						const elseInfo = getObjectAndClassName(elseBlock[0]);
+						const elseInfo = getObjectAndClassName(elseBlockStatement);
 						if (!elseInfo || thenInfo.object !== elseInfo.object) {
 							return;
 						}

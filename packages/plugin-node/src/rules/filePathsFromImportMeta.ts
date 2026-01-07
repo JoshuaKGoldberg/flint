@@ -1,4 +1,5 @@
 import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import { SyntaxKind } from "typescript";
 
 function isFileURLToPathCall(node: AST.Expression): node is AST.CallExpression {
@@ -39,13 +40,21 @@ function isImportMetaUrl(
 function isNewURLWithDot(node: AST.Expression): node is AST.NewExpression & {
 	arguments: NonNullable<AST.NewExpression["arguments"]>;
 } {
+	if (
+		node.kind !== SyntaxKind.NewExpression ||
+		node.expression.kind !== SyntaxKind.Identifier ||
+		node.expression.text !== "URL" ||
+		node.arguments?.length !== 2
+	) {
+		return false;
+	}
+
+	const firstArgument = nullThrows(
+		node.arguments[0],
+		"First argument is expected to be present by prior length check",
+	);
 	return (
-		node.kind === SyntaxKind.NewExpression &&
-		node.expression.kind === SyntaxKind.Identifier &&
-		node.expression.text === "URL" &&
-		node.arguments?.length === 2 &&
-		node.arguments[0].kind === SyntaxKind.StringLiteral &&
-		node.arguments[0].text === "."
+		firstArgument.kind == SyntaxKind.StringLiteral && firstArgument.text === "."
 	);
 }
 
@@ -95,9 +104,18 @@ export default typescriptLanguage.createRule({
 					// Check for path.dirname(import.meta.filename)
 					// These must be checked first to avoid double-reporting
 					if (isPathDirnameCall(node)) {
+						const firstArg = nullThrows(
+							node.arguments[0],
+							"path.dirname should have one argument",
+						);
 						if (
-							isFileURLToPathCall(node.arguments[0]) &&
-							isImportMetaUrl(node.arguments[0].arguments[0])
+							isFileURLToPathCall(firstArg) &&
+							isImportMetaUrl(
+								nullThrows(
+									firstArg.arguments[0],
+									"fileURLToPath should have one argument",
+								),
+							)
 						) {
 							context.report({
 								message: "preferImportMetaDirname",
@@ -106,7 +124,7 @@ export default typescriptLanguage.createRule({
 							return;
 						}
 
-						if (isImportMetaFilename(node.arguments[0])) {
+						if (isImportMetaFilename(firstArg)) {
 							context.report({
 								message: "preferImportMetaDirname",
 								range: getTSNodeRange(node, sourceFile),
@@ -119,9 +137,18 @@ export default typescriptLanguage.createRule({
 					// Check for fileURLToPath(import.meta.url)
 					// This must be checked last to avoid double-reporting when inside path.dirname()
 					if (isFileURLToPathCall(node)) {
+						const firstArg = nullThrows(
+							node.arguments[0],
+							"fileURLToPath should have one argument",
+						);
 						if (
-							isNewURLWithDot(node.arguments[0]) &&
-							isImportMetaUrl(node.arguments[0].arguments[1])
+							isNewURLWithDot(firstArg) &&
+							isImportMetaUrl(
+								nullThrows(
+									firstArg.arguments[1],
+									"new URL should have second argument",
+								),
+							)
 						) {
 							context.report({
 								message: "preferImportMetaDirname",
@@ -130,7 +157,7 @@ export default typescriptLanguage.createRule({
 							return;
 						}
 
-						if (isImportMetaUrl(node.arguments[0])) {
+						if (isImportMetaUrl(firstArg)) {
 							// Don't report if this is inside a path.dirname call
 							if (
 								node.parent.kind === SyntaxKind.CallExpression &&

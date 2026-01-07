@@ -4,6 +4,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import { SyntaxKind } from "typescript";
 
 const validAutocompleteValues = new Set([
@@ -76,13 +77,23 @@ function isValidAutocompleteValue(value: string): boolean {
 	const parts = value.trim().split(/\s+/);
 
 	if (parts.length === 1) {
-		return validAutocompleteValues.has(parts[0]);
+		return validAutocompleteValues.has(
+			nullThrows(
+				parts[0],
+				"First part is expected to be present by prior length check",
+			),
+		);
 	}
 
 	if (parts.length === 2) {
 		const [prefix, token] = parts;
 		if (prefix === "billing" || prefix === "shipping") {
-			return billingAndShippingValues.has(token);
+			return billingAndShippingValues.has(
+				nullThrows(
+					token,
+					"Second part is expected to be present by prior length check",
+				),
+			);
 		}
 	}
 

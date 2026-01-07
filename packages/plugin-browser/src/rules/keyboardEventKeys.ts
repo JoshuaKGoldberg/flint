@@ -5,6 +5,7 @@ import {
 	getTSNodeRange,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import ts, { SyntaxKind } from "typescript";
 
 const deprecatedProperties = new Set(["charCode", "keyCode", "which"]);
@@ -47,10 +48,14 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
+			const declaration = nullThrows(
+				declarations[0],
+				"Declaration is expected to be present by the length check",
+			);
+
 			return (
-				declarations.length === 1 &&
-				ts.isInterfaceDeclaration(declarations[0].parent) &&
-				["KeyboardEvent", "UIEvent"].includes(declarations[0].parent.name.text)
+				ts.isInterfaceDeclaration(declaration.parent) &&
+				["KeyboardEvent", "UIEvent"].includes(declaration.parent.name.text)
 			);
 		}
 

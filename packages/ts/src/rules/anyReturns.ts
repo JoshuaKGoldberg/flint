@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as tsutils from "ts-api-utils";
 import ts, { SyntaxKind } from "typescript";
 
@@ -152,7 +153,10 @@ export default typescriptLanguage.createRule({
 						anyType === AnyType.AnyArray &&
 						typeChecker.isArrayType(functionReturnType) &&
 						tsutils.isTypeFlagSet(
-							typeChecker.getTypeArguments(functionReturnType)[0],
+							nullThrows(
+								typeChecker.getTypeArguments(functionReturnType)[0],
+								"Array type should have at least one type argument",
+							),
 							ts.TypeFlags.Unknown,
 						)
 					) {
