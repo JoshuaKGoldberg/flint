@@ -135,6 +135,6 @@ function getExpressionEnd(node: ts.CallExpression, sourceFile: ts.SourceFile) {
 
 function getLineEndPosition(lineNumber: number, sourceFile: ts.SourceFile) {
 	const lineStarts = sourceFile.getLineStarts();
-	const nextLineStart = lineStarts[lineNumber + 1] as number | undefined;
+	const nextLineStart = lineStarts[lineNumber + 1];
 	return nextLineStart === undefined ? sourceFile.getEnd() : nextLineStart - 1;
 }
