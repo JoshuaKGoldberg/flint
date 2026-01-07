@@ -59,7 +59,7 @@ export function computeDirectiveRanges(
 	);
 
 	const rangedSelections: RangedSelection[] = [];
-  
+
 	let previousDirective = nullThrows(
 		directivesSorted[0],
 		"Previous directive is expected to be present by the loop condition",

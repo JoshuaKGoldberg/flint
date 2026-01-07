@@ -50,7 +50,9 @@ export class DirectivesFilterer {
 				const matches = selectionMatchesReport(fileDisable, report);
 				if (matches) {
 					const selection = Array.from(this.#selectionsForFile)[index];
-					matchedFileSelections.add(selection);
+					if (selection) {
+						matchedFileSelections.add(selection);
+					}
 				}
 				return matches;
 			});

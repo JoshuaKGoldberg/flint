@@ -66,20 +66,23 @@ export async function collectFilesAndMetadata(
 	);
 
 	// 5. Join language metadata files into the corresponding options by file path
+	// Note: Filter out cached files as they don't need metadata or options computed
 	const rulesFilesAndOptionsByRule = new Map(
 		Array.from(rulesOptionsByFile).map(([rule, optionsByFile]) => [
 			rule,
-			Array.from(optionsByFile).map(([filePath, options]) => ({
-				languageFiles: Array.from(
-					nullThrows(
-						languageFileMetadataByFilePath.get(filePath),
-						"Language file metadata is expected to be present by the map",
-					)
-						.values()
-						.map((value) => value.fileMetadata.file),
-				),
-				options,
-			})),
+			Array.from(optionsByFile)
+				.filter(([filePath]) => !cached?.has(filePath))
+				.map(([filePath, options]) => ({
+					languageFiles: Array.from(
+						nullThrows(
+							languageFileMetadataByFilePath.get(filePath),
+							"Language file metadata is expected to be present by the map",
+						)
+							.values()
+							.map((value) => value.fileMetadata.file),
+					),
+					options,
+				})),
 		]),
 	);
 

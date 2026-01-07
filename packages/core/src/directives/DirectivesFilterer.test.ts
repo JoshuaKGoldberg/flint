@@ -67,7 +67,7 @@ describe(DirectivesFilterer, () => {
 
 			expect(actual.reports).toEqual(reports);
 			expect(actual.unusedDirectives.rangeDirectives).toHaveLength(1);
-			expect(actual.unusedDirectives.rangeDirectives[0].selections).toEqual([
+			expect(actual.unusedDirectives.rangeDirectives[0]?.selections).toEqual([
 				"*other*",
 			]);
 		});

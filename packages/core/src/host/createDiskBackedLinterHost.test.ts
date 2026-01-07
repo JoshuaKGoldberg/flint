@@ -393,8 +393,9 @@ describe("createDiskBackedLinterHost", () => {
 				path.join(baseDir, "src.txt"),
 				host.isCaseSensitiveFS(),
 			);
-			await sleep(50);
-			expect(onEvent).toHaveBeenCalledWith(normalizedFile);
+			await vi.waitFor(() => {
+				expect(onEvent).toHaveBeenCalledWith(normalizedFile);
+			});
 		});
 
 		it("ignores node_modules directories within watched paths", async () => {
@@ -419,8 +420,9 @@ describe("createDiskBackedLinterHost", () => {
 				path.join(baseDir, "src.txt"),
 				host.isCaseSensitiveFS(),
 			);
-			await sleep(50);
-			expect(onEvent).toHaveBeenCalledWith(normalizedFile);
+			await vi.waitFor(() => {
+				expect(onEvent).toHaveBeenCalledWith(normalizedFile);
+			});
 		});
 
 		it("does not ignore lookalike names such as .gitignore", async () => {
