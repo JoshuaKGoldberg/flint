@@ -5,9 +5,6 @@ import { styleText } from "node:util";
 
 import { ColorCodes, indenter } from "./constants.ts";
 
-// TODO: make reactive
-const leftWidth = 7;
-
 export async function formatCode(report: FileReport, sourceFileText: string) {
 	const start = `${report.range.begin.line + 1}:${report.range.begin.column + 1}`;
 	const sourceFileLines = sourceFileText.split("\n");
@@ -20,6 +17,8 @@ export async function formatCode(report: FileReport, sourceFileText: string) {
 	).trim();
 
 	const highlightedLines = highlighted.split("\n");
+
+	const leftWidth = `${start} │ `.length;
 
 	return [
 		indenter,
