@@ -1,0 +1,78 @@
+---
+description: "Reports using await on promises passed to Promise.all, Promise.allSettled, Promise.any, or Promise.race."
+title: "awaitInsidePromiseMethods"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="awaitInsidePromiseMethods" />
+
+Promise methods like `Promise.all()`, `Promise.allSettled()`, `Promise.any()`, and `Promise.race()` accept an iterable of promises and handle their resolution internally.
+Using `await` on individual promises before passing them defeats the purpose of parallel execution.
+The awaited promise will resolve before the others are even considered, eliminating any parallelism benefit.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+Promise.all([await fetchUser(), await fetchPosts()]);
+```
+
+```ts
+Promise.allSettled([await task1, await task2]);
+```
+
+```ts
+Promise.any([await promiseA, await promiseB]);
+```
+
+```ts
+Promise.race([await firstPromise, await secondPromise]);
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+Promise.all([fetchUser(), fetchPosts()]);
+```
+
+```ts
+Promise.allSettled([task1, task2]);
+```
+
+```ts
+Promise.any([promiseA, promiseB]);
+```
+
+```ts
+Promise.race([firstPromise, secondPromise]);
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you intentionally need to await promises sequentially before passing them to a Promise method (for example, to ensure ordering side effects), you might disable this rule on a per-case basis.
+However, such cases are rare and usually indicate that a different pattern would be more appropriate.
+
+## Further Reading
+
+- [MDN documentation on Promise.all()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
+- [MDN documentation on Promise.allSettled()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled)
+- [MDN documentation on Promise.any()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any)
+- [MDN documentation on Promise.race()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="awaitInsidePromiseMethods" />
