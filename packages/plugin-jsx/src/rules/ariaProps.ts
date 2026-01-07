@@ -4,7 +4,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 const validAriaProps = new Set([
 	"aria-activedescendant",
@@ -81,7 +81,10 @@ export default typescriptLanguage.createRule({
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			for (const property of node.attributes.properties) {
-				if (!ts.isJsxAttribute(property) || !ts.isIdentifier(property.name)) {
+				if (
+					property.kind !== SyntaxKind.JsxAttribute ||
+					property.name.kind !== SyntaxKind.Identifier
+				) {
 					continue;
 				}
 

@@ -1,6 +1,7 @@
 import * as tsutils from "ts-api-utils";
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
+import type { AST } from "../../index.ts";
 import type { Checker } from "../../types/checker.ts";
 
 /**
@@ -15,7 +16,7 @@ export function isUnsafeAssignment(
 	type: ts.Type,
 	receiver: ts.Type,
 	checker: Checker,
-	senderNode: null | ts.Node,
+	senderNode: AST.Expression,
 ): false | { receiver: ts.Type; sender: ts.Type } {
 	return isUnsafeAssignmentWorker(
 		type,
@@ -30,7 +31,7 @@ function isUnsafeAssignmentWorker(
 	type: ts.Type,
 	receiver: ts.Type,
 	checker: Checker,
-	senderNode: null | ts.Node,
+	senderNode: AST.Expression,
 	visited: Map<ts.Type, Set<ts.Type>>,
 ): false | { receiver: ts.Type; sender: ts.Type } {
 	if (tsutils.isTypeFlagSet(type, ts.TypeFlags.Any)) {
@@ -76,9 +77,8 @@ function isUnsafeAssignmentWorker(
 		}
 
 		if (
-			senderNode != null &&
-			ts.isNewExpression(senderNode) &&
-			ts.isIdentifier(senderNode.expression) &&
+			senderNode.kind === SyntaxKind.NewExpression &&
+			senderNode.expression.kind === SyntaxKind.Identifier &&
 			senderNode.expression.text === "Map" &&
 			(senderNode.arguments == null || senderNode.arguments.length === 0) &&
 			senderNode.typeArguments == null

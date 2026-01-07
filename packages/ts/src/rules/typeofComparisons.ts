@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
@@ -18,13 +18,14 @@ const validTypeofValues = new Set([
 // TODO: Reuse a shared getStaticValue-style utility?
 // https://github.com/flint-fyi/flint/issues/1298
 function getStringValue(node: AST.Expression) {
-	return ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)
+	return node.kind === SyntaxKind.StringLiteral ||
+		node.kind === SyntaxKind.NoSubstitutionTemplateLiteral
 		? node.text
 		: undefined;
 }
 
 function getTypeofOperand(node: AST.Expression) {
-	return ts.isTypeOfExpression(node) && node.expression;
+	return node.kind === SyntaxKind.TypeOfExpression && node.expression;
 }
 
 export default typescriptLanguage.createRule({
@@ -78,11 +79,10 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				BinaryExpression: (node, { sourceFile }) => {
 					if (
-						node.operatorToken.kind === ts.SyntaxKind.EqualsEqualsToken ||
-						node.operatorToken.kind === ts.SyntaxKind.EqualsEqualsEqualsToken ||
-						node.operatorToken.kind === ts.SyntaxKind.ExclamationEqualsToken ||
-						node.operatorToken.kind ===
-							ts.SyntaxKind.ExclamationEqualsEqualsToken
+						node.operatorToken.kind === SyntaxKind.EqualsEqualsToken ||
+						node.operatorToken.kind === SyntaxKind.EqualsEqualsEqualsToken ||
+						node.operatorToken.kind === SyntaxKind.ExclamationEqualsToken ||
+						node.operatorToken.kind === SyntaxKind.ExclamationEqualsEqualsToken
 					) {
 						checkComparison(node, sourceFile);
 					}

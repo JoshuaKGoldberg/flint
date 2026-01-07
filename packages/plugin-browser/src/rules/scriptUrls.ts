@@ -1,5 +1,5 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -38,7 +38,7 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				NoSubstitutionTemplateLiteral(node, { sourceFile }) {
-					if (!ts.isTaggedTemplateExpression(node.parent)) {
+					if (node.parent.kind !== SyntaxKind.TaggedTemplateExpression) {
 						checkStringValue(node.text, node, sourceFile);
 					}
 				},
@@ -47,7 +47,7 @@ export default typescriptLanguage.createRule({
 				},
 				TemplateExpression(node, { sourceFile }) {
 					if (
-						!ts.isTaggedTemplateExpression(node.parent) &&
+						node.parent.kind !== SyntaxKind.TaggedTemplateExpression &&
 						node.head.text.toLowerCase().startsWith("javascript:")
 					) {
 						context.report({

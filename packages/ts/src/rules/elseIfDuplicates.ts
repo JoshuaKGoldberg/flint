@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
@@ -47,7 +47,7 @@ export default typescriptLanguage.createRule({
 
 				if (
 					!current.elseStatement ||
-					!ts.isIfStatement(current.elseStatement)
+					current.elseStatement.kind !== SyntaxKind.IfStatement
 				) {
 					break;
 				}
@@ -61,7 +61,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				IfStatement: (node, { sourceFile }) => {
 					if (
-						!ts.isIfStatement(node.parent) ||
+						node.parent.kind !== SyntaxKind.IfStatement ||
 						node.parent.elseStatement !== node
 					) {
 						checkIfStatement(node, sourceFile);

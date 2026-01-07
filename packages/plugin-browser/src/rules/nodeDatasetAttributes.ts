@@ -4,7 +4,7 @@ import {
 	isGlobalDeclaration,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 type AttributeMethodName =
 	| "getAttribute"
@@ -25,8 +25,8 @@ function convertDataAttributeToDatasetKey(
 function getMethodDetails(node: AST.CallExpression) {
 	if (
 		node.arguments.length === 0 ||
-		!ts.isPropertyAccessExpression(node.expression) ||
-		!ts.isIdentifier(node.expression.name)
+		node.expression.kind !== SyntaxKind.PropertyAccessExpression ||
+		node.expression.name.kind !== SyntaxKind.Identifier
 	) {
 		return undefined;
 	}
@@ -110,13 +110,13 @@ export default typescriptLanguage.createRule({
 // TODO: Use a util like getStaticValue
 // https://github.com/flint-fyi/flint/issues/1298
 function getStringLiteralValue(node: AST.Expression): string | undefined {
-	if (ts.isStringLiteral(node)) {
+	if (node.kind === SyntaxKind.StringLiteral) {
 		return node.text;
 	}
 
 	if (
-		ts.isNoSubstitutionTemplateLiteral(node) &&
-		!ts.isTaggedTemplateExpression(node.parent)
+		node.kind === SyntaxKind.NoSubstitutionTemplateLiteral &&
+		node.parent.kind !== SyntaxKind.TaggedTemplateExpression
 	) {
 		return node.text;
 	}

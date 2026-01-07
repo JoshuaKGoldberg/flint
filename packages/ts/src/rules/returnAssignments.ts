@@ -1,5 +1,5 @@
 import * as tsutils from "ts-api-utils";
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
@@ -33,7 +33,7 @@ export default typescriptLanguage.createRule({
 			const unwrapped = unwrapParenthesizedExpression(node);
 
 			if (
-				ts.isBinaryExpression(unwrapped) &&
+				unwrapped.kind === SyntaxKind.BinaryExpression &&
 				tsutils.isAssignmentKind(unwrapped.operatorToken.kind)
 			) {
 				context.report({
@@ -46,7 +46,7 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				ArrowFunction: (node, { sourceFile }) => {
-					if (!ts.isBlock(node.body)) {
+					if (node.body.kind !== SyntaxKind.Block) {
 						checkForAssignment(node.body, sourceFile);
 					}
 				},

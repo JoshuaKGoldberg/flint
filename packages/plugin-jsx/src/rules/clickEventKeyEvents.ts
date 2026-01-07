@@ -4,7 +4,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 const interactiveElements = new Set([
 	"a",
@@ -41,7 +41,7 @@ export default typescriptLanguage.createRule({
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (
-				!ts.isIdentifier(node.tagName) ||
+				node.tagName.kind !== SyntaxKind.Identifier ||
 				node.tagName.text.toLowerCase() !== node.tagName.text
 			) {
 				return;
@@ -52,10 +52,13 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			let onClickName: ts.JsxAttributeName | undefined;
+			let onClickName: AST.JsxAttributeName | undefined;
 
 			for (const property of node.attributes.properties) {
-				if (ts.isJsxAttribute(property) && ts.isIdentifier(property.name)) {
+				if (
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier
+				) {
 					switch (property.name.text) {
 						case "aria-hidden":
 						case "onKeyDown":

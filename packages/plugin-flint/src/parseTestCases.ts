@@ -1,5 +1,5 @@
 import type { AST } from "@flint.fyi/ts";
-import ts, { SyntaxKind } from "typescript";
+import { SyntaxKind } from "typescript";
 
 import { findProperty } from "./findProperty.ts";
 import { tsAstToLiteral } from "./tsAstToLiteral.ts";
@@ -66,7 +66,7 @@ export function parseTestCase(
 export function parseTestCaseInvalid(
 	node: AST.Expression,
 ): ParsedTestCaseInvalid | undefined {
-	if (!ts.isObjectLiteralExpression(node)) {
+	if (node.kind !== SyntaxKind.ObjectLiteralExpression) {
 		return undefined;
 	}
 

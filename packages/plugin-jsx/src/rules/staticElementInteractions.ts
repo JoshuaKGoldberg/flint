@@ -4,7 +4,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 const interactiveHandlers = [
 	"onClick",
@@ -51,7 +51,7 @@ export default typescriptLanguage.createRule({
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (
-				!ts.isIdentifier(node.tagName) ||
+				node.tagName.kind !== SyntaxKind.Identifier ||
 				node.tagName.text.toLowerCase() !== node.tagName.text
 			) {
 				return;
@@ -65,7 +65,10 @@ export default typescriptLanguage.createRule({
 			let hadInteractiveHandler = false;
 
 			for (const property of node.attributes.properties) {
-				if (ts.isJsxAttribute(property) && ts.isIdentifier(property.name)) {
+				if (
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier
+				) {
 					if (property.name.text === "role") {
 						return;
 					}

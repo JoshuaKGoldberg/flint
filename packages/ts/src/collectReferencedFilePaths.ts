@@ -1,5 +1,6 @@
 import * as path from "node:path";
-import * as ts from "typescript";
+import * as tsutils from "ts-api-utils";
+import ts from "typescript";
 
 import type * as AST from "./types/ast.ts";
 
@@ -69,7 +70,7 @@ function isImportCall(
 ): node is ts.CallExpression & { arguments: [ts.StringLiteral] } {
 	return (
 		ts.isCallExpression(node) &&
-		node.expression.kind === ts.SyntaxKind.ImportKeyword &&
+		tsutils.isImportExpression(node.expression) &&
 		node.arguments.length > 0 &&
 		ts.isStringLiteral(node.arguments[0])
 	);

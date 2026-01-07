@@ -1,5 +1,5 @@
 import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 type ModernMethodName = "after" | "append" | "before" | "prepend";
 
@@ -15,7 +15,7 @@ function getModernMethodName(methodName: string, node: AST.CallExpression) {
 		case "insertAdjacentElement":
 		case "insertAdjacentText": {
 			const firstArgument = node.arguments[0];
-			if (!ts.isStringLiteral(firstArgument)) {
+			if (firstArgument.kind !== SyntaxKind.StringLiteral) {
 				return undefined;
 			}
 
@@ -32,11 +32,11 @@ function getModernMethodName(methodName: string, node: AST.CallExpression) {
 }
 
 function getPropertyNameNode(node: AST.LeftHandSideExpression) {
-	if (!ts.isPropertyAccessExpression(node)) {
+	if (node.kind !== SyntaxKind.PropertyAccessExpression) {
 		return undefined;
 	}
 
-	if (!ts.isIdentifier(node.name)) {
+	if (node.name.kind !== SyntaxKind.Identifier) {
 		return undefined;
 	}
 

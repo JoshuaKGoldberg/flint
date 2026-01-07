@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
 import * as AST from "../types/ast.ts";
@@ -28,7 +28,7 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression: (node, { sourceFile, typeChecker }) => {
-					if (!ts.isPropertyAccessExpression(node.expression)) {
+					if (node.expression.kind !== SyntaxKind.PropertyAccessExpression) {
 						return;
 					}
 
@@ -43,9 +43,9 @@ export default typescriptLanguage.createRule({
 
 					const firstArgument = node.arguments[0];
 					if (
-						firstArgument.kind !== ts.SyntaxKind.NullKeyword &&
+						firstArgument.kind !== SyntaxKind.NullKeyword &&
 						!(
-							ts.isIdentifier(firstArgument) &&
+							firstArgument.kind === SyntaxKind.Identifier &&
 							firstArgument.text === "undefined"
 						)
 					) {

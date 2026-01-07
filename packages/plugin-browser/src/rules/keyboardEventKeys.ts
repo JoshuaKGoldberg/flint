@@ -5,7 +5,7 @@ import {
 	getTSNodeRange,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 const deprecatedProperties = new Set(["charCode", "keyCode", "which"]);
 
@@ -58,7 +58,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				PropertyAccessExpression(node, { sourceFile, typeChecker }) {
 					if (
-						ts.isIdentifier(node.name) &&
+						node.name.kind === SyntaxKind.Identifier &&
 						deprecatedProperties.has(node.name.text) &&
 						isKeyboardEvent(node.expression, typeChecker) &&
 						isKeyboardEventProperty(node.name, typeChecker)

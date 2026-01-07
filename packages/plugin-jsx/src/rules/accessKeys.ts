@@ -1,5 +1,5 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -25,7 +25,7 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				JsxAttribute(node, { sourceFile }) {
-					if (!ts.isIdentifier(node.name)) {
+					if (node.name.kind !== SyntaxKind.Identifier) {
 						return;
 					}
 

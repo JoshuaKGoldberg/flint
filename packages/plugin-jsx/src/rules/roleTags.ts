@@ -4,7 +4,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 const roleToElement: Record<string, string> = {
 	article: "article",
@@ -58,7 +58,7 @@ export default typescriptLanguage.createRule({
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			if (
-				!ts.isIdentifier(node.tagName) ||
+				node.tagName.kind !== SyntaxKind.Identifier ||
 				node.tagName.text.toLowerCase() !== node.tagName.text
 			) {
 				return;
@@ -66,16 +66,16 @@ export default typescriptLanguage.createRule({
 
 			const roleProperty = node.attributes.properties.find(
 				(property) =>
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier &&
 					property.name.text === "role",
 			);
 
 			if (
 				!roleProperty ||
-				!ts.isJsxAttribute(roleProperty) ||
+				roleProperty.kind !== SyntaxKind.JsxAttribute ||
 				!roleProperty.initializer ||
-				!ts.isStringLiteral(roleProperty.initializer)
+				roleProperty.initializer.kind !== SyntaxKind.StringLiteral
 			) {
 				return;
 			}

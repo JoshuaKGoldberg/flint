@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import {
@@ -43,7 +43,7 @@ export default typescriptLanguage.createRule({
 			const seenNames = new Set<string>();
 
 			for (const parameter of parameters) {
-				if (!ts.isIdentifier(parameter.name)) {
+				if (parameter.name.kind !== SyntaxKind.Identifier) {
 					continue;
 				}
 

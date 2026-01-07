@@ -4,7 +4,6 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
 import { SyntaxKind } from "typescript";
 
 const focusableElements = new Set([
@@ -44,20 +43,20 @@ export default typescriptLanguage.createRule({
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			const { attributes, tagName } = node;
-			if (!ts.isIdentifier(tagName)) {
+			if (tagName.kind !== SyntaxKind.Identifier) {
 				return;
 			}
 
 			const ariaHiddenProperty = attributes.properties.find(
 				(property) =>
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier &&
 					property.name.text.toLowerCase() === "aria-hidden",
 			);
 
 			if (
 				!ariaHiddenProperty ||
-				!ts.isJsxAttribute(ariaHiddenProperty) ||
+				ariaHiddenProperty.kind !== SyntaxKind.JsxAttribute ||
 				!isAriaHiddenTrue(ariaHiddenProperty)
 			) {
 				return;
@@ -116,18 +115,18 @@ function findTabIndexValue(
 	return undefined;
 }
 
-function isAriaHiddenTrue(ariaHiddenProperty: ts.JsxAttribute) {
+function isAriaHiddenTrue(ariaHiddenProperty: AST.JsxAttribute) {
 	if (!ariaHiddenProperty.initializer) {
 		return false;
 	}
 
-	if (ts.isStringLiteral(ariaHiddenProperty.initializer)) {
+	if (ariaHiddenProperty.initializer.kind === SyntaxKind.StringLiteral) {
 		return ariaHiddenProperty.initializer.text === "true";
 	}
 
-	if (ts.isJsxExpression(ariaHiddenProperty.initializer)) {
+	if (ariaHiddenProperty.initializer.kind === SyntaxKind.JsxExpression) {
 		const expression = ariaHiddenProperty.initializer.expression;
-		if (expression && expression.kind === ts.SyntaxKind.TrueKeyword) {
+		if (expression && expression.kind === SyntaxKind.TrueKeyword) {
 			return true;
 		}
 	}

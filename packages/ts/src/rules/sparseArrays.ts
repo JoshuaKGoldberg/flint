@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
 
@@ -27,13 +27,13 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				OmittedExpression: (node, { sourceFile }) => {
 					const parent = node.parent;
-					if (!ts.isArrayLiteralExpression(parent)) {
+					if (parent.kind !== SyntaxKind.ArrayLiteralExpression) {
 						return;
 					}
 
 					const syntaxList = parent
 						.getChildren(sourceFile)
-						.find((child) => child.kind === ts.SyntaxKind.SyntaxList);
+						.find((child) => child.kind === SyntaxKind.SyntaxList);
 
 					if (!syntaxList) {
 						return;
@@ -43,7 +43,7 @@ export default typescriptLanguage.createRule({
 					const omittedIndex = children.indexOf(node);
 
 					for (let i = omittedIndex + 1; i < children.length; i++) {
-						if (children[i].kind === ts.SyntaxKind.CommaToken) {
+						if (children[i].kind === SyntaxKind.CommaToken) {
 							context.report({
 								message: "noSparseArray",
 								range: {

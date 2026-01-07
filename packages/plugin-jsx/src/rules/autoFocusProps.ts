@@ -4,7 +4,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -28,18 +28,18 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function isSetToFalse(property: ts.JsxAttribute) {
+		function isSetToFalse(property: AST.JsxAttribute) {
 			if (!property.initializer) {
 				return false;
 			}
 
-			if (ts.isStringLiteral(property.initializer)) {
+			if (property.initializer.kind === SyntaxKind.StringLiteral) {
 				return property.initializer.text === "false";
 			}
 
-			if (ts.isJsxExpression(property.initializer)) {
+			if (property.initializer.kind === SyntaxKind.JsxExpression) {
 				const expr = property.initializer.expression;
-				if (expr && expr.kind === ts.SyntaxKind.FalseKeyword) {
+				if (expr && expr.kind === SyntaxKind.FalseKeyword) {
 					return true;
 				}
 			}
@@ -53,8 +53,8 @@ export default typescriptLanguage.createRule({
 		) {
 			for (const property of node.attributes.properties) {
 				if (
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier &&
 					property.name.text.toLowerCase() === "autofocus" &&
 					!isSetToFalse(property)
 				) {

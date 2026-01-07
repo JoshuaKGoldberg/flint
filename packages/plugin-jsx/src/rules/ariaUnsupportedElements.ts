@@ -4,7 +4,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 const unsupportedElements = new Set([
 	"base",
@@ -74,7 +74,7 @@ export default typescriptLanguage.createRule({
 			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
-			if (!ts.isIdentifier(node.tagName)) {
+			if (node.tagName.kind !== SyntaxKind.Identifier) {
 				return;
 			}
 
@@ -85,7 +85,10 @@ export default typescriptLanguage.createRule({
 
 			if (
 				node.attributes.properties.some((property) => {
-					if (!ts.isJsxAttribute(property) || !ts.isIdentifier(property.name)) {
+					if (
+						property.kind !== SyntaxKind.JsxAttribute ||
+						property.name.kind !== SyntaxKind.Identifier
+					) {
 						return false;
 					}
 

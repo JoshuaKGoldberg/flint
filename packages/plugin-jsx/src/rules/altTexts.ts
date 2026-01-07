@@ -4,7 +4,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 const alternateProperties = new Set(["aria-label", "aria-labelledby", "title"]);
 
@@ -36,7 +36,7 @@ export default typescriptLanguage.createRule({
 			{ sourceFile }: TypeScriptFileServices,
 		) {
 			const { attributes, tagName } = node;
-			if (!ts.isIdentifier(tagName)) {
+			if (tagName.kind !== SyntaxKind.Identifier) {
 				return;
 			}
 
@@ -59,15 +59,15 @@ export default typescriptLanguage.createRule({
 		) {
 			const properties = attributes.properties.find(
 				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
+					attr.kind === SyntaxKind.JsxAttribute &&
+					attr.name.kind === SyntaxKind.Identifier &&
 					attr.name.text === "alt",
 			);
 
 			const hasAriaLabel = attributes.properties.some(
 				(attr) =>
-					ts.isJsxAttribute(attr) &&
-					ts.isIdentifier(attr.name) &&
+					attr.kind === SyntaxKind.JsxAttribute &&
+					attr.name.kind === SyntaxKind.Identifier &&
 					(attr.name.text === "aria-label" ||
 						attr.name.text === "aria-labelledby") &&
 					attr.initializer,
@@ -86,18 +86,18 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			if (ts.isJsxAttribute(properties)) {
+			if (properties.kind === SyntaxKind.JsxAttribute) {
 				if (!properties.initializer) {
 					context.report({
 						data: { element: elementName },
 						message: "missingAlt",
 						range: getTSNodeRange(tagName, sourceFile),
 					});
-				} else if (ts.isJsxExpression(properties.initializer)) {
+				} else if (properties.initializer.kind === SyntaxKind.JsxExpression) {
 					const { expression } = properties.initializer;
 					if (
 						expression &&
-						ts.isIdentifier(expression) &&
+						expression.kind === SyntaxKind.Identifier &&
 						expression.text === "undefined"
 					) {
 						context.report({
@@ -117,15 +117,15 @@ export default typescriptLanguage.createRule({
 		) {
 			const typeAttribute = attributes.properties.find(
 				(properties) =>
-					ts.isJsxAttribute(properties) &&
-					ts.isIdentifier(properties.name) &&
+					properties.kind === SyntaxKind.JsxAttribute &&
+					properties.name.kind === SyntaxKind.Identifier &&
 					properties.name.text === "type",
 			);
 
-			if (typeAttribute && ts.isJsxAttribute(typeAttribute)) {
+			if (typeAttribute && typeAttribute.kind === SyntaxKind.JsxAttribute) {
 				if (
 					typeAttribute.initializer &&
-					ts.isStringLiteral(typeAttribute.initializer) &&
+					typeAttribute.initializer.kind === SyntaxKind.StringLiteral &&
 					typeAttribute.initializer.text === "image"
 				) {
 					checkAltAttribute(
@@ -146,8 +146,8 @@ export default typescriptLanguage.createRule({
 			if (
 				!attributes.properties.some(
 					(property) =>
-						ts.isJsxAttribute(property) &&
-						ts.isIdentifier(property.name) &&
+						property.kind === SyntaxKind.JsxAttribute &&
+						property.name.kind === SyntaxKind.Identifier &&
 						alternateProperties.has(property.name.text) &&
 						property.initializer,
 				)

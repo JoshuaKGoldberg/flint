@@ -4,7 +4,6 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
 import { SyntaxKind } from "typescript";
 
 const headingElements = new Set(["h1", "h2", "h3", "h4", "h5", "h6"]);
@@ -40,7 +39,7 @@ export default typescriptLanguage.createRule({
 					: node.tagName;
 
 			if (
-				!ts.isIdentifier(tagName) ||
+				tagName.kind !== SyntaxKind.Identifier ||
 				!headingElements.has(tagName.text.toLowerCase())
 			) {
 				return;
@@ -53,7 +52,10 @@ export default typescriptLanguage.createRule({
 
 			if (
 				attributes.properties.some((property) => {
-					if (!ts.isJsxAttribute(property) || !ts.isIdentifier(property.name)) {
+					if (
+						property.kind !== SyntaxKind.JsxAttribute ||
+						property.name.kind !== SyntaxKind.Identifier
+					) {
 						return false;
 					}
 
@@ -68,15 +70,15 @@ export default typescriptLanguage.createRule({
 			}
 
 			if (
-				ts.isJsxElement(node) &&
+				node.kind === SyntaxKind.JsxElement &&
 				node.children.some((child) => {
-					if (ts.isJsxText(child)) {
+					if (child.kind === SyntaxKind.JsxText) {
 						return child.text.trim().length > 0;
 					}
 					return (
-						ts.isJsxElement(child) ||
-						ts.isJsxSelfClosingElement(child) ||
-						ts.isJsxExpression(child)
+						child.kind === SyntaxKind.JsxElement ||
+						child.kind === SyntaxKind.JsxSelfClosingElement ||
+						child.kind === SyntaxKind.JsxExpression
 					);
 				})
 			) {

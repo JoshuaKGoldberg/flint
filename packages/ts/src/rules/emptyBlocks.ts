@@ -1,18 +1,18 @@
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
 import * as AST from "../types/ast.ts";
 
 const allowedParents = new Set([
-	ts.SyntaxKind.ArrowFunction,
-	ts.SyntaxKind.CatchClause,
-	ts.SyntaxKind.Constructor,
-	ts.SyntaxKind.FunctionDeclaration,
-	ts.SyntaxKind.FunctionExpression,
-	ts.SyntaxKind.GetAccessor,
-	ts.SyntaxKind.MethodDeclaration,
-	ts.SyntaxKind.SetAccessor,
+	SyntaxKind.ArrowFunction,
+	SyntaxKind.CatchClause,
+	SyntaxKind.Constructor,
+	SyntaxKind.FunctionDeclaration,
+	SyntaxKind.FunctionExpression,
+	SyntaxKind.GetAccessor,
+	SyntaxKind.MethodDeclaration,
+	SyntaxKind.SetAccessor,
 ]);
 
 export default typescriptLanguage.createRule({

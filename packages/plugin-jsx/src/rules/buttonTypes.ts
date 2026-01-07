@@ -4,7 +4,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 const validButtonTypes = new Set(["button", "reset", "submit"]);
 
@@ -48,7 +48,7 @@ export default typescriptLanguage.createRule({
 			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
-			if (!ts.isIdentifier(node.tagName)) {
+			if (node.tagName.kind !== SyntaxKind.Identifier) {
 				return;
 			}
 
@@ -59,8 +59,8 @@ export default typescriptLanguage.createRule({
 
 			const typeAttribute = node.attributes.properties.find(
 				(property): property is AST.JsxAttribute =>
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier &&
 					property.name.text.toLowerCase() === "type",
 			);
 
@@ -99,13 +99,13 @@ function getTypeValue(attribute: AST.JsxAttribute): string | undefined {
 		return undefined;
 	}
 
-	if (ts.isStringLiteral(attribute.initializer)) {
+	if (attribute.initializer.kind === SyntaxKind.StringLiteral) {
 		return attribute.initializer.text;
 	}
 
-	if (ts.isJsxExpression(attribute.initializer)) {
+	if (attribute.initializer.kind === SyntaxKind.JsxExpression) {
 		const expr = attribute.initializer.expression;
-		if (expr && ts.isStringLiteral(expr)) {
+		if (expr && expr.kind === SyntaxKind.StringLiteral) {
 			return expr.text;
 		}
 	}

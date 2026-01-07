@@ -1,5 +1,5 @@
 import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 const ambiguousWords = new Set([
 	"a link",
@@ -39,12 +39,15 @@ export default typescriptLanguage.createRule({
 			let text = "";
 
 			for (const child of node.children) {
-				if (ts.isJsxText(child)) {
+				if (child.kind === SyntaxKind.JsxText) {
 					text += child.text;
-				} else if (ts.isJsxElement(child)) {
+				} else if (child.kind === SyntaxKind.JsxElement) {
 					text += getTextContent(child);
-				} else if (ts.isJsxExpression(child)) {
-					if (child.expression && ts.isStringLiteral(child.expression)) {
+				} else if (child.kind === SyntaxKind.JsxExpression) {
+					if (
+						child.expression &&
+						child.expression.kind === SyntaxKind.StringLiteral
+					) {
 						text += child.expression.text;
 					}
 				}
@@ -57,7 +60,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				JsxElement(node, { sourceFile }) {
 					if (
-						!ts.isIdentifier(node.openingElement.tagName) ||
+						node.openingElement.tagName.kind !== SyntaxKind.Identifier ||
 						node.openingElement.tagName.text !== "a"
 					) {
 						return;
@@ -69,7 +72,7 @@ export default typescriptLanguage.createRule({
 					}
 
 					const textNodes = node.children.filter(
-						(child) => ts.isJsxText(child) && child.text.trim(),
+						(child) => child.kind === SyntaxKind.JsxText && child.text.trim(),
 					);
 
 					context.report({

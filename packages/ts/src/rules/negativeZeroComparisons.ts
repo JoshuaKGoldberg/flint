@@ -1,7 +1,7 @@
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
-import type { AST } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
+import type * as AST from "../types/ast.ts";
 import {
 	isComparisonOperator,
 	isEqualityOperator,
@@ -10,9 +10,9 @@ import {
 
 function isNegativeZero(node: AST.Expression): boolean {
 	return (
-		ts.isPrefixUnaryExpression(node) &&
-		node.operator === ts.SyntaxKind.MinusToken &&
-		ts.isNumericLiteral(node.operand) &&
+		node.kind === SyntaxKind.PrefixUnaryExpression &&
+		node.operator === SyntaxKind.MinusToken &&
+		node.operand.kind === SyntaxKind.NumericLiteral &&
 		node.operand.text === "0"
 	);
 }

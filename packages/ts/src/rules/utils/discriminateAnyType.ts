@@ -1,7 +1,7 @@
 import * as tsutils from "ts-api-utils";
-import * as ts from "typescript";
+import ts from "typescript";
 
-import type { Checker } from "../../index.ts";
+import type { Checker } from "../../types/checker.ts";
 
 export const AnyType = {
 	Any: "Any",

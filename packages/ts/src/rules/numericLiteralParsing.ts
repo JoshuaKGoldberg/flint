@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
@@ -24,7 +24,7 @@ function convertToLiteral(value: string, radix: number): string {
 }
 
 function getRadixValue(node: AST.Expression): number | undefined {
-	if (!ts.isNumericLiteral(node)) {
+	if (node.kind !== SyntaxKind.NumericLiteral) {
 		return undefined;
 	}
 
@@ -39,7 +39,8 @@ function getRadixValue(node: AST.Expression): number | undefined {
 // TODO: Use a util like getStaticValue
 // https://github.com/flint-fyi/flint/issues/1298
 function getStringValue(node: AST.Expression): string | undefined {
-	return ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)
+	return node.kind === SyntaxKind.StringLiteral ||
+		node.kind === SyntaxKind.NoSubstitutionTemplateLiteral
 		? node.text
 		: undefined;
 }
@@ -93,18 +94,20 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression: (node, { sourceFile, typeChecker }) => {
-					if (ts.isIdentifier(node.expression)) {
+					if (node.expression.kind === SyntaxKind.Identifier) {
 						if (
 							node.expression.text === "parseInt" &&
 							isGlobalDeclaration(node.expression, typeChecker)
 						) {
 							checkParseIntCall(node, sourceFile);
 						}
-					} else if (ts.isPropertyAccessExpression(node.expression)) {
+					} else if (
+						node.expression.kind === SyntaxKind.PropertyAccessExpression
+					) {
 						if (
-							ts.isIdentifier(node.expression.expression) &&
+							node.expression.expression.kind === SyntaxKind.Identifier &&
 							node.expression.expression.text === "Number" &&
-							ts.isIdentifier(node.expression.name) &&
+							node.expression.name.kind === SyntaxKind.Identifier &&
 							node.expression.name.text === "parseInt" &&
 							isGlobalDeclaration(node.expression.expression, typeChecker)
 						) {

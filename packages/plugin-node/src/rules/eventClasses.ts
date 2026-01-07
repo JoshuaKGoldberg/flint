@@ -5,9 +5,11 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
-function isImportFromNodeEvents(expression: ts.Expression) {
+function isImportFromNodeEvents(
+	expression: ts.Expression,
+): expression is ts.StringLiteral {
 	return (
 		ts.isStringLiteral(expression) &&
 		(expression.text === "events" || expression.text === "node:events")
@@ -45,7 +47,8 @@ export default typescriptLanguage.createRule({
 				}
 
 				if (
-					ts.isImportDeclaration(declaration.parent.parent.parent) &&
+					declaration.parent.parent.parent.kind ===
+						SyntaxKind.ImportDeclaration &&
 					isImportFromNodeEvents(
 						declaration.parent.parent.parent.moduleSpecifier,
 					)
@@ -68,7 +71,7 @@ export default typescriptLanguage.createRule({
 		}
 
 		function isIdentifierEventEmitter(
-			identifier: ts.Identifier,
+			identifier: AST.Identifier,
 			typeChecker: Checker,
 		) {
 			return typeChecker
@@ -83,7 +86,7 @@ export default typescriptLanguage.createRule({
 			typeChecker: Checker,
 		) {
 			if (
-				ts.isIdentifier(expression) &&
+				expression.kind === SyntaxKind.Identifier &&
 				isIdentifierEventEmitter(expression, typeChecker)
 			) {
 				context.report({
@@ -104,7 +107,7 @@ export default typescriptLanguage.createRule({
 					}
 
 					for (const heritageClause of node.heritageClauses) {
-						if (heritageClause.token !== ts.SyntaxKind.ExtendsKeyword) {
+						if (heritageClause.token !== SyntaxKind.ExtendsKeyword) {
 							continue;
 						}
 

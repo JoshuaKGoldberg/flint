@@ -3,7 +3,7 @@ import {
 	isGlobalDeclaration,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -28,8 +28,8 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				CallExpression(node, { sourceFile, typeChecker }) {
 					if (
-						!ts.isPropertyAccessExpression(node.expression) ||
-						!ts.isIdentifier(node.expression.name) ||
+						node.expression.kind !== SyntaxKind.PropertyAccessExpression ||
+						node.expression.name.kind !== SyntaxKind.Identifier ||
 						node.expression.name.text !== "removeChild" ||
 						node.arguments.length !== 1 ||
 						!isGlobalDeclaration(node.expression, typeChecker)

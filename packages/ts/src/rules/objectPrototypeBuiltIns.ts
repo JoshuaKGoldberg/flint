@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
@@ -36,8 +36,8 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				CallExpression: (node, { sourceFile }) => {
 					if (
-						!ts.isPropertyAccessExpression(node.expression) ||
-						!ts.isIdentifier(node.expression.name)
+						node.expression.kind !== SyntaxKind.PropertyAccessExpression ||
+						node.expression.name.kind !== SyntaxKind.Identifier
 					) {
 						return;
 					}
@@ -49,13 +49,13 @@ export default typescriptLanguage.createRule({
 
 					const openParenthesisToken = findToken(
 						node,
-						ts.SyntaxKind.OpenParenToken,
+						SyntaxKind.OpenParenToken,
 						sourceFile,
 					);
 
 					const closeParenthesisToken = findToken(
 						node,
-						ts.SyntaxKind.CloseParenToken,
+						SyntaxKind.CloseParenToken,
 						sourceFile,
 					);
 
@@ -89,7 +89,7 @@ export default typescriptLanguage.createRule({
 
 function findToken(
 	node: AST.CallExpression,
-	token: ts.SyntaxKind,
+	token: SyntaxKind,
 	sourceFile: ts.SourceFile,
 ) {
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion

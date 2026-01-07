@@ -1,5 +1,5 @@
 import * as tsutils from "ts-api-utils";
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import {
@@ -35,7 +35,7 @@ export default typescriptLanguage.createRule({
 		): ts.Node | undefined {
 			for (const statement of statements) {
 				if (
-					ts.isVariableStatement(statement) &&
+					statement.kind === SyntaxKind.VariableStatement &&
 					tsutils.isNodeFlagSet(
 						statement.declarationList,
 						ts.NodeFlags.Let | ts.NodeFlags.Const,
@@ -45,8 +45,8 @@ export default typescriptLanguage.createRule({
 				}
 
 				if (
-					ts.isClassDeclaration(statement) ||
-					ts.isFunctionDeclaration(statement)
+					statement.kind === SyntaxKind.ClassDeclaration ||
+					statement.kind === SyntaxKind.FunctionDeclaration
 				) {
 					return statement.getChildAt(0, sourceFile);
 				}

@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
@@ -51,14 +51,11 @@ export default typescriptLanguage.createRule({
 			name: AST.BindingName,
 			sourceFile: ts.SourceFile,
 		): void {
-			if (ts.isIdentifier(name)) {
+			if (name.kind === SyntaxKind.Identifier) {
 				checkIdentifier(name, sourceFile);
-			} else if (
-				ts.isObjectBindingPattern(name) ||
-				ts.isArrayBindingPattern(name)
-			) {
+			} else {
 				for (const element of name.elements) {
-					if (ts.isBindingElement(element)) {
+					if (element.kind === SyntaxKind.BindingElement) {
 						checkBindingName(element.name, sourceFile);
 					}
 				}

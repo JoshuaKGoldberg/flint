@@ -1,5 +1,5 @@
 import * as tsutils from "ts-api-utils";
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import {
 	type TypeScriptFileServices,
@@ -61,7 +61,7 @@ export default typescriptLanguage.createRule({
 
 function blockContainsYield(block: AST.Block) {
 	function checkForYield(node: ts.Node): boolean | undefined {
-		if (ts.isYieldExpression(node)) {
+		if (node.kind === SyntaxKind.YieldExpression) {
 			return true;
 		}
 

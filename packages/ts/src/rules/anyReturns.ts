@@ -1,6 +1,5 @@
 import * as tsutils from "ts-api-utils";
-import * as ts from "typescript";
-import { SyntaxKind } from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
 import type * as AST from "../types/ast.ts";
@@ -116,7 +115,7 @@ export default typescriptLanguage.createRule({
 					if (
 						tsutils.includesModifier(
 							functionNode.modifiers,
-							ts.SyntaxKind.AsyncKeyword,
+							SyntaxKind.AsyncKeyword,
 						)
 					) {
 						const awaitedSignatureReturnType =
@@ -173,7 +172,7 @@ export default typescriptLanguage.createRule({
 					anyType === AnyType.PromiseAny &&
 					!tsutils.includesModifier(
 						functionNode.modifiers,
-						ts.SyntaxKind.AsyncKeyword,
+						SyntaxKind.AsyncKeyword,
 					)
 				) {
 					return;

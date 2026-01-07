@@ -4,7 +4,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -31,11 +31,11 @@ export default typescriptLanguage.createRule({
 		) {
 			for (const property of node.attributes.properties) {
 				if (
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier &&
 					property.initializer &&
-					ts.isJsxExpression(property.initializer) &&
-					property.initializer.expression?.kind === ts.SyntaxKind.TrueKeyword
+					property.initializer.kind === SyntaxKind.JsxExpression &&
+					property.initializer.expression?.kind === SyntaxKind.TrueKeyword
 				) {
 					context.report({
 						data: { name: property.name.text },

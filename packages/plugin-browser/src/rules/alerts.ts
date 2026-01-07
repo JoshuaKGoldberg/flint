@@ -1,6 +1,6 @@
 import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
 import { isGlobalDeclaration } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 const globalNames = new Set(["alert", "confirm", "prompt"]);
 
@@ -25,13 +25,16 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function getCalleeNameAndNode(node: AST.LeftHandSideExpression) {
-			if (ts.isIdentifier(node)) {
+			if (node.kind === SyntaxKind.Identifier) {
 				return { name: node.text, node };
 			}
 
-			if (ts.isPropertyAccessExpression(node)) {
+			if (node.kind === SyntaxKind.PropertyAccessExpression) {
 				const { expression, name } = node;
-				if (!ts.isIdentifier(name) || !ts.isIdentifier(expression)) {
+				if (
+					name.kind !== SyntaxKind.Identifier ||
+					expression.kind !== SyntaxKind.Identifier
+				) {
 					return undefined;
 				}
 

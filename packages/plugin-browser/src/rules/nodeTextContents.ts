@@ -3,7 +3,7 @@ import {
 	isGlobalDeclaration,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -28,7 +28,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				PropertyAccessExpression(node, { sourceFile, typeChecker }) {
 					if (
-						ts.isIdentifier(node.name) &&
+						node.name.kind === SyntaxKind.Identifier &&
 						node.name.text === "innerText" &&
 						isGlobalDeclaration(node.name, typeChecker)
 					) {

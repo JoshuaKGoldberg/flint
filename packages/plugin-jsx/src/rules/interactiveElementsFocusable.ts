@@ -4,7 +4,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 const interactiveHandlers = [
 	"onClick",
@@ -128,8 +128,8 @@ export default typescriptLanguage.createRule({
 		) {
 			const tabIndex = node.attributes.properties.find(
 				(property): property is AST.JsxAttribute =>
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier &&
 					property.name.text === "tabIndex",
 			);
 
@@ -137,14 +137,14 @@ export default typescriptLanguage.createRule({
 				return undefined;
 			}
 
-			if (ts.isJsxExpression(tabIndex.initializer)) {
+			if (tabIndex.initializer.kind === SyntaxKind.JsxExpression) {
 				const expression = tabIndex.initializer.expression;
-				if (expression && ts.isNumericLiteral(expression)) {
+				if (expression && expression.kind === SyntaxKind.NumericLiteral) {
 					return Number(expression.text);
 				}
 			}
 
-			if (ts.isStringLiteral(tabIndex.initializer)) {
+			if (tabIndex.initializer.kind === SyntaxKind.StringLiteral) {
 				return Number(tabIndex.initializer.text);
 			}
 
@@ -156,16 +156,16 @@ export default typescriptLanguage.createRule({
 		) {
 			const role = node.attributes.properties.find(
 				(property) =>
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier &&
 					property.name.text === "role",
 			);
 
 			if (
 				role &&
-				ts.isJsxAttribute(role) &&
+				role.kind === SyntaxKind.JsxAttribute &&
 				role.initializer &&
-				ts.isStringLiteral(role.initializer)
+				role.initializer.kind === SyntaxKind.StringLiteral
 			) {
 				return role.initializer.text;
 			}
@@ -178,26 +178,26 @@ export default typescriptLanguage.createRule({
 		) {
 			const ariaHidden = node.attributes.properties.find(
 				(property) =>
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier &&
 					property.name.text === "aria-hidden",
 			);
 
 			if (
 				!ariaHidden ||
-				!ts.isJsxAttribute(ariaHidden) ||
+				ariaHidden.kind !== SyntaxKind.JsxAttribute ||
 				!ariaHidden.initializer
 			) {
 				return false;
 			}
 
-			if (ts.isJsxExpression(ariaHidden.initializer)) {
+			if (ariaHidden.initializer.kind === SyntaxKind.JsxExpression) {
 				return (
-					ariaHidden.initializer.expression?.kind === ts.SyntaxKind.TrueKeyword
+					ariaHidden.initializer.expression?.kind === SyntaxKind.TrueKeyword
 				);
 			}
 
-			if (ts.isStringLiteral(ariaHidden.initializer)) {
+			if (ariaHidden.initializer.kind === SyntaxKind.StringLiteral) {
 				return ariaHidden.initializer.text === "true";
 			}
 
@@ -209,8 +209,8 @@ export default typescriptLanguage.createRule({
 		) {
 			return node.attributes.properties.some(
 				(property) =>
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier &&
 					interactiveHandlers.includes(property.name.text),
 			);
 		}
@@ -220,12 +220,15 @@ export default typescriptLanguage.createRule({
 		) {
 			const disabledProperty = node.attributes.properties.find(
 				(property) =>
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier &&
 					property.name.text === "disabled",
 			);
 
-			if (!disabledProperty || !ts.isJsxAttribute(disabledProperty)) {
+			if (
+				!disabledProperty ||
+				disabledProperty.kind !== SyntaxKind.JsxAttribute
+			) {
 				return false;
 			}
 
@@ -233,10 +236,10 @@ export default typescriptLanguage.createRule({
 				return true;
 			}
 
-			if (ts.isJsxExpression(disabledProperty.initializer)) {
+			if (disabledProperty.initializer.kind === SyntaxKind.JsxExpression) {
 				return (
 					disabledProperty.initializer.expression?.kind ===
-					ts.SyntaxKind.TrueKeyword
+					SyntaxKind.TrueKeyword
 				);
 			}
 
@@ -247,7 +250,7 @@ export default typescriptLanguage.createRule({
 			node: AST.JsxOpeningElement | AST.JsxSelfClosingElement,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
-			if (!ts.isIdentifier(node.tagName)) {
+			if (node.tagName.kind !== SyntaxKind.Identifier) {
 				return;
 			}
 
@@ -284,8 +287,8 @@ export default typescriptLanguage.createRule({
 			const hasFocusableTabIndex = tabIndex !== undefined;
 			const roleProperty = node.attributes.properties.find(
 				(property) =>
-					ts.isJsxAttribute(property) &&
-					ts.isIdentifier(property.name) &&
+					property.kind === SyntaxKind.JsxAttribute &&
+					property.name.kind === SyntaxKind.Identifier &&
 					property.name.text === "role",
 			);
 
@@ -295,7 +298,7 @@ export default typescriptLanguage.createRule({
 					data: { role: displayRole },
 					message: "notFocusable",
 					range: getTSNodeRange(
-						roleProperty && ts.isJsxAttribute(roleProperty)
+						roleProperty && roleProperty.kind === SyntaxKind.JsxAttribute
 							? roleProperty
 							: node.tagName,
 						sourceFile,

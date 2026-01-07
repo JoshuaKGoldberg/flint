@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
 import * as AST from "../types/ast.ts";
@@ -39,12 +39,12 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				VariableDeclaration: (node, { sourceFile, typeChecker }) => {
-					if (node.initializer || !ts.isIdentifier(node.name)) {
+					if (node.initializer || node.name.kind !== SyntaxKind.Identifier) {
 						return;
 					}
 
 					if (
-						ts.isVariableDeclarationList(node.parent) &&
+						node.parent.kind === SyntaxKind.VariableDeclarationList &&
 						!!(node.parent.flags & ts.NodeFlags.Const)
 					) {
 						return;

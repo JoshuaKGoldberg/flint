@@ -1,5 +1,4 @@
-import * as ts from "typescript";
-import { SyntaxKind } from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
 import * as AST from "../types/ast.ts";

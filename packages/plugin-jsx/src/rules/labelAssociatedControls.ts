@@ -4,8 +4,7 @@ import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
-import { SyntaxKind } from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 const controlElements = new Set([
 	"input",
@@ -41,30 +40,32 @@ export default typescriptLanguage.createRule({
 		function hasHtmlForAttribute(attributes: AST.JsxAttributes): boolean {
 			return attributes.properties.some((property) => {
 				if (
-					!ts.isJsxAttribute(property) ||
-					!ts.isIdentifier(property.name) ||
+					property.kind !== SyntaxKind.JsxAttribute ||
+					property.name.kind !== SyntaxKind.Identifier ||
 					property.name.text !== "htmlFor" ||
 					!property.initializer
 				) {
 					return false;
 				}
 
-				if (ts.isStringLiteral(property.initializer)) {
+				if (property.initializer.kind === SyntaxKind.StringLiteral) {
 					return property.initializer.text !== "";
 				}
 
-				if (ts.isJsxExpression(property.initializer)) {
+				if (property.initializer.kind === SyntaxKind.JsxExpression) {
 					const { expression } = property.initializer;
 					if (!expression) {
 						return false;
 					}
 
 					if (
-						(ts.isStringLiteral(expression) && expression.text === "") ||
-						(ts.isNoSubstitutionTemplateLiteral(expression) &&
+						(expression.kind === SyntaxKind.StringLiteral &&
 							expression.text === "") ||
-						(ts.isIdentifier(expression) && expression.text === "undefined") ||
-						expression.kind === ts.SyntaxKind.NullKeyword
+						(expression.kind === SyntaxKind.NoSubstitutionTemplateLiteral &&
+							expression.text === "") ||
+						(expression.kind === SyntaxKind.Identifier &&
+							expression.text === "undefined") ||
+						expression.kind === SyntaxKind.NullKeyword
 					) {
 						return false;
 					}
@@ -79,15 +80,15 @@ export default typescriptLanguage.createRule({
 				if (child.kind == SyntaxKind.JsxElement) {
 					const { tagName } = child.openingElement;
 					return (
-						(ts.isIdentifier(tagName) &&
+						(tagName.kind === SyntaxKind.Identifier &&
 							controlElements.has(tagName.text.toLowerCase())) ||
 						hasNestedControl(child.children)
 					);
 				}
 
-				if (ts.isJsxSelfClosingElement(child)) {
+				if (child.kind === SyntaxKind.JsxSelfClosingElement) {
 					return (
-						ts.isIdentifier(child.tagName) &&
+						child.tagName.kind === SyntaxKind.Identifier &&
 						controlElements.has(child.tagName.text.toLowerCase())
 					);
 				}
@@ -112,7 +113,10 @@ export default typescriptLanguage.createRule({
 					? node.openingElement.tagName
 					: node.tagName;
 
-			if (!ts.isIdentifier(tagName) || tagName.text.toLowerCase() !== "label") {
+			if (
+				tagName.kind !== SyntaxKind.Identifier ||
+				tagName.text.toLowerCase() !== "label"
+			) {
 				return;
 			}
 

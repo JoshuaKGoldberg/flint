@@ -1,4 +1,3 @@
-import * as ts from "typescript";
 import { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
@@ -32,7 +31,7 @@ export default typescriptLanguage.createRule({
 				identifiers.push(name);
 			} else {
 				for (const element of name.elements) {
-					if (ts.isBindingElement(element)) {
+					if (element.kind === SyntaxKind.BindingElement) {
 						identifiers.push(...collectBindingElements(element.name));
 					}
 				}

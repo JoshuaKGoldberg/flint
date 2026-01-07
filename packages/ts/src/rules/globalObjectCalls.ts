@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import {
@@ -45,7 +45,10 @@ export default typescriptLanguage.createRule({
 			{ expression }: AST.CallExpression | AST.NewExpression,
 			{ sourceFile }: TypeScriptFileServices,
 		) {
-			if (ts.isIdentifier(expression) && globalObjects.has(expression.text)) {
+			if (
+				expression.kind === SyntaxKind.Identifier &&
+				globalObjects.has(expression.text)
+			) {
 				reportGlobalObjectCall(expression, expression.text, sourceFile);
 			}
 		}

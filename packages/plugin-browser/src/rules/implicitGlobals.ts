@@ -1,5 +1,5 @@
 import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -49,7 +49,7 @@ export default typescriptLanguage.createRule({
 		) {
 			if (
 				node.modifiers?.some(
-					(modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
+					(modifier) => modifier.kind === SyntaxKind.ExportKeyword,
 				) ||
 				node.declarationList.flags & ts.NodeFlags.BlockScoped
 			) {
@@ -57,7 +57,7 @@ export default typescriptLanguage.createRule({
 			}
 
 			for (const declaration of node.declarationList.declarations) {
-				if (ts.isIdentifier(declaration.name)) {
+				if (declaration.name.kind === SyntaxKind.Identifier) {
 					context.report({
 						data: { declarationType: "var declaration" },
 						message: "implicitGlobal",
@@ -75,17 +75,17 @@ export default typescriptLanguage.createRule({
 				SourceFile(node) {
 					const isModule = node.statements.some(
 						(statement) =>
-							ts.isImportDeclaration(statement) ||
-							ts.isExportDeclaration(statement) ||
-							ts.isExportAssignment(statement) ||
-							(ts.isVariableStatement(statement) &&
+							statement.kind === SyntaxKind.ImportDeclaration ||
+							statement.kind === SyntaxKind.ExportDeclaration ||
+							statement.kind === SyntaxKind.ExportAssignment ||
+							(statement.kind === SyntaxKind.VariableStatement &&
 								(statement.modifiers?.some(
-									(modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
+									(modifier) => modifier.kind === SyntaxKind.ExportKeyword,
 								) ??
 									false)) ||
-							(ts.isFunctionDeclaration(statement) &&
+							(statement.kind === SyntaxKind.FunctionDeclaration &&
 								(statement.modifiers?.some(
-									(modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
+									(modifier) => modifier.kind === SyntaxKind.ExportKeyword,
 								) ??
 									false)),
 					);
@@ -95,9 +95,9 @@ export default typescriptLanguage.createRule({
 					}
 
 					for (const statement of node.statements) {
-						if (ts.isFunctionDeclaration(statement)) {
+						if (statement.kind === SyntaxKind.FunctionDeclaration) {
 							checkFunctionDeclaration(statement, node);
-						} else if (ts.isVariableStatement(statement)) {
+						} else if (statement.kind === SyntaxKind.VariableStatement) {
 							checkVariableStatement(statement, node);
 						}
 					}

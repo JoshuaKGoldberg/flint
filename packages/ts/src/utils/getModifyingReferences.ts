@@ -1,5 +1,5 @@
 import * as tsutils from "ts-api-utils";
-import * as ts from "typescript";
+import ts from "typescript";
 
 import * as AST from "../types/ast.ts";
 import type { Checker } from "../types/checker.ts";

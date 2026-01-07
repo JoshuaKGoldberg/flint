@@ -1,6 +1,6 @@
 import type { CharacterReportRange } from "@flint.fyi/core";
 import { type AST, typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -28,7 +28,8 @@ export default typescriptLanguage.createRule({
 			range: CharacterReportRange,
 		) {
 			const children = node.children.filter(
-				(child) => !ts.isJsxText(child) || child.text.trim().length > 0,
+				(child) =>
+					child.kind !== SyntaxKind.JsxText || child.text.trim().length > 0,
 			);
 
 			let childType: string | undefined;
@@ -52,7 +53,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				JsxElement(node, { sourceFile }) {
 					if (
-						ts.isIdentifier(node.openingElement.tagName) &&
+						node.openingElement.tagName.kind === SyntaxKind.Identifier &&
 						!node.openingElement.attributes.properties.length &&
 						node.openingElement.tagName.text === "Fragment"
 					) {

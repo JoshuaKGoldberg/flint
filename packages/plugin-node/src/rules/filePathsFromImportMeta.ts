@@ -1,59 +1,60 @@
 import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
-function isFileURLToPathCall(node: ts.Node): node is ts.CallExpression {
+function isFileURLToPathCall(node: AST.Expression): node is AST.CallExpression {
 	return (
-		ts.isCallExpression(node) &&
-		ts.isIdentifier(node.expression) &&
+		node.kind === SyntaxKind.CallExpression &&
+		node.expression.kind === SyntaxKind.Identifier &&
 		node.expression.text === "fileURLToPath" &&
 		node.arguments.length === 1
 	);
 }
 
-function isImportMetaFilename(node: ts.Node) {
+function isImportMetaFilename(
+	node: AST.Expression,
+): node is AST.PropertyAccessExpression {
 	return (
-		ts.isPropertyAccessExpression(node) &&
-		ts.isMetaProperty(node.expression) &&
-		node.expression.keywordToken === ts.SyntaxKind.ImportKeyword &&
-		ts.isIdentifier(node.expression.name) &&
+		node.kind === SyntaxKind.PropertyAccessExpression &&
+		node.expression.kind === SyntaxKind.MetaProperty &&
+		node.expression.keywordToken === SyntaxKind.ImportKeyword &&
 		node.expression.name.text === "meta" &&
-		ts.isIdentifier(node.name) &&
+		node.name.kind === SyntaxKind.Identifier &&
 		node.name.text === "filename"
 	);
 }
 
-function isImportMetaUrl(node: ts.Node) {
+function isImportMetaUrl(
+	node: AST.Expression,
+): node is AST.PropertyAccessExpression {
 	return (
-		ts.isPropertyAccessExpression(node) &&
-		ts.isMetaProperty(node.expression) &&
-		node.expression.keywordToken === ts.SyntaxKind.ImportKeyword &&
-		ts.isIdentifier(node.expression.name) &&
+		node.kind === SyntaxKind.PropertyAccessExpression &&
+		node.expression.kind === SyntaxKind.MetaProperty &&
+		node.expression.keywordToken === SyntaxKind.ImportKeyword &&
 		node.expression.name.text === "meta" &&
-		ts.isIdentifier(node.name) &&
+		node.name.kind === SyntaxKind.Identifier &&
 		node.name.text === "url"
 	);
 }
 
-function isNewURLWithDot(
-	node: AST.Expression,
-): node is AST.NewExpression & { arguments: ts.NodeArray<AST.Expression> } {
+function isNewURLWithDot(node: AST.Expression): node is AST.NewExpression & {
+	arguments: NonNullable<AST.NewExpression["arguments"]>;
+} {
 	return (
-		ts.isNewExpression(node) &&
-		ts.isIdentifier(node.expression) &&
+		node.kind === SyntaxKind.NewExpression &&
+		node.expression.kind === SyntaxKind.Identifier &&
 		node.expression.text === "URL" &&
 		node.arguments?.length === 2 &&
-		ts.isStringLiteral(node.arguments[0]) &&
+		node.arguments[0].kind === SyntaxKind.StringLiteral &&
 		node.arguments[0].text === "."
 	);
 }
 
-function isPathDirnameCall(node: ts.Node): node is ts.CallExpression {
+function isPathDirnameCall(node: AST.CallExpression): boolean {
 	return (
-		ts.isCallExpression(node) &&
-		ts.isPropertyAccessExpression(node.expression) &&
-		ts.isIdentifier(node.expression.expression) &&
+		node.expression.kind === SyntaxKind.PropertyAccessExpression &&
+		node.expression.expression.kind === SyntaxKind.Identifier &&
 		node.expression.expression.text === "path" &&
-		ts.isIdentifier(node.expression.name) &&
+		node.expression.name.kind === SyntaxKind.Identifier &&
 		node.expression.name.text === "dirname" &&
 		node.arguments.length === 1
 	);
@@ -132,7 +133,7 @@ export default typescriptLanguage.createRule({
 						if (isImportMetaUrl(node.arguments[0])) {
 							// Don't report if this is inside a path.dirname call
 							if (
-								ts.isCallExpression(node.parent) &&
+								node.parent.kind === SyntaxKind.CallExpression &&
 								isPathDirnameCall(node.parent) &&
 								node.parent.arguments[0] === node
 							) {

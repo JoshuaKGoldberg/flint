@@ -1,8 +1,8 @@
-import type { AST } from "../index.ts";
 import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "../language.ts";
+import type * as AST from "../types/ast.ts";
 
 export default typescriptLanguage.createRule({
 	about: {

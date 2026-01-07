@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
 import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.ts";
@@ -36,12 +36,15 @@ export default typescriptLanguage.createRule({
 					}
 
 					const executor = node.arguments[0];
-					if (!ts.isFunctionLike(executor)) {
+					if (
+						executor.kind !== SyntaxKind.FunctionExpression &&
+						executor.kind !== SyntaxKind.ArrowFunction
+					) {
 						return;
 					}
 
 					const asyncModifier = executor.modifiers?.find(
-						(mod) => mod.kind === ts.SyntaxKind.AsyncKeyword,
+						(mod) => mod.kind === SyntaxKind.AsyncKeyword,
 					);
 					if (!asyncModifier) {
 						return;
