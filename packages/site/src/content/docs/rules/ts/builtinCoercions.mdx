@@ -1,0 +1,81 @@
+---
+description: "Reports functions that can be replaced with built-in coercion functions like String, Number, Boolean, BigInt, or Symbol."
+title: "builtinCoercions"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="builtinCoercions" />
+
+If a function is equivalent to `String`, `Number`, `BigInt`, `Boolean`, or `Symbol`, you should use the built-in function directly.
+Wrapping a built-in coercion function in another function adds unnecessary overhead and complexity.
+The built-in functions are concise, universally understood, and can be passed directly as callbacks.
+
+This rule also catches identity functions like `(value) => value` when used in contexts where `Boolean` would be more appropriate (such as `array.some()` or `array.filter()`).
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const toBoolean = (value: unknown) => Boolean(value);
+```
+
+```ts
+const toString = (value: unknown) => String(value);
+```
+
+```ts
+const hasTruthyValue = array.some((element) => element);
+```
+
+```ts
+array.filter((item) => Boolean(item));
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const toBoolean = Boolean;
+```
+
+```ts
+const toString = String;
+```
+
+```ts
+const hasTruthyValue = array.some(Boolean);
+```
+
+```ts
+array.filter(Boolean);
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you prefer the explicitness of wrapper functions or are working with a codebase that has established patterns using wrapper functions, you may choose to disable this rule.
+Some teams prefer wrapper functions for consistency with other utility functions in their codebase.
+
+## Further Reading
+
+- [MDN documentation on String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+- [MDN documentation on Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)
+- [MDN documentation on Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+- [MDN documentation on BigInt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
+- [MDN documentation on Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="builtinCoercions" />
