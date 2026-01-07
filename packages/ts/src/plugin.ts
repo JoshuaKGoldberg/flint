@@ -16,6 +16,7 @@ import elseIfDuplicates from "./rules/elseIfDuplicates.ts";
 import emptyBlocks from "./rules/emptyBlocks.ts";
 import emptyDestructures from "./rules/emptyDestructures.ts";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.ts";
+import equalityOperators from "./rules/equalityOperators.ts";
 import exceptionAssignments from "./rules/exceptionAssignments.ts";
 import finallyStatementSafety from "./rules/finallyStatementSafety.ts";
 import forDirections from "./rules/forDirections.ts";
@@ -80,6 +81,7 @@ export const ts = createPlugin({
 		emptyBlocks,
 		emptyDestructures,
 		emptyStaticBlocks,
+		equalityOperators,
 		exceptionAssignments,
 		finallyStatementSafety,
 		forDirections,

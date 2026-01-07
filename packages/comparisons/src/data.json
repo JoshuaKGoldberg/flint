@@ -9860,6 +9860,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "equalityOperators",
 			"plugin": "ts",
 			"preset": "logical"
