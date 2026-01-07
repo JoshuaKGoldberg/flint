@@ -121,11 +121,11 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					/* eslint-disable @typescript-eslint/no-non-null-assertion */
 					// thenBlock and elseBlock are guaranteed to have one statement by the length check above
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					const thenBlockStatement = thenBlock[0]!;
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					const elseBlockStatement = elseBlock[0]!;
-					/* eslint-enable @typescript-eslint/no-non-null-assertion */
 					const thenCall = getClassListMethodCall(thenBlockStatement);
 					const elseCall = getClassListMethodCall(elseBlockStatement);
 

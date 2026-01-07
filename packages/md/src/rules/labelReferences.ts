@@ -59,12 +59,9 @@ export default markdownLanguage.createRule({
 								continue;
 							}
 
-							/* eslint-disable @typescript-eslint/no-non-null-assertion */
-							// left and right are guaranteed to be non-null by the match
-							const identifier = right
-								? right.trim() || left!.trim()
-								: left!.trim();
-							/* eslint-enable @typescript-eslint/no-non-null-assertion */
+							// if it's not right, then left is guaranteed to be non-null by condition above
+							// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+							const identifier = right?.trim() ?? left!.trim();
 
 							if (!identifier) {
 								continue;

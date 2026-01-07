@@ -28,11 +28,11 @@ export function parseDirectivesFromYamlFile(
 					raw: comment.position.end.offset,
 				},
 			},
-			/* eslint-disable @typescript-eslint/no-non-null-assertion */
 			// selection and type are guaranteed to be non-null by the regex match
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			selection!,
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			type!,
-			/* eslint-enable @typescript-eslint/no-non-null-assertion */
 		);
 	}
 

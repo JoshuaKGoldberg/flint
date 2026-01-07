@@ -43,19 +43,19 @@ export default typescriptLanguage.createRule({
 					const omittedIndex = children.indexOf(node);
 
 					for (let i = omittedIndex + 1; i < children.length; i++) {
-						/* eslint-disable @typescript-eslint/no-non-null-assertion */
 						// children[i] is guaranteed to be non-null by the index check above
-						if (children[i]!.kind === ts.SyntaxKind.CommaToken) {
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						const child = children[i]!;
+						if (child.kind === ts.SyntaxKind.CommaToken) {
 							context.report({
 								message: "noSparseArray",
 								range: {
-									begin: children[i]!.getStart(sourceFile),
-									end: children[i]!.getEnd(),
+									begin: child.getStart(sourceFile),
+									end: child.getEnd(),
 								},
 							});
 							break;
 						}
-						/* eslint-enable @typescript-eslint/no-non-null-assertion */
 					}
 				},
 			},

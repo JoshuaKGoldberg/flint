@@ -30,11 +30,11 @@ export function extractDirectivesFromTypeScriptFile(sourceFile: ts.SourceFile) {
 
 		const range = normalizeRange(commentRange, sourceFile);
 		const matches = match.slice(1);
-		/* eslint-disable @typescript-eslint/no-non-null-assertion */
 		// matches[0] and matches[1] are guaranteed to be non-null by the regex match
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const type = matches[0]!;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const selection = matches[1]!;
-		/* eslint-enable @typescript-eslint/no-non-null-assertion */
 
 		directives.push({ range, selection, type });
 	});

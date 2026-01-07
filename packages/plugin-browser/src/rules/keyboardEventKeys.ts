@@ -47,11 +47,11 @@ export default typescriptLanguage.createRule({
 
 			return (
 				declarations.length === 1 &&
-				/* eslint-disable @typescript-eslint/no-non-null-assertion */
 				// declarations[0] is guaranteed to be non-null by the length check above
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				ts.isInterfaceDeclaration(declarations[0]!.parent) &&
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				["KeyboardEvent", "UIEvent"].includes(declarations[0]!.parent.name.text)
-				/* eslint-enable @typescript-eslint/no-non-null-assertion */
 			);
 		}
 

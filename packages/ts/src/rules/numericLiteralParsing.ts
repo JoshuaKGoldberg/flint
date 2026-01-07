@@ -68,15 +68,15 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			/* eslint-disable @typescript-eslint/no-non-null-assertion */
 			// node.arguments[0] and node.arguments[1] are guaranteed to be non-null by the length check above
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const stringValue = getStringValue(node.arguments[0]!);
 			if (!stringValue) {
 				return;
 			}
 
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const radixValue = getRadixValue(node.arguments[1]!);
-			/* eslint-enable @typescript-eslint/no-non-null-assertion */
 			if (!radixValue) {
 				return;
 			}

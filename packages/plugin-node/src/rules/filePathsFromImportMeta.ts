@@ -47,9 +47,9 @@ function isNewURLWithDot(
 		return false;
 	}
 
-	// Confirmed by the length check above
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	return (
+		// Confirmed by the length check above
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		ts.isStringLiteral(node.arguments[0]!) && node.arguments[0].text === "."
 	);
 }
