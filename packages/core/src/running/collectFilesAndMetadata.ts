@@ -1,3 +1,5 @@
+import { nullThrows } from "@flint.fyi/utils";
+
 import { readFromCache } from "../cache/readFromCache.ts";
 import type { FileCacheStorage } from "../types/cache.ts";
 import type { ProcessedConfigDefinition } from "../types/configs.ts";
@@ -67,18 +69,17 @@ export async function collectFilesAndMetadata(
 	const rulesFilesAndOptionsByRule = new Map(
 		Array.from(rulesOptionsByFile).map(([rule, optionsByFile]) => [
 			rule,
-			Array.from(optionsByFile)
-				.filter(([filePath]) => languageFileMetadataByFilePath.has(filePath))
-				.map(([filePath, options]) => ({
-					languageFiles: Array.from(
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						languageFileMetadataByFilePath
-							.get(filePath)!
-							.values()
-							.map((value) => value.fileMetadata.file),
-					),
-					options,
-				})),
+			Array.from(optionsByFile).map(([filePath, options]) => ({
+				languageFiles: Array.from(
+					nullThrows(
+						languageFileMetadataByFilePath.get(filePath),
+						"Language file metadata is expected to be present by the map",
+					)
+						.values()
+						.map((value) => value.fileMetadata.file),
+				),
+				options,
+			})),
 		]),
 	);
 
