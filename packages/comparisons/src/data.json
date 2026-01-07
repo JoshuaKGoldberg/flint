@@ -7596,7 +7596,8 @@
 		"flint": {
 			"name": "arrayMutableReverses",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
