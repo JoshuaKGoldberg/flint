@@ -1,5 +1,5 @@
-import rule from "./referenceLikeUrls.js";
-import { ruleTester } from "./ruleTester.js";
+import rule from "./referenceLikeUrls.ts";
+import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {
 	invalid: [
