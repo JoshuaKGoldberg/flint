@@ -3601,7 +3601,8 @@
 		"flint": {
 			"name": "referenceLikeUrls",
 			"plugin": "md",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
