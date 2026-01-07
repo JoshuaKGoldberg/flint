@@ -7081,7 +7081,8 @@
 		"flint": {
 			"name": "anyMemberAccess",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
