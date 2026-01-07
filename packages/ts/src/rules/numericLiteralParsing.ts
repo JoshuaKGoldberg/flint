@@ -1,8 +1,8 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
-import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
+import { isGlobalDeclaration } from "../utils/isGlobalDeclaration.ts";
 
 function convertToLiteral(value: string, radix: number): string {
 	const parsed = Number.parseInt(value, radix);
@@ -36,6 +36,7 @@ function getRadixValue(node: ts.Expression): number | undefined {
 }
 
 // TODO: Use a util like getStaticValue
+// https://github.com/flint-fyi/flint/issues/1298
 function getStringValue(node: ts.Expression): string | undefined {
 	return ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)
 		? node.text

@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
 
 const validTypeofValues = new Set([
 	"bigint",
@@ -15,6 +15,7 @@ const validTypeofValues = new Set([
 ]);
 
 // TODO: Reuse a shared getStaticValue-style utility?
+// https://github.com/flint-fyi/flint/issues/1298
 function getStringValue(node: ts.Expression) {
 	return ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)
 		? node.text

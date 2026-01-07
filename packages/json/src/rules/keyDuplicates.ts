@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 import z from "zod";
 
-import { jsonLanguage } from "../language.js";
+import { jsonLanguage } from "../language.ts";
 
 export default jsonLanguage.createRule({
 	about: {
@@ -46,7 +46,7 @@ export default jsonLanguage.createRule({
 						}
 
 						const key = property.name.text;
-						if (options.allowKeys?.includes(key)) {
+						if (options.allowKeys.includes(key)) {
 							continue;
 						}
 

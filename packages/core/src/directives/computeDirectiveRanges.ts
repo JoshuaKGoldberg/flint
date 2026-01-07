@@ -1,12 +1,12 @@
-import { CommentDirectiveWithinFile } from "../types/directives.js";
-import { createSelectionMatcher } from "./createSelectionMatcher.js";
+import type { CommentDirectiveWithinFile } from "../types/directives.ts";
+import { createSelectionMatcher } from "./createSelectionMatcher.ts";
 
 export interface RangedSelection {
 	lines: RangedSelectionLines;
 
 	// TODO: There's got to be a better way.
 	// Maybe an existing common one like minimatch?
-	// https://github.com/JoshuaKGoldberg/flint/issues/245
+	// https://github.com/flint-fyi/flint/issues/245
 	selections: RegExp[];
 }
 

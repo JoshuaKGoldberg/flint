@@ -1,6 +1,6 @@
 import {
 	getTSNodeRange,
-	TypeScriptFileServices,
+	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
 import * as ts from "typescript";
@@ -162,6 +162,7 @@ export default typescriptLanguage.createRule({
 });
 
 // TODO: Use a util like getStaticValue
+// https://github.com/flint-fyi/flint/issues/1298
 function getStringLiteralValue(node: ts.Expression): string | undefined {
 	if (ts.isStringLiteral(node)) {
 		return node.text;

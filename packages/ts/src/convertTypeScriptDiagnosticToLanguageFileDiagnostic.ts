@@ -5,35 +5,31 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import { LanguageFileDiagnostic } from "@flint.fyi/core";
-import ts, {
-	flattenDiagnosticMessageText,
-	getLineAndCharacterOfPosition,
-	getPositionOfLineAndCharacter,
-	type SourceFile,
-} from "typescript";
+import {
+	getColumnAndLineOfPosition,
+	getPositionOfColumnAndLine,
+	type LanguageFileDiagnostic,
+	type SourceFileWithLineMapAndFileName,
+} from "@flint.fyi/core";
+import ts, { flattenDiagnosticMessageText } from "typescript";
 
-interface RawDiagnostic {
-	file?: ts.SourceFile;
-	length: number;
-	message: string;
-	name: string;
-	relatedInformation?: ts.DiagnosticRelatedInformation[];
-	start: number;
+export interface TSBasedDiagnostic extends TSBasedDiagnosticRelatedInformation {
+	relatedInformation?: TSBasedDiagnosticRelatedInformation[];
+}
+export interface TSBasedDiagnosticRelatedInformation {
+	code: number;
+	file: SourceFileWithLineMapAndFileName | undefined;
+	length: number | undefined;
+	messageText: string | ts.DiagnosticMessageChain;
+	start: number | undefined;
 }
 
 export function convertTypeScriptDiagnosticToLanguageFileDiagnostic(
-	diagnostic: ts.Diagnostic,
+	diagnostic: TSBasedDiagnostic,
 ): LanguageFileDiagnostic {
 	return {
 		code: `TS${diagnostic.code}`,
-		text: formatDiagnostic({
-			...diagnostic,
-			length: diagnostic.length!,
-			message: ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"),
-			name: `TS${diagnostic.code}`,
-			start: diagnostic.start!,
-		}),
+		text: formatDiagnostic(diagnostic),
 	};
 }
 
@@ -41,22 +37,22 @@ function color(text: string, formatStyle: string) {
 	return formatStyle + text + resetEscapeSequence;
 }
 
-function formatDiagnostic(diagnostic: RawDiagnostic) {
+function formatDiagnostic(diagnostic: TSBasedDiagnostic) {
 	let output = "";
 
 	if (diagnostic.file !== undefined) {
-		output += formatLocation(diagnostic.file, diagnostic.start);
+		output += formatLocation(diagnostic.file, diagnostic.start!);
 		output += " - ";
 	}
-	output += color(diagnostic.name, COLOR.Grey);
+	output += color(`TS${diagnostic.code}`, COLOR.Grey);
 	output += ": ";
-	output += diagnostic.message;
+	output += ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
 	if (diagnostic.file !== undefined) {
 		output += "\n";
 		output += formatCodeSpan(
 			diagnostic.file,
-			diagnostic.start,
-			diagnostic.length,
+			diagnostic.start!,
+			diagnostic.length!,
 			"",
 			COLOR.Red,
 		);
@@ -103,17 +99,21 @@ function displayFilename(name: string) {
 }
 
 function formatCodeSpan(
-	file: SourceFile,
+	file: SourceFileWithLineMapAndFileName,
 	start: number,
 	length: number,
 	indent: string,
 	squiggleColor: string,
 ) {
-	const { character: firstLineChar, line: firstLine } =
-		getLineAndCharacterOfPosition(file, start);
-	const { character: lastLineChar, line: lastLine } =
-		getLineAndCharacterOfPosition(file, start + length);
-	const lastLineInFile = getLineAndCharacterOfPosition(
+	const { column: firstLineChar, line: firstLine } = getColumnAndLineOfPosition(
+		file,
+		start,
+	);
+	const { column: lastLineChar, line: lastLine } = getColumnAndLineOfPosition(
+		file,
+		start + length,
+	);
+	const lastLineInFile = getColumnAndLineOfPosition(
 		file,
 		file.text.length,
 	).line;
@@ -134,10 +134,10 @@ function formatCodeSpan(
 				"\n";
 			i = lastLine - 1;
 		}
-		const lineStart = getPositionOfLineAndCharacter(file, i, 0);
+		const lineStart = getPositionOfColumnAndLine(file, { column: 0, line: i });
 		const lineEnd =
 			i < lastLineInFile
-				? getPositionOfLineAndCharacter(file, i + 1, 0)
+				? getPositionOfColumnAndLine(file, { column: 0, line: i + 1 })
 				: file.text.length;
 		let lineContent = file.text.slice(lineStart, lineEnd);
 		lineContent = lineContent.trimEnd();
@@ -169,14 +169,17 @@ function formatCodeSpan(
 	return context;
 }
 
-function formatLocation(file: SourceFile, start: number): string {
-	const { character, line } = getLineAndCharacterOfPosition(file, start);
+function formatLocation(
+	file: SourceFileWithLineMapAndFileName,
+	start: number,
+): string {
+	const { column, line } = getColumnAndLineOfPosition(file, start);
 	const relativeFileName = displayFilename(file.fileName);
 	let output = "";
 	output += color(relativeFileName, COLOR.Cyan);
 	output += ":";
 	output += color(`${line + 1}`, COLOR.Yellow);
 	output += ":";
-	output += color(`${character + 1}`, COLOR.Yellow);
+	output += color(`${column + 1}`, COLOR.Yellow);
 	return output;
 }

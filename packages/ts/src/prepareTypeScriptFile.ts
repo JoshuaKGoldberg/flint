@@ -1,14 +1,19 @@
-import { createTypeScriptFileFromProgram } from "./createTypeScriptFileFromProgram.js";
-import { parseDirectivesFromTypeScriptFile } from "./directives/parseDirectivesFromTypeScriptFile.js";
-import { TypeScriptBasedLanguageFile } from "./prepareTypeScriptBasedLanguage.js";
+import type { FileAboutData } from "@flint.fyi/core";
 
-export function prepareTypeScriptFile(file: TypeScriptBasedLanguageFile) {
+import { createTypeScriptFileFromProgram } from "./createTypeScriptFileFromProgram.ts";
+import { parseDirectivesFromTypeScriptFile } from "./directives/parseDirectivesFromTypeScriptFile.ts";
+import type { TypeScriptBasedLanguageFile } from "./prepareTypeScriptBasedLanguage.ts";
+
+export function prepareTypeScriptFile(
+	data: FileAboutData,
+	file: TypeScriptBasedLanguageFile,
+) {
 	const { program, sourceFile, [Symbol.dispose]: onDispose } = file;
 	return {
 		...parseDirectivesFromTypeScriptFile(sourceFile),
 		file: {
 			...(onDispose != null && { [Symbol.dispose]: onDispose }),
-			...createTypeScriptFileFromProgram(program, sourceFile),
+			...createTypeScriptFileFromProgram(data, program, sourceFile),
 		},
 	};
 }

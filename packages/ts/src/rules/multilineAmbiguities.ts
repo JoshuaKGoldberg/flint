@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 function getFirstNonWhitespaceOnLine(
 	lineNumber: number,

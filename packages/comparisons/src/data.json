@@ -4117,7 +4117,8 @@
 			"name": "consoleSpaces",
 			"plugin": "node",
 			"preset": "stylistic",
-			"strictness": "strict"
+			"strictness": "strict",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -4240,7 +4241,8 @@
 			"name": "filePathsFromImportMeta",
 			"plugin": "node",
 			"preset": "stylistic",
-			"strictness": "strict"
+			"strictness": "strict",
+			"status": "implemented"
 		}
 	},
 	{
@@ -4254,6 +4256,7 @@
 			"name": "fileReadJSONBuffers",
 			"plugin": "node",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		}
 	},
@@ -4497,6 +4500,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "nodeProtocols",
 			"plugin": "node",
 			"preset": "logical"
@@ -4546,9 +4550,10 @@
 			}
 		],
 		"flint": {
-			"name": "processExists",
+			"name": "processExits",
 			"plugin": "node",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -9629,6 +9634,10 @@
 		],
 		"eslint": [
 			{
+				"name": "@typescript-eslint/no-empty-interface",
+				"url": "https://typescript-eslint.io/rules/no-empty-interface"
+			},
+			{
 				"name": "@typescript-eslint/no-empty-object-type",
 				"url": "https://typescript-eslint.io/rules/no-empty-object-type"
 			}
@@ -10268,8 +10277,8 @@
 		],
 		"eslint": [
 			{
-				"name": "@typescript-eslint/noFloatingPromises",
-				"url": "https://typescript-eslint.io/rules/noFloatingPromises"
+				"name": "@typescript-eslint/no-floating-promises",
+				"url": "https://typescript-eslint.io/rules/no-floating-promises"
 			}
 		],
 		"flint": {
@@ -12517,6 +12526,33 @@
 		}
 	},
 	{
+		"eslint": [
+			{
+				"name": "@typescript-eslint/member-ordering",
+				"url": "https://typescript-eslint.io/rules/member-ordering"
+			}
+		],
+		"flint": {
+			"name": "memberOrderings",
+			"plugin": "ts",
+			"status": "skipped"
+		},
+		"notes": "Superseded by sorting plugin rules."
+	},
+	{
+		"eslint": [
+			{
+				"name": "@typescript-eslint/method-signature-style",
+				"url": "https://typescript-eslint.io/rules/method-signature-style"
+			}
+		],
+		"flint": {
+			"name": "methodSignatureStyles",
+			"plugin": "ts",
+			"preset": "stylistic"
+		}
+	},
+	{
 		"flint": {
 			"name": "misleadingShorthandAssignments",
 			"plugin": "ts",
@@ -12846,8 +12882,8 @@
 				"url": "https://eslint.org/docs/latest/rules/camelcase"
 			},
 			{
-				"name": "@typescript-eslint/naming-conventions",
-				"url": "https://typescript-eslint.io/rules/naming-conventions"
+				"name": "@typescript-eslint/naming-convention",
+				"url": "https://typescript-eslint.io/rules/naming-convention"
 			}
 		],
 		"flint": {
@@ -13043,6 +13079,81 @@
 			{
 				"name": "eslint/no-new-native-nonconstructor",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-new-native-nonconstructor.html"
+			}
+		]
+	},
+	{
+		"eslint": [
+			{
+				"name": "no-duplicate-imports",
+				"url": "https://eslint.org/docs/latest/rules/no-duplicate-imports"
+			}
+		],
+		"flint": {
+			"name": "importDuplicates",
+			"plugin": "ts",
+			"preset": "stylistic"
+		},
+		"oxlint": [
+			{
+				"name": "eslint/no-duplicate-imports",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-duplicate-imports.html"
+			}
+		]
+	},
+	{
+		"biome": [
+			{
+				"name": "noIrregularWhitespace",
+				"url": "https://biomejs.dev/linter/rules/no-irregular-whitespace"
+			}
+		],
+		"deno": [
+			{
+				"name": "no-irregular-whitespace",
+				"url": "https://docs.deno.com/lint/rules/no-irregular-whitespace"
+			}
+		],
+		"eslint": [
+			{
+				"name": "no-irregular-whitespace",
+				"url": "https://eslint.org/docs/latest/rules/no-irregular-whitespace"
+			}
+		],
+		"flint": {
+			"name": "irregularWhitespaces",
+			"plugin": "ts",
+			"preset": "logical"
+		},
+		"oxlint": [
+			{
+				"name": "eslint/no-irregular-whitespace",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-irregular-whitespace.html"
+			}
+		]
+	},
+	{
+		"biome": [
+			{
+				"name": "useConsistentBuiltinInstantiation",
+				"url": "https://biomejs.dev/linter/rules/use-consistent-builtin-instantiation/"
+			}
+		],
+		"eslint": [
+			{
+				"name": "no-new-wrappers",
+				"url": "https://eslint.org/docs/latest/rules/no-new-wrappers"
+			}
+		],
+		"flint": {
+			"name": "wrapperObjects",
+			"plugin": "ts",
+			"preset": "logical"
+		},
+		"oxlint": [
+			{
+				"name": "eslint/no-new-wrappers",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-new-wrappers.html"
 			}
 		]
 	},
@@ -13494,7 +13605,8 @@
 		"flint": {
 			"name": "objectCalls",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -13556,6 +13668,7 @@
 			}
 		],
 		"flint": {
+			"status": "implemented",
 			"name": "objectHasOwns",
 			"plugin": "ts",
 			"preset": "stylistic"
@@ -13583,7 +13696,8 @@
 		"flint": {
 			"name": "objectKeyDuplicates",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "untyped",
+			"status": "implemented"
 		}
 	},
 	{
@@ -13641,7 +13755,8 @@
 		"flint": {
 			"name": "objectPrototypeBuiltIns",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -13979,7 +14094,7 @@
 			"plugin": "ts",
 			"status": "skipped"
 		},
-		"notes": "Superseded by noFloatingPromises.",
+		"notes": "Superseded by floatingPromises.",
 		"oxlint": [
 			{
 				"name": "promise/always-return",
@@ -14063,7 +14178,7 @@
 			"plugin": "ts",
 			"status": "skipped"
 		},
-		"notes": "Superseded by noFloatingPromises.",
+		"notes": "Superseded by floatingPromises.",
 		"oxlint": [
 			{
 				"name": "promise/catch-or-return",
@@ -14077,7 +14192,7 @@
 			"plugin": "ts",
 			"status": "skipped"
 		},
-		"notes": "Superseded by noFloatingPromises.",
+		"notes": "Superseded by floatingPromises.",
 		"oxlint": [
 			{
 				"name": "promise/no-promise-in-callback",
@@ -14212,7 +14327,7 @@
 			"plugin": "ts",
 			"status": "skipped"
 		},
-		"notes": "Superseded by noFloatingPromises.",
+		"notes": "Superseded by floatingPromises.",
 		"oxlint": [
 			{
 				"name": "promise/spec-only",
@@ -14327,6 +14442,20 @@
 			"status": "skipped",
 			"strictness": "strict"
 		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "@typescript-eslint/prefer-readonly-parameter-types",
+				"url": "https://typescript-eslint.io/rules/prefer-readonly-parameter-types"
+			}
+		],
+		"flint": {
+			"name": "readonlyParameterTypes",
+			"plugin": "ts",
+			"status": "skipped"
+		},
+		"notes": "Better suited to a functional/immutable-focused plugin."
 	},
 	{
 		"flint": {
@@ -14689,17 +14818,39 @@
 		}
 	},
 	{
+		"biome": [
+			{
+				"name": "noEmptyCharacterClassInRegex",
+				"url": "https://biomejs.dev/linter/rules/no-empty-character-class-in-regex"
+			}
+		],
+		"deno": [
+			{
+				"name": "no-empty-character-class",
+				"url": "https://docs.deno.com/lint/rules/no-empty-character-class"
+			}
+		],
 		"eslint": [
 			{
 				"name": "regexp/no-empty-character-class",
 				"url": "https://ota-meshi.github.io/eslint-plugin-regexp/rules/no-empty-character-class.html"
+			},
+			{
+				"name": "no-empty-character-class",
+				"url": "https://eslint.org/docs/latest/rules/no-empty-character-class"
 			}
 		],
 		"flint": {
 			"name": "regexEmptyCharacterClasses",
 			"plugin": "ts",
 			"preset": "logical"
-		}
+		},
+		"oxlint": [
+			{
+				"name": "eslint/no-empty-character-class",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-empty-character-class.html"
+			}
+		]
 	},
 	{
 		"eslint": [
@@ -15662,6 +15813,19 @@
 		]
 	},
 	{
+		"eslint": [
+			{
+				"name": "@typescript-eslint/no-var-requires",
+				"url": "https://typescript-eslint.io/rules/no-var-requires"
+			}
+		],
+		"flint": {
+			"name": "requireVariables",
+			"plugin": "ts",
+			"status": "skipped"
+		}
+	},
+	{
 		"biome": [
 			{
 				"name": "useStaticResponseMethods",
@@ -16239,6 +16403,19 @@
 		]
 	},
 	{
+		"eslint": [
+			{
+				"name": "@typescript-eslint/strict-boolean-expressions",
+				"url": "https://typescript-eslint.io/rules/strict-boolean-expressions"
+			}
+		],
+		"flint": {
+			"name": "strictBooleanExpressions",
+			"plugin": "ts",
+			"preset": "logical"
+		}
+	},
+	{
 		"biome": [
 			{
 				"name": "useStrictMode",
@@ -16681,12 +16858,16 @@
 			{
 				"name": "consistent-this",
 				"url": "https://eslint.org/docs/latest/rules/consistent-this"
+			},
+			{
+				"name": "@typescript-eslint/no-this-alias",
+				"url": "https://typescript-eslint.io/rules/no-this-alias"
 			}
 		],
 		"flint": {
 			"name": "thisAliases",
 			"plugin": "ts",
-			"status": "skipped"
+			"preset": "logical"
 		}
 	},
 	{
@@ -16752,8 +16933,8 @@
 				"url": "https://eslint.org/docs/latest/rules/no-throw-literal"
 			},
 			{
-				"name": "@typescript-eslint/only-throw-errors",
-				"url": "https://typescript-eslint.io/rules/only-throw-errors"
+				"name": "@typescript-eslint/only-throw-error",
+				"url": "https://typescript-eslint.io/rules/only-throw-error"
 			},
 			{
 				"name": "unicorn/throw-new-error",
@@ -16868,6 +17049,10 @@
 			{
 				"name": "@typescript-eslint/ban-ts-comment",
 				"url": "https://typescript-eslint.io/rules/ban-ts-comment"
+			},
+			{
+				"name": "@typescript-eslint/prefer-ts-expect-error",
+				"url": "https://typescript-eslint.io/rules/prefer-ts-expect-error"
 			}
 		],
 		"flint": {
@@ -16904,6 +17089,19 @@
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/ban-tslint-comment.html"
 			}
 		]
+	},
+	{
+		"eslint": [
+			{
+				"name": "@typescript-eslint/no-type-alias",
+				"url": "https://typescript-eslint.io/rules/no-type-alias"
+			}
+		],
+		"flint": {
+			"name": "typeAliases",
+			"plugin": "ts",
+			"status": "skipped"
+		}
 	},
 	{
 		"eslint": [
@@ -16955,6 +17153,32 @@
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/no-duplicate-type-constituents.html"
 			}
 		]
+	},
+	{
+		"eslint": [
+			{
+				"name": "@typescript-eslint/sort-type-constituents",
+				"url": "https://typescript-eslint.io/rules/sort-type-constituents"
+			}
+		],
+		"flint": {
+			"name": "typeConstituents",
+			"plugin": "sorting",
+			"preset": "stylistic"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "@typescript-eslint/typedef",
+				"url": "https://typescript-eslint.io/rules/typedef"
+			}
+		],
+		"flint": {
+			"name": "typeAnnotations",
+			"plugin": "ts",
+			"status": "skipped"
+		}
 	},
 	{
 		"biome": [
@@ -17503,9 +17727,10 @@
 			}
 		],
 		"flint": {
-			"name": "unnecessaryFunctionCurries",
+			"name": "functionCurryingRedundancy",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -17617,6 +17842,19 @@
 		"notes": "Superseded by the e18e initiative"
 	},
 	{
+		"eslint": [
+			{
+				"name": "@typescript-eslint/no-unnecessary-qualifier",
+				"url": "https://typescript-eslint.io/rules/no-unnecessary-qualifier"
+			}
+		],
+		"flint": {
+			"name": "unnecessaryQualifiers",
+			"plugin": "ts",
+			"preset": "stylistic"
+		}
+	},
+	{
 		"biome": [
 			{
 				"name": "noUselessRename",
@@ -17712,10 +17950,20 @@
 		]
 	},
 	{
+		"biome": [
+			{
+				"name": "noUselessTernary",
+				"url": "https://biomejs.dev/linter/rules/no-useless-ternary"
+			}
+		],
 		"eslint": [
 			{
 				"name": "unicorn/prefer-logical-operator-over-ternary",
 				"url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/HEAD/docs/rules/prefer-logical-operator-over-ternary.md"
+			},
+			{
+				"name": "no-unneeded-ternary",
+				"url": "https://eslint.org/docs/latest/rules/no-unneeded-ternary"
 			}
 		],
 		"flint": {
@@ -17725,6 +17973,10 @@
 			"strictness": "strict"
 		},
 		"oxlint": [
+			{
+				"name": "eslint/no-unneeded-ternary",
+				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-unneeded-ternary.html"
+			},
 			{
 				"name": "unicorn/prefer-logical-operator-over-ternary",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/prefer-logical-operator-over-ternary.html"
@@ -17997,7 +18249,8 @@
 			}
 		],
 		"flint": {
-			"name": "unsafeFinallyStatements",
+			"status": "implemented",
+			"name": "finallyStatementSafety",
 			"plugin": "ts",
 			"preset": "logical"
 		},
@@ -18102,6 +18355,19 @@
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/no-base-to-string.html"
 			}
 		]
+	},
+	{
+		"eslint": [
+			{
+				"name": "@typescript-eslint/no-unsafe-type-assertion",
+				"url": "https://typescript-eslint.io/rules/no-unsafe-type-assertion"
+			}
+		],
+		"flint": {
+			"name": "unsafeTypeAssertions",
+			"plugin": "ts",
+			"preset": "logical"
+		}
 	},
 	{
 		"eslint": [
@@ -18220,6 +18486,10 @@
 			{
 				"name": "no-unused-private-class-members",
 				"url": "https://eslint.org/docs/latest/rules/no-unused-private-class-members"
+			},
+			{
+				"name": "@typescript-eslint/no-unused-private-class-members",
+				"url": "https://typescript-eslint.io/rules/no-unused-private-class-members"
 			}
 		],
 		"flint": {
@@ -18345,6 +18615,19 @@
 			"name": "usageBeforeDefinition",
 			"plugin": "ts",
 			"preset": "untyped"
+		}
+	},
+	{
+		"eslint": [
+			{
+				"name": "@typescript-eslint/no-useless-default-assignment",
+				"url": "https://typescript-eslint.io/rules/no-useless-default-assignment"
+			}
+		],
+		"flint": {
+			"name": "uselessDefaultAssignments",
+			"plugin": "ts",
+			"preset": "logical"
 		}
 	},
 	{
@@ -19155,7 +19438,7 @@
 			"plugin": "vitest",
 			"status": "skipped"
 		},
-		"notes": "Superseded by noFloatingPromises."
+		"notes": "Superseded by floatingPromises."
 	},
 	{
 		"eslint": [
@@ -19169,7 +19452,7 @@
 			"plugin": "vitest",
 			"status": "skipped"
 		},
-		"notes": "Superseded by noFloatingPromises."
+		"notes": "Superseded by floatingPromises."
 	},
 	{
 		"eslint": [
@@ -21167,6 +21450,7 @@
 			}
 		],
 		"flint": {
+			"status": "implemented",
 			"name": "emptyDocuments",
 			"plugin": "yaml",
 			"preset": "logical"

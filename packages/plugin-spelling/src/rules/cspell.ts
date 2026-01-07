@@ -1,10 +1,16 @@
 import { textLanguage } from "@flint.fyi/text";
 import { parseJsonSafe } from "@flint.fyi/utils";
+import type { DocumentValidator } from "cspell-lib";
 
-import { createDocumentValidator } from "./createDocumentValidator.js";
+import { createDocumentValidator } from "./createDocumentValidator.ts";
 
 interface CSpellConfigLike {
 	words?: string[];
+}
+
+interface FileTask {
+	documentValidatorTask: Promise<DocumentValidator | undefined>;
+	text: string;
 }
 
 export default textLanguage.createRule({
@@ -20,19 +26,18 @@ export default textLanguage.createRule({
 			suggestions: ["TODO"],
 		},
 	},
-	async setup(context) {
-		const documentValidator = await createDocumentValidator(
-			context.filePathAbsolute,
-			context.sourceText,
-		);
-		if (!documentValidator) {
-			return undefined;
-		}
+	setup(context) {
+		const fileTasks: FileTask[] = [];
 
 		return {
 			dependencies: ["cspell.json"],
-			visitors: {
-				file: (text) => {
+			teardown: async () => {
+				for (const { documentValidatorTask, text } of fileTasks) {
+					const documentValidator = await documentValidatorTask;
+					if (!documentValidator) {
+						return undefined;
+					}
+
 					const issues = documentValidator.checkText(
 						[0, text.length],
 						undefined,
@@ -79,6 +84,17 @@ export default textLanguage.createRule({
 							],
 						});
 					}
+				}
+			},
+			visitors: {
+				file: (text, { filePathAbsolute }) => {
+					fileTasks.push({
+						documentValidatorTask: createDocumentValidator(
+							filePathAbsolute,
+							text,
+						),
+						text,
+					});
 				},
 			},
 		};

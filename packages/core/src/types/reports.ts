@@ -1,6 +1,6 @@
-import { BaseAbout } from "./about.js";
-import { Fix, Suggestion } from "./changes.js";
-import { CharacterReportRange, ColumnAndLine } from "./ranges.js";
+import type { BaseAbout } from "./about.ts";
+import type { Fix, Suggestion } from "./changes.ts";
+import type { CharacterReportRange, ColumnAndLine } from "./ranges.ts";
 
 export interface FileReport extends NormalizedReport {
 	/**
@@ -35,10 +35,6 @@ export interface NormalizedReport {
 	suggestions?: Suggestion[] | undefined;
 }
 
-export interface NormalizedRuleReportWithFix extends NormalizedReport {
-	fix: Fix[];
-}
-
 export type ReportInterpolationData = Record<string, boolean | number | string>;
 
 /**
@@ -51,6 +47,14 @@ export interface RuleReport<Message extends string = string> {
 	 * Any files that should be factored into caching this report.
 	 */
 	dependencies?: string[];
+
+	/**
+	 * Relative file path to the file to place the report in.
+	 * If omitted:
+	 * - If in a rule visitor: defaults to the current file being visited
+	 * - In a setup() or teardown() method: throws an error
+	 */
+	filePath?: string;
 
 	fix?: Fix | Fix[] | undefined;
 	message: Message;

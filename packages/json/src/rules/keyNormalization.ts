@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 import z from "zod";
 
-import { jsonLanguage } from "../language.js";
+import { jsonLanguage } from "../language.ts";
 
 export default jsonLanguage.createRule({
 	about: {
@@ -34,10 +34,7 @@ export default jsonLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				ObjectLiteralExpression(
-					node,
-					{ options: { form = "NFC" }, sourceFile },
-				) {
+				ObjectLiteralExpression(node, { options: { form }, sourceFile }) {
 					for (const property of node.properties) {
 						if (
 							!ts.isPropertyAssignment(property) ||

@@ -1,8 +1,6 @@
-import { describe, expectTypeOf, it } from "vitest";
-import { z } from "zod";
+import { describe, it } from "vitest";
 
-import { AnyRule, AnyRuleDefinition, Rule } from "./rules.js";
-import { AnyOptionalSchema, InferredObject } from "./shapes.js";
+import type { AnyRule, AnyRuleDefinition, Rule } from "./rules.ts";
 
 describe("Rule", () => {
 	it("should be assignable to AnyRule", () => {
@@ -37,35 +35,5 @@ describe("Rule", () => {
 		const fn = (r: AnyRuleDefinition) => r;
 
 		fn(rule);
-	});
-
-	it("should propagate options schema in setup", () => {
-		type rule = Rule<
-			{
-				description: "desc";
-				id: "id";
-			},
-			{ bar: "bar" },
-			{ bar: "bar" },
-			"message",
-			{
-				foo: z.ZodOptional<z.ZodString>;
-			}
-		>;
-
-		const options = {} as Parameters<rule["setup"]>[1];
-
-		expectTypeOf(options).toEqualTypeOf<{ foo?: string | undefined }>();
-	});
-
-	it("should work with AnyOptionalSchema|undefined", () => {
-		// flint-disable-lines-begin voidOperator
-		void (<T extends AnyOptionalSchema | undefined>(
-			rule: AnyRuleDefinition<T>,
-			options: InferredObject<T>,
-		) => {
-			void rule.setup({}, options);
-		});
-		// flint-disable-lines-end voidOperator
 	});
 });
