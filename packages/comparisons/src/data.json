@@ -7703,7 +7703,8 @@
 		"flint": {
 			"name": "arrayTernarySpreadingConsistency",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
