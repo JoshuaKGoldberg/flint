@@ -1,4 +1,5 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -63,9 +64,10 @@ export default typescriptLanguage.createRule({
 				return undefined;
 			}
 
-			// Confirmed by the length check above
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			const arg = args[0]!;
+			const arg = nullThrows(
+				args[0],
+				"Argument is expected to be present by earlier length check",
+			);
 			if (!ts.isStringLiteral(arg)) {
 				return undefined;
 			}
@@ -121,11 +123,14 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// thenBlock and elseBlock are guaranteed to have one statement by the length check above
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					const thenBlockStatement = thenBlock[0]!;
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					const elseBlockStatement = elseBlock[0]!;
+					const thenBlockStatement = nullThrows(
+						thenBlock[0],
+						"Then block statement is expected to be present by prior length check",
+					);
+					const elseBlockStatement = nullThrows(
+						elseBlock[0],
+						"Else block statement is expected to be present by prior length check",
+					);
 					const thenCall = getClassListMethodCall(thenBlockStatement);
 					const elseCall = getClassListMethodCall(elseBlockStatement);
 

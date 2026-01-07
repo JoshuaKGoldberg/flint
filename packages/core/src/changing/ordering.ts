@@ -1,3 +1,5 @@
+import { nullThrows } from "@flint.fyi/utils";
+
 import type { FileChange } from "../types/changes.ts";
 
 export const orderChangesLastToFirstWithoutOverlaps = (
@@ -8,9 +10,10 @@ export const orderChangesLastToFirstWithoutOverlaps = (
 	let lastStart = Infinity;
 
 	for (let i = ordered.length - 1; i >= 0; i -= 1) {
-		// Confirmed by the loop condition
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const change = ordered[i]!;
+		const change = nullThrows(
+			ordered[i],
+			"Change is expected to be present by the loop condition",
+		);
 		if (change.range.end > lastStart) {
 			continue;
 		}

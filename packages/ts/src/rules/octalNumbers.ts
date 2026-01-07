@@ -1,3 +1,5 @@
+import { nullThrows } from "@flint.fyi/utils";
+
 import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
@@ -33,11 +35,14 @@ export default typescriptLanguage.createRule({
 					if (
 						text.length > 1 &&
 						text.startsWith("0") &&
-						// text[1] is guaranteed to be non-null by the length check above
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						text[1]! >= "0" &&
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						text[1]! <= "7" &&
+						nullThrows(
+							text[1],
+							"Second character is expected to be present by prior length check",
+						) >= "0" &&
+						nullThrows(
+							text[1],
+							"Second character is expected to be present by prior length check",
+						) <= "7" &&
 						!/^0[xobi]/i.test(text)
 					) {
 						const range = {

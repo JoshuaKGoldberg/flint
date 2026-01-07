@@ -1,3 +1,5 @@
+import { nullThrows } from "@flint.fyi/utils";
+
 import type { CommentDirectiveWithinFile } from "../types/directives.ts";
 import { createSelectionMatcher } from "./createSelectionMatcher.ts";
 
@@ -23,9 +25,10 @@ export function computeDirectiveRanges(
 	}
 
 	if (directives.length === 1) {
-		// Confirmed by the length check above
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const directive = directives[0]!;
+		const directive = nullThrows(
+			directives[0],
+			"Directive is expected to be present by previous length check",
+		);
 		switch (directive.type) {
 			case "disable-lines-begin":
 				return [
@@ -56,8 +59,10 @@ export function computeDirectiveRanges(
 	);
 
 	const rangedSelections: RangedSelection[] = [];
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	let previousDirective = directivesSorted[0]!;
+	let previousDirective = nullThrows(
+		directivesSorted[0],
+		"Previous directive is expected to be present by the loop condition",
+	);
 	let currentSelections = previousDirective.selections;
 
 	for (const directive of directivesSorted.slice(1)) {

@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
@@ -40,9 +41,10 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Confirmed by the length check above
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					const firstArgument = node.arguments[0]!;
+					const firstArgument = nullThrows(
+						node.arguments[0],
+						"First argument is expected to be present by prior length check",
+					);
 					if (
 						firstArgument.kind !== ts.SyntaxKind.NullKeyword &&
 						!(
@@ -87,9 +89,10 @@ function createApplyFixText(
 	sourceFile: ts.SourceFile,
 ) {
 	if (methodArguments.length > 0) {
-		// Confirmed by the length check above
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const argsArray = methodArguments[0]!;
+		const argsArray = nullThrows(
+			methodArguments[0],
+			"First argument is expected to be present by prior length check",
+		);
 		return `${functionExpression}(...${argsArray.getText(sourceFile)})`;
 	} else {
 		return `${functionExpression}()`;

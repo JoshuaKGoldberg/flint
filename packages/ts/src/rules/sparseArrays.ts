@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
@@ -43,9 +44,10 @@ export default typescriptLanguage.createRule({
 					const omittedIndex = children.indexOf(node);
 
 					for (let i = omittedIndex + 1; i < children.length; i++) {
-						// children[i] is guaranteed to be non-null by the index check above
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						const child = children[i]!;
+						const child = nullThrows(
+							children[i],
+							"Child is expected to be present by the loop condition",
+						);
 						if (child.kind === ts.SyntaxKind.CommaToken) {
 							context.report({
 								message: "noSparseArray",

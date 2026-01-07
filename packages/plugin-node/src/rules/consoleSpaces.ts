@@ -1,4 +1,5 @@
 import { typescriptLanguage } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 import { isDeclaredInNodeTypes } from "./utils/isDeclaredInNodeTypes.ts";
@@ -70,9 +71,10 @@ export default typescriptLanguage.createRule({
 					}
 
 					for (let i = 0; i < node.arguments.length; i++) {
-						// node.arguments[i] is guaranteed to be non-null by the loop condition
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						const argument = node.arguments[i]!;
+						const argument = nullThrows(
+							node.arguments[i],
+							"Argument is expected to be present by the loop condition",
+						);
 						if (!ts.isStringLiteral(argument) || argument.text.length === 0) {
 							continue;
 						}
@@ -84,9 +86,13 @@ export default typescriptLanguage.createRule({
 								message: "leading",
 								range: {
 									begin: start + 1,
-									// startSpaces[1] is guaranteed to be non-null by the regex match
-									// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-									end: start + startSpaces[1]!.length + 1,
+									end:
+										start +
+										nullThrows(
+											startSpaces[1],
+											"Start spaces is expected to be present by the regex match",
+										).length +
+										1,
 								},
 							});
 						}
@@ -97,9 +103,13 @@ export default typescriptLanguage.createRule({
 							context.report({
 								message: "trailing",
 								range: {
-									// endSpaces[1] is guaranteed to be non-null by the regex match
-									// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-									begin: end - endSpaces[1]!.length - 2,
+									begin:
+										end -
+										nullThrows(
+											endSpaces[1],
+											"End spaces is expected to be present by the regex match",
+										).length -
+										2,
 									end: end - 2,
 								},
 							});

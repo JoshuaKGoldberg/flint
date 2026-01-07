@@ -47,11 +47,11 @@ function isNewURLWithDot(
 		return false;
 	}
 
-	return (
-		// Confirmed by the length check above
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		ts.isStringLiteral(node.arguments[0]!) && node.arguments[0].text === "."
+	const firstArgument = nullThrows(
+		node.arguments[0],
+		"First argument is expected to be present by prior length check",
 	);
+	return ts.isStringLiteral(firstArgument) && firstArgument.text === ".";
 }
 
 function isPathDirnameCall(node: ts.Node): node is ts.CallExpression {

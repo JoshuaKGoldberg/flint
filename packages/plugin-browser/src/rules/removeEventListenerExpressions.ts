@@ -3,6 +3,7 @@ import {
 	isGlobalDeclaration,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -41,9 +42,10 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Confirmed by the length check above
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					const listener = node.arguments[1]!;
+					const listener = nullThrows(
+						node.arguments[1],
+						"Second argument is expected to be present by prior length check",
+					);
 					if (
 						!ts.isArrowFunction(listener) &&
 						!ts.isFunctionExpression(listener)

@@ -3,6 +3,7 @@ import {
 	isGlobalDeclaration,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 type AttributeMethodName =
@@ -82,9 +83,10 @@ export default typescriptLanguage.createRule({
 					}
 
 					const attributeName = getStringLiteralValue(
-						// Confirmed by the length checking in `getMethodDetails` above
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						node.arguments[0]!,
+						nullThrows(
+							node.arguments[0],
+							"First argument is expected to be present by prior length check",
+						),
 					);
 					if (!attributeName) {
 						return;

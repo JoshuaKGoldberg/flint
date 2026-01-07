@@ -1,3 +1,5 @@
+import { nullThrows } from "@flint.fyi/utils";
+
 import type { AnyLevelDeep } from "../types/arrays.ts";
 
 type Flatten<T> = T extends unknown[] ? Flatten<T[number]> : T[];
@@ -49,9 +51,12 @@ export function binarySearch<T>(
 	let high = array.length - 1;
 	while (low <= high) {
 		const mid = low + ((high - low) >> 1);
-		// mid is bounded by the loop condition
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const res = compare(array[mid]!);
+		const res = compare(
+			nullThrows(
+				array[mid],
+				"Element is expected to be present by the loop condition",
+			),
+		);
 		if (res < 0) {
 			low = mid + 1;
 		} else if (res > 0) {

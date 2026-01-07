@@ -2,6 +2,7 @@ import {
 	DirectivesCollector,
 	type NormalizedReportRangeObject,
 } from "@flint.fyi/core";
+import { nullThrows } from "@flint.fyi/utils";
 import * as tsutils from "ts-api-utils";
 import type ts from "typescript";
 
@@ -30,11 +31,11 @@ export function extractDirectivesFromTypeScriptFile(sourceFile: ts.SourceFile) {
 
 		const range = normalizeRange(commentRange, sourceFile);
 		const matches = match.slice(1);
-		// matches[0] and matches[1] are guaranteed to be non-null by the regex match
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const type = matches[0]!;
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const selection = matches[1]!;
+		const type = nullThrows(
+			matches[0],
+			"First match is expected to be present by the regex match",
+		);
+		const selection = matches[1] ?? "";
 
 		directives.push({ range, selection, type });
 	});

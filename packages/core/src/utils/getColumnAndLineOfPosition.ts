@@ -1,3 +1,5 @@
+import { nullThrows } from "@flint.fyi/utils";
+
 import type {
 	ColumnAndLine,
 	ColumnAndLineWithoutRaw,
@@ -67,9 +69,14 @@ function computeColumnAndLineOfPosition(
 	if (position > source.length) {
 		const line = lineStarts.length - 1;
 		return {
-			// line is bounded by the length check above
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			column: Math.max(source.length - lineStarts[line]!, 0),
+			column: Math.max(
+				source.length -
+					nullThrows(
+						lineStarts[line],
+						"Line start is expected to be present by the loop condition",
+					),
+				0,
+			),
 			line,
 			raw: Math.max(source.length - 1, 0),
 		};
@@ -81,11 +88,12 @@ function computeColumnAndLineOfPosition(
 	);
 
 	return {
-		// At this point, position is always >0, and lineStarts is always
-		// non-empty, so with "fallback-prev", binarySearch always returns
-		// a non-undefined element.
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		column: position - lineStart!,
+		column:
+			position -
+			nullThrows(
+				lineStart,
+				"Line start is expected to be present by the binary search",
+			),
 		line,
 		raw: position,
 	};
@@ -162,13 +170,19 @@ function computePositionOfColumnAndLine(
 ): number {
 	line = Math.min(Math.max(line, 0), lineStarts.length - 1);
 
-	// line is bounded by the Math.min check above
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	const res = lineStarts[line]! + column;
+	const res =
+		nullThrows(
+			lineStarts[line],
+			"Line start is expected to be present by the Math.min check",
+		) + column;
 	if (line === lineStarts.length - 1) {
 		return Math.min(res, sourceText.length);
 	}
-	// line is bounded by the Math.min check above
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	return Math.min(res, lineStarts[line + 1]! - 1);
+	return Math.min(
+		res,
+		nullThrows(
+			lineStarts[line + 1],
+			"Line start is expected to be present by the Math.min check",
+		) - 1,
+	);
 }

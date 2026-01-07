@@ -1,4 +1,5 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -35,9 +36,10 @@ export default typescriptLanguage.createRule({
 					}
 
 					const argument = unwrapAwaitExpression(
-						// node.arguments[0] is guaranteed to be non-null by the length check above
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						node.arguments[0]!,
+						nullThrows(
+							node.arguments[0],
+							"First argument is expected to be present by prior length check",
+						),
 					);
 					if (
 						ts.isSpreadElement(argument) ||
@@ -47,9 +49,10 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// argument.arguments[1] is guaranteed to be non-null by the length check above
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					const encoding = argument.arguments[1]!;
+					const encoding = nullThrows(
+						argument.arguments[1],
+						"Second argument is expected to be present by prior length check",
+					);
 					if (ts.isSpreadElement(encoding) || !isUtf8Encoding(encoding)) {
 						return;
 					}
@@ -85,9 +88,10 @@ function isUtf8Encoding(node: ts.Expression): boolean {
 			return false;
 		}
 
-		// node.properties[0] is guaranteed to be non-null by the length check above
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const property = node.properties[0]!;
+		const property = nullThrows(
+			node.properties[0],
+			"First property is expected to be present by prior length check",
+		);
 		if (
 			!ts.isPropertyAssignment(property) ||
 			!ts.isIdentifier(property.name) ||

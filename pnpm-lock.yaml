@@ -380,6 +380,9 @@ importers:
       '@flint.fyi/ts':
         specifier: workspace:^
         version: link:../ts
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       language-tags:
         specifier: ^2.1.0
         version: 2.1.0
@@ -719,6 +722,9 @@ importers:
       '@flint.fyi/core':
         specifier: workspace:^
         version: link:../core
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0

@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as path from "node:path";
 import * as ts from "typescript";
 
@@ -69,9 +70,12 @@ function isImportCall(
 		ts.isCallExpression(node) &&
 		node.expression.kind === ts.SyntaxKind.ImportKeyword &&
 		node.arguments.length > 0 &&
-		// verified by the length check above
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		ts.isStringLiteral(node.arguments[0]!)
+		ts.isStringLiteral(
+			nullThrows(
+				node.arguments[0],
+				"First argument is expected to be present by prior length check",
+			),
+		)
 	);
 }
 

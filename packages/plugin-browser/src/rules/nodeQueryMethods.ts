@@ -3,6 +3,7 @@ import {
 	isGlobalDeclaration,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 const legacyMethods = new Set([
@@ -52,9 +53,10 @@ export default typescriptLanguage.createRule({
 						context.report({
 							data: {
 								method: node.expression.name.text,
-								// confirmed by the has check above
-								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-								replacement: methodReplacements[node.expression.name.text]!,
+								replacement: nullThrows(
+									methodReplacements[node.expression.name.text],
+									"Replacement is expected to be present by the has check",
+								),
 							},
 							message: "preferQuerySelector",
 							range: getTSNodeRange(node.expression.name, sourceFile),

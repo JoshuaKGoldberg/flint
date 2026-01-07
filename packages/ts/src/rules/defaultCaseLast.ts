@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
@@ -37,9 +38,10 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					// Confirmed by the length check above
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					const defaultClause = clauses[defaultClauseIndex]!;
+					const defaultClause = nullThrows(
+						clauses[defaultClauseIndex],
+						"Default clause is expected to be present by prior length check",
+					);
 
 					context.report({
 						message: "defaultCaseShouldBeLast",

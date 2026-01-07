@@ -1,4 +1,5 @@
 import { formatReportPrimary, type NormalizedReport } from "@flint.fyi/core";
+import { nullThrows } from "@flint.fyi/utils";
 
 export function createReportSnapshot(
 	sourceText: string,
@@ -24,9 +25,10 @@ function createReportSnapshotAt(sourceText: string, report: NormalizedReport) {
 	const output: string[] = [];
 
 	for (let i = begin.line; i <= end.line; i++) {
-		// lines[i - begin.line] is guaranteed to be non-null by the loop condition
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const line = lines[i - begin.line]!;
+		const line = nullThrows(
+			lines[i - begin.line],
+			"Line is expected to be present by the loop condition",
+		);
 
 		output.push(line);
 

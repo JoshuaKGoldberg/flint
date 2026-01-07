@@ -92,9 +92,10 @@ function isUnsafeAssignmentWorker(
 		const receiverTypeArguments = receiver.typeArguments ?? [];
 
 		for (let i = 0; i < typeArguments.length; i += 1) {
-			// typeArguments[i] is guaranteed to be non-null by the loop condition
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			const arg = typeArguments[i]!;
+			const arg = nullThrows(
+				typeArguments[i],
+				"Type argument is expected to be present by the loop condition",
+			);
 			const receiverArg = nullThrows(
 				receiverTypeArguments[i],
 				"Receiver type should have the same number of type arguments as the sender type when they share the same target",
