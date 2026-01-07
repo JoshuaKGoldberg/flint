@@ -1,7 +1,3 @@
-import type { Node, Root, Table } from "mdast";
-
-import type { WithPosition } from "../nodes.js";
-
 import { markdownLanguage } from "../language.js";
 
 export default markdownLanguage.createRule({
@@ -29,54 +25,36 @@ export default markdownLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				root(root: WithPosition<Root>) {
-					function visitTable(table: Table) {
-						if (table.children.length === 0) {
-							return;
-						}
-
-						const headerRow = table.children[0];
-						const headerCellCount = headerRow.children.length;
-
-						for (let i = 1; i < table.children.length; i += 1) {
-							const dataRow = table.children[i];
-							const dataCellCount = dataRow.children.length;
-
-							// Report if data row has MORE cells than header
-							if (dataCellCount > headerCellCount) {
-								if (
-									dataRow.position?.start.offset !== undefined &&
-									dataRow.position.end.offset !== undefined
-								) {
-									context.report({
-										data: {
-											actual: String(dataCellCount),
-											expected: String(headerCellCount),
-										},
-										message: "tooManyCells",
-										range: {
-											begin: dataRow.position.start.offset,
-											end: dataRow.position.end.offset,
-										},
-									});
-								}
-							}
-						}
+				table: (node) => {
+					if (node.children.length === 0) {
+						return;
 					}
 
-					function visit(node: Node) {
-						if (node.type === "table") {
-							visitTable(node as Table);
+					const [headerRow, ...dataRows] = node.children;
+
+					for (const dataRow of dataRows) {
+						const dataCellCount = dataRow.children.length;
+
+						if (
+							dataCellCount <= headerRow.children.length ||
+							dataRow.position?.start.offset === undefined ||
+							dataRow.position.end.offset === undefined
+						) {
+							continue;
 						}
 
-						if ("children" in node && Array.isArray(node.children)) {
-							for (const child of node.children as Node[]) {
-								visit(child);
-							}
-						}
+						context.report({
+							data: {
+								actual: dataCellCount,
+								expected: headerRow.children.length,
+							},
+							message: "tooManyCells",
+							range: {
+								begin: dataRow.position.start.offset,
+								end: dataRow.position.end.offset,
+							},
+						});
 					}
-
-					visit(root);
 				},
 			},
 		};
