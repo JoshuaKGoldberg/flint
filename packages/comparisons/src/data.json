@@ -7022,6 +7022,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "anyArguments",
 			"plugin": "ts",
 			"preset": "logical"
