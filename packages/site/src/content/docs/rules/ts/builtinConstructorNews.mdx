@@ -1,0 +1,87 @@
+---
+description: "Enforces using new for constructors that require it, and disallows new for primitive coercion functions."
+title: "builtinConstructorNews"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="builtinConstructorNews" />
+
+Built-in constructors should be called consistently.
+Constructors like `Array`, `Map`, `Set`, `Date`, and `Promise` should be called with `new` for clarity and consistency.
+Primitive coercion functions like `String`, `Number`, `Boolean`, `Symbol`, and `BigInt` should be called without `new` to avoid creating object wrappers around primitive values.
+
+Using `new` with primitive coercion functions creates object wrappers that can cause unexpected behavior in comparisons and type checks.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const list = Array(10);
+```
+
+```ts
+const now = Date();
+```
+
+```ts
+const map = Map([["key", "value"]]);
+```
+
+```ts
+const str = new String("hello");
+```
+
+```ts
+const num = new Number(42);
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const list = new Array(10);
+```
+
+```ts
+const now = new Date();
+```
+
+```ts
+const map = new Map([["key", "value"]]);
+```
+
+```ts
+const str = String(value);
+```
+
+```ts
+const num = Number(value);
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you intentionally use object wrappers for primitives (e.g., `new String()`) for specific purposes like adding properties to a string value, you may disable this rule.
+Some legacy codebases may also call constructors without `new` for historical reasons.
+
+## Further Reading
+
+- [MDN documentation on String primitives and String objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#string_primitives_and_string_objects)
+- [MDN documentation on Array constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Array)
+- [MDN documentation on Map constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/Map)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="builtinConstructorNews" />
