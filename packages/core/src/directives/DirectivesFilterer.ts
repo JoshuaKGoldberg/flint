@@ -42,13 +42,10 @@ export class DirectivesFilterer {
 
 		const directiveRanges = computeDirectiveRanges(this.#directivesForRanges);
 
-		// Track which file-level selections matched at least one report
 		const matchedFileSelections = new Set<string>();
-		// Track which range-level directives matched at least one report
 		const matchedRangeDirectives = new Set<CommentDirectiveWithinFile>();
 
 		const filteredReports = reports.filter((report) => {
-			// Check if any file-level directive matches
 			const fileMatched = directivesForFile.some((fileDisable, index) => {
 				const matches = selectionMatchesReport(fileDisable, report);
 				if (matches) {
@@ -58,37 +55,33 @@ export class DirectivesFilterer {
 				return matches;
 			});
 
-			// Check if any range-level directive matches
 			const rangeMatched = selectionMatchesDirectiveRanges(
 				directiveRanges,
 				report,
 			);
 
-			// Find which directive(s) would match this report
-			// Check each directive individually to see if it would match
-			// We do this for all reports, not just when rangeMatched is true,
-			// to correctly track which directives matched
-			for (const directive of this.#directivesForRanges) {
-				const directiveRange = computeDirectiveRanges([directive]);
-				if (
-					selectionMatchesDirectiveRanges(directiveRange, report) &&
-					!matchedRangeDirectives.has(directive)
-				) {
-					matchedRangeDirectives.add(directive);
+			// This tracks which directives actually suppressed reports
+			if (rangeMatched) {
+				for (const directive of this.#directivesForRanges) {
+					const directiveRange = computeDirectiveRanges([directive]);
+					if (
+						selectionMatchesDirectiveRanges(directiveRange, report) &&
+						!matchedRangeDirectives.has(directive)
+					) {
+						matchedRangeDirectives.add(directive);
+					}
 				}
 			}
 
 			return !fileMatched && !rangeMatched;
 		});
 
-		// Find unused file-level directives (directives where none of their selections matched)
 		const unusedFileDirectives = this.#directivesForFile.filter((directive) =>
 			directive.selections.every(
 				(selection) => !matchedFileSelections.has(selection),
 			),
 		);
 
-		// Find unused range-level directives
 		const unusedRangeDirectives = this.#directivesForRanges.filter(
 			(directive) => !matchedRangeDirectives.has(directive),
 		);
@@ -102,15 +95,3 @@ export class DirectivesFilterer {
 		};
 	}
 }
-
-function someUselessFunctionToTestDirectives() {
-	const array = ["a", "b", "c"];
-	// flint-disable-next-line forInArrays
-	for (const i in array) {
-		console.log(array[i]);
-	}
-	// flint-disable-next-line blahblahblah
-	return null;
-}
-
-// flint-disable-next-line forInArrays

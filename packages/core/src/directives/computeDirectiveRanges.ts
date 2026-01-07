@@ -55,7 +55,23 @@ export function computeDirectiveRanges(
 
 	const rangedSelections: RangedSelection[] = [];
 	let previousDirective = directivesSorted[0];
-	let currentSelections = directivesSorted[0].selections;
+	let currentSelections = previousDirective.selections;
+
+	// Handle the first directive
+	switch (previousDirective.type) {
+		case "disable-lines-begin":
+			// Will be handled after the loop
+			break;
+		case "disable-next-line":
+			rangedSelections.push({
+				lines: {
+					begin: previousDirective.range.begin.line + 1,
+					end: previousDirective.range.end.line + 1,
+				},
+				selections: currentSelections.map(createSelectionMatcher),
+			});
+			break;
+	}
 
 	for (const directive of directivesSorted.slice(1)) {
 		rangedSelections.push({
