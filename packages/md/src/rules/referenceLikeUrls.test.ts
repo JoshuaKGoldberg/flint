@@ -33,16 +33,16 @@ This image uses a URL 'mercury' that matches a definition identifier.
 		},
 		{
 			code: `
-[ESLint](eslint) is a great tool.
+[Flint](flint) is a great tool.
 
-[eslint]: https://eslint.org
+[flint]: https://flint.fyi
 `,
 			snapshot: `
-[ESLint](eslint) is a great tool.
-~~~~~~~~~~~~~~~~
-This link uses a URL 'eslint' that matches a definition identifier.
+[Flint](flint) is a great tool.
+~~~~~~~~~~~~~~
+This link uses a URL 'flint' that matches a definition identifier.
 
-[eslint]: https://eslint.org
+[flint]: https://flint.fyi
 `,
 		},
 		{
@@ -99,7 +99,7 @@ This link uses a URL 'EXAMPLE' that matches a definition identifier.
 [mercury]: https://example.com/mercury/
 `,
 		`
-[ESLint](https://eslint.org) is a great tool.
+[Flint](ftps://eslint.org) is a great tool.
 `,
 		`
 ![Mercury][mercury]
