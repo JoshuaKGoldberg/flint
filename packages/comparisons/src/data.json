@@ -8531,7 +8531,8 @@
 			"name": "combinedPushes",
 			"plugin": "ts",
 			"preset": "stylistic",
-			"strictness": "strict"
+			"strictness": "strict",
+			"status": "implemented"
 		},
 		"notes": "Just for Array#push(); the others would be their own rules."
 	},
