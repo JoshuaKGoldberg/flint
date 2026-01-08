@@ -6,6 +6,13 @@ export { isConfig } from "./configs/isConfig.ts";
 export { DirectivesCollector } from "./directives/DirectivesCollector.ts";
 export { directiveReports } from "./directives/reports/directiveReports.ts";
 export { globs } from "./globs/index.ts";
+export { createDiskBackedLinterHost } from "./host/createDiskBackedLinterHost.ts";
+export {
+	createVFSLinterHost,
+	type CreateVFSLinterHostOpts,
+} from "./host/createVFSLinterHost.ts";
+export { isFileSystemCaseSensitive } from "./host/isFileSystemCaseSensitive.ts";
+export { normalizedDirname, normalizePath } from "./host/normalizePath.ts";
 export { createLanguage } from "./languages/createLanguage.ts";
 export { createPlugin } from "./plugins/createPlugin.ts";
 export { formatReportPrimary } from "./reporting/formatReportPrimary.ts";
@@ -19,6 +26,7 @@ export * from "./types/changes.ts";
 export * from "./types/configs.ts";
 export * from "./types/directives.ts";
 export * from "./types/formatting.ts";
+export * from "./types/host.ts";
 export * from "./types/languages.ts";
 export * from "./types/linting.ts";
 export * from "./types/modes.ts";

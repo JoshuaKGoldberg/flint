@@ -1,4 +1,5 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 type ModernMethodName = "after" | "append" | "before" | "prepend";
@@ -14,7 +15,10 @@ function getModernMethodName(methodName: string, node: ts.CallExpression) {
 	switch (methodName) {
 		case "insertAdjacentElement":
 		case "insertAdjacentText": {
-			const firstArgument = node.arguments[0];
+			const firstArgument = nullThrows(
+				node.arguments[0],
+				`First argument should be defined for call expression (${methodName})`,
+			);
 			if (!ts.isStringLiteral(firstArgument)) {
 				return undefined;
 			}

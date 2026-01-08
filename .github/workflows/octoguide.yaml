@@ -2,7 +2,7 @@ jobs:
   octoguide:
     runs-on: ubuntu-latest
     steps:
-      - uses: JoshuaKGoldberg/octoguide@a37cca1a4f04c9e07f0581c230d41d09a4571f92 # 0.18.1
+      - uses: OctoGuide/bot@2323755a369bb2daf760304df78385f144cb4ce0 # 0.21.0
         with:
           config: strict
           github-token: ${{ secrets.GITHUB_TOKEN }}

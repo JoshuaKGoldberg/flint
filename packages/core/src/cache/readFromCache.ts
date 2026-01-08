@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 
@@ -34,7 +35,10 @@ export async function readFromCache(
 			return undefined;
 		}
 
-		const timestampCached = cache.configs[filePath];
+		const timestampCached = nullThrows(
+			cache.configs[filePath],
+			"Cache timestamp is expected to be present",
+		);
 		const timestampTouched = getFileTouchTime(filePath);
 		if (timestampTouched > timestampCached) {
 			log(
