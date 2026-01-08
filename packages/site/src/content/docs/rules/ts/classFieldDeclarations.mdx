@@ -1,0 +1,101 @@
+---
+description: "Prefer class field declarations over property assignments in constructors."
+title: "classFieldDeclarations"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="classFieldDeclarations" />
+
+Class field declarations allow you to define properties directly on the class body rather than assigning them in the constructor.
+This makes the class structure more visible at a glance and is more concise.
+
+When a constructor only assigns static values (literals like strings, numbers, booleans, or simple arrays/objects) to `this` properties, those assignments can be converted to class field declarations.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class Example {
+	constructor() {
+		this.name = "default";
+	}
+}
+```
+
+```ts
+class MyError extends Error {
+	constructor(message: string) {
+		super(message);
+		this.name = "MyError";
+	}
+}
+```
+
+```ts
+class Config {
+	constructor() {
+		this.enabled = true;
+		this.items = [];
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class Example {
+	name = "default";
+}
+```
+
+```ts
+class MyError extends Error {
+	name = "MyError";
+
+	constructor(message: string) {
+		super(message);
+	}
+}
+```
+
+```ts
+class Config {
+	enabled = true;
+	items: string[] = [];
+}
+```
+
+```ts
+class Example {
+	constructor(name: string) {
+		this.name = name;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you prefer keeping all property assignments in constructors for consistency, or if your codebase targets environments that do not support class field declarations (pre-ES2022), you may want to disable this rule.
+
+## Further Reading
+
+- [MDN: Public class fields](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields)
+- [MDN: Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="classFieldDeclarations" />
