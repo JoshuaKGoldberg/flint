@@ -53,7 +53,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				BinaryExpression: (node, { sourceFile, typeChecker }) => {
 					if (
-						node.operatorToken.kind == ts.SyntaxKind.EqualsToken &&
+						node.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
 						ts.isIdentifier(node.left) &&
 						node.left.text === "exports" &&
 						!isLocalExportsVariable(node.left, sourceFile, typeChecker) &&

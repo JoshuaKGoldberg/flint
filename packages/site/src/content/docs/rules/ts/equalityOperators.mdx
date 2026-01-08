@@ -1,0 +1,80 @@
+---
+description: "Use strict equality operators instead of loose equality."
+title: "equalityOperators"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="equalityOperators" />
+
+Loose equality operators (`==` and `!=`) perform type coercion before comparing values, which can lead to unexpected results.
+Strict equality operators (`===` and `!==`) compare both value and type without coercion, making comparisons more predictable.
+
+This rule uses "smart" defaults, allowing loose equality in cases where type coercion is expected or harmless:
+
+- Comparing against `null` (which also matches `undefined`)
+- Comparing the result of `typeof`
+- Comparing two literals
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+if (value == other) {
+}
+
+if (count != limit) {
+}
+
+const isMatch = input == expected;
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+if (value === other) {
+}
+
+if (count !== limit) {
+}
+
+const isMatch = input === expected;
+
+// Allowed: comparing against null
+if (value == null) {
+}
+
+// Allowed: comparing typeof result
+if (typeof value == "string") {
+}
+
+// Allowed: comparing two literals
+if (1 == 1) {
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you intentionally rely on type coercion in equality comparisons throughout your codebase, you may want to disable this rule.
+
+## Further Reading
+
+- [MDN: Equality comparisons and sameness](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness)
+- [MDN: Strict equality (===)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="equalityOperators" />
