@@ -2,6 +2,7 @@ import { createPlugin } from "@flint.fyi/core";
 
 import anyReturns from "./rules/anyReturns.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
+import awaitThenable from "./rules/awaitThenable.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
@@ -67,6 +68,7 @@ export const ts = createPlugin({
 	rules: [
 		anyReturns,
 		asyncPromiseExecutors,
+		awaitThenable,
 		caseDeclarations,
 		caseDuplicates,
 		chainedAssignments,
