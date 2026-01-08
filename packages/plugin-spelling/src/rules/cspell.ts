@@ -29,7 +29,7 @@ export default textLanguage.createRule({
 			],
 			suggestions: [
 				"Add '{{ word }}' to the project's dictionary.",
-				// TODO: update this message when we've implemented "suggestions for typos": https://github.com/flint-fyi/flint/issues/1255
+				// TODO: update this message when we've implemented "suggestions for typos":https://github.com/flint-fyi/flint/issues/1403
 				"Correct the spelling if this was a typo.",
 			],
 		},
