@@ -1,6 +1,8 @@
+import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
+import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
 
 function isLiteral(node: ts.Expression) {
 	return (
@@ -26,8 +28,25 @@ function isLooseEqualityOperator(
 	);
 }
 
+function isNullish(node: ts.Expression) {
+	return (
+		node.kind === ts.SyntaxKind.NullKeyword ||
+		(ts.isIdentifier(node) && node.text === "undefined")
+	);
+}
+
 function isNullLiteral(node: ts.Expression) {
 	return node.kind === ts.SyntaxKind.NullKeyword;
+}
+
+function isTypeNullish(type: ts.Type): boolean {
+	return tsutils
+		.typeConstituents(type)
+		.some(
+			(constituent) =>
+				tsutils.isTypeFlagSet(constituent, ts.TypeFlags.Null) ||
+				tsutils.isTypeFlagSet(constituent, ts.TypeFlags.Undefined),
+		);
 }
 
 export default typescriptLanguage.createRule({
@@ -52,7 +71,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				BinaryExpression: (node, { sourceFile }) => {
+				BinaryExpression: (node, { sourceFile, typeChecker }) => {
 					if (!isLooseEqualityOperator(node.operatorToken)) {
 						return;
 					}
@@ -61,6 +80,20 @@ export default typescriptLanguage.createRule({
 
 					if (isNullLiteral(left) || isNullLiteral(right)) {
 						return;
+					}
+
+					if (isNullish(left)) {
+						const rightType = getConstrainedTypeAtLocation(right, typeChecker);
+						if (isTypeNullish(rightType)) {
+							return;
+						}
+					}
+
+					if (isNullish(right)) {
+						const leftType = getConstrainedTypeAtLocation(left, typeChecker);
+						if (isTypeNullish(leftType)) {
+							return;
+						}
 					}
 
 					if (ts.isTypeOfExpression(left) || ts.isTypeOfExpression(right)) {
