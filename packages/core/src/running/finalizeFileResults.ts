@@ -67,7 +67,6 @@ export function finalizeFileResults(
 
 	const filterResult = directivesFilterer.filter(reports);
 
-	// Collect directive reports from all language files (e.g., directiveUnknown, directiveNoSelection)
 	const directiveReportsFromCollector: FileReport[] = [];
 	for (const { fileMetadata } of languageAndFilesMetadata) {
 		if (fileMetadata.reports) {
@@ -75,14 +74,9 @@ export function finalizeFileResults(
 		}
 	}
 
-	// Generate reports for unused directives
-	const unusedDirectiveReports: FileReport[] = [];
-	for (const directive of filterResult.unusedDirectives.fileDirectives) {
-		unusedDirectiveReports.push(directiveReports.createUnused(directive));
-	}
-	for (const directive of filterResult.unusedDirectives.rangeDirectives) {
-		unusedDirectiveReports.push(directiveReports.createUnused(directive));
-	}
+	const unusedDirectiveReports = filterResult.unusedDirectives.map(
+		(directive) => directiveReports.createUnused(directive),
+	);
 
 	return {
 		dependencies: fileDependencies,

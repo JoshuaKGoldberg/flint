@@ -36,10 +36,7 @@ describe(DirectivesFilterer, () => {
 
 			expect(actual).toEqual({
 				reports,
-				unusedDirectives: {
-					fileDirectives: [],
-					rangeDirectives: [],
-				},
+				unusedDirectives: [],
 			});
 		});
 
@@ -71,10 +68,7 @@ describe(DirectivesFilterer, () => {
 
 			expect(actual).toEqual({
 				reports,
-				unusedDirectives: {
-					fileDirectives: [],
-					rangeDirectives: [directive],
-				},
+				unusedDirectives: [directive],
 			});
 		});
 
@@ -106,10 +100,7 @@ describe(DirectivesFilterer, () => {
 
 			expect(actual).toEqual({
 				reports: [reports[0]],
-				unusedDirectives: {
-					fileDirectives: [],
-					rangeDirectives: [],
-				},
+				unusedDirectives: [],
 			});
 		});
 
@@ -141,10 +132,7 @@ describe(DirectivesFilterer, () => {
 
 			expect(actual).toEqual({
 				reports,
-				unusedDirectives: {
-					fileDirectives: [unusedDirective],
-					rangeDirectives: [],
-				},
+				unusedDirectives: [unusedDirective],
 			});
 		});
 
@@ -176,10 +164,7 @@ describe(DirectivesFilterer, () => {
 
 			expect(actual).toEqual({
 				reports: [],
-				unusedDirectives: {
-					fileDirectives: [],
-					rangeDirectives: [],
-				},
+				unusedDirectives: [],
 			});
 		});
 
@@ -245,10 +230,7 @@ describe(DirectivesFilterer, () => {
 
 			expect(actual).toEqual({
 				reports: [],
-				unusedDirectives: {
-					fileDirectives: [unusedDirective1, unusedDirective2],
-					rangeDirectives: [],
-				},
+				unusedDirectives: [unusedDirective1, unusedDirective2],
 			});
 		});
 
@@ -280,10 +262,7 @@ describe(DirectivesFilterer, () => {
 
 			expect(actual).toEqual({
 				reports,
-				unusedDirectives: {
-					fileDirectives: [unusedDirective],
-					rangeDirectives: [],
-				},
+				unusedDirectives: [unusedDirective],
 			});
 		});
 
@@ -315,10 +294,7 @@ describe(DirectivesFilterer, () => {
 
 			expect(actual).toEqual({
 				reports: [reports[1]],
-				unusedDirectives: {
-					fileDirectives: [],
-					rangeDirectives: [],
-				},
+				unusedDirectives: [],
 			});
 		});
 	});

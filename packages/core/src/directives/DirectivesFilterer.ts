@@ -11,10 +11,7 @@ import { selectionMatchesReport } from "./selectionMatchesReport.ts";
 
 export interface FilterResult {
 	reports: FileReport[];
-	unusedDirectives: {
-		fileDirectives: CommentDirective[];
-		rangeDirectives: CommentDirectiveWithinFile[];
-	};
+	unusedDirectives: CommentDirective[];
 }
 
 export class DirectivesFilterer {
@@ -90,10 +87,7 @@ export class DirectivesFilterer {
 
 		return {
 			reports: filteredReports,
-			unusedDirectives: {
-				fileDirectives: unusedFileDirectives,
-				rangeDirectives: unusedRangeDirectives,
-			},
+			unusedDirectives: [...unusedFileDirectives, ...unusedRangeDirectives],
 		};
 	}
 }
