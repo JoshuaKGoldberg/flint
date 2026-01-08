@@ -1,0 +1,94 @@
+---
+description: "Enforce that literals on classes are exposed in a consistent style."
+title: "classLiteralProperties"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="classLiteralProperties" />
+
+When exposing literal values on classes, using a readonly field is more concise and has less runtime overhead than using a getter.
+Getters are function calls that execute each time the property is accessed, while fields are direct property accesses.
+
+For literal values that never change, a readonly field clearly communicates the intent and is the preferred approach.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class Example {
+	get name() {
+		return "example";
+	}
+}
+```
+
+```ts
+class Config {
+	get maxRetries() {
+		return 3;
+	}
+}
+```
+
+```ts
+class Feature {
+	get isEnabled() {
+		return true;
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class Example {
+	readonly name = "example";
+}
+```
+
+```ts
+class Config {
+	readonly maxRetries = 3;
+}
+```
+
+```ts
+class Feature {
+	readonly isEnabled = true;
+}
+```
+
+```ts
+class Example {
+	get computed() {
+		return this.a + this.b;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you prefer using getters for all class properties for consistency, or if you're writing a library that needs to be consumed by JavaScript code where readonly modifiers are not enforced at runtime, you may want to disable this rule.
+
+## Further Reading
+
+- [MDN: getter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get)
+- [TypeScript: readonly modifier](https://www.typescriptlang.org/docs/handbook/2/classes.html#readonly)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="classLiteralProperties" />
