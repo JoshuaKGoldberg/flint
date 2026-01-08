@@ -34,9 +34,13 @@ describe(DirectivesFilterer, () => {
 
 			const actual = filterer.filter(reports);
 
-			expect(actual.reports).toEqual(reports);
-			expect(actual.unusedDirectives.fileDirectives).toEqual([]);
-			expect(actual.unusedDirectives.rangeDirectives).toEqual([]);
+			expect(actual).toEqual({
+				reports,
+				unusedDirectives: {
+					fileDirectives: [],
+					rangeDirectives: [],
+				},
+			});
 		});
 
 		it("returns all reports when no directives apply to them", () => {
