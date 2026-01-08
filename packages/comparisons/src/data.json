@@ -21425,6 +21425,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "blockMappings",
 			"plugin": "yaml",
 			"preset": "stylistic"
