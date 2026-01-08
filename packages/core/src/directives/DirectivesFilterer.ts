@@ -17,7 +17,6 @@ export interface FilterResult {
 export class DirectivesFilterer {
 	#directivesForFile: CommentDirective[] = [];
 	#directivesForRanges: CommentDirectiveWithinFile[] = [];
-	#selectionsForFile = new Set<string>();
 
 	add(directives: CommentDirective[]) {
 		for (const directive of directives) {
@@ -25,31 +24,29 @@ export class DirectivesFilterer {
 				this.#directivesForRanges.push(directive);
 			} else {
 				this.#directivesForFile.push(directive);
-				for (const selection of directive.selections) {
-					this.#selectionsForFile.add(selection);
-				}
 			}
 		}
 	}
 
 	filter(reports: FileReport[]): FilterResult {
-		const directivesForFile = Array.from(this.#selectionsForFile).map(
-			createSelectionMatcher,
+		const selectionsForFile = this.#directivesForFile.flatMap((directive) =>
+			directive.selections.map((selection) => ({
+				directive,
+				matcher: createSelectionMatcher(selection),
+				selection,
+			})),
 		);
 
 		const directiveRanges = computeDirectiveRanges(this.#directivesForRanges);
 
-		const matchedFileSelections = new Set<string>();
+		const matchedFileDirectives = new Set<CommentDirective>();
 		const matchedRangeDirectives = new Set<CommentDirectiveWithinFile>();
 
 		const filteredReports = reports.filter((report) => {
-			const fileMatched = directivesForFile.some((fileDisable, index) => {
-				const matches = selectionMatchesReport(fileDisable, report);
+			const fileMatched = selectionsForFile.some(({ directive, matcher }) => {
+				const matches = selectionMatchesReport(matcher, report);
 				if (matches) {
-					const selection = Array.from(this.#selectionsForFile)[index];
-					if (selection) {
-						matchedFileSelections.add(selection);
-					}
+					matchedFileDirectives.add(directive);
 				}
 				return matches;
 			});
@@ -75,10 +72,8 @@ export class DirectivesFilterer {
 			return !fileMatched && !rangeMatched;
 		});
 
-		const unusedFileDirectives = this.#directivesForFile.filter((directive) =>
-			directive.selections.every(
-				(selection) => !matchedFileSelections.has(selection),
-			),
+		const unusedFileDirectives = this.#directivesForFile.filter(
+			(directive) => !matchedFileDirectives.has(directive),
 		);
 
 		const unusedRangeDirectives = this.#directivesForRanges.filter(
