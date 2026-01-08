@@ -14,6 +14,12 @@ All inline directives are comments that follow the pattern `flint-<directive-typ
 * For Markdown and HTML-like languages: `<!-- flint-... -->`
 * For YAML: `# flint-...`
 
+Flint supports the following directives:
+
+- [`flint-disable-file`](#flint-disable-file): Disables one or more rules for the entire file.
+- [`flint-disable-lines-begin`](#flint-disable-lines-begin): Disables one or more rules for a range of lines.
+- [`flint-disable-next-line`](#flint-disable-next-line): Disables one or more rules for just the next line of code.
+
 ## `flint-disable-file`
 
 Disables one or more rules for the entire file.
