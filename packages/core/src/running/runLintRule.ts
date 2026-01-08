@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import { CachedFactory } from "cached-factory";
 import { debugForFile } from "debug-for-file";
 
@@ -42,7 +43,10 @@ export async function runLintRule(
 					ruleReport.fix && !Array.isArray(ruleReport.fix)
 						? [ruleReport.fix]
 						: ruleReport.fix,
-				message: rule.messages[ruleReport.message],
+				message: nullThrows(
+					rule.messages[ruleReport.message],
+					`Rule "${rule.about.id}" reported message "${ruleReport.message}" which is not defined in its messages.`,
+				),
 				range: {
 					begin: getColumnAndLineOfPosition(
 						currentFile.about.sourceText,

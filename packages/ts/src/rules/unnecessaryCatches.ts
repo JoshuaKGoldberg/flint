@@ -36,7 +36,9 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const statement = statements[0];
+					// Confirmed by the length check above
+					/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
+					const statement = statements[0]!;
 
 					if (!ts.isThrowStatement(statement)) {
 						return;
