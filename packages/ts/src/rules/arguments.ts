@@ -59,27 +59,27 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
+					// TODO: This might get simpler when we have scope analysis.
+					// https://github.com/JoshuaKGoldberg/flint/issues/400
 					if (!ts.findAncestor(node, isNonArrowFunctionBoundary)) {
 						return;
 					}
 
 					const symbol = context.typeChecker.getSymbolAtLocation(node);
 
-					if (symbol) {
-						const declarations = symbol.getDeclarations();
-						if (declarations && declarations.length > 0) {
-							const isUserDefined = declarations.some(
+					if (
+						!symbol ||
+						symbol
+							.getDeclarations()
+							?.some(
 								(declaration) =>
 									ts.isParameter(declaration) ||
 									ts.isVariableDeclaration(declaration) ||
 									ts.isPropertyDeclaration(declaration) ||
 									ts.isBindingElement(declaration),
-							);
-
-							if (isUserDefined) {
-								return;
-							}
-						}
+							)
+					) {
+						return;
 					}
 
 					context.report({
