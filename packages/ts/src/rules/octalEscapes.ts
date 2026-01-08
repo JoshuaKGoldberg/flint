@@ -1,6 +1,6 @@
-import * as ts from "typescript";
+import type * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 /**
  * Finds the position and length of an octal escape sequence in a string.
@@ -48,15 +48,15 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkNode(node: ts.Node) {
-			const text = node.getText(context.sourceFile);
+		function checkNode(node: ts.Node, sourceFile: ts.SourceFile) {
+			const text = node.getText(sourceFile);
 			const octalEscape = findOctalEscape(text);
 
 			if (!octalEscape) {
 				return;
 			}
 
-			const nodeStart = node.getStart(context.sourceFile);
+			const nodeStart = node.getStart(sourceFile);
 			context.report({
 				message: "noOctalEscape",
 				range: {
@@ -68,15 +68,19 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				NoSubstitutionTemplateLiteral: checkNode,
-				StringLiteral: checkNode,
-				TemplateExpression: (node) => {
+				NoSubstitutionTemplateLiteral: (node, { sourceFile }) => {
+					checkNode(node, sourceFile);
+				},
+				StringLiteral: (node, { sourceFile }) => {
+					checkNode(node, sourceFile);
+				},
+				TemplateExpression: (node, { sourceFile }) => {
 					// Check the head of the template
-					checkNode(node.head);
+					checkNode(node.head, sourceFile);
 
 					// Check each template span
 					for (const span of node.templateSpans) {
-						checkNode(span.literal);
+						checkNode(span.literal, sourceFile);
 					}
 				},
 			},

@@ -1,4 +1,4 @@
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -23,11 +23,11 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				VoidExpression: (node) => {
+				VoidExpression: (node, { sourceFile }) => {
 					context.report({
 						message: "noVoid",
 						range: {
-							begin: node.getStart(context.sourceFile),
+							begin: node.getStart(sourceFile),
 							end: node.getEnd(),
 						},
 					});

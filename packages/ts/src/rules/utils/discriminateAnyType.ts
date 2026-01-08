@@ -1,12 +1,14 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-export enum AnyType {
-	Any,
-	PromiseAny,
-	AnyArray,
-	Safe,
-}
+export const AnyType = {
+	Any: "Any",
+	AnyArray: "AnyArray",
+	PromiseAny: "PromiseAny",
+	Safe: "Safe",
+} as const;
+export type AnyType = (typeof AnyType)[keyof typeof AnyType];
 
 /**
  * @returns `AnyType.Any` if the type is `any`, `AnyType.AnyArray` if the type is `any[]` or `readonly any[]`, `AnyType.PromiseAny` if the type is `Promise&lt;any>`,
@@ -38,7 +40,10 @@ function discriminateAnyTypeWorker(
 	if (
 		checker.isArrayType(type) &&
 		tsutils.isTypeFlagSet(
-			checker.getTypeArguments(type as ts.TypeReference)[0],
+			nullThrows(
+				checker.getTypeArguments(type as ts.TypeReference)[0],
+				"Array type should have at least one type argument",
+			),
 			ts.TypeFlags.Any,
 		)
 	) {

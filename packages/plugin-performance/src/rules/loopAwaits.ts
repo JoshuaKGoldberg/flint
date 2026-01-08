@@ -1,4 +1,4 @@
-import { typescriptLanguage } from "@flint.fyi/ts";
+import { type TypeScriptFileServices, typescriptLanguage } from "@flint.fyi/ts";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
@@ -21,9 +21,13 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkForAwaitExpressions(node: ts.Node, loopNode: ts.Node): void {
+		function checkForAwaitExpressions(
+			node: ts.Node,
+			loopNode: ts.Node,
+			sourceFile: ts.SourceFile,
+		): void {
 			if (ts.isAwaitExpression(node)) {
-				const start = node.getStart(context.sourceFile);
+				const start = node.getStart(sourceFile);
 				context.report({
 					message: "noAwaitInLoop",
 					range: {
@@ -46,12 +50,15 @@ export default typescriptLanguage.createRule({
 			}
 
 			ts.forEachChild(node, (child) => {
-				checkForAwaitExpressions(child, loopNode);
+				checkForAwaitExpressions(child, loopNode, sourceFile);
 			});
 		}
 
-		function checkNode(node: ts.Node & { statement: ts.Node }) {
-			checkForAwaitExpressions(node.statement, node);
+		function checkNode(
+			node: ts.Node & { statement: ts.Node },
+			{ sourceFile }: TypeScriptFileServices,
+		) {
+			checkForAwaitExpressions(node.statement, node, sourceFile);
 		}
 
 		return {

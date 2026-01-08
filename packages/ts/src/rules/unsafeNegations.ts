@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
-import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.js";
+import { typescriptLanguage } from "../language.ts";
+import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.ts";
 
 const operatorStrings = new Map([
 	[ts.SyntaxKind.InKeyword, "in"],
@@ -28,7 +28,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, { sourceFile }) => {
 					const operator = operatorStrings.get(node.operatorToken.kind);
 					if (!operator) {
 						return;
@@ -42,7 +42,7 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const begin = left.getStart(context.sourceFile);
+					const begin = left.getStart(sourceFile);
 
 					context.report({
 						data: { operator },

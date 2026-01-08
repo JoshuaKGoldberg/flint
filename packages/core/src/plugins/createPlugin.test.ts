@@ -1,12 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
 import z from "zod";
 
-import { createLanguage } from "../languages/createLanguage.js";
-import { createPlugin } from "./createPlugin.js";
+import { createLanguage } from "../languages/createLanguage.ts";
+import { createPlugin } from "./createPlugin.ts";
 
 const stubLanguage = createLanguage({
 	about: { name: "Stub" },
-	prepare: vi.fn(),
+	createFileFactory: vi.fn(),
 });
 
 const stubMessages = { "": { primary: "", secondary: [], suggestions: [] } };

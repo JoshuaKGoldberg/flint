@@ -1,12 +1,12 @@
 import * as ts from "typescript";
 
-import { declarationIncludesGlobal } from "./declarationIncludesGlobal.js";
+import { declarationIncludesGlobal } from "./declarationIncludesGlobal.ts";
 
 /**
  * TODO: Use a scope analyzer (#400).
  */
 export function isGlobalDeclarationOfName(
-	node: ts.Expression,
+	node: ts.Node,
 	name: string,
 	typeChecker: ts.TypeChecker,
 ): boolean {
@@ -28,6 +28,11 @@ export function isGlobalDeclarationOfName(
 				name,
 				typeChecker,
 			);
+		}
+
+		// Special case: a property of an interface
+		if (ts.isPropertySignature(declaration)) {
+			return isGlobalDeclarationOfName(declaration.parent, name, typeChecker);
 		}
 
 		return (

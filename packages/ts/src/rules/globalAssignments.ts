@@ -1,9 +1,9 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { getTSNodeRange } from "../getTSNodeRange.js";
-import { typescriptLanguage } from "../language.js";
-import { isGlobalVariable } from "../utils/isGlobalVariable.js";
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import { typescriptLanguage } from "../language.ts";
+import { isGlobalVariable } from "../utils/isGlobalVariable.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -30,34 +30,34 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				BinaryExpression: (node) => {
+				BinaryExpression: (node, { sourceFile, typeChecker }) => {
 					if (
 						tsutils.isAssignmentKind(node.operatorToken.kind) &&
-						isGlobalVariable(node.left, context.typeChecker)
+						isGlobalVariable(node.left, typeChecker)
 					) {
 						context.report({
 							message: "noGlobalAssign",
-							range: getTSNodeRange(node.left, context.sourceFile),
+							range: getTSNodeRange(node.left, sourceFile),
 						});
 					}
 				},
-				PostfixUnaryExpression: (node) => {
-					if (isGlobalVariable(node.operand, context.typeChecker)) {
+				PostfixUnaryExpression: (node, { sourceFile, typeChecker }) => {
+					if (isGlobalVariable(node.operand, typeChecker)) {
 						context.report({
 							message: "noGlobalAssign",
-							range: getTSNodeRange(node.operand, context.sourceFile),
+							range: getTSNodeRange(node.operand, sourceFile),
 						});
 					}
 				},
-				PrefixUnaryExpression: (node) => {
+				PrefixUnaryExpression: (node, { sourceFile, typeChecker }) => {
 					if (
 						(node.operator === ts.SyntaxKind.PlusPlusToken ||
 							node.operator === ts.SyntaxKind.MinusMinusToken) &&
-						isGlobalVariable(node.operand, context.typeChecker)
+						isGlobalVariable(node.operand, typeChecker)
 					) {
 						context.report({
 							message: "noGlobalAssign",
-							range: getTSNodeRange(node.operand, context.sourceFile),
+							range: getTSNodeRange(node.operand, sourceFile),
 						});
 					}
 				},

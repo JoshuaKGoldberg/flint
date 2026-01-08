@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
+import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -25,7 +25,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CatchClause: (node) => {
+				CatchClause: (node, { sourceFile }) => {
 					if (!node.variableDeclaration || !ts.isBlock(node.block)) {
 						return;
 					}
@@ -36,7 +36,9 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const statement = statements[0];
+					// Confirmed by the length check above
+					/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
+					const statement = statements[0]!;
 
 					if (!ts.isThrowStatement(statement)) {
 						return;
@@ -62,8 +64,8 @@ export default typescriptLanguage.createRule({
 					}
 
 					const range = {
-						begin: node.getStart(context.sourceFile),
-						end: node.getStart(context.sourceFile) + "catch".length,
+						begin: node.getStart(sourceFile),
+						end: node.getStart(sourceFile) + "catch".length,
 					};
 
 					context.report({

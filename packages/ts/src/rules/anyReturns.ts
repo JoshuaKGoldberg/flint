@@ -1,11 +1,12 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.js";
-import { AnyType, discriminateAnyType } from "./utils/discriminateAnyType.js";
-import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.js";
-import { getThisExpression } from "./utils/getThisExpression.js";
-import { isUnsafeAssignment } from "./utils/isUnsafeAssignment.js";
+import { typescriptLanguage } from "../language.ts";
+import { AnyType, discriminateAnyType } from "./utils/discriminateAnyType.ts";
+import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
+import { getThisExpression } from "./utils/getThisExpression.ts";
+import { isUnsafeAssignment } from "./utils/isUnsafeAssignment.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -50,18 +51,18 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		const isNoImplicitThis = tsutils.isStrictCompilerOptionEnabled(
-			context.program.getCompilerOptions(),
-			"noImplicitThis",
-		);
-
-		function checkReturn(returnNode: ts.Node, reportingNode: ts.Node): void {
-			const type = context.typeChecker.getTypeAtLocation(returnNode);
+		function checkReturn(
+			returnNode: ts.Node,
+			reportingNode: ts.Node,
+			program: ts.Program,
+			typeChecker: ts.TypeChecker,
+		): void {
+			const type = typeChecker.getTypeAtLocation(returnNode);
 
 			const anyType = discriminateAnyType(
 				type,
-				context.typeChecker,
-				context.program,
+				typeChecker,
+				program,
 				returnNode,
 			);
 			const functionNode = ts.findAncestor(
@@ -81,7 +82,7 @@ export default typescriptLanguage.createRule({
 			// function has an explicit return type, so ensure it's a safe return
 			const returnNodeType = getConstrainedTypeAtLocation(
 				returnNode,
-				context.typeChecker,
+				typeChecker,
 			);
 
 			// function expressions will not have their return type modified based on receiver typing
@@ -91,9 +92,9 @@ export default typescriptLanguage.createRule({
 			let functionType =
 				ts.isFunctionExpression(functionNode) ||
 				ts.isArrowFunction(functionNode)
-					? context.typeChecker.getContextualType(functionNode)
-					: context.typeChecker.getTypeAtLocation(functionNode);
-			functionType ??= context.typeChecker.getTypeAtLocation(functionNode);
+					? typeChecker.getContextualType(functionNode)
+					: typeChecker.getTypeAtLocation(functionNode);
+			functionType ??= typeChecker.getTypeAtLocation(functionNode);
 			const callSignatures = tsutils.getCallSignaturesOfType(functionType);
 			// If there is an explicit type annotation *and* that type matches the actual
 			// function return type, we shouldn't complain (it's intentional, even if unsafe)
@@ -117,10 +118,10 @@ export default typescriptLanguage.createRule({
 						)
 					) {
 						const awaitedSignatureReturnType =
-							context.typeChecker.getAwaitedType(signatureReturnType);
+							typeChecker.getAwaitedType(signatureReturnType);
 
 						const awaitedReturnNodeType =
-							context.typeChecker.getAwaitedType(returnNodeType);
+							typeChecker.getAwaitedType(returnNodeType);
 						if (
 							awaitedReturnNodeType === awaitedSignatureReturnType ||
 							(awaitedSignatureReturnType &&
@@ -148,18 +149,20 @@ export default typescriptLanguage.createRule({
 					}
 					if (
 						anyType === AnyType.AnyArray &&
-						context.typeChecker.isArrayType(functionReturnType) &&
+						typeChecker.isArrayType(functionReturnType) &&
 						tsutils.isTypeFlagSet(
-							context.typeChecker.getTypeArguments(
-								functionReturnType as ts.TypeReference,
-							)[0],
+							nullThrows(
+								typeChecker.getTypeArguments(
+									functionReturnType as ts.TypeReference,
+								)[0],
+								"Array type should have at least one type argument",
+							),
 							ts.TypeFlags.Unknown,
 						)
 					) {
 						return;
 					}
-					const awaitedType =
-						context.typeChecker.getAwaitedType(functionReturnType);
+					const awaitedType = typeChecker.getAwaitedType(functionReturnType);
 					if (
 						awaitedType &&
 						anyType === AnyType.PromiseAny &&
@@ -182,13 +185,18 @@ export default typescriptLanguage.createRule({
 				let message: "unsafeReturn" | "unsafeReturnThis" = "unsafeReturn";
 				const isErrorType = tsutils.isIntrinsicErrorType(returnNodeType);
 
-				if (!isNoImplicitThis) {
+				if (
+					!tsutils.isStrictCompilerOptionEnabled(
+						program.getCompilerOptions(),
+						"noImplicitThis",
+					)
+				) {
 					// `return this`
 					const thisExpression = getThisExpression(returnNode);
 					if (
 						thisExpression &&
 						tsutils.isTypeFlagSet(
-							getConstrainedTypeAtLocation(thisExpression, context.typeChecker),
+							getConstrainedTypeAtLocation(thisExpression, typeChecker),
 							ts.TypeFlags.Any,
 						)
 					) {
@@ -222,7 +230,7 @@ export default typescriptLanguage.createRule({
 				const result = isUnsafeAssignment(
 					returnNodeType,
 					functionReturnType,
-					context.typeChecker,
+					typeChecker,
 					returnNode,
 				);
 				if (!result) {
@@ -232,8 +240,8 @@ export default typescriptLanguage.createRule({
 				const { receiver, sender } = result;
 				context.report({
 					data: {
-						receiver: context.typeChecker.typeToString(receiver),
-						sender: context.typeChecker.typeToString(sender),
+						receiver: typeChecker.typeToString(receiver),
+						sender: typeChecker.typeToString(sender),
 					},
 					message: "unsafeReturnAssignment",
 					range: {
@@ -247,14 +255,14 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				ArrowFunction: (node) => {
+				ArrowFunction: (node, { program, typeChecker }) => {
 					if (!ts.isBlock(node.body)) {
-						checkReturn(node.body, node.body);
+						checkReturn(node.body, node.body, program, typeChecker);
 					}
 				},
-				ReturnStatement: (node) => {
+				ReturnStatement: (node, { program, typeChecker }) => {
 					if (node.expression != null) {
-						checkReturn(node.expression, node);
+						checkReturn(node.expression, node, program, typeChecker);
 					}
 				},
 			},
