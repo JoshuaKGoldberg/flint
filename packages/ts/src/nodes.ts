@@ -48,6 +48,7 @@ export interface TypeScriptNodesByName {
 	ForStatement: ts.ForStatement;
 	FunctionDeclaration: ts.FunctionDeclaration;
 	FunctionExpression: ts.FunctionExpression;
+	GetAccessor: ts.GetAccessorDeclaration;
 	HeritageClause: ts.HeritageClause;
 	Identifier: ts.Identifier;
 	IfStatement: ts.IfStatement;
@@ -111,6 +112,7 @@ export interface TypeScriptNodesByName {
 	ReturnStatement: ts.ReturnStatement;
 	SatisfiesExpression: ts.SatisfiesExpression;
 	SemicolonClassElement: ts.SemicolonClassElement;
+	SetAccessor: ts.SetAccessorDeclaration;
 	ShorthandPropertyAssignment: ts.ShorthandPropertyAssignment;
 	SourceFile: ts.SourceFile;
 	SpreadAssignment: ts.SpreadAssignment;

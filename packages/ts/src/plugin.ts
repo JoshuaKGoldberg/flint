@@ -1,5 +1,6 @@
 import { createPlugin } from "@flint.fyi/core";
 
+import accessorThisRecursion from "./rules/accessorThisRecursion.ts";
 import anyReturns from "./rules/anyReturns.ts";
 import argumentsRule from "./rules/arguments.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
@@ -66,6 +67,7 @@ export const ts = createPlugin({
 	},
 	name: "TypeScript",
 	rules: [
+		accessorThisRecursion,
 		anyReturns,
 		argumentsRule,
 		asyncPromiseExecutors,
