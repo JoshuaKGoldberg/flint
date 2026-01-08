@@ -16,7 +16,7 @@ const obj = {
     get value() {
         return this.value;
                ~~~~~~~~~~
-               Getter recursively accesses its own property via \`this\`, causing infinite recursion.
+               This getter recursively accesses its own property via \`this\`, causing infinite recursion.
     }
 };
 `,
@@ -34,7 +34,7 @@ const obj = {
     set value(newValue) {
         this.value = newValue;
         ~~~~~~~~~~
-        Setter recursively assigns to its own property via \`this\`, causing infinite recursion.
+        This setter recursively assigns to its own property via \`this\`, causing infinite recursion.
     }
 };
 `,
@@ -52,7 +52,7 @@ class Example {
     get name() {
         return this.name;
                ~~~~~~~~~
-               Getter recursively accesses its own property via \`this\`, causing infinite recursion.
+               This getter recursively accesses its own property via \`this\`, causing infinite recursion.
     }
 }
 `,
@@ -70,7 +70,7 @@ class Example {
     set name(value: string) {
         this.name = value;
         ~~~~~~~~~
-        Setter recursively assigns to its own property via \`this\`, causing infinite recursion.
+        This setter recursively assigns to its own property via \`this\`, causing infinite recursion.
     }
 }
 `,
@@ -92,7 +92,7 @@ class Example {
         if (condition) {
             return this.count;
                    ~~~~~~~~~~
-                   Getter recursively accesses its own property via \`this\`, causing infinite recursion.
+                   This getter recursively accesses its own property via \`this\`, causing infinite recursion.
         }
         return 0;
     }

@@ -7003,10 +7003,10 @@
 			}
 		],
 		"flint": {
-			"implemented": true,
 			"name": "accessorThisRecursion",
 			"plugin": "ts",
 			"preset": "logical",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
