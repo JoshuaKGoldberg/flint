@@ -21438,6 +21438,7 @@
 			}
 		],
 		"flint": {
+			"implemented": true,
 			"name": "blockSequences",
 			"plugin": "yaml",
 			"preset": "stylistic"
