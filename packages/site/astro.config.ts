@@ -16,6 +16,7 @@ export default defineConfig({
 				Head: "src/components/Head.astro",
 			},
 			customCss: ["src/styles.css"],
+			// NOTE: you need to modify ec.config.mjs to customize Expressive Code.
 			favicon: "/logo.png",
 			logo: {
 				src: "src/assets/logo.png",
