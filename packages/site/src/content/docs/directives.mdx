@@ -10,9 +10,9 @@ This is useful when you need to suppress a rule for a specific line, block, or f
 
 All inline directives are comments that follow the pattern `flint-<directive-type>-<rule-id>`:
 
-* For JavaScript-like languages: `// flint-...`
-* For Markdown and HTML-like languages: `<!-- flint-... -->`
-* For YAML: `# flint-...`
+- For JavaScript-like languages: `// flint-...`
+- For Markdown and HTML-like languages: `<!-- flint-... -->`
+- For YAML: `# flint-...`
 
 Flint supports the following directives:
 
@@ -94,3 +94,12 @@ You can find rule IDs by looking at the [rules documentation](/rules) or by chec
 
 Flint will report if you use a directive that doesn't match any reports.
 This helps you identify directives that are no longer needed or have incorrect rule IDs.
+
+For example, if you disable a rule that doesn't apply to your code, Flint will report the directive as unused:
+
+```ts title="example.ts"
+// flint-disable-file altTexts
+const value = 42;
+```
+
+Since `altTexts` is a JSX rule that checks for alt text on images, it doesn't apply to this plain TypeScript code, so Flint will report that this directive is unused.
