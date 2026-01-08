@@ -1,4 +1,4 @@
-import { isTruthy } from "@flint.fyi/utils";
+import { isTruthy, nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 import { findProperty } from "./findProperty.ts";
@@ -18,7 +18,10 @@ export function getRuleTesterDescribedCases(node: ts.CallExpression) {
 	// TODO: Check node.expression.expression's type for being a RuleTester
 	// https://github.com/flint-fyi/flint/issues/152
 
-	const argument = node.arguments[1];
+	const argument = nullThrows(
+		node.arguments[1],
+		"Second argument is expected to be present by prior length check",
+	);
 	if (!ts.isObjectLiteralExpression(argument)) {
 		return undefined;
 	}

@@ -3,6 +3,7 @@ import {
 	isGlobalDeclaration,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 export default typescriptLanguage.createRule({
@@ -38,7 +39,10 @@ export default typescriptLanguage.createRule({
 					}
 
 					const parentText = node.expression.expression.getText(sourceFile);
-					const childText = node.arguments[0].getText(sourceFile);
+					const childText = nullThrows(
+						node.arguments[0],
+						"First argument is expected to be present by prior length check",
+					).getText(sourceFile);
 
 					context.report({
 						data: {
