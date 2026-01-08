@@ -71,7 +71,7 @@ export async function collectFilesAndMetadata(
 		Array.from(rulesOptionsByFile).map(([rule, optionsByFile]) => [
 			rule,
 			Array.from(optionsByFile)
-				.filter(([filePath]) => !cached?.has(filePath))
+				.filter(([filePath]) => languageFileMetadataByFilePath.has(filePath))
 				.map(([filePath, options]) => ({
 					languageFiles: Array.from(
 						nullThrows(
