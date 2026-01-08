@@ -69,11 +69,13 @@ describe(DirectivesFilterer, () => {
 
 			const actual = filterer.filter(reports);
 
-			expect(actual.reports).toEqual(reports);
-			expect(actual.unusedDirectives.rangeDirectives).toHaveLength(1);
-			expect(actual.unusedDirectives.rangeDirectives[0]?.selections).toEqual([
-				"*other*",
-			]);
+			expect(actual).toEqual({
+				reports,
+				unusedDirectives: {
+					fileDirectives: [],
+					rangeDirectives: [directive],
+				},
+			});
 		});
 
 		it("returns unfiltered reports when a directive filters one report", () => {
@@ -102,8 +104,222 @@ describe(DirectivesFilterer, () => {
 
 			const actual = filterer.filter(reports);
 
-			expect(actual.reports).toEqual([reports[0]]);
-			expect(actual.unusedDirectives.rangeDirectives).toEqual([]);
+			expect(actual).toEqual({
+				reports: [reports[0]],
+				unusedDirectives: {
+					fileDirectives: [],
+					rangeDirectives: [],
+				},
+			});
+		});
+
+		it("identifies unused file directives that don't match any reports", () => {
+			const filterer = new DirectivesFilterer();
+
+			const unusedDirective = {
+				range: {
+					begin: {
+						column: 0,
+						line: 0,
+						raw: 0,
+					},
+					end: {
+						column: 0,
+						line: 0,
+						raw: 0,
+					},
+				},
+				selections: ["*other*"],
+				type: "disable-file" as const,
+			};
+
+			filterer.add([unusedDirective]);
+
+			const reports = [createReport(0, "example"), createReport(1, "example")];
+
+			const actual = filterer.filter(reports);
+
+			expect(actual).toEqual({
+				reports,
+				unusedDirectives: {
+					fileDirectives: [unusedDirective],
+					rangeDirectives: [],
+				},
+			});
+		});
+
+		it("does not include used file directives in unusedDirectives", () => {
+			const filterer = new DirectivesFilterer();
+
+			const usedDirective = {
+				range: {
+					begin: {
+						column: 0,
+						line: 0,
+						raw: 0,
+					},
+					end: {
+						column: 0,
+						line: 0,
+						raw: 0,
+					},
+				},
+				selections: ["example"],
+				type: "disable-file" as const,
+			};
+
+			filterer.add([usedDirective]);
+
+			const reports = [createReport(0, "example"), createReport(1, "example")];
+
+			const actual = filterer.filter(reports);
+
+			expect(actual).toEqual({
+				reports: [],
+				unusedDirectives: {
+					fileDirectives: [],
+					rangeDirectives: [],
+				},
+			});
+		});
+
+		it("identifies only unused file directives when some are used and some are not", () => {
+			const filterer = new DirectivesFilterer();
+
+			const usedDirective = {
+				range: {
+					begin: {
+						column: 0,
+						line: 0,
+						raw: 0,
+					},
+					end: {
+						column: 0,
+						line: 0,
+						raw: 0,
+					},
+				},
+				selections: ["example"],
+				type: "disable-file" as const,
+			};
+
+			const unusedDirective1 = {
+				range: {
+					begin: {
+						column: 0,
+						line: 1,
+						raw: 1,
+					},
+					end: {
+						column: 0,
+						line: 1,
+						raw: 1,
+					},
+				},
+				selections: ["*other*"],
+				type: "disable-file" as const,
+			};
+
+			const unusedDirective2 = {
+				range: {
+					begin: {
+						column: 0,
+						line: 2,
+						raw: 2,
+					},
+					end: {
+						column: 0,
+						line: 2,
+						raw: 2,
+					},
+				},
+				selections: ["*unused*"],
+				type: "disable-file" as const,
+			};
+
+			filterer.add([usedDirective, unusedDirective1, unusedDirective2]);
+
+			const reports = [createReport(0, "example"), createReport(1, "example")];
+
+			const actual = filterer.filter(reports);
+
+			expect(actual).toEqual({
+				reports: [],
+				unusedDirectives: {
+					fileDirectives: [unusedDirective1, unusedDirective2],
+					rangeDirectives: [],
+				},
+			});
+		});
+
+		it("identifies unused file directives when directive has multiple selections and none match", () => {
+			const filterer = new DirectivesFilterer();
+
+			const unusedDirective = {
+				range: {
+					begin: {
+						column: 0,
+						line: 0,
+						raw: 0,
+					},
+					end: {
+						column: 0,
+						line: 0,
+						raw: 0,
+					},
+				},
+				selections: ["rule1", "rule2", "rule3"],
+				type: "disable-file" as const,
+			};
+
+			filterer.add([unusedDirective]);
+
+			const reports = [createReport(0, "example"), createReport(1, "other")];
+
+			const actual = filterer.filter(reports);
+
+			expect(actual).toEqual({
+				reports,
+				unusedDirectives: {
+					fileDirectives: [unusedDirective],
+					rangeDirectives: [],
+				},
+			});
+		});
+
+		it("does not identify file directive as unused when at least one selection matches", () => {
+			const filterer = new DirectivesFilterer();
+
+			const usedDirective = {
+				range: {
+					begin: {
+						column: 0,
+						line: 0,
+						raw: 0,
+					},
+					end: {
+						column: 0,
+						line: 0,
+						raw: 0,
+					},
+				},
+				selections: ["rule1", "example", "rule3"],
+				type: "disable-file" as const,
+			};
+
+			filterer.add([usedDirective]);
+
+			const reports = [createReport(0, "example"), createReport(1, "other")];
+
+			const actual = filterer.filter(reports);
+
+			expect(actual).toEqual({
+				reports: [reports[1]],
+				unusedDirectives: {
+					fileDirectives: [],
+					rangeDirectives: [],
+				},
+			});
 		});
 	});
 });
