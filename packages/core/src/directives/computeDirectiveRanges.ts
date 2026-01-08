@@ -43,13 +43,10 @@ export function computeDirectiveRanges(
 
 			case "disable-next-line":
 				return [
-					{
-						lines: {
-							begin: directive.range.begin.line + 1,
-							end: directive.range.end.line + 1,
-						},
-						selections: directive.selections.map(createSelectionMatcher),
-					},
+					createRangedSelectionForDisableNextLine(
+						directive,
+						directive.selections,
+					),
 				];
 		}
 	}
@@ -72,13 +69,12 @@ export function computeDirectiveRanges(
 			// Will be handled after the loop
 			break;
 		case "disable-next-line":
-			rangedSelections.push({
-				lines: {
-					begin: previousDirective.range.begin.line + 1,
-					end: previousDirective.range.end.line + 1,
-				},
-				selections: currentSelections.map(createSelectionMatcher),
-			});
+			rangedSelections.push(
+				createRangedSelectionForDisableNextLine(
+					previousDirective,
+					currentSelections,
+				),
+			);
 			break;
 	}
 
@@ -107,16 +103,12 @@ export function computeDirectiveRanges(
 				);
 				break;
 			case "disable-next-line":
-				rangedSelections.push({
-					lines: {
-						begin: directive.range.begin.line + 1,
-						end: directive.range.end.line + 1,
-					},
-					selections: joinSelections(
-						currentSelections,
-						directive.selections,
-					).map(createSelectionMatcher),
-				});
+				rangedSelections.push(
+					createRangedSelectionForDisableNextLine(
+						directive,
+						joinSelections(currentSelections, directive.selections),
+					),
+				);
 				break;
 		}
 
@@ -136,6 +128,19 @@ export function computeDirectiveRanges(
 	}
 
 	return rangedSelections;
+}
+
+function createRangedSelectionForDisableNextLine(
+	directive: CommentDirectiveWithinFile,
+	selections: string[],
+): RangedSelection {
+	return {
+		lines: {
+			begin: directive.range.begin.line + 1,
+			end: directive.range.end.line + 1,
+		},
+		selections: selections.map(createSelectionMatcher),
+	};
 }
 
 function joinSelections(
