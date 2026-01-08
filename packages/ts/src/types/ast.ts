@@ -1,4 +1,4 @@
-/* Generated */
+/* Generated from tsl */
 import type ts from "typescript";
 
 export interface AbstractKeyword extends ts.Node {
