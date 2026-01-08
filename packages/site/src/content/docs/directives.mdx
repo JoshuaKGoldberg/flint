@@ -26,7 +26,7 @@ Disables one or more rules for the entire file.
 This directive must appear at the top of the file, before any code.
 
 ```ts title="example.ts"
-// flint-disable-file forInArrays namespaceDeclarations
+// flint-disable-file forInArrays
 const array = ["a", "b", "c"];
 for (const i in array) {
 	console.log(array[i]);
