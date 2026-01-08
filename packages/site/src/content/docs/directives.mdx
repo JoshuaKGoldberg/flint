@@ -38,17 +38,6 @@ You can specify multiple rule IDs separated by spaces and/or use multiple direct
 ```ts title="example.ts"
 // flint-disable-file chainedAssignments forInArrays
 // flint-disable-file namespaceDeclarations
-
-## `flint-disable-next-line`
-
-Disables one or more rules for just the next line of code.
-
-```ts title="example.ts"
-const array = ["a", "b", "c"];
-// flint-disable-next-line forInArrays
-for (const i in array) {
-	console.log(array[i]);
-}
 ```
 
 ## `flint-disable-lines-begin`
@@ -76,6 +65,18 @@ for (const i in array) {
 }
 // flint-disable-lines-end namespaceDeclarations
 // flint-disable-lines-end forInArrays
+```
+
+## `flint-disable-next-line`
+
+Disables one or more rules for just the next line of code.
+
+```ts title="example.ts"
+const array = ["a", "b", "c"];
+// flint-disable-next-line forInArrays
+for (const i in array) {
+	console.log(array[i]);
+}
 ```
 
 ## Rule IDs
