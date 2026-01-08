@@ -16,15 +16,17 @@ export async function formatCode(report: FileReport, sourceFileText: string) {
 
 	const highlightedLines = highlighted.split("\n");
 
-	const maxGutter = `${report.range.end.line + 1}:${Math.max(report.range.end.column, report.range.begin.column) + 1}`;
-	const leftWidth = `${maxGutter} │ `.length;
+	const gutter = `${report.range.end.line + 1}:${Math.max(report.range.end.column, report.range.begin.column) + 1}`;
+	const gutterWidth = `${gutter} │ `.length;
 
-	const underline = (start: number, end: number) => {
+	const createUnderline = (start: number, end: number) => {
 		return [
 			indenter,
-			chalk.gray("│ ".padStart(leftWidth)),
+			chalk.gray("│ ".padStart(gutterWidth)),
 			" ".repeat(start),
-			chalk.hex(ColorCodes.codeWarningUnderline)("~".repeat(end - start)),
+			chalk.hex(ColorCodes.codeWarningUnderline)(
+				"~".repeat(Math.max(end - start, 0)),
+			),
 		].join("");
 	};
 
@@ -36,7 +38,7 @@ export async function formatCode(report: FileReport, sourceFileText: string) {
 		const parts = [
 			indenter,
 			chalk.hex(ColorCodes.codeLineNumbers)(
-				`${lineNumberStr} `.padStart(leftWidth - 2),
+				`${lineNumberStr} `.padStart(gutterWidth - 2),
 			),
 			chalk.gray("│ "),
 			line,
@@ -54,13 +56,17 @@ export async function formatCode(report: FileReport, sourceFileText: string) {
 		const originalLineLength = originalLine.length;
 
 		if (isFirstLine && isLastLine) {
-			parts.push(underline(report.range.begin.column, report.range.end.column));
+			parts.push(
+				createUnderline(report.range.begin.column, report.range.end.column),
+			);
 		} else if (isFirstLine) {
-			parts.push(underline(report.range.begin.column, originalLineLength));
+			parts.push(
+				createUnderline(report.range.begin.column, originalLineLength),
+			);
 		} else if (isLastLine) {
-			parts.push(underline(0, report.range.end.column));
+			parts.push(createUnderline(0, report.range.end.column));
 		} else {
-			parts.push(underline(0, originalLineLength));
+			parts.push(createUnderline(0, originalLineLength));
 		}
 
 		if (!isLastLine) {
