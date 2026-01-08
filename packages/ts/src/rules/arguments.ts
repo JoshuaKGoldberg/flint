@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
 
 function isNonArrowFunctionBoundary(node: ts.Node): "quit" | boolean {
@@ -38,7 +39,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				Identifier: (node) => {
+				Identifier: (node, { sourceFile, typeChecker }) => {
 					if (node.text !== "arguments") {
 						return;
 					}
@@ -65,7 +66,7 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const symbol = context.typeChecker.getSymbolAtLocation(node);
+					const symbol = typeChecker.getSymbolAtLocation(node);
 
 					if (
 						!symbol ||
@@ -84,10 +85,7 @@ export default typescriptLanguage.createRule({
 
 					context.report({
 						message: "preferRestParameters",
-						range: {
-							begin: node.getStart(context.sourceFile),
-							end: node.getEnd(),
-						},
+						range: getTSNodeRange(node, sourceFile),
 					});
 				},
 			},
