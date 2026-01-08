@@ -8,7 +8,11 @@ unlisted: true
 In addition to configuring rules in your `flint.config.*` file, you can also disable specific rules inline in your code using comment directives.
 This is useful when you need to suppress a rule for a specific line, block, or file.
 
-All inline directives follow the pattern `// flint-<directive-type> <rule-id>`<br />(or `<!-- flint-<directive-type> <rule-id> -->` for HTML/JSX comments).
+All inline directives are comments that follow the pattern `flint-<directive-type>-<rule-id>`:
+
+* For JavaScript-like languages: `// flint-...`
+* For Markdown and HTML-like languages: `<!-- flint-... -->`
+* For YAML: `# flint-...`
 
 ## `flint-disable-file`
 
