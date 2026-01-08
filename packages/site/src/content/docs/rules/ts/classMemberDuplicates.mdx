@@ -1,0 +1,98 @@
+---
+description: "Reports duplicate class member names."
+title: "classMemberDuplicates"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="classMemberDuplicates" />
+
+If there are declarations of the same name in class members, the last declaration silently overwrites the previous ones.
+This is usually a copy-paste error or indicates unfinished refactoring.
+
+This rule supports TypeScript method overload signatures - multiple method declarations with the same name are allowed as long as only the final one has a body.
+It also correctly handles getter/setter pairs, which are allowed to share the same name.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class Example {
+	value = 1;
+	value = 2;
+}
+```
+
+```ts
+class Example {
+	getValue() {
+		return 1;
+	}
+	getValue() {
+		return 2;
+	}
+}
+```
+
+```ts
+class Example {
+	static count = 0;
+	static count = 1;
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class Example {
+	value1 = 1;
+	value2 = 2;
+}
+```
+
+```ts
+class Example {
+	get value() {
+		return this._value;
+	}
+	set value(v: number) {
+		this._value = v;
+	}
+}
+```
+
+```ts
+class Example {
+	method(a: number): number;
+	method(a: string): string;
+	method(a: number | string) {
+		return a as number;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+TypeScript's compiler already enforces this check, so if you are using TypeScript with strict type checking, you may not need this rule.
+
+## Further Reading
+
+- [MDN: Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+- [TypeScript: Classes](https://www.typescriptlang.org/docs/handbook/2/classes.html)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="classMemberDuplicates" />
