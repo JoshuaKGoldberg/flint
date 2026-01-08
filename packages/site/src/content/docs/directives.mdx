@@ -1,0 +1,88 @@
+---
+description: "Disabling rules inline in your code using comment directives."
+title: Directives
+topic: "about"
+unlisted: true
+---
+
+In addition to configuring rules in your `flint.config.*` file, you can also disable specific rules inline in your code using comment directives.
+This is useful when you need to suppress a rule for a specific line, block, or file.
+
+All inline directives follow the pattern `// flint-<directive-type> <rule-id>`<br />(or `<!-- flint-<directive-type> <rule-id> -->` for HTML/JSX comments).
+
+## `flint-disable-file`
+
+Disables one or more rules for the entire file.
+This directive must appear at the top of the file, before any code.
+
+```ts title="example.ts"
+// flint-disable-file forInArrays namespaceDeclarations
+const array = ["a", "b", "c"];
+for (const i in array) {
+	console.log(array[i]);
+}
+```
+
+You can specify multiple rule IDs separated by spaces, or use multiple directives:
+
+```ts title="example.ts"
+// flint-disable-file forInArrays
+// flint-disable-file namespaceDeclarations
+```
+
+## `flint-disable-next-line`
+
+Disables one or more rules for just the next line of code.
+
+```ts title="example.ts"
+const array = ["a", "b", "c"];
+// flint-disable-next-line forInArrays
+for (const i in array) {
+	console.log(array[i]);
+}
+```
+
+## `flint-disable-lines-begin` and `flint-disable-lines-end`
+
+Disables one or more rules for a range of lines.
+Use `flint-disable-lines-begin` to start disabling rules, and `flint-disable-lines-end` to stop.
+
+```ts title="example.ts"
+// flint-disable-lines-begin forInArrays
+const array = ["a", "b", "c"];
+for (const i in array) {
+	console.log(array[i]);
+}
+// flint-disable-lines-end forInArrays
+```
+
+You can nest multiple begin/end pairs, and they will stack:
+
+```ts title="example.ts"
+// flint-disable-lines-begin forInArrays
+// flint-disable-lines-begin namespaceDeclarations
+const array = ["a", "b", "c"];
+for (const i in array) {
+	console.log(array[i]);
+}
+// flint-disable-lines-end namespaceDeclarations
+// flint-disable-lines-end forInArrays
+```
+
+## Rule IDs
+
+The rule ID in a directive should match the rule's identifier.
+For example:
+
+- `forInArrays` for the TypeScript rule that warns about `for...in` loops on arrays
+- `namespaceDeclarations` for the TypeScript rule that warns about namespace declarations
+- `altTexts` for the JSX rule that requires alt text on images
+
+You can find rule IDs by looking at the [rules documentation](/rules) or by checking the error message when a rule reports an issue.
+
+{/* TODO: Add this section after this is resolved: https://github.com/flint-fyi/flint/issues/246 */}
+{/\* ## Unused Directives
+
+Flint will report if you use a directive that doesn't match any reports.
+This helps you identify directives that are no longer needed or have incorrect rule IDs.
+\*/}
