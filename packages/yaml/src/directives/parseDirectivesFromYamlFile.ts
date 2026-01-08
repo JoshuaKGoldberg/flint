@@ -1,4 +1,5 @@
 import { DirectivesCollector } from "@flint.fyi/core";
+import { nullThrows } from "@flint.fyi/utils";
 import type * as yamlParser from "yaml-unist-parser";
 
 export function parseDirectivesFromYamlFile(
@@ -28,8 +29,11 @@ export function parseDirectivesFromYamlFile(
 					raw: comment.position.end.offset,
 				},
 			},
-			selection,
-			type,
+			nullThrows(
+				selection,
+				"Selection is expected to be present by the regex match",
+			),
+			nullThrows(type, "Type is expected to be present by the regex match"),
 		);
 	}
 

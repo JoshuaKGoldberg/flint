@@ -3601,7 +3601,8 @@
 		"flint": {
 			"name": "referenceLikeUrls",
 			"plugin": "md",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -12720,7 +12721,8 @@
 		"flint": {
 			"name": "multilineAmbiguities",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{

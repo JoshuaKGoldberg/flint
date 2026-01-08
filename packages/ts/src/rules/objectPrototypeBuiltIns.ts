@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
@@ -91,6 +92,8 @@ function findToken(
 	token: ts.SyntaxKind,
 	sourceFile: ts.SourceFile,
 ) {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	return node.getChildren(sourceFile).find((child) => child.kind === token)!;
+	return nullThrows(
+		node.getChildren(sourceFile).find((child) => child.kind === token),
+		"Token is expected to be present by the find call",
+	);
 }
