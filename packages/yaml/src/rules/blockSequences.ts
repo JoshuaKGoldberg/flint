@@ -12,7 +12,8 @@ function buildBlockSequenceFix(
 	for (const item of node.children) {
 		if (item.children.length > 0) {
 			const child = item.children[0];
-			const itemText = getNodeText(child, sourceText);
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const itemText = getNodeText(child!, sourceText);
 			items.push(`\n${indent}- ${itemText}`);
 		}
 	}
