@@ -1,6 +1,7 @@
 import { createPlugin } from "@flint.fyi/core";
 
 import anyReturns from "./rules/anyReturns.ts";
+import assignmentOperatorShorthands from "./rules/assignmentOperatorShorthands.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
@@ -66,6 +67,7 @@ export const ts = createPlugin({
 	name: "TypeScript",
 	rules: [
 		anyReturns,
+		assignmentOperatorShorthands,
 		asyncPromiseExecutors,
 		caseDeclarations,
 		caseDuplicates,
