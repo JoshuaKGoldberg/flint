@@ -4501,10 +4501,10 @@
 			}
 		],
 		"flint": {
-			"implemented": true,
 			"name": "nodeProtocols",
 			"plugin": "node",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -21425,10 +21425,10 @@
 			}
 		],
 		"flint": {
-			"implemented": true,
 			"name": "blockMappings",
 			"plugin": "yaml",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -21439,10 +21439,10 @@
 			}
 		],
 		"flint": {
-			"implemented": true,
 			"name": "blockSequences",
 			"plugin": "yaml",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
