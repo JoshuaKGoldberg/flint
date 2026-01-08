@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
@@ -91,8 +92,14 @@ function isUnsafeAssignmentWorker(
 		const receiverTypeArguments = receiver.typeArguments ?? [];
 
 		for (let i = 0; i < typeArguments.length; i += 1) {
-			const arg = typeArguments[i];
-			const receiverArg = receiverTypeArguments[i];
+			const arg = nullThrows(
+				typeArguments[i],
+				"Type argument is expected to be present by the loop condition",
+			);
+			const receiverArg = nullThrows(
+				receiverTypeArguments[i],
+				"Receiver type should have the same number of type arguments as the sender type when they share the same target",
+			);
 
 			const unsafe = isUnsafeAssignmentWorker(
 				arg,

@@ -1,4 +1,5 @@
 import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
 import * as ts from "typescript";
 
 import { isDeclaredInNodeTypes } from "./utils/isDeclaredInNodeTypes.ts";
@@ -102,7 +103,13 @@ export default typescriptLanguage.createRule({
 						node.arguments.length > 0 &&
 						isDeclaredInNodeTypes(node.expression, typeChecker)
 					) {
-						checkNode(node.arguments[0], sourceFile);
+						checkNode(
+							nullThrows(
+								node.arguments[0],
+								"First argument is expected to be present by prior length check",
+							),
+							sourceFile,
+						);
 					}
 				},
 				ImportDeclaration(node, { sourceFile }) {
