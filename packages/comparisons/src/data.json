@@ -7999,6 +7999,7 @@
 			"name": "awaitInsidePromiseMethods",
 			"plugin": "ts",
 			"preset": "logical",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
