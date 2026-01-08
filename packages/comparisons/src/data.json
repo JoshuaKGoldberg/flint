@@ -7817,7 +7817,8 @@
 		"flint": {
 			"name": "asConstAssertions",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
