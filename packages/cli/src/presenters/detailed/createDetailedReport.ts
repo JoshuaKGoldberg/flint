@@ -1,4 +1,5 @@
 import type { FileReport } from "@flint.fyi/core";
+import { isSuggestionForFiles } from "@flint.fyi/core";
 import { nullThrows } from "@flint.fyi/utils";
 import chalk from "chalk";
 
@@ -43,22 +44,38 @@ export async function* createDetailedReport(
 	);
 	yield `\n${indenter}\n`;
 
-	if (report.message.suggestions.length > 1) {
+	// Collect all suggestions (message suggestions + actionable suggestions)
+	const allSuggestions: string[] = [...report.message.suggestions];
+
+	// Group SuggestionForFile suggestions (e.g., word replacements) into a single suggestion
+	const suggestionForFileTexts: string[] = [];
+	for (const suggestion of report.suggestions ?? []) {
+		if (!isSuggestionForFiles(suggestion)) {
+			suggestionForFileTexts.push(suggestion.text);
+		}
+	}
+
+	if (suggestionForFileTexts.length > 0) {
+		const replacements = suggestionForFileTexts.join(", ");
+		allSuggestions.push(`Or replace with: ${replacements}`);
+	}
+
+	if (allSuggestions.length > 1) {
 		yield indenter;
 		yield chalk.hex(ColorCodes.suggestionTextHighlight)(" Suggestions:");
 		yield "\n";
-		yield* report.message.suggestions.map((suggestion) =>
+		yield* allSuggestions.map((suggestion) =>
 			[
 				indenter,
 				chalk.hex(ColorCodes.suggestionMessage)("  • "),
 				formatSuggestion(suggestion),
 			].join("\n"),
 		);
-	} else {
+	} else if (allSuggestions.length === 1) {
 		yield `${indenter} `;
 		yield wrapIfNeeded(
 			chalk.hex(ColorCodes.suggestionTextHighlight),
-			`  Suggestion: ${formatSuggestion(nullThrows(report.message.suggestions[0], `Report ${report.about.id} message should have at least one suggestion`))}`,
+			`  Suggestion: ${formatSuggestion(nullThrows(allSuggestions[0], `Report ${report.about.id} message should have at least one suggestion`))}`,
 			width,
 		);
 		yield "\n";

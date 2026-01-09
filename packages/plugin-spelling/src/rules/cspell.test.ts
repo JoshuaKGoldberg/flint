@@ -15,6 +15,12 @@ ruleTester.describe(rule, {
             `,
 			suggestions: [
 				{
+					id: "replaceWithincorrect",
+					updated: `
+                incorrect
+            `,
+				},
+				{
 					files: {
 						"cspell.json": [
 							{

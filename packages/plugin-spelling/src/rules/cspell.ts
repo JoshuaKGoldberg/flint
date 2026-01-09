@@ -1,6 +1,7 @@
 import { textLanguage } from "@flint.fyi/text";
 import { parseJsonSafe } from "@flint.fyi/utils";
 import type { DocumentValidator } from "cspell-lib";
+import { suggestionsForWord } from "cspell-lib";
 
 import { createDocumentValidator } from "./createDocumentValidator.ts";
 
@@ -10,6 +11,12 @@ interface CSpellConfigLike {
 
 interface FileTask {
 	documentValidatorTask: Promise<DocumentValidator | undefined>;
+	text: string;
+}
+
+interface WordSuggestion {
+	id: string;
+	range: { begin: number; end: number };
 	text: string;
 }
 
@@ -23,14 +30,10 @@ export default textLanguage.createRule({
 		issue: {
 			primary: 'Forbidden or unknown word: "{{ word }}".',
 			secondary: [
-				"The word '{{ word }}' is not in the project's dictionary (cspell.json).",
-				"If this is a valid term, consider adding it to 'cspell.json' under 'words'.",
+				'The word "{{ word }}" is not in the project\'s dictionary (cspell.json).',
+				"If it's intentional, add it to cspell.json under `words`.",
 			],
-			suggestions: [
-				"Add '{{ word }}' to the project's dictionary.",
-				// TODO: update this message when we've implemented "suggestions for typos":https://github.com/flint-fyi/flint/issues/1403
-				"Correct the spelling if this was a typo.",
-			],
+			suggestions: ['Add "{{ word }}" to dictionary if intentional.'],
 		},
 	},
 	setup(context) {
@@ -51,17 +54,43 @@ export default textLanguage.createRule({
 						undefined,
 					);
 
+					const finalizedSettings = documentValidator.getFinalizedDocSettings();
+
 					for (const issue of issues) {
+						const issueRange = {
+							begin: issue.offset,
+							end: issue.offset + (issue.length ?? issue.text.length),
+						};
+
+						const suggestionsResult = await suggestionsForWord(
+							issue.text,
+							finalizedSettings,
+						);
+						const wordSuggestions: WordSuggestion[] = [];
+						for (const s of suggestionsResult.suggestions) {
+							if (s.forbidden || s.noSuggest) {
+								continue;
+							}
+
+							wordSuggestions.push({
+								id: `replaceWith${s.word}`,
+								range: issueRange,
+								text: s.wordAdjustedToMatchCase ?? s.word,
+							});
+
+							if (wordSuggestions.length >= 5) {
+								break;
+							}
+						}
+
 						context.report({
 							data: {
 								word: issue.text,
 							},
 							message: "issue",
-							range: {
-								begin: issue.offset,
-								end: issue.offset + (issue.length ?? issue.text.length),
-							},
+							range: issueRange,
 							suggestions: [
+								...wordSuggestions,
 								{
 									files: {
 										"cspell.json": (text) => {
