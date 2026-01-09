@@ -5,6 +5,11 @@ import { suggestionsForWord } from "cspell-lib";
 
 import { createDocumentValidator } from "./createDocumentValidator.ts";
 
+/**
+ * The maximum number of word suggestions to show in a report.
+ */
+const MAX_WORD_SUGGESTIONS = 5;
+
 interface CSpellConfigLike {
 	words?: string[];
 }
@@ -78,7 +83,7 @@ export default textLanguage.createRule({
 								text: s.wordAdjustedToMatchCase ?? s.word,
 							});
 
-							if (wordSuggestions.length >= 5) {
+							if (wordSuggestions.length >= MAX_WORD_SUGGESTIONS) {
 								break;
 							}
 						}
