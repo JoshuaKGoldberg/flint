@@ -13,9 +13,6 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		duplicateMember: {
-			data: {
-				memberName: "string",
-			},
 			primary:
 				"Duplicate class member name '{{ memberName }}' will be overwritten.",
 			secondary: [
@@ -98,15 +95,13 @@ function getMemberKeyName(member: AST.ClassElement) {
 		member.kind === SyntaxKind.GetAccessor ||
 		member.kind === SyntaxKind.SetAccessor
 	) {
-		const { name } = member;
-
-		const text = getNameText(name);
+		const text = getNameText(member.name);
 		if (!text) {
 			return undefined;
 		}
 
 		const isStatic = member.modifiers?.some(
-			(mod) => mod.kind === SyntaxKind.StaticKeyword,
+			(modifier) => modifier.kind === SyntaxKind.StaticKeyword,
 		);
 
 		const group =
@@ -116,12 +111,14 @@ function getMemberKeyName(member: AST.ClassElement) {
 					? "setters"
 					: "values";
 
-		return { group, isStatic: !!isStatic, node: name, text } as const;
+		return { group, isStatic: !!isStatic, node: member.name, text } as const;
 	}
 
 	return undefined;
 }
 
+// TODO: Use a util like getStaticValue
+// https://github.com/flint-fyi/flint/issues/1298
 function getNameText(name: AST.PropertyName) {
 	if (
 		name.kind === SyntaxKind.Identifier ||
