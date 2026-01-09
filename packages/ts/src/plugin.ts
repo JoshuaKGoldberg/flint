@@ -7,6 +7,7 @@ import arrayCallbackReturns from "./rules/arrayCallbackReturns.ts";
 import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
 import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
 import asConstAssertions from "./rules/asConstAssertions.ts";
+import assignmentOperatorShorthands from "./rules/assignmentOperatorShorthands.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
 import asyncUnnecessaryPromiseWrappers from "./rules/asyncUnnecessaryPromiseWrappers.ts";
 import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
@@ -80,6 +81,7 @@ export const ts = createPlugin({
 		arrayMapIdentities,
 		arrayMutableReverses,
 		asConstAssertions,
+		assignmentOperatorShorthands,
 		asyncPromiseExecutors,
 		asyncUnnecessaryPromiseWrappers,
 		builtinConstructorNews,
