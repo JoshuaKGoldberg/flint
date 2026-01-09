@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
-import type { AST } from "../index.ts";
+import type { AST, Checker } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
@@ -29,8 +29,7 @@ export default typescriptLanguage.createRule({
 					if (
 						!ts.isNumericLiteral(node.argumentExpression) ||
 						node.argumentExpression.text !== "0" ||
-						!isFilterCall(node.expression) ||
-						!isArrayType(node.expression.expression, typeChecker) ||
+						!isFilterCall(node.expression, typeChecker) ||
 						node.expression.arguments.length === 0
 					) {
 						return;
@@ -58,21 +57,16 @@ export default typescriptLanguage.createRule({
 	},
 });
 
-function isArrayType(
-	node: AST.PropertyAccessExpression,
-	typeChecker: ts.TypeChecker,
-) {
-	return typeChecker.isArrayType(
-		typeChecker.getTypeAtLocation(node.expression),
-	);
-}
-
 function isFilterCall(
 	node: AST.AnyNode,
+	typeChecker: Checker,
 ): node is AST.CallExpression & { expression: AST.PropertyAccessExpression } {
 	return (
 		ts.isCallExpression(node) &&
 		ts.isPropertyAccessExpression(node.expression) &&
-		node.expression.name.text === "filter"
+		node.expression.name.text === "filter" &&
+		typeChecker.isArrayType(
+			typeChecker.getTypeAtLocation(node.expression.expression),
+		)
 	);
 }
