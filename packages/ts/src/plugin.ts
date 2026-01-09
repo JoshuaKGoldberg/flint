@@ -1,9 +1,13 @@
 import { createPlugin } from "@flint.fyi/core";
 
 import anyArguments from "./rules/anyArguments.ts";
+import anyAssignments from "./rules/anyAssignments.ts";
 import anyReturns from "./rules/anyReturns.ts";
 import argumentsRule from "./rules/arguments.ts";
 import arrayCallbackReturns from "./rules/arrayCallbackReturns.ts";
+import arrayConstructors from "./rules/arrayConstructors.ts";
+import arrayExistenceChecksConsistency from "./rules/arrayExistenceChecksConsistency.ts";
+import arrayFinds from "./rules/arrayFinds.ts";
 import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
 import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
 import arrayMutableSorts from "./rules/arrayMutableSorts.ts";
@@ -18,11 +22,14 @@ import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
 import classAssignments from "./rules/classAssignments.ts";
+import classFieldDeclarations from "./rules/classFieldDeclarations.ts";
+import classLiteralProperties from "./rules/classLiteralProperties.ts";
 import classMethodsThis from "./rules/classMethodsThis.ts";
 import combinedPushes from "./rules/combinedPushes.ts";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.ts";
 import constantAssignments from "./rules/constantAssignments.ts";
 import constructorReturns from "./rules/constructorReturns.ts";
+import dateConstructorClones from "./rules/dateConstructorClones.ts";
 import debuggerStatements from "./rules/debuggerStatements.ts";
 import defaultCaseLast from "./rules/defaultCaseLast.ts";
 import duplicateArguments from "./rules/duplicateArguments.ts";
@@ -80,9 +87,13 @@ export const ts = createPlugin({
 	name: "TypeScript",
 	rules: [
 		anyArguments,
+		anyAssignments,
 		anyReturns,
 		argumentsRule,
 		arrayCallbackReturns,
+		arrayConstructors,
+		arrayExistenceChecksConsistency,
+		arrayFinds,
 		arrayMapIdentities,
 		arrayMutableReverses,
 		arrayMutableSorts,
@@ -97,11 +108,14 @@ export const ts = createPlugin({
 		caseDuplicates,
 		chainedAssignments,
 		classAssignments,
+		classFieldDeclarations,
+		classLiteralProperties,
 		classMethodsThis,
 		combinedPushes,
 		consecutiveNonNullAssertions,
 		constantAssignments,
 		constructorReturns,
+		dateConstructorClones,
 		debuggerStatements,
 		defaultCaseLast,
 		duplicateArguments,

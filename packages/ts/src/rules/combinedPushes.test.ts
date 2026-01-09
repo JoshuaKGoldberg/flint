@@ -5,99 +5,80 @@ ruleTester.describe(rule, {
 	invalid: [
 		{
 			code: `
-const arr: number[] = [];
-arr.push(1);
-arr.push(2);
+const arr: string[] = [];
+arr.push("a");
+arr.push("b");
 `,
 			snapshot: `
-const arr: number[] = [];
-arr.push(1);
-~~~~~~~~~~~~
+const arr: string[] = [];
+arr.push("a");
+~~~~~~~~~~~~~~
 Consecutive \`.push()\` calls can be combined into a single call.
-arr.push(2);
-~~~~~~~~~~~~
+arr.push("b");
+~~~~~~~~~~~~~~
 `,
 		},
 		{
 			code: `
-const items: string[] = [];
-items.push("a");
-items.push("b");
-items.push("c");
+const arr: number[] = [];
+arr.push(1);
+arr.push(2);
+arr.push(3);
 `,
 			snapshot: `
-const items: string[] = [];
-items.push("a");
-~~~~~~~~~~~~~~~~
+const arr: number[] = [];
+arr.push(1);
+~~~~~~~~~~~~
 Consecutive \`.push()\` calls can be combined into a single call.
-items.push("b");
-~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~
+arr.push(2);
+~~~~~~~~~~~~
+~~~~~~~~~~~~
 Consecutive \`.push()\` calls can be combined into a single call.
-items.push("c");
-~~~~~~~~~~~~~~~~
+arr.push(3);
+~~~~~~~~~~~~
 `,
 		},
 		{
 			code: `
 function test() {
-	const arr: number[] = [];
-	arr.push(1);
-	arr.push(2);
+	const items: string[] = [];
+	items.push("x");
+	items.push("y");
 }
 `,
 			snapshot: `
 function test() {
-	const arr: number[] = [];
-	arr.push(1);
-	~~~~~~~~~~~~
+	const items: string[] = [];
+	items.push("x");
+	~~~~~~~~~~~~~~~~
 	Consecutive \`.push()\` calls can be combined into a single call.
-	arr.push(2);
-	~~~~~~~~~~~~
+	items.push("y");
+	~~~~~~~~~~~~~~~~
 }
-`,
-		},
-		{
-			code: `
-const arr: number[] = [];
-arr.push(1, 2);
-arr.push(3);
-`,
-			snapshot: `
-const arr: number[] = [];
-arr.push(1, 2);
-~~~~~~~~~~~~~~~
-Consecutive \`.push()\` calls can be combined into a single call.
-arr.push(3);
-~~~~~~~~~~~~
 `,
 		},
 	],
 	valid: [
-		`const arr: number[] = []; arr.push(1);`,
-		`const arr: number[] = []; arr.push(1, 2, 3);`,
 		`
-const arr: number[] = [];
-arr.push(1);
+const arr: string[] = [];
+arr.push("a");
+`,
+		`
+const arr: string[] = [];
+arr.push("a");
 console.log("something");
-arr.push(2);
+arr.push("b");
 `,
 		`
-const arr1: number[] = [];
-const arr2: number[] = [];
-arr1.push(1);
-arr2.push(2);
+const arr1: string[] = [];
+const arr2: string[] = [];
+arr1.push("a");
+arr2.push("b");
 `,
 		`
-const obj = { push: (x: number) => x };
-obj.push(1);
-obj.push(2);
-`,
-		`
-const arr: number[] = [];
-arr.push(1);
-const x = 1;
-arr.push(2);
+const obj = { push: () => {} };
+obj.push();
+obj.push();
 `,
 	],
 });

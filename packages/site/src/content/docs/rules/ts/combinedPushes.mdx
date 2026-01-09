@@ -1,5 +1,5 @@
 ---
-description: "Reports consecutive array.push() calls that could be combined into a single call."
+description: "Consecutive array.push() calls that could be combined into a single call."
 title: "combinedPushes"
 topic: "rules"
 ---
@@ -10,8 +10,8 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="ts" rule="combinedPushes" />
 
-Multiple consecutive `.push()` calls on the same array can be combined into a single call with multiple arguments.
-This makes the code more concise and slightly more efficient.
+Multiple consecutive `.push()` calls on the same array can be combined into a single call.
+Using `.push(a, b, c)` is more concise than separate `.push(a)`, `.push(b)`, `.push(c)` calls.
 
 ## Examples
 
@@ -19,43 +19,20 @@ This makes the code more concise and slightly more efficient.
 <TabItem label="❌ Incorrect">
 
 ```ts
-const arr = [];
-arr.push(1);
-arr.push(2);
-arr.push(3);
-```
+const items: string[] = [];
 
-```ts
-const items = [];
 items.push("a");
 items.push("b");
+items.push("c");
 ```
 
 </TabItem>
 <TabItem label="✅ Correct">
 
 ```ts
-const arr = [];
-arr.push(1, 2, 3);
-```
+const items: string[] = [];
 
-```ts
-const items = [];
-items.push("a", "b");
-```
-
-```ts
-const arr = [];
-arr.push(1);
-console.log("something");
-arr.push(2);
-```
-
-```ts
-const arr1 = [];
-const arr2 = [];
-arr1.push(1);
-arr2.push(2);
+items.push("a", "b", "c");
 ```
 
 </TabItem>
@@ -67,11 +44,7 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-If you prefer separate `.push()` calls for readability or debugging purposes, you may want to disable this rule.
-
-## Further Reading
-
-- [MDN: Array.prototype.push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
+If you prefer the visual separation of individual `.push()` calls, or if you're intentionally pushing items one at a time for debugging or other purposes, you can disable this rule.
 
 ## Equivalents in Other Linters
 
