@@ -28,6 +28,7 @@ import constructorReturns from "./rules/constructorReturns.ts";
 import debuggerStatements from "./rules/debuggerStatements.ts";
 import defaultCaseLast from "./rules/defaultCaseLast.ts";
 import duplicateArguments from "./rules/duplicateArguments.ts";
+import dynamicDeletes from "./rules/dynamicDeletes.ts";
 import elseIfDuplicates from "./rules/elseIfDuplicates.ts";
 import emptyBlocks from "./rules/emptyBlocks.ts";
 import emptyDestructures from "./rules/emptyDestructures.ts";
@@ -109,6 +110,7 @@ export const ts = createPlugin({
 		debuggerStatements,
 		defaultCaseLast,
 		duplicateArguments,
+		dynamicDeletes,
 		elseIfDuplicates,
 		emptyBlocks,
 		emptyDestructures,
