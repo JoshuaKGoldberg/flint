@@ -10,7 +10,7 @@ const timestamp = new Date().getTime();
 			snapshot: `
 const timestamp = new Date().getTime();
                   ~~~~~~~~~~~~~~~~~~~~
-                  Use Date.now() to get the current timestamp.
+                  Prefer the shorter \`Date.now()\` to get the current timestamp.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ const timestamp = new Date().valueOf();
 			snapshot: `
 const timestamp = new Date().valueOf();
                   ~~~~~~~~~~~~~~~~~~~~
-                  Use Date.now() to get the current timestamp.
+                  Prefer the shorter \`Date.now()\` to get the current timestamp.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ const timestamp = +new Date();
 			snapshot: `
 const timestamp = +new Date();
                    ~~~~~~~~~~
-                   Use Date.now() to get the current timestamp.
+                   Prefer the shorter \`Date.now()\` to get the current timestamp.
 `,
 		},
 		{
@@ -40,7 +40,7 @@ const timestamp = Number(new Date());
 			snapshot: `
 const timestamp = Number(new Date());
                   ~~~~~~~~~~~~~~~~~~
-                  Use Date.now() to get the current timestamp.
+                  Prefer the shorter \`Date.now()\` to get the current timestamp.
 `,
 		},
 	],
