@@ -87,5 +87,8 @@ if (condition) {
 		`log("not console");`,
 		`myConsole.log("custom logger");`,
 		`logger.log("custom logger");`,
+		`const console = { log: () => {} }; console.log("local"); export {};`,
+		`function test(console: { log: (msg: string) => void }) { console.log("param"); }`,
+		`class Foo { console = { log: () => {} }; test() { this.console.log("member"); } }`,
 	],
 });

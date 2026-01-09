@@ -1,12 +1,13 @@
 import ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import { isGlobalVariable } from "../utils/isGlobalVariable.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
 		description: "Reports calls to console methods.",
 		id: "consoleCalls",
-		preset: "untyped",
 	},
 	messages: {
 		noConsole: {
@@ -23,28 +24,22 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression: (node) => {
+				CallExpression: (node, { sourceFile, typeChecker }) => {
 					if (!ts.isPropertyAccessExpression(node.expression)) {
 						return;
 					}
 
-					const propertyAccess = node.expression;
-
 					if (
-						!ts.isIdentifier(propertyAccess.expression) ||
-						propertyAccess.expression.text !== "console"
+						!ts.isIdentifier(node.expression.expression) ||
+						node.expression.expression.text !== "console" ||
+						!isGlobalVariable(node.expression.expression, typeChecker)
 					) {
 						return;
 					}
 
-					const range = {
-						begin: node.getStart(),
-						end: node.getEnd(),
-					};
-
 					context.report({
 						message: "noConsole",
-						range,
+						range: getTSNodeRange(node, sourceFile),
 					});
 				},
 			},
