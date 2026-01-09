@@ -70,13 +70,10 @@ export class DirectivesFilterer {
 			return !fileMatched && !rangeMatched;
 		});
 
-		const unusedFileDirectives = this.#directivesForFile.filter(
-			(directive) => !matchedFileDirectives.has(directive),
-		);
-
-		const unusedRangeDirectives = this.#directivesForRanges.filter(
-			(directive) => !matchedRangeDirectives.has(directive),
-		);
+		const unusedDirectives = [
+			...this.#directivesForFile,
+			...this.#directivesForRanges,
+		].filter((directive) => !matchedDirectives.has(directive));
 
 		return {
 			reports: filteredReports,
