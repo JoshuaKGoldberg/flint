@@ -1,0 +1,76 @@
+---
+description: "Reports improper super() calls in class constructors."
+title: "constructorSupers"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="constructorSupers" />
+
+In JavaScript and TypeScript, derived classes (classes that extend another class) must call `super()` in their constructor before accessing `this` or returning.
+Conversely, non-derived classes should not call `super()` as there is no parent class to initialize.
+
+This rule ensures that:
+
+- Derived classes always call `super()` in their constructor
+- Non-derived classes never call `super()` in their constructor
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class Child extends Parent {
+	constructor() {
+		this.value = 1;
+	}
+}
+
+class Example {
+	constructor() {
+		super();
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class Child extends Parent {
+	constructor() {
+		super();
+		this.value = 1;
+	}
+}
+
+class Example {
+	constructor() {
+		this.value = 1;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+This rule catches definite errors, so there is generally no reason to disable it.
+
+## Further Reading
+
+- [MDN: super](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super)
+- [MDN: Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="constructorSupers" />
