@@ -5,6 +5,9 @@ import anyAssignments from "./rules/anyAssignments.ts";
 import anyReturns from "./rules/anyReturns.ts";
 import argumentsRule from "./rules/arguments.ts";
 import arrayCallbackReturns from "./rules/arrayCallbackReturns.ts";
+import arrayConstructors from "./rules/arrayConstructors.ts";
+import arrayExistenceChecksConsistency from "./rules/arrayExistenceChecksConsistency.ts";
+import arrayFinds from "./rules/arrayFinds.ts";
 import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
 import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
 import arrayMutableSorts from "./rules/arrayMutableSorts.ts";
@@ -19,6 +22,8 @@ import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
 import classAssignments from "./rules/classAssignments.ts";
+import classFieldDeclarations from "./rules/classFieldDeclarations.ts";
+import combinedPushes from "./rules/combinedPushes.ts";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.ts";
 import constantAssignments from "./rules/constantAssignments.ts";
 import constructorReturns from "./rules/constructorReturns.ts";
@@ -84,6 +89,9 @@ export const ts = createPlugin({
 		anyReturns,
 		argumentsRule,
 		arrayCallbackReturns,
+		arrayConstructors,
+		arrayExistenceChecksConsistency,
+		arrayFinds,
 		arrayMapIdentities,
 		arrayMutableReverses,
 		arrayMutableSorts,
@@ -98,6 +106,8 @@ export const ts = createPlugin({
 		caseDuplicates,
 		chainedAssignments,
 		classAssignments,
+		classFieldDeclarations,
+		combinedPushes,
 		consecutiveNonNullAssertions,
 		constantAssignments,
 		constructorReturns,
