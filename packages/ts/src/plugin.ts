@@ -5,6 +5,7 @@ import anyAssignments from "./rules/anyAssignments.ts";
 import anyReturns from "./rules/anyReturns.ts";
 import argumentsRule from "./rules/arguments.ts";
 import arrayCallbackReturns from "./rules/arrayCallbackReturns.ts";
+import arrayConstructors from "./rules/arrayConstructors.ts";
 import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
 import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
 import arrayMutableSorts from "./rules/arrayMutableSorts.ts";
@@ -83,6 +84,7 @@ export const ts = createPlugin({
 		anyReturns,
 		argumentsRule,
 		arrayCallbackReturns,
+		arrayConstructors,
 		arrayMapIdentities,
 		arrayMutableReverses,
 		arrayMutableSorts,
