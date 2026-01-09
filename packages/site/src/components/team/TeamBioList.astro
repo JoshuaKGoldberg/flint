@@ -1,15 +1,19 @@
 ---
-import TeamBio, { type Props as BioEntry } from "./TeamBio.astro";
+import TeamBio, {
+	type Props as BioEntry,
+	type TeamBioWidth,
+} from "./TeamBio.astro";
 
 interface Props {
 	bios: BioEntry[];
+	width?: TeamBioWidth;
 }
 
-const { bios } = Astro.props;
+const { bios, width = "half" } = Astro.props;
 ---
 
 <ul class="team-bio-list">
-	{bios.map((bio) => <TeamBio {...bio} />)}
+	{bios.map((bio) => <TeamBio {...bio} width={width} />)}
 </ul>
 
 <style>

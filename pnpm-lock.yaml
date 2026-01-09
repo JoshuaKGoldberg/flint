@@ -270,12 +270,12 @@ importers:
       '@flint.fyi/core':
         specifier: workspace:^
         version: link:../core
-      remark-parse:
-        specifier: ^11.0.0
-        version: 11.0.0
-      unified:
-        specifier: ^11.0.5
-        version: 11.0.5
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
+      mdast-util-from-markdown:
+        specifier: ^2.0.2
+        version: 2.0.2
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
@@ -327,6 +327,9 @@ importers:
       '@flint.fyi/ts':
         specifier: workspace:^
         version: link:../ts
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -374,6 +377,9 @@ importers:
       '@flint.fyi/ts':
         specifier: workspace:^
         version: link:../ts
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       language-tags:
         specifier: ^2.1.0
         version: 2.1.0
@@ -415,6 +421,9 @@ importers:
       '@flint.fyi/ts':
         specifier: workspace:^
         version: link:../ts
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -596,6 +605,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      expressive-code-twoslash:
+        specifier: ^0.5.3
+        version: 0.5.3(@expressive-code/core@0.41.3)(expressive-code@0.41.3)(typescript@5.9.3)
       flint:
         specifier: workspace:^
         version: link:../flint
@@ -652,6 +664,9 @@ importers:
       '@flint.fyi/core':
         specifier: workspace:^
         version: link:../core
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       '@typescript-eslint/project-service':
         specifier: ^8.46.2
         version: 8.50.1(typescript@5.9.3)
@@ -707,6 +722,9 @@ importers:
       '@flint.fyi/core':
         specifier: workspace:^
         version: link:../core
+      '@flint.fyi/utils':
+        specifier: workspace:^
+        version: link:../utils
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
@@ -3073,6 +3091,13 @@ packages:
     resolution: {integrity: sha512-JhFGDVJ7tmDJItKhYgJCGLOWjuK9vPxiXoUFLwLDc99NlmklilbiQJwoctZtt13+xMw91MCk/REan6MWHqDjyA==}
     engines: {node: '>=12.0.0'}
 
+  expressive-code-twoslash@0.5.3:
+    resolution: {integrity: sha512-BcttA3taicvhesKpQ4TvRxoDHByDr2FH6bvjc6elxC8TXVU3GVZv0wHvdcNz9xrVEUcwbDbsprqsGF7M7Yq59A==}
+    peerDependencies:
+      '@expressive-code/core': '>=0.40.0'
+      expressive-code: '>=0.40.0'
+      typescript: ^5.7
+
   expressive-code@0.41.3:
     resolution: {integrity: sha512-YLnD62jfgBZYrXIPQcJ0a51Afv9h8VlWqEGK9uU2T5nL/5rb8SnA86+7+mgCZe5D34Tff5RNEA5hjNVJYHzrFg==}
 
@@ -4693,6 +4718,14 @@ packages:
 
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
+
+  twoslash-protocol@0.2.12:
+    resolution: {integrity: sha512-5qZLXVYfZ9ABdjqbvPc4RWMr7PrpPaaDSeaYY55vl/w1j6H6kzsWK/urAEIXlzYlyrFmyz1UbwIt+AA0ck+wbg==}
+
+  twoslash@0.2.12:
+    resolution: {integrity: sha512-tEHPASMqi7kqwfJbkk7hc/4EhlrKCSLcur+TcvYki3vhIfaRMXnXjaYFgXpoZRbT6GdprD4tGuVBEmTpUgLBsw==}
+    peerDependencies:
+      typescript: '*'
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -7973,6 +8006,18 @@ snapshots:
 
   expect-type@1.2.2: {}
 
+  expressive-code-twoslash@0.5.3(@expressive-code/core@0.41.3)(expressive-code@0.41.3)(typescript@5.9.3):
+    dependencies:
+      '@expressive-code/core': 0.41.3
+      expressive-code: 0.41.3
+      mdast-util-from-markdown: 2.0.2
+      mdast-util-gfm: 3.1.0
+      mdast-util-to-hast: 13.2.0
+      twoslash: 0.2.12(typescript@5.9.3)
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
+
   expressive-code@0.41.3:
     dependencies:
       '@expressive-code/core': 0.41.3
@@ -10106,6 +10151,16 @@ snapshots:
       - vue-tsc
 
   tslib@2.8.1: {}
+
+  twoslash-protocol@0.2.12: {}
+
+  twoslash@0.2.12(typescript@5.9.3):
+    dependencies:
+      '@typescript/vfs': 1.6.1(typescript@5.9.3)
+      twoslash-protocol: 0.2.12
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
 
   type-check@0.4.0:
     dependencies:
