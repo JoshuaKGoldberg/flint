@@ -1,0 +1,70 @@
+---
+description: "Require descriptions in flint directive comments."
+title: "directiveRequireDescriptions"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="directiveRequireDescriptions" />
+
+When disabling lint rules, it's helpful to include a description explaining why the rule is being disabled.
+Descriptions help future developers understand the context and intent behind the disable.
+
+This rule warns when `flint-disable` directive comments don't include a description.
+Descriptions should be added after the rule name, separated by `--`.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+// flint-disable someRule
+const value = 1;
+```
+
+```ts
+// flint-disable-next-line someRule
+const legacyCode = getValue();
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+// flint-disable someRule -- Required for backwards compatibility with legacy API
+const value = 1;
+```
+
+```ts
+// flint-disable-next-line someRule -- Legacy code that cannot be refactored
+const legacyCode = getValue();
+```
+
+```ts
+// flint-enable someRule
+const value = 1;
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your team doesn't require explanations for disabled rules, you may disable this rule.
+However, adding descriptions is generally considered a best practice for maintainability.
+
+## Further Reading
+
+- [ESLint RFC - Description in directive comments](https://github.com/eslint/rfcs/blob/main/designs/2019-description-in-directive-comments/README.md)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="directiveRequireDescriptions" />
