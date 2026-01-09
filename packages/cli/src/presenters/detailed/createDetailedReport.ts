@@ -15,6 +15,19 @@ export async function* createDetailedReport(
 	const urlFriendly = `flint.fyi/rules/${report.about.id}`;
 	const url = `https://${urlFriendly}`;
 
+	const data = report.data;
+	if (data) {
+		report.message.primary = report.message.primary.replace(
+			/\{\{\s*(\w+)\s*\}\}/g,
+			(match, key) => {
+				if (key in data) {
+					return String(data[key]);
+				}
+				return match;
+			},
+		);
+	}
+
 	yield indenter;
 	yield wrapIfNeeded(
 		chalk.hex(ColorCodes.primaryMessage),
