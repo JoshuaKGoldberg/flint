@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import type { Checker } from "../index.ts";
+import type { Checker, TypeScriptFileServices } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
 import type * as AST from "../types/ast.ts";
 
@@ -24,68 +24,54 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function isArrayPushCall(
-			node: AST.CallExpression,
-			typeChecker: Checker,
-		): boolean {
-			if (!ts.isPropertyAccessExpression(node.expression)) {
-				return false;
-			}
-
-			if (node.expression.name.text !== "push") {
-				return false;
-			}
-
-			const arrayType = typeChecker.getTypeAtLocation(
-				node.expression.expression,
+		function isArrayPushCall(node: AST.CallExpression, typeChecker: Checker) {
+			return (
+				ts.isPropertyAccessExpression(node.expression) &&
+				node.expression.name.text === "push" &&
+				typeChecker.isArrayType(
+					typeChecker.getTypeAtLocation(node.expression.expression),
+				)
 			);
-
-			return typeChecker.isArrayType(arrayType);
 		}
 
-		function getArrayName(
-			node: AST.CallExpression,
-			sourceFile: ts.SourceFile,
-		): string | undefined {
-			if (!ts.isPropertyAccessExpression(node.expression)) {
-				return undefined;
-			}
-			return node.expression.expression.getText(sourceFile);
+		function getArrayName(node: AST.CallExpression, sourceFile: ts.SourceFile) {
+			return (
+				ts.isPropertyAccessExpression(node.expression) &&
+				node.expression.expression.getText(sourceFile)
+			);
 		}
 
 		function isPushCallStatement(
 			statement: AST.Statement,
 			sourceFile: ts.SourceFile,
 			typeChecker: Checker,
-		): undefined | { arrayName: string; callExpression: AST.CallExpression } {
-			if (!ts.isExpressionStatement(statement)) {
+		) {
+			if (
+				!ts.isExpressionStatement(statement) ||
+				!ts.isCallExpression(statement.expression) ||
+				!isArrayPushCall(statement.expression, typeChecker)
+			) {
 				return undefined;
 			}
 
-			const expr = statement.expression;
-			if (!ts.isCallExpression(expr)) {
-				return undefined;
-			}
-
-			if (!isArrayPushCall(expr, typeChecker)) {
-				return undefined;
-			}
-
-			const arrayName = getArrayName(expr, sourceFile);
+			const arrayName = getArrayName(statement.expression, sourceFile);
 			if (!arrayName) {
 				return undefined;
 			}
 
-			return { arrayName, callExpression: expr };
+			return {
+				arrayName,
+				callExpression: statement.expression,
+			};
 		}
 
-		function checkStatements(
-			statements: readonly AST.Statement[],
-			sourceFile: ts.SourceFile,
-			typeChecker: Checker,
+		function checkNode(
+			{ statements }: AST.Block | AST.SourceFile,
+			{ sourceFile, typeChecker }: TypeScriptFileServices,
 		) {
-			for (let i = 0; i < statements.length - 1; i++) {
-				const currentStatement = statements[i];
+			for (let i = 0; i < statements.length - 1; i += 1) {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				const currentStatement = statements[i]!;
 				const currentPush = isPushCallStatement(
 					currentStatement,
 					sourceFile,
@@ -95,14 +81,15 @@ export default typescriptLanguage.createRule({
 					continue;
 				}
 
-				const nextStatement = statements[i + 1];
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				const nextStatement = statements[i + 1]!;
 				const nextPush = isPushCallStatement(
 					nextStatement,
 					sourceFile,
 					typeChecker,
 				);
 
-				if (nextPush && nextPush.arrayName === currentPush.arrayName) {
+				if (nextPush?.arrayName === currentPush.arrayName) {
 					context.report({
 						message: "combinePushes",
 						range: {
@@ -116,12 +103,8 @@ export default typescriptLanguage.createRule({
 
 		return {
 			visitors: {
-				Block: (node, { sourceFile, typeChecker }) => {
-					checkStatements([...node.statements], sourceFile, typeChecker);
-				},
-				SourceFile: (node, { typeChecker }) => {
-					checkStatements([...node.statements], node, typeChecker);
-				},
+				Block: checkNode,
+				SourceFile: checkNode,
 			},
 		};
 	},
