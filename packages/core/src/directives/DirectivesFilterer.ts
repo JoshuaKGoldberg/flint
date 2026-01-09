@@ -39,8 +39,7 @@ export class DirectivesFilterer {
 
 		const directiveRanges = computeDirectiveRanges(this.#directivesForRanges);
 
-		const matchedFileDirectives = new Set<CommentDirective>();
-		const matchedRangeDirectives = new Set<CommentDirectiveWithinFile>();
+		const matchedDirectives = new Set<CommentDirective>();
 
 		const filteredReports = reports.filter((report) => {
 			const fileMatched = selectionsForFile.some(({ directive, matcher }) => {
