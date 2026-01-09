@@ -13,7 +13,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 Enforces consistent style for element existence checks with `indexOf()`, `lastIndexOf()`, `findIndex()`, and `findLastIndex()`.
 
 Prefer using `index === -1` to check if an element does not exist and `index !== -1` to check if an element does exist.
-These methods return `-1` when an element is not found, so checking against `-1` is more explicit than using `< 0` or `>= 0`.
+These methods return `-1` when an element is not found, so checking against `-1` is more explicit and precise than using broad comparisons like `< 0` or `>= 0`.
 
 ## Examples
 

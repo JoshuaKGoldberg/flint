@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
 
 const indexMethods = new Set([
@@ -40,12 +41,10 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				BinaryExpression: (node, { sourceFile }) => {
-					if (!isComparisonOperator(node.operatorToken.kind)) {
-						return;
-					}
-
-					const indexCall = getIndexMethodCall(node.left);
-					if (!indexCall) {
+					if (
+						!isComparisonOperator(node.operatorToken.kind) ||
+						!isIndexMethodCall(node.left)
+					) {
 						return;
 					}
 
@@ -59,20 +58,17 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const indexCallText = indexCall.getText(sourceFile);
+					const indexCallText = node.left.getText(sourceFile);
 					const original = `${indexCallText} ${getOperatorText(node.operatorToken.kind)} ${numberValue}`;
-					const replacement = `${indexCallText} ${issue.preferredOperator} -1`;
+					const replacement = `${indexCallText} ${issue[1]} -1`;
 
 					context.report({
 						data: { original, replacement },
 						fix: {
-							range: {
-								begin: node.getStart(sourceFile),
-								end: node.getEnd(),
-							},
+							range: getTSNodeRange(node, sourceFile),
 							text: replacement,
 						},
-						message: issue.message,
+						message: issue[0],
 						range: {
 							begin: node.operatorToken.getStart(sourceFile),
 							end: node.right.getEnd(),
@@ -84,44 +80,15 @@ export default typescriptLanguage.createRule({
 	},
 });
 
-function detectIssue(
-	operator: ts.SyntaxKind,
-	value: number,
-):
-	| undefined
-	| {
-			message: "preferEqualsMinusOne" | "preferNotEqualsMinusOne";
-			preferredOperator: string;
-	  } {
-	if (operator === ts.SyntaxKind.LessThanToken && value === 0) {
-		return { message: "preferEqualsMinusOne", preferredOperator: "===" };
+function detectIssue(operator: ts.SyntaxKind, value: number) {
+	switch (operator) {
+		case ts.SyntaxKind.GreaterThanEqualsToken:
+			return value === 0 && (["preferNotEqualsMinusOne", "!=="] as const);
+		case ts.SyntaxKind.GreaterThanToken:
+			return value === -1 && (["preferNotEqualsMinusOne", "!=="] as const);
+		case ts.SyntaxKind.LessThanToken:
+			return value === 0 && (["preferEqualsMinusOne", "==="] as const);
 	}
-
-	if (operator === ts.SyntaxKind.GreaterThanEqualsToken && value === 0) {
-		return { message: "preferNotEqualsMinusOne", preferredOperator: "!==" };
-	}
-
-	if (operator === ts.SyntaxKind.GreaterThanToken && value === -1) {
-		return { message: "preferNotEqualsMinusOne", preferredOperator: "!==" };
-	}
-
-	return undefined;
-}
-
-function getIndexMethodCall(node: ts.Node): ts.CallExpression | undefined {
-	if (!ts.isCallExpression(node)) {
-		return undefined;
-	}
-
-	if (!ts.isPropertyAccessExpression(node.expression)) {
-		return undefined;
-	}
-
-	if (!indexMethods.has(node.expression.name.text)) {
-		return undefined;
-	}
-
-	return node;
 }
 
 function getNumericLiteralValue(node: ts.Node): number | undefined {
@@ -161,5 +128,14 @@ function isComparisonOperator(kind: ts.SyntaxKind) {
 		kind === ts.SyntaxKind.LessThanEqualsToken ||
 		kind === ts.SyntaxKind.GreaterThanToken ||
 		kind === ts.SyntaxKind.GreaterThanEqualsToken
+	);
+}
+
+function isIndexMethodCall(node: ts.Node) {
+	return (
+		ts.isCallExpression(node) &&
+		ts.isPropertyAccessExpression(node.expression) &&
+		indexMethods.has(node.expression.name.text) &&
+		node
 	);
 }
