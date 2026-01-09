@@ -22,6 +22,7 @@ import classAssignments from "./rules/classAssignments.ts";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.ts";
 import constantAssignments from "./rules/constantAssignments.ts";
 import constructorReturns from "./rules/constructorReturns.ts";
+import dateConstructorClones from "./rules/dateConstructorClones.ts";
 import debuggerStatements from "./rules/debuggerStatements.ts";
 import defaultCaseLast from "./rules/defaultCaseLast.ts";
 import duplicateArguments from "./rules/duplicateArguments.ts";
@@ -100,6 +101,7 @@ export const ts = createPlugin({
 		consecutiveNonNullAssertions,
 		constantAssignments,
 		constructorReturns,
+		dateConstructorClones,
 		debuggerStatements,
 		defaultCaseLast,
 		duplicateArguments,
