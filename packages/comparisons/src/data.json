@@ -9123,7 +9123,8 @@
 		"flint": {
 			"name": "defaultParameterLast",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
