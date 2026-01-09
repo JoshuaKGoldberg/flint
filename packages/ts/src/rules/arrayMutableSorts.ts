@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
@@ -24,19 +25,14 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression: (node, { sourceFile, typeChecker }) => {
-					if (!ts.isPropertyAccessExpression(node.expression)) {
-						return;
-					}
-
-					if (node.expression.name.text !== "sort") {
-						return;
-					}
-
-					if (!isArrayType(node.expression.expression, typeChecker)) {
-						return;
-					}
-
-					if (isExpressionStatement(node)) {
+					if (
+						!ts.isPropertyAccessExpression(node.expression) ||
+						node.expression.name.text !== "sort" ||
+						!typeChecker.isArrayType(
+							typeChecker.getTypeAtLocation(node.expression.expression),
+						) ||
+						ts.isExpressionStatement(node.parent)
+					) {
 						return;
 					}
 
@@ -48,10 +44,7 @@ export default typescriptLanguage.createRule({
 
 					context.report({
 						fix: {
-							range: {
-								begin: node.getStart(sourceFile),
-								end: node.getEnd(),
-							},
+							range: getTSNodeRange(node, sourceFile),
 							text: `${arrayText}.toSorted(${argsText})`,
 						},
 						message: "preferToSorted",
@@ -65,12 +58,3 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
-
-function isArrayType(node: ts.Node, typeChecker: ts.TypeChecker) {
-	const type = typeChecker.getTypeAtLocation(node);
-	return typeChecker.isArrayType(type);
-}
-
-function isExpressionStatement(node: ts.Node) {
-	return ts.isExpressionStatement(node.parent);
-}
