@@ -127,6 +127,56 @@ const obj = {
 };
 `,
 		},
+		// Async generators without await should be flagged
+		{
+			code: `
+async function* asyncGenNoAwait() {
+    yield 1;
+    yield 2;
+}
+`,
+			snapshot: `
+async function* asyncGenNoAwait() {
+~~~~~
+Async functions should contain at least one await expression.
+    yield 1;
+    yield 2;
+}
+`,
+		},
+		{
+			code: `
+const asyncGenExpr = async function* () {
+    yield 1;
+};
+`,
+			snapshot: `
+const asyncGenExpr = async function* () {
+                     ~~~~~
+                     Async functions should contain at least one await expression.
+    yield 1;
+};
+`,
+		},
+		// Async generator method without await
+		{
+			code: `
+class MyClass {
+    async *genMethod() {
+        yield 1;
+    }
+}
+`,
+			snapshot: `
+class MyClass {
+    async *genMethod() {
+    ~~~~~
+    Async functions should contain at least one await expression.
+        yield 1;
+    }
+}
+`,
+		},
 	],
 	valid: [
 		`
@@ -211,6 +261,40 @@ async function awaitInTryCatch() {
         await fetch("/api");
     } catch {
         console.log("error");
+    }
+}
+`,
+		// Empty async functions should be exempt
+		`async function emptyAsync() {}`,
+		`const emptyAsyncArrow = async () => {};`,
+		`
+class MyClass {
+    async emptyMethod() {}
+}
+`,
+		// await using declarations count as await usage
+		`
+async function awaitUsing() {
+    await using resource = getResource();
+}
+`,
+		`
+async function awaitUsingMultiple() {
+    await using a = getResourceA();
+    await using b = getResourceB();
+}
+`,
+		// Async generators with await
+		`
+async function* asyncGenWithAwait() {
+    yield await Promise.resolve(1);
+}
+`,
+		// Async generators with for await...of
+		`
+async function* asyncGenForAwait() {
+    for await (const value of asyncIterable) {
+        yield value;
     }
 }
 `,

@@ -1,10 +1,12 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.ts";
 import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
 } from "../language.ts";
+import type * as AST from "../types/ast.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -37,43 +39,52 @@ export default typescriptLanguage.createRule({
 
 		function checkFunction(
 			node:
-				| ts.ArrowFunction
-				| ts.FunctionDeclaration
-				| ts.FunctionExpression
-				| ts.MethodDeclaration,
+				| AST.ArrowFunction
+				| AST.FunctionDeclaration
+				| AST.FunctionExpression
+				| AST.MethodDeclaration,
 			{ sourceFile }: TypeScriptFileServices,
-		): void {
+		) {
+			if (
+				!node.body ||
+				(ts.isBlock(node.body) && node.body.statements.length === 0)
+			) {
+				return;
+			}
+
 			const asyncModifier = node.modifiers?.find(
 				(modifier) => modifier.kind === ts.SyntaxKind.AsyncKeyword,
 			);
 
-			if (!asyncModifier || !node.body) {
-				return;
-			}
-
-			if (bodyContainsAwait(node.body)) {
+			if (!asyncModifier || bodyContainsAwait(node.body)) {
 				return;
 			}
 
 			context.report({
 				message: "missingAwait",
-				range: {
-					begin: asyncModifier.getStart(sourceFile),
-					end: asyncModifier.getEnd(),
-				},
+				range: getTSNodeRange(asyncModifier, sourceFile),
 			});
 		}
 	},
 });
 
-function bodyContainsAwait(body: ts.Block | ts.Expression) {
+function bodyContainsAwait(body: AST.Block | AST.Expression) {
 	function checkForAwait(node: ts.Node): boolean | undefined {
-		if (ts.isAwaitExpression(node)) {
+		if (
+			ts.isAwaitExpression(node) ||
+			(ts.isForOfStatement(node) && node.awaitModifier)
+		) {
 			return true;
 		}
 
-		if (ts.isForOfStatement(node) && node.awaitModifier) {
-			return true;
+		// Check for 'await using' declarations
+		if (ts.isVariableStatement(node)) {
+			const flags = node.declarationList.flags as number;
+			const awaitUsingFlags = ts.NodeFlags.AwaitUsing as number;
+			// AwaitUsing is a composite flag (Using | Const), so we need to check all bits are set
+			if ((flags & awaitUsingFlags) === awaitUsingFlags) {
+				return true;
+			}
 		}
 
 		if (tsutils.isFunctionScopeBoundary(node)) {
