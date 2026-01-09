@@ -1,8 +1,10 @@
-import * as ts from "typescript";
+import ts from "typescript";
+
+import type { AST } from "../index.ts";
 
 export function hasSameTokens(
-	nodeA: ts.Node,
-	nodeB: ts.Node,
+	nodeA: AST.Expression,
+	nodeB: AST.Expression,
 	sourceFile: ts.SourceFile,
 ): boolean {
 	const queueA: ts.Node[] = [nodeA];
@@ -20,10 +22,7 @@ export function hasSameTokens(
 			return false;
 		}
 
-		if (
-			currentA.kind >= ts.SyntaxKind.FirstToken &&
-			currentA.kind <= ts.SyntaxKind.LastToken
-		) {
+		if (ts.isTokenKind(currentA.kind)) {
 			if (currentA.getText(sourceFile) !== currentB.getText(sourceFile)) {
 				return false;
 			}

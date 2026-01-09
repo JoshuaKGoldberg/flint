@@ -1,4 +1,5 @@
 import type { FileReport } from "@flint.fyi/core";
+import { nullThrows } from "@flint.fyi/utils";
 import chalk from "chalk";
 
 import { ColorCodes, indenter } from "./constants.ts";
@@ -57,7 +58,7 @@ export async function* createDetailedReport(
 		yield `${indenter} `;
 		yield wrapIfNeeded(
 			chalk.hex(ColorCodes.suggestionTextHighlight),
-			`  Suggestion: ${formatSuggestion(report.message.suggestions[0])}`,
+			`  Suggestion: ${formatSuggestion(nullThrows(report.message.suggestions[0], `Report ${report.about.id} message should have at least one suggestion`))}`,
 			width,
 		);
 		yield "\n";

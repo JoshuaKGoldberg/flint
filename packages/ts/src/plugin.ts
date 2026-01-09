@@ -1,8 +1,17 @@
 import { createPlugin } from "@flint.fyi/core";
 
+import anyArguments from "./rules/anyArguments.ts";
 import anyAssignments from "./rules/anyAssignments.ts";
 import anyReturns from "./rules/anyReturns.ts";
+import argumentsRule from "./rules/arguments.ts";
+import arrayCallbackReturns from "./rules/arrayCallbackReturns.ts";
+import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
+import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
+import asConstAssertions from "./rules/asConstAssertions.ts";
+import assignmentOperatorShorthands from "./rules/assignmentOperatorShorthands.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
+import asyncUnnecessaryPromiseWrappers from "./rules/asyncUnnecessaryPromiseWrappers.ts";
+import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
@@ -27,6 +36,7 @@ import functionNewCalls from "./rules/functionNewCalls.ts";
 import generatorFunctionYields from "./rules/generatorFunctionYields.ts";
 import globalAssignments from "./rules/globalAssignments.ts";
 import globalObjectCalls from "./rules/globalObjectCalls.ts";
+import multilineAmbiguities from "./rules/multilineAmbiguities.ts";
 import namespaceDeclarations from "./rules/namespaceDeclarations.ts";
 import negativeZeroComparisons from "./rules/negativeZeroComparisons.ts";
 import newExpressions from "./rules/newExpressions.ts";
@@ -65,9 +75,18 @@ export const ts = createPlugin({
 	},
 	name: "TypeScript",
 	rules: [
+		anyArguments,
 		anyAssignments,
 		anyReturns,
+		argumentsRule,
+		arrayCallbackReturns,
+		arrayMapIdentities,
+		arrayMutableReverses,
+		asConstAssertions,
+		assignmentOperatorShorthands,
 		asyncPromiseExecutors,
+		asyncUnnecessaryPromiseWrappers,
+		builtinConstructorNews,
 		caseDeclarations,
 		caseDuplicates,
 		chainedAssignments,
@@ -92,6 +111,7 @@ export const ts = createPlugin({
 		generatorFunctionYields,
 		globalAssignments,
 		globalObjectCalls,
+		multilineAmbiguities,
 		namespaceDeclarations,
 		negativeZeroComparisons,
 		newExpressions,

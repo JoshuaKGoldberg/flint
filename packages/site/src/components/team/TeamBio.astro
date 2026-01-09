@@ -3,8 +3,8 @@ import { Icon } from "@astrojs/starlight/components";
 import type { StarlightIcon } from "@astrojs/starlight/types";
 
 import InlineMarkdown from "../InlineMarkdown.astro";
-import www from "./www.svg";
-import { Image } from "astro:assets";
+
+export type TeamBioWidth = "half" | "wide";
 
 export interface Props {
 	description: string;
@@ -12,6 +12,7 @@ export interface Props {
 	links?: [StarlightIcon, string][];
 	name: string;
 	username: string;
+	width: TeamBioWidth;
 }
 
 const {
@@ -20,10 +21,11 @@ const {
 	links = [],
 	username,
 	name = username,
+	width,
 } = Astro.props;
 ---
 
-<li class="team-bio">
+<li class:list={["team-bio", width]}>
 	<div class="team-bio-card">
 		<div class="avatar-area">
 			<img alt="" class="avatar" src={`/team/${username}.webp`} />
@@ -68,6 +70,13 @@ const {
 		gap: 1.5rem;
 		list-style: none;
 		margin-top: 0;
+	}
+
+	.team-bio.half {
+		max-width: 50%;
+	}
+
+	.team-bio.wide {
 		width: 100%;
 	}
 

@@ -1,6 +1,8 @@
-import * as ts from "typescript";
+import { nullThrows } from "@flint.fyi/utils";
+import ts, { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
+import * as AST from "../types/ast.ts";
 import { isFunction } from "../utils/isFunction.ts";
 
 export default typescriptLanguage.createRule({
@@ -27,7 +29,7 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression: (node, { sourceFile, typeChecker }) => {
-					if (!ts.isPropertyAccessExpression(node.expression)) {
+					if (node.expression.kind !== SyntaxKind.PropertyAccessExpression) {
 						return;
 					}
 
@@ -40,11 +42,14 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const firstArgument = node.arguments[0];
+					const firstArgument = nullThrows(
+						node.arguments[0],
+						"First argument is expected to be present by prior length check",
+					);
 					if (
-						firstArgument.kind !== ts.SyntaxKind.NullKeyword &&
+						firstArgument.kind !== SyntaxKind.NullKeyword &&
 						!(
-							ts.isIdentifier(firstArgument) &&
+							firstArgument.kind === SyntaxKind.Identifier &&
 							firstArgument.text === "undefined"
 						)
 					) {
@@ -81,11 +86,14 @@ export default typescriptLanguage.createRule({
 
 function createApplyFixText(
 	functionExpression: string,
-	methodArguments: ts.Expression[],
+	methodArguments: AST.Expression[],
 	sourceFile: ts.SourceFile,
 ) {
 	if (methodArguments.length > 0) {
-		const argsArray = methodArguments[0];
+		const argsArray = nullThrows(
+			methodArguments[0],
+			"First argument is expected to be present by prior length check",
+		);
 		return `${functionExpression}(...${argsArray.getText(sourceFile)})`;
 	} else {
 		return `${functionExpression}()`;
@@ -94,7 +102,7 @@ function createApplyFixText(
 
 function createCallFixText(
 	functionExpression: string,
-	methodArguments: ts.Expression[],
+	methodArguments: AST.Expression[],
 	sourceFile: ts.SourceFile,
 ) {
 	const argsText = methodArguments
