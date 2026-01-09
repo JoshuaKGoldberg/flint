@@ -1,4 +1,4 @@
-import type { FileReport } from "@flint.fyi/core";
+import { type FileReport, formatReportPrimary } from "@flint.fyi/core";
 import { nullThrows } from "@flint.fyi/utils";
 import chalk from "chalk";
 
@@ -15,19 +15,6 @@ export async function* createDetailedReport(
 	const urlFriendly = `flint.fyi/rules/${report.about.id}`;
 	const url = `https://${urlFriendly}`;
 
-	const data = report.data;
-	if (data) {
-		report.message.primary = report.message.primary.replace(
-			/\{\{\s*(\w+)\s*\}\}/g,
-			(match, key: string) => {
-				if (key in data) {
-					return String(data[key]);
-				}
-				return match;
-			},
-		);
-	}
-
 	yield indenter;
 	yield wrapIfNeeded(
 		chalk.hex(ColorCodes.primaryMessage),
@@ -38,7 +25,7 @@ export async function* createDetailedReport(
 				.bold(`\u001b]8;;${url}\u0007${report.about.id}\u001b]8;;\u0007`),
 			chalk.hex(ColorCodes.ruleBracket)("]"),
 			" ",
-			report.message.primary,
+			formatReportPrimary(report),
 		].join(""),
 		width,
 	);
