@@ -127,6 +127,7 @@ const obj = {
 };
 `,
 		},
+		// Async generators yielding sync values should be flagged
 		{
 			code: `
 async function* asyncGenNoAwait() {
@@ -146,18 +147,17 @@ Async functions should contain at least one await expression.
 		{
 			code: `
 const asyncGenExpr = async function* () {
-    yield 1;
+    yield "a";
 };
 `,
 			snapshot: `
 const asyncGenExpr = async function* () {
                      ~~~~~
                      Async functions should contain at least one await expression.
-    yield 1;
+    yield "a";
 };
 `,
 		},
-		// Async generator method without await
 		{
 			code: `
 class MyClass {
@@ -263,7 +263,6 @@ async function awaitInTryCatch() {
     }
 }
 `,
-		// Empty async functions should be exempt
 		`async function emptyAsync() {}`,
 		`const emptyAsyncArrow = async () => {};`,
 		`
@@ -271,7 +270,6 @@ class MyClass {
     async emptyMethod() {}
 }
 `,
-		// await using declarations count as await usage
 		`
 async function awaitUsing() {
     await using resource = getResource();
@@ -283,13 +281,11 @@ async function awaitUsingMultiple() {
     await using b = getResourceB();
 }
 `,
-		// Async generators with await
 		`
 async function* asyncGenWithAwait() {
     yield await Promise.resolve(1);
 }
 `,
-		// Async generators with for await...of
 		`
 async function* asyncGenForAwait() {
     for await (const value of asyncIterable) {
@@ -297,7 +293,19 @@ async function* asyncGenForAwait() {
     }
 }
 `,
-		// Functions returning thenable types are valid (type-checked)
+		// Async generators yielding thenable values are valid
+		`
+async function* asyncGenYieldsPromise() {
+    yield Promise.resolve(1);
+    yield Promise.resolve(2);
+}
+`,
+		`
+async function* asyncGenYieldsStar() {
+    yield* someAsyncIterable;
+}
+declare const someAsyncIterable: AsyncIterable<number>;
+`,
 		`
 async function returnsPromise(): Promise<number> {
     return Promise.resolve(42);

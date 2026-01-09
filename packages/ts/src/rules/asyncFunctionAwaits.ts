@@ -60,7 +60,8 @@ export default typescriptLanguage.createRule({
 			if (
 				!asyncModifier ||
 				bodyContainsAwait(node.body) ||
-				returnsThenable(node, typeChecker)
+				returnsThenable(node, typeChecker) ||
+				isAsyncGeneratorWithThenableYield(node, typeChecker)
 			) {
 				return;
 			}
@@ -79,7 +80,7 @@ type FunctionLikeNode =
 	| AST.FunctionExpression
 	| AST.MethodDeclaration;
 
-function blockReturnsThenable(block: AST.Block, typeChecker: Checker): boolean {
+function blockReturnsThenable(block: AST.Block, typeChecker: Checker) {
 	function checkForThenable(node: ts.Node): boolean | undefined {
 		if (ts.isReturnStatement(node) && node.expression) {
 			const type = typeChecker.getTypeAtLocation(node.expression);
@@ -123,6 +124,62 @@ function bodyContainsAwait(body: AST.Block | AST.Expression) {
 	}
 
 	return checkForAwait(body);
+}
+
+function isAsyncGeneratorWithThenableYield(
+	node: FunctionLikeNode,
+	typeChecker: Checker,
+) {
+	if (!node.asteriskToken || !node.body || !ts.isBlock(node.body)) {
+		return false;
+	}
+
+	function checkForThenableYield(child: ts.Node): boolean | undefined {
+		if (ts.isYieldExpression(child)) {
+			if (child.asteriskToken && child.expression) {
+				// yield* - check if delegating to an AsyncIterable
+				const type = typeChecker.getTypeAtLocation(child.expression);
+				if (isAsyncIterable(type, typeChecker)) {
+					return true;
+				}
+			} else if (child.expression) {
+				// yield value - check if the value is thenable
+				const type = typeChecker.getTypeAtLocation(child.expression);
+				if (tsutils.isThenableType(typeChecker, child.expression, type)) {
+					return true;
+				}
+			}
+		}
+
+		return (
+			!tsutils.isFunctionScopeBoundary(child) &&
+			ts.forEachChild(child, checkForThenableYield)
+		);
+	}
+
+	return checkForThenableYield(node.body);
+}
+
+function isAsyncIterable(type: ts.Type, typeChecker: Checker): boolean {
+	for (const part of tsutils.typeConstituents(type)) {
+		const symbol = part.getSymbol();
+		if (
+			symbol?.getName() === "AsyncIterable" ||
+			symbol?.getName() === "AsyncIterableIterator" ||
+			symbol?.getName() === "AsyncGenerator"
+		) {
+			return true;
+		}
+		// Check if it has Symbol.asyncIterator
+		const asyncIteratorSymbol = typeChecker.getPropertyOfType(
+			part,
+			"__@asyncIterator@" as string,
+		);
+		if (asyncIteratorSymbol) {
+			return true;
+		}
+	}
+	return false;
 }
 
 function returnsThenable(
