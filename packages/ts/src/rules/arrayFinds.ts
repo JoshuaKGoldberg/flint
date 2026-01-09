@@ -1,5 +1,7 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import type { AST } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
@@ -24,44 +26,29 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				ElementAccessExpression: (node, { sourceFile, typeChecker }) => {
-					if (!isZeroIndexAccess(node)) {
+					if (
+						!ts.isNumericLiteral(node.argumentExpression) ||
+						node.argumentExpression.text !== "0" ||
+						!isFilterCall(node.expression) ||
+						!isArrayType(node.expression.expression, typeChecker) ||
+						node.expression.arguments.length === 0
+					) {
 						return;
 					}
 
-					const filterCall = getFilterCall(node.expression);
-					if (!filterCall) {
-						return;
-					}
-
-					if (!isArrayType(filterCall.expression, typeChecker)) {
-						return;
-					}
-
-					const filterArgs = filterCall.arguments;
-					if (filterArgs.length === 0) {
-						return;
-					}
-
-					const filterArgsText = filterArgs
+					const arrayText = node.expression.expression.getText(sourceFile);
+					const filterArgumentsText = node.expression.arguments
 						.map((arg) => arg.getText(sourceFile))
 						.join(", ");
-					const arrayText = (
-						filterCall.expression as ts.PropertyAccessExpression
-					).expression.getText(sourceFile);
 
 					context.report({
 						fix: {
-							range: {
-								begin: node.getStart(sourceFile),
-								end: node.getEnd(),
-							},
-							text: `${arrayText}.find(${filterArgsText})`,
+							range: getTSNodeRange(node, sourceFile),
+							text: `${arrayText}.find(${filterArgumentsText})`,
 						},
 						message: "preferFind",
 						range: {
-							begin: (
-								filterCall.expression as ts.PropertyAccessExpression
-							).name.getStart(sourceFile),
+							begin: node.expression.expression.name.getStart(sourceFile),
 							end: node.getEnd(),
 						},
 					});
@@ -71,34 +58,19 @@ export default typescriptLanguage.createRule({
 	},
 });
 
-function getFilterCall(node: ts.Node): ts.CallExpression | undefined {
-	if (!ts.isCallExpression(node)) {
-		return undefined;
-	}
-
-	if (!ts.isPropertyAccessExpression(node.expression)) {
-		return undefined;
-	}
-
-	if (node.expression.name.text !== "filter") {
-		return undefined;
-	}
-
-	return node;
-}
-
-function isArrayType(node: ts.Node, typeChecker: ts.TypeChecker) {
-	if (!ts.isPropertyAccessExpression(node)) {
-		return false;
-	}
-
-	const type = typeChecker.getTypeAtLocation(node.expression);
-	return typeChecker.isArrayType(type);
-}
-
-function isZeroIndexAccess(node: ts.ElementAccessExpression) {
+function isArrayType(node: AST.AnyNode, typeChecker: ts.TypeChecker) {
 	return (
-		ts.isNumericLiteral(node.argumentExpression) &&
-		node.argumentExpression.text === "0"
+		ts.isPropertyAccessExpression(node) &&
+		typeChecker.isArrayType(typeChecker.getTypeAtLocation(node.expression))
+	);
+}
+
+function isFilterCall(
+	node: AST.AnyNode,
+): node is AST.CallExpression & { expression: AST.PropertyAccessExpression } {
+	return (
+		ts.isCallExpression(node) &&
+		ts.isPropertyAccessExpression(node.expression) &&
+		node.expression.name.text === "filter"
 	);
 }
