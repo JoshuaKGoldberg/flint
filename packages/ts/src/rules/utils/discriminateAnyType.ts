@@ -1,5 +1,8 @@
+import { nullThrows } from "@flint.fyi/utils";
 import * as tsutils from "ts-api-utils";
-import * as ts from "typescript";
+import ts from "typescript";
+
+import type { Checker } from "../../types/checker.ts";
 
 export const AnyType = {
 	Any: "Any",
@@ -15,7 +18,7 @@ export type AnyType = (typeof AnyType)[keyof typeof AnyType];
  */
 export function discriminateAnyType(
 	type: ts.Type,
-	checker: ts.TypeChecker,
+	checker: Checker,
 	program: ts.Program,
 	tsNode: ts.Node,
 ): AnyType {
@@ -24,7 +27,7 @@ export function discriminateAnyType(
 
 function discriminateAnyTypeWorker(
 	type: ts.Type,
-	checker: ts.TypeChecker,
+	checker: Checker,
 	program: ts.Program,
 	tsNode: ts.Node,
 	visited: Set<ts.Type>,
@@ -39,7 +42,10 @@ function discriminateAnyTypeWorker(
 	if (
 		checker.isArrayType(type) &&
 		tsutils.isTypeFlagSet(
-			checker.getTypeArguments(type as ts.TypeReference)[0],
+			nullThrows(
+				checker.getTypeArguments(type)[0],
+				"Array type should have at least one type argument",
+			),
 			ts.TypeFlags.Any,
 		)
 	) {
