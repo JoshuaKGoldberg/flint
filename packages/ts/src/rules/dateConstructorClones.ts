@@ -5,10 +5,14 @@ import * as AST from "../types/ast.ts";
 import type { Checker } from "../types/checker.ts";
 import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.ts";
 
+function isDateType(node: AST.Expression, typeChecker: Checker) {
+	return typeChecker.getTypeAtLocation(node).getSymbol()?.getName() === "Date";
+}
+
 export default typescriptLanguage.createRule({
 	about: {
 		description:
-			"Prefer passing Date directly to the constructor when cloning.",
+			"Prefer passing a `Date` directly to the `Date` constructor when cloning, rather than calling `getTime()`.",
 		id: "dateConstructorClones",
 		preset: "logical",
 	},
@@ -23,56 +27,28 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function isDateType(node: AST.Expression, typeChecker: Checker) {
-			const objectType = typeChecker.getTypeAtLocation(node);
-			const symbol = objectType.getSymbol();
-			return symbol !== undefined && symbol.getName() === "Date";
-		}
-
 		return {
 			visitors: {
 				NewExpression: (node, { sourceFile, typeChecker }) => {
-					if (node.expression.kind !== SyntaxKind.Identifier) {
-						return;
-					}
-
-					if (node.expression.text !== "Date") {
-						return;
-					}
-
-					if (node.arguments?.length !== 1) {
-						return;
-					}
-
 					if (
+						node.expression.kind !== SyntaxKind.Identifier ||
+						node.expression.text !== "Date" ||
+						node.arguments?.length !== 1 ||
 						!isGlobalDeclarationOfName(node.expression, "Date", typeChecker)
 					) {
 						return;
 					}
 
-					const argument = node.arguments[0];
-					if (!argument || argument.kind !== SyntaxKind.CallExpression) {
-						return;
-					}
-
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const argument = node.arguments[0]!;
 					if (
-						argument.expression.kind !== SyntaxKind.PropertyAccessExpression
-					) {
-						return;
-					}
-
-					if (
+						argument.kind !== SyntaxKind.CallExpression ||
+						argument.expression.kind !== SyntaxKind.PropertyAccessExpression ||
 						argument.expression.name.kind !== SyntaxKind.Identifier ||
-						argument.expression.name.text !== "getTime"
+						argument.expression.name.text !== "getTime" ||
+						argument.arguments.length !== 0 ||
+						!isDateType(argument.expression.expression, typeChecker)
 					) {
-						return;
-					}
-
-					if (argument.arguments.length !== 0) {
-						return;
-					}
-
-					if (!isDateType(argument.expression.expression, typeChecker)) {
 						return;
 					}
 

@@ -1,5 +1,5 @@
 ---
-description: "Prefer passing Date directly to the constructor when cloning."
+description: "Prefer passing a `Date` directly to the `Date` constructor when cloning, rather than calling `getTime()`."
 title: "dateConstructorClones"
 topic: "rules"
 ---
@@ -55,7 +55,7 @@ This rule is not configurable.
 
 ## When Not To Use It
 
-If your codebase needs to support pre-ES2015 environments where `new Date(date)` behavior was unreliable, you may need to disable this rule.
+If your codebase needs to support pre-ES2015 environments where `new Date(date)` behavior was unreliable, or if you have manually changed global aspects of `Date` such as the `.getTime()` method, you may need to disable this rule.
 However, most modern codebases target ES2015 or later and can use the direct approach.
 
 ## Further Reading
