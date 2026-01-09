@@ -1,6 +1,10 @@
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.ts";
+import type { AST } from "../index.ts";
+import {
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "../language.ts";
 import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.ts";
 
 const requiresNew = new Set([
@@ -51,7 +55,7 @@ export default typescriptLanguage.createRule({
 		preset: "stylistic",
 	},
 	messages: {
-		disallowNew: {
+		disallowedNew: {
 			primary: "Use {{ name }}() without new to coerce values to primitives.",
 			secondary: [
 				"Using `new` with `{{ name }}` creates an object wrapper around the primitive value.",
@@ -59,7 +63,7 @@ export default typescriptLanguage.createRule({
 			],
 			suggestions: ["Remove `new` to use {{ name }} as a coercion function."],
 		},
-		requireNew: {
+		missingNew: {
 			primary: "Use new {{ name }}() to create instances.",
 			secondary: [
 				"Built-in constructors like `{{ name }}` should be called with `new` for consistency.",
@@ -69,53 +73,42 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
+		function checkNode(
+			node: AST.CallExpression | AST.NewExpression,
+			namesToReport: Set<string>,
+			message: "disallowedNew" | "missingNew",
+			{ sourceFile, typeChecker }: TypeScriptFileServices,
+		) {
+			if (!ts.isIdentifier(node.expression)) {
+				return;
+			}
+
+			const name = node.expression.text;
+			if (!namesToReport.has(name)) {
+				return;
+			}
+
+			if (!isGlobalDeclarationOfName(node.expression, name, typeChecker)) {
+				return;
+			}
+
+			context.report({
+				data: { name },
+				message,
+				range: {
+					begin: node.getStart(sourceFile),
+					end: node.expression.getEnd(),
+				},
+			});
+		}
+
 		return {
 			visitors: {
-				CallExpression: (node, { sourceFile, typeChecker }) => {
-					if (!ts.isIdentifier(node.expression)) {
-						return;
-					}
-
-					const name = node.expression.text;
-					if (!requiresNew.has(name)) {
-						return;
-					}
-
-					if (!isGlobalDeclarationOfName(node.expression, name, typeChecker)) {
-						return;
-					}
-
-					context.report({
-						data: { name },
-						message: "requireNew",
-						range: {
-							begin: node.expression.getStart(sourceFile),
-							end: node.expression.getEnd(),
-						},
-					});
+				CallExpression: (node, services) => {
+					checkNode(node, requiresNew, "missingNew", services);
 				},
-				NewExpression: (node, { sourceFile, typeChecker }) => {
-					if (!ts.isIdentifier(node.expression)) {
-						return;
-					}
-
-					const name = node.expression.text;
-					if (!disallowsNew.has(name)) {
-						return;
-					}
-
-					if (!isGlobalDeclarationOfName(node.expression, name, typeChecker)) {
-						return;
-					}
-
-					context.report({
-						data: { name },
-						message: "disallowNew",
-						range: {
-							begin: node.getStart(sourceFile),
-							end: node.expression.getEnd(),
-						},
-					});
+				NewExpression: (node, services) => {
+					checkNode(node, disallowsNew, "disallowedNew", services);
 				},
 			},
 		};
