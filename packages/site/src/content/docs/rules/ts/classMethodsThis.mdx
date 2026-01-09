@@ -1,0 +1,92 @@
+---
+description: "Enforce that class methods utilize `this`."
+title: "classMethodsThis"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="classMethodsThis" />
+
+If a class method does not use `this`, it can often be made into a static function.
+This makes the code's intent clearer and avoids unnecessarily binding the method to class instances.
+
+Methods that don't use `this` are sometimes signs of code that should be refactored into a standalone utility function or a static method.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class Calculator {
+	add(a: number, b: number) {
+		return a + b;
+	}
+}
+```
+
+```ts
+class Logger {
+	format(message: string) {
+		return `[LOG] ${message}`;
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class Calculator {
+	static add(a: number, b: number) {
+		return a + b;
+	}
+}
+```
+
+```ts
+class Counter {
+	value = 0;
+	increment() {
+		this.value++;
+	}
+}
+```
+
+```ts
+class Base {
+	method() {
+		return 1;
+	}
+}
+
+class Derived extends Base {
+	override method() {
+		return 2;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have methods that intentionally don't use `this` for API consistency, framework requirements, or to match interface definitions, you may want to disable this rule.
+Some frameworks require instance methods even when they don't use `this`.
+
+## Further Reading
+
+- [MDN: static](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static)
+- [MDN: Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="classMethodsThis" />
