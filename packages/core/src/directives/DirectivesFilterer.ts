@@ -45,7 +45,7 @@ export class DirectivesFilterer {
 			const fileMatched = selectionsForFile.some(({ directive, matcher }) => {
 				const matches = selectionMatchesReport(matcher, report);
 				if (matches) {
-					matchedFileDirectives.add(directive);
+					matchedDirectives.add(directive);
 				}
 				return matches;
 			});
@@ -59,10 +59,8 @@ export class DirectivesFilterer {
 			if (rangeMatched) {
 				for (const directive of this.#directivesForRanges) {
 					const directiveRange = computeDirectiveRanges([directive]);
-					if (
-						selectionMatchesDirectiveRanges(directiveRange, report)
-					) {
-						matchedRangeDirectives.add(directive);
+					if (selectionMatchesDirectiveRanges(directiveRange, report)) {
+						matchedDirectives.add(directive);
 					}
 				}
 			}
@@ -77,7 +75,7 @@ export class DirectivesFilterer {
 
 		return {
 			reports: filteredReports,
-			unusedDirectives: [...unusedFileDirectives, ...unusedRangeDirectives],
+			unusedDirectives,
 		};
 	}
 }
