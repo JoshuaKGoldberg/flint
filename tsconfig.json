@@ -25,7 +25,6 @@
 		{ "path": "./packages/plugin-next" },
 		{ "path": "./packages/plugin-nuxt" },
 		{ "path": "./packages/plugin-node" },
-		{ "path": "./packages/plugin-package-json" },
 		{ "path": "./packages/plugin-performance" },
 		{ "path": "./packages/plugin-react" },
 		{ "path": "./packages/plugin-solid" },
