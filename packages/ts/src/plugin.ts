@@ -1,21 +1,28 @@
 import { createPlugin } from "@flint.fyi/core";
 
 import anyArguments from "./rules/anyArguments.ts";
+import anyAssignments from "./rules/anyAssignments.ts";
 import anyReturns from "./rules/anyReturns.ts";
 import argumentsRule from "./rules/arguments.ts";
 import arrayCallbackReturns from "./rules/arrayCallbackReturns.ts";
+import arrayConstructors from "./rules/arrayConstructors.ts";
+import arrayExistenceChecksConsistency from "./rules/arrayExistenceChecksConsistency.ts";
 import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
 import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
+import arrayMutableSorts from "./rules/arrayMutableSorts.ts";
+import arrayUnnecessaryLengthChecks from "./rules/arrayUnnecessaryLengthChecks.ts";
 import asConstAssertions from "./rules/asConstAssertions.ts";
 import assignmentOperatorShorthands from "./rules/assignmentOperatorShorthands.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
 import asyncUnnecessaryPromiseWrappers from "./rules/asyncUnnecessaryPromiseWrappers.ts";
+import builtinCoercions from "./rules/builtinCoercions.ts";
 import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
 import classAssignments from "./rules/classAssignments.ts";
 import classFieldDeclarations from "./rules/classFieldDeclarations.ts";
+import combinedPushes from "./rules/combinedPushes.ts";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.ts";
 import constantAssignments from "./rules/constantAssignments.ts";
 import constructorReturns from "./rules/constructorReturns.ts";
@@ -76,21 +83,28 @@ export const ts = createPlugin({
 	name: "TypeScript",
 	rules: [
 		anyArguments,
+		anyAssignments,
 		anyReturns,
 		argumentsRule,
 		arrayCallbackReturns,
+		arrayConstructors,
+		arrayExistenceChecksConsistency,
 		arrayMapIdentities,
 		arrayMutableReverses,
+		arrayMutableSorts,
+		arrayUnnecessaryLengthChecks,
 		asConstAssertions,
 		assignmentOperatorShorthands,
 		asyncPromiseExecutors,
 		asyncUnnecessaryPromiseWrappers,
+		builtinCoercions,
 		builtinConstructorNews,
 		caseDeclarations,
 		caseDuplicates,
 		chainedAssignments,
 		classAssignments,
 		classFieldDeclarations,
+		combinedPushes,
 		consecutiveNonNullAssertions,
 		constantAssignments,
 		constructorReturns,
