@@ -1,0 +1,78 @@
+---
+description: "Reports consecutive array.push() calls that could be combined into a single call."
+title: "combinedPushes"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="combinedPushes" />
+
+Multiple consecutive `.push()` calls on the same array can be combined into a single call with multiple arguments.
+This makes the code more concise and slightly more efficient.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const arr = [];
+arr.push(1);
+arr.push(2);
+arr.push(3);
+```
+
+```ts
+const items = [];
+items.push("a");
+items.push("b");
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const arr = [];
+arr.push(1, 2, 3);
+```
+
+```ts
+const items = [];
+items.push("a", "b");
+```
+
+```ts
+const arr = [];
+arr.push(1);
+console.log("something");
+arr.push(2);
+```
+
+```ts
+const arr1 = [];
+const arr2 = [];
+arr1.push(1);
+arr2.push(2);
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you prefer separate `.push()` calls for readability or debugging purposes, you may want to disable this rule.
+
+## Further Reading
+
+- [MDN: Array.prototype.push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="combinedPushes" />

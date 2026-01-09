@@ -1,0 +1,89 @@
+---
+description: "Reports duplicate class member names that will be overwritten."
+title: "classMemberDuplicates"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="classMemberDuplicates" />
+
+Duplicate class member names cause the first definition to be silently overwritten by the second.
+This is almost always a mistake and can lead to hard-to-debug issues.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class Foo {
+	bar() {
+		return 1;
+	}
+	bar() {
+		return 2;
+	}
+}
+
+class Counter {
+	count = 0;
+	count = 1;
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class Foo {
+	bar() {
+		return 1;
+	}
+	baz() {
+		return 2;
+	}
+}
+
+class Counter {
+	count = 0;
+}
+
+// Static and instance members with the same name are allowed
+class Example {
+	bar() {}
+	static bar() {}
+}
+
+// Getter and setter pairs with the same name are allowed
+class Property {
+	get value() {
+		return this._value;
+	}
+	set value(v: number) {
+		this._value = v;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you have rare cases where duplicate class members are intentional, you can use [Flint disable comments](/directives) for those specific situations instead of completely disabling this rule.
+
+## Further Reading
+
+- [MDN: Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+- [MDN: static](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="classMemberDuplicates" />
