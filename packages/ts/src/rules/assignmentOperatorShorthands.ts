@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
 import { hasSameTokens } from "../utils/hasSameTokens.ts";
 
@@ -10,43 +11,25 @@ export default typescriptLanguage.createRule({
 		preset: "stylistic",
 	},
 	messages: {
-		preferAndShorthand: {
-			primary: "Prefer the logical assignment operator shorthand `&&=`.",
+		preferShorthand: {
+			primary:
+				"Prefer the logical assignment operator shorthand `{{ operator }}`.",
 			secondary: [
 				"Logical assignment operators are more concise and express the intent more clearly.",
 				"They were introduced in ES2021 and are supported in all modern environments.",
 			],
-			suggestions: ["Use the shorthand operator `&&=`."],
-		},
-		preferNullishShorthand: {
-			primary: "Prefer the logical assignment operator shorthand `??=`.",
-			secondary: [
-				"Logical assignment operators are more concise and express the intent more clearly.",
-				"They were introduced in ES2021 and are supported in all modern environments.",
-			],
-			suggestions: ["Use the shorthand operator `??=`."],
-		},
-		preferOrShorthand: {
-			primary: "Prefer the logical assignment operator shorthand `||=`.",
-			secondary: [
-				"Logical assignment operators are more concise and express the intent more clearly.",
-				"They were introduced in ES2021 and are supported in all modern environments.",
-			],
-			suggestions: ["Use the shorthand operator `||=`."],
+			suggestions: ["Use the shorthand operator `{{ operator }}`."],
 		},
 	},
 	setup(context) {
-		function getOperatorInfo(kind: ts.SyntaxKind) {
+		function getShorthand(kind: ts.SyntaxKind) {
 			switch (kind) {
 				case ts.SyntaxKind.AmpersandAmpersandToken:
-					return { message: "preferAndShorthand", shorthand: "&&=" } as const;
+					return "&&=";
 				case ts.SyntaxKind.BarBarToken:
-					return { message: "preferOrShorthand", shorthand: "||=" } as const;
+					return "||=";
 				case ts.SyntaxKind.QuestionQuestionToken:
-					return {
-						message: "preferNullishShorthand",
-						shorthand: "??=",
-					} as const;
+					return "??=";
 				default:
 					return undefined;
 			}
@@ -55,16 +38,15 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				BinaryExpression: (node, { sourceFile }) => {
-					if (node.operatorToken.kind !== ts.SyntaxKind.EqualsToken) {
+					if (
+						node.operatorToken.kind !== ts.SyntaxKind.EqualsToken ||
+						!ts.isBinaryExpression(node.right)
+					) {
 						return;
 					}
 
-					if (!ts.isBinaryExpression(node.right)) {
-						return;
-					}
-
-					const operatorInfo = getOperatorInfo(node.right.operatorToken.kind);
-					if (!operatorInfo) {
+					const shorthand = getShorthand(node.right.operatorToken.kind);
+					if (!shorthand) {
 						return;
 					}
 
@@ -72,21 +54,19 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const range = {
-						begin: node.getStart(sourceFile),
-						end: node.getEnd(),
-					};
+					const range = getTSNodeRange(node, sourceFile);
 
 					const leftText = node.left.getText(sourceFile);
 					const rightText = node.right.right.getText(sourceFile);
-					const fixedText = `${leftText} ${operatorInfo.shorthand} ${rightText}`;
+					const fixedText = `${leftText} ${shorthand} ${rightText}`;
 
 					context.report({
+						data: { operator: shorthand },
 						fix: {
 							range,
 							text: fixedText,
 						},
-						message: operatorInfo.message,
+						message: "preferShorthand",
 						range,
 					});
 				},
