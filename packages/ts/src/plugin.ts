@@ -3,9 +3,12 @@ import { createPlugin } from "@flint.fyi/core";
 import anyArguments from "./rules/anyArguments.ts";
 import anyReturns from "./rules/anyReturns.ts";
 import argumentsRule from "./rules/arguments.ts";
+import arrayCallbackReturns from "./rules/arrayCallbackReturns.ts";
 import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
 import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
 import arrayMutableSorts from "./rules/arrayMutableSorts.ts";
+import asConstAssertions from "./rules/asConstAssertions.ts";
+import assignmentOperatorShorthands from "./rules/assignmentOperatorShorthands.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
 import asyncUnnecessaryPromiseWrappers from "./rules/asyncUnnecessaryPromiseWrappers.ts";
 import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
@@ -75,9 +78,12 @@ export const ts = createPlugin({
 		anyArguments,
 		anyReturns,
 		argumentsRule,
+		arrayCallbackReturns,
 		arrayMapIdentities,
 		arrayMutableReverses,
 		arrayMutableSorts,
+		asConstAssertions,
+		assignmentOperatorShorthands,
 		asyncPromiseExecutors,
 		asyncUnnecessaryPromiseWrappers,
 		builtinConstructorNews,
