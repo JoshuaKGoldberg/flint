@@ -25,11 +25,8 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression: (node, { sourceFile, typeChecker }) => {
-					if (!ts.isPropertyAccessExpression(node.expression)) {
-						return;
-					}
-
 					if (
+						!ts.isPropertyAccessExpression(node.expression) ||
 						!ts.isIdentifier(node.expression.expression) ||
 						node.expression.expression.text !== "console" ||
 						!isGlobalVariable(node.expression.expression, typeChecker)
