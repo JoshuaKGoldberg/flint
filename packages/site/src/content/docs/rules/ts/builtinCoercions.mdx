@@ -10,7 +10,7 @@ import RuleSummary from "~/components/RuleSummary.astro";
 
 <RuleSummary plugin="ts" rule="builtinCoercions" />
 
-JavaScript's built-in coercion functions `String`, `Number`, `BigInt`, `Boolean`, and `Symbol` can be passed directly where a function is expected.
+JavaScript's built-in coercion functions `Boolean`, `BigInt`, `Number`, `String`, and `Symbol` can be passed directly where a function is expected.
 Wrapping them in another function adds unnecessary indirection and reduces code clarity.
 
 This rule also detects identity functions used as callbacks to array filtering methods like `.filter()`, `.some()`, `.every()`, `.find()`, `.findIndex()`, `.findLast()`, and `.findLastIndex()`.
