@@ -1,5 +1,7 @@
 import type * as ts from "typescript";
 
+// test
+
 export function isTypeRecursive(
 	type: ts.Type,
 	predicate: (t: ts.Type) => boolean,
