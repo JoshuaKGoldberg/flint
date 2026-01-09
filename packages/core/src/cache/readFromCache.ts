@@ -122,6 +122,7 @@ export async function readFromCache(
 	for (const filePath of cached.keys()) {
 		if (!allFilePaths.has(filePath)) {
 			cached.delete(filePath);
+			log("Removing non-existent file from cache: %s", filePath);
 		}
 	}
 
