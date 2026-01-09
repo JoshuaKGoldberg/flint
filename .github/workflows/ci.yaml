@@ -47,7 +47,7 @@ jobs:
           path: |
             .pnpm-store
             node_modules/.vitest
-      - run: pnpm run build # ensures TS build output for correct test imports
+      - run: pnpm tsc -b
       # Run partial test pass on PRs (only changed files)
       - if: ${{ github.event_name == 'pull_request' }}
         name: Run affected tests
