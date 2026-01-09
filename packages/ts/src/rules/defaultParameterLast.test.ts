@@ -10,7 +10,7 @@ function greet(name = "World", greeting: string) {}
 			snapshot: `
 function greet(name = "World", greeting: string) {}
                                ~~~~~~~~~~~~~~~~
-                               Default parameters should be last.
+                               Default parameters should be last to allow omitting optional tail arguments.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ function example(a = 1, b: number, c = 2) {}
 			snapshot: `
 function example(a = 1, b: number, c = 2) {}
                         ~~~~~~~~~
-                        Default parameters should be last.
+                        Default parameters should be last to allow omitting optional tail arguments.
 `,
 		},
 		{
@@ -30,7 +30,7 @@ const fn = (x = 0, y: number) => x + y;
 			snapshot: `
 const fn = (x = 0, y: number) => x + y;
                    ~~~~~~~~~
-                   Default parameters should be last.
+                   Default parameters should be last to allow omitting optional tail arguments.
 `,
 		},
 		{
@@ -43,7 +43,7 @@ class Example {
 class Example {
     method(a = 1, b: number) {}
                   ~~~~~~~~~
-                  Default parameters should be last.
+                  Default parameters should be last to allow omitting optional tail arguments.
 }
 `,
 		},
@@ -57,7 +57,7 @@ class Example {
 class Example {
     constructor(a = 1, b: number) {}
                        ~~~~~~~~~
-                       Default parameters should be last.
+                       Default parameters should be last to allow omitting optional tail arguments.
 }
 `,
 		},
@@ -68,7 +68,7 @@ function example(a?: number, b: number) {}
 			snapshot: `
 function example(a?: number, b: number) {}
                              ~~~~~~~~~
-                             Default parameters should be last.
+                             Default parameters should be last to allow omitting optional tail arguments.
 `,
 		},
 	],

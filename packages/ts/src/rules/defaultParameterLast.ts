@@ -13,7 +13,8 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		defaultParameterLast: {
-			primary: "Default parameters should be last.",
+			primary:
+				"Default parameters should be last to allow omitting optional tail arguments.",
 			secondary: [
 				"Putting default parameters last allows function calls to omit optional tail arguments.",
 				"Non-default parameters after default ones must always be explicitly provided.",
@@ -25,9 +26,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkNode(
-			{
-				parameters,
-			}:
+			node:
 				| AST.ArrowFunction
 				| AST.ConstructorDeclaration
 				| AST.FunctionDeclaration
@@ -37,7 +36,7 @@ export default typescriptLanguage.createRule({
 		) {
 			let hasSeenDefaultParameter = false;
 
-			for (const parameter of parameters) {
+			for (const parameter of node.parameters) {
 				if (parameter.dotDotDotToken) {
 					continue;
 				}
