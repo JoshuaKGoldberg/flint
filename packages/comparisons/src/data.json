@@ -8528,6 +8528,7 @@
 			"name": "classMethodsThis",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		}
 	},
@@ -8896,7 +8897,8 @@
 		"flint": {
 			"name": "constructorSupers",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		}
 	},
 	{

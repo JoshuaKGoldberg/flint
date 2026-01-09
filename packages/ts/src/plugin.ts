@@ -17,9 +17,12 @@ import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
 import classAssignments from "./rules/classAssignments.ts";
+import classMethodsThis from "./rules/classMethodsThis.ts";
+import combinedPushes from "./rules/combinedPushes.ts";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.ts";
 import constantAssignments from "./rules/constantAssignments.ts";
 import constructorReturns from "./rules/constructorReturns.ts";
+import constructorSupers from "./rules/constructorSupers.ts";
 import debuggerStatements from "./rules/debuggerStatements.ts";
 import defaultCaseLast from "./rules/defaultCaseLast.ts";
 import duplicateArguments from "./rules/duplicateArguments.ts";
@@ -93,9 +96,11 @@ export const ts = createPlugin({
 		caseDuplicates,
 		chainedAssignments,
 		classAssignments,
+		classMethodsThis,
 		consecutiveNonNullAssertions,
 		constantAssignments,
 		constructorReturns,
+		constructorSupers,
 		debuggerStatements,
 		defaultCaseLast,
 		duplicateArguments,
