@@ -80,7 +80,7 @@ type FunctionLikeNode =
 	| AST.MethodDeclaration;
 
 function blockReturnsThenable(block: AST.Block, typeChecker: Checker): boolean {
-	function checkNode(node: ts.Node): boolean | undefined {
+	function checkForThenable(node: ts.Node): boolean | undefined {
 		if (ts.isReturnStatement(node) && node.expression) {
 			const type = typeChecker.getTypeAtLocation(node.expression);
 			if (tsutils.isThenableType(typeChecker, node.expression, type)) {
@@ -88,15 +88,13 @@ function blockReturnsThenable(block: AST.Block, typeChecker: Checker): boolean {
 			}
 		}
 
-		// Don't descend into nested functions
-		if (tsutils.isFunctionScopeBoundary(node)) {
-			return false;
-		}
-
-		return ts.forEachChild(node, checkNode);
+		return (
+			!tsutils.isFunctionScopeBoundary(node) &&
+			ts.forEachChild(node, checkForThenable)
+		);
 	}
 
-	return checkNode(block) ?? false;
+	return checkForThenable(block) ?? false;
 }
 
 function bodyContainsAwait(body: AST.Block | AST.Expression) {
@@ -118,11 +116,10 @@ function bodyContainsAwait(body: AST.Block | AST.Expression) {
 			}
 		}
 
-		if (tsutils.isFunctionScopeBoundary(node)) {
-			return false;
-		}
-
-		return ts.forEachChild(node, checkForAwait);
+		return (
+			!tsutils.isFunctionScopeBoundary(node) &&
+			ts.forEachChild(node, checkForAwait)
+		);
 	}
 
 	return checkForAwait(body);
@@ -141,9 +138,9 @@ function returnsThenable(
 	}
 
 	// For block bodies, check if any return statement returns a thenable
-	if (node.body && ts.isBlock(node.body)) {
-		return blockReturnsThenable(node.body, typeChecker);
-	}
-
-	return false;
+	return !!(
+		node.body &&
+		ts.isBlock(node.body) &&
+		blockReturnsThenable(node.body, typeChecker)
+	);
 }
