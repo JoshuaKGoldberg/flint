@@ -60,8 +60,7 @@ export class DirectivesFilterer {
 				for (const directive of this.#directivesForRanges) {
 					const directiveRange = computeDirectiveRanges([directive]);
 					if (
-						selectionMatchesDirectiveRanges(directiveRange, report) &&
-						!matchedRangeDirectives.has(directive)
+						selectionMatchesDirectiveRanges(directiveRange, report)
 					) {
 						matchedRangeDirectives.add(directive);
 					}
