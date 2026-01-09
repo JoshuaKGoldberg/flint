@@ -47,7 +47,6 @@ export async function* createDetailedReport(
 	);
 	yield `\n${indenter}\n`;
 
-	// Collect all suggestions (message suggestions + actionable suggestions)
 	const allSuggestions: string[] = [...report.message.suggestions];
 
 	// Group SuggestionForFile suggestions (e.g., word replacements) into a single suggestion
