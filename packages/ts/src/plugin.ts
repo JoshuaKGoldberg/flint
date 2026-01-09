@@ -22,6 +22,7 @@ import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
 import classAssignments from "./rules/classAssignments.ts";
+import classFieldDeclarations from "./rules/classFieldDeclarations.ts";
 import combinedPushes from "./rules/combinedPushes.ts";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.ts";
 import constantAssignments from "./rules/constantAssignments.ts";
@@ -104,6 +105,7 @@ export const ts = createPlugin({
 		caseDuplicates,
 		chainedAssignments,
 		classAssignments,
+		classFieldDeclarations,
 		combinedPushes,
 		consecutiveNonNullAssertions,
 		constantAssignments,
