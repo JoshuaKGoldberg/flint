@@ -1,17 +1,18 @@
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
+import type { AST } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
 
 function haveSameArrayExpression(
-	expr1: ts.Expression,
-	expr2: ts.Expression,
+	expr1: AST.Expression,
+	expr2: AST.Expression,
 	sourceFile: ts.SourceFile,
 ) {
 	return expr1.getText(sourceFile) === expr2.getText(sourceFile);
 }
 
-function isLengthNonZeroCheck(node: ts.BinaryExpression) {
+function isLengthNonZeroCheck(node: AST.BinaryExpression) {
 	const { left, operatorToken, right } = node;
 
 	if (
@@ -20,12 +21,12 @@ function isLengthNonZeroCheck(node: ts.BinaryExpression) {
 	) {
 		if (isLengthProperty(left) && isZero(right)) {
 			return {
-				arrayExpression: (left as ts.PropertyAccessExpression).expression,
+				arrayExpression: left.expression,
 			};
 		}
 		if (isZero(left) && isLengthProperty(right)) {
 			return {
-				arrayExpression: (right as ts.PropertyAccessExpression).expression,
+				arrayExpression: right.expression,
 			};
 		}
 	}
@@ -33,7 +34,7 @@ function isLengthNonZeroCheck(node: ts.BinaryExpression) {
 	if (operatorToken.kind === ts.SyntaxKind.GreaterThanToken) {
 		if (isLengthProperty(left) && isZero(right)) {
 			return {
-				arrayExpression: (left as ts.PropertyAccessExpression).expression,
+				arrayExpression: left.expression,
 			};
 		}
 	}
@@ -41,11 +42,13 @@ function isLengthNonZeroCheck(node: ts.BinaryExpression) {
 	return undefined;
 }
 
-function isLengthProperty(node: ts.Expression) {
+function isLengthProperty(
+	node: AST.Expression,
+): node is AST.PropertyAccessExpression {
 	return ts.isPropertyAccessExpression(node) && node.name.text === "length";
 }
 
-function isLengthZeroCheck(node: ts.BinaryExpression) {
+function isLengthZeroCheck(node: AST.BinaryExpression) {
 	const { left, operatorToken, right } = node;
 
 	if (
@@ -54,13 +57,13 @@ function isLengthZeroCheck(node: ts.BinaryExpression) {
 	) {
 		if (isLengthProperty(left) && isZero(right)) {
 			return {
-				arrayExpression: (left as ts.PropertyAccessExpression).expression,
+				arrayExpression: left.expression,
 				isZeroCheck: true,
 			};
 		}
 		if (isZero(left) && isLengthProperty(right)) {
 			return {
-				arrayExpression: (right as ts.PropertyAccessExpression).expression,
+				arrayExpression: right.expression,
 				isZeroCheck: true,
 			};
 		}
@@ -69,7 +72,7 @@ function isLengthZeroCheck(node: ts.BinaryExpression) {
 	return undefined;
 }
 
-function isSomeOrEveryCall(node: ts.Expression, methodName: "every" | "some") {
+function isSomeOrEveryCall(node: AST.Expression, methodName: "every" | "some") {
 	if (!ts.isCallExpression(node)) {
 		return undefined;
 	}
@@ -85,7 +88,7 @@ function isSomeOrEveryCall(node: ts.Expression, methodName: "every" | "some") {
 	return node.expression.expression;
 }
 
-function isZero(node: ts.Expression) {
+function isZero(node: AST.Expression) {
 	return ts.isNumericLiteral(node) && node.text === "0";
 }
 
@@ -140,6 +143,10 @@ export default typescriptLanguage.createRule({
 							)
 						) {
 							context.report({
+								fix: {
+									range: getTSNodeRange(node, sourceFile),
+									text: right.getText(sourceFile),
+								},
 								message: "unnecessaryLengthCheckSome",
 								range: getTSNodeRange(left, sourceFile),
 							});
@@ -168,6 +175,10 @@ export default typescriptLanguage.createRule({
 							)
 						) {
 							context.report({
+								fix: {
+									range: getTSNodeRange(node, sourceFile),
+									text: right.getText(sourceFile),
+								},
 								message: "unnecessaryLengthCheckEvery",
 								range: getTSNodeRange(left, sourceFile),
 							});

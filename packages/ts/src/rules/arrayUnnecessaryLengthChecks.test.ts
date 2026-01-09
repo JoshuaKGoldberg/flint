@@ -8,6 +8,10 @@ ruleTester.describe(rule, {
 declare const array: boolean[];
 array.length !== 0 && array.some(Boolean);
 `,
+			output: `
+declare const array: boolean[];
+array.some(Boolean);
+`,
 			snapshot: `
 declare const array: boolean[];
 array.length !== 0 && array.some(Boolean);
@@ -19,6 +23,10 @@ Unnecessary length check before \`.some()\`.
 			code: `
 declare const array: boolean[];
 array.length > 0 && array.some(Boolean);
+`,
+			output: `
+declare const array: boolean[];
+array.some(Boolean);
 `,
 			snapshot: `
 declare const array: boolean[];
@@ -32,6 +40,10 @@ Unnecessary length check before \`.some()\`.
 declare const array: boolean[];
 array.length === 0 || array.every(Boolean);
 `,
+			output: `
+declare const array: boolean[];
+array.every(Boolean);
+`,
 			snapshot: `
 declare const array: boolean[];
 array.length === 0 || array.every(Boolean);
@@ -44,6 +56,10 @@ Unnecessary length check before \`.every()\`.
 declare const array: boolean[];
 0 === array.length || array.every(Boolean);
 `,
+			output: `
+declare const array: boolean[];
+array.every(Boolean);
+`,
 			snapshot: `
 declare const array: boolean[];
 0 === array.length || array.every(Boolean);
@@ -55,6 +71,10 @@ Unnecessary length check before \`.every()\`.
 			code: `
 declare const array: number[];
 array.length !== 0 && array.some((value) => value > 0);
+`,
+			output: `
+declare const array: number[];
+array.some((value) => value > 0);
 `,
 			snapshot: `
 declare const array: number[];
