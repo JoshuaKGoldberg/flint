@@ -51,5 +51,10 @@ const timestamp = Number(new Date());
 		"const timestamp = new Date(2024, 0, 1).getTime();",
 		"const value = new Date().toISOString();",
 		"const value = String(new Date());",
+		`
+class Date { getTime: () => 0; }
+new Date().getTime();
+export {}
+		`,
 	],
 });
