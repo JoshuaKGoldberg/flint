@@ -29,7 +29,7 @@
 		"!lib/bin/**"
 	],
 	"scripts": {
-		"test": "vitest --typecheck"
+		"test": "vitest --typecheck --project flint"
 	},
 	"dependencies": {
 		"@flint.fyi/cli": "workspace:",

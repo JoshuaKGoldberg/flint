@@ -48,12 +48,12 @@ jobs:
             .pnpm-store
             node_modules/.vitest
       - run: pnpm run build # ensures TS build output for correct test imports
-      # Run partial test pass on PRs (only changed or dependent packages)
+      # Run partial test pass on PRs (only changed files)
       - name: Run affected tests
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          echo "🧩 Running 'test' script in changed or dependent packages..."
-          pnpm --filter "...[origin/main]" test
+          echo "🧩 Running tests for changed files..."
+          pnpm vitest --typecheck --changed "origin/main"
       # On main, run the full test suite w/ type checking
       - name: Run full test suite
         if: ${{ github.ref == 'refs/heads/main' }}
