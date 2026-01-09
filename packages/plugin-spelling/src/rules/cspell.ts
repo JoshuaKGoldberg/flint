@@ -21,7 +21,6 @@ export default textLanguage.createRule({
 	},
 	messages: {
 		issue: {
-			// TODO: implement {{ word }} interpolation: https://github.com/flint-fyi/flint/issues/1402
 			primary: 'Forbidden or unknown word: "{{ word }}".',
 			secondary: [
 				"The word '{{ word }}' is not in the project's dictionary (cspell.json).",
