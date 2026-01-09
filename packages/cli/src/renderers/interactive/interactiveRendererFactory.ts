@@ -1,3 +1,4 @@
+import { nullThrows } from "@flint.fyi/utils";
 import cliCursor from "cli-cursor";
 import readline from "node:readline";
 
@@ -101,7 +102,10 @@ export const interactiveRendererFactory: RendererFactory = {
 					return;
 				}
 
-				const [filePath, fileResults] = filesWithReportResults[getFile()];
+				const [filePath, fileResults] = nullThrows(
+					filesWithReportResults[getFile()],
+					"File is expected to be present",
+				);
 
 				console.log(
 					[
