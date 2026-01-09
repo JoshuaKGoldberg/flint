@@ -7045,7 +7045,8 @@
 		"flint": {
 			"name": "anyAssignments",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7225,7 +7226,8 @@
 		"flint": {
 			"name": "arrayConstructors",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7312,7 +7314,8 @@
 		"flint": {
 			"name": "arrayExistenceChecksConsistency",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7351,7 +7354,8 @@
 		"flint": {
 			"name": "arrayFinds",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -7753,7 +7757,8 @@
 		"flint": {
 			"name": "arrayUnnecessaryLengthChecks",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -8164,6 +8169,7 @@
 			"name": "builtinCoercions",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
@@ -8461,7 +8467,8 @@
 		"flint": {
 			"name": "classFieldDeclarations",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		}
 	},
 	{
@@ -8542,6 +8549,7 @@
 			"name": "combinedPushes",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"notes": "Just for Array#push(); the others would be their own rules."
