@@ -21,6 +21,30 @@ ruleTester.describe(rule, {
             `,
 				},
 				{
+					id: "replaceWithindirect",
+					updated: `
+                indirect
+            `,
+				},
+				{
+					id: "replaceWithincoherent",
+					updated: `
+                incoherent
+            `,
+				},
+				{
+					id: "replaceWithincrust",
+					updated: `
+                incrust
+            `,
+				},
+				{
+					id: "replaceWithinfract",
+					updated: `
+                infract
+            `,
+				},
+				{
 					files: {
 						"cspell.json": [
 							{
