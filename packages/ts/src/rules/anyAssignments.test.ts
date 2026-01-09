@@ -117,6 +117,154 @@ const value = anyValue;
       Unsafe assignment of a value of type \`any\`.
 `,
 		},
+		{
+			code: `
+const [x] = [1] as [any];
+`,
+			snapshot: `
+const [x] = [1] as [any];
+       ~
+       Unsafe array destructuring of a tuple element with type \`any\`.
+`,
+		},
+		{
+			code: `
+const [[[[x]]]] = [[[[1 as any]]]];
+`,
+			snapshot: `
+const [[[[x]]]] = [[[[1 as any]]]];
+          ~
+          Unsafe array destructuring of a tuple element with type \`any\`.
+`,
+		},
+		{
+			code: `
+const { x } = { x: 1 } as { x: any };
+`,
+			snapshot: `
+const { x } = { x: 1 } as { x: any };
+        ~
+        Unsafe object destructuring of a property with type \`any\`.
+`,
+		},
+		{
+			code: `
+const { x: y } = { x: 1 } as { x: any };
+`,
+			snapshot: `
+const { x: y } = { x: 1 } as { x: any };
+           ~
+           Unsafe object destructuring of a property with type \`any\`.
+`,
+		},
+		{
+			code: `
+const { x: { y } } = { x: { y: 1 } } as { x: { y: any } };
+`,
+			snapshot: `
+const { x: { y } } = { x: { y: 1 } } as { x: { y: any } };
+             ~
+             Unsafe object destructuring of a property with type \`any\`.
+`,
+		},
+		{
+			code: `
+const { x: [y] } = { x: { y: 1 } } as { x: [any] };
+`,
+			snapshot: `
+const { x: [y] } = { x: { y: 1 } } as { x: [any] };
+            ~
+            Unsafe array destructuring of a tuple element with type \`any\`.
+`,
+		},
+		{
+			code: `
+const [{ x }] = [{ x: 1 }] as [{ x: any }];
+`,
+			snapshot: `
+const [{ x }] = [{ x: 1 }] as [{ x: any }];
+         ~
+         Unsafe object destructuring of a property with type \`any\`.
+`,
+		},
+		{
+			code: `
+function foo(a = 1 as any) {}
+`,
+			snapshot: `
+function foo(a = 1 as any) {}
+             ~~~~~~~~~~~~
+             Unsafe assignment of a value of type \`any\`.
+`,
+		},
+		{
+			code: `
+function foo([x] = [1] as [any]) {}
+`,
+			snapshot: `
+function foo([x] = [1] as [any]) {}
+              ~
+              Unsafe array destructuring of a tuple element with type \`any\`.
+`,
+		},
+		{
+			code: `
+function foo({ x } = { x: 1 } as { x: any }) {}
+`,
+			snapshot: `
+function foo({ x } = { x: 1 } as { x: any }) {}
+               ~
+               Unsafe object destructuring of a property with type \`any\`.
+`,
+		},
+		{
+			code: `
+class Foo {
+  private a = 1 as any;
+}
+`,
+			snapshot: `
+class Foo {
+  private a = 1 as any;
+  ~~~~~~~~~~~~~~~~~~~~~
+  Unsafe assignment of a value of type \`any\`.
+}
+`,
+		},
+		{
+			code: `
+type Foo = { bar: number };
+const bar: any = 1;
+const foo: Foo = { bar };
+`,
+			snapshot: `
+type Foo = { bar: number };
+const bar: any = 1;
+const foo: Foo = { bar };
+                   ~~~
+                   Unsafe assignment of a value of type \`any\`.
+`,
+		},
+		{
+			code: `
+const [{ ['x']: x }] = [{ ['x']: 1 }] as [{ ['x']: any }];
+`,
+			snapshot: `
+const [{ ['x']: x }] = [{ ['x']: 1 }] as [{ ['x']: any }];
+                ~
+                Unsafe object destructuring of a property with type \`any\`.
+`,
+		},
+		{
+			code: `
+const [{ [\`x\`]: x }] = [{ [\`x\`]: 1 }] as [{ [\`x\`]: any }];
+`,
+			snapshot: `
+const [{ [\`x\`]: x }] = [{ [\`x\`]: 1 }] as [{ [\`x\`]: any }];
+                ~
+                Unsafe object destructuring of a property with type \`any\`.
+`,
+		},
 	],
 	valid: [
 		`const value = 1;`,
@@ -132,6 +280,24 @@ const value = anyValue;
 		`const value: Map<string, string> = new Map();`,
 		`const value = [1, 2, 3];`,
 		`const [first, second] = [1, 2];`,
+		`function foo(a = 1) {}`,
 		`function getValue(): any { return 1; } const value: any = getValue();`,
+		`const [x, ...y] = [1, 2, 3, 4, 5];`,
+		`const [x, ...y] = [1];`,
+		`const [{ ...x }] = [{ x: 1 }] as [{ x: any }];`,
+		`
+type T = [string, T[]];
+const test: T = ['string', []] as T;
+`,
+		`const x: unknown = 1 as any;`,
+		`const x: unknown[] = [] as any[];`,
+		`const x: Set<unknown> = new Set<any>();`,
+		`const x: Map<string, string> = new Map();`,
+		`
+type Foo = { bar: unknown };
+const bar: any = 1;
+const foo: Foo = { bar };
+`,
+		`const [{ [\`x\${1}\`]: x }] = [{ [\`x\`]: 1 }] as [{ [\`x\`]: any }];`,
 	],
 });
