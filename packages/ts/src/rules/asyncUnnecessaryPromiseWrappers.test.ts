@@ -10,7 +10,7 @@ const fn = async () => Promise.resolve("value");
 			snapshot: `
 const fn = async () => Promise.resolve("value");
                        ~~~~~~~~~~~~~~~~~~~~~~~~
-                       Return values in async functions are already wrapped in a Promise.
+                       Return values in async functions are already wrapped in a \`Promise\`.
 `,
 		},
 		{
@@ -20,7 +20,7 @@ const fn = async () => Promise.reject(new Error("error"));
 			snapshot: `
 const fn = async () => Promise.reject(new Error("error"));
                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                       Errors can be thrown directly instead of wrapping in Promise.reject().
+                       Errors can be thrown directly instead of wrapping in \`Promise.reject()\`.
 `,
 		},
 	],

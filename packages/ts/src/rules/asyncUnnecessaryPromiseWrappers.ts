@@ -6,27 +6,27 @@ import { typescriptLanguage } from "../language.ts";
 export default typescriptLanguage.createRule({
 	about: {
 		description:
-			"Reports unnecessary Promise.resolve() or Promise.reject() in async contexts.",
+			"Reports unnecessary `Promise.resolve()` or `Promise.reject()` in async contexts.",
 		id: "asyncUnnecessaryPromiseWrappers",
 		preset: "logical",
 	},
 	messages: {
 		unnecessaryReject: {
 			primary:
-				"Errors can be thrown directly instead of wrapping in Promise.reject().",
+				"Errors can be thrown directly instead of wrapping in `Promise.reject()`.",
 			secondary: [
 				"In async functions, thrown errors are automatically converted to rejected promises.",
-				"Using Promise.reject() is unnecessary and less idiomatic.",
+				"Using `Promise.reject()` is unnecessary and less idiomatic.",
 			],
 			suggestions: [
-				"Throw the error directly instead of using Promise.reject.",
+				"Throw the error directly instead of using `Promise.reject()`.",
 			],
 		},
 		unnecessaryResolve: {
 			primary:
-				"Return values in async functions are already wrapped in a Promise.",
+				"Return values in async functions are already wrapped in a `Promise`.",
 			secondary: [
-				"Wrapping a value in Promise.resolve() is unnecessary in async functions.",
+				"Wrapping a value in `Promise.resolve()` is unnecessary in async functions.",
 				"This adds extra code without changing the behavior.",
 			],
 			suggestions: ["Return the value directly instead of wrapping it."],
