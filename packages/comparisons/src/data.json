@@ -7045,8 +7045,7 @@
 		"flint": {
 			"name": "anyAssignments",
 			"plugin": "ts",
-			"preset": "logical",
-			"status": "implemented"
+			"preset": "logical"
 		},
 		"oxlint": [
 			{
