@@ -52,11 +52,11 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					if (node.arguments.length === 0) {
+					const callback = node.arguments[0];
+					if (!callback) {
 						return;
 					}
 
-					const callback = node.arguments[0];
 					const body = getCallbackBody(callback);
 					if (!body) {
 						return;
