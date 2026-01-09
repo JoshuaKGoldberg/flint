@@ -37,9 +37,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          fetch-depth: 0 # required so origin/main can be diffed
       - uses: ./.github/actions/prepare
-      - run: pnpm run build # https://github.com/vitest-dev/vitest/discussions/9353
-      - run: pnpm run test
+      - name: Cache dependencies and vitest cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .pnpm-store
+            node_modules/.vitest
+          key: cache-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+      - run: pnpm run build # ensures TS build output for correct test imports
+      # Run partial test pass on PRs (only changed or dependent packages)
+      - name: Run affected tests
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          echo "🧩 Running Vitest in changed or dependent packages..."
+          pnpm --filter "...[origin/main]" vitest run --reporter=dot
+      # On main, run the full test suite w/ type checking
+      - name: Run full test suite
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          echo "🧪 Running full Vitest suite on main..."
+          pnpm run test
 
 name: CI
 
