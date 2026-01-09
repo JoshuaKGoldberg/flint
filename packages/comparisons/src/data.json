@@ -8460,7 +8460,8 @@
 		"flint": {
 			"name": "classFieldDeclarations",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		}
 	},
 	{
