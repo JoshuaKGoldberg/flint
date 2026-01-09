@@ -79,5 +79,25 @@ const values = new Array("a", "b");
 		`const values = Array<string>();`,
 		`const values = new CustomArray();`,
 		`const values = CustomArray(1, 2, 3);`,
+		`
+class Array { constructor() {} }
+const values = new Array();
+export {};
+`,
+		`
+function Array() { return []; }
+const values = Array();
+export {};
+`,
+		`
+function Array(...args: number[]) { return args; }
+const values = Array(1, 2, 3);
+export {};
+`,
+		`
+const Array = () => [];
+const values = Array();
+export {};
+`,
 	],
 });

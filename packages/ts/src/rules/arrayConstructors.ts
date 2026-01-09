@@ -1,6 +1,9 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import type { AST, TypeScriptFileServices } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
+import { isGlobalDeclarationOfName } from "../utils/isGlobalDeclarationOfName.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -20,94 +23,55 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
+		function checkNode(
+			node: AST.CallExpression | AST.NewExpression,
+			{ sourceFile, typeChecker }: TypeScriptFileServices,
+		) {
+			if (
+				!ts.isIdentifier(node.expression) ||
+				node.expression.text !== "Array" ||
+				shouldAllowCallOrNew(node) ||
+				!isGlobalDeclarationOfName(node.expression, "Array", typeChecker)
+			) {
+				return;
+			}
+
+			const argumentsText = node.arguments
+				?.map((arg) => arg.getText(sourceFile))
+				.join(", ");
+			const range = getTSNodeRange(node, sourceFile);
+
+			context.report({
+				fix: {
+					range,
+					text: `[${argumentsText}]`,
+				},
+				message: "preferLiteral",
+				range,
+			});
+		}
+
 		return {
 			visitors: {
-				CallExpression: (node, { sourceFile }) => {
-					if (!isArrayConstructorCall(node)) {
-						return;
-					}
-
-					if (shouldAllowCall(node)) {
-						return;
-					}
-
-					context.report({
-						fix: createFix(node, sourceFile),
-						message: "preferLiteral",
-						range: {
-							begin: node.getStart(sourceFile),
-							end: node.getEnd(),
-						},
-					});
-				},
-				NewExpression: (node, { sourceFile }) => {
-					if (!isArrayConstructorNew(node)) {
-						return;
-					}
-
-					if (shouldAllowNew(node)) {
-						return;
-					}
-
-					context.report({
-						fix: createFix(node, sourceFile),
-						message: "preferLiteral",
-						range: {
-							begin: node.getStart(sourceFile),
-							end: node.getEnd(),
-						},
-					});
-				},
+				CallExpression: checkNode,
+				NewExpression: checkNode,
 			},
 		};
 	},
 });
 
-function createFix(
-	node: ts.CallExpression | ts.NewExpression,
-	sourceFile: ts.SourceFile,
-) {
-	const args = node.arguments ?? [];
-	const argsText = args.map((arg) => arg.getText(sourceFile)).join(", ");
-
-	return {
-		range: {
-			begin: node.getStart(sourceFile),
-			end: node.getEnd(),
-		},
-		text: `[${argsText}]`,
-	};
+function getSoleArgument(node: AST.CallExpression | AST.NewExpression) {
+	return node.arguments?.length === 1
+		? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			node.arguments[0]!
+		: undefined;
 }
 
-function isArrayConstructorCall(node: ts.CallExpression) {
-	return ts.isIdentifier(node.expression) && node.expression.text === "Array";
-}
-
-function isArrayConstructorNew(node: ts.NewExpression) {
-	return ts.isIdentifier(node.expression) && node.expression.text === "Array";
-}
-
-function shouldAllowCall(node: ts.CallExpression) {
+function shouldAllowCallOrNew(node: AST.CallExpression | AST.NewExpression) {
 	if (node.typeArguments && node.typeArguments.length > 0) {
 		return true;
 	}
 
-	if (node.arguments.length === 1 && ts.isNumericLiteral(node.arguments[0])) {
-		return true;
-	}
-
-	return false;
-}
-
-function shouldAllowNew(node: ts.NewExpression) {
-	if (node.typeArguments && node.typeArguments.length > 0) {
-		return true;
-	}
-
-	const args = node.arguments ?? [];
-	if (args.length === 1 && ts.isNumericLiteral(args[0])) {
-		return true;
-	}
-
-	return false;
+	const soleArgument = getSoleArgument(node);
+	return !!soleArgument && ts.isNumericLiteral(soleArgument);
 }
