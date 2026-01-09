@@ -1,0 +1,85 @@
+---
+description: "Reports class methods that don't use `this` and could be static."
+title: "classMethodsThis"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="classMethodsThis" />
+
+Class methods that don't use `this` can be made static.
+Static methods make it clear that the method doesn't depend on instance state and can be called without an instance.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class Calculator {
+	add(a: number, b: number) {
+		return a + b;
+	}
+}
+```
+
+```ts
+class Utils {
+	formatDate(date: Date) {
+		return date.toISOString();
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class Calculator {
+	static add(a: number, b: number) {
+		return a + b;
+	}
+}
+```
+
+```ts
+class Counter {
+	value = 0;
+
+	increment() {
+		return this.value++;
+	}
+}
+```
+
+```ts
+class Child extends Parent {
+	override getValue() {
+		return 42;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If your codebase frequently uses instance methods for consistency with interfaces or abstract classes, you might want to disable this rule.
+Some frameworks also require instance methods for lifecycle hooks that don't use `this`.
+
+## Further Reading
+
+- [MDN documentation on static methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static)
+- [TypeScript Handbook: Classes](https://www.typescriptlang.org/docs/handbook/2/classes.html)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="classMethodsThis" />
