@@ -55,7 +55,12 @@ export default yamlLanguage.createRule({
 function getDocumentEnd(node: yaml.Document, root: yaml.Root) {
 	const documentIndex = root.children.indexOf(node);
 
-	return documentIndex < root.children.length - 1
-		? root.children[documentIndex + 1].position.start.offset
-		: node.position.end.offset;
+	if (documentIndex < root.children.length - 1) {
+		const nextChild = root.children[documentIndex + 1];
+		if (nextChild) {
+			return nextChild.position.start.offset;
+		}
+	}
+
+	return node.position.end.offset;
 }
