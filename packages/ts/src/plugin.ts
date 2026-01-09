@@ -5,6 +5,7 @@ import anyReturns from "./rules/anyReturns.ts";
 import argumentsRule from "./rules/arguments.ts";
 import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
+import asyncUnnecessaryPromiseWrappers from "./rules/asyncUnnecessaryPromiseWrappers.ts";
 import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
@@ -74,6 +75,7 @@ export const ts = createPlugin({
 		argumentsRule,
 		arrayMapIdentities,
 		asyncPromiseExecutors,
+		asyncUnnecessaryPromiseWrappers,
 		builtinConstructorNews,
 		caseDeclarations,
 		caseDuplicates,
