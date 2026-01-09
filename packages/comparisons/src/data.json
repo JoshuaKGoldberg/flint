@@ -8481,7 +8481,8 @@
 		"flint": {
 			"name": "classLiteralProperties",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
