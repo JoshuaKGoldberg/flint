@@ -1,5 +1,6 @@
-import { getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { type AST, getTSNodeRange, typescriptLanguage } from "@flint.fyi/ts";
+import { nullThrows } from "@flint.fyi/utils";
+import ts, { SyntaxKind } from "typescript";
 
 import { isDeclaredInNodeTypes } from "./utils/isDeclaredInNodeTypes.ts";
 
@@ -80,9 +81,9 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function checkNode(node: ts.Node, sourceFile: ts.SourceFile) {
+		function checkNode(node: AST.Expression, sourceFile: ts.SourceFile) {
 			if (
-				ts.isStringLiteral(node) &&
+				node.kind === SyntaxKind.StringLiteral &&
 				nodeBuiltinModules.has(node.text) &&
 				!node.text.startsWith("node:")
 			) {
@@ -97,19 +98,27 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				CallExpression(node, { sourceFile, typeChecker }) {
 					if (
-						ts.isIdentifier(node.expression) &&
+						node.expression.kind === SyntaxKind.Identifier &&
 						node.expression.text === "require" &&
 						node.arguments.length > 0 &&
 						isDeclaredInNodeTypes(node.expression, typeChecker)
 					) {
-						checkNode(node.arguments[0], sourceFile);
+						checkNode(
+							nullThrows(
+								node.arguments[0],
+								"First argument is expected to be present by prior length check",
+							),
+							sourceFile,
+						);
 					}
 				},
 				ImportDeclaration(node, { sourceFile }) {
 					checkNode(node.moduleSpecifier, sourceFile);
 				},
 				ImportEqualsDeclaration(node, { sourceFile }) {
-					if (ts.isExternalModuleReference(node.moduleReference)) {
+					if (
+						node.moduleReference.kind === SyntaxKind.ExternalModuleReference
+					) {
 						checkNode(node.moduleReference.expression, sourceFile);
 					}
 				},
