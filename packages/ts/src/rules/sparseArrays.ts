@@ -1,4 +1,5 @@
-import * as ts from "typescript";
+import { nullThrows } from "@flint.fyi/utils";
+import { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
 
@@ -27,13 +28,13 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				OmittedExpression: (node, { sourceFile }) => {
 					const parent = node.parent;
-					if (!ts.isArrayLiteralExpression(parent)) {
+					if (parent.kind !== SyntaxKind.ArrayLiteralExpression) {
 						return;
 					}
 
 					const syntaxList = parent
 						.getChildren(sourceFile)
-						.find((child) => child.kind === ts.SyntaxKind.SyntaxList);
+						.find((child) => child.kind === SyntaxKind.SyntaxList);
 
 					if (!syntaxList) {
 						return;
@@ -43,12 +44,16 @@ export default typescriptLanguage.createRule({
 					const omittedIndex = children.indexOf(node);
 
 					for (let i = omittedIndex + 1; i < children.length; i++) {
-						if (children[i].kind === ts.SyntaxKind.CommaToken) {
+						const child = nullThrows(
+							children[i],
+							"Child is expected to be present by the loop condition",
+						);
+						if (child.kind === SyntaxKind.CommaToken) {
 							context.report({
 								message: "noSparseArray",
 								range: {
-									begin: children[i].getStart(sourceFile),
-									end: children[i].getEnd(),
+									begin: child.getStart(sourceFile),
+									end: child.getEnd(),
 								},
 							});
 							break;
