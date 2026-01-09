@@ -7,6 +7,7 @@ import {
 	typescriptLanguage,
 } from "../language.ts";
 import type * as AST from "../types/ast.ts";
+import type { Checker } from "../types/checker.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -43,7 +44,7 @@ export default typescriptLanguage.createRule({
 				| AST.FunctionDeclaration
 				| AST.FunctionExpression
 				| AST.MethodDeclaration,
-			{ sourceFile }: TypeScriptFileServices,
+			{ sourceFile, typeChecker }: TypeScriptFileServices,
 		) {
 			if (
 				!node.body ||
@@ -56,7 +57,11 @@ export default typescriptLanguage.createRule({
 				(modifier) => modifier.kind === ts.SyntaxKind.AsyncKeyword,
 			);
 
-			if (!asyncModifier || bodyContainsAwait(node.body)) {
+			if (
+				!asyncModifier ||
+				bodyContainsAwait(node.body) ||
+				returnsThenable(node, typeChecker)
+			) {
 				return;
 			}
 
@@ -67,6 +72,32 @@ export default typescriptLanguage.createRule({
 		}
 	},
 });
+
+type FunctionLikeNode =
+	| AST.ArrowFunction
+	| AST.FunctionDeclaration
+	| AST.FunctionExpression
+	| AST.MethodDeclaration;
+
+function blockReturnsThenable(block: AST.Block, typeChecker: Checker): boolean {
+	function checkNode(node: ts.Node): boolean | undefined {
+		if (ts.isReturnStatement(node) && node.expression) {
+			const type = typeChecker.getTypeAtLocation(node.expression);
+			if (tsutils.isThenableType(typeChecker, node.expression, type)) {
+				return true;
+			}
+		}
+
+		// Don't descend into nested functions
+		if (tsutils.isFunctionScopeBoundary(node)) {
+			return false;
+		}
+
+		return ts.forEachChild(node, checkNode);
+	}
+
+	return checkNode(block) ?? false;
+}
 
 function bodyContainsAwait(body: AST.Block | AST.Expression) {
 	function checkForAwait(node: ts.Node): boolean | undefined {
@@ -95,4 +126,24 @@ function bodyContainsAwait(body: AST.Block | AST.Expression) {
 	}
 
 	return checkForAwait(body);
+}
+
+function returnsThenable(
+	node: FunctionLikeNode,
+	typeChecker: Checker,
+): boolean {
+	// For arrow functions with expression body, check if the expression is thenable
+	if (ts.isArrowFunction(node) && !ts.isBlock(node.body)) {
+		const type = typeChecker.getTypeAtLocation(node.body);
+		if (tsutils.isThenableType(typeChecker, node.body, type)) {
+			return true;
+		}
+	}
+
+	// For block bodies, check if any return statement returns a thenable
+	if (node.body && ts.isBlock(node.body)) {
+		return blockReturnsThenable(node.body, typeChecker);
+	}
+
+	return false;
 }

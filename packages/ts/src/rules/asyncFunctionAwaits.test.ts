@@ -297,5 +297,32 @@ async function* asyncGenForAwait() {
     }
 }
 `,
+		// Functions returning thenable types are valid (type-checked)
+		`
+async function returnsPromise(): Promise<number> {
+    return Promise.resolve(42);
+}
+`,
+		`
+async function returnsFetch() {
+    return fetch("/api");
+}
+`,
+		`const asyncArrowReturnsPromise = async () => Promise.resolve(42);`,
+		`
+class MyClass {
+    async method() {
+        return Promise.resolve("value");
+    }
+}
+`,
+		`
+async function conditionalPromiseReturn(condition: boolean) {
+    if (condition) {
+        return Promise.resolve(1);
+    }
+    return Promise.resolve(2);
+}
+`,
 	],
 });
