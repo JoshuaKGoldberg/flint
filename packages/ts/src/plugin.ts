@@ -3,6 +3,7 @@ import { createPlugin } from "@flint.fyi/core";
 import anyArguments from "./rules/anyArguments.ts";
 import anyReturns from "./rules/anyReturns.ts";
 import argumentsRule from "./rules/arguments.ts";
+import arrayCallbackReturns from "./rules/arrayCallbackReturns.ts";
 import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
 import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
 import asConstAssertions from "./rules/asConstAssertions.ts";
@@ -75,6 +76,7 @@ export const ts = createPlugin({
 		anyArguments,
 		anyReturns,
 		argumentsRule,
+		arrayCallbackReturns,
 		arrayMapIdentities,
 		arrayMutableReverses,
 		asConstAssertions,
