@@ -1,7 +1,10 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
-import { typescriptLanguage } from "../language.ts";
+import {
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "../language.ts";
 import { AnyType, discriminateAnyType } from "./utils/discriminateAnyType.ts";
 import { isUnsafeAssignment } from "./utils/isUnsafeAssignment.ts";
 
@@ -47,126 +50,9 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		return {
-			visitors: {
-				CallExpression: (node, { program, sourceFile, typeChecker }) => {
-					checkCallArguments(node, program, sourceFile, typeChecker, context);
-				},
-				NewExpression: (node, { program, sourceFile, typeChecker }) => {
-					checkCallArguments(node, program, sourceFile, typeChecker, context);
-				},
-				TaggedTemplateExpression: (
-					node,
-					{ program, sourceFile, typeChecker },
-				) => {
-					checkTaggedTemplateArguments(
-						node,
-						program,
-						sourceFile,
-						typeChecker,
-						context,
-					);
-				},
-			},
-		};
-
-		function checkTaggedTemplateArguments(
-			node: ts.TaggedTemplateExpression,
-			program: ts.Program,
-			sourceFile: ts.SourceFile,
-			typeChecker: ts.TypeChecker,
-			ctx: typeof context,
-		) {
-			const signature = typeChecker.getResolvedSignature(node);
-			if (!signature) {
-				return;
-			}
-
-			const parameters = signature.getParameters();
-			if (parameters.length <= 1) {
-				return;
-			}
-
-			const template = node.template;
-			if (!ts.isTemplateExpression(template)) {
-				return;
-			}
-
-			const expressions = template.templateSpans.map((span) => span.expression);
-
-			for (const [i, expression] of expressions.entries()) {
-				const expressionType = typeChecker.getTypeAtLocation(expression);
-
-				const anyType = discriminateAnyType(
-					expressionType,
-					typeChecker,
-					program,
-					expression,
-				);
-
-				if (anyType === AnyType.Safe) {
-					const parameter = parameters[i + 1];
-					if (parameter) {
-						const parameterType = typeChecker.getTypeOfSymbol(parameter);
-						const unsafeResult = isUnsafeAssignment(
-							expressionType,
-							parameterType,
-							typeChecker,
-							expression,
-						);
-						if (unsafeResult) {
-							ctx.report({
-								data: {
-									paramType: typeChecker.typeToString(unsafeResult.receiver),
-									type: typeChecker.typeToString(unsafeResult.sender),
-								},
-								message: "unsafeArgument",
-								range: {
-									begin: expression.getStart(sourceFile) - 2,
-									end: expression.getEnd() + 1,
-								},
-							});
-						}
-					}
-					continue;
-				}
-
-				const parameter = parameters[i + 1];
-				if (!parameter) {
-					continue;
-				}
-
-				const parameterType = typeChecker.getTypeOfSymbol(parameter);
-
-				if (
-					tsutils.isTypeFlagSet(
-						parameterType,
-						ts.TypeFlags.Any | ts.TypeFlags.Unknown,
-					)
-				) {
-					continue;
-				}
-
-				ctx.report({
-					data: {
-						paramType: typeChecker.typeToString(parameterType),
-						type: anyTypeToString(anyType),
-					},
-					message: "unsafeArgument",
-					range: {
-						begin: expression.getStart(sourceFile) - 2,
-						end: expression.getEnd() + 1,
-					},
-				});
-			}
-		}
-
 		function checkCallArguments(
 			node: ts.CallExpression | ts.NewExpression,
-			program: ts.Program,
-			sourceFile: ts.SourceFile,
-			typeChecker: ts.TypeChecker,
-			ctx: typeof context,
+			{ program, sourceFile, typeChecker }: TypeScriptFileServices,
 		) {
 			if (!node.arguments) {
 				return;
@@ -179,7 +65,7 @@ export default typescriptLanguage.createRule({
 
 			const parameters = signature.getParameters();
 
-			let paramIndex = 0;
+			let parameterIndex = 0;
 
 			for (const argument of node.arguments) {
 				const argumentType = typeChecker.getTypeAtLocation(argument);
@@ -221,7 +107,7 @@ export default typescriptLanguage.createRule({
 							}
 						}
 
-						ctx.report({
+						context.report({
 							data: {
 								type: anyTypeToString(anyType),
 							},
@@ -238,13 +124,13 @@ export default typescriptLanguage.createRule({
 						const tupleResult = checkTupleSpread(
 							spreadType as ts.TypeReference,
 							parameters,
-							paramIndex,
+							parameterIndex,
 							typeChecker,
 							program,
 							argument.expression,
 						);
 						if (tupleResult) {
-							ctx.report({
+							context.report({
 								data: {
 									paramType: typeChecker.typeToString(tupleResult.paramType),
 									type: "any",
@@ -259,7 +145,7 @@ export default typescriptLanguage.createRule({
 						const tupleTypeArgs = typeChecker.getTypeArguments(
 							spreadType as ts.TypeReference,
 						);
-						paramIndex += tupleTypeArgs.length;
+						parameterIndex += tupleTypeArgs.length;
 					}
 					continue;
 				}
@@ -274,7 +160,7 @@ export default typescriptLanguage.createRule({
 				if (anyType === AnyType.Safe) {
 					const paramInfo = getParameterAtIndex(
 						parameters,
-						paramIndex,
+						parameterIndex,
 						typeChecker,
 					);
 					if (paramInfo) {
@@ -285,7 +171,7 @@ export default typescriptLanguage.createRule({
 							argument,
 						);
 						if (unsafeResult) {
-							ctx.report({
+							context.report({
 								data: {
 									paramType: typeChecker.typeToString(unsafeResult.receiver),
 									type: typeChecker.typeToString(unsafeResult.sender),
@@ -298,35 +184,33 @@ export default typescriptLanguage.createRule({
 							});
 						}
 					}
-					paramIndex++;
+					parameterIndex++;
 					continue;
 				}
 
-				const paramInfo = getParameterAtIndex(
+				const parameterInfo = getParameterAtIndex(
 					parameters,
-					paramIndex,
+					parameterIndex,
 					typeChecker,
 				);
-				if (parameters.length === 0 || !paramInfo) {
-					paramIndex++;
+				if (parameters.length === 0 || !parameterInfo) {
+					parameterIndex++;
 					continue;
 				}
-
-				const parameterType = paramInfo.type;
 
 				if (
 					tsutils.isTypeFlagSet(
-						parameterType,
+						parameterInfo.type,
 						ts.TypeFlags.Any | ts.TypeFlags.Unknown,
 					)
 				) {
-					paramIndex++;
+					parameterIndex++;
 					continue;
 				}
 
-				ctx.report({
+				context.report({
 					data: {
-						paramType: typeChecker.typeToString(parameterType),
+						paramType: typeChecker.typeToString(parameterInfo.type),
 						type: anyTypeToString(anyType),
 					},
 					message: "unsafeArgument",
@@ -335,9 +219,111 @@ export default typescriptLanguage.createRule({
 						end: argument.getEnd(),
 					},
 				});
-				paramIndex++;
+				parameterIndex++;
 			}
 		}
+
+		return {
+			visitors: {
+				CallExpression: (node, fileServices) => {
+					checkCallArguments(node, fileServices);
+				},
+				NewExpression: (node, fileServices) => {
+					checkCallArguments(node, fileServices);
+				},
+				TaggedTemplateExpression: (
+					node,
+					{ program, sourceFile, typeChecker },
+				) => {
+					const signature = typeChecker.getResolvedSignature(node);
+					if (!signature) {
+						return;
+					}
+
+					const parameters = signature.getParameters();
+					if (parameters.length <= 1) {
+						return;
+					}
+
+					const template = node.template;
+					if (!ts.isTemplateExpression(template)) {
+						return;
+					}
+
+					const expressions = template.templateSpans.map(
+						(span) => span.expression,
+					);
+
+					for (const [i, expression] of expressions.entries()) {
+						const expressionType = typeChecker.getTypeAtLocation(expression);
+
+						const anyType = discriminateAnyType(
+							expressionType,
+							typeChecker,
+							program,
+							expression,
+						);
+
+						if (anyType === AnyType.Safe) {
+							const parameter = parameters[i + 1];
+							if (parameter) {
+								const parameterType = typeChecker.getTypeOfSymbol(parameter);
+								const unsafeResult = isUnsafeAssignment(
+									expressionType,
+									parameterType,
+									typeChecker,
+									expression,
+								);
+								if (unsafeResult) {
+									context.report({
+										data: {
+											paramType: typeChecker.typeToString(
+												unsafeResult.receiver,
+											),
+											type: typeChecker.typeToString(unsafeResult.sender),
+										},
+										message: "unsafeArgument",
+										range: {
+											begin: expression.getStart(sourceFile) - 2,
+											end: expression.getEnd() + 1,
+										},
+									});
+								}
+							}
+							continue;
+						}
+
+						const parameter = parameters[i + 1];
+						if (!parameter) {
+							continue;
+						}
+
+						const parameterType = typeChecker.getTypeOfSymbol(parameter);
+
+						if (
+							tsutils.isTypeFlagSet(
+								parameterType,
+								ts.TypeFlags.Any | ts.TypeFlags.Unknown,
+							)
+						) {
+							continue;
+						}
+
+						context.report({
+							data: {
+								paramType: typeChecker.typeToString(parameterType),
+								type: anyTypeToString(anyType),
+							},
+							message: "unsafeArgument",
+							range: {
+								begin: expression.getStart(sourceFile) - 2,
+								end: expression.getEnd() + 1,
+							},
+						});
+					}
+				},
+			},
+		};
 
 		function getParameterAtIndex(
 			parameters: readonly ts.Symbol[],
