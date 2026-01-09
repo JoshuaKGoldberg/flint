@@ -2,6 +2,7 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import { isBuiltinArrayMethod } from "../utils/isBuiltinArrayMethod.ts";
 
 const methodsReturningNewArray = new Set([
 	"concat",
@@ -97,24 +98,14 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				CallExpression: (node, { sourceFile, typeChecker }) => {
 					if (
-						!ts.isPropertyAccessExpression(node.expression) ||
-						node.expression.name.text !== "sort" ||
-						!typeChecker.isArrayType(
-							typeChecker.getTypeAtLocation(node.expression.expression),
-						) ||
-						ts.isExpressionStatement(node.parent)
+						!isBuiltinArrayMethod("sort", node, typeChecker) ||
+						isInlineArrayCreation(node.expression.expression)
 					) {
 						return;
 					}
 
-					const arrayExpr = node.expression.expression;
-					const inlineCheck = isInlineArrayCreation(arrayExpr);
-					if (inlineCheck) {
-						return;
-					}
-
-					const arrayText = arrayExpr.getText(sourceFile);
-					const argsText =
+					const arrayText = node.expression.expression.getText(sourceFile);
+					const argumentsText =
 						node.arguments.length > 0
 							? node.arguments.map((arg) => arg.getText(sourceFile)).join(", ")
 							: "";
@@ -122,7 +113,7 @@ export default typescriptLanguage.createRule({
 					context.report({
 						fix: {
 							range: getTSNodeRange(node, sourceFile),
-							text: `${arrayText}.toSorted(${argsText})`,
+							text: `${arrayText}.toSorted(${argumentsText})`,
 						},
 						message: "preferToSorted",
 						range: {
