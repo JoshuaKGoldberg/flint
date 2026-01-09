@@ -7,6 +7,7 @@ import argumentsRule from "./rules/arguments.ts";
 import arrayCallbackReturns from "./rules/arrayCallbackReturns.ts";
 import arrayConstructors from "./rules/arrayConstructors.ts";
 import arrayExistenceChecksConsistency from "./rules/arrayExistenceChecksConsistency.ts";
+import arrayFinds from "./rules/arrayFinds.ts";
 import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
 import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
 import arrayMutableSorts from "./rules/arrayMutableSorts.ts";
@@ -88,6 +89,7 @@ export const ts = createPlugin({
 		arrayCallbackReturns,
 		arrayConstructors,
 		arrayExistenceChecksConsistency,
+		arrayFinds,
 		arrayMapIdentities,
 		arrayMutableReverses,
 		arrayMutableSorts,
