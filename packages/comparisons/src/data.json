@@ -7314,7 +7314,8 @@
 		"flint": {
 			"name": "arrayExistenceChecksConsistency",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7353,7 +7354,8 @@
 		"flint": {
 			"name": "arrayFinds",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -8465,7 +8467,8 @@
 		"flint": {
 			"name": "classFieldDeclarations",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		}
 	},
 	{
@@ -8478,7 +8481,8 @@
 		"flint": {
 			"name": "classLiteralProperties",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -8545,6 +8549,7 @@
 			"name": "combinedPushes",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"notes": "Just for Array#push(); the others would be their own rules."
@@ -8956,7 +8961,8 @@
 		"flint": {
 			"name": "dateConstructorClones",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"notes": "unicorn/consistent-date-clone"
 	},
