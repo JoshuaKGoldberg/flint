@@ -15,6 +15,7 @@
 		"moduleDetection": "force",
 		"moduleResolution": "NodeNext",
 		"noImplicitOverride": true,
+		"noUncheckedIndexedAccess": true,
 		"noUncheckedSideEffectImports": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,

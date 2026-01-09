@@ -1,4 +1,5 @@
-import * as ts from "typescript";
+import { nullThrows } from "@flint.fyi/utils";
+import { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
 
@@ -27,7 +28,7 @@ export default typescriptLanguage.createRule({
 				SwitchStatement: (node, { sourceFile }) => {
 					const clauses = node.caseBlock.clauses;
 					const defaultClauseIndex = clauses.findIndex(
-						(clause) => clause.kind === ts.SyntaxKind.DefaultClause,
+						(clause) => clause.kind === SyntaxKind.DefaultClause,
 					);
 
 					if (
@@ -37,7 +38,10 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
-					const defaultClause = clauses[defaultClauseIndex];
+					const defaultClause = nullThrows(
+						clauses[defaultClauseIndex],
+						"Default clause is expected to be present by prior length check",
+					);
 
 					context.report({
 						message: "defaultCaseShouldBeLast",

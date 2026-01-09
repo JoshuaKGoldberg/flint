@@ -8,6 +8,7 @@ import {
 	type NormalizedReport,
 	type RuleAbout,
 } from "@flint.fyi/core";
+import { nullThrows } from "@flint.fyi/utils";
 import type { CachedFactory } from "cached-factory";
 
 import type { TestCaseNormalized } from "./normalizeTestCase.ts";
@@ -42,7 +43,10 @@ export async function runTestCaseRule<
 					ruleReport.fix && !Array.isArray(ruleReport.fix)
 						? [ruleReport.fix]
 						: ruleReport.fix,
-				message: rule.messages[ruleReport.message],
+				message: nullThrows(
+					rule.messages[ruleReport.message],
+					`Message should be defined (${ruleReport.message}) when reporting for rule "${rule.about.id}"`,
+				),
 				range: {
 					begin: getColumnAndLineOfPosition(
 						file.about.sourceText,
