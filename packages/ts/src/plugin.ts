@@ -24,6 +24,7 @@ import chainedAssignments from "./rules/chainedAssignments.ts";
 import classAssignments from "./rules/classAssignments.ts";
 import classFieldDeclarations from "./rules/classFieldDeclarations.ts";
 import classLiteralProperties from "./rules/classLiteralProperties.ts";
+import classMethodsThis from "./rules/classMethodsThis.ts";
 import combinedPushes from "./rules/combinedPushes.ts";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.ts";
 import constantAssignments from "./rules/constantAssignments.ts";
@@ -111,6 +112,7 @@ export const ts = createPlugin({
 		classAssignments,
 		classFieldDeclarations,
 		classLiteralProperties,
+		classMethodsThis,
 		combinedPushes,
 		consecutiveNonNullAssertions,
 		constantAssignments,

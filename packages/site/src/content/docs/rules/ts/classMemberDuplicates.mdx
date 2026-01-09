@@ -1,0 +1,103 @@
+---
+description: "Reports duplicate class member names that will be overwritten."
+title: "classMemberDuplicates"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="classMemberDuplicates" />
+
+Duplicate class member names cause the first definition to be silently overwritten by the second.
+This is almost always a mistake, typically from copy-paste errors or incomplete refactoring, and can lead to hard-to-debug issues.
+
+Note that getter and setter pairs with the same name are valid and will not trigger this rule.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+class User {
+	getName() {
+		return this.firstName;
+	}
+	getName() {
+		return this.lastName; // This overwrites the first method
+	}
+}
+```
+
+```ts
+class Config {
+	timeout = 1000;
+	timeout = 2000; // This overwrites the first property
+}
+```
+
+```ts
+class Service {
+	static instance() {
+		return new Service();
+	}
+	static instance() {
+		return null; // This overwrites the first static method
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+class User {
+	getFirstName() {
+		return this.firstName;
+	}
+	getLastName() {
+		return this.lastName;
+	}
+}
+```
+
+```ts
+class Config {
+	timeout = 1000;
+	retryDelay = 2000;
+}
+```
+
+```ts
+class Value {
+	get current() {
+		return this._value;
+	}
+	set current(v: number) {
+		this._value = v;
+	}
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+This rule should generally always be enabled as duplicate class members are almost always bugs.
+There are no valid use cases for having duplicate class member names.
+
+## Further Reading
+
+- [MDN: Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+- [TypeScript: Classes](https://www.typescriptlang.org/docs/handbook/2/classes.html)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="classMemberDuplicates" />
