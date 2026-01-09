@@ -1,8 +1,20 @@
 import { createPlugin } from "@flint.fyi/core";
 
+import anyArguments from "./rules/anyArguments.ts";
+import anyAssignments from "./rules/anyAssignments.ts";
 import anyReturns from "./rules/anyReturns.ts";
 import argumentsRule from "./rules/arguments.ts";
+import arrayCallbackReturns from "./rules/arrayCallbackReturns.ts";
+import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
+import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
+import arrayMutableSorts from "./rules/arrayMutableSorts.ts";
+import arrayUnnecessaryLengthChecks from "./rules/arrayUnnecessaryLengthChecks.ts";
+import asConstAssertions from "./rules/asConstAssertions.ts";
+import assignmentOperatorShorthands from "./rules/assignmentOperatorShorthands.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
+import asyncUnnecessaryPromiseWrappers from "./rules/asyncUnnecessaryPromiseWrappers.ts";
+import builtinCoercions from "./rules/builtinCoercions.ts";
+import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
@@ -66,9 +78,21 @@ export const ts = createPlugin({
 	},
 	name: "TypeScript",
 	rules: [
+		anyArguments,
+		anyAssignments,
 		anyReturns,
 		argumentsRule,
+		arrayCallbackReturns,
+		arrayMapIdentities,
+		arrayMutableReverses,
+		arrayMutableSorts,
+		arrayUnnecessaryLengthChecks,
+		asConstAssertions,
+		assignmentOperatorShorthands,
 		asyncPromiseExecutors,
+		asyncUnnecessaryPromiseWrappers,
+		builtinCoercions,
+		builtinConstructorNews,
 		caseDeclarations,
 		caseDuplicates,
 		chainedAssignments,
