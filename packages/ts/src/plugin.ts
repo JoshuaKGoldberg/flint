@@ -8,6 +8,7 @@ import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
 import asConstAssertions from "./rules/asConstAssertions.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
 import asyncUnnecessaryPromiseWrappers from "./rules/asyncUnnecessaryPromiseWrappers.ts";
+import builtinCoercions from "./rules/builtinCoercions.ts";
 import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
@@ -80,6 +81,7 @@ export const ts = createPlugin({
 		asConstAssertions,
 		asyncPromiseExecutors,
 		asyncUnnecessaryPromiseWrappers,
+		builtinCoercions,
 		builtinConstructorNews,
 		caseDeclarations,
 		caseDuplicates,
