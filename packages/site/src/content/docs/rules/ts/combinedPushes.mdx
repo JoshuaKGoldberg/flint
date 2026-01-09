@@ -1,0 +1,74 @@
+---
+description: "Multiple consecutive Array.push() calls can be combined into a single call."
+title: "combinedPushes"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="combinedPushes" />
+
+When pushing multiple values to an array in consecutive statements, it's more efficient and readable to combine them into a single `push()` call.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+const items = [];
+items.push(1);
+items.push(2);
+items.push(3);
+```
+
+```ts
+const names = [];
+names.push("Alice");
+names.push("Bob");
+```
+
+```ts
+const config = { values: [] };
+config.values.push("a");
+config.values.push("b");
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+const items = [];
+items.push(1, 2, 3);
+```
+
+```ts
+const names = [];
+names.push("Alice", "Bob");
+```
+
+```ts
+const config = { values: [] };
+config.values.push("a", "b");
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you need to perform operations between the `push()` calls or if readability is improved by separating them, you may want to disable this rule.
+
+## Further Reading
+
+- [MDN documentation on Array.push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="combinedPushes" />
