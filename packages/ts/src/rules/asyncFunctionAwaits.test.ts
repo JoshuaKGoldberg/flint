@@ -127,7 +127,6 @@ const obj = {
 };
 `,
 		},
-		// Async generators without await should be flagged
 		{
 			code: `
 async function* asyncGenNoAwait() {
