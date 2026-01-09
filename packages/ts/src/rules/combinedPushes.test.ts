@@ -9,11 +9,14 @@ const arr = [];
 arr.push(1);
 arr.push(2);
 `,
-			snapshot: `const arr = [];
+			snapshot: `
+const arr = [];
 arr.push(1);
+~~~~~~~~~~~~
+Multiple consecutive \`push()\` calls can be combined into one.
 arr.push(2);
-~~~~~~~~~~~~~~~~~~~~~~~
-Multiple consecutive \`push()\` calls can be combined into one.`,
+~~~~~~~~~~~~
+`,
 		},
 		{
 			code: `
@@ -22,12 +25,16 @@ items.push("a");
 items.push("b");
 items.push("c");
 `,
-			snapshot: `const items = [];
+			snapshot: `
+const items = [];
 items.push("a");
+~~~~~~~~~~~~~~~~
+Multiple consecutive \`push()\` calls can be combined into one.
 items.push("b");
+~~~~~~~~~~~~~~~~
 items.push("c");
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Multiple consecutive \`push()\` calls can be combined into one.`,
+~~~~~~~~~~~~~~~~
+`,
 		},
 		{
 			code: `
@@ -36,11 +43,15 @@ list.push(1);
 list.push(2);
 const other = 5;
 `,
-			snapshot: `const list = [];
+			snapshot: `
+const list = [];
 list.push(1);
+~~~~~~~~~~~~~
+Multiple consecutive \`push()\` calls can be combined into one.
 list.push(2);
-~~~~~~~~~~~~~~~~~~~~~~~
-Multiple consecutive \`push()\` calls can be combined into one.`,
+~~~~~~~~~~~~~
+const other = 5;
+`,
 		},
 	],
 	valid: [
