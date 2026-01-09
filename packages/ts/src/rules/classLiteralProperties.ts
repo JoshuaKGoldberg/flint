@@ -1,5 +1,7 @@
 import ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import type { AST } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
@@ -24,33 +26,23 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				GetAccessor: (node, { sourceFile }) => {
-					if (!node.body) {
+					if (node.body?.statements.length !== 1) {
 						return;
 					}
 
-					if (node.body.statements.length !== 1) {
-						return;
-					}
-
-					const statement = node.body.statements[0];
-					if (!statement || !ts.isReturnStatement(statement)) {
-						return;
-					}
-
-					if (!statement.expression) {
-						return;
-					}
-
-					if (!isLiteralValue(statement.expression)) {
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const statement = node.body.statements[0]!;
+					if (
+						!ts.isReturnStatement(statement) ||
+						!statement.expression ||
+						!isLiteralValue(statement.expression)
+					) {
 						return;
 					}
 
 					context.report({
 						message: "preferField",
-						range: {
-							begin: node.getStart(sourceFile),
-							end: node.getEnd(),
-						},
+						range: getTSNodeRange(node, sourceFile),
 					});
 				},
 			},
@@ -58,33 +50,20 @@ export default typescriptLanguage.createRule({
 	},
 });
 
-function isLiteralValue(node: ts.Node): boolean {
-	if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
-		return true;
+function isLiteralValue(node: AST.AnyNode): boolean {
+	switch (node.kind) {
+		case ts.SyntaxKind.BigIntLiteral:
+		case ts.SyntaxKind.FalseKeyword:
+		case ts.SyntaxKind.NoSubstitutionTemplateLiteral:
+		case ts.SyntaxKind.NullKeyword:
+		case ts.SyntaxKind.NumericLiteral:
+		case ts.SyntaxKind.RegularExpressionLiteral:
+		case ts.SyntaxKind.StringLiteral:
+		case ts.SyntaxKind.TrueKeyword:
+			return true;
+		case ts.SyntaxKind.PrefixUnaryExpression:
+			return isLiteralValue(node.operand);
+		default:
+			return false;
 	}
-
-	if (ts.isNumericLiteral(node) || ts.isBigIntLiteral(node)) {
-		return true;
-	}
-
-	if (ts.isRegularExpressionLiteral(node)) {
-		return true;
-	}
-
-	if (
-		node.kind === ts.SyntaxKind.TrueKeyword ||
-		node.kind === ts.SyntaxKind.FalseKeyword
-	) {
-		return true;
-	}
-
-	if (node.kind === ts.SyntaxKind.NullKeyword) {
-		return true;
-	}
-
-	if (ts.isPrefixUnaryExpression(node)) {
-		return isLiteralValue(node.operand);
-	}
-
-	return false;
 }
