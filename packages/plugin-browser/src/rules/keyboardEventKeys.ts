@@ -1,9 +1,12 @@
 import {
+	type AST,
+	type Checker,
 	getDeclarationsIfGlobal,
 	getTSNodeRange,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { nullThrows } from "@flint.fyi/utils";
+import ts, { SyntaxKind } from "typescript";
 
 const deprecatedProperties = new Set(["charCode", "keyCode", "which"]);
 
@@ -27,8 +30,8 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function isKeyboardEvent(
-			expression: ts.LeftHandSideExpression,
-			typeChecker: ts.TypeChecker,
+			expression: AST.LeftHandSideExpression,
+			typeChecker: Checker,
 		) {
 			return (
 				typeChecker.getTypeAtLocation(expression).getSymbol()?.name ===
@@ -37,29 +40,30 @@ export default typescriptLanguage.createRule({
 		}
 
 		function isKeyboardEventProperty(
-			name: ts.Identifier,
-			typeChecker: ts.TypeChecker,
+			name: AST.Identifier,
+			typeChecker: Checker,
 		) {
 			const declarations = getDeclarationsIfGlobal(name, typeChecker);
 			if (!declarations) {
 				return;
 			}
 
+			const declaration = nullThrows(
+				declarations[0],
+				"Declaration is expected to be present by the length check",
+			);
+
 			return (
-				declarations.length === 1 &&
-				ts.isInterfaceDeclaration(declarations[0].parent) &&
-				["KeyboardEvent", "UIEvent"].includes(declarations[0].parent.name.text)
+				ts.isInterfaceDeclaration(declaration.parent) &&
+				["KeyboardEvent", "UIEvent"].includes(declaration.parent.name.text)
 			);
 		}
 
 		return {
 			visitors: {
-				PropertyAccessExpression(
-					node: ts.PropertyAccessExpression,
-					{ sourceFile, typeChecker },
-				) {
+				PropertyAccessExpression(node, { sourceFile, typeChecker }) {
 					if (
-						ts.isIdentifier(node.name) &&
+						node.name.kind === SyntaxKind.Identifier &&
 						deprecatedProperties.has(node.name.text) &&
 						isKeyboardEvent(node.expression, typeChecker) &&
 						isKeyboardEventProperty(node.name, typeChecker)
