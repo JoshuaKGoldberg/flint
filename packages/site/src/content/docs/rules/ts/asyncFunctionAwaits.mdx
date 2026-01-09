@@ -1,0 +1,94 @@
+---
+description: "Reports async functions that do not use await."
+title: "asyncFunctionAwaits"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="asyncFunctionAwaits" />
+
+Async functions always wrap their return value in a Promise, which adds overhead if you're not using await.
+An async function without await expressions may indicate incomplete implementation or leftover code after refactoring.
+
+The TypeScript-aware version of this rule also allows async functions that return Promises, since marking such functions as `async` ensures thrown errors are properly wrapped in rejected Promises.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+async function processData() {
+	console.log("processing");
+	return 42;
+}
+```
+
+```ts
+const fetchUser = async () => {
+	return { name: "Alice" };
+};
+```
+
+```ts
+class DataService {
+	async getData() {
+		return this.cache.get("data");
+	}
+}
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+async function fetchData() {
+	const response = await fetch("/api/data");
+	return response.json();
+}
+```
+
+```ts
+async function processItems() {
+	for await (const item of asyncIterable) {
+		console.log(item);
+	}
+}
+```
+
+```ts
+async function wrapInPromise(): Promise<number> {
+	return Promise.resolve(42);
+}
+```
+
+```ts
+function regularFunction() {
+	return 42;
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you intentionally use `async` functions without `await` to ensure thrown errors are wrapped in rejected Promises, you may want to disable this rule.
+This pattern is sometimes used when you want consistent error handling through Promise rejection rather than thrown exceptions.
+
+## Further Reading
+
+- [MDN: async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+- [MDN: await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await)
+- [MDN: for await...of](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="asyncFunctionAwaits" />

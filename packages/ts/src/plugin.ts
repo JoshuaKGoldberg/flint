@@ -3,6 +3,7 @@ import { createPlugin } from "@flint.fyi/core";
 import anyArguments from "./rules/anyArguments.ts";
 import anyReturns from "./rules/anyReturns.ts";
 import argumentsRule from "./rules/arguments.ts";
+import asyncFunctionAwaits from "./rules/asyncFunctionAwaits.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
 import asyncUnnecessaryPromiseWrappers from "./rules/asyncUnnecessaryPromiseWrappers.ts";
 import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
@@ -72,6 +73,7 @@ export const ts = createPlugin({
 		anyArguments,
 		anyReturns,
 		argumentsRule,
+		asyncFunctionAwaits,
 		asyncPromiseExecutors,
 		asyncUnnecessaryPromiseWrappers,
 		builtinConstructorNews,
