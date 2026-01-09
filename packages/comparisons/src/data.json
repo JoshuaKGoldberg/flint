@@ -7614,7 +7614,8 @@
 		"flint": {
 			"name": "arrayMutableSorts",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{

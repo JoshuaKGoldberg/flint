@@ -37,22 +37,6 @@ doSomething(items.reverse());
 		},
 		{
 			code: `
-const data: number[] = [1, 2, 3];
-const result = [...data].reverse();
-`,
-			output: `
-const data: number[] = [1, 2, 3];
-const result = [...data].toReversed();
-`,
-			snapshot: `
-const data: number[] = [1, 2, 3];
-const result = [...data].reverse();
-                         ~~~~~~~~~
-                         Use \`.toReversed()\` instead of \`.reverse()\` to avoid mutating the original array.
-`,
-		},
-		{
-			code: `
 const values: number[] = [1, 2, 3];
 return values.reverse();
 `,

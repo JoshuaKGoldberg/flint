@@ -28,7 +28,7 @@ export const briefPresenterFactory: PresenterFactory = {
 
 				yield textTable(
 					reports
-						.sort((a, b) =>
+						.toSorted((a, b) =>
 							a.range.begin.line === b.range.begin.line
 								? a.range.begin.column - b.range.begin.column
 								: a.range.begin.line - b.range.begin.line,
