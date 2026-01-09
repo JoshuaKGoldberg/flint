@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 
+import type { AST } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
@@ -35,24 +36,17 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				ArrowFunction: (node, { sourceFile }) => {
-					if (!ts.isCallExpression(node.body)) {
+					if (!isAsyncFunction(node) || !ts.isCallExpression(node.body)) {
 						return;
 					}
 
-					const promiseMethod = getPromiseMethod(node.body);
-					if (!promiseMethod) {
-						return;
-					}
-
-					if (!isAsyncFunction(node)) {
+					const message = getMessageForBody(node.body);
+					if (!message) {
 						return;
 					}
 
 					context.report({
-						message:
-							promiseMethod === "reject"
-								? "unnecessaryReject"
-								: "unnecessaryResolve",
+						message,
 						range: {
 							begin: node.body.getStart(sourceFile),
 							end: node.body.getEnd(),
@@ -64,31 +58,27 @@ export default typescriptLanguage.createRule({
 	},
 });
 
-function getPromiseMethod(
-	node: ts.CallExpression,
-): "reject" | "resolve" | undefined {
-	if (!ts.isPropertyAccessExpression(node.expression)) {
+function getMessageForBody(node: AST.CallExpression) {
+	if (
+		!ts.isPropertyAccessExpression(node.expression) ||
+		!ts.isIdentifier(node.expression.expression) ||
+		node.expression.expression.text !== "Promise"
+	) {
 		return undefined;
 	}
 
-	const propertyAccess = node.expression;
-	const methodName = propertyAccess.name.text;
-
-	if (methodName !== "resolve" && methodName !== "reject") {
-		return undefined;
+	switch (node.expression.name.text) {
+		case "reject":
+			return "unnecessaryReject";
+		case "resolve":
+			return "unnecessaryResolve";
+		default:
+			return undefined;
 	}
-
-	if (!ts.isIdentifier(propertyAccess.expression)) {
-		return undefined;
-	}
-
-	if (propertyAccess.expression.text !== "Promise") {
-		return undefined;
-	}
-
-	return methodName;
 }
 
-function isAsyncFunction(node: ts.ArrowFunction) {
-	return node.modifiers?.some((mod) => mod.kind === ts.SyntaxKind.AsyncKeyword);
+function isAsyncFunction(node: AST.ArrowFunction) {
+	return node.modifiers?.some(
+		(modifier) => modifier.kind === ts.SyntaxKind.AsyncKeyword,
+	);
 }
