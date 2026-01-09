@@ -1,5 +1,8 @@
-import type { FileReport } from "@flint.fyi/core";
-import { isSuggestionForFiles } from "@flint.fyi/core";
+import {
+	type FileReport,
+	formatReport,
+	isSuggestionForFiles,
+} from "@flint.fyi/core";
 import { nullThrows } from "@flint.fyi/utils";
 import chalk from "chalk";
 
@@ -26,7 +29,7 @@ export async function* createDetailedReport(
 				.bold(`\u001b]8;;${url}\u0007${report.about.id}\u001b]8;;\u0007`),
 			chalk.hex(ColorCodes.ruleBracket)("]"),
 			" ",
-			report.message.primary,
+			formatReport(report.data, report.message.primary),
 		].join(""),
 		width,
 	);
@@ -39,7 +42,7 @@ export async function* createDetailedReport(
 	yield " ";
 	yield wrapIfNeeded(
 		chalk.hex(ColorCodes.secondaryMessage).italic,
-		report.message.secondary.join(`\n`),
+		formatReport(report.data, report.message.secondary.join(`\n`)),
 		width,
 	);
 	yield `\n${indenter}\n`;
@@ -68,14 +71,14 @@ export async function* createDetailedReport(
 			[
 				indenter,
 				chalk.hex(ColorCodes.suggestionMessage)("  • "),
-				formatSuggestion(suggestion),
+				formatSuggestion(report.data, suggestion),
 			].join("\n"),
 		);
 	} else if (allSuggestions.length === 1) {
 		yield `${indenter} `;
 		yield wrapIfNeeded(
 			chalk.hex(ColorCodes.suggestionTextHighlight),
-			`  Suggestion: ${formatSuggestion(nullThrows(allSuggestions[0], `Report ${report.about.id} message should have at least one suggestion`))}`,
+			`  Suggestion: ${formatSuggestion(report.data, nullThrows(allSuggestions[0], `Report ${report.about.id} message should have at least one suggestion`))}`,
 			width,
 		);
 		yield "\n";

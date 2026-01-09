@@ -1,6 +1,6 @@
-import * as ts from "typescript";
-
 import { typescriptLanguage } from "../language.ts";
+import { isBuiltinArrayMethod } from "../utils/isBuiltinArrayMethod.ts";
+import { isInlineArrayCreation } from "../utils/isInlineArrayCreation.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -25,13 +25,8 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				CallExpression: (node, { sourceFile, typeChecker }) => {
 					if (
-						!ts.isPropertyAccessExpression(node.expression) ||
-						node.expression.name.text !== "reverse" ||
-						node.arguments.length !== 0 ||
-						!typeChecker.isArrayType(
-							typeChecker.getTypeAtLocation(node.expression.expression),
-						) ||
-						ts.isExpressionStatement(node.parent)
+						!isBuiltinArrayMethod("reverse", node, typeChecker) ||
+						isInlineArrayCreation(node.expression.expression)
 					) {
 						return;
 					}

@@ -32,7 +32,7 @@ export class DirectivesFilterer {
 
 		const directiveRanges = computeDirectiveRanges(this.#directivesForRanges);
 
-		const myAray: string[] = [];
+		const myArrray: string[] = [];
 
 		return reports.filter(
 			(report) =>
