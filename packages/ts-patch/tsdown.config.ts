@@ -7,15 +7,9 @@ export default defineConfig({
 	},
 	clean: ["./node_modules/.cache/tsbuild/"],
 	dts: { build: true, incremental: true },
-	entry: [
-		"src/index.ts",
-		"src/install-patch.ts",
-		"src/install-patch-hooks.ts",
-		"src/proxy-program.ts",
-	],
+	entry: ["src/index.ts", "src/install-patch.ts", "src/install-patch-hooks.ts"],
 	exports: {
 		devExports: "@flint.fyi/source",
-		exclude: ["proxy-program"],
 		packageJson: false,
 	},
 	failOnWarn: true,

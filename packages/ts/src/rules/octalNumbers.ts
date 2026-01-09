@@ -1,3 +1,5 @@
+import { nullThrows } from "@flint.fyi/utils";
+
 import { typescriptLanguage } from "../language.ts";
 
 export default typescriptLanguage.createRule({
@@ -33,8 +35,14 @@ export default typescriptLanguage.createRule({
 					if (
 						text.length > 1 &&
 						text.startsWith("0") &&
-						text[1] >= "0" &&
-						text[1] <= "7" &&
+						nullThrows(
+							text[1],
+							"Second character is expected to be present by prior length check",
+						) >= "0" &&
+						nullThrows(
+							text[1],
+							"Second character is expected to be present by prior length check",
+						) <= "7" &&
 						!/^0[xobi]/i.test(text)
 					) {
 						const range = {
