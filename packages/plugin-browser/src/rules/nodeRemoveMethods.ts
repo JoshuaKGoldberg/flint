@@ -3,7 +3,8 @@ import {
 	isGlobalDeclaration,
 	typescriptLanguage,
 } from "@flint.fyi/ts";
-import * as ts from "typescript";
+import { nullThrows } from "@flint.fyi/utils";
+import { SyntaxKind } from "typescript";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -26,10 +27,10 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression(node: ts.CallExpression, { sourceFile, typeChecker }) {
+				CallExpression(node, { sourceFile, typeChecker }) {
 					if (
-						!ts.isPropertyAccessExpression(node.expression) ||
-						!ts.isIdentifier(node.expression.name) ||
+						node.expression.kind !== SyntaxKind.PropertyAccessExpression ||
+						node.expression.name.kind !== SyntaxKind.Identifier ||
 						node.expression.name.text !== "removeChild" ||
 						node.arguments.length !== 1 ||
 						!isGlobalDeclaration(node.expression, typeChecker)
@@ -38,7 +39,10 @@ export default typescriptLanguage.createRule({
 					}
 
 					const parentText = node.expression.expression.getText(sourceFile);
-					const childText = node.arguments[0].getText(sourceFile);
+					const childText = nullThrows(
+						node.arguments[0],
+						"First argument is expected to be present by prior length check",
+					).getText(sourceFile);
 
 					context.report({
 						data: {
