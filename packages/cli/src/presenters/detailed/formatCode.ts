@@ -1,14 +1,15 @@
 import type { FileReport } from "@flint.fyi/core";
+import { nullThrows } from "@flint.fyi/utils";
 import * as shikiCli from "@shikijs/cli";
 import chalk from "chalk";
 
 import { ColorCodes, indenter } from "./constants.ts";
 
 export async function formatCode(report: FileReport, sourceFileText: string) {
+	const { begin, end } = report.range;
 	const sourceFileLines = sourceFileText.split("\n");
-	const source = sourceFileLines
-		.slice(report.range.begin.line, report.range.end.line + 1)
-		.join("\n");
+	const sourceLines = sourceFileLines.slice(begin.line, end.line + 1);
+	const source = sourceLines.join("\n");
 
 	const highlighted = (
 		await shikiCli.codeToANSI(source, "typescript", "nord")
@@ -16,65 +17,58 @@ export async function formatCode(report: FileReport, sourceFileText: string) {
 
 	const highlightedLines = highlighted.split("\n");
 
-	const gutter = `${report.range.end.line + 1}:${Math.max(report.range.end.column, report.range.begin.column) + 1}`;
+	const gutter = `${end.line + 1}:${Math.max(end.column, begin.column) + 1}`;
 	const gutterWidth = `${gutter} │ `.length;
 
-	const createUnderline = (start: number, end: number) => {
-		return [
-			indenter,
-			chalk.gray("│ ".padStart(gutterWidth)),
-			" ".repeat(start),
-			chalk.hex(ColorCodes.codeWarningUnderline)(
-				"~".repeat(Math.max(end - start, 0)),
-			),
-		].join("");
-	};
+	const output: string[] = [];
 
-	const lines = highlightedLines.map((line, index) => {
-		const lineNumber = report.range.begin.line + index + 1;
-		const columnNumber = report.range.begin.column + 1;
-		const lineNumberStr = `${lineNumber}:${columnNumber}`;
+	for (let i = begin.line; i <= end.line; i++) {
+		const sourceLine = nullThrows(
+			sourceLines[i - begin.line],
+			"Line is expected to be present by the loop condition",
+		);
 
-		const parts = [
-			indenter,
-			chalk.hex(ColorCodes.codeLineNumbers)(
-				`${lineNumberStr} `.padStart(gutterWidth - 2),
-			),
-			chalk.gray("│ "),
-			line,
-			"\n",
-		];
-
-		const originalLine = sourceFileLines[report.range.begin.line + index];
-
-		if (!originalLine || originalLine.trim() === "") {
-			return "";
+		if (sourceLine.trim() === "") {
+			continue;
 		}
 
-		const isFirstLine = index === 0;
-		const isLastLine = index === highlightedLines.length - 1;
-		const originalLineLength = originalLine.length;
+		const highlightedLine = nullThrows(
+			highlightedLines[i - begin.line],
+			"Highlighted line is expected to be present by the loop condition",
+		);
 
-		if (isFirstLine && isLastLine) {
-			parts.push(
-				createUnderline(report.range.begin.column, report.range.end.column),
-			);
-		} else if (isFirstLine) {
-			parts.push(
-				createUnderline(report.range.begin.column, originalLineLength),
-			);
-		} else if (isLastLine) {
-			parts.push(createUnderline(0, report.range.end.column));
-		} else {
-			parts.push(createUnderline(0, originalLineLength));
-		}
+		const lineNumber = `${i + 1}:${begin.column + 1}`;
 
-		if (!isLastLine) {
-			parts.push("\n");
-		}
+		const prevLineIndent = /^[\t ]*/.exec(sourceLine)?.[0] ?? "";
 
-		return parts.join("");
-	});
+		output.push(
+			[
+				indenter,
+				chalk.hex(ColorCodes.codeLineNumbers)(
+					`${lineNumber} `.padStart(gutterWidth - 2),
+				),
+				chalk.gray("│ "),
+				highlightedLine,
+			].join(""),
+		);
 
-	return lines.join("");
+		const indent =
+			i === begin.line
+				? prevLineIndent.padEnd(begin.column, " ")
+				: prevLineIndent;
+
+		const squiggleEnd = i === end.line ? end.column : sourceLine.length;
+
+		output.push(
+			[
+				indenter,
+				chalk.gray("│ ".padStart(gutterWidth)),
+				chalk.hex(ColorCodes.codeWarningUnderline)(
+					indent.padEnd(squiggleEnd, "~"),
+				),
+			].join(""),
+		);
+	}
+
+	return output.join("\n");
 }
