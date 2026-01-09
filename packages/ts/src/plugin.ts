@@ -17,6 +17,7 @@ import builtinCoercions from "./rules/builtinCoercions.ts";
 import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
+import caseFallthroughs from "./rules/caseFallthroughs.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
 import classAssignments from "./rules/classAssignments.ts";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.ts";
@@ -95,6 +96,7 @@ export const ts = createPlugin({
 		builtinConstructorNews,
 		caseDeclarations,
 		caseDuplicates,
+		caseFallthroughs,
 		chainedAssignments,
 		classAssignments,
 		consecutiveNonNullAssertions,
