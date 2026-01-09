@@ -24,6 +24,9 @@
 		"lib/",
 		"!lib/**/*.map"
 	],
+	"scripts": {
+		"test": "vitest --typecheck"
+	},
 	"dependencies": {
 		"@flint.fyi/utils": "workspace:^",
 		"cached-factory": "^0.1.0",
