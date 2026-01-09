@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
+import type * as AST from "../types/ast.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -113,7 +114,7 @@ export default typescriptLanguage.createRule({
 });
 
 function findChildToken(
-	node: ts.Node,
+	node: AST.CallExpression | AST.ElementAccessExpression,
 	kind: ts.SyntaxKind,
 	sourceFile: ts.SourceFile,
 ) {
@@ -125,7 +126,7 @@ function findChildToken(
 	return undefined;
 }
 
-function getExpressionEnd(node: ts.CallExpression, sourceFile: ts.SourceFile) {
+function getExpressionEnd(node: AST.CallExpression, sourceFile: ts.SourceFile) {
 	const greaterThan =
 		node.typeArguments &&
 		findChildToken(node, ts.SyntaxKind.GreaterThanToken, sourceFile);
