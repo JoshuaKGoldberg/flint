@@ -53,7 +53,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           echo "🧩 Running Vitest in changed or dependent packages..."
-          pnpm --filter "...[origin/main]" vitest run --reporter=dot
+          pnpm --filter "...[origin/main]" vitest run
       # On main, run the full test suite w/ type checking
       - name: Run full test suite
         if: ${{ github.ref == 'refs/heads/main' }}
