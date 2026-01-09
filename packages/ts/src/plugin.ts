@@ -20,6 +20,7 @@ import builtinCoercions from "./rules/builtinCoercions.ts";
 import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
+import caughtErrorCauses from "./rules/caughtErrorCauses.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
 import classAssignments from "./rules/classAssignments.ts";
 import combinedPushes from "./rules/combinedPushes.ts";
@@ -102,6 +103,7 @@ export const ts = createPlugin({
 		builtinConstructorNews,
 		caseDeclarations,
 		caseDuplicates,
+		caughtErrorCauses,
 		chainedAssignments,
 		classAssignments,
 		combinedPushes,
