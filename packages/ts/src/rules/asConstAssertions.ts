@@ -1,47 +1,27 @@
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
+import type { AST } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
 
-function getExpressionValue(node: ts.Expression) {
-	if (ts.isStringLiteral(node)) {
-		return node.text;
+// TODO: Use a util like getStaticValue
+// https://github.com/flint-fyi/flint/issues/1298
+function getTextValue(node: AST.Expression | AST.TypeNode): string | undefined {
+	switch (node.kind) {
+		case ts.SyntaxKind.FalseKeyword:
+			return "false";
+		case ts.SyntaxKind.LiteralType:
+			return getTextValue(node.literal);
+		case ts.SyntaxKind.NumericLiteral:
+			return node.text;
+		case ts.SyntaxKind.StringLiteral:
+			return node.text;
+		case ts.SyntaxKind.TrueKeyword:
+			return "true";
 	}
-	if (ts.isNumericLiteral(node)) {
-		return node.text;
-	}
-	if (node.kind === ts.SyntaxKind.TrueKeyword) {
-		return "true";
-	}
-	if (node.kind === ts.SyntaxKind.FalseKeyword) {
-		return "false";
-	}
-	return undefined;
 }
 
-function getLiteralValue(node: ts.TypeNode) {
-	if (
-		ts.isLiteralTypeNode(node) &&
-		(ts.isStringLiteral(node.literal) || ts.isNumericLiteral(node.literal))
-	) {
-		return node.literal.text;
-	}
-	if (
-		ts.isLiteralTypeNode(node) &&
-		node.literal.kind === ts.SyntaxKind.TrueKeyword
-	) {
-		return "true";
-	}
-	if (
-		ts.isLiteralTypeNode(node) &&
-		node.literal.kind === ts.SyntaxKind.FalseKeyword
-	) {
-		return "false";
-	}
-	return undefined;
-}
-
-function isLiteralType(node: ts.TypeNode): boolean {
+function isLiteralType(node: AST.TypeNode): boolean {
 	return (
 		ts.isLiteralTypeNode(node) &&
 		(ts.isStringLiteral(node.literal) ||
@@ -79,41 +59,49 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
+		function compareTypes(
+			expressionNode: AST.Expression,
+			typeNode: AST.TypeNode,
+			message: "preferAsConst" | "preferAsConstAnnotation",
+			sourceFile: ts.SourceFile,
+		) {
+			const typeValue = getTextValue(typeNode);
+			if (typeValue === undefined) {
+				return;
+			}
+
+			const expressionValue = getTextValue(expressionNode);
+			if (expressionValue === undefined) {
+				return;
+			}
+
+			context.report({
+				message,
+				range: getTSNodeRange(typeNode, sourceFile),
+			});
+		}
+
 		return {
 			visitors: {
 				AsExpression: (node, { sourceFile }) => {
-					if (!isLiteralType(node.type)) {
-						return;
-					}
-
-					const typeValue = getLiteralValue(node.type);
-					const exprValue = getExpressionValue(node.expression);
-
-					if (typeValue !== undefined && typeValue === exprValue) {
-						context.report({
-							message: "preferAsConst",
-							range: getTSNodeRange(node.type, sourceFile),
-						});
+					if (isLiteralType(node.type)) {
+						compareTypes(
+							node.expression,
+							node.type,
+							"preferAsConst",
+							sourceFile,
+						);
 					}
 				},
 
 				VariableDeclaration: (node, { sourceFile }) => {
-					if (!node.type || !node.initializer) {
-						return;
-					}
-
-					if (!isLiteralType(node.type)) {
-						return;
-					}
-
-					const typeValue = getLiteralValue(node.type);
-					const exprValue = getExpressionValue(node.initializer);
-
-					if (typeValue !== undefined && typeValue === exprValue) {
-						context.report({
-							message: "preferAsConstAnnotation",
-							range: getTSNodeRange(node.type, sourceFile),
-						});
+					if (node.initializer && node.type && isLiteralType(node.type)) {
+						compareTypes(
+							node.initializer,
+							node.type,
+							"preferAsConstAnnotation",
+							sourceFile,
+						);
 					}
 				},
 			},
