@@ -1,8 +1,15 @@
 import { createPlugin } from "@flint.fyi/core";
 
+import anyArguments from "./rules/anyArguments.ts";
 import anyReturns from "./rules/anyReturns.ts";
+import argumentsRule from "./rules/arguments.ts";
+import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
+import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
+import asConstAssertions from "./rules/asConstAssertions.ts";
 import assignmentOperatorShorthands from "./rules/assignmentOperatorShorthands.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
+import asyncUnnecessaryPromiseWrappers from "./rules/asyncUnnecessaryPromiseWrappers.ts";
+import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
@@ -66,9 +73,16 @@ export const ts = createPlugin({
 	},
 	name: "TypeScript",
 	rules: [
+		anyArguments,
 		anyReturns,
+		argumentsRule,
+		arrayMapIdentities,
+		arrayMutableReverses,
+		asConstAssertions,
 		assignmentOperatorShorthands,
 		asyncPromiseExecutors,
+		asyncUnnecessaryPromiseWrappers,
+		builtinConstructorNews,
 		caseDeclarations,
 		caseDuplicates,
 		chainedAssignments,
