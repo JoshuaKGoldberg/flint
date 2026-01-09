@@ -58,10 +58,12 @@ export default typescriptLanguage.createRule({
 	},
 });
 
-function isArrayType(node: AST.AnyNode, typeChecker: ts.TypeChecker) {
-	return (
-		ts.isPropertyAccessExpression(node) &&
-		typeChecker.isArrayType(typeChecker.getTypeAtLocation(node.expression))
+function isArrayType(
+	node: AST.PropertyAccessExpression,
+	typeChecker: ts.TypeChecker,
+) {
+	return typeChecker.isArrayType(
+		typeChecker.getTypeAtLocation(node.expression),
 	);
 }
 
