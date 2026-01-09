@@ -65,14 +65,14 @@ export function finalizeFileResults(
 		log("Disposed language %s for file %s", language.about.name, filePath);
 	}
 
-	const filterResult = directivesFilterer.filter(reports);
-
 	const directiveReportsFromCollector: FileReport[] = [];
 	for (const { fileMetadata } of languageAndFilesMetadata) {
 		if (fileMetadata.reports) {
 			directiveReportsFromCollector.push(...fileMetadata.reports);
 		}
 	}
+
+	const filterResult = directivesFilterer.filter(reports);
 
 	const unusedDirectiveReports = filterResult.unusedDirectives.map(
 		(directive) => directiveReports.createUnused(directive),
