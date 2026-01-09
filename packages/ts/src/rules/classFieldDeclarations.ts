@@ -1,6 +1,31 @@
 import ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import type { AST } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
+
+function isLiteralValue(node: AST.AnyNode) {
+	if (ts.isPrefixUnaryExpression(node)) {
+		return isLiteralValue(node.operand);
+	}
+
+	return (
+		node.kind === ts.SyntaxKind.TrueKeyword ||
+		node.kind === ts.SyntaxKind.FalseKeyword ||
+		node.kind === ts.SyntaxKind.NullKeyword ||
+		ts.isLiteralExpression(node)
+	);
+}
+
+function isThisLiteralAssignment(node: AST.BinaryExpression) {
+	return (
+		(ts.isElementAccessExpression(node.left) ||
+			ts.isPropertyAccessExpression(node.left)) &&
+		ts.isPropertyAccessExpression(node.left) &&
+		node.left.expression.kind === ts.SyntaxKind.ThisKeyword &&
+		isLiteralValue(node.right)
+	);
+}
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -23,89 +48,38 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
+		function checkStatement(node: AST.Statement, sourceFile: ts.SourceFile) {
+			if (
+				!ts.isExpressionStatement(node) ||
+				!ts.isBinaryExpression(node.expression) ||
+				node.expression.operatorToken.kind !== ts.SyntaxKind.EqualsToken ||
+				!isThisLiteralAssignment(node.expression)
+			) {
+				return;
+			}
+
+			context.report({
+				message: "preferClassField",
+				range: getTSNodeRange(node, sourceFile),
+			});
+		}
+
 		return {
 			visitors: {
 				Constructor: (node, { sourceFile }) => {
-					if (!node.body) {
-						return;
-					}
-
-					const classDeclaration = node.parent;
 					if (
-						!ts.isClassDeclaration(classDeclaration) &&
-						!ts.isClassExpression(classDeclaration)
+						!node.body ||
+						(!ts.isClassDeclaration(node.parent) &&
+							!ts.isClassExpression(node.parent))
 					) {
 						return;
 					}
 
 					for (const statement of node.body.statements) {
-						if (!ts.isExpressionStatement(statement)) {
-							continue;
-						}
-
-						const expression = statement.expression;
-						if (!ts.isBinaryExpression(expression)) {
-							continue;
-						}
-
-						if (expression.operatorToken.kind !== ts.SyntaxKind.EqualsToken) {
-							continue;
-						}
-
-						const left = expression.left;
-						if (
-							!ts.isPropertyAccessExpression(left) &&
-							!ts.isElementAccessExpression(left)
-						) {
-							continue;
-						}
-
-						if (!ts.isPropertyAccessExpression(left)) {
-							continue;
-						}
-
-						if (left.expression.kind !== ts.SyntaxKind.ThisKeyword) {
-							continue;
-						}
-
-						const right = expression.right;
-						if (!isLiteralValue(right)) {
-							continue;
-						}
-
-						context.report({
-							message: "preferClassField",
-							range: {
-								begin: statement.getStart(sourceFile),
-								end: statement.getEnd(),
-							},
-						});
+						checkStatement(statement, sourceFile);
 					}
 				},
 			},
 		};
 	},
 });
-
-function isLiteralValue(node: ts.Node): boolean {
-	if (ts.isLiteralExpression(node)) {
-		return true;
-	}
-
-	if (
-		node.kind === ts.SyntaxKind.TrueKeyword ||
-		node.kind === ts.SyntaxKind.FalseKeyword
-	) {
-		return true;
-	}
-
-	if (node.kind === ts.SyntaxKind.NullKeyword) {
-		return true;
-	}
-
-	if (ts.isPrefixUnaryExpression(node)) {
-		return isLiteralValue(node.operand);
-	}
-
-	return false;
-}
