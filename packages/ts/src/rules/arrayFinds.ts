@@ -29,8 +29,7 @@ export default typescriptLanguage.createRule({
 					if (
 						!ts.isNumericLiteral(node.argumentExpression) ||
 						node.argumentExpression.text !== "0" ||
-						!isFilterCall(node.expression, typeChecker) ||
-						node.expression.arguments.length === 0
+						!isFilterCall(node.expression, typeChecker)
 					) {
 						return;
 					}
@@ -64,6 +63,7 @@ function isFilterCall(
 	return (
 		ts.isCallExpression(node) &&
 		ts.isPropertyAccessExpression(node.expression) &&
+		node.arguments.length === 0 &&
 		node.expression.name.text === "filter" &&
 		typeChecker.isArrayType(
 			typeChecker.getTypeAtLocation(node.expression.expression),
