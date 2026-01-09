@@ -8,13 +8,16 @@ export function formatSuggestion(
 	suggestion: string,
 ) {
 	if (data) {
-		suggestion = suggestion.replaceAll(/\{\{\s*(\w+)\s*\}\}/g, (match, key) => {
-			if (key in data) {
-				return String(data[key]);
-			}
+		suggestion = suggestion.replaceAll(
+			/\{\{\s*(\w+)\s*\}\}/g,
+			(match, key: string) => {
+				if (key in data) {
+					return String(data[key]);
+				}
 
-			return match;
-		});
+				return match;
+			},
+		);
 	}
 
 	return [

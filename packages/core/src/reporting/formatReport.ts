@@ -11,7 +11,7 @@ export function formatReport(
 		return content;
 	}
 
-	return content.replaceAll(/\{\{\s*(\w+)\s*\}\}/g, (match, key) => {
+	return content.replaceAll(/\{\{\s*(\w+)\s*\}\}/g, (match, key: string) => {
 		if (key in data) {
 			return String(data[key]);
 		}
