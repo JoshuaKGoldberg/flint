@@ -19,7 +19,7 @@ export async function* createDetailedReport(
 	if (data) {
 		report.message.primary = report.message.primary.replace(
 			/\{\{\s*(\w+)\s*\}\}/g,
-			(match, key) => {
+			(match, key: string) => {
 				if (key in data) {
 					return String(data[key]);
 				}
