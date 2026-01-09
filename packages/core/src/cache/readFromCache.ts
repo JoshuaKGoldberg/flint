@@ -118,6 +118,13 @@ export async function readFromCache(
 		}
 	}
 
+	// Remove cached files that no longer exist
+	for (const filePath of cached.keys()) {
+		if (!allFilePaths.has(filePath)) {
+			cached.delete(filePath);
+		}
+	}
+
 	log(
 		"Retrieved from %s: %d file(s) cached out of %d",
 		cacheFilePath,
