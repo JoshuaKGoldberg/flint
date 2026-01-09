@@ -24,23 +24,15 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression: (node, { sourceFile, typeChecker }) => {
-					if (!ts.isPropertyAccessExpression(node.expression)) {
-						return;
-					}
-
-					if (node.expression.name.text !== "reverse") {
-						return;
-					}
-
-					if (node.arguments.length !== 0) {
-						return;
-					}
-
-					if (!isArrayType(node.expression.expression, typeChecker)) {
-						return;
-					}
-
-					if (isExpressionStatement(node)) {
+					if (
+						!ts.isPropertyAccessExpression(node.expression) ||
+						node.expression.name.text !== "reverse" ||
+						node.arguments.length !== 0 ||
+						!typeChecker.isArrayType(
+							typeChecker.getTypeAtLocation(node.expression.expression),
+						) ||
+						ts.isExpressionStatement(node.parent)
+					) {
 						return;
 					}
 
@@ -65,12 +57,3 @@ export default typescriptLanguage.createRule({
 		};
 	},
 });
-
-function isArrayType(node: ts.Node, typeChecker: ts.TypeChecker) {
-	const type = typeChecker.getTypeAtLocation(node);
-	return typeChecker.isArrayType(type);
-}
-
-function isExpressionStatement(node: ts.Node) {
-	return ts.isExpressionStatement(node.parent);
-}
