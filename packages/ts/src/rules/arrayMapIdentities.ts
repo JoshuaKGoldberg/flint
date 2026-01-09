@@ -24,19 +24,16 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression: (node, { sourceFile }) => {
-					if (!ts.isPropertyAccessExpression(node.expression)) {
+					if (
+						!ts.isPropertyAccessExpression(node.expression) ||
+						node.expression.name.text !== "flatMap" ||
+						node.arguments.length !== 1
+					) {
 						return;
 					}
 
-					if (node.expression.name.text !== "flatMap") {
-						return;
-					}
-
-					if (node.arguments.length !== 1) {
-						return;
-					}
-
-					const callback = node.arguments[0];
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const callback = node.arguments[0]!;
 					if (!isIdentityFunction(callback)) {
 						return;
 					}
@@ -68,7 +65,8 @@ function blockReturnsIdentifier(block: ts.Block, parameterName: string) {
 		return false;
 	}
 
-	const statement = block.statements[0];
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	const statement = block.statements[0]!;
 	if (!ts.isReturnStatement(statement) || !statement.expression) {
 		return false;
 	}
@@ -91,7 +89,8 @@ function getSingleParameterName(
 		return undefined;
 	}
 
-	const parameter = parameters[0];
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	const parameter = parameters[0]!;
 	if (!ts.isIdentifier(parameter.name)) {
 		return undefined;
 	}
