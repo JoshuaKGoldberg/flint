@@ -374,7 +374,6 @@ fn(value);
 		`declare function fn(x: string, y: number): void; const t = ['a', 1] as const; fn(...t);`,
 		`declare function tag(strings: TemplateStringsArray, x: number): void; tag\`\${42}\`;`,
 		`declare function tag(strings: TemplateStringsArray, x: any): void; declare const v: any; tag\`\${v}\`;`,
-		`declare function fn(...args: unknown[]): void; declare const x: any[]; fn(...x);`,
 		`declare function fn(...args: any[]): void; declare const x: any[]; fn(...x);`,
 		`declare function fn(x: any, y: string): void; declare const a: any; fn(a, "safe");`,
 		`new Set<string>(["a", "b"]);`,

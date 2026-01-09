@@ -1,6 +1,7 @@
 import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
+import type { AST, Checker } from "../index.ts";
 import {
 	type TypeScriptFileServices,
 	typescriptLanguage,
@@ -51,7 +52,7 @@ export default typescriptLanguage.createRule({
 	},
 	setup(context) {
 		function checkCallArguments(
-			node: ts.CallExpression | ts.NewExpression,
+			node: AST.CallExpression | AST.NewExpression,
 			{ program, sourceFile, typeChecker }: TypeScriptFileServices,
 		) {
 			if (!node.arguments) {
@@ -92,9 +93,7 @@ export default typescriptLanguage.createRule({
 								continue;
 							}
 							if (typeChecker.isArrayType(restType)) {
-								const elementType = typeChecker.getTypeArguments(
-									restType as ts.TypeReference,
-								)[0];
+								const elementType = typeChecker.getTypeArguments(restType)[0];
 								if (
 									elementType &&
 									tsutils.isTypeFlagSet(
@@ -109,7 +108,7 @@ export default typescriptLanguage.createRule({
 
 						context.report({
 							data: {
-								type: anyTypeToString(anyType),
+								type: anyType,
 							},
 							message: "unsafeSpread",
 							range: {
@@ -211,7 +210,7 @@ export default typescriptLanguage.createRule({
 				context.report({
 					data: {
 						paramType: typeChecker.typeToString(parameterInfo.type),
-						type: anyTypeToString(anyType),
+						type: anyType,
 					},
 					message: "unsafeArgument",
 					range: {
@@ -312,7 +311,7 @@ export default typescriptLanguage.createRule({
 						context.report({
 							data: {
 								paramType: typeChecker.typeToString(parameterType),
-								type: anyTypeToString(anyType),
+								type: anyType,
 							},
 							message: "unsafeArgument",
 							range: {
@@ -339,12 +338,12 @@ export default typescriptLanguage.createRule({
 				return undefined;
 			}
 
-			const lastParamDecl = lastParam.declarations?.[0];
+			const lastParamDeclaration = lastParam.declarations?.[0];
 
 			if (
-				lastParamDecl &&
-				ts.isParameter(lastParamDecl) &&
-				lastParamDecl.dotDotDotToken
+				lastParamDeclaration &&
+				ts.isParameter(lastParamDeclaration) &&
+				lastParamDeclaration.dotDotDotToken
 			) {
 				if (index < parameters.length - 1) {
 					const param = parameters[index];
@@ -390,7 +389,7 @@ export default typescriptLanguage.createRule({
 			tupleType: ts.TypeReference,
 			parameters: readonly ts.Symbol[],
 			startIndex: number,
-			typeChecker: ts.TypeChecker,
+			typeChecker: Checker,
 			program: ts.Program,
 			node: ts.Node,
 		): undefined | { paramType: ts.Type } {
@@ -432,19 +431,6 @@ export default typescriptLanguage.createRule({
 			}
 
 			return undefined;
-		}
-
-		function anyTypeToString(anyType: AnyType): string {
-			switch (anyType) {
-				case AnyType.Any:
-					return "any";
-				case AnyType.AnyArray:
-					return "any[]";
-				case AnyType.PromiseAny:
-					return "Promise<any>";
-				default:
-					return "any";
-			}
 		}
 	},
 });
