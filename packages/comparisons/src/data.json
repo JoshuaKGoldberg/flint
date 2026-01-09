@@ -7185,7 +7185,8 @@
 		"flint": {
 			"name": "arrayCallbackReturns",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7613,7 +7614,8 @@
 		"flint": {
 			"name": "arrayMutableSorts",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -7853,7 +7855,8 @@
 		"flint": {
 			"name": "assignmentOperatorShorthands",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
