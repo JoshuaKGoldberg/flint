@@ -1,7 +1,11 @@
+import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
+import type { AST } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
+import { hasSameTokens } from "../utils/hasSameTokens.ts";
+import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -27,6 +31,10 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				ElementAccessExpression: (node, { sourceFile }) => {
+					if (isLeftHandSide(node)) {
+						return;
+					}
+
 					if (!isLengthMinusAccess(node, sourceFile)) {
 						return;
 					}
@@ -41,19 +49,67 @@ export default typescriptLanguage.createRule({
 	},
 });
 
-function hasSameText(
-	a: ts.Expression,
-	b: ts.Expression,
-	sourceFile: ts.SourceFile,
-) {
-	return a.getText(sourceFile) === b.getText(sourceFile);
+function isLeftHandSide(node: AST.ElementAccessExpression): boolean {
+	const parent = node.parent;
+
+	if (
+		ts.isBinaryExpression(parent) &&
+		tsutils.isAssignmentKind(parent.operatorToken.kind) &&
+		parent.left === node
+	) {
+		return true;
+	}
+
+	if (
+		(ts.isPostfixUnaryExpression(parent) ||
+			ts.isPrefixUnaryExpression(parent)) &&
+		parent.operand === node
+	) {
+		return true;
+	}
+
+	if (ts.isDeleteExpression(parent)) {
+		return true;
+	}
+
+	if (ts.isArrayLiteralExpression(parent)) {
+		const grandparent = parent.parent;
+		if (
+			ts.isBinaryExpression(grandparent) &&
+			tsutils.isAssignmentKind(grandparent.operatorToken.kind) &&
+			grandparent.left === parent
+		) {
+			return true;
+		}
+	}
+
+	if (
+		ts.isPropertyAssignment(parent) ||
+		ts.isShorthandPropertyAssignment(parent)
+	) {
+		const objectLiteral = parent.parent;
+		if (ts.isObjectLiteralExpression(objectLiteral)) {
+			const greatGrandparent = objectLiteral.parent;
+			if (
+				ts.isBinaryExpression(greatGrandparent) &&
+				tsutils.isAssignmentKind(greatGrandparent.operatorToken.kind) &&
+				greatGrandparent.left === objectLiteral
+			) {
+				return true;
+			}
+		}
+	}
+
+	return false;
 }
 
 function isLengthMinusAccess(
-	node: ts.ElementAccessExpression,
+	node: AST.ElementAccessExpression,
 	sourceFile: ts.SourceFile,
 ) {
-	const argument = node.argumentExpression;
+	const argument = unwrapParenthesizedExpression(
+		node.argumentExpression,
+	) as AST.Expression;
 
 	if (!ts.isBinaryExpression(argument)) {
 		return false;
@@ -63,7 +119,7 @@ function isLengthMinusAccess(
 		return false;
 	}
 
-	const left = argument.left;
+	const left = unwrapParenthesizedExpression(argument.left) as AST.Expression;
 	if (!ts.isPropertyAccessExpression(left)) {
 		return false;
 	}
@@ -72,11 +128,24 @@ function isLengthMinusAccess(
 		return false;
 	}
 
-	if (!hasSameText(left.expression, node.expression, sourceFile)) {
+	const unwrappedLengthExpression = unwrapParenthesizedExpression(
+		left.expression,
+	) as AST.Expression;
+	const unwrappedNodeExpression = unwrapParenthesizedExpression(
+		node.expression,
+	) as AST.Expression;
+
+	if (
+		!hasSameTokens(
+			unwrappedLengthExpression,
+			unwrappedNodeExpression,
+			sourceFile,
+		)
+	) {
 		return false;
 	}
 
-	const right = argument.right;
+	const right = unwrapParenthesizedExpression(argument.right) as AST.Expression;
 	if (!ts.isNumericLiteral(right)) {
 		return false;
 	}

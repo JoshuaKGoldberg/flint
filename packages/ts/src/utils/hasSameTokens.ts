@@ -2,6 +2,10 @@ import ts from "typescript";
 
 import type { AST } from "../index.ts";
 
+function getTokenText(node: ts.Node, sourceFile: ts.SourceFile): string {
+	return sourceFile.text.slice(node.getStart(sourceFile), node.getEnd());
+}
+
 export function hasSameTokens(
 	nodeA: AST.Expression,
 	nodeB: AST.Expression,
@@ -23,7 +27,10 @@ export function hasSameTokens(
 		}
 
 		if (ts.isTokenKind(currentA.kind)) {
-			if (currentA.getText(sourceFile) !== currentB.getText(sourceFile)) {
+			if (
+				getTokenText(currentA, sourceFile) !==
+				getTokenText(currentB, sourceFile)
+			) {
 				return false;
 			}
 			continue;
