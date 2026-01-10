@@ -56,6 +56,7 @@ import functionApplySpreads from "./rules/functionApplySpreads.ts";
 import functionAssignments from "./rules/functionAssignments.ts";
 import functionCurryingRedundancy from "./rules/functionCurryingRedundancy.ts";
 import functionNewCalls from "./rules/functionNewCalls.ts";
+import functionTypeDeclarations from "./rules/functionTypeDeclarations.ts";
 import generatorFunctionYields from "./rules/generatorFunctionYields.ts";
 import globalAssignments from "./rules/globalAssignments.ts";
 import globalObjectCalls from "./rules/globalObjectCalls.ts";
@@ -154,6 +155,7 @@ export const ts = createPlugin({
 		functionApplySpreads,
 		functionCurryingRedundancy,
 		functionNewCalls,
+		functionTypeDeclarations,
 		generatorFunctionYields,
 		globalAssignments,
 		globalObjectCalls,
