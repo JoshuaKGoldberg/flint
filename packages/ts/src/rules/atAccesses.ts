@@ -31,72 +31,50 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				ElementAccessExpression: (node, { sourceFile }) => {
-					if (isLeftHandSide(node)) {
-						return;
+					if (!isLeftHandSide(node) && isLengthMinusAccess(node, sourceFile)) {
+						context.report({
+							message: "preferAt",
+							range: getTSNodeRange(node, sourceFile),
+						});
 					}
-
-					if (!isLengthMinusAccess(node, sourceFile)) {
-						return;
-					}
-
-					context.report({
-						message: "preferAt",
-						range: getTSNodeRange(node, sourceFile),
-					});
 				},
 			},
 		};
 	},
 });
 
-function isLeftHandSide(node: AST.ElementAccessExpression): boolean {
-	const parent = node.parent;
-
-	if (
-		ts.isBinaryExpression(parent) &&
-		tsutils.isAssignmentKind(parent.operatorToken.kind) &&
-		parent.left === node
-	) {
-		return true;
-	}
-
-	if (
-		(ts.isPostfixUnaryExpression(parent) ||
-			ts.isPrefixUnaryExpression(parent)) &&
-		parent.operand === node
-	) {
-		return true;
-	}
-
-	if (ts.isDeleteExpression(parent)) {
-		return true;
-	}
-
-	if (ts.isArrayLiteralExpression(parent)) {
-		const grandparent = parent.parent;
-		if (
-			ts.isBinaryExpression(grandparent) &&
-			tsutils.isAssignmentKind(grandparent.operatorToken.kind) &&
-			grandparent.left === parent
-		) {
-			return true;
+function isLeftHandSide(node: AST.ElementAccessExpression) {
+	switch (node.parent.kind) {
+		case ts.SyntaxKind.ArrayLiteralExpression: {
+			return (
+				ts.isBinaryExpression(node.parent.parent) &&
+				tsutils.isAssignmentKind(node.parent.parent.operatorToken.kind) &&
+				node.parent.parent.left === node.parent
+			);
 		}
-	}
 
-	if (
-		ts.isPropertyAssignment(parent) ||
-		ts.isShorthandPropertyAssignment(parent)
-	) {
-		const objectLiteral = parent.parent;
-		if (ts.isObjectLiteralExpression(objectLiteral)) {
-			const greatGrandparent = objectLiteral.parent;
-			if (
-				ts.isBinaryExpression(greatGrandparent) &&
-				tsutils.isAssignmentKind(greatGrandparent.operatorToken.kind) &&
-				greatGrandparent.left === objectLiteral
-			) {
-				return true;
-			}
+		case ts.SyntaxKind.BinaryExpression:
+			return (
+				tsutils.isAssignmentKind(node.parent.operatorToken.kind) &&
+				node.parent.left === node
+			);
+
+		case ts.SyntaxKind.DeleteExpression:
+			return true;
+
+		case ts.SyntaxKind.PostfixUnaryExpression:
+		case ts.SyntaxKind.PrefixUnaryExpression:
+			return node.parent.operand === node;
+
+		case ts.SyntaxKind.PropertyAssignment:
+		case ts.SyntaxKind.ShorthandPropertyAssignment: {
+			return (
+				node.parent.parent.parent.kind === ts.SyntaxKind.BinaryExpression &&
+				tsutils.isAssignmentKind(
+					node.parent.parent.parent.operatorToken.kind,
+				) &&
+				node.parent.parent.parent.left === node.parent.parent
+			);
 		}
 	}
 
@@ -107,45 +85,25 @@ function isLengthMinusAccess(
 	node: AST.ElementAccessExpression,
 	sourceFile: ts.SourceFile,
 ) {
-	const argument = unwrapParenthesizedExpression(
-		node.argumentExpression,
-	) as AST.Expression;
-
-	if (!ts.isBinaryExpression(argument)) {
-		return false;
-	}
-
-	if (argument.operatorToken.kind !== ts.SyntaxKind.MinusToken) {
-		return false;
-	}
-
-	const left = unwrapParenthesizedExpression(argument.left) as AST.Expression;
-	if (!ts.isPropertyAccessExpression(left)) {
-		return false;
-	}
-
-	if (left.name.text !== "length") {
-		return false;
-	}
-
-	const unwrappedLengthExpression = unwrapParenthesizedExpression(
-		left.expression,
-	) as AST.Expression;
-	const unwrappedNodeExpression = unwrapParenthesizedExpression(
-		node.expression,
-	) as AST.Expression;
+	const argument = unwrapParenthesizedExpression(node.argumentExpression);
 
 	if (
-		!hasSameTokens(
-			unwrappedLengthExpression,
-			unwrappedNodeExpression,
-			sourceFile,
-		)
+		!ts.isBinaryExpression(argument) ||
+		argument.operatorToken.kind !== ts.SyntaxKind.MinusToken
 	) {
 		return false;
 	}
 
-	const right = unwrapParenthesizedExpression(argument.right) as AST.Expression;
+	const left = unwrapParenthesizedExpression(argument.left);
+	if (
+		!ts.isPropertyAccessExpression(left) ||
+		left.name.text !== "length" ||
+		!hasSameTokens(left.expression, node.expression, sourceFile)
+	) {
+		return false;
+	}
+
+	const right = unwrapParenthesizedExpression(argument.right);
 	if (!ts.isNumericLiteral(right)) {
 		return false;
 	}

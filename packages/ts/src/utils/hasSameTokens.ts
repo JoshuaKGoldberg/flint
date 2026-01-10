@@ -1,18 +1,15 @@
 import ts from "typescript";
 
 import type { AST } from "../index.ts";
-
-function getTokenText(node: ts.Node, sourceFile: ts.SourceFile): string {
-	return sourceFile.text.slice(node.getStart(sourceFile), node.getEnd());
-}
+import { unwrapParenthesizedExpression } from "./unwrapParenthesizedExpression.ts";
 
 export function hasSameTokens(
 	nodeA: AST.Expression,
 	nodeB: AST.Expression,
 	sourceFile: ts.SourceFile,
 ): boolean {
-	const queueA: ts.Node[] = [nodeA];
-	const queueB: ts.Node[] = [nodeB];
+	const queueA: ts.Node[] = [unwrapParenthesizedExpression(nodeA)];
+	const queueB: ts.Node[] = [unwrapParenthesizedExpression(nodeB)];
 
 	while (true) {
 		const currentA = queueA.shift();
@@ -27,10 +24,7 @@ export function hasSameTokens(
 		}
 
 		if (ts.isTokenKind(currentA.kind)) {
-			if (
-				getTokenText(currentA, sourceFile) !==
-				getTokenText(currentB, sourceFile)
-			) {
+			if (!areSameToken(currentA, currentB, sourceFile)) {
 				return false;
 			}
 			continue;
@@ -48,4 +42,30 @@ export function hasSameTokens(
 	}
 
 	return queueA.length === queueB.length;
+}
+
+function areSameToken(
+	nodeA: ts.Node,
+	nodeB: ts.Node,
+	sourceFile: ts.SourceFile,
+): boolean {
+	if (
+		ts.isIdentifier(nodeA) ||
+		ts.isPrivateIdentifier(nodeA) ||
+		ts.isNumericLiteral(nodeA) ||
+		ts.isBigIntLiteral(nodeA) ||
+		ts.isStringLiteral(nodeA) ||
+		ts.isNoSubstitutionTemplateLiteral(nodeA)
+	) {
+		return nodeA.text === (nodeB as typeof nodeA).text;
+	}
+
+	if (nodeA.kind === ts.SyntaxKind.RegularExpressionLiteral) {
+		return (
+			sourceFile.text.slice(nodeA.getStart(sourceFile), nodeA.getEnd()) ===
+			sourceFile.text.slice(nodeB.getStart(sourceFile), nodeB.getEnd())
+		);
+	}
+
+	return true;
 }

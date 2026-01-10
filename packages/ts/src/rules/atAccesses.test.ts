@@ -274,10 +274,34 @@ const ninth = array[array.length - 9];
 `,
 		},
 		{
-			code: `array[array /* comment */.length - 1]`,
-			snapshot: `array[array /* comment */.length - 1]
+			code: `
+array[array /* comment */.length - 1]
+`,
+			snapshot: `
+array[array /* comment */.length - 1]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Prefer using .at() with a negative index instead of calculating length minus an offset.`,
+Prefer using .at() with a negative index instead of calculating length minus an offset.
+`,
+		},
+		{
+			code: `
+/* before */ if /* after */ (true) { array[array.length - 1]; }
+`,
+			snapshot: `
+/* before */ if /* after */ (true) { array[array.length - 1]; }
+                                     ~~~~~~~~~~~~~~~~~~~~~~~
+                                     Prefer using .at() with a negative index instead of calculating length minus an offset.
+`,
+		},
+		{
+			code: `
+obj.array[obj.array/* comment */.length - 1]
+`,
+			snapshot: `
+obj.array[obj.array/* comment */.length - 1]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Prefer using .at() with a negative index instead of calculating length minus an offset.
+`,
 		},
 	],
 	valid: [
