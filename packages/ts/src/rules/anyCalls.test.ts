@@ -289,42 +289,6 @@ value();
 Unsafe call of \`Function\` typed value.
 `,
 		},
-		{
-			code: `
-let value: NotKnown;
-value();
-`,
-			snapshot: `
-let value: NotKnown;
-value();
-~~~~~
-Unsafe call of \`error\` typed value.
-`,
-		},
-		{
-			code: `
-let value: NotKnown;
-value\`template\`;
-`,
-			snapshot: `
-let value: NotKnown;
-value\`template\`;
-~~~~~
-Unsafe use of \`error\` typed template tag.
-`,
-		},
-		{
-			code: `
-let value: NotKnown;
-new value();
-`,
-			snapshot: `
-let value: NotKnown;
-new value();
-    ~~~~~
-    Unsafe construction of \`error\` typed value.
-`,
-		},
 	],
 	valid: [
 		`
@@ -380,6 +344,34 @@ obj.a?.();
 		`String.raw\`template\`;`,
 		`new Function('return 1');`,
 		`Function('return 1');`,
+		// Dynamic import() is safe - it's a language construct with a well-defined Promise return type
+		`const x = import('./foo');`,
+		`const mod = await import("./module");`,
+		`import("./dynamic-" + path);`,
+		`import(\`./\${moduleName}\`);`,
+		// Error types are skipped - they represent type resolution failures, not unsafe any usage
+		`
+let value: NotKnown;
+value();
+`,
+		`
+let value: NotKnown;
+value\`template\`;
+`,
+		`
+let value: NotKnown;
+new value();
+`,
+		// Dynamic property access with optional chaining (common visitor pattern)
+		`
+declare const visitors: Record<string, ((node: unknown) => void) | undefined>;
+declare const key: string;
+visitors[key]?.();
+`,
+		`
+declare const obj: { [k: string]: unknown };
+obj["method"]?.();
+`,
 		`
 {
     type Function = () => void;

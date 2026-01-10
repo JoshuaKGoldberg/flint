@@ -49,6 +49,10 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
+		function isImportExpression(node: AST.Expression): boolean {
+			return node.kind === ts.SyntaxKind.ImportKeyword;
+		}
+
 		function checkNode(
 			node: AST.Expression,
 			{ program, sourceFile, typeChecker }: TypeScriptFileServices,
@@ -58,10 +62,14 @@ export default typescriptLanguage.createRule({
 			const type = getConstrainedTypeAtLocation(node, typeChecker);
 
 			if (tsutils.isTypeFlagSet(type, ts.TypeFlags.Any)) {
+				// Skip error types - they represent type resolution failures,
+				// not actual unsafe any usage. The developer is already aware
+				// via @ts-expect-error comments.
+				if (tsutils.isIntrinsicErrorType(type)) {
+					return;
+				}
 				context.report({
-					data: {
-						type: tsutils.isIntrinsicErrorType(type) ? "`error`" : "`any`",
-					},
+					data: { type: "`any`" },
 					message,
 					range: getTSNodeRange(node, sourceFile),
 				});
@@ -97,7 +105,9 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression: (node, services) => {
-					checkNode(node.expression, services, "unsafeCall");
+					if (node.expression.kind !== ts.SyntaxKind.ImportKeyword) {
+						checkNode(node.expression, services, "unsafeCall");
+					}
 				},
 				NewExpression: (node, services) => {
 					checkNode(node.expression, services, "unsafeNew", true);
