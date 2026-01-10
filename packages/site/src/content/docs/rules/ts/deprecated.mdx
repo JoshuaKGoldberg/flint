@@ -11,10 +11,10 @@ import RuleSummary from "~/components/RuleSummary.astro";
 <RuleSummary plugin="ts" rule="deprecated" />
 
 The [JSDoc `@deprecated` tag](https://jsdoc.app/tags-deprecated) documents code that should no longer be used.
-Using deprecated code leads to maintenance issues when that code is eventually removed.
+TypeScript already visually indicates deprecated code with strikethrough styling, but does not produce errors for using it.
+Using deprecated code often leads to maintenance issues when that code is eventually removed.
 
 This rule reports references to code marked with `@deprecated`.
-TypeScript already visually indicates deprecated code with strikethrough styling, but does not produce errors for using it.
 
 ## Examples
 

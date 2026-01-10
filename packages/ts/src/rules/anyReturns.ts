@@ -74,7 +74,8 @@ export default typescriptLanguage.createRule({
 				// It says "With TypeScript v5, in favor of typescript's `isFunctionLike`."
 				// However, isFunctionLike also checks for signature-like nodes,
 				// whereas isFunctionLikeDeclaration checks only for function-like nodes.
-				// eslint-disable-next-line @typescript-eslint/no-deprecated
+
+				// flint-disable-next-line deprecated
 				tsutils.isFunctionLikeDeclaration,
 			);
 			if (!functionNode) {
