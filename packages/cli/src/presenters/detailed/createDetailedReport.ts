@@ -1,8 +1,4 @@
-import {
-	type FileReport,
-	formatReport,
-	isSuggestionForFiles,
-} from "@flint.fyi/core";
+import { type FileReport, formatReport } from "@flint.fyi/core";
 import { nullThrows } from "@flint.fyi/utils";
 import chalk from "chalk";
 
@@ -47,37 +43,30 @@ export async function* createDetailedReport(
 	);
 	yield `\n${indenter}\n`;
 
-	const allSuggestions: string[] = [...report.message.suggestions];
+	const filteredSuggestions = report.message.suggestions.filter(
+		(suggestion) => {
+			const formatted = formatReport(report.data, suggestion).trim();
+			// Filter out empty suggestions and "Replace with:" (when replacement is empty)
+			return formatted !== "" && formatted !== "Replace with:";
+		},
+	);
 
-	// Group SuggestionForFile suggestions (e.g., word replacements) into a single suggestion
-	const suggestionForFileTexts: string[] = [];
-	for (const suggestion of report.suggestions ?? []) {
-		if (!isSuggestionForFiles(suggestion)) {
-			suggestionForFileTexts.push(suggestion.text);
-		}
-	}
-
-	if (suggestionForFileTexts.length > 0) {
-		const replacements = suggestionForFileTexts.join(", ");
-		allSuggestions.push(`Or replace with: ${replacements}`);
-	}
-
-	if (allSuggestions.length > 1) {
+	if (filteredSuggestions.length > 1) {
 		yield indenter;
 		yield chalk.hex(ColorCodes.suggestionTextHighlight)(" Suggestions:");
 		yield "\n";
-		yield* allSuggestions.map((suggestion) =>
+		yield* filteredSuggestions.map((suggestion) =>
 			[
 				indenter,
 				chalk.hex(ColorCodes.suggestionMessage)("  • "),
 				formatSuggestion(report.data, suggestion),
 			].join("\n"),
 		);
-	} else if (allSuggestions.length === 1) {
+	} else if (filteredSuggestions.length === 1) {
 		yield `${indenter} `;
 		yield wrapIfNeeded(
 			chalk.hex(ColorCodes.suggestionTextHighlight),
-			`  Suggestion: ${formatSuggestion(report.data, nullThrows(allSuggestions[0], `Report ${report.about.id} message should have at least one suggestion`))}`,
+			`  Suggestion: ${formatSuggestion(report.data, nullThrows(filteredSuggestions[0], `Report ${report.about.id} message should have at least one suggestion`))}`,
 			width,
 		);
 		yield "\n";

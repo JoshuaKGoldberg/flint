@@ -38,7 +38,14 @@ export default textLanguage.createRule({
 				'The word "{{ word }}" is not in the project\'s dictionary (cspell.json).',
 				"If it's intentional, add it to cspell.json under `words`.",
 			],
-			suggestions: ['Add "{{ word }}" to dictionary if intentional.'],
+			suggestions: [
+				'Add "{{ word }}" to dictionary.',
+				"Replace with: {{ replacement0 }}",
+				"Replace with: {{ replacement1 }}",
+				"Replace with: {{ replacement2 }}",
+				"Replace with: {{ replacement3 }}",
+				"Replace with: {{ replacement4 }}",
+			],
 		},
 	},
 	setup(context) {
@@ -72,26 +79,34 @@ export default textLanguage.createRule({
 							finalizedSettings,
 						);
 						const wordSuggestions: WordSuggestion[] = [];
+						const wordSuggestionTexts: string[] = [];
 						for (const s of suggestionsResult.suggestions) {
 							if (s.forbidden || s.noSuggest) {
 								continue;
 							}
 
+							const suggestionWord = s.wordAdjustedToMatchCase ?? s.word;
 							wordSuggestions.push({
 								id: `replaceWith${s.word}`,
 								range: issueRange,
-								text: s.wordAdjustedToMatchCase ?? s.word,
+								text: suggestionWord,
 							});
+							wordSuggestionTexts.push(suggestionWord);
 
 							if (wordSuggestions.length >= MAX_WORD_SUGGESTIONS) {
 								break;
 							}
 						}
 
+						const data: Record<string, string> = {
+							word: issue.text,
+						};
+						for (let i = 0; i < MAX_WORD_SUGGESTIONS; i++) {
+							data[`replacement${i}`] = wordSuggestionTexts[i] ?? "";
+						}
+
 						context.report({
-							data: {
-								word: issue.text,
-							},
+							data,
 							message: "issue",
 							range: issueRange,
 							suggestions: [

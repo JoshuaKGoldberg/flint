@@ -49,57 +49,15 @@ function resolveReportedSuggestionForFiles(
 		return {};
 	}
 
-	// Check if all test suggestions are SuggestionForFiles
-	const allTestSuggestionsAreForFiles = testCaseNormalized.suggestions.every(
-		isTestSuggestionForFiles,
-	);
-
-	if (!allTestSuggestionsAreForFiles) {
-		// Mixed suggestions - find matching test suggestion by ID
-		for (const testSuggestion of testCaseNormalized.suggestions) {
-			if (
-				isTestSuggestionForFiles(testSuggestion) &&
-				testSuggestion.id === suggestionReported.id
-			) {
-				return Object.fromEntries(
-					Object.entries(testSuggestion.files).map(
-						([filePath, suggestionCasesExpected]) => {
-							return [
-								filePath,
-								suggestionCasesExpected.map((suggestionCaseExpected) => {
-									const changes = suggestionReported.files[filePath]?.(
-										suggestionCaseExpected.original,
-									);
-									return {
-										original: suggestionCaseExpected.original,
-										updated: changes
-											? applyChangesToText(
-													changes,
-													suggestionCaseExpected.original,
-												)
-											: suggestionCaseExpected.original,
-									};
-								}),
-							];
-						},
-					),
-				);
-			}
-		}
-
-		// No matching SuggestionForFiles found in mixed suggestions - throw error
+	if (!testCaseNormalized.suggestions.every(isTestSuggestionForFiles)) {
 		throw new Error(
 			"This test case describes suggestions across files, but the rule is only reporting changes to its own file.",
 		);
 	}
 
-	// All test suggestions are SuggestionForFiles - use original behavior (process all)
 	return Object.fromEntries(
 		testCaseNormalized.suggestions
-			.map((suggestionExpected) => {
-				if (!isTestSuggestionForFiles(suggestionExpected)) {
-					return [];
-				}
+			.map((suggestionExpected): [string, TestSuggestionFileCase[]][] => {
 				return Object.entries(suggestionExpected.files).map(
 					([filePath, suggestionCasesExpected]) => {
 						return [
@@ -118,7 +76,7 @@ function resolveReportedSuggestionForFiles(
 										: suggestionCaseExpected.original,
 								};
 							}),
-						] as [string, TestSuggestionFileCase[]];
+						];
 					},
 				);
 			})
