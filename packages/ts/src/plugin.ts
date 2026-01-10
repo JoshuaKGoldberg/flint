@@ -13,6 +13,7 @@ import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
 import arrayMutableSorts from "./rules/arrayMutableSorts.ts";
 import arraySliceUnnecessaryEnd from "./rules/arraySliceUnnecessaryEnd.ts";
 import arraySomeMethods from "./rules/arraySomeMethods.ts";
+import arrayTernarySpreadingConsistency from "./rules/arrayTernarySpreadingConsistency.ts";
 import arrayUnnecessaryLengthChecks from "./rules/arrayUnnecessaryLengthChecks.ts";
 import asConstAssertions from "./rules/asConstAssertions.ts";
 import assignmentOperatorShorthands from "./rules/assignmentOperatorShorthands.ts";
@@ -104,6 +105,7 @@ export const ts = createPlugin({
 		arrayMutableSorts,
 		arraySliceUnnecessaryEnd,
 		arraySomeMethods,
+		arrayTernarySpreadingConsistency,
 		arrayUnnecessaryLengthChecks,
 		asConstAssertions,
 		assignmentOperatorShorthands,
