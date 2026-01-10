@@ -27,7 +27,7 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				BinaryExpression: (node, { sourceFile, typeChecker }) => {
 					const result =
-						checkFilterLengthComparison(node, typeChecker) ||
+						checkFilterLengthComparison(node, typeChecker) ??
 						checkFindIndexComparison(node, typeChecker);
 					if (!result) {
 						return;
@@ -56,7 +56,9 @@ function checkFilterLengthComparison(
 	typeChecker: ts.TypeChecker,
 ) {
 	const lengthAccess = isNonZeroLengthCheck(node) && getLengthAccess(node);
-	return lengthAccess && getFilterCall(lengthAccess.expression, typeChecker);
+	return lengthAccess
+		? getFilterCall(lengthAccess.expression, typeChecker)
+		: undefined;
 }
 
 function checkFindIndexComparison(
