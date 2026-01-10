@@ -10600,7 +10600,8 @@
 		"flint": {
 			"name": "functionTypeDeclarations",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{

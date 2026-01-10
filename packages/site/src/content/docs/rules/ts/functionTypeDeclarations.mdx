@@ -1,0 +1,102 @@
+---
+description: "Enforce using function types instead of interfaces with call signatures."
+title: "functionTypeDeclarations"
+topic: "rules"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RuleEquivalents } from "~/components/RuleEquivalents";
+import RuleSummary from "~/components/RuleSummary.astro";
+
+<RuleSummary plugin="ts" rule="functionTypeDeclarations" />
+
+TypeScript allows for two common ways to declare a type for a function:
+
+- Function type: `() => string`
+- Object type with a call signature: `{ (): string }`
+
+The function type form is generally preferred when possible for being more succinct.
+This rule suggests using a function type instead of an interface or object type literal with a single call signature.
+
+## Examples
+
+<Tabs>
+<TabItem label="❌ Incorrect">
+
+```ts
+interface Foo {
+	(): string;
+}
+```
+
+```ts
+interface Foo {
+	(value: string): number;
+}
+```
+
+```ts
+type Foo = {
+	(): void;
+};
+```
+
+```ts
+type Foo = {
+	(value: number): string;
+};
+```
+
+</TabItem>
+<TabItem label="✅ Correct">
+
+```ts
+type Foo = () => string;
+```
+
+```ts
+type Foo = (value: string) => number;
+```
+
+```ts
+interface Foo {
+	(): string;
+	property: number;
+}
+```
+
+```ts
+interface Foo {
+	(): string;
+	(value: number): string;
+}
+```
+
+```ts
+interface Foo extends Bar {
+	(): void;
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Options
+
+This rule is not configurable.
+
+## When Not To Use It
+
+If you specifically want to use an interface or type literal with a single call signature for stylistic reasons, you can disable this rule.
+
+This rule has a known edge case of sometimes triggering on global augmentations such as `interface Function`.
+These edge cases are rare; consider using an inline lint disable comment when encountered.
+
+## Further Reading
+
+- [TypeScript Handbook: Function Types](https://www.typescriptlang.org/docs/handbook/2/functions.html)
+- [TypeScript Handbook: Call Signatures](https://www.typescriptlang.org/docs/handbook/2/functions.html#call-signatures)
+
+## Equivalents in Other Linters
+
+<RuleEquivalents pluginId="ts" ruleId="functionTypeDeclarations" />
