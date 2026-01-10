@@ -41,6 +41,7 @@ import debuggerStatements from "./rules/debuggerStatements.ts";
 import defaultCaseLast from "./rules/defaultCaseLast.ts";
 import defaultParameterLast from "./rules/defaultParameterLast.ts";
 import deprecated from "./rules/deprecated.ts";
+import destructuringConsistency from "./rules/destructuringConsistency.ts";
 import duplicateArguments from "./rules/duplicateArguments.ts";
 import elseIfDuplicates from "./rules/elseIfDuplicates.ts";
 import emptyBlocks from "./rules/emptyBlocks.ts";
@@ -137,6 +138,7 @@ export const ts = createPlugin({
 		defaultCaseLast,
 		defaultParameterLast,
 		deprecated,
+		destructuringConsistency,
 		duplicateArguments,
 		elseIfDuplicates,
 		emptyBlocks,
