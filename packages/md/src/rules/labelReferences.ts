@@ -60,8 +60,8 @@ export default markdownLanguage.createRule({
 							}
 
 							const identifier = right
-								? right.trim() || left.trim()
-								: left.trim();
+								? right.trim() || (left?.trim() ?? "")
+								: (left?.trim() ?? "");
 
 							if (!identifier) {
 								continue;
