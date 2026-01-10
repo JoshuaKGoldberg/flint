@@ -7354,7 +7354,8 @@
 		"flint": {
 			"name": "arrayFinds",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -7650,7 +7651,8 @@
 		"flint": {
 			"name": "arraySliceUnnecessaryEnd",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7674,6 +7676,7 @@
 			"name": "arraySomeMethods",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
@@ -7712,7 +7715,8 @@
 		"flint": {
 			"name": "arrayTernarySpreadingConsistency",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7984,6 +7988,7 @@
 			"name": "atAccesses",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		}
 	},
@@ -8466,7 +8471,8 @@
 		"flint": {
 			"name": "classFieldDeclarations",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		}
 	},
 	{
@@ -8479,7 +8485,8 @@
 		"flint": {
 			"name": "classLiteralProperties",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -8508,7 +8515,8 @@
 		"flint": {
 			"name": "classMemberDuplicates",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -8958,7 +8966,8 @@
 		"flint": {
 			"name": "dateConstructorClones",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"notes": "unicorn/consistent-date-clone"
 	},
@@ -8979,6 +8988,7 @@
 			"name": "dateNowTimestamps",
 			"plugin": "ts",
 			"preset": "logical",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
@@ -9124,7 +9134,8 @@
 		"flint": {
 			"name": "defaultParameterLast",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
