@@ -153,7 +153,6 @@ if (typeof value === "function") {
 }
 `,
 		},
-		// Edge case: optional chaining on any
 		{
 			code: `
 declare const value: any;
@@ -166,7 +165,6 @@ value?.();
 Unsafe call of \`any\` typed value.
 `,
 		},
-		// Edge case: deep property chain with optional chaining
 		{
 			code: `
 declare const value: any;
@@ -179,7 +177,6 @@ value.a.b.c.d.e.f.g?.();
 Unsafe call of \`any\` typed value.
 `,
 		},
-		// Edge case: property that is typed as any
 		{
 			code: `
 declare const obj: { a: any };
@@ -192,7 +189,6 @@ obj.a();
 Unsafe call of \`any\` typed value.
 `,
 		},
-		// Edge case: optional chaining on object with any property
 		{
 			code: `
 declare const obj: { a: any } | undefined;
@@ -205,7 +201,6 @@ obj?.a();
 Unsafe call of \`any\` typed value.
 `,
 		},
-		// Edge case: template tag on nested property with any
 		{
 			code: `
 declare const obj: { tag: any };
@@ -218,7 +213,6 @@ obj.tag\`template\`;
 Unsafe use of \`any\` typed template tag.
 `,
 		},
-		// Edge case: new expression on nested property with any
 		{
 			code: `
 declare const obj: { Ctor: any };
@@ -231,7 +225,6 @@ new obj.Ctor();
     Unsafe construction of \`any\` typed value.
 `,
 		},
-		// Edge case: interface extends Function without signatures (construction)
 		{
 			code: `
 interface UnsafeFunction extends Function {}
@@ -246,7 +239,6 @@ new value();
     Unsafe construction of \`Function\` typed value.
 `,
 		},
-		// Edge case: interface extends Function without signatures (template tag)
 		{
 			code: `
 interface UnsafeFunction extends Function {}
@@ -261,7 +253,6 @@ value\`template\`;
 Unsafe use of \`Function\` typed template tag.
 `,
 		},
-		// Edge case: interface extends Function with only void call signature (construction is unsafe)
 		{
 			code: `
 interface UnsafeToConstruct extends Function {
@@ -280,7 +271,6 @@ new value();
     Unsafe construction of \`Function\` typed value.
 `,
 		},
-		// Edge case: interface extends Function with property but no signatures
 		{
 			code: `
 interface StillUnsafe extends Function {
@@ -299,7 +289,6 @@ value();
 Unsafe call of \`Function\` typed value.
 `,
 		},
-		// Edge case: error type (unresolved)
 		{
 			code: `
 let value: NotKnown;
@@ -312,7 +301,6 @@ value();
 Unsafe call of \`error\` typed value.
 `,
 		},
-		// Edge case: template tag on error type
 		{
 			code: `
 let value: NotKnown;
@@ -325,7 +313,6 @@ value\`template\`;
 Unsafe use of \`error\` typed template tag.
 `,
 		},
-		// Edge case: new expression on error type
 		{
 			code: `
 let value: NotKnown;
@@ -386,18 +373,13 @@ interface Callable extends Function {
 declare const value: Callable;
 new value();
 `,
-		// Edge case: optional chaining on typed function
 		`
 declare const obj: { a?: () => void };
 obj.a?.();
 `,
-		// Edge case: String.raw is valid (built-in)
 		`String.raw\`template\`;`,
-		// Edge case: new Function() is valid (global Function constructor)
 		`new Function('return 1');`,
-		// Edge case: Function() is valid (global Function constructor call)
 		`Function('return 1');`,
-		// Edge case: local shadowed Function type
 		`
 {
     type Function = () => void;
@@ -405,7 +387,6 @@ obj.a?.();
     notGlobalFunction();
 }
 `,
-		// Edge case: interface extending Function with call signature (safe)
 		`
 interface SafeFunction extends Function {
     (): string;
@@ -413,7 +394,6 @@ interface SafeFunction extends Function {
 declare const safe: SafeFunction;
 safe();
 `,
-		// Edge case: interface extending Function with construct signature (safe for construction)
 		`
 interface ConstructSignatureMakesSafe extends Function {
     new (): ConstructSignatureMakesSafe;
@@ -421,7 +401,6 @@ interface ConstructSignatureMakesSafe extends Function {
 declare const safe: ConstructSignatureMakesSafe;
 new safe();
 `,
-		// Edge case: interface with mixed void/non-void signatures (non-void makes construction safe)
 		`
 interface SafeWithNonVoidCallSignature extends Function {
     (): void;
@@ -430,7 +409,6 @@ interface SafeWithNonVoidCallSignature extends Function {
 declare const safe: SafeWithNonVoidCallSignature;
 new safe();
 `,
-		// Edge case: template tag on interface with call signature
 		`
 interface SafeTemplateTag extends Function {
     (strings: TemplateStringsArray): string;

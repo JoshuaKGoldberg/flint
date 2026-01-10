@@ -2,7 +2,11 @@ import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
-import { typescriptLanguage } from "../language.ts";
+import type { AST } from "../index.ts";
+import {
+	type TypeScriptFileServices,
+	typescriptLanguage,
+} from "../language.ts";
 import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
 import { isBuiltinSymbolLike } from "./utils/isBuiltinSymbolLike.ts";
 
@@ -45,111 +49,61 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
+		function checkNode(
+			node: AST.Expression,
+			{ program, sourceFile, typeChecker }: TypeScriptFileServices,
+			message: "unsafeCall" | "unsafeNew" | "unsafeTemplateTag",
+			allowVoid?: boolean,
+		) {
+			const type = getConstrainedTypeAtLocation(node, typeChecker);
+
+			if (tsutils.isTypeFlagSet(type, ts.TypeFlags.Any)) {
+				context.report({
+					data: {
+						type: tsutils.isIntrinsicErrorType(type) ? "`error`" : "`any`",
+					},
+					message,
+					range: getTSNodeRange(node, sourceFile),
+				});
+				return;
+			}
+
+			if (
+				!isBuiltinSymbolLike(program, type, "Function") ||
+				type.getConstructSignatures().length
+			) {
+				return;
+			}
+
+			const callSignatures = type.getCallSignatures();
+			if (
+				callSignatures.length &&
+				(!allowVoid ||
+					callSignatures.some(
+						(signature) =>
+							!tsutils.isIntrinsicVoidType(signature.getReturnType()),
+					))
+			) {
+				return;
+			}
+
+			context.report({
+				data: { type: "`Function`" },
+				message,
+				range: getTSNodeRange(node, sourceFile),
+			});
+		}
+
 		return {
 			visitors: {
-				CallExpression: (node, { program, sourceFile, typeChecker }) => {
-					const type = getConstrainedTypeAtLocation(
-						node.expression,
-						typeChecker,
-					);
-
-					if (tsutils.isTypeFlagSet(type, ts.TypeFlags.Any)) {
-						context.report({
-							data: {
-								type: tsutils.isIntrinsicErrorType(type) ? "`error`" : "`any`",
-							},
-							message: "unsafeCall",
-							range: getTSNodeRange(node.expression, sourceFile),
-						});
-						return;
-					}
-
-					if (isBuiltinSymbolLike(program, type, "Function")) {
-						if (
-							type.getConstructSignatures().length > 0 ||
-							type.getCallSignatures().length > 0
-						) {
-							return;
-						}
-
-						context.report({
-							data: { type: "`Function`" },
-							message: "unsafeCall",
-							range: getTSNodeRange(node.expression, sourceFile),
-						});
-					}
+				CallExpression: (node, services) => {
+					checkNode(node.expression, services, "unsafeCall");
 				},
-				NewExpression: (node, { program, sourceFile, typeChecker }) => {
-					const type = getConstrainedTypeAtLocation(
-						node.expression,
-						typeChecker,
-					);
-
-					if (tsutils.isTypeFlagSet(type, ts.TypeFlags.Any)) {
-						context.report({
-							data: {
-								type: tsutils.isIntrinsicErrorType(type) ? "`error`" : "`any`",
-							},
-							message: "unsafeNew",
-							range: getTSNodeRange(node.expression, sourceFile),
-						});
-						return;
-					}
-
-					if (isBuiltinSymbolLike(program, type, "Function")) {
-						const constructSignatures = type.getConstructSignatures();
-						if (constructSignatures.length > 0) {
-							return;
-						}
-
-						const callSignatures = type.getCallSignatures();
-						if (
-							callSignatures.some(
-								(signature) =>
-									!tsutils.isIntrinsicVoidType(signature.getReturnType()),
-							)
-						) {
-							return;
-						}
-
-						context.report({
-							data: { type: "`Function`" },
-							message: "unsafeNew",
-							range: getTSNodeRange(node.expression, sourceFile),
-						});
-					}
+				NewExpression: (node, services) => {
+					checkNode(node.expression, services, "unsafeNew", true);
 				},
-				TaggedTemplateExpression: (
-					node,
-					{ program, sourceFile, typeChecker },
-				) => {
-					const type = getConstrainedTypeAtLocation(node.tag, typeChecker);
-
-					if (tsutils.isTypeFlagSet(type, ts.TypeFlags.Any)) {
-						context.report({
-							data: {
-								type: tsutils.isIntrinsicErrorType(type) ? "`error`" : "`any`",
-							},
-							message: "unsafeTemplateTag",
-							range: getTSNodeRange(node.tag, sourceFile),
-						});
-						return;
-					}
-
-					if (isBuiltinSymbolLike(program, type, "Function")) {
-						if (
-							type.getConstructSignatures().length > 0 ||
-							type.getCallSignatures().length > 0
-						) {
-							return;
-						}
-
-						context.report({
-							data: { type: "`Function`" },
-							message: "unsafeTemplateTag",
-							range: getTSNodeRange(node.tag, sourceFile),
-						});
-					}
+				TaggedTemplateExpression: (node, services) => {
+					checkNode(node.tag, services, "unsafeTemplateTag");
 				},
 			},
 		};
