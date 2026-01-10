@@ -1,4 +1,4 @@
-import { SyntaxKind } from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
@@ -12,7 +12,6 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		noBody: {
-			body: "{{method}}",
 			primary: "`body` is not allowed when the request method is `{{method}}`.",
 			secondary: [
 				"The Fetch API will throw a `TypeError` at runtime if a body is provided with a `{{method}}` request.",
@@ -24,6 +23,8 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
+		// TODO: Use a util like getStaticValue
+		// https://github.com/flint-fyi/flint/issues/1298
 		function isUndefinedOrNull(node: AST.Expression) {
 			return (
 				(node.kind === SyntaxKind.Identifier && node.text === "undefined") ||
@@ -31,104 +32,94 @@ export default typescriptLanguage.createRule({
 			);
 		}
 
+		function collectFetchOptions(node: AST.ObjectLiteralExpression) {
+			let bodyName: AST.Identifier | undefined;
+			let methodText: string | undefined;
+
+			for (const property of node.properties) {
+				switch (property.kind) {
+					case SyntaxKind.PropertyAssignment: {
+						// TODO: Use a util like getStaticValue
+						// https://github.com/flint-fyi/flint/issues/1298
+						if (property.name.kind !== SyntaxKind.Identifier) {
+							return;
+						}
+
+						switch (property.name.text) {
+							case "body":
+								if (isUndefinedOrNull(property.initializer)) {
+									return;
+								}
+
+								bodyName = property.name;
+								break;
+
+							case "method":
+								if (property.initializer.kind !== SyntaxKind.StringLiteral) {
+									return;
+								}
+								methodText = property.initializer.text;
+								break;
+						}
+						break;
+					}
+
+					case SyntaxKind.SpreadAssignment:
+						return;
+				}
+			}
+
+			return { bodyName, methodText };
+		}
+
 		function checkFetchOptions(
 			node: AST.Expression,
-			sourceFile: AST.SourceFile,
+			sourceFile: ts.SourceFile,
 		) {
 			if (node.kind !== SyntaxKind.ObjectLiteralExpression) {
 				return;
 			}
 
-			const properties = node.properties;
-
-			const bodyProperty = [...properties]
-				.reverse()
-				.find(
-					(property): property is AST.PropertyAssignment =>
-						property.kind === SyntaxKind.PropertyAssignment &&
-						property.name.kind === SyntaxKind.Identifier &&
-						property.name.text === "body",
-				);
-
-			if (!bodyProperty) {
+			const collected = collectFetchOptions(node);
+			if (!collected?.bodyName) {
 				return;
 			}
 
-			if (isUndefinedOrNull(bodyProperty.initializer)) {
-				return;
-			}
-
-			const methodProperty = [...properties]
-				.reverse()
-				.find(
-					(property): property is AST.PropertyAssignment =>
-						property.kind === SyntaxKind.PropertyAssignment &&
-						property.name.kind === SyntaxKind.Identifier &&
-						property.name.text === "method",
-				);
-
-			if (!methodProperty) {
-				const hasSpreadElement = properties.some(
-					(property) => property.kind === SyntaxKind.SpreadAssignment,
-				);
-				if (hasSpreadElement) {
-					return;
-				}
-
-				context.report({
-					data: { method: "GET" },
-					message: "noBody",
-					range: getTSNodeRange(bodyProperty.name, sourceFile),
-				});
-				return;
-			}
-
-			const methodValue = methodProperty.initializer;
-			if (methodValue.kind !== SyntaxKind.StringLiteral) {
-				return;
-			}
-
-			const method = methodValue.text.toUpperCase();
-			if (method !== "GET" && method !== "HEAD") {
+			const method = collected.methodText?.toUpperCase() ?? "GET";
+			if (!["GET", "HEAD"].includes(method)) {
 				return;
 			}
 
 			context.report({
 				data: { method },
 				message: "noBody",
-				range: getTSNodeRange(bodyProperty.name, sourceFile),
+				range: getTSNodeRange(collected.bodyName, sourceFile),
 			});
+		}
+
+		function checkNode(
+			node: AST.CallExpression | AST.NewExpression,
+			functionName: string,
+			sourceFile: ts.SourceFile,
+		) {
+			if (
+				node.expression.kind === SyntaxKind.Identifier &&
+				node.expression.text === functionName &&
+				node.arguments &&
+				node.arguments.length >= 2
+			) {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				checkFetchOptions(node.arguments[1]!, sourceFile);
+			}
 		}
 
 		return {
 			visitors: {
 				CallExpression: (node, { sourceFile }) => {
-					if (
-						node.expression.kind !== SyntaxKind.Identifier ||
-						node.expression.text !== "fetch"
-					) {
-						return;
-					}
-
-					if (node.arguments.length < 2) {
-						return;
-					}
-
-					checkFetchOptions(node.arguments[1], sourceFile);
+					checkNode(node, "fetch", sourceFile);
 				},
 				NewExpression: (node, { sourceFile }) => {
-					if (
-						node.expression.kind !== SyntaxKind.Identifier ||
-						node.expression.text !== "Request"
-					) {
-						return;
-					}
-
-					if (!node.arguments || node.arguments.length < 2) {
-						return;
-					}
-
-					checkFetchOptions(node.arguments[1], sourceFile);
+					checkNode(node, "Request", sourceFile);
 				},
 			},
 		};
