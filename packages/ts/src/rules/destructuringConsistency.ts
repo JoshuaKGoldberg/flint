@@ -5,7 +5,7 @@ import { typescriptLanguage } from "../language.ts";
 import * as AST from "../types/ast.ts";
 
 // TODO (#400): Switch to scope analysis
-function getContainingScope(node: ts.Node): ts.Node | undefined {
+function getContainingScope(node: ts.Node) {
 	let current: ts.Node | undefined = node;
 
 	while (current) {
@@ -51,22 +51,26 @@ function isInScope(
 // TODO: Use a util like getStaticValue
 // https://github.com/flint-fyi/flint/issues/1298
 function getInitializerKey(node: AST.Expression): string | undefined {
-	if (ts.isIdentifier(node)) {
-		return node.text;
-	}
+	switch (node.kind) {
+		case ts.SyntaxKind.Identifier:
+			return node.text;
 
-	if (node.kind === ts.SyntaxKind.ThisKeyword) {
-		return "this";
-	}
+		case ts.SyntaxKind.PropertyAccessExpression: {
+			if (node.questionDotToken) {
+				return undefined;
+			}
 
-	if (ts.isPropertyAccessExpression(node) && !node.questionDotToken) {
-		const objectKey = getInitializerKey(node.expression);
-		if (objectKey) {
+			const objectKey = getInitializerKey(node.expression);
+			if (!objectKey) {
+				return undefined;
+			}
+
 			return `${objectKey}.${node.name.text}`;
 		}
-	}
 
-	return undefined;
+		case ts.SyntaxKind.ThisKeyword:
+			return "this";
+	}
 }
 
 function isLeftHandSide(node: AST.AnyNode) {
@@ -119,11 +123,7 @@ export default typescriptLanguage.createRule({
 		}[] = [];
 
 		function collectDestructuredProperties(node: AST.VariableDeclaration) {
-			if (!node.initializer) {
-				return;
-			}
-
-			if (!ts.isObjectBindingPattern(node.name)) {
+			if (!node.initializer || !ts.isObjectBindingPattern(node.name)) {
 				return;
 			}
 
@@ -138,28 +138,28 @@ export default typescriptLanguage.createRule({
 					continue;
 				}
 
-				const isNestedDestructuring =
-					ts.isObjectBindingPattern(element.name) ||
-					ts.isArrayBindingPattern(element.name);
-
-				if (element.propertyName && ts.isIdentifier(element.propertyName)) {
-					if (isNestedDestructuring) {
-						properties.set(element.propertyName.text, null);
-					} else if (ts.isIdentifier(element.name)) {
-						properties.set(element.propertyName.text, element.name.text);
+				if (element.propertyName) {
+					if (ts.isIdentifier(element.propertyName)) {
+						if (
+							ts.isObjectBindingPattern(element.name) ||
+							ts.isArrayBindingPattern(element.name)
+						) {
+							properties.set(element.propertyName.text, null);
+						} else if (ts.isIdentifier(element.name)) {
+							properties.set(element.propertyName.text, element.name.text);
+						}
 					}
-				} else if (!element.propertyName && ts.isIdentifier(element.name)) {
+				} else if (ts.isIdentifier(element.name)) {
 					properties.set(element.name.text, element.name.text);
 				}
 			}
 
 			if (properties.size > 0) {
-				const scope = getContainingScope(node);
 				destructuredObjects.push({
 					declarationEnd: node.getEnd(),
 					destructuredProperties: properties,
 					initKey,
-					scope,
+					scope: getContainingScope(node),
 				});
 			}
 		}
