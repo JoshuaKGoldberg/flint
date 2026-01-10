@@ -2,6 +2,7 @@ import * as tsutils from "ts-api-utils";
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
+import type { AST, Checker } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
 import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
 
@@ -32,24 +33,41 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		const reportedChains = new WeakSet<ts.Node>();
+		const reportedChains = new WeakSet<AST.AnyNode>();
+
+		// TODO (#400): Switch to scope analysis
+		function isInHeritageClause(node: AST.AnyNode) {
+			let current: ts.Node | undefined = node.parent;
+
+			while (current) {
+				if (ts.isHeritageClause(current)) {
+					return true;
+				}
+
+				current = current.parent as ts.Node | undefined;
+			}
+
+			return false;
+		}
 
 		function findRootAnyAccess(
-			node: ts.ElementAccessExpression | ts.PropertyAccessExpression,
-			typeChecker: ts.TypeChecker,
-		): ts.ElementAccessExpression | ts.PropertyAccessExpression | undefined {
-			const objectNode = node.expression;
-			const objectType = getConstrainedTypeAtLocation(objectNode, typeChecker);
+			node: AST.ElementAccessExpression | AST.PropertyAccessExpression,
+			typeChecker: Checker,
+		): AST.ElementAccessExpression | AST.PropertyAccessExpression | undefined {
+			const objectType = getConstrainedTypeAtLocation(
+				node.expression,
+				typeChecker,
+			);
 
 			if (!tsutils.isTypeFlagSet(objectType, ts.TypeFlags.Any)) {
 				return undefined;
 			}
 
 			if (
-				ts.isPropertyAccessExpression(objectNode) ||
-				ts.isElementAccessExpression(objectNode)
+				ts.isPropertyAccessExpression(node.expression) ||
+				ts.isElementAccessExpression(node.expression)
 			) {
-				const deeper = findRootAnyAccess(objectNode, typeChecker);
+				const deeper = findRootAnyAccess(node.expression, typeChecker);
 				if (deeper) {
 					return deeper;
 				}
@@ -59,24 +77,24 @@ export default typescriptLanguage.createRule({
 		}
 
 		function markChainAsReported(
-			node: ts.ElementAccessExpression | ts.PropertyAccessExpression,
+			node: AST.ElementAccessExpression | AST.PropertyAccessExpression,
 		) {
 			reportedChains.add(node);
-			const objectNode = node.expression;
+
 			if (
-				ts.isPropertyAccessExpression(objectNode) ||
-				ts.isElementAccessExpression(objectNode)
+				ts.isPropertyAccessExpression(node.expression) ||
+				ts.isElementAccessExpression(node.expression)
 			) {
-				markChainAsReported(objectNode);
+				markChainAsReported(node.expression);
 			}
 		}
 
 		function checkMemberExpression(
-			node: ts.ElementAccessExpression | ts.PropertyAccessExpression,
+			node: AST.ElementAccessExpression | AST.PropertyAccessExpression,
 			sourceFile: ts.SourceFile,
-			typeChecker: ts.TypeChecker,
+			typeChecker: Checker,
 		) {
-			if (reportedChains.has(node)) {
+			if (reportedChains.has(node) || isInHeritageClause(node)) {
 				return;
 			}
 
@@ -91,9 +109,10 @@ export default typescriptLanguage.createRule({
 				rootAccess.expression,
 				typeChecker,
 			);
-			const reportNode = ts.isPropertyAccessExpression(rootAccess)
-				? rootAccess.name
-				: rootAccess.argumentExpression;
+			const reportNode =
+				rootAccess.kind === ts.SyntaxKind.PropertyAccessExpression
+					? rootAccess.name
+					: rootAccess.argumentExpression;
 
 			context.report({
 				data: {
@@ -105,9 +124,9 @@ export default typescriptLanguage.createRule({
 		}
 
 		function checkComputedKey(
-			node: ts.ElementAccessExpression,
+			node: AST.ElementAccessExpression,
 			sourceFile: ts.SourceFile,
-			typeChecker: ts.TypeChecker,
+			typeChecker: Checker,
 		) {
 			const keyNode = node.argumentExpression;
 
