@@ -12,23 +12,31 @@ import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
 import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
 import arrayMutableSorts from "./rules/arrayMutableSorts.ts";
 import arraySliceUnnecessaryEnd from "./rules/arraySliceUnnecessaryEnd.ts";
+import arraySomeMethods from "./rules/arraySomeMethods.ts";
 import arrayUnnecessaryLengthChecks from "./rules/arrayUnnecessaryLengthChecks.ts";
 import asConstAssertions from "./rules/asConstAssertions.ts";
 import assignmentOperatorShorthands from "./rules/assignmentOperatorShorthands.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
 import asyncUnnecessaryPromiseWrappers from "./rules/asyncUnnecessaryPromiseWrappers.ts";
+import atAccesses from "./rules/atAccesses.ts";
 import builtinCoercions from "./rules/builtinCoercions.ts";
 import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
 import classAssignments from "./rules/classAssignments.ts";
+import classFieldDeclarations from "./rules/classFieldDeclarations.ts";
+import classLiteralProperties from "./rules/classLiteralProperties.ts";
+import classMemberDuplicates from "./rules/classMemberDuplicates.ts";
 import combinedPushes from "./rules/combinedPushes.ts";
 import consecutiveNonNullAssertions from "./rules/consecutiveNonNullAssertions.ts";
 import constantAssignments from "./rules/constantAssignments.ts";
 import constructorReturns from "./rules/constructorReturns.ts";
+import dateConstructorClones from "./rules/dateConstructorClones.ts";
+import dateNowTimestamps from "./rules/dateNowTimestamps.ts";
 import debuggerStatements from "./rules/debuggerStatements.ts";
 import defaultCaseLast from "./rules/defaultCaseLast.ts";
+import defaultParameterLast from "./rules/defaultParameterLast.ts";
 import duplicateArguments from "./rules/duplicateArguments.ts";
 import elseIfDuplicates from "./rules/elseIfDuplicates.ts";
 import emptyBlocks from "./rules/emptyBlocks.ts";
@@ -95,23 +103,31 @@ export const ts = createPlugin({
 		arrayMutableReverses,
 		arrayMutableSorts,
 		arraySliceUnnecessaryEnd,
+		arraySomeMethods,
 		arrayUnnecessaryLengthChecks,
 		asConstAssertions,
 		assignmentOperatorShorthands,
 		asyncPromiseExecutors,
 		asyncUnnecessaryPromiseWrappers,
+		atAccesses,
 		builtinCoercions,
 		builtinConstructorNews,
 		caseDeclarations,
 		caseDuplicates,
 		chainedAssignments,
 		classAssignments,
+		classFieldDeclarations,
+		classLiteralProperties,
+		classMemberDuplicates,
 		combinedPushes,
 		consecutiveNonNullAssertions,
 		constantAssignments,
 		constructorReturns,
+		dateConstructorClones,
+		dateNowTimestamps,
 		debuggerStatements,
 		defaultCaseLast,
+		defaultParameterLast,
 		duplicateArguments,
 		elseIfDuplicates,
 		emptyBlocks,
