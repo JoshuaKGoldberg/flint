@@ -1,9 +1,10 @@
-import { SyntaxKind } from "typescript";
+import ts, { SyntaxKind } from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
-import * as AST from "../types/ast.ts";
+import type * as AST from "../types/ast.ts";
 import { hasSameTokens } from "../utils/hasSameTokens.ts";
+import { isFunction } from "../utils/isFunction.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -44,26 +45,22 @@ export default typescriptLanguage.createRule({
 			return propertyAccess.name.text === "apply";
 		}
 
-		function isVariadicApplyCall(node: AST.CallExpression) {
-			if (!isApplyCall(node)) {
-				return false;
+		function getVariadicArgumentsNode(node: AST.CallExpression) {
+			if (!isApplyCall(node) || node.arguments.length !== 2) {
+				return undefined;
 			}
 
-			if (node.arguments.length !== 2) {
-				return false;
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const argumentsNode = node.arguments[1]!;
+
+			if (
+				argumentsNode.kind === SyntaxKind.ArrayLiteralExpression ||
+				argumentsNode.kind === SyntaxKind.SpreadElement
+			) {
+				return undefined;
 			}
 
-			const secondArg = node.arguments[1];
-
-			if (secondArg.kind === SyntaxKind.ArrayLiteralExpression) {
-				return false;
-			}
-
-			if (secondArg.kind === SyntaxKind.SpreadElement) {
-				return false;
-			}
-
-			return true;
+			return argumentsNode;
 		}
 
 		function getExpectedThis(
@@ -81,34 +78,49 @@ export default typescriptLanguage.createRule({
 		function isValidThisArg(
 			expectedThis: AST.Expression | undefined,
 			thisArg: AST.Expression,
-			sourceFile: AST.SourceFile,
+			sourceFile: ts.SourceFile,
 		) {
-			if (!expectedThis) {
-				return isNullOrUndefined(thisArg);
-			}
-
-			return hasSameTokens(expectedThis, thisArg, sourceFile);
+			return expectedThis
+				? hasSameTokens(expectedThis, thisArg, sourceFile)
+				: isNullOrUndefined(thisArg);
 		}
 
 		return {
 			visitors: {
-				CallExpression: (node, { sourceFile }) => {
-					if (!isVariadicApplyCall(node)) {
+				CallExpression: (node, { sourceFile, typeChecker }) => {
+					const argumentsNode = getVariadicArgumentsNode(node);
+					if (!argumentsNode) {
 						return;
 					}
 
-					const propertyAccess =
-						node.expression as AST.PropertyAccessExpression;
-					const expectedThis = getExpectedThis(propertyAccess);
-					const thisArg = node.arguments[0];
+					if (
+						!ts.isPropertyAccessExpression(node.expression) ||
+						!isFunction(node.expression.expression, typeChecker)
+					) {
+						return;
+					}
 
+					const expectedThis = getExpectedThis(node.expression);
+
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const thisArg = node.arguments[0]!;
 					if (!isValidThisArg(expectedThis, thisArg, sourceFile)) {
 						return;
 					}
 
+					const argumentsText = argumentsNode.getText(sourceFile);
+					const range = getTSNodeRange(node, sourceFile);
+
+					const callerText = node.expression.expression.getText(sourceFile);
+					const fixedText = `${callerText}(...${argumentsText})`;
+
 					context.report({
+						fix: {
+							range,
+							text: fixedText,
+						},
 						message: "preferSpread",
-						range: getTSNodeRange(node, sourceFile),
+						range,
 					});
 				},
 			},
