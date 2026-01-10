@@ -16,7 +16,7 @@ const hasPositive = values.some((value) => value > 0);
 const values: number[] = [1, 2, 3];
 const hasPositive = values.filter((value) => value > 0).length > 0;
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    Use \`.some()\` to check if an array contains a matching element.
+                    Prefer \`.some()\` to more cleanly check if an array contains a matching element.
 `,
 		},
 		{
@@ -32,7 +32,7 @@ const hasMatch = items.some((item) => item === "b");
 const items: string[] = ["a", "b", "c"];
 const hasMatch = items.filter((item) => item === "b").length !== 0;
                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                 Use \`.some()\` to check if an array contains a matching element.
+                 Prefer \`.some()\` to more cleanly check if an array contains a matching element.
 `,
 		},
 		{
@@ -48,7 +48,7 @@ const exists = data.some(isValid);
 const data: number[] = [1, 2, 3];
 const exists = data.filter(isValid).length >= 1;
                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-               Use \`.some()\` to check if an array contains a matching element.
+               Prefer \`.some()\` to more cleanly check if an array contains a matching element.
 `,
 		},
 		{
@@ -64,7 +64,7 @@ const hasMatch = values.some((value) => value > 2);
 const values: number[] = [1, 2, 3];
 const hasMatch = values.findIndex((value) => value > 2) !== -1;
                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                 Use \`.some()\` to check if an array contains a matching element.
+                 Prefer \`.some()\` to more cleanly check if an array contains a matching element.
 `,
 		},
 		{
@@ -80,7 +80,7 @@ const exists = items.some((item) => item === "a");
 const items: string[] = ["a", "b", "c"];
 const exists = items.findLastIndex((item) => item === "a") !== -1;
                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-               Use \`.some()\` to check if an array contains a matching element.
+               Prefer \`.some()\` to more cleanly check if an array contains a matching element.
 `,
 		},
 	],
