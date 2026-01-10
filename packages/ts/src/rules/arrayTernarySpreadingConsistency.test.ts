@@ -16,7 +16,7 @@ const result = [1, ...(condition ? [2, 3] : [])];
 const condition = true;
 const result = [1, ...(condition ? [2, 3] : '')];
                                             ~~
-                                            Use consistent types in both branches when spreading a ternary in an array.
+                                            Prefer consistent types in both branches when spreading a ternary in an array.
 `,
 		},
 		{
@@ -32,7 +32,7 @@ const items = [...(flag ? 'abc' : '')];
 const flag = false;
 const items = [...(flag ? 'abc' : [])];
                                   ~~
-                                  Use consistent types in both branches when spreading a ternary in an array.
+                                  Prefer consistent types in both branches when spreading a ternary in an array.
 `,
 		},
 		{
@@ -48,7 +48,7 @@ const array = [0, ...(value ? [1] : [])];
 const value = true;
 const array = [0, ...(value ? [1] : "")];
                                     ~~
-                                    Use consistent types in both branches when spreading a ternary in an array.
+                                    Prefer consistent types in both branches when spreading a ternary in an array.
 `,
 		},
 	],

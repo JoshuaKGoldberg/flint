@@ -12,7 +12,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		inconsistentTypes: {
 			primary:
-				"Use consistent types in both branches when spreading a ternary in an array.",
+				"Prefer consistent types in both branches when spreading a ternary in an array.",
 			secondary: [
 				"Mixing array and string types in ternary spread branches reduces code clarity.",
 				"Both branches should use the same type: either arrays or strings.",
@@ -25,11 +25,10 @@ export default typescriptLanguage.createRule({
 			visitors: {
 				ArrayLiteralExpression: (node, { sourceFile }) => {
 					for (const element of node.elements) {
-						if (!ts.isSpreadElement(element)) {
-							continue;
-						}
-
-						if (!ts.isParenthesizedExpression(element.expression)) {
+						if (
+							!ts.isSpreadElement(element) ||
+							!ts.isParenthesizedExpression(element.expression)
+						) {
 							continue;
 						}
 
@@ -41,12 +40,11 @@ export default typescriptLanguage.createRule({
 						const whenTrue = unwrapParentheses(inner.whenTrue);
 						const whenFalse = unwrapParentheses(inner.whenFalse);
 
-						const trueIsArray = ts.isArrayLiteralExpression(whenTrue);
-						const falseIsArray = ts.isArrayLiteralExpression(whenFalse);
-						const trueIsString = isStringLike(whenTrue);
-						const falseIsString = isStringLike(whenFalse);
-
-						if (trueIsArray && falseIsString && isEmptyStringLike(whenFalse)) {
+						if (
+							ts.isArrayLiteralExpression(whenTrue) &&
+							isStringLike(whenFalse) &&
+							isEmptyStringLike(whenFalse)
+						) {
 							context.report({
 								fix: {
 									range: {
@@ -64,7 +62,11 @@ export default typescriptLanguage.createRule({
 							continue;
 						}
 
-						if (trueIsString && falseIsArray && isEmptyArray(whenFalse)) {
+						if (
+							isStringLike(whenTrue) &&
+							ts.isArrayLiteralExpression(whenFalse) &&
+							isEmptyArray(whenFalse)
+						) {
 							context.report({
 								fix: {
 									range: {
@@ -92,15 +94,7 @@ function isEmptyArray(node: ts.Expression) {
 }
 
 function isEmptyStringLike(node: ts.Expression) {
-	if (ts.isStringLiteral(node)) {
-		return node.text === "";
-	}
-
-	if (ts.isNoSubstitutionTemplateLiteral(node)) {
-		return node.text === "";
-	}
-
-	return false;
+	return isStringLike(node) && node.text === "";
 }
 
 function isStringLike(node: ts.Expression) {
@@ -108,9 +102,7 @@ function isStringLike(node: ts.Expression) {
 }
 
 function unwrapParentheses(node: ts.Expression): ts.Expression {
-	if (ts.isParenthesizedExpression(node)) {
-		return unwrapParentheses(node.expression);
-	}
-
-	return node;
+	return ts.isParenthesizedExpression(node)
+		? unwrapParentheses(node.expression)
+		: node;
 }
