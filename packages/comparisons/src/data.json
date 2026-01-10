@@ -7651,7 +7651,8 @@
 		"flint": {
 			"name": "arraySliceUnnecessaryEnd",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{

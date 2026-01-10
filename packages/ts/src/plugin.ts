@@ -11,6 +11,7 @@ import arrayFinds from "./rules/arrayFinds.ts";
 import arrayMapIdentities from "./rules/arrayMapIdentities.ts";
 import arrayMutableReverses from "./rules/arrayMutableReverses.ts";
 import arrayMutableSorts from "./rules/arrayMutableSorts.ts";
+import arraySliceUnnecessaryEnd from "./rules/arraySliceUnnecessaryEnd.ts";
 import arraySomeMethods from "./rules/arraySomeMethods.ts";
 import arrayUnnecessaryLengthChecks from "./rules/arrayUnnecessaryLengthChecks.ts";
 import asConstAssertions from "./rules/asConstAssertions.ts";
@@ -101,6 +102,7 @@ export const ts = createPlugin({
 		arrayMapIdentities,
 		arrayMutableReverses,
 		arrayMutableSorts,
+		arraySliceUnnecessaryEnd,
 		arraySomeMethods,
 		arrayUnnecessaryLengthChecks,
 		asConstAssertions,
