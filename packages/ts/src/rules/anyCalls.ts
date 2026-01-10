@@ -58,9 +58,6 @@ export default typescriptLanguage.createRule({
 			const type = getConstrainedTypeAtLocation(node, typeChecker);
 
 			if (tsutils.isTypeFlagSet(type, ts.TypeFlags.Any)) {
-				// Skip error types - they represent type resolution failures,
-				// not actual unsafe any usage. The developer is already aware
-				// via @ts-expect-error comments.
 				if (tsutils.isIntrinsicErrorType(type)) {
 					return;
 				}
