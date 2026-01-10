@@ -43,30 +43,22 @@ export async function* createDetailedReport(
 	);
 	yield `\n${indenter}\n`;
 
-	const filteredSuggestions = report.message.suggestions.filter(
-		(suggestion) => {
-			const formatted = formatReport(report.data, suggestion).trim();
-			// Filter out empty suggestions and "Replace with:" (when replacement is empty)
-			return formatted !== "" && formatted !== "Replace with:";
-		},
-	);
-
-	if (filteredSuggestions.length > 1) {
+	if (report.message.suggestions.length > 1) {
 		yield indenter;
 		yield chalk.hex(ColorCodes.suggestionTextHighlight)(" Suggestions:");
 		yield "\n";
-		yield* filteredSuggestions.map((suggestion) =>
+		yield* report.message.suggestions.map((suggestion) =>
 			[
 				indenter,
 				chalk.hex(ColorCodes.suggestionMessage)("  • "),
 				formatSuggestion(report.data, suggestion),
 			].join("\n"),
 		);
-	} else if (filteredSuggestions.length === 1) {
+	} else {
 		yield `${indenter} `;
 		yield wrapIfNeeded(
 			chalk.hex(ColorCodes.suggestionTextHighlight),
-			`  Suggestion: ${formatSuggestion(report.data, nullThrows(filteredSuggestions[0], `Report ${report.about.id} message should have at least one suggestion`))}`,
+			`  Suggestion: ${formatSuggestion(report.data, nullThrows(report.message.suggestions[0], `Report ${report.about.id} message should have at least one suggestion`))}`,
 			width,
 		);
 		yield "\n";
