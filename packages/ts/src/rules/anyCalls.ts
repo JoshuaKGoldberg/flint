@@ -49,10 +49,6 @@ export default typescriptLanguage.createRule({
 		},
 	},
 	setup(context) {
-		function isImportExpression(node: AST.Expression): boolean {
-			return node.kind === ts.SyntaxKind.ImportKeyword;
-		}
-
 		function checkNode(
 			node: AST.Expression,
 			{ program, sourceFile, typeChecker }: TypeScriptFileServices,
