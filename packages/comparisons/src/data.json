@@ -10445,25 +10445,18 @@
 			{
 				"name": "prefer-spread",
 				"url": "https://eslint.org/docs/latest/rules/prefer-spread"
-			},
-			{
-				"name": "unicorn/prefer-spread",
-				"url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/HEAD/docs/rules/prefer-spread.md"
 			}
 		],
 		"flint": {
-			"name": "functionCallSpreads",
+			"name": "functionApplySpreads",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
 				"name": "eslint/prefer-spread",
 				"url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/prefer-spread.html"
-			},
-			{
-				"name": "unicorn/prefer-spread",
-				"url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/prefer-spread.html"
 			}
 		]
 	},
