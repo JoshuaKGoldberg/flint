@@ -2,6 +2,7 @@ import { createPlugin } from "@flint.fyi/core";
 
 import anyArguments from "./rules/anyArguments.ts";
 import anyAssignments from "./rules/anyAssignments.ts";
+import anyCalls from "./rules/anyCalls.ts";
 import anyMemberAccess from "./rules/anyMemberAccess.ts";
 import anyReturns from "./rules/anyReturns.ts";
 import argumentsRule from "./rules/arguments.ts";
@@ -45,6 +46,7 @@ import emptyBlocks from "./rules/emptyBlocks.ts";
 import emptyDestructures from "./rules/emptyDestructures.ts";
 import emptyStaticBlocks from "./rules/emptyStaticBlocks.ts";
 import exceptionAssignments from "./rules/exceptionAssignments.ts";
+import fetchMethodBodies from "./rules/fetchMethodBodies.ts";
 import finallyStatementSafety from "./rules/finallyStatementSafety.ts";
 import forDirections from "./rules/forDirections.ts";
 import forInArrays from "./rules/forInArrays.ts";
@@ -95,6 +97,7 @@ export const ts = createPlugin({
 	rules: [
 		anyArguments,
 		anyAssignments,
+		anyCalls,
 		anyMemberAccess,
 		anyReturns,
 		argumentsRule,
@@ -138,6 +141,7 @@ export const ts = createPlugin({
 		emptyDestructures,
 		emptyStaticBlocks,
 		exceptionAssignments,
+		fetchMethodBodies,
 		finallyStatementSafety,
 		forDirections,
 		forInArrays,
