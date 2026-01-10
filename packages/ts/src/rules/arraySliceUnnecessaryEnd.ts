@@ -1,6 +1,9 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.ts";
+import type { AST } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
+import { hasSameTokens } from "../utils/hasSameTokens.ts";
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -24,36 +27,37 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				CallExpression: (node, { sourceFile }) => {
-					if (!ts.isPropertyAccessExpression(node.expression)) {
+					if (
+						!ts.isPropertyAccessExpression(node.expression) ||
+						node.expression.name.text !== "slice" ||
+						node.arguments.length !== 2
+					) {
 						return;
 					}
 
-					if (node.expression.name.text !== "slice") {
-						return;
-					}
-
-					if (node.arguments.length !== 2) {
-						return;
-					}
-
-					const endArgument = node.arguments[1];
-					if (!isUnnecessaryEnd(node.expression.expression, endArgument)) {
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const endArgument = node.arguments[1]!;
+					if (
+						!isUnnecessaryEnd(
+							node.expression.expression,
+							endArgument,
+							sourceFile,
+						)
+					) {
 						return;
 					}
 
 					context.report({
 						fix: {
 							range: {
-								begin: node.arguments[0].getEnd(),
+								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+								begin: node.arguments[0]!.getEnd(),
 								end: endArgument.getEnd(),
 							},
 							text: "",
 						},
 						message: "unnecessaryEnd",
-						range: {
-							begin: endArgument.getStart(sourceFile),
-							end: endArgument.getEnd(),
-						},
+						range: getTSNodeRange(endArgument, sourceFile),
 					});
 				},
 			},
@@ -61,46 +65,42 @@ export default typescriptLanguage.createRule({
 	},
 });
 
-function haveSameText(nodeA: ts.Node, nodeB: ts.Node) {
-	return nodeA.getText() === nodeB.getText();
-}
+function isInfinity(node: AST.Expression) {
+	switch (node.kind) {
+		case ts.SyntaxKind.Identifier:
+			return node.text === "Infinity";
 
-function isInfinity(node: ts.Expression) {
-	if (ts.isIdentifier(node) && node.text === "Infinity") {
-		return true;
+		case ts.SyntaxKind.PropertyAccessExpression:
+			return (
+				ts.isIdentifier(node.expression) &&
+				node.expression.text === "Number" &&
+				node.name.text === "POSITIVE_INFINITY"
+			);
+
+		default:
+			return false;
 	}
-
-	if (
-		ts.isPropertyAccessExpression(node) &&
-		ts.isIdentifier(node.expression) &&
-		node.expression.text === "Number" &&
-		node.name.text === "POSITIVE_INFINITY"
-	) {
-		return true;
-	}
-
-	return false;
 }
 
 function isLengthOfReceiver(
-	receiver: ts.Expression,
-	endArgument: ts.Expression,
+	receiver: AST.Expression,
+	endArgument: AST.Expression,
+	sourceFile: ts.SourceFile,
 ) {
-	if (!ts.isPropertyAccessExpression(endArgument)) {
-		return false;
-	}
-
-	if (endArgument.name.text !== "length") {
-		return false;
-	}
-
-	return haveSameText(receiver, endArgument.expression);
+	return (
+		ts.isPropertyAccessExpression(endArgument) &&
+		endArgument.name.text === "length" &&
+		hasSameTokens(receiver, endArgument.expression, sourceFile)
+	);
 }
 
-function isUnnecessaryEnd(receiver: ts.Expression, endArgument: ts.Expression) {
-	if (isInfinity(endArgument)) {
-		return true;
-	}
-
-	return isLengthOfReceiver(receiver, endArgument);
+function isUnnecessaryEnd(
+	receiver: AST.Expression,
+	endArgument: AST.Expression,
+	sourceFile: ts.SourceFile,
+) {
+	return (
+		isInfinity(endArgument) ||
+		isLengthOfReceiver(receiver, endArgument, sourceFile)
+	);
 }
