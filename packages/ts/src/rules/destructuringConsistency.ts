@@ -1,8 +1,97 @@
 import * as ts from "typescript";
 
+import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
 import * as AST from "../types/ast.ts";
-import type { Checker } from "../types/checker.ts";
+
+// TODO (#400): Switch to scope analysis
+function getContainingScope(node: ts.Node): ts.Node | undefined {
+	let current: ts.Node | undefined = node;
+
+	while (current) {
+		if (
+			ts.isFunctionDeclaration(current) ||
+			ts.isFunctionExpression(current) ||
+			ts.isArrowFunction(current) ||
+			ts.isMethodDeclaration(current) ||
+			ts.isBlock(current) ||
+			ts.isForStatement(current) ||
+			ts.isForOfStatement(current) ||
+			ts.isForInStatement(current) ||
+			ts.isSourceFile(current)
+		) {
+			return current;
+		}
+
+		current = current.parent as ts.Node | undefined;
+	}
+
+	return undefined;
+}
+
+// TODO (#400): Switch to scope analysis
+function isInScope(
+	accessScope: ts.Node | undefined,
+	declarationScope: ts.Node | undefined,
+) {
+	if (!declarationScope) {
+		return true;
+	}
+
+	let current = accessScope;
+	while (current) {
+		if (current === declarationScope) {
+			return true;
+		}
+		current = current.parent;
+	}
+	return false;
+}
+
+// TODO: Use a util like getStaticValue
+// https://github.com/flint-fyi/flint/issues/1298
+function getInitializerKey(node: AST.Expression): string | undefined {
+	if (ts.isIdentifier(node)) {
+		return node.text;
+	}
+
+	if (node.kind === ts.SyntaxKind.ThisKeyword) {
+		return "this";
+	}
+
+	if (ts.isPropertyAccessExpression(node) && !node.questionDotToken) {
+		const objectKey = getInitializerKey(node.expression);
+		if (objectKey) {
+			return `${objectKey}.${node.name.text}`;
+		}
+	}
+
+	return undefined;
+}
+
+function isLeftHandSide(node: AST.AnyNode) {
+	switch (node.parent.kind) {
+		case ts.SyntaxKind.BinaryExpression:
+			return (
+				node.parent.left === node &&
+				node.parent.operatorToken.kind >= ts.SyntaxKind.FirstAssignment &&
+				node.parent.operatorToken.kind <= ts.SyntaxKind.LastAssignment
+			);
+
+		case ts.SyntaxKind.DeleteExpression:
+			return true;
+
+		case ts.SyntaxKind.PostfixUnaryExpression:
+		case ts.SyntaxKind.PrefixUnaryExpression:
+			return (
+				node.parent.operator === ts.SyntaxKind.PlusPlusToken ||
+				node.parent.operator === ts.SyntaxKind.MinusMinusToken
+			);
+
+		default:
+			return false;
+	}
+}
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -18,22 +107,18 @@ export default typescriptLanguage.createRule({
 				"After destructuring an object, access properties through the destructured variables.",
 				"Mixing destructured variables with property access on the same object is inconsistent.",
 			],
-			suggestions: ["Use the destructured variable instead."],
+			suggestions: ["Replace `{{ expression }}` with `{{ variable }}`."],
 		},
 	},
 	setup(context) {
-		const destructuredObjects = new Map<
-			ts.Symbol,
-			{
-				declarationEnd: number;
-				destructuredProperties: Set<string>;
-			}
-		>();
+		const destructuredObjects: {
+			declarationEnd: number;
+			destructuredProperties: Map<string, null | string>;
+			initKey: string;
+			scope: ts.Node | undefined;
+		}[] = [];
 
-		function collectDestructuredProperties(
-			node: AST.VariableDeclaration,
-			typeChecker: Checker,
-		) {
+		function collectDestructuredProperties(node: AST.VariableDeclaration) {
 			if (!node.initializer) {
 				return;
 			}
@@ -42,58 +127,65 @@ export default typescriptLanguage.createRule({
 				return;
 			}
 
-			if (!ts.isIdentifier(node.initializer)) {
+			const initKey = getInitializerKey(node.initializer);
+			if (!initKey) {
 				return;
 			}
 
-			const symbol = typeChecker.getSymbolAtLocation(node.initializer);
-			if (!symbol) {
-				return;
-			}
-
-			const properties = new Set<string>();
+			const properties = new Map<string, null | string>();
 			for (const element of node.name.elements) {
-				if (
-					ts.isBindingElement(element) &&
-					element.propertyName &&
-					ts.isIdentifier(element.propertyName)
-				) {
-					properties.add(element.propertyName.text);
-				} else if (
-					ts.isBindingElement(element) &&
-					!element.propertyName &&
-					ts.isIdentifier(element.name)
-				) {
-					properties.add(element.name.text);
+				if (!ts.isBindingElement(element)) {
+					continue;
+				}
+
+				const isNestedDestructuring =
+					ts.isObjectBindingPattern(element.name) ||
+					ts.isArrayBindingPattern(element.name);
+
+				if (element.propertyName && ts.isIdentifier(element.propertyName)) {
+					if (isNestedDestructuring) {
+						properties.set(element.propertyName.text, null);
+					} else if (ts.isIdentifier(element.name)) {
+						properties.set(element.propertyName.text, element.name.text);
+					}
+				} else if (!element.propertyName && ts.isIdentifier(element.name)) {
+					properties.set(element.name.text, element.name.text);
 				}
 			}
 
 			if (properties.size > 0) {
-				destructuredObjects.set(symbol, {
+				const scope = getContainingScope(node);
+				destructuredObjects.push({
 					declarationEnd: node.getEnd(),
 					destructuredProperties: properties,
+					initKey,
+					scope,
 				});
 			}
 		}
 
 		return {
 			visitors: {
-				PropertyAccessExpression: (node, { sourceFile, typeChecker }) => {
-					if (!ts.isIdentifier(node.expression)) {
+				PropertyAccessExpression: (node, { sourceFile }) => {
+					if (node.questionDotToken) {
 						return;
 					}
 
-					const objectSymbol = typeChecker.getSymbolAtLocation(node.expression);
-					if (!objectSymbol) {
+					const accessKey = getInitializerKey(node.expression);
+					if (!accessKey) {
 						return;
 					}
 
-					const destructured = destructuredObjects.get(objectSymbol);
+					const accessScope = getContainingScope(node);
+
+					const destructured = destructuredObjects.find(
+						(object) =>
+							object.initKey === accessKey &&
+							node.getStart(sourceFile) >= object.declarationEnd &&
+							isInScope(accessScope, object.scope),
+					);
+
 					if (!destructured) {
-						return;
-					}
-
-					if (node.getStart(sourceFile) < destructured.declarationEnd) {
 						return;
 					}
 
@@ -102,24 +194,41 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
+					const variableName =
+						destructured.destructuredProperties.get(propertyName);
+
 					if (
-						ts.isCallExpression(node.parent) &&
-						node.parent.expression === node
+						(ts.isCallExpression(node.parent) &&
+							node.parent.expression === node) ||
+						isLeftHandSide(node)
 					) {
 						return;
 					}
 
+					const range = getTSNodeRange(node, sourceFile);
+					const expression = node.getText(sourceFile);
+
+					const [variable, suggestions] = variableName
+						? [
+								variableName,
+								[
+									{
+										id: "useDestructuredVariable",
+										range,
+										text: variableName,
+									},
+								],
+							]
+						: [propertyName];
+
 					context.report({
+						data: { expression, variable },
 						message: "useDestructured",
-						range: {
-							begin: node.getStart(sourceFile),
-							end: node.getEnd(),
-						},
+						range,
+						suggestions,
 					});
 				},
-				VariableDeclaration: (node, { typeChecker }) => {
-					collectDestructuredProperties(node, typeChecker);
-				},
+				VariableDeclaration: collectDestructuredProperties,
 			},
 		};
 	},
