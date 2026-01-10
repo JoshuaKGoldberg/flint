@@ -15,7 +15,7 @@ export default typescriptLanguage.createRule({
 	messages: {
 		unnecessaryEnd: {
 			primary:
-				"Omit the `end` argument when slicing to the end of the array or string.",
+				"The `end` argument is unnecessary when slicing to the end of the array or string.",
 			secondary: [
 				"Passing `.length` or `Infinity` as the `end` argument is unnecessary.",
 				"The `.slice()` method defaults to the end when the second argument is omitted.",

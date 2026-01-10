@@ -16,7 +16,7 @@ const result = values.slice(1);
 const values = [1, 2, 3];
 const result = values.slice(1, values.length);
                                ~~~~~~~~~~~~~
-                               Omit the \`end\` argument when slicing to the end of the array or string.
+                               The \`end\` argument is unnecessary when slicing to the end of the array or string.
 `,
 		},
 		{
@@ -32,7 +32,7 @@ const result = text.slice(1);
 const text = "hello";
 const result = text.slice(1, text.length);
                              ~~~~~~~~~~~
-                             Omit the \`end\` argument when slicing to the end of the array or string.
+                             The \`end\` argument is unnecessary when slicing to the end of the array or string.
 `,
 		},
 		{
@@ -48,7 +48,7 @@ const result = items.slice(0);
 const items = [1, 2, 3];
 const result = items.slice(0, Infinity);
                               ~~~~~~~~
-                              Omit the \`end\` argument when slicing to the end of the array or string.
+                              The \`end\` argument is unnecessary when slicing to the end of the array or string.
 `,
 		},
 		{
@@ -64,7 +64,7 @@ const result = data.slice(0);
 const data = [1, 2, 3];
 const result = data.slice(0, Number.POSITIVE_INFINITY);
                              ~~~~~~~~~~~~~~~~~~~~~~~~
-                             Omit the \`end\` argument when slicing to the end of the array or string.
+                             The \`end\` argument is unnecessary when slicing to the end of the array or string.
 `,
 		},
 		{
@@ -80,7 +80,7 @@ doSomething(values.slice(2));
 const values = [1, 2, 3, 4, 5];
 doSomething(values.slice(2, values.length));
                             ~~~~~~~~~~~~~
-                            Omit the \`end\` argument when slicing to the end of the array or string.
+                            The \`end\` argument is unnecessary when slicing to the end of the array or string.
 `,
 		},
 	],
