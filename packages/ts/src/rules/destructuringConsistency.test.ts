@@ -351,5 +351,19 @@ console.log(foo.b);
 const {a: b} = foo;
 console.log(foo.b);
 `,
+		`
+const {a} = foo;
+console.log(foo['a']);
+`,
+		`
+const {a} = foo;
+const key = 'a';
+console.log(foo[key]);
+`,
+		`
+const key = 'a';
+const {[key]: value} = foo;
+console.log(foo.a);
+`,
 	],
 });
