@@ -27,6 +27,7 @@ import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
 import caseDuplicates from "./rules/caseDuplicates.ts";
 import chainedAssignments from "./rules/chainedAssignments.ts";
+import charAtComparisons from "./rules/charAtComparisons.ts";
 import classAssignments from "./rules/classAssignments.ts";
 import classFieldDeclarations from "./rules/classFieldDeclarations.ts";
 import classLiteralProperties from "./rules/classLiteralProperties.ts";
@@ -124,6 +125,7 @@ export const ts = createPlugin({
 		builtinConstructorNews,
 		caseDeclarations,
 		caseDuplicates,
+		charAtComparisons,
 		chainedAssignments,
 		classAssignments,
 		classFieldDeclarations,
