@@ -39,6 +39,7 @@ import dateNowTimestamps from "./rules/dateNowTimestamps.ts";
 import debuggerStatements from "./rules/debuggerStatements.ts";
 import defaultCaseLast from "./rules/defaultCaseLast.ts";
 import defaultParameterLast from "./rules/defaultParameterLast.ts";
+import deprecated from "./rules/deprecated.ts";
 import duplicateArguments from "./rules/duplicateArguments.ts";
 import elseIfDuplicates from "./rules/elseIfDuplicates.ts";
 import emptyBlocks from "./rules/emptyBlocks.ts";
@@ -133,6 +134,7 @@ export const ts = createPlugin({
 		debuggerStatements,
 		defaultCaseLast,
 		defaultParameterLast,
+		deprecated,
 		duplicateArguments,
 		elseIfDuplicates,
 		emptyBlocks,

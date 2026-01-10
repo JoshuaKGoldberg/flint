@@ -9168,7 +9168,8 @@
 		"flint": {
 			"name": "deprecated",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
