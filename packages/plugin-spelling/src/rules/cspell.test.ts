@@ -69,6 +69,71 @@ ruleTester.describe(rule, {
 				},
 			],
 		},
+		{
+			code: `
+                const myarray = [];
+            `,
+			snapshot: `
+                const myarray = [];
+                      ~~~~~~~
+                      Forbidden or unknown word: "myarray".
+            `,
+			suggestions: [
+				{
+					id: "replaceWithmarry",
+					updated: `
+                const marry = [];
+            `,
+				},
+				{
+					id: "replaceWithMurray",
+					updated: `
+                const Murray = [];
+            `,
+				},
+				{
+					id: "replaceWithmargay",
+					updated: `
+                const margay = [];
+            `,
+				},
+				{
+					id: "replaceWitharray",
+					updated: `
+                const array = [];
+            `,
+				},
+				{
+					id: "replaceWithisarray",
+					updated: `
+                const isarray = [];
+            `,
+				},
+				{
+					files: {
+						"cspell.json": [
+							{
+								original: ``,
+								updated: '{"words":["myarray"]}',
+							},
+							{
+								original: `{}`,
+								updated: '{"words":["myarray"]}',
+							},
+							{
+								original: `{"words":[]}`,
+								updated: '{"words":["myarray"]}',
+							},
+							{
+								original: `{"words":["existing"]}`,
+								updated: '{"words":["existing","myarray"]}',
+							},
+						],
+					},
+					id: "addWordToWords",
+				},
+			],
+		},
 	],
 	valid: ["", "known", "known-word", "knownWord"],
 });

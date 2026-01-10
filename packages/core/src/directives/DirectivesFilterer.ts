@@ -32,7 +32,6 @@ export class DirectivesFilterer {
 
 		const directiveRanges = computeDirectiveRanges(this.#directivesForRanges);
 
-		const myarray = ["yo"];
 		return reports.filter(
 			(report) =>
 				!directivesForFile.some((fileDisable) =>
