@@ -3601,7 +3601,8 @@
 		"flint": {
 			"name": "referenceLikeUrls",
 			"plugin": "md",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -4500,10 +4501,10 @@
 			}
 		],
 		"flint": {
-			"implemented": true,
 			"name": "nodeProtocols",
 			"plugin": "node",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7024,7 +7025,8 @@
 		"flint": {
 			"name": "anyArguments",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7043,7 +7045,8 @@
 		"flint": {
 			"name": "anyAssignments",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7062,7 +7065,8 @@
 		"flint": {
 			"name": "anyCalls",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7081,7 +7085,8 @@
 		"flint": {
 			"name": "anyMemberAccess",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7183,7 +7188,8 @@
 		"flint": {
 			"name": "arrayCallbackReturns",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7222,7 +7228,8 @@
 		"flint": {
 			"name": "arrayConstructors",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7310,7 +7317,8 @@
 		"flint": {
 			"name": "arrayExistenceChecksConsistency",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7349,7 +7357,8 @@
 		"flint": {
 			"name": "arrayFinds",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -7565,7 +7574,8 @@
 		"flint": {
 			"name": "arrayMapIdentities",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -7597,7 +7607,8 @@
 		"flint": {
 			"name": "arrayMutableReverses",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -7610,7 +7621,8 @@
 		"flint": {
 			"name": "arrayMutableSorts",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -7642,7 +7654,8 @@
 		"flint": {
 			"name": "arraySliceUnnecessaryEnd",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7666,6 +7679,7 @@
 			"name": "arraySomeMethods",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
@@ -7704,7 +7718,8 @@
 		"flint": {
 			"name": "arrayTernarySpreadingConsistency",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7748,7 +7763,8 @@
 		"flint": {
 			"name": "arrayUnnecessaryLengthChecks",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7817,7 +7833,8 @@
 		"flint": {
 			"name": "asConstAssertions",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7849,7 +7866,8 @@
 		"flint": {
 			"name": "assignmentOperatorShorthands",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -7946,7 +7964,8 @@
 		"flint": {
 			"name": "asyncUnnecessaryPromiseWrappers",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -7972,6 +7991,7 @@
 			"name": "atAccesses",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		}
 	},
@@ -8156,6 +8176,7 @@
 			"name": "builtinCoercions",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
@@ -8181,7 +8202,8 @@
 		"flint": {
 			"name": "builtinConstructorNews",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -8452,7 +8474,8 @@
 		"flint": {
 			"name": "classFieldDeclarations",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		}
 	},
 	{
@@ -8465,7 +8488,8 @@
 		"flint": {
 			"name": "classLiteralProperties",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -8494,7 +8518,8 @@
 		"flint": {
 			"name": "classMemberDuplicates",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -8532,6 +8557,7 @@
 			"name": "combinedPushes",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"notes": "Just for Array#push(); the others would be their own rules."
@@ -8943,7 +8969,8 @@
 		"flint": {
 			"name": "dateConstructorClones",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"notes": "unicorn/consistent-date-clone"
 	},
@@ -8964,6 +8991,7 @@
 			"name": "dateNowTimestamps",
 			"plugin": "ts",
 			"preset": "logical",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
@@ -9109,7 +9137,8 @@
 		"flint": {
 			"name": "defaultParameterLast",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -9141,7 +9170,8 @@
 		"flint": {
 			"name": "deprecated",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -9178,6 +9208,7 @@
 			"name": "destructuringConsistency",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		}
 	},
@@ -10235,7 +10266,8 @@
 		"flint": {
 			"name": "fetchMethodBodies",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -12721,7 +12753,8 @@
 		"flint": {
 			"name": "multilineAmbiguities",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -21426,7 +21459,8 @@
 		"flint": {
 			"name": "blockMappings",
 			"plugin": "yaml",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -21439,7 +21473,8 @@
 		"flint": {
 			"name": "blockSequences",
 			"plugin": "yaml",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
