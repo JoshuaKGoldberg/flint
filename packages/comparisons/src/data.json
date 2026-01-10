@@ -10448,7 +10448,7 @@
 			}
 		],
 		"flint": {
-			"name": "functionCallSpreads",
+			"name": "functionApplySpreads",
 			"plugin": "ts",
 			"preset": "stylistic",
 			"status": "implemented"

@@ -1,4 +1,4 @@
-import rule from "./functionCallSpreads.ts";
+import rule from "./functionApplySpreads.ts";
 import { ruleTester } from "./ruleTester.ts";
 
 ruleTester.describe(rule, {

@@ -1,6 +1,6 @@
 ---
 description: "Prefer the spread operator over `.apply()` calls."
-title: "functionCallSpreads"
+title: "functionApplySpreads"
 topic: "rules"
 ---
 
@@ -8,7 +8,7 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { RuleEquivalents } from "~/components/RuleEquivalents";
 import RuleSummary from "~/components/RuleSummary.astro";
 
-<RuleSummary plugin="ts" rule="functionCallSpreads" />
+<RuleSummary plugin="ts" rule="functionApplySpreads" />
 
 Before ES2015, one had to use `Function.prototype.apply()` to call variadic functions with an array of arguments.
 In ES2015 and later, the spread operator (`...`) provides cleaner syntax for the same purpose.
@@ -80,4 +80,4 @@ If you have code that intentionally uses `.apply()` for readability or other rea
 
 ## Equivalents in Other Linters
 
-<RuleEquivalents pluginId="ts" ruleId="functionCallSpreads" />
+<RuleEquivalents pluginId="ts" ruleId="functionApplySpreads" />

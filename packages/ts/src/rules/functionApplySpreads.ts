@@ -9,7 +9,7 @@ import { isFunction } from "../utils/isFunction.ts";
 export default typescriptLanguage.createRule({
 	about: {
 		description: "Prefer the spread operator over `.apply()` calls.",
-		id: "functionCallSpreads",
+		id: "functionApplySpreads",
 		preset: "stylistic",
 	},
 	messages: {
