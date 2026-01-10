@@ -3,6 +3,7 @@ import { createPlugin } from "@flint.fyi/core";
 import anyArguments from "./rules/anyArguments.ts";
 import anyAssignments from "./rules/anyAssignments.ts";
 import anyCalls from "./rules/anyCalls.ts";
+import anyMemberAccess from "./rules/anyMemberAccess.ts";
 import anyReturns from "./rules/anyReturns.ts";
 import argumentsRule from "./rules/arguments.ts";
 import arrayCallbackReturns from "./rules/arrayCallbackReturns.ts";
@@ -98,6 +99,7 @@ export const ts = createPlugin({
 		anyArguments,
 		anyAssignments,
 		anyCalls,
+		anyMemberAccess,
 		anyReturns,
 		argumentsRule,
 		arrayCallbackReturns,
