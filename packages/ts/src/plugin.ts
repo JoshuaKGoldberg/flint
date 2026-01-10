@@ -17,6 +17,7 @@ import asConstAssertions from "./rules/asConstAssertions.ts";
 import assignmentOperatorShorthands from "./rules/assignmentOperatorShorthands.ts";
 import asyncPromiseExecutors from "./rules/asyncPromiseExecutors.ts";
 import asyncUnnecessaryPromiseWrappers from "./rules/asyncUnnecessaryPromiseWrappers.ts";
+import atAccesses from "./rules/atAccesses.ts";
 import builtinCoercions from "./rules/builtinCoercions.ts";
 import builtinConstructorNews from "./rules/builtinConstructorNews.ts";
 import caseDeclarations from "./rules/caseDeclarations.ts";
@@ -106,6 +107,7 @@ export const ts = createPlugin({
 		assignmentOperatorShorthands,
 		asyncPromiseExecutors,
 		asyncUnnecessaryPromiseWrappers,
+		atAccesses,
 		builtinCoercions,
 		builtinConstructorNews,
 		caseDeclarations,
