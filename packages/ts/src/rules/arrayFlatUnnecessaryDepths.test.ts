@@ -43,5 +43,6 @@ array?.flat(1);
 		`declare const array: number[][][]; array.flat(2);`,
 		`declare const array: number[]; array.flat(Infinity);`,
 		`declare const array: number[]; array.flat(0);`,
+		`declare const depth: number; [1, 2].flat(depth);`,
 	],
 });
