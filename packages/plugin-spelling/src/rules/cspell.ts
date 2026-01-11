@@ -66,10 +66,10 @@ export default textLanguage.createRule({
 							end: issue.offset + (issue.length ?? issue.text.length),
 						};
 
-						const suggestionsResult = await suggestionsForWord(
-							issue.text,
-							finalizedSettings,
-						);
+						const suggestionsResult = await suggestionsForWord(issue.text, {
+							...finalizedSettings,
+							numSuggestions: 1,
+						});
 						const validSuggestion = suggestionsResult.suggestions.find(
 							(s) => !s.forbidden && !s.noSuggest,
 						);
