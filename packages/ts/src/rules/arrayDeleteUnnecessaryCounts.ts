@@ -4,44 +4,41 @@ import { getTSNodeRange } from "../getTSNodeRange.ts";
 import type { AST } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
 import { hasSameTokens } from "../utils/hasSameTokens.ts";
+import { unwrapParenthesizedExpression } from "../utils/unwrapParenthesizedExpression.ts";
 import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
 
 function isUnnecessaryCountArgument(
-	argument: AST.Expression,
+	argumentRoot: AST.Expression,
 	calleeObject: AST.Expression,
 	sourceFile: ts.SourceFile,
 ) {
-	if (ts.isIdentifier(argument) && argument.text === "Infinity") {
-		return "`Infinity`";
-	}
+	const argument = unwrapParenthesizedExpression(argumentRoot);
 
-	if (
-		ts.isPropertyAccessExpression(argument) &&
-		ts.isIdentifier(argument.expression) &&
-		argument.expression.text === "Number" &&
-		ts.isIdentifier(argument.name) &&
-		argument.name.text === "POSITIVE_INFINITY"
-	) {
-		return "`Number.POSITIVE_INFINITY`";
-	}
+	switch (argument.kind) {
+		case ts.SyntaxKind.Identifier:
+			return argument.text === "Infinity" ? "`Infinity`" : undefined;
 
-	if (ts.isParenthesizedExpression(argument)) {
-		return isUnnecessaryCountArgument(
-			argument.expression,
-			calleeObject,
-			sourceFile,
-		);
-	}
+		case ts.SyntaxKind.PropertyAccessExpression:
+			if (
+				ts.isIdentifier(argument.expression) &&
+				argument.expression.text === "Number" &&
+				ts.isIdentifier(argument.name) &&
+				argument.name.text === "POSITIVE_INFINITY"
+			) {
+				return "`Number.POSITIVE_INFINITY`";
+			}
 
-	if (
-		ts.isPropertyAccessExpression(argument) &&
-		ts.isIdentifier(argument.name) &&
-		argument.name.text === "length" &&
-		hasSameTokens(argument.expression, calleeObject, sourceFile)
-	) {
-		const objectText = ts.isIdentifier(calleeObject) ? calleeObject.text : "…";
-		const optionalChain = argument.questionDotToken ? "?." : ".";
-		return `\`${objectText}${optionalChain}length\``;
+			if (
+				ts.isIdentifier(argument.name) &&
+				argument.name.text === "length" &&
+				hasSameTokens(argument.expression, calleeObject, sourceFile)
+			) {
+				const objectText = ts.isIdentifier(calleeObject)
+					? calleeObject.text
+					: "…";
+				const optionalChain = argument.questionDotToken ? "?." : ".";
+				return `\`${objectText}${optionalChain}length\``;
+			}
 	}
 
 	return undefined;
