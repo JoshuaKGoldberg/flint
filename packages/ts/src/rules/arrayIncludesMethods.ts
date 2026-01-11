@@ -2,6 +2,18 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
+import { isTypeRecursive } from "./utils/isTypeRecursive.ts";
+
+function isArrayOrTupleType(
+	type: ts.Type,
+	typeChecker: ts.TypeChecker,
+): boolean {
+	return isTypeRecursive(
+		type,
+		(t) => typeChecker.isArrayType(t) || typeChecker.isTupleType(t),
+	);
+}
 
 function isSimpleEqualityCheck(
 	node: ts.ArrowFunction | ts.FunctionExpression,
@@ -67,7 +79,10 @@ function isSimpleEqualityCheck(
 	return undefined;
 }
 
-function isSomeWithSimpleEquality(node: ts.CallExpression) {
+function isSomeWithSimpleEquality(
+	node: ts.CallExpression,
+	typeChecker: ts.TypeChecker,
+) {
 	if (!ts.isPropertyAccessExpression(node.expression)) {
 		return false;
 	}
@@ -101,7 +116,16 @@ function isSomeWithSimpleEquality(node: ts.CallExpression) {
 	const paramName = param.name.text;
 	const comparedValue = isSimpleEqualityCheck(callback, paramName);
 
-	return comparedValue !== undefined;
+	if (comparedValue === undefined) {
+		return false;
+	}
+
+	const receiverType = getConstrainedTypeAtLocation(
+		node.expression.expression,
+		typeChecker,
+	);
+
+	return isArrayOrTupleType(receiverType, typeChecker);
 }
 
 export default typescriptLanguage.createRule({
@@ -127,8 +151,8 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression: (node, { sourceFile }) => {
-					if (isSomeWithSimpleEquality(node)) {
+				CallExpression: (node, { sourceFile, typeChecker }) => {
+					if (isSomeWithSimpleEquality(node, typeChecker)) {
 						context.report({
 							message: "preferIncludes",
 							range: getTSNodeRange(node, sourceFile),

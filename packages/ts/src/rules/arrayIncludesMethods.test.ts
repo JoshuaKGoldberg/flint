@@ -77,6 +77,20 @@ array.some((item) => { return item === "value"; });
 Prefer \`.includes()\` over \`.some()\` with a simple equality check.
 `,
 		},
+		{
+			code: `
+function check<T extends string[]>(arr: T) {
+	return arr.some((item) => item === "value");
+}
+`,
+			snapshot: `
+function check<T extends string[]>(arr: T) {
+	return arr.some((item) => item === "value");
+	       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	       Prefer \`.includes()\` over \`.some()\` with a simple equality check.
+}
+`,
+		},
 	],
 	valid: [
 		`declare const array: string[]; array.includes("value");`,
@@ -85,5 +99,6 @@ Prefer \`.includes()\` over \`.some()\` with a simple equality check.
 		`declare const array: string[]; array.some((item, index) => item === "value");`,
 		`declare const array: object[]; array.some((item) => item.id === 1);`,
 		`declare const array: string[]; array.some((item) => item === item);`,
+		`declare const obj: { some(fn: (x: string) => boolean): boolean }; obj.some((x) => x === "value");`,
 	],
 });
