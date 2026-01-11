@@ -98,5 +98,6 @@ new Array(5).map(callback);
 		`new Array(5).concat([1, 2, 3]);`,
 		`new Array(5).join(",");`,
 		`const arr: number[] = []; arr.map((value) => value * 2);`,
+		`new Array(someVariable).map((x) => x);`,
 	],
 });
