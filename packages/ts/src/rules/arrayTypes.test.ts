@@ -62,5 +62,7 @@ function process(items: ReadonlyArray<number>): void {}
 		`function process(items: readonly number[]): void {}`,
 		`const map: Map<string, number> = new Map();`,
 		`const set: Set<string> = new Set();`,
+		`const nested: string[][] = [];`,
+		`const mixed: (string | number)[] = [];`,
 	],
 });
