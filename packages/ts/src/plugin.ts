@@ -43,6 +43,7 @@ import defaultParameterLast from "./rules/defaultParameterLast.ts";
 import deprecated from "./rules/deprecated.ts";
 import destructuringConsistency from "./rules/destructuringConsistency.ts";
 import duplicateArguments from "./rules/duplicateArguments.ts";
+import dynamicDeletes from "./rules/dynamicDeletes.ts";
 import elseIfDuplicates from "./rules/elseIfDuplicates.ts";
 import emptyBlocks from "./rules/emptyBlocks.ts";
 import emptyDestructures from "./rules/emptyDestructures.ts";
@@ -141,6 +142,7 @@ export const ts = createPlugin({
 		deprecated,
 		destructuringConsistency,
 		duplicateArguments,
+		dynamicDeletes,
 		elseIfDuplicates,
 		emptyBlocks,
 		emptyDestructures,
