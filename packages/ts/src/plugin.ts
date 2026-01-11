@@ -52,6 +52,7 @@ import emptyStaticBlocks from "./rules/emptyStaticBlocks.ts";
 import exceptionAssignments from "./rules/exceptionAssignments.ts";
 import fetchMethodBodies from "./rules/fetchMethodBodies.ts";
 import finallyStatementSafety from "./rules/finallyStatementSafety.ts";
+import floatingPromises from "./rules/floatingPromises.ts";
 import forDirections from "./rules/forDirections.ts";
 import forInArrays from "./rules/forInArrays.ts";
 import functionApplySpreads from "./rules/functionApplySpreads.ts";
@@ -152,6 +153,7 @@ export const ts = createPlugin({
 		exceptionAssignments,
 		fetchMethodBodies,
 		finallyStatementSafety,
+		floatingPromises,
 		forDirections,
 		forInArrays,
 		functionAssignments,
