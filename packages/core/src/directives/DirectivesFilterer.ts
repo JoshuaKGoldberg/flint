@@ -9,37 +9,73 @@ import { isCommentDirectiveWithinFile } from "./predicates.ts";
 import { selectionMatchesDirectiveRanges } from "./selectionMatchesDirectiveRanges.ts";
 import { selectionMatchesReport } from "./selectionMatchesReport.ts";
 
+export interface FilterResult {
+	reports: FileReport[];
+	unusedDirectives: CommentDirective[];
+}
+
 export class DirectivesFilterer {
+	#directivesForFile: CommentDirective[] = [];
 	#directivesForRanges: CommentDirectiveWithinFile[] = [];
-	#selectionsForFile = new Set<string>();
 
 	add(directives: CommentDirective[]) {
 		for (const directive of directives) {
 			if (isCommentDirectiveWithinFile(directive)) {
 				this.#directivesForRanges.push(directive);
 			} else {
-				for (const selection of directive.selections) {
-					this.#selectionsForFile.add(selection);
-				}
+				this.#directivesForFile.push(directive);
 			}
 		}
 	}
 
-	filter(reports: FileReport[]) {
-		const directivesForFile = Array.from(this.#selectionsForFile).map(
-			createSelectionMatcher,
+	filter(reports: FileReport[]): FilterResult {
+		const selectionsForFile = this.#directivesForFile.flatMap((directive) =>
+			directive.selections.map((selection) => ({
+				directive,
+				matcher: createSelectionMatcher(selection),
+				selection,
+			})),
 		);
 
 		const directiveRanges = computeDirectiveRanges(this.#directivesForRanges);
 
-		return reports.filter(
-			(report) =>
-				!directivesForFile.some((fileDisable) =>
-					selectionMatchesReport(fileDisable, report),
-				) && !selectionMatchesDirectiveRanges(directiveRanges, report),
-		);
+		const matchedDirectives = new Set<CommentDirective>();
 
-		// TODO: Also keep track of which directives/selections did nothing
-		// https://github.com/flint-fyi/flint/issues/246
+		const filteredReports = reports.filter((report) => {
+			const fileMatched = selectionsForFile.some(({ directive, matcher }) => {
+				const matches = selectionMatchesReport(matcher, report);
+				if (matches) {
+					matchedDirectives.add(directive);
+				}
+				return matches;
+			});
+
+			const rangeMatched = selectionMatchesDirectiveRanges(
+				directiveRanges,
+				report,
+			);
+
+			// This tracks which directives actually suppressed reports
+			if (rangeMatched) {
+				for (const directive of this.#directivesForRanges) {
+					const directiveRange = computeDirectiveRanges([directive]);
+					if (selectionMatchesDirectiveRanges(directiveRange, report)) {
+						matchedDirectives.add(directive);
+					}
+				}
+			}
+
+			return !fileMatched && !rangeMatched;
+		});
+
+		const unusedDirectives = [
+			...this.#directivesForFile,
+			...this.#directivesForRanges,
+		].filter((directive) => !matchedDirectives.has(directive));
+
+		return {
+			reports: filteredReports,
+			unusedDirectives,
+		};
 	}
 }
