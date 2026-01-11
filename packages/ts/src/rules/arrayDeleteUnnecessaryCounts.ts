@@ -1,14 +1,16 @@
 import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
+import type { AST } from "../index.ts";
 import { typescriptLanguage } from "../language.ts";
 import { hasSameTokens } from "../utils/hasSameTokens.ts";
+import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
 
 function isUnnecessaryCountArgument(
-	argument: ts.Expression,
-	calleeObject: ts.Expression,
+	argument: AST.Expression,
+	calleeObject: AST.Expression,
 	sourceFile: ts.SourceFile,
-): string | undefined {
+) {
 	if (ts.isIdentifier(argument) && argument.text === "Infinity") {
 		return "`Infinity`";
 	}
@@ -66,7 +68,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression: (node, { sourceFile }) => {
+				CallExpression: (node, { sourceFile, typeChecker }) => {
 					if (
 						!ts.isPropertyAccessExpression(node.expression) ||
 						!ts.isIdentifier(node.expression.name)
@@ -79,25 +81,36 @@ export default typescriptLanguage.createRule({
 						return;
 					}
 
+					if (
+						!typeChecker.isArrayType(
+							getConstrainedTypeAtLocation(
+								node.expression.expression,
+								typeChecker,
+							),
+						)
+					) {
+						return;
+					}
+
 					if (node.arguments.length !== 2) {
 						return;
 					}
 
-					const firstArg = node.arguments[0];
-					const secondArg = node.arguments[1];
-
-					if (!firstArg || !secondArg) {
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const firstArg = node.arguments[0]!;
+					if (ts.isSpreadElement(firstArg)) {
 						return;
 					}
 
-					if (ts.isSpreadElement(firstArg) || ts.isSpreadElement(secondArg)) {
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					const secondArg = node.arguments[1]!;
+					if (ts.isSpreadElement(secondArg)) {
 						return;
 					}
 
-					const calleeObject = node.expression.expression;
 					const description = isUnnecessaryCountArgument(
 						secondArg,
-						calleeObject,
+						node.expression.expression,
 						sourceFile,
 					);
 
