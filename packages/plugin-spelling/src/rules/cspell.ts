@@ -1,14 +1,10 @@
+import type { Suggestion } from "@flint.fyi/core";
 import { textLanguage } from "@flint.fyi/text";
 import { parseJsonSafe } from "@flint.fyi/utils";
 import type { DocumentValidator } from "cspell-lib";
 import { suggestionsForWord } from "cspell-lib";
 
 import { createDocumentValidator } from "./createDocumentValidator.ts";
-
-/**
- * The maximum number of word suggestions to show in a report.
- */
-const MAX_WORD_SUGGESTIONS = 5;
 
 interface CSpellConfigLike {
 	words?: string[];
@@ -40,11 +36,7 @@ export default textLanguage.createRule({
 			],
 			suggestions: [
 				'Add "{{ word }}" to dictionary.',
-				"Replace with: {{ replacement0 }}",
-				"Replace with: {{ replacement1 }}",
-				"Replace with: {{ replacement2 }}",
-				"Replace with: {{ replacement3 }}",
-				"Replace with: {{ replacement4 }}",
+				'Replace with "{{ replacement }}".',
 			],
 		},
 	},
@@ -78,66 +70,61 @@ export default textLanguage.createRule({
 							issue.text,
 							finalizedSettings,
 						);
-						const wordSuggestions: WordSuggestion[] = [];
-						const wordSuggestionTexts: string[] = [];
-						for (const s of suggestionsResult.suggestions) {
-							if (s.forbidden || s.noSuggest) {
-								continue;
-							}
-
-							const suggestionWord = s.wordAdjustedToMatchCase ?? s.word;
-							wordSuggestions.push({
-								id: `replaceWith${s.word}`,
-								range: issueRange,
-								text: suggestionWord,
-							});
-							wordSuggestionTexts.push(suggestionWord);
-
-							if (wordSuggestions.length >= MAX_WORD_SUGGESTIONS) {
-								break;
-							}
-						}
-
+						const validSuggestion = suggestionsResult.suggestions.find(
+							(s) => !s.forbidden && !s.noSuggest,
+						);
+						const wordSuggestion: undefined | WordSuggestion = validSuggestion
+							? {
+									id: `replaceWith${validSuggestion.word}`,
+									range: issueRange,
+									text:
+										validSuggestion.wordAdjustedToMatchCase ??
+										validSuggestion.word,
+								}
+							: undefined;
 						const data: Record<string, string> = {
+							replacement: wordSuggestion?.text ?? "",
 							word: issue.text,
 						};
-						for (let i = 0; i < MAX_WORD_SUGGESTIONS; i++) {
-							data[`replacement${i}`] = wordSuggestionTexts[i] ?? "";
+
+						const suggestions: Suggestion[] = [
+							{
+								files: {
+									"cspell.json": (text) => {
+										const original = parseJsonSafe(
+											text,
+										) as CSpellConfigLike | null;
+										const words = original?.words ?? [];
+
+										return words.includes(issue.text)
+											? []
+											: [
+													{
+														range: {
+															begin: 0,
+															end: text.length,
+														},
+														text: JSON.stringify({
+															...original,
+															words: [...words, issue.text],
+														}),
+													},
+												];
+									},
+								},
+								id: "addWordToWords",
+							},
+						];
+
+						if (wordSuggestion) {
+							suggestions.push(wordSuggestion);
 						}
 
 						context.report({
 							data,
 							message: "issue",
 							range: issueRange,
-							suggestions: [
-								...wordSuggestions,
-								{
-									files: {
-										"cspell.json": (text) => {
-											const original = parseJsonSafe(
-												text,
-											) as CSpellConfigLike | null;
-											const words = original?.words ?? [];
-
-											return words.includes(issue.text)
-												? []
-												: [
-														{
-															range: {
-																begin: 0,
-																end: text.length,
-															},
-															text: JSON.stringify({
-																...original,
-																words: [...words, issue.text],
-															}),
-														},
-													];
-										},
-									},
-									id: "addWordToWords",
-								},
-							],
+							suggestions,
 						});
 					}
 				}
