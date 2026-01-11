@@ -117,7 +117,7 @@ export default textLanguage.createRule({
 						];
 
 						if (wordSuggestion) {
-							suggestions.push(wordSuggestion);
+							suggestions.unshift(wordSuggestion);
 						}
 
 						context.report({
