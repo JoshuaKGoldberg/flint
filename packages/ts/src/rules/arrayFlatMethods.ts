@@ -2,6 +2,18 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
+import { isTypeRecursive } from "./utils/isTypeRecursive.ts";
+
+function isArrayOrTupleType(
+	type: ts.Type,
+	typeChecker: ts.TypeChecker,
+): boolean {
+	return isTypeRecursive(
+		type,
+		(t) => typeChecker.isArrayType(t) || typeChecker.isTupleType(t),
+	);
+}
 
 function isConcatApply(node: ts.CallExpression) {
 	if (!ts.isPropertyAccessExpression(node.expression)) {
@@ -129,7 +141,10 @@ function isIdentityArrowFunction(node: ts.Expression) {
 	return ts.isIdentifier(body) && body.text === paramName;
 }
 
-function isIdentityFlatMapCall(node: ts.CallExpression) {
+function isIdentityFlatMapCall(
+	node: ts.CallExpression,
+	typeChecker: ts.TypeChecker,
+) {
 	if (!ts.isPropertyAccessExpression(node.expression)) {
 		return false;
 	}
@@ -143,7 +158,16 @@ function isIdentityFlatMapCall(node: ts.CallExpression) {
 	}
 
 	const arg = node.arguments[0];
-	return arg && isIdentityArrowFunction(arg);
+	if (!arg || !isIdentityArrowFunction(arg)) {
+		return false;
+	}
+
+	const receiverType = getConstrainedTypeAtLocation(
+		node.expression.expression,
+		typeChecker,
+	);
+
+	return isArrayOrTupleType(receiverType, typeChecker);
 }
 
 function isLodashFlatten(node: ts.CallExpression) {
@@ -185,9 +209,9 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression: (node, { sourceFile }) => {
+				CallExpression: (node, { sourceFile, typeChecker }) => {
 					if (
-						isIdentityFlatMapCall(node) ||
+						isIdentityFlatMapCall(node, typeChecker) ||
 						isConcatSpread(node) ||
 						isConcatApply(node) ||
 						isConcatCall(node) ||

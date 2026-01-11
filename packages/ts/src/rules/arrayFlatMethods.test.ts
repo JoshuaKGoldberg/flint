@@ -99,6 +99,20 @@ underscore.flatten(array);
 Prefer \`.flat()\` over legacy array flattening techniques.
 `,
 		},
+		{
+			code: `
+function process<T extends number[][]>(arr: T) {
+	return arr.flatMap((value) => value);
+}
+`,
+			snapshot: `
+function process<T extends number[][]>(arr: T) {
+	return arr.flatMap((value) => value);
+	       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	       Prefer \`.flat()\` over legacy array flattening techniques.
+}
+`,
+		},
 	],
 	valid: [
 		`declare const array: number[][]; array.flat();`,
@@ -109,5 +123,6 @@ Prefer \`.flat()\` over legacy array flattening techniques.
 		`declare const array: number[]; custom.flatten(array);`,
 		`declare const array: number[][]; Array.prototype.concat.apply([1], array);`,
 		`declare const array: number[][]; Array.prototype.concat.call([1], ...array);`,
+		`declare const obj: { flatMap(fn: (x: number) => number): number[] }; obj.flatMap((x) => x);`,
 	],
 });
