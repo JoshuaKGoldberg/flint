@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
-      - run: pnpm run --filter=site prebuild # Generate .astro/
+      - run: pnpm run --filter=site prebuild # Generate packages/site/.astro
       - run: pnpm run flint
   lint:
     name: Lint
@@ -21,8 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
-      - run: pnpm run build
-      - run: pnpm run -r prebuild # Generate packages/site/.astro without a full build.
+      - run: pnpm run --filter=site prebuild # Generate packages/site/.astro
       - run: pnpm run lint
   lint_knip:
     name: Lint Knip
