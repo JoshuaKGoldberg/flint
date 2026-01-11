@@ -15,12 +15,6 @@ ruleTester.describe(rule, {
             `,
 			suggestions: [
 				{
-					id: "replaceWithincorrect",
-					updated: `
-                incorrect
-            `,
-				},
-				{
 					files: {
 						"cspell.json": [
 							{
@@ -55,12 +49,6 @@ ruleTester.describe(rule, {
                       Forbidden or unknown word: "myarray".
             `,
 			suggestions: [
-				{
-					id: "replaceWithmarry",
-					updated: `
-                const marry = [];
-            `,
-				},
 				{
 					files: {
 						"cspell.json": [

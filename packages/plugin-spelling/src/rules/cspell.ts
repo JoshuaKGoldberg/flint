@@ -15,12 +15,6 @@ interface FileTask {
 	text: string;
 }
 
-interface WordSuggestion {
-	id: string;
-	range: { begin: number; end: number };
-	text: string;
-}
-
 export default textLanguage.createRule({
 	about: {
 		description: "Runs the CSpell spell checker on any source code file.",
@@ -73,17 +67,11 @@ export default textLanguage.createRule({
 						const validSuggestion = suggestionsResult.suggestions.find(
 							(s) => !s.forbidden && !s.noSuggest,
 						);
-						const wordSuggestion: undefined | WordSuggestion = validSuggestion
-							? {
-									id: `replaceWith${validSuggestion.word}`,
-									range: issueRange,
-									text:
-										validSuggestion.wordAdjustedToMatchCase ??
-										validSuggestion.word,
-								}
-							: undefined;
 						const data: Record<string, string> = {
-							replacement: wordSuggestion?.text ?? "",
+							replacement: validSuggestion
+								? (validSuggestion.wordAdjustedToMatchCase ??
+									validSuggestion.word)
+								: "",
 							word: issue.text,
 						};
 
@@ -115,10 +103,6 @@ export default textLanguage.createRule({
 								id: "addWordToWords",
 							},
 						];
-
-						if (wordSuggestion) {
-							suggestions.unshift(wordSuggestion);
-						}
 
 						context.report({
 							data,
