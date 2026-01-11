@@ -75,6 +75,20 @@ array.filter((value) => value.length > 5, thisArg)[0];
 Prefer \`.find()\` over \`.filter()[0]\`.
 `,
 		},
+		{
+			code: `
+function process<T extends number[]>(arr: T) {
+	return arr.filter((value) => value > 0)[0];
+}
+`,
+			snapshot: `
+function process<T extends number[]>(arr: T) {
+	return arr.filter((value) => value > 0)[0];
+	       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	       Prefer \`.find()\` over \`.filter()[0]\`.
+}
+`,
+		},
 	],
 	valid: [
 		`
@@ -124,6 +138,10 @@ array.map((value) => value > 0)[0];
 		`
 declare const array: number[];
 array.filter((value) => value > 0, arg1, arg2)[0];
+`,
+		`
+declare const obj: { filter(fn: (x: number) => boolean): number[] };
+obj.filter((x) => x > 0)[0];
 `,
 	],
 });
