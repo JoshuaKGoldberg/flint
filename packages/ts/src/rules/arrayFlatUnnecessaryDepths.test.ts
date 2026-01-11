@@ -37,6 +37,20 @@ array?.flat(1);
                  Unnecessary depth argument of \`1\` in \`.flat()\` call.
 `,
 		},
+		{
+			code: `
+function process<T extends number[][]>(arr: T) {
+	return arr.flat(1);
+}
+`,
+			snapshot: `
+function process<T extends number[][]>(arr: T) {
+	return arr.flat(1);
+	                ~
+	                Unnecessary depth argument of \`1\` in \`.flat()\` call.
+}
+`,
+		},
 	],
 	valid: [
 		`declare const array: number[][]; array.flat();`,
@@ -44,5 +58,6 @@ array?.flat(1);
 		`declare const array: number[]; array.flat(Infinity);`,
 		`declare const array: number[]; array.flat(0);`,
 		`declare const depth: number; [1, 2].flat(depth);`,
+		`declare const obj: { flat(depth: number): number[] }; obj.flat(1);`,
 	],
 });
