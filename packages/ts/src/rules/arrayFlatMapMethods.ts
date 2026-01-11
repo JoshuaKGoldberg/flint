@@ -2,8 +2,13 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
+import { isTypeRecursive } from "./utils/isTypeRecursive.ts";
 
-function isArrayMapCall(node: ts.Expression): node is ts.CallExpression {
+function isArrayMapCall(
+	node: ts.Expression,
+	typeChecker: ts.TypeChecker,
+): node is ts.CallExpression {
 	if (!ts.isCallExpression(node)) {
 		return false;
 	}
@@ -12,7 +17,26 @@ function isArrayMapCall(node: ts.Expression): node is ts.CallExpression {
 		return false;
 	}
 
-	return node.expression.name.text === "map" && node.arguments.length >= 1;
+	if (node.expression.name.text !== "map" || node.arguments.length < 1) {
+		return false;
+	}
+
+	const receiverType = getConstrainedTypeAtLocation(
+		node.expression.expression,
+		typeChecker,
+	);
+
+	return isArrayOrTupleType(receiverType, typeChecker);
+}
+
+function isArrayOrTupleType(
+	type: ts.Type,
+	typeChecker: ts.TypeChecker,
+): boolean {
+	return isTypeRecursive(
+		type,
+		(t) => typeChecker.isArrayType(t) || typeChecker.isTupleType(t),
+	);
 }
 
 function isFlatCallWithDepthOne(node: ts.CallExpression) {
@@ -49,7 +73,7 @@ export default typescriptLanguage.createRule({
 	setup(context) {
 		return {
 			visitors: {
-				CallExpression: (node, { sourceFile }) => {
+				CallExpression: (node, { sourceFile, typeChecker }) => {
 					if (!ts.isPropertyAccessExpression(node.expression)) {
 						return;
 					}
@@ -64,7 +88,7 @@ export default typescriptLanguage.createRule({
 					}
 
 					const objectExpression = node.expression.expression;
-					if (!isArrayMapCall(objectExpression)) {
+					if (!isArrayMapCall(objectExpression, typeChecker)) {
 						return;
 					}
 

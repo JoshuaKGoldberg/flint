@@ -73,6 +73,20 @@ array.map(function (value) { return [value]; }).flat();
 Prefer \`.flatMap()\` over \`.map().flat()\`.
 `,
 		},
+		{
+			code: `
+function process<T extends number[]>(arr: T) {
+	return arr.map((value) => [value]).flat();
+}
+`,
+			snapshot: `
+function process<T extends number[]>(arr: T) {
+	return arr.map((value) => [value]).flat();
+	       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	       Prefer \`.flatMap()\` over \`.map().flat()\`.
+}
+`,
+		},
 	],
 	valid: [
 		`declare const array: number[]; array.flatMap((value) => [value, value * 2]);`,
@@ -82,5 +96,6 @@ Prefer \`.flatMap()\` over \`.map().flat()\`.
 		`declare const array: number[]; array.map((value) => [value]).flat(2);`,
 		`declare const array: number[]; array.filter((value) => value > 0).flat();`,
 		`declare const array: number[]; array.map((value) => value).flat(Infinity);`,
+		`declare const obj: { map(fn: (x: number) => number[]): number[][] }; obj.map((x) => [x]).flat();`,
 	],
 });
