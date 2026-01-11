@@ -12,7 +12,7 @@ delete obj[key];
 const key = "property";
 delete obj[key];
 ~~~~~~~~~~~~~~~
-Avoid using delete on computed key expressions.
+Using the \`delete\` operator on a computed key can be dangerous and is often not well optimized.
 `,
 		},
 		{
@@ -22,7 +22,7 @@ delete obj[getKey()];
 			snapshot: `
 delete obj[getKey()];
 ~~~~~~~~~~~~~~~~~~~~
-Avoid using delete on computed key expressions.
+Using the \`delete\` operator on a computed key can be dangerous and is often not well optimized.
 `,
 		},
 		{
@@ -34,7 +34,7 @@ delete arr[i];
 const i = 0;
 delete arr[i];
 ~~~~~~~~~~~~~
-Avoid using delete on computed key expressions.
+Using the \`delete\` operator on a computed key can be dangerous and is often not well optimized.
 `,
 		},
 	],

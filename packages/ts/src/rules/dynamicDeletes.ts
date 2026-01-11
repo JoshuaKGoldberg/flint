@@ -11,12 +11,15 @@ export default typescriptLanguage.createRule({
 	},
 	messages: {
 		dynamicDelete: {
-			primary: "Avoid using delete on computed key expressions.",
+			primary:
+				"Using the `delete` operator on a computed key can be dangerous and is often not well optimized.",
 			secondary: [
-				"Deleting dynamically computed keys can be dangerous and is often not well optimized.",
-				"Consider using a Map or Set if you need to dynamically add and remove keys.",
+				"In modern code, JavaScript objects are generally intended to be optimized as static shapes by engines.",
+				"Consider using a `Map` or `Set` if you need to dynamically add and remove keys.",
 			],
-			suggestions: ["Use a Map or Set instead of an object for dynamic keys."],
+			suggestions: [
+				"Use a `Map` or `Set` instead of an object for dynamic keys.",
+			],
 		},
 	},
 	setup(context) {
