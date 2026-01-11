@@ -2,6 +2,18 @@ import * as ts from "typescript";
 
 import { getTSNodeRange } from "../getTSNodeRange.ts";
 import { typescriptLanguage } from "../language.ts";
+import { getConstrainedTypeAtLocation } from "./utils/getConstrainedType.ts";
+import { isTypeRecursive } from "./utils/isTypeRecursive.ts";
+
+function isArrayOrTupleType(
+	type: ts.Type,
+	typeChecker: ts.TypeChecker,
+): boolean {
+	return isTypeRecursive(
+		type,
+		(t) => typeChecker.isArrayType(t) || typeChecker.isTupleType(t),
+	);
+}
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -30,11 +42,12 @@ export default typescriptLanguage.createRule({
 					}
 
 					const elementAccess = node.expression;
-					const objectType = typeChecker.getTypeAtLocation(
+					const objectType = getConstrainedTypeAtLocation(
 						elementAccess.expression,
+						typeChecker,
 					);
 
-					if (!typeChecker.isArrayType(objectType)) {
+					if (!isArrayOrTupleType(objectType, typeChecker)) {
 						return;
 					}
 

@@ -65,6 +65,68 @@ delete getArray()[0];
 Avoid using the \`delete\` operator on arrays.
 `,
 		},
+		{
+			code: `
+declare const arr: Array<number>;
+delete arr[0];
+`,
+			snapshot: `
+declare const arr: Array<number>;
+delete arr[0];
+~~~~~~~~~~~~~
+Avoid using the \`delete\` operator on arrays.
+`,
+		},
+		{
+			code: `
+declare const tuple: [number, string];
+delete tuple[0];
+`,
+			snapshot: `
+declare const tuple: [number, string];
+delete tuple[0];
+~~~~~~~~~~~~~~~
+Avoid using the \`delete\` operator on arrays.
+`,
+		},
+		{
+			code: `
+declare const arr: number[] | string[];
+delete arr[0];
+`,
+			snapshot: `
+declare const arr: number[] | string[];
+delete arr[0];
+~~~~~~~~~~~~~
+Avoid using the \`delete\` operator on arrays.
+`,
+		},
+		{
+			code: `
+function deleteFromArray<T extends number[]>(a: T) {
+	delete a[0];
+}
+`,
+			snapshot: `
+function deleteFromArray<T extends number[]>(a: T) {
+	delete a[0];
+	~~~~~~~~~~~
+	Avoid using the \`delete\` operator on arrays.
+}
+`,
+		},
+		{
+			code: `
+declare const arr: readonly number[];
+delete arr[0];
+`,
+			snapshot: `
+declare const arr: readonly number[];
+delete arr[0];
+~~~~~~~~~~~~~
+Avoid using the \`delete\` operator on arrays.
+`,
+		},
 	],
 	valid: [
 		`
@@ -85,6 +147,18 @@ array.splice(0, 1);
 `,
 		`
 delete globalThis.myProperty;
+`,
+		`
+declare const maybeArray: unknown;
+delete maybeArray[0];
+`,
+		`
+declare const maybeArray: any;
+delete maybeArray[0];
+`,
+		`
+declare const obj: { a: number };
+delete obj.a;
 `,
 	],
 });
