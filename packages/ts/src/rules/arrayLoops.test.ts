@@ -49,6 +49,20 @@ array.forEach((element, index) => { console.log(index, element); });
 Prefer a for-of loop over \`.forEach()\`.
 `,
 		},
+		{
+			code: `
+function process<T extends number[]>(arr: T) {
+	arr.forEach((element) => { console.log(element); });
+}
+`,
+			snapshot: `
+function process<T extends number[]>(arr: T) {
+	arr.forEach((element) => { console.log(element); });
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Prefer a for-of loop over \`.forEach()\`.
+}
+`,
+		},
 	],
 	valid: [
 		`declare const array: number[]; for (const element of array) { console.log(element); }`,
