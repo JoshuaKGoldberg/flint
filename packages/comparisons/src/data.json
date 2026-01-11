@@ -8738,7 +8738,8 @@
 		],
 		"flint": {
 			"name": "consoleCalls",
-			"plugin": "ts"
+			"plugin": "ts",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
