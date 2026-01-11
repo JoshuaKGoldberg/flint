@@ -1,5 +1,15 @@
 # @flint.fyi/plugin-spelling
 
+## 0.1.5
+
+### Patch Changes
+
+- ca74d5d: fix(plugin-spelling): [cspell] fill in secondary and suggestions
+- Updated dependencies [2fb9715]
+- Updated dependencies [3561386]
+  - @flint.fyi/core@0.19.0
+  - @flint.fyi/text@0.14.3
+
 ## 0.1.4
 
 ### Patch Changes
