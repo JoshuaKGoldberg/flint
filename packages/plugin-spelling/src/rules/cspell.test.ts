@@ -15,36 +15,6 @@ ruleTester.describe(rule, {
             `,
 			suggestions: [
 				{
-					id: "replaceWithincorrect",
-					updated: `
-                incorrect
-            `,
-				},
-				{
-					id: "replaceWithindirect",
-					updated: `
-                indirect
-            `,
-				},
-				{
-					id: "replaceWithincoherent",
-					updated: `
-                incoherent
-            `,
-				},
-				{
-					id: "replaceWithincrust",
-					updated: `
-                incrust
-            `,
-				},
-				{
-					id: "replaceWithinfract",
-					updated: `
-                infract
-            `,
-				},
-				{
 					files: {
 						"cspell.json": [
 							{
@@ -67,6 +37,12 @@ ruleTester.describe(rule, {
 					},
 					id: "addWordToWords",
 				},
+				{
+					id: "replaceWithincorrect",
+					updated: `
+                incorrect
+            `,
+				},
 			],
 		},
 		{
@@ -79,36 +55,6 @@ ruleTester.describe(rule, {
                       Forbidden or unknown word: "myarray".
             `,
 			suggestions: [
-				{
-					id: "replaceWithmarry",
-					updated: `
-                const marry = [];
-            `,
-				},
-				{
-					id: "replaceWithMurray",
-					updated: `
-                const Murray = [];
-            `,
-				},
-				{
-					id: "replaceWithmargay",
-					updated: `
-                const margay = [];
-            `,
-				},
-				{
-					id: "replaceWitharray",
-					updated: `
-                const array = [];
-            `,
-				},
-				{
-					id: "replaceWithisarray",
-					updated: `
-                const isarray = [];
-            `,
-				},
 				{
 					files: {
 						"cspell.json": [
@@ -131,6 +77,12 @@ ruleTester.describe(rule, {
 						],
 					},
 					id: "addWordToWords",
+				},
+				{
+					id: "replaceWithmarry",
+					updated: `
+                const marry = [];
+            `,
 				},
 			],
 		},
