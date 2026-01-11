@@ -6,13 +6,14 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
       - run: pnpm run build # Ensure packages pass attw, etc.
+      - run: pnpm run -r build # Build packages/site
   flint:
     name: Flint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
-      - run: pnpm run -r build # Build packages/site
+      - run: pnpm run --filter=site prebuild # Generate .astro/
       - run: pnpm run flint
   lint:
     name: Lint
@@ -51,8 +52,8 @@ jobs:
         with:
           key: cache-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           path: node_modules/.vitest
-      - run: pnpm tsc -b # For types tests
-      - run: pnpm build -W ./packages/ts-patch/ # vitest-dev/vitest#9429
+      - run: pnpm exec tsc -b # For types tests
+      - run: pnpm run build -W ./packages/ts-patch/ # vitest-dev/vitest#9429
       - # Run partial test pass on PRs (only changed files)
         if: ${{ github.event_name == 'pull_request' }}
         name: Run affected tests
