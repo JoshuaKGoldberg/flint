@@ -97,6 +97,20 @@ declare const value: number;
 Prefer \`.includes()\` over \`.indexOf()\` comparison.
 `,
 		},
+		{
+			code: `
+function check<T extends number[]>(arr: T, value: number) {
+	return arr.indexOf(value) !== -1;
+}
+`,
+			snapshot: `
+function check<T extends number[]>(arr: T, value: number) {
+	return arr.indexOf(value) !== -1;
+	       ~~~~~~~~~~~~~~~~~~~~~~~~~
+	       Prefer \`.includes()\` over \`.indexOf()\` comparison.
+}
+`,
+		},
 	],
 	valid: [
 		`declare const array: number[]; declare const value: number; array.includes(value);`,
