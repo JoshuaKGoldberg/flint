@@ -7238,7 +7238,8 @@
 		"flint": {
 			"name": "arrayDeleteUnnecessaryCounts",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
