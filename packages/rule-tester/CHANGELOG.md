@@ -1,5 +1,14 @@
 # @flint/rule-tester
 
+## 0.15.2
+
+### Patch Changes
+
+- 2fb9715: feat(cli): dynamic data replacement in message
+- Updated dependencies [2fb9715]
+- Updated dependencies [3561386]
+  - @flint.fyi/core@0.19.0
+
 ## 0.15.1
 
 ### Patch Changes
