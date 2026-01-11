@@ -1,6 +1,23 @@
+import {
+	isElementAccessExpression,
+	isNumericLiteral,
+	isPrefixUnaryExpression,
+	isStringLiteral,
+} from "typescript";
+import type { Expression } from "typescript";
 import { SyntaxKind } from "typescript";
 
 import { typescriptLanguage } from "../language.ts";
+
+function isAcceptableIndexExpression(property: Expression): boolean {
+	return (
+		isStringLiteral(property) ||
+		isNumericLiteral(property) ||
+		(isPrefixUnaryExpression(property) &&
+			property.operator === SyntaxKind.MinusToken &&
+			isNumericLiteral(property.operand))
+	);
+}
 
 export default typescriptLanguage.createRule({
 	about: {
@@ -26,26 +43,22 @@ export default typescriptLanguage.createRule({
 		return {
 			visitors: {
 				DeleteExpression: (node, { sourceFile }) => {
-					if (node.expression.kind !== SyntaxKind.ElementAccessExpression) {
+					const argument = node.expression;
+
+					if (
+						!isElementAccessExpression(argument) ||
+						isAcceptableIndexExpression(argument.argumentExpression)
+					) {
 						return;
 					}
 
-					const elementAccess = node.expression;
-					const { argumentExpression } = elementAccess;
-
-					if (argumentExpression.kind === SyntaxKind.StringLiteral) {
-						return;
-					}
-
-					if (argumentExpression.kind === SyntaxKind.NumericLiteral) {
-						return;
-					}
+					const property = argument.argumentExpression;
 
 					context.report({
 						message: "dynamicDelete",
 						range: {
-							begin: node.getStart(sourceFile),
-							end: node.getEnd(),
+							begin: property.getStart(sourceFile),
+							end: property.getEnd(),
 						},
 					});
 				},
