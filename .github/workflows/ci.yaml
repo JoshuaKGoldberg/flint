@@ -1,11 +1,17 @@
 jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - uses: ./.github/actions/prepare
+      - run: pnpm run build # Ensure packages pass attw, etc.
   flint:
     name: Flint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/prepare
-      - run: pnpm run build
       - run: pnpm run -r build # Build packages/site
       - run: pnpm run flint
   lint:
@@ -44,22 +50,17 @@ jobs:
         uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5
         with:
           key: cache-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          path: |
-            .pnpm-store
-            node_modules/.vitest
-      - run: pnpm tsc -b
-      # Run partial test pass on PRs (only changed files)
-      - if: ${{ github.event_name == 'pull_request' }}
+          path: node_modules/.vitest
+      - run: pnpm tsc -b # For types tests
+      - run: pnpm build -W ./packages/ts-patch/ # vitest-dev/vitest#9429
+      - # Run partial test pass on PRs (only changed files)
+        if: ${{ github.event_name == 'pull_request' }}
         name: Run affected tests
-        run: |
-          echo "🧩 Running tests for changed files..."
-          pnpm vitest --typecheck --changed "origin/main"
-      # On main, run the full test suite w/ type checking
-      - if: ${{ github.ref == 'refs/heads/main' }}
+        run: pnpm run test --changed "origin/main"
+      - # On main, run the full test suite w/ type checking
+        if: ${{ github.ref == 'refs/heads/main' }}
         name: Run full test suite
-        run: |
-          echo "🧪 Running full test suite on main..."
-          pnpm run test
+        run: pnpm run test
 
 name: CI
 

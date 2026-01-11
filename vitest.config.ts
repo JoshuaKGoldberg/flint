@@ -3,12 +3,12 @@ import path from "node:path";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-	resolve: {
-		conditions: ["@flint.fyi/source"],
-	},
 	test: {
 		projects: readdirSync(path.join(import.meta.dirname, "packages")).map(
 			(name) => ({
+				ssr: {
+					resolve: { conditions: ["@flint.fyi/source"] },
+				},
 				test: {
 					clearMocks: true,
 					include: ["**/src/**/*.test.ts"],
