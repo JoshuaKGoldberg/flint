@@ -113,5 +113,17 @@ array.filter((value) => value > 0).at(1);
 declare const array: number[];
 array.filter((value) => value > 0).at(-2);
 `,
+		`
+declare const array: number[];
+array.filter()[0];
+`,
+		`
+declare const array: number[];
+array.map((value) => value > 0)[0];
+`,
+		`
+declare const array: number[];
+array.filter((value) => value > 0, arg1, arg2)[0];
+`,
 	],
 });
